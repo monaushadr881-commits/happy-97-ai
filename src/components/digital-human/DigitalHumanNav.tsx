@@ -3,7 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { MessageSquare, GraduationCap, Presentation, PenTool, Building2, History, Settings } from "lucide-react";
 
-const TABS = [
+const TABS: ReadonlyArray<{ to: string; label: string; icon: typeof MessageSquare; exact?: boolean }> = [
   { to: "/digital-human", label: "Conversation", icon: MessageSquare, exact: true },
   { to: "/digital-human/classroom", label: "Classroom", icon: GraduationCap },
   { to: "/digital-human/boardroom", label: "Boardroom", icon: Building2 },
@@ -11,7 +11,7 @@ const TABS = [
   { to: "/digital-human/whiteboard", label: "Whiteboard", icon: PenTool },
   { to: "/digital-human/sessions", label: "Sessions", icon: History },
   { to: "/digital-human/settings", label: "Settings", icon: Settings },
-] as const;
+];
 
 export function DigitalHumanNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
