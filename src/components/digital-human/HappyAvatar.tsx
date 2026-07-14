@@ -267,8 +267,51 @@ export const HappyAvatar = memo(function HappyAvatar({
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 40% at 50% 0%, rgba(232,201,106,0.25), transparent 65%)",
+              "radial-gradient(60% 40% at 50% 0%, rgba(232,201,106,0.28), transparent 65%)",
             mixBlendMode: "screen",
+          }}
+        />
+
+        {/* cinematic rim light — warm edge on the right */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(70% 90% at 108% 40%, rgba(232,201,106,0.22), transparent 55%)",
+            mixBlendMode: "screen",
+          }}
+        />
+
+        {/* cool key light — faint cyan lift on the left for depth */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 80% at -8% 55%, rgba(120,180,220,0.10), transparent 55%)",
+            mixBlendMode: "screen",
+          }}
+        />
+
+        {/* cinematic vignette — draws the eye to the face */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+          }}
+        />
+
+        {/* film grain — extremely subtle */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")",
+            backgroundSize: "140px 140px",
           }}
         />
 
