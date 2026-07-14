@@ -1312,9 +1312,11 @@ function Footer() {
       items: [
         "AI Assistant",
         "Digital Human",
-        "Education",
+        "Education OS",
         "Business OS",
         "Creator Studio",
+        "Knowledge OS",
+        "Hyperlocal OS",
       ],
     },
     {
@@ -1325,25 +1327,41 @@ function Footer() {
         "Workflow Builder",
         "Security Center",
         "Privacy Center",
+        "Compliance",
       ],
     },
     {
       t: "Community",
-      items: ["Marketplace", "Agents", "Templates", "Plugins", "Hall of Success"],
+      items: ["Community", "Marketplace", "Agents", "Templates", "Plugins", "Hall of Success"],
+    },
+    {
+      t: "Developers",
+      items: ["Documentation", "API Reference", "SDKs", "Changelog", "Status", "Roadmap"],
     },
     {
       t: "Company",
-      items: ["About", "Founder", "Careers", "Press", "Contact"],
+      items: ["About", "Founder", "Brands", "Careers", "Press", "Contact"],
     },
   ];
 
+  const legal = [
+    ["Privacy", "#"],
+    ["Terms", "#"],
+    ["Security", "#"],
+    ["Cookies", "#"],
+    ["Accessibility", "#"],
+    ["Responsible AI", "#"],
+    ["Status", "#"],
+  ];
+
   return (
-    <footer className="border-t border-gold/10 bg-charcoal">
+    <footer className="relative border-t border-gold/10 bg-charcoal">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-hairline-gold" />
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-7">
           <div className="col-span-2">
             <div className="flex items-center gap-3">
-              <LogoMark size={40} />
+              <LogoMark size={44} />
               <div className="flex flex-col leading-tight">
                 <span className="font-display text-sm font-semibold text-paper">
                   HAPPY <span className="text-gradient-gold">X</span>
@@ -1357,7 +1375,14 @@ function Footer() {
               The sovereign, human-centered AI operating platform. By HAPPY
               PERSON PRIVATE LIMITED.
             </p>
-            <div className="mt-6 text-[11px] uppercase tracking-widest text-soft-gray">
+            <div className="mt-6 flex items-center gap-2 text-[11px] uppercase tracking-widest text-soft-gray">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              </span>
+              All systems operational
+            </div>
+            <div className="mt-3 text-[11px] uppercase tracking-widest text-soft-gray">
               Bengaluru · Mumbai · Dubai · Global
             </div>
           </div>
@@ -1387,19 +1412,12 @@ function Footer() {
           <p className="text-[11px] uppercase tracking-widest text-soft-gray">
             © {new Date().getFullYear()} HAPPY PERSON PRIVATE LIMITED. All rights reserved.
           </p>
-          <div className="flex gap-6 text-[11px] uppercase tracking-widest text-soft-gray">
-            <a href="#" className="hover:text-paper">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-paper">
-              Terms
-            </a>
-            <a href="#" className="hover:text-paper">
-              Security
-            </a>
-            <a href="#" className="hover:text-paper">
-              Status
-            </a>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-[11px] uppercase tracking-widest text-soft-gray">
+            {legal.map(([label, href]) => (
+              <a key={label} href={href} className="transition-colors hover:text-paper">
+                {label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
