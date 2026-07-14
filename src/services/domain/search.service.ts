@@ -17,8 +17,8 @@ export const searchService = defineService({ name: "search", version: "v1" }, ()
       .select("id, title, summary, slug")
       .textSearch("search_vector" as never, p.q, { type: "websearch" })
       .limit(p.limit);
-    if (error) return { items: [] as unknown[], warning: error.message };
-    return { items: data ?? [] };
+    if (error) return { items: [], warning: error.message };
+    return { items: data ?? [], warning: null as string | null };
   },
   async companies(ctx: ServiceContext, input: unknown) {
     const p = validate(SearchInput, input);
