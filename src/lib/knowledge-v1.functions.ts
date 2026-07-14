@@ -72,7 +72,7 @@ export const kbGetArticle = createServerFn({ method: "GET" })
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
     const a = await context.supabase.from("knowledge_articles")
-      .select("*").eq("id", data.id).maybeSingle();
+      .select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").eq("id", data.id).maybeSingle();
     if (a.error) throw a.error;
     const refs = await context.supabase.from("knowledge_references")
       .select("id, label, url, position").eq("article_id", data.id)
@@ -97,7 +97,7 @@ export const kbCreateArticle = createServerFn({ method: "POST" })
     const r = await context.supabase.from("knowledge_articles").insert({
       ...data, status: "draft", is_public: false,
       created_by: context.userId, updated_by: context.userId,
-    }).select("*").single();
+    }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -110,7 +110,7 @@ export const kbUpdateArticle = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ ...data.patch, updated_by: context.userId })
-      .eq("id", data.id).select("*").single();
+      .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -123,7 +123,7 @@ export const kbPublish = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ status: "active", is_public: data.is_public, updated_by: context.userId })
-      .eq("id", data.id).select("*").single();
+      .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     try {
       await context.supabase.rpc("write_audit", {
