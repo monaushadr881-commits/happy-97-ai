@@ -543,34 +543,30 @@ function ChatPreview() {
           copy="Speak to HAPPY as you would a chief of staff. Contextual memory, mission engine, live search, and a warm human voice — always in service of your intent."
         />
 
-        <div className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.25fr]">
-          {/* avatar side */}
-          <div className="relative overflow-hidden rounded-3xl border border-gold/15 bg-charcoal p-8">
+        <div className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-[0.85fr_1.35fr]">
+          {/* persona side — official Digital Human */}
+          <div className="relative overflow-hidden rounded-3xl border border-gold/15 bg-charcoal p-6">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.18),transparent_60%)]" />
-            <div className="relative">
-              <p className="eyebrow">Persona</p>
-              <h3 className="mt-3 font-display text-2xl text-paper">
-                HAPPY · Chief of Staff
-              </h3>
-              <p className="mt-3 max-w-xs text-sm leading-relaxed text-soft-gray">
-                Calm. Precise. Loyal. Speaks 40+ languages. Remembers what
-                matters. Never oversteps.
-              </p>
-
-              <div className="mt-8 space-y-3">
+            <div className="relative flex flex-col items-center">
+              <HappyAvatar size={220} variant="portrait" activity="speaking" expression="explain" />
+              <div className="mt-5 text-center">
+                <p className="eyebrow">Digital Human</p>
+                <h3 className="mt-2 font-display text-xl text-paper">HAPPY · Chief of Staff</h3>
+                <p className="mt-2 text-xs leading-relaxed text-soft-gray">
+                  Calm. Precise. Loyal. 40+ languages. Remembers what matters.
+                </p>
+              </div>
+              <div className="mt-5 w-full space-y-2.5 text-[11px]">
                 {[
-                  ["Voice", "Warm baritone · Neutral"],
-                  ["Latency", "Sub-100 ms"],
-                  ["Memory", "Sovereign · Encrypted"],
-                ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-center justify-between border-t border-gold/10 pt-3"
-                  >
-                    <span className="text-[11px] uppercase tracking-widest text-soft-gray">
-                      {k}
-                    </span>
-                    <span className="text-sm text-paper">{v}</span>
+                  ["Status", <span key="s" className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /><span className="text-paper">Online</span></span>],
+                  ["Mode", <span key="m" className="text-paper">Chief of Staff</span>],
+                  ["Latency", <span key="l" className="numeric text-paper">92 ms</span>],
+                  ["Memory", <span key="me" className="text-paper">Sovereign · Encrypted</span>],
+                  ["Version", <span key="v" className="numeric text-paper">v4.0</span>],
+                ].map(([k, v], i) => (
+                  <div key={i} className="flex items-center justify-between border-t border-gold/10 pt-2 uppercase tracking-widest text-soft-gray">
+                    <span>{k}</span>
+                    <span className="normal-case tracking-normal">{v}</span>
                   </div>
                 ))}
               </div>
@@ -581,46 +577,75 @@ function ChatPreview() {
           <div className="rounded-3xl border border-gold/15 bg-charcoal p-6 md:p-8">
             <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
                 <span className="text-[11px] uppercase tracking-widest text-soft-gray">
                   Session · Secure
                 </span>
               </div>
-              <span className="numeric text-[11px] text-soft-gray">
-                14:02 IST
-              </span>
+              <div className="flex items-center gap-4 text-[11px] text-soft-gray">
+                <span className="inline-flex items-center gap-1"><Cpu className="h-3 w-3 text-gold" /> gpt-5.5</span>
+                <span className="numeric">14:02 IST</span>
+              </div>
             </div>
 
             <div className="space-y-5">
-              <ChatBubble
-                who="you"
-                text="Draft a Q3 strategy brief for the Mumbai team. Emphasize margins."
-              />
+              <ChatBubble who="you" text="Draft a Q3 strategy brief for the Mumbai team. Emphasize margins." />
               <ChatBubble
                 who="ai"
                 text="Understood. Reviewing last quarter's cohort data, margin drift by SKU, and Mumbai HR capacity. I'll prepare a two-page brief with three scenarios. Shall I include the manufacturing yield forecast from Business OS?"
               />
               <ChatBubble who="you" text="Yes, and route it to Priya for review." />
-              <div className="glass-luxe rounded-2xl p-4">
-                <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-gold">
-                  <Sparkle className="h-3 w-3" />
-                  Working
+
+              {/* rich card — knowledge/business */}
+              <div className="ml-11 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                <RichCard tag="Business" title="Q3 Margin Brief" meta="12 pages · 3 scenarios" icon={Building2} />
+                <RichCard tag="Knowledge" title="Mumbai HR Snapshot" meta="Sources · 4 · verified" icon={BookOpen} />
+              </div>
+
+              {/* thinking / typing */}
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 h-8 w-8 flex-none overflow-hidden rounded-full ring-1 ring-gold/30">
+                  <HappyAvatar size={32} activity="listening" expression="thinking" />
                 </div>
-                <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-obsidian">
-                  <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-gold-deep via-gold to-gold-bright animate-gold-drift" />
+                <div className="glass-luxe rounded-2xl px-4 py-3">
+                  <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-gold">
+                    <Sparkle className="h-3 w-3" /> Thinking
+                    <span className="ml-1 inline-flex gap-1">
+                      <i className="h-1.5 w-1.5 rounded-full bg-gold typing-dot" />
+                      <i className="h-1.5 w-1.5 rounded-full bg-gold typing-dot" style={{ animationDelay: "160ms" }} />
+                      <i className="h-1.5 w-1.5 rounded-full bg-gold typing-dot" style={{ animationDelay: "320ms" }} />
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-soft-gray">
+                    Synthesizing across Business OS, Analytics, and CRM · routing approval to Priya.
+                  </p>
                 </div>
-                <p className="mt-3 text-sm text-soft-gray">
-                  Synthesizing across Business OS, Analytics, and CRM · routing
-                  approval to Priya.
-                </p>
+              </div>
+
+              {/* suggested follow-ups */}
+              <div className="ml-11 flex flex-wrap gap-2">
+                {["Add supplier risk view", "Show Q3 vs Q2 delta", "Draft email to Priya"].map((s) => (
+                  <button
+                    key={s}
+                    className="rounded-full border border-gold/25 bg-obsidian/50 px-3 py-1.5 text-[11px] text-paper transition-colors hover:border-gold/50 hover:bg-gold/10"
+                  >
+                    {s}
+                  </button>
+                ))}
               </div>
             </div>
 
-            <div className="mt-6 flex items-center gap-3 rounded-2xl border border-gold/15 bg-obsidian/60 p-3">
+            <div className="mt-6 flex items-center gap-2 rounded-2xl border border-gold/15 bg-obsidian/60 p-2.5">
+              <button aria-label="Voice input" className="grid h-9 w-9 place-items-center rounded-xl border border-gold/20 text-gold transition-colors hover:bg-gold/10">
+                <Mic className="h-4 w-4" />
+              </button>
               <div className="flex-1 truncate px-2 text-sm text-soft-gray">
                 Ask HAPPY anything…
               </div>
-              <button className="inline-flex items-center gap-2 rounded-xl bg-gold px-4 py-2 text-xs font-semibold text-obsidian">
+              <button className="inline-flex items-center gap-2 rounded-xl bg-gold px-4 py-2 text-xs font-semibold text-obsidian transition-transform hover:scale-[1.03]">
                 Send
                 <ArrowRight className="h-3 w-3" />
               </button>
@@ -628,7 +653,41 @@ function ChatPreview() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes typing-dot { 0%,80%,100% { transform: scale(0.7); opacity: .4 } 40% { transform: scale(1.2); opacity: 1 } }
+        .typing-dot { display: inline-block; animation: typing-dot 1.1s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .typing-dot { animation: none !important } }
+      `}</style>
     </section>
+  );
+}
+
+function RichCard({
+  tag,
+  title,
+  meta,
+  icon: Icon,
+}: {
+  tag: string;
+  title: string;
+  meta: string;
+  icon: React.ElementType;
+}) {
+  return (
+    <div className="group rounded-xl border border-gold/15 bg-obsidian/60 p-3 transition-colors hover:border-gold/40">
+      <div className="flex items-start gap-3">
+        <div className="grid h-8 w-8 place-items-center rounded-lg border border-gold/25 bg-charcoal">
+          <Icon className="h-3.5 w-3.5 text-gold" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-[9px] uppercase tracking-[0.2em] text-gold">{tag}</div>
+          <div className="truncate text-sm font-medium text-paper">{title}</div>
+          <div className="mt-0.5 text-[11px] text-soft-gray">{meta}</div>
+        </div>
+        <ArrowUpRight className="h-3.5 w-3.5 text-soft-gray transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold" />
+      </div>
+    </div>
   );
 }
 
@@ -636,7 +695,7 @@ function ChatBubble({ who, text }: { who: "you" | "ai"; text: string }) {
   if (who === "you") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-tr-md bg-gold px-4 py-3 text-sm font-medium text-obsidian">
+        <div className="max-w-[85%] rounded-2xl rounded-tr-md bg-gold px-4 py-3 text-sm font-medium text-obsidian shadow-[0_10px_30px_-10px_rgba(212,175,55,0.4)]">
           {text}
         </div>
       </div>
@@ -644,8 +703,8 @@ function ChatBubble({ who, text }: { who: "you" | "ai"; text: string }) {
   }
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full border border-gold/30 bg-obsidian">
-        <span className="text-[11px] font-bold text-gradient-gold">H</span>
+      <div className="mt-0.5 h-8 w-8 flex-none overflow-hidden rounded-full ring-1 ring-gold/30">
+        <HappyAvatar size={32} activity="speaking" expression="explain" />
       </div>
       <div className="max-w-[85%] text-[15px] leading-relaxed text-paper">
         {text}
