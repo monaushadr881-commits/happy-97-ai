@@ -140,7 +140,7 @@ export const settingsRepo = (sb: Sb) => ({
     if (error) throw error;
     return (data ?? []) as unknown as Setting[];
   },
-  async upsert(input: { scope_type: ScopeType; scope_id: string | null; key: string; value: unknown }): Promise<Setting> {
+  async upsert(input: { scope_type: ScopeType; scope_id: string | null; key: string; value: Json }): Promise<Setting> {
     const { data, error } = await sb.from("settings")
       .upsert(input as never, { onConflict: "scope_type,scope_id,key" })
       .select("*").single();
