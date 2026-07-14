@@ -190,24 +190,90 @@ function LogoMark({ size = 36 }: { size?: number }) {
   );
 }
 
-/* ─────────────────────────  HERO  ───────────────────────── */
+/* ─────────────────────────  HERO  ─────────────────────────
+ * Cinematic executive stage — animated gold light, parallax, particles,
+ * and the official HAPPY digital human in the center of the frame.
+ */
 function Hero() {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const onMove = (e: React.MouseEvent) => {
+    const el = stageRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    setTilt({
+      x: ((e.clientX - r.left) / r.width - 0.5) * 10,
+      y: ((e.clientY - r.top) / r.height - 0.5) * -10,
+    });
+  };
+  const onLeave = () => setTilt({ x: 0, y: 0 });
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 22 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        size: 1 + Math.random() * 2.4,
+        delay: Math.random() * 8,
+        dur: 9 + Math.random() * 12,
+        opacity: 0.15 + Math.random() * 0.35,
+      })),
+    [],
+  );
+
   return (
-    <section id="top" className="relative pt-32 pb-24 md:pt-40 md:pb-32">
-      {/* ambient background */}
+    <section id="top" className="relative min-h-[92vh] pt-28 pb-24 md:pt-36 md:pb-32 overflow-hidden">
+      {/* cinematic ambient */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-1/2 top-1/2 h-[900px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/[0.06] blur-3xl animate-pulse-halo" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#0b0b0d_75%)]" />
+        <div className="absolute -top-40 left-1/2 h-[1000px] w-[1000px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.16),transparent_60%)] blur-2xl animate-pulse-halo" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,#0b0b0d_78%)]" />
+        {/* subtle grid */}
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(232,201,106,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(232,201,106,0.5) 1px,transparent 1px)",
+            backgroundSize: "72px 72px",
+            maskImage: "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          }}
+        />
+        {/* moving spotlight */}
+        <div className="absolute -bottom-20 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(circle,rgba(232,201,106,0.14),transparent_70%)] blur-3xl hero-spot" />
+        {/* particles */}
+        {particles.map((p) => (
+          <span
+            key={p.id}
+            className="absolute rounded-full bg-gold hero-particle"
+            style={{
+              left: `${p.left}%`,
+              top: `${p.top}%`,
+              width: p.size,
+              height: p.size,
+              opacity: p.opacity,
+              animationDelay: `${p.delay}s`,
+              animationDuration: `${p.dur}s`,
+            }}
+          />
+        ))}
       </div>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-[1.05fr_1fr]">
-        <div className="relative z-10">
+      <div
+        ref={stageRef}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+        className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-[1.05fr_1fr]"
+      >
+        <div
+          className="relative z-10"
+          style={{ transform: `translate3d(${tilt.x * -0.4}px, ${tilt.y * 0.4}px, 0)` }}
+        >
           <div className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-charcoal/60 px-3 py-1.5 backdrop-blur">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
-            <span className="eyebrow !text-[10px]">HAPPY · Enterprise AI Partner</span>
+            <span className="eyebrow !text-[10px]">HAPPY Online · Enterprise AI Partner</span>
           </div>
 
           <h1 className="mt-8 font-display text-5xl font-medium leading-[1.02] tracking-tight text-paper md:text-7xl">
@@ -223,10 +289,13 @@ function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <button className="shimmer-on-hover group inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-obsidian transition-transform hover:scale-[1.02]">
+            <Link
+              to="/auth"
+              className="shimmer-on-hover group inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-obsidian transition-transform hover:scale-[1.02]"
+            >
               Experience HAPPY X
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </button>
+            </Link>
             <button className="inline-flex items-center gap-2.5 rounded-full border border-gold/25 bg-charcoal/40 px-6 py-3.5 text-[14px] font-medium text-paper backdrop-blur transition-colors hover:bg-charcoal/70">
               <Play className="h-3.5 w-3.5 fill-gold text-gold" />
               Watch the film
@@ -251,84 +320,191 @@ function Hero() {
           </div>
         </div>
 
-        <HeroAvatar />
+        <HeroStage tilt={tilt} />
+      </div>
+
+      <style>{`
+        @keyframes hero-spot { 0%,100% { transform: translate(-50%,0) scale(1) } 50% { transform: translate(-50%,-14px) scale(1.05) } }
+        .hero-spot { animation: hero-spot 10s ease-in-out infinite; }
+        @keyframes hero-particle { 0% { transform: translateY(0); opacity: 0 } 20% { opacity: var(--o,0.3) } 100% { transform: translateY(-140px); opacity: 0 } }
+        .hero-particle { animation-name: hero-particle; animation-timing-function: ease-out; animation-iteration-count: infinite; box-shadow: 0 0 8px rgba(232,201,106,0.6); }
+        @media (prefers-reduced-motion: reduce) { .hero-spot, .hero-particle { animation: none !important } }
+      `}</style>
+    </section>
+  );
+}
+
+function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
+  return (
+    <div className="relative mx-auto w-full max-w-[520px]">
+      <div
+        className="relative aspect-[4/5] w-full [perspective:1400px]"
+        style={{ transform: `translate3d(${tilt.x * 0.6}px, ${tilt.y * -0.6}px, 0)` }}
+      >
+        {/* glass stage plate */}
+        <div className="absolute inset-0 rounded-[2.25rem] glass-luxe" />
+        <div
+          className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 ease-out"
+          style={{ transform: `rotateY(${tilt.x * 0.6}deg) rotateX(${tilt.y * 0.6}deg)` }}
+        >
+          <div className="absolute inset-4 rounded-[1.85rem] overflow-hidden ring-1 ring-gold/25 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] bg-obsidian">
+            <HappyAvatar
+              variant="portrait"
+              size={480}
+              activity="listening"
+              expression="smile"
+              className="!w-full !h-full"
+            />
+
+            {/* live chip */}
+            <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-obsidian/70 px-3 py-1.5 backdrop-blur">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              </span>
+              <span className="text-[10px] uppercase tracking-widest text-paper">HAPPY · Online</span>
+            </div>
+
+            {/* mode chip */}
+            <div className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-obsidian/70 px-3 py-1.5 backdrop-blur">
+              <Sparkle className="h-3 w-3 text-gold" />
+              <span className="text-[10px] uppercase tracking-widest text-gold">Chief of Staff</span>
+            </div>
+
+            {/* signature panel */}
+            <div className="absolute inset-x-4 bottom-4">
+              <div className="glass-luxe rounded-2xl px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-gold">Digital Human</div>
+                    <div className="mt-0.5 font-display text-sm font-medium text-paper">HAPPY · Executive Presence</div>
+                  </div>
+                  <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-soft-gray">
+                    <span className="inline-flex items-center gap-1"><Volume2 className="h-3 w-3 text-gold" />&lt;100ms</span>
+                    <span className="numeric">v4.0</span>
+                  </div>
+                </div>
+                {/* live waveform */}
+                <div className="mt-3 flex items-end gap-[3px] h-6">
+                  {Array.from({ length: 34 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className="w-[3px] rounded-full bg-gradient-to-t from-gold-deep to-gold hero-wave"
+                      style={{ animationDelay: `${(i % 12) * 60}ms`, height: `${20 + ((i * 17) % 70)}%` }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes hero-wave { 0%,100% { transform: scaleY(0.4) } 50% { transform: scaleY(1.1) } }
+        .hero-wave { animation: hero-wave 1.1s ease-in-out infinite; transform-origin: bottom; }
+        @media (prefers-reduced-motion: reduce) { .hero-wave { animation: none !important; } }
+      `}</style>
+    </div>
+  );
+}
+
+/* ─────────────────────  ECOSYSTEM DIAGRAM  ───────────────────── */
+function Ecosystem() {
+  const nodes: { id: string; label: string; icon: React.ElementType; ring: number; angle: number }[] = [
+    { id: "digital", label: "Digital Human", icon: Sparkle, ring: 1, angle: -90 },
+    { id: "biz", label: "Business OS", icon: Building2, ring: 2, angle: -50 },
+    { id: "edu", label: "Education OS", icon: GraduationCap, ring: 2, angle: -10 },
+    { id: "creator", label: "Creator OS", icon: Wand2, ring: 2, angle: 30 },
+    { id: "know", label: "Knowledge OS", icon: BookOpen, ring: 2, angle: 70 },
+    { id: "comm", label: "Community", icon: Users2, ring: 2, angle: 110 },
+    { id: "mkt", label: "Marketplace", icon: ShoppingBag, ring: 2, angle: 150 },
+    { id: "hyper", label: "Hyperlocal", icon: MapPin, ring: 2, angle: 190 },
+    { id: "ent", label: "Enterprise", icon: Landmark, ring: 2, angle: 230 },
+  ];
+  return (
+    <section className="relative border-t border-gold/10 py-28">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          eyebrow="The HAPPY X Ecosystem"
+          title="One kernel. One digital human. Every domain."
+          copy="Every module of HAPPY X orbits a single sovereign AI kernel — no silos, no duplication, no lock-in."
+        />
+
+        <div className="relative mx-auto mt-16 aspect-square w-full max-w-[720px]">
+          {/* rings */}
+          <div className="absolute inset-0 rounded-full border border-gold/10" />
+          <div className="absolute inset-[14%] rounded-full border border-gold/15" />
+          <div className="absolute inset-[30%] rounded-full border border-gold/20 eco-ring" />
+
+          {/* halo */}
+          <div className="absolute inset-1/4 rounded-full bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.35),transparent_70%)] blur-2xl animate-pulse-halo" />
+
+          {/* orbit lines */}
+          <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full pointer-events-none">
+            {nodes.map((n) => {
+              const rad = (n.angle * Math.PI) / 180;
+              const r = 42;
+              const x = 50 + r * Math.cos(rad);
+              const y = 50 + r * Math.sin(rad);
+              return (
+                <line key={n.id} x1="50" y1="50" x2={x} y2={y} stroke="url(#lg)" strokeWidth="0.15" strokeDasharray="0.6 0.8" />
+              );
+            })}
+            <defs>
+              <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="rgba(212,175,55,0.6)" />
+                <stop offset="1" stopColor="rgba(212,175,55,0.05)" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* center: HAPPY kernel */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+            <HappyAvatar size={150} activity="listening" expression="smile" />
+            <div className="mt-4 flex flex-col items-center">
+              <div className="text-[10px] uppercase tracking-[0.28em] text-gold">HAPPY Kernel</div>
+              <div className="mt-1 font-display text-base text-paper">AI Gateway</div>
+            </div>
+          </div>
+
+          {/* nodes */}
+          {nodes.map((n, i) => {
+            const rad = (n.angle * Math.PI) / 180;
+            const r = 42;
+            const x = 50 + r * Math.cos(rad);
+            const y = 50 + r * Math.sin(rad);
+            return (
+              <div
+                key={n.id}
+                className="absolute -translate-x-1/2 -translate-y-1/2 group"
+                style={{ left: `${x}%`, top: `${y}%`, animation: `eco-in 700ms ease-out ${i * 60}ms both` }}
+              >
+                <div className="flex flex-col items-center gap-1.5">
+                  <div className="relative flex h-14 w-14 items-center justify-center rounded-full border border-gold/25 bg-charcoal/90 backdrop-blur transition-all duration-300 group-hover:border-gold group-hover:scale-110">
+                    <n.icon className="h-5 w-5 text-gold" />
+                    <span className="absolute inset-0 rounded-full ring-1 ring-gold/0 group-hover:ring-gold/40" />
+                  </div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-soft-gray group-hover:text-paper">
+                    {n.label}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <style>{`
+          @keyframes eco-ring { 0%,100% { transform: scale(1); opacity: .55 } 50% { transform: scale(1.02); opacity: .85 } }
+          .eco-ring { animation: eco-ring 6s ease-in-out infinite; }
+          @keyframes eco-in { 0% { opacity: 0; transform: translate(-50%,-50%) scale(.6) } 100% { opacity: 1; transform: translate(-50%,-50%) scale(1) } }
+          @media (prefers-reduced-motion: reduce) { .eco-ring { animation: none !important } }
+        `}</style>
       </div>
     </section>
   );
 }
 
-function HeroAvatar() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  const onMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width - 0.5) * 8;
-    const y = ((e.clientY - r.top) / r.height - 0.5) * -8;
-    setTilt({ x, y });
-  };
-
-  return (
-    <div className="relative mx-auto w-full max-w-[520px]">
-      <div
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-        className="relative aspect-[4/5] w-full [perspective:1200px]"
-      >
-        {/* halo */}
-        <div className="absolute inset-8 rounded-[3rem] bg-gold/20 blur-3xl animate-pulse-halo" />
-        {/* frame */}
-        <div
-          className="relative h-full w-full overflow-hidden rounded-[2rem] border border-gold/20 bg-charcoal transition-transform duration-300 ease-out"
-          style={{
-            transform: `rotateY(${tilt.x}deg) rotateX(${tilt.y}deg)`,
-            boxShadow: "var(--shadow-luxe)",
-          }}
-        >
-          <img
-            src={avatarImg}
-            alt="HAPPY X — 3D digital human executive avatar"
-            width={1280}
-            height={1600}
-            className="h-full w-full object-cover"
-          />
-          {/* gradient veils */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.15),transparent_55%)]" />
-
-          {/* status chip */}
-          <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-obsidian/60 px-3 py-1.5 backdrop-blur">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            </span>
-            <span className="text-[10px] uppercase tracking-widest text-paper">
-              Live · Listening
-            </span>
-          </div>
-
-          {/* signature */}
-          <div className="absolute inset-x-5 bottom-5">
-            <div className="glass-luxe flex items-center justify-between rounded-2xl px-4 py-3">
-              <div>
-                <div className="text-[10px] uppercase tracking-widest text-gold">
-                  Avatar
-                </div>
-                <div className="mt-0.5 font-display text-sm font-medium text-paper">
-                  HAPPY · Executive Presence
-                </div>
-              </div>
-              <div className="numeric text-xs text-soft-gray">v4.0</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ─────────────────────────  TRUST BAR  ───────────────────────── */
 function TrustBar() {
