@@ -626,7 +626,7 @@ export const medicalResearchService = defineService({ name: "medical-research", 
 
 // ---------- v10.0 — Industrial Intelligence & Industry 4.0 (activated via Enterprise Brain) ----------
 export const industryPlatformService = defineService({ name: "industry-platform", version: "v10" }, () => activated("industry-platform"));
-export const manufacturingPlatformService = defineService({ name: "manufacturing-platform", version: "v10" }, () => activated("manufacturing-platform"));
+export const smartManufacturingService = defineService({ name: "smart-manufacturing", version: "v10" }, () => activated("smart-manufacturing"));
 export const qualityPlatformService = defineService({ name: "quality-platform", version: "v10" }, () => activated("quality-platform"));
 export const maintenancePlatformService = defineService({ name: "maintenance-platform", version: "v10" }, () => activated("maintenance-platform"));
 export const assetManagementService = defineService({ name: "asset-management", version: "v10" }, () => activated("asset-management"));
