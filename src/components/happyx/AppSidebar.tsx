@@ -12,6 +12,7 @@ import {
   Crown,
   Settings,
   LogOut,
+  Bot,
 } from "lucide-react";
 import {
   Sidebar,
@@ -36,6 +37,7 @@ const primary = [
 ];
 
 const modules = [
+  { title: "Digital Human", url: "/digital-human", icon: Bot },
   { title: "Education", url: "/education", icon: GraduationCap },
   { title: "Business OS", url: "/business", icon: Building2 },
   { title: "Creator Studio", url: "/studio", icon: Palette },
