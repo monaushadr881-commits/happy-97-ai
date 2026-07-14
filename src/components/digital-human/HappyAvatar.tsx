@@ -1,15 +1,20 @@
 /**
- * HAPPY Avatar — CSS/SVG-based Digital Human head.
+ * HAPPY Avatar — The official HAPPY Digital Human.
  *
- * There is only ONE HAPPY. Modes affect expression tokens (eyes, mouth,
- * micro-motion) — never identity, name, or color. Rendering is
- * GPU-friendly (transform/opacity only), degrades gracefully to a static
- * portrait when `reducedMotion` is on, and never captures camera/mic.
+ * The uploaded executive portrait is the permanent identity. There is only
+ * one HAPPY across the platform. This component keeps the portrait alive
+ * with GPU-only micro-motion (breathing, sway, blink veil, thinking halo,
+ * listening pulse, speaking rings). All motion collapses to a static image
+ * under `reducedMotion`. No camera/mic access.
+ *
+ * Public API is unchanged so every callsite keeps working.
  */
 import { memo, useEffect, useRef, useState } from "react";
+import happyPortraitAsset from "@/assets/happy-portrait.png.asset.json";
 import { cn } from "@/lib/utils";
 
-export type AvatarExpression = "neutral" | "smile" | "thinking" | "explain" | "concern" | "celebrate" | "listen";
+export type AvatarExpression =
+  | "neutral" | "smile" | "thinking" | "explain" | "concern" | "celebrate" | "listen";
 export type AvatarActivity = "idle" | "listening" | "speaking";
 
 type Props = {
@@ -18,6 +23,8 @@ type Props = {
   reducedMotion?: boolean;
   size?: number;
   className?: string;
+  /** Render as a full portrait card (rounded rectangle) instead of a circular bust. */
+  variant?: "bust" | "portrait";
 };
 
 function useBlink(reduced: boolean) {
@@ -26,10 +33,10 @@ function useBlink(reduced: boolean) {
     if (reduced) return;
     let t: ReturnType<typeof setTimeout>;
     const loop = () => {
-      const next = 2200 + Math.random() * 3500;
+      const next = 2600 + Math.random() * 3800;
       t = setTimeout(() => {
         setClosed(true);
-        setTimeout(() => { setClosed(false); loop(); }, 130);
+        setTimeout(() => { setClosed(false); loop(); }, 120);
       }, next);
     };
     loop();
@@ -38,128 +45,152 @@ function useBlink(reduced: boolean) {
   return closed;
 }
 
-function useMouthOpen(activity: AvatarActivity, reduced: boolean) {
-  const [open, setOpen] = useState(0);
-  const raf = useRef<number | null>(null);
-  useEffect(() => {
-    if (activity !== "speaking" || reduced) { setOpen(0); return; }
-    let last = performance.now();
-    const tick = (t: number) => {
-      const dt = t - last; last = t;
-      // Smoothed pseudo-random amplitude — approximates viseme motion
-      const v = Math.abs(Math.sin(t / 90) * 0.6 + Math.sin(t / 37) * 0.3);
-      setOpen((prev) => prev + (v - prev) * Math.min(1, dt / 60));
-      raf.current = requestAnimationFrame(tick);
-    };
-    raf.current = requestAnimationFrame(tick);
-    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
-  }, [activity, reduced]);
-  return open;
-}
-
 export const HappyAvatar = memo(function HappyAvatar({
   expression = "neutral",
   activity = "idle",
   reducedMotion = false,
   size = 260,
   className,
+  variant = "bust",
 }: Props) {
   const blink = useBlink(reducedMotion);
-  const mouth = useMouthOpen(activity, reducedMotion);
+  const speaking = activity === "speaking";
+  const listening = activity === "listening";
+  const thinking = expression === "thinking";
 
-  // Expression tokens
-  const brow = expression === "concern" ? -3 : expression === "thinking" ? -1 : 0;
-  const smile = expression === "smile" || expression === "celebrate" ? 8 : expression === "concern" ? -5 : expression === "explain" ? 3 : 0;
-  const gaze = expression === "thinking" ? { x: 4, y: -2 } : { x: 0, y: 0 };
-
-  const mouthHeight = 6 + mouth * 22;
-  const mouthCurve = 90 + smile;
+  const radius = variant === "portrait" ? "1.75rem" : "9999px";
 
   return (
     <div
       role="img"
-      aria-label="HAPPY, digital human avatar"
-      className={cn(
-        "relative select-none",
-        !reducedMotion && "will-change-transform",
-        !reducedMotion && activity !== "speaking" && "dh-breathe",
-        className,
-      )}
-      style={{ width: size, height: size }}
+      aria-label="HAPPY, the digital human"
+      className={cn("relative select-none isolate", className)}
+      style={{ width: size, height: variant === "portrait" ? Math.round(size * 1.25) : size }}
     >
-      <svg viewBox="0 0 200 200" width="100%" height="100%" aria-hidden>
-        {/* halo */}
-        <defs>
-          <radialGradient id="halo" cx="50%" cy="45%" r="60%">
-            <stop offset="0%" stopColor="hsl(45 90% 60% / 0.35)" />
-            <stop offset="60%" stopColor="hsl(45 90% 40% / 0.05)" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
-          <linearGradient id="skin" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="hsl(38 40% 92%)" />
-            <stop offset="100%" stopColor="hsl(30 30% 78%)" />
-          </linearGradient>
-          <linearGradient id="hair" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="hsl(220 15% 18%)" />
-            <stop offset="100%" stopColor="hsl(220 15% 10%)" />
-          </linearGradient>
-        </defs>
-        <rect x="0" y="0" width="200" height="200" fill="url(#halo)" />
-
-        {/* neck + shoulders */}
-        <path d="M60,175 Q100,150 140,175 L155,200 L45,200 Z" fill="hsl(220 15% 14%)" />
-        <path d="M85,150 L85,168 Q100,178 115,168 L115,150 Z" fill="url(#skin)" />
-
-        {/* head */}
-        <ellipse cx="100" cy="95" rx="46" ry="54" fill="url(#skin)" />
-        {/* hair */}
-        <path d="M54,80 Q65,40 100,40 Q135,40 146,80 Q140,60 100,58 Q60,60 54,80 Z" fill="url(#hair)" />
-
-        {/* eyebrows */}
-        <path d={`M70,${78 + brow} Q80,${72 + brow} 90,${78 + brow}`} stroke="hsl(220 15% 12%)" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-        <path d={`M110,${78 + brow} Q120,${72 + brow} 130,${78 + brow}`} stroke="hsl(220 15% 12%)" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-
-        {/* eyes */}
-        <g>
-          <ellipse cx="80" cy="94" rx="6" ry={blink ? 0.6 : 4.2} fill="hsl(220 25% 10%)" style={{ transition: "ry 90ms ease-out" }} />
-          <ellipse cx="120" cy="94" rx="6" ry={blink ? 0.6 : 4.2} fill="hsl(220 25% 10%)" style={{ transition: "ry 90ms ease-out" }} />
-          {!blink && (
-            <>
-              <circle cx={80 + gaze.x} cy={92 + gaze.y} r="1.4" fill="white" />
-              <circle cx={120 + gaze.x} cy={92 + gaze.y} r="1.4" fill="white" />
-            </>
-          )}
-        </g>
-
-        {/* nose */}
-        <path d="M100,100 Q98,112 100,118 Q102,120 104,118" stroke="hsl(30 30% 55%)" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-
-        {/* mouth */}
-        <g>
-          <path
-            d={`M85,${130} Q100,${130 + (mouthCurve - 90) * 0.4} 115,${130}`}
-            stroke="hsl(0 55% 30%)" strokeWidth="1.8" fill="none" strokeLinecap="round"
-          />
-          <ellipse
-            cx="100" cy={132 + mouthHeight / 2}
-            rx={7 + mouth * 4}
-            ry={Math.max(0.6, mouthHeight / 2)}
-            fill="hsl(0 55% 22%)"
-            style={{ transition: reducedMotion ? "none" : "rx 80ms linear, ry 80ms linear, cy 80ms linear" }}
-          />
-        </g>
-
-        {/* speaking pulse ring */}
-        {activity === "speaking" && !reducedMotion && (
-          <circle cx="100" cy="100" r="80" fill="none" stroke="hsl(45 90% 60% / 0.35)" strokeWidth="1.5" className="dh-pulse" />
+      {/* soft gold halo */}
+      <div
+        aria-hidden
+        className={cn(
+          "absolute -inset-6 rounded-[inherit] blur-3xl transition-opacity duration-700",
+          "bg-[radial-gradient(circle_at_50%_45%,rgba(212,175,55,0.35),transparent_65%)]",
+          listening ? "opacity-100" : "opacity-60",
         )}
-      </svg>
+        style={{ borderRadius: radius }}
+      />
+
+      {/* thinking conic halo */}
+      {thinking && !reducedMotion && (
+        <div
+          aria-hidden
+          className="absolute -inset-2 rounded-[inherit] opacity-70 dh-thinking-halo"
+          style={{
+            borderRadius: radius,
+            background:
+              "conic-gradient(from 0deg, transparent 0deg, rgba(212,175,55,0.55) 60deg, transparent 120deg, transparent 360deg)",
+            filter: "blur(14px)",
+          }}
+        />
+      )}
+
+      {/* speaking / listening pulse rings */}
+      {!reducedMotion && (speaking || listening) && (
+        <>
+          <span
+            aria-hidden
+            className={cn("absolute inset-0 rounded-[inherit] border", speaking ? "dh-ring-1" : "dh-ring-slow")}
+            style={{ borderRadius: radius, borderColor: "rgba(212,175,55,0.55)" }}
+          />
+          <span
+            aria-hidden
+            className={cn("absolute inset-0 rounded-[inherit] border", speaking ? "dh-ring-2" : "dh-ring-slow")}
+            style={{ borderRadius: radius, borderColor: "rgba(212,175,55,0.35)", animationDelay: "0.5s" }}
+          />
+        </>
+      )}
+
+      {/* frame */}
+      <div
+        className={cn(
+          "relative h-full w-full overflow-hidden bg-charcoal shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)]",
+          "ring-1 ring-gold/25",
+          !reducedMotion && "dh-breathe",
+        )}
+        style={{ borderRadius: radius }}
+      >
+        <img
+          src={happyPortraitAsset.url}
+          alt="HAPPY, the official HAPPY X digital human"
+          className={cn(
+            "h-full w-full object-cover object-top",
+            !reducedMotion && "dh-sway",
+          )}
+          draggable={false}
+          loading="eager"
+          decoding="async"
+        />
+
+        {/* soft top gold light */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 40% at 50% 0%, rgba(232,201,106,0.25), transparent 65%)",
+            mixBlendMode: "screen",
+          }}
+        />
+
+        {/* blink veil — subtle brightness dip that reads as a blink */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 transition-opacity duration-[110ms] ease-out"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 22%, rgba(0,0,0,0.55) 34%, rgba(0,0,0,0.6) 42%, transparent 55%)",
+            opacity: blink && !reducedMotion ? 0.75 : 0,
+          }}
+        />
+
+        {/* speaking bottom mouth glow */}
+        {speaking && !reducedMotion && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 dh-mouth-glow"
+            style={{
+              background:
+                "radial-gradient(28% 10% at 50% 68%, rgba(232,201,106,0.55), transparent 70%)",
+              mixBlendMode: "screen",
+            }}
+          />
+        )}
+
+        {/* bottom fade — for portrait variant */}
+        {variant === "portrait" && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent"
+          />
+        )}
+      </div>
 
       <style>{`
-        @keyframes dh-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-2px) scale(1.01) } }
-        .dh-breathe { animation: dh-breathe 5.5s ease-in-out infinite; }
-        @keyframes dh-pulse { 0% { opacity: 0.9; r: 55; } 100% { opacity: 0; r: 92; } }
-        .dh-pulse { animation: dh-pulse 1.4s ease-out infinite; transform-origin: center; }
+        @keyframes dh-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-2px) scale(1.008) } }
+        .dh-breathe { animation: dh-breathe 5.6s ease-in-out infinite; will-change: transform; }
+        @keyframes dh-sway { 0%,100% { transform: translate3d(0,0,0) rotate(0deg) } 33% { transform: translate3d(2px,0,0) rotate(0.4deg) } 66% { transform: translate3d(-2px,0,0) rotate(-0.35deg) } }
+        .dh-sway { animation: dh-sway 11s ease-in-out infinite; will-change: transform; }
+        @keyframes dh-ring-1 { 0% { transform: scale(1); opacity: 0.85 } 100% { transform: scale(1.08); opacity: 0 } }
+        @keyframes dh-ring-2 { 0% { transform: scale(1); opacity: 0.6 } 100% { transform: scale(1.14); opacity: 0 } }
+        @keyframes dh-ring-slow { 0% { transform: scale(1); opacity: 0.55 } 100% { transform: scale(1.06); opacity: 0 } }
+        .dh-ring-1 { animation: dh-ring-1 1.4s ease-out infinite; }
+        .dh-ring-2 { animation: dh-ring-2 1.8s ease-out infinite; }
+        .dh-ring-slow { animation: dh-ring-slow 2.6s ease-out infinite; }
+        @keyframes dh-thinking-halo { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) } }
+        .dh-thinking-halo { animation: dh-thinking-halo 6s linear infinite; }
+        @keyframes dh-mouth-glow { 0%,100% { opacity: 0.55 } 50% { opacity: 1 } }
+        .dh-mouth-glow { animation: dh-mouth-glow 320ms ease-in-out infinite; mix-blend-mode: screen; }
+        @media (prefers-reduced-motion: reduce) {
+          .dh-breathe, .dh-sway, .dh-ring-1, .dh-ring-2, .dh-ring-slow, .dh-thinking-halo, .dh-mouth-glow { animation: none !important; }
+        }
       `}</style>
     </div>
   );
