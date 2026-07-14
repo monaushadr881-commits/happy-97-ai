@@ -43,6 +43,7 @@ function HappyXLanding() {
       <TrustBar />
       <Ecosystem />
       <ChatPreview />
+      <BusinessWebsites />
       <ModuleShowcase
         id="education"
         eyebrow="Education Platform"
