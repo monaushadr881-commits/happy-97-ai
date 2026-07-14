@@ -27,23 +27,85 @@ type Props = {
   variant?: "bust" | "portrait";
 };
 
+/**
+ * Organic blink loop — never repeats.
+ * Uses variable inter-blink gaps (1.8–7.2s), variable close duration
+ * (95–170ms), and occasional double-blinks (~12% chance). Feels human.
+ */
 function useBlink(reduced: boolean) {
   const [closed, setClosed] = useState(false);
   useEffect(() => {
     if (reduced) return;
     let t: ReturnType<typeof setTimeout>;
+    let cancelled = false;
+    const doBlink = (after: () => void) => {
+      const closeMs = 95 + Math.random() * 75;
+      setClosed(true);
+      setTimeout(() => {
+        if (cancelled) return;
+        setClosed(false);
+        after();
+      }, closeMs);
+    };
     const loop = () => {
-      const next = 2600 + Math.random() * 3800;
+      const gap = 1800 + Math.random() * 5400;
       t = setTimeout(() => {
-        setClosed(true);
-        setTimeout(() => { setClosed(false); loop(); }, 120);
-      }, next);
+        if (cancelled) return;
+        doBlink(() => {
+          // ~12% chance of a natural double-blink
+          if (Math.random() < 0.12) {
+            setTimeout(() => !cancelled && doBlink(loop), 140 + Math.random() * 80);
+          } else {
+            loop();
+          }
+        });
+      }, gap);
     };
     loop();
-    return () => clearTimeout(t);
+    return () => { cancelled = true; clearTimeout(t); };
   }, [reduced]);
   return closed;
 }
+
+/** Micro head drift + eye saccade offsets, updated on a slow rAF cadence. */
+function useMicroMotion(reduced: boolean) {
+  const [offset, setOffset] = useState({ x: 0, y: 0, r: 0 });
+  useEffect(() => {
+    if (reduced) return;
+    let raf = 0;
+    let last = 0;
+    let target = { x: 0, y: 0, r: 0 };
+    let current = { x: 0, y: 0, r: 0 };
+    let nextRetarget = 0;
+    const tick = (t: number) => {
+      if (!last) last = t;
+      const dt = Math.min(50, t - last);
+      last = t;
+      if (t > nextRetarget) {
+        // pick a new subtle target — head + gaze focus
+        target = {
+          x: (Math.random() - 0.5) * 3.4,
+          y: (Math.random() - 0.5) * 2.0,
+          r: (Math.random() - 0.5) * 0.6,
+        };
+        nextRetarget = t + 900 + Math.random() * 2600;
+      }
+      // ease toward target
+      const k = 1 - Math.pow(0.001, dt / 1000);
+      current = {
+        x: current.x + (target.x - current.x) * k,
+        y: current.y + (target.y - current.y) * k,
+        r: current.r + (target.r - current.r) * k,
+      };
+      setOffset(current);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [reduced]);
+  return offset;
+}
+
 
 export const HappyAvatar = memo(function HappyAvatar({
   expression = "neutral",
@@ -54,9 +116,12 @@ export const HappyAvatar = memo(function HappyAvatar({
   variant = "bust",
 }: Props) {
   const blink = useBlink(reducedMotion);
+  const drift = useMicroMotion(reducedMotion);
   const speaking = activity === "speaking";
   const listening = activity === "listening";
   const thinking = expression === "thinking";
+  const smiling = expression === "smile" || expression === "celebrate";
+
 
   const radius = variant === "portrait" ? "1.75rem" : "9999px";
 
@@ -121,13 +186,19 @@ export const HappyAvatar = memo(function HappyAvatar({
           src={happyPortraitAsset.url}
           alt="HAPPY, the official HAPPY X digital human"
           className={cn(
-            "h-full w-full object-cover object-top",
+            "h-full w-full object-cover object-top will-change-transform",
             !reducedMotion && "dh-sway",
           )}
+          style={
+            reducedMotion
+              ? undefined
+              : { transform: `translate3d(${drift.x}px, ${drift.y}px, 0) rotate(${drift.r}deg)` }
+          }
           draggable={false}
           loading="eager"
           decoding="async"
         />
+
 
         {/* soft top gold light */}
         <div
@@ -164,6 +235,18 @@ export const HappyAvatar = memo(function HappyAvatar({
           />
         )}
 
+        {/* smile warmth — subtle golden lift across the cheeks */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 transition-opacity duration-700 ease-out"
+          style={{
+            background:
+              "radial-gradient(45% 22% at 50% 58%, rgba(232,201,106,0.28), transparent 70%)",
+            mixBlendMode: "screen",
+            opacity: smiling && !reducedMotion ? 1 : 0,
+          }}
+        />
+
         {/* bottom fade — for portrait variant */}
         {variant === "portrait" && (
           <div
@@ -173,11 +256,15 @@ export const HappyAvatar = memo(function HappyAvatar({
         )}
       </div>
 
+
       <style>{`
-        @keyframes dh-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-2px) scale(1.008) } }
-        .dh-breathe { animation: dh-breathe 5.6s ease-in-out infinite; will-change: transform; }
-        @keyframes dh-sway { 0%,100% { transform: translate3d(0,0,0) rotate(0deg) } 33% { transform: translate3d(2px,0,0) rotate(0.4deg) } 66% { transform: translate3d(-2px,0,0) rotate(-0.35deg) } }
-        .dh-sway { animation: dh-sway 11s ease-in-out infinite; will-change: transform; }
+        @keyframes dh-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-1.5px) scale(1.006) } }
+        .dh-breathe { animation: dh-breathe 6.4s ease-in-out infinite; will-change: transform; }
+        /* dh-sway is intentionally near-zero — organic drift is driven by useMicroMotion */
+        .dh-sway { }
+
+
+
         @keyframes dh-ring-1 { 0% { transform: scale(1); opacity: 0.85 } 100% { transform: scale(1.08); opacity: 0 } }
         @keyframes dh-ring-2 { 0% { transform: scale(1); opacity: 0.6 } 100% { transform: scale(1.14); opacity: 0 } }
         @keyframes dh-ring-slow { 0% { transform: scale(1); opacity: 0.55 } 100% { transform: scale(1.06); opacity: 0 } }
