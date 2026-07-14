@@ -756,7 +756,7 @@ export const whiteLabelService = defineService({ name: "white-label", version: "
 // ---------- Universal Builder Platform v1.0 ----------
 export const builderService = defineService({ name: "builder", version: "ub1" }, () => activated("builder"));
 export const appBuilderService = defineService({ name: "app-builder", version: "ub1" }, () => activated("app-builder"));
-export const deploymentService = defineService({ name: "deployment", version: "ub1" }, () => activated("deployment"));
+export const deploymentBuilderService = defineService({ name: "deployment-builder", version: "ub1" }, () => activated("deployment-builder"));
 export const templateService = defineService({ name: "template", version: "ub1" }, () => activated("template"));
 export const themeService = defineService({ name: "theme", version: "ub1" }, () => activated("theme"));
 export const marketplaceService = defineService({ name: "marketplace", version: "ub1" }, () => activated("marketplace"));
