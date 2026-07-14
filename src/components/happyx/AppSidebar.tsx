@@ -28,7 +28,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import hpLogoAsset from "@/assets/hp-logo.png.asset.json";
+import happyAiLogoAsset from "@/assets/happy-ai-logo.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
