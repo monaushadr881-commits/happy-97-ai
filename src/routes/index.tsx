@@ -1082,7 +1082,8 @@ function FounderMessage() {
 // Backend, services, APIs and business logic are unchanged.
 import { PricingExperience } from "@/components/happyx/PricingExperience";
 import { PricingExperienceV5 } from "@/components/happyx/PricingExperienceV5";
-function Pricing() { return (<><PricingExperience /><PricingExperienceV5 /></>); }
+import { PricingExperienceV6 } from "@/components/happyx/PricingExperienceV6";
+function Pricing() { return (<><PricingExperience /><PricingExperienceV5 /><PricingExperienceV6 /></>); }
 
 
 
