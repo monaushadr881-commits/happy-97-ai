@@ -68,6 +68,621 @@ export type Database = {
           },
         ]
       }
+      ai_knowledge_chunks: {
+        Row: {
+          chunk_index: number
+          company_id: string | null
+          content: string
+          created_at: string
+          document_id: string
+          embedding: string | null
+          id: string
+          metadata: Json
+          token_count: number | null
+        }
+        Insert: {
+          chunk_index: number
+          company_id?: string | null
+          content: string
+          created_at?: string
+          document_id: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json
+          token_count?: number | null
+        }
+        Update: {
+          chunk_index?: number
+          company_id?: string | null
+          content?: string
+          created_at?: string
+          document_id?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json
+          token_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_knowledge_chunks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_knowledge_chunks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "ai_knowledge_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_knowledge_documents: {
+        Row: {
+          company_id: string | null
+          content_hash: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          language: string | null
+          metadata: Json
+          mime_type: string | null
+          size_bytes: number | null
+          source_url: string | null
+          status: Database["public"]["Enums"]["record_status"]
+          tags: string[]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+          workspace_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          content_hash?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          language?: string | null
+          metadata?: Json
+          mime_type?: string | null
+          size_bytes?: number | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          tags?: string[]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          workspace_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          content_hash?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          language?: string | null
+          metadata?: Json
+          mime_type?: string | null
+          size_bytes?: number | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_knowledge_documents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_knowledge_documents_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_memories: {
+        Row: {
+          company_id: string | null
+          content: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          embedding: string | null
+          expires_at: string | null
+          id: string
+          importance: number
+          key: string
+          metadata: Json
+          scope: string
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          content: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          embedding?: string | null
+          expires_at?: string | null
+          id?: string
+          importance?: number
+          key: string
+          metadata?: Json
+          scope?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          embedding?: string | null
+          expires_at?: string | null
+          id?: string
+          importance?: number
+          key?: string
+          metadata?: Json
+          scope?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_memories_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_missions: {
+        Row: {
+          company_id: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          objective: string
+          plan: Json
+          progress: number
+          result: Json | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          user_id: string | null
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          objective: string
+          plan?: Json
+          progress?: number
+          result?: Json | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          objective?: string
+          plan?: Json
+          progress?: number
+          result?: Json | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_missions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_personas: {
+        Row: {
+          avatar_url: string | null
+          code: string
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          description: string | null
+          id: string
+          is_public: boolean
+          model: string
+          name: string
+          status: Database["public"]["Enums"]["record_status"]
+          system_prompt: string
+          temperature: number
+          updated_at: string
+          updated_by: string | null
+          version: number
+          voice_profile: Json
+        }
+        Insert: {
+          avatar_url?: string | null
+          code: string
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          model?: string
+          name: string
+          status?: Database["public"]["Enums"]["record_status"]
+          system_prompt: string
+          temperature?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          voice_profile?: Json
+        }
+        Update: {
+          avatar_url?: string | null
+          code?: string
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          model?: string
+          name?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          system_prompt?: string
+          temperature?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          voice_profile?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_personas_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_sessions: {
+        Row: {
+          channel: string
+          company_id: string | null
+          conversation_id: string | null
+          cost_cents: number
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          ended_at: string | null
+          id: string
+          input_tokens: number
+          metadata: Json
+          output_tokens: number
+          persona_id: string | null
+          started_at: string
+          status: Database["public"]["Enums"]["ai_session_status"]
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+          version: number
+          workspace_id: string | null
+        }
+        Insert: {
+          channel?: string
+          company_id?: string | null
+          conversation_id?: string | null
+          cost_cents?: number
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          ended_at?: string | null
+          id?: string
+          input_tokens?: number
+          metadata?: Json
+          output_tokens?: number
+          persona_id?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["ai_session_status"]
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+          version?: number
+          workspace_id?: string | null
+        }
+        Update: {
+          channel?: string
+          company_id?: string | null
+          conversation_id?: string | null
+          cost_cents?: number
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          ended_at?: string | null
+          id?: string
+          input_tokens?: number
+          metadata?: Json
+          output_tokens?: number
+          persona_id?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["ai_session_status"]
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+          version?: number
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_sessions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_sessions_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_sessions_persona_id_fkey"
+            columns: ["persona_id"]
+            isOneToOne: false
+            referencedRelation: "ai_personas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_sessions_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_keys: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          hashed_key: string
+          id: string
+          last_used_at: string | null
+          name: string
+          prefix: string
+          revoked_at: string | null
+          scopes: string[]
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          hashed_key: string
+          id?: string
+          last_used_at?: string | null
+          name: string
+          prefix: string
+          revoked_at?: string | null
+          scopes?: string[]
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          hashed_key?: string
+          id?: string
+          last_used_at?: string | null
+          name?: string
+          prefix?: string
+          revoked_at?: string | null
+          scopes?: string[]
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assignment_submissions: {
+        Row: {
+          assignment_id: string
+          attachments: Json
+          content: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          feedback: string | null
+          graded_at: string | null
+          id: string
+          score: number | null
+          submitted_at: string
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+          version: number
+        }
+        Insert: {
+          assignment_id: string
+          attachments?: Json
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          feedback?: string | null
+          graded_at?: string | null
+          id?: string
+          score?: number | null
+          submitted_at?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+          version?: number
+        }
+        Update: {
+          assignment_id?: string
+          attachments?: Json
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          feedback?: string | null
+          graded_at?: string | null
+          id?: string
+          score?: number | null
+          submitted_at?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_submissions_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "assignments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assignments: {
+        Row: {
+          company_id: string | null
+          course_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          due_at: string | null
+          id: string
+          instructions: string | null
+          max_score: number
+          status: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          course_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          due_at?: string | null
+          id?: string
+          instructions?: string | null
+          max_score?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          course_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          due_at?: string | null
+          id?: string
+          instructions?: string | null
+          max_score?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -221,6 +836,180 @@ export type Database = {
           },
         ]
       }
+      certificates: {
+        Row: {
+          company_id: string | null
+          course_id: string | null
+          created_at: string
+          id: string
+          issued_at: string
+          metadata: Json
+          serial: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          issued_at?: string
+          metadata?: Json
+          serial: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          issued_at?: string
+          metadata?: Json
+          serial?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certificates_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "certificates_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chart_of_accounts: {
+        Row: {
+          code: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          deleted_at: string | null
+          id: string
+          is_active: boolean
+          kind: string
+          name: string
+          parent_id: string | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          code: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          id?: string
+          is_active?: boolean
+          kind: string
+          name: string
+          parent_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          id?: string
+          is_active?: boolean
+          kind?: string
+          name?: string
+          parent_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chart_of_accounts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chart_of_accounts_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      comments: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          deleted_at: string | null
+          id: string
+          parent_id: string | null
+          post_id: string
+          reaction_count: number
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          parent_id?: string | null
+          post_id: string
+          reaction_count?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          parent_id?: string | null
+          post_id?: string
+          reaction_count?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           country: string | null
@@ -272,6 +1061,45 @@ export type Database = {
         }
         Relationships: []
       }
+      consents: {
+        Row: {
+          created_at: string
+          granted: boolean
+          granted_at: string
+          id: string
+          ip: unknown
+          policy_version: string | null
+          purpose: string
+          revoked_at: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          granted: boolean
+          granted_at?: string
+          id?: string
+          ip?: unknown
+          policy_version?: string | null
+          purpose: string
+          revoked_at?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          granted?: boolean
+          granted_at?: string
+          id?: string
+          ip?: unknown
+          policy_version?: string | null
+          purpose?: string
+          revoked_at?: string | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -295,6 +1123,633 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      countries: {
+        Row: {
+          code: string
+          code3: string | null
+          created_at: string
+          currency_code: string | null
+          dial_code: string | null
+          is_active: boolean
+          name: string
+          region: string | null
+        }
+        Insert: {
+          code: string
+          code3?: string | null
+          created_at?: string
+          currency_code?: string | null
+          dial_code?: string | null
+          is_active?: boolean
+          name: string
+          region?: string | null
+        }
+        Update: {
+          code?: string
+          code3?: string | null
+          created_at?: string
+          currency_code?: string | null
+          dial_code?: string | null
+          is_active?: boolean
+          name?: string
+          region?: string | null
+        }
+        Relationships: []
+      }
+      course_enrollments: {
+        Row: {
+          company_id: string | null
+          completed_at: string | null
+          course_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          enrolled_at: string
+          id: string
+          progress_pct: number
+          status: Database["public"]["Enums"]["enrollment_status"]
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          completed_at?: string | null
+          course_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          enrolled_at?: string
+          id?: string
+          progress_pct?: number
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          completed_at?: string | null
+          course_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          enrolled_at?: string
+          id?: string
+          progress_pct?: number
+          status?: Database["public"]["Enums"]["enrollment_status"]
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_enrollments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "course_enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      course_modules: {
+        Row: {
+          company_id: string | null
+          course_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          description: string | null
+          id: string
+          position: number
+          status: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          course_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          position?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          course_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          position?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_modules_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "course_modules_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      courses: {
+        Row: {
+          company_id: string | null
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          deleted_at: string | null
+          duration_minutes: number | null
+          id: string
+          is_public: boolean
+          language: string | null
+          level: string | null
+          metadata: Json
+          price_cents: number
+          slug: string
+          status: Database["public"]["Enums"]["record_status"]
+          summary: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          is_public?: boolean
+          language?: string | null
+          level?: string | null
+          metadata?: Json
+          price_cents?: number
+          slug: string
+          status?: Database["public"]["Enums"]["record_status"]
+          summary?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          is_public?: boolean
+          language?: string | null
+          level?: string | null
+          metadata?: Json
+          price_cents?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          summary?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "courses_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_assets: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          duration_seconds: number | null
+          height: number | null
+          id: string
+          kind: string
+          metadata: Json
+          mime_type: string | null
+          owner_id: string
+          project_id: string | null
+          size_bytes: number | null
+          status: Database["public"]["Enums"]["record_status"]
+          storage_path: string
+          title: string | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+          width: number | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          duration_seconds?: number | null
+          height?: number | null
+          id?: string
+          kind: string
+          metadata?: Json
+          mime_type?: string | null
+          owner_id: string
+          project_id?: string | null
+          size_bytes?: number | null
+          status?: Database["public"]["Enums"]["record_status"]
+          storage_path: string
+          title?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          width?: number | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          duration_seconds?: number | null
+          height?: number | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          mime_type?: string | null
+          owner_id?: string
+          project_id?: string | null
+          size_bytes?: number | null
+          status?: Database["public"]["Enums"]["record_status"]
+          storage_path?: string
+          title?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_assets_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creative_assets_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "creative_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_projects: {
+        Row: {
+          company_id: string | null
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          description: string | null
+          id: string
+          kind: string
+          metadata: Json
+          owner_id: string
+          status: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+          workspace_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          owner_id: string
+          status?: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          workspace_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          owner_id?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_projects_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creative_projects_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      currencies: {
+        Row: {
+          code: string
+          created_at: string
+          decimals: number
+          is_active: boolean
+          name: string
+          symbol: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          decimals?: number
+          is_active?: boolean
+          name: string
+          symbol?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          decimals?: number
+          is_active?: boolean
+          name?: string
+          symbol?: string | null
+        }
+        Relationships: []
+      }
+      customers: {
+        Row: {
+          billing_address: Json
+          brand_id: string | null
+          code: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          email: string | null
+          id: string
+          metadata: Json
+          name: string
+          phone: string | null
+          shipping_address: Json
+          status: Database["public"]["Enums"]["record_status"]
+          tax_id: string | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          billing_address?: Json
+          brand_id?: string | null
+          code?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          email?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          phone?: string | null
+          shipping_address?: Json
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          billing_address?: Json
+          brand_id?: string | null
+          code?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          email?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          phone?: string | null
+          shipping_address?: Json
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customers_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customers_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_requests: {
+        Row: {
+          created_at: string
+          export_url: string | null
+          fulfilled_at: string | null
+          id: string
+          kind: string
+          notes: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          export_url?: string | null
+          fulfilled_at?: string | null
+          id?: string
+          kind: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          export_url?: string | null
+          fulfilled_at?: string | null
+          id?: string
+          kind?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      deals: {
+        Row: {
+          amount_cents: number
+          closed_at: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          customer_id: string | null
+          deleted_at: string | null
+          expected_close_at: string | null
+          id: string
+          lead_id: string | null
+          owner_id: string | null
+          probability: number
+          stage: Database["public"]["Enums"]["deal_stage"]
+          status: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          amount_cents?: number
+          closed_at?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          deleted_at?: string | null
+          expected_close_at?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_id?: string | null
+          probability?: number
+          stage?: Database["public"]["Enums"]["deal_stage"]
+          status?: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          amount_cents?: number
+          closed_at?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          deleted_at?: string | null
+          expected_close_at?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_id?: string | null
+          probability?: number
+          stage?: Database["public"]["Enums"]["deal_stage"]
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deals_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deals_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       departments: {
         Row: {
@@ -444,6 +1899,1299 @@ export type Database = {
           },
         ]
       }
+      entity_versions: {
+        Row: {
+          actor_id: string | null
+          company_id: string | null
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          snapshot: Json
+          version: number
+        }
+        Insert: {
+          actor_id?: string | null
+          company_id?: string | null
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          snapshot: Json
+          version: number
+        }
+        Update: {
+          actor_id?: string | null
+          company_id?: string | null
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          snapshot?: Json
+          version?: number
+        }
+        Relationships: []
+      }
+      expenses: {
+        Row: {
+          amount_cents: number
+          attachment_url: string | null
+          category: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          deleted_at: string | null
+          id: string
+          memo: string | null
+          spent_on: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          vendor: string | null
+          version: number
+        }
+        Insert: {
+          amount_cents: number
+          attachment_url?: string | null
+          category?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          id?: string
+          memo?: string | null
+          spent_on?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          vendor?: string | null
+          version?: number
+        }
+        Update: {
+          amount_cents?: number
+          attachment_url?: string | null
+          category?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          id?: string
+          memo?: string | null
+          spent_on?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          vendor?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feature_flags: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          description: string | null
+          enabled: boolean
+          id: string
+          key: string
+          rollout: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key: string
+          rollout?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key?: string
+          rollout?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_flags_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      follows: {
+        Row: {
+          created_at: string
+          followee_id: string
+          follower_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          followee_id: string
+          follower_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          followee_id?: string
+          follower_id?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      group_memberships: {
+        Row: {
+          group_id: string
+          id: string
+          joined_at: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          group_id: string
+          id?: string
+          joined_at?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          group_id?: string
+          id?: string
+          joined_at?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_memberships_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      groups: {
+        Row: {
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          description: string | null
+          id: string
+          name: string
+          owner_id: string
+          slug: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+          visibility: string
+        }
+        Insert: {
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          owner_id: string
+          slug: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          visibility?: string
+        }
+        Update: {
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+          slug?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          visibility?: string
+        }
+        Relationships: []
+      }
+      integrations: {
+        Row: {
+          company_id: string
+          config: Json
+          connected_at: string | null
+          connected_by: string | null
+          created_at: string
+          created_by: string | null
+          credentials_ref: string | null
+          deleted_at: string | null
+          id: string
+          provider: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id: string
+          config?: Json
+          connected_at?: string | null
+          connected_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          credentials_ref?: string | null
+          deleted_at?: string | null
+          id?: string
+          provider: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string
+          config?: Json
+          connected_at?: string | null
+          connected_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          credentials_ref?: string | null
+          deleted_at?: string | null
+          id?: string
+          provider?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integrations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_items: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          product_id: string
+          quantity: number
+          reorder_point: number
+          reserved: number
+          updated_at: string
+          warehouse_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          product_id: string
+          quantity?: number
+          reorder_point?: number
+          reserved?: number
+          updated_at?: string
+          warehouse_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          product_id?: string
+          quantity?: number
+          reorder_point?: number
+          reserved?: number
+          updated_at?: string
+          warehouse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_items_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoice_items: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          invoice_id: string
+          product_id: string | null
+          quantity: number
+          tax_cents: number
+          total_cents: number
+          unit_price_cents: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          invoice_id: string
+          product_id?: string | null
+          quantity?: number
+          tax_cents?: number
+          total_cents?: number
+          unit_price_cents?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          invoice_id?: string
+          product_id?: string | null
+          quantity?: number
+          tax_cents?: number
+          total_cents?: number
+          unit_price_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          amount_paid_cents: number
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          customer_id: string | null
+          deleted_at: string | null
+          due_at: string | null
+          id: string
+          issued_at: string | null
+          notes: string | null
+          number: string
+          paid_at: string | null
+          sales_order_id: string | null
+          status: Database["public"]["Enums"]["invoice_status"]
+          subtotal_cents: number
+          tax_cents: number
+          total_cents: number
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          amount_paid_cents?: number
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          deleted_at?: string | null
+          due_at?: string | null
+          id?: string
+          issued_at?: string | null
+          notes?: string | null
+          number: string
+          paid_at?: string | null
+          sales_order_id?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          subtotal_cents?: number
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          amount_paid_cents?: number
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          deleted_at?: string | null
+          due_at?: string | null
+          id?: string
+          issued_at?: string | null
+          notes?: string | null
+          number?: string
+          paid_at?: string | null
+          sales_order_id?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          subtotal_cents?: number
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_sales_order_id_fkey"
+            columns: ["sales_order_id"]
+            isOneToOne: false
+            referencedRelation: "sales_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_queue: {
+        Row: {
+          attempts: number
+          company_id: string | null
+          completed_at: string | null
+          created_at: string
+          error: string | null
+          id: string
+          kind: string
+          max_attempts: number
+          payload: Json
+          priority: number
+          run_after: string
+          started_at: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          company_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          kind: string
+          max_attempts?: number
+          payload?: Json
+          priority?: number
+          run_after?: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          company_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          kind?: string
+          max_attempts?: number
+          payload?: Json
+          priority?: number
+          run_after?: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_queue_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_articles: {
+        Row: {
+          body: string
+          category_id: string | null
+          company_id: string | null
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          is_public: boolean
+          language: string
+          search_vector: unknown
+          slug: string
+          status: Database["public"]["Enums"]["record_status"]
+          summary: string | null
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          body: string
+          category_id?: string | null
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          is_public?: boolean
+          language?: string
+          search_vector?: unknown
+          slug: string
+          status?: Database["public"]["Enums"]["record_status"]
+          summary?: string | null
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          body?: string
+          category_id?: string | null
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          is_public?: boolean
+          language?: string
+          search_vector?: unknown
+          slug?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          summary?: string | null
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_articles_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_articles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_categories: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          description: string | null
+          id: string
+          name: string
+          parent_id: string | null
+          position: number
+          slug: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          parent_id?: string | null
+          position?: number
+          slug: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          parent_id?: string | null
+          position?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_categories_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_references: {
+        Row: {
+          article_id: string
+          created_at: string
+          id: string
+          label: string
+          position: number
+          url: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          id?: string
+          label: string
+          position?: number
+          url?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          id?: string
+          label?: string
+          position?: number
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_references_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      languages: {
+        Row: {
+          code: string
+          created_at: string
+          is_active: boolean
+          is_rtl: boolean
+          name: string
+          native_name: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          is_active?: boolean
+          is_rtl?: boolean
+          name: string
+          native_name?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          is_active?: boolean
+          is_rtl?: boolean
+          name?: string
+          native_name?: string | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          brand_id: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          owner_id: string | null
+          phone: string | null
+          score: number
+          source: string | null
+          stage: Database["public"]["Enums"]["deal_stage"]
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          brand_id?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          score?: number
+          source?: string | null
+          stage?: Database["public"]["Enums"]["deal_stage"]
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          brand_id?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          score?: number
+          source?: string | null
+          stage?: Database["public"]["Enums"]["deal_stage"]
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ledger_entries: {
+        Row: {
+          account_id: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          credit_cents: number
+          currency: string
+          debit_cents: number
+          entry_date: string
+          id: string
+          memo: string | null
+          reference_id: string | null
+          reference_type: string | null
+        }
+        Insert: {
+          account_id: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          credit_cents?: number
+          currency?: string
+          debit_cents?: number
+          entry_date: string
+          id?: string
+          memo?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Update: {
+          account_id?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          credit_cents?: number
+          currency?: string
+          debit_cents?: number
+          entry_date?: string
+          id?: string
+          memo?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_entries_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_progress: {
+        Row: {
+          completed: boolean
+          created_at: string
+          enrollment_id: string | null
+          id: string
+          last_seen_at: string
+          lesson_id: string
+          metadata: Json
+          progress_seconds: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          enrollment_id?: string | null
+          id?: string
+          last_seen_at?: string
+          lesson_id: string
+          metadata?: Json
+          progress_seconds?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          enrollment_id?: string | null
+          id?: string
+          last_seen_at?: string
+          lesson_id?: string
+          metadata?: Json
+          progress_seconds?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_progress_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "course_enrollments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_progress_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lessons: {
+        Row: {
+          company_id: string | null
+          content: Json
+          course_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          duration_seconds: number | null
+          id: string
+          kind: string
+          media_url: string | null
+          module_id: string
+          position: number
+          status: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          content?: Json
+          course_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          kind?: string
+          media_url?: string | null
+          module_id: string
+          position?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          content?: Json
+          course_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          kind?: string
+          media_url?: string | null
+          module_id?: string
+          position?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lessons_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "course_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listing_reviews: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          listing_id: string
+          rating: number
+          reviewer_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          listing_id: string
+          rating: number
+          reviewer_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          listing_id?: string
+          rating?: number
+          reviewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_reviews_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listings: {
+        Row: {
+          category: string | null
+          company_id: string | null
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          deleted_at: string | null
+          description: string | null
+          id: string
+          price_cents: number
+          product_id: string | null
+          rating_avg: number
+          rating_count: number
+          seller_id: string
+          slug: string
+          status: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          category?: string | null
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          price_cents?: number
+          product_id?: string | null
+          rating_avg?: number
+          rating_count?: number
+          seller_id: string
+          slug: string
+          status?: Database["public"]["Enums"]["record_status"]
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          category?: string | null
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          price_cents?: number
+          product_id?: string | null
+          rating_avg?: number
+          rating_count?: number
+          seller_id?: string
+          slug?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listings_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_transactions: {
+        Row: {
+          amount_cents: number
+          buyer_id: string
+          completed_at: string | null
+          created_at: string
+          currency: string
+          id: string
+          listing_id: string | null
+          provider: string | null
+          provider_ref: string | null
+          seller_id: string
+          status: Database["public"]["Enums"]["payment_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          buyer_id: string
+          completed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          listing_id?: string | null
+          provider?: string | null
+          provider_ref?: string | null
+          seller_id: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          buyer_id?: string
+          completed_at?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          listing_id?: string | null
+          provider?: string | null
+          provider_ref?: string | null
+          seller_id?: string
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_transactions_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      media_assets: {
+        Row: {
+          bucket: string
+          checksum: string | null
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          duration_seconds: number | null
+          height: number | null
+          id: string
+          metadata: Json
+          mime_type: string | null
+          owner_id: string
+          path: string
+          size_bytes: number | null
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+          width: number | null
+        }
+        Insert: {
+          bucket: string
+          checksum?: string | null
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          duration_seconds?: number | null
+          height?: number | null
+          id?: string
+          metadata?: Json
+          mime_type?: string | null
+          owner_id: string
+          path: string
+          size_bytes?: number | null
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          width?: number | null
+        }
+        Update: {
+          bucket?: string
+          checksum?: string | null
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          duration_seconds?: number | null
+          height?: number | null
+          id?: string
+          metadata?: Json
+          mime_type?: string | null
+          owner_id?: string
+          path?: string
+          size_bytes?: number | null
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_assets_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string
@@ -475,6 +3223,89 @@ export type Database = {
             columns: ["conversation_id"]
             isOneToOne: false
             referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_preferences: {
+        Row: {
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at: string
+          enabled: boolean
+          id: string
+          kind: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          action_url: string | null
+          body: string | null
+          channel: Database["public"]["Enums"]["notification_channel"]
+          company_id: string | null
+          created_at: string
+          delivered_at: string | null
+          id: string
+          kind: string
+          payload: Json
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          body?: string | null
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          company_id?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          id?: string
+          kind: string
+          payload?: Json
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          body?: string | null
+          channel?: Database["public"]["Enums"]["notification_channel"]
+          company_id?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          id?: string
+          kind?: string
+          payload?: Json
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
@@ -536,6 +3367,76 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          amount_cents: number
+          company_id: string
+          created_at: string
+          currency: string
+          customer_id: string | null
+          id: string
+          invoice_id: string | null
+          metadata: Json
+          provider: string | null
+          provider_ref: string | null
+          received_at: string | null
+          status: Database["public"]["Enums"]["payment_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          company_id: string
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          invoice_id?: string | null
+          metadata?: Json
+          provider?: string | null
+          provider_ref?: string | null
+          received_at?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          company_id?: string
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          id?: string
+          invoice_id?: string | null
+          metadata?: Json
+          provider?: string | null
+          provider_ref?: string | null
+          received_at?: string | null
+          status?: Database["public"]["Enums"]["payment_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       permissions: {
         Row: {
           category: string
@@ -560,6 +3461,245 @@ export type Database = {
         }
         Relationships: []
       }
+      posts: {
+        Row: {
+          author_id: string
+          body: string
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          group_id: string | null
+          id: string
+          media: Json
+          reaction_count: number
+          reply_count: number
+          status: Database["public"]["Enums"]["record_status"]
+          title: string | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+          visibility: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          group_id?: string | null
+          id?: string
+          media?: Json
+          reaction_count?: number
+          reply_count?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          visibility?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          group_id?: string | null
+          id?: string
+          media?: Json
+          reaction_count?: number
+          reply_count?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          title?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_categories: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          name: string
+          parent_id: string | null
+          position: number
+          slug: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          name: string
+          parent_id?: string | null
+          position?: number
+          slug: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          name?: string
+          parent_id?: string | null
+          position?: number
+          slug?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_categories_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          attributes: Json
+          brand_id: string | null
+          category_id: string | null
+          company_id: string
+          cost_cents: number
+          created_at: string
+          created_by: string | null
+          currency: string
+          deleted_at: string | null
+          description: string | null
+          id: string
+          is_service: boolean
+          name: string
+          price_cents: number
+          sku: string | null
+          status: Database["public"]["Enums"]["record_status"]
+          tax_rate_id: string | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+          weight_grams: number | null
+        }
+        Insert: {
+          attributes?: Json
+          brand_id?: string | null
+          category_id?: string | null
+          company_id: string
+          cost_cents?: number
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          is_service?: boolean
+          name: string
+          price_cents?: number
+          sku?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_rate_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          weight_grams?: number | null
+        }
+        Update: {
+          attributes?: Json
+          brand_id?: string | null
+          category_id?: string | null
+          company_id?: string
+          cost_cents?: number
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          is_service?: boolean
+          name?: string
+          price_cents?: number
+          sku?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_rate_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          weight_grams?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_products_tax"
+            columns: ["tax_rate_id"]
+            isOneToOne: false
+            referencedRelation: "tax_rates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -583,6 +3723,377 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      purchase_order_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          product_id: string | null
+          purchase_order_id: string
+          quantity: number
+          total_cents: number
+          unit_cost_cents: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          product_id?: string | null
+          purchase_order_id: string
+          quantity?: number
+          total_cents?: number
+          unit_cost_cents?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          product_id?: string | null
+          purchase_order_id?: string
+          quantity?: number
+          total_cents?: number
+          unit_cost_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_order_items_purchase_order_id_fkey"
+            columns: ["purchase_order_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      purchase_orders: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          deleted_at: string | null
+          id: string
+          notes: string | null
+          number: string
+          ordered_at: string | null
+          received_at: string | null
+          status: Database["public"]["Enums"]["record_status"]
+          subtotal_cents: number
+          supplier_id: string | null
+          tax_cents: number
+          total_cents: number
+          updated_at: string
+          updated_by: string | null
+          version: number
+          warehouse_id: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          id?: string
+          notes?: string | null
+          number: string
+          ordered_at?: string | null
+          received_at?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          subtotal_cents?: number
+          supplier_id?: string | null
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          warehouse_id?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deleted_at?: string | null
+          id?: string
+          notes?: string | null
+          number?: string
+          ordered_at?: string | null
+          received_at?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          subtotal_cents?: number
+          supplier_id?: string | null
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          warehouse_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_orders_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_orders_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_orders_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_attempts: {
+        Row: {
+          answers: Json
+          created_at: string
+          id: string
+          passed: boolean | null
+          quiz_id: string
+          score: number | null
+          started_at: string
+          submitted_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          passed?: boolean | null
+          quiz_id: string
+          score?: number | null
+          started_at?: string
+          submitted_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          passed?: boolean | null
+          quiz_id?: string
+          score?: number | null
+          started_at?: string
+          submitted_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_questions: {
+        Row: {
+          choices: Json
+          correct: Json
+          created_at: string
+          explanation: string | null
+          id: string
+          kind: string
+          points: number
+          position: number
+          prompt: string
+          quiz_id: string
+          updated_at: string
+        }
+        Insert: {
+          choices?: Json
+          correct?: Json
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          kind?: string
+          points?: number
+          position?: number
+          prompt: string
+          quiz_id: string
+          updated_at?: string
+        }
+        Update: {
+          choices?: Json
+          correct?: Json
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          kind?: string
+          points?: number
+          position?: number
+          prompt?: string
+          quiz_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_questions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          company_id: string | null
+          course_id: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          lesson_id: string | null
+          passing_score: number
+          status: Database["public"]["Enums"]["record_status"]
+          time_limit_seconds: number | null
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          lesson_id?: string | null
+          passing_score?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          time_limit_seconds?: number | null
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          lesson_id?: string | null
+          passing_score?: number
+          status?: Database["public"]["Enums"]["record_status"]
+          time_limit_seconds?: number | null
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizzes_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quizzes_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quizzes_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reactions: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          target_id: string
+          target_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          target_id: string
+          target_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          target_id?: string
+          target_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      remote_config: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          id: string
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value: Json
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "remote_config_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       role_assignments: {
         Row: {
@@ -702,6 +4213,189 @@ export type Database = {
           },
         ]
       }
+      sales_order_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          product_id: string | null
+          quantity: number
+          sales_order_id: string
+          total_cents: number
+          unit_price_cents: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number
+          sales_order_id: string
+          total_cents?: number
+          unit_price_cents?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number
+          sales_order_id?: string
+          total_cents?: number
+          unit_price_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_order_items_sales_order_id_fkey"
+            columns: ["sales_order_id"]
+            isOneToOne: false
+            referencedRelation: "sales_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales_orders: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          customer_id: string | null
+          deleted_at: string | null
+          fulfilled_at: string | null
+          id: string
+          notes: string | null
+          number: string
+          ordered_at: string | null
+          status: Database["public"]["Enums"]["record_status"]
+          subtotal_cents: number
+          tax_cents: number
+          total_cents: number
+          updated_at: string
+          updated_by: string | null
+          version: number
+          warehouse_id: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          deleted_at?: string | null
+          fulfilled_at?: string | null
+          id?: string
+          notes?: string | null
+          number: string
+          ordered_at?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          subtotal_cents?: number
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          warehouse_id?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_id?: string | null
+          deleted_at?: string | null
+          fulfilled_at?: string | null
+          id?: string
+          notes?: string | null
+          number?: string
+          ordered_at?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          subtotal_cents?: number
+          tax_cents?: number
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          warehouse_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_orders_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_orders_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_orders_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scheduled_jobs: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          cron: string
+          id: string
+          is_active: boolean
+          last_run_at: string | null
+          name: string
+          next_run_at: string | null
+          payload: Json
+          updated_at: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          cron: string
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          name: string
+          next_run_at?: string | null
+          payload?: Json
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          cron?: string
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          name?: string
+          next_run_at?: string | null
+          payload?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_jobs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       settings: {
         Row: {
           created_at: string
@@ -734,6 +4428,115 @@ export type Database = {
           value?: Json
         }
         Relationships: []
+      }
+      suppliers: {
+        Row: {
+          address: Json
+          code: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          status: Database["public"]["Enums"]["record_status"]
+          tax_id: string | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          address?: Json
+          code?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          address?: Json
+          code?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          tax_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suppliers_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tax_rates: {
+        Row: {
+          code: string
+          company_id: string
+          country: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          rate_bps: number
+          region: string | null
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          company_id: string
+          country?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          rate_bps: number
+          region?: string | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          country?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          rate_bps?: number
+          region?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tax_rates_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       teams: {
         Row: {
@@ -783,6 +4586,60 @@ export type Database = {
           },
         ]
       }
+      user_preferences: {
+        Row: {
+          ai_persona_id: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          locale: string
+          notification_channels: Json
+          preferences: Json
+          reduced_motion: boolean
+          theme: string
+          timezone: string
+          updated_at: string
+          updated_by: string | null
+          user_id: string
+          version: number
+        }
+        Insert: {
+          ai_persona_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          locale?: string
+          notification_channels?: Json
+          preferences?: Json
+          reduced_motion?: boolean
+          theme?: string
+          timezone?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id: string
+          version?: number
+        }
+        Update: {
+          ai_persona_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          locale?: string
+          notification_channels?: Json
+          preferences?: Json
+          reduced_motion?: boolean
+          theme?: string
+          timezone?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string
+          version?: number
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -803,6 +4660,262 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      warehouses: {
+        Row: {
+          address: Json
+          code: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          name: string
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          address?: Json
+          code?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          name: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          address?: Json
+          code?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          name?: string
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "warehouses_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      webhook_deliveries: {
+        Row: {
+          attempts: number
+          created_at: string
+          event: string
+          failed_at: string | null
+          id: string
+          next_attempt_at: string | null
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          succeeded_at: string | null
+          webhook_id: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          event: string
+          failed_at?: string | null
+          id?: string
+          next_attempt_at?: string | null
+          payload: Json
+          response_body?: string | null
+          response_status?: number | null
+          succeeded_at?: string | null
+          webhook_id: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          event?: string
+          failed_at?: string | null
+          id?: string
+          next_attempt_at?: string | null
+          payload?: Json
+          response_body?: string | null
+          response_status?: number | null
+          succeeded_at?: string | null
+          webhook_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webhook_deliveries_webhook_id_fkey"
+            columns: ["webhook_id"]
+            isOneToOne: false
+            referencedRelation: "webhooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      webhooks: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          events: string[]
+          id: string
+          is_active: boolean
+          name: string
+          secret: string
+          updated_at: string
+          updated_by: string | null
+          url: string
+          version: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          events?: string[]
+          id?: string
+          is_active?: boolean
+          name: string
+          secret: string
+          updated_at?: string
+          updated_by?: string | null
+          url: string
+          version?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          events?: string[]
+          id?: string
+          is_active?: boolean
+          name?: string
+          secret?: string
+          updated_at?: string
+          updated_by?: string | null
+          url?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webhooks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_runs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error: string | null
+          id: string
+          input: Json | null
+          output: Json | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          workflow_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input?: Json | null
+          output?: Json | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          workflow_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input?: Json | null
+          output?: Json | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_runs_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflows: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          id: string
+          is_active: boolean
+          name: string
+          steps: Json
+          trigger: Json
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          steps?: Json
+          trigger?: Json
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          steps?: Json
+          trigger?: Json
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflows_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       workspace_memberships: {
         Row: {
@@ -908,6 +5021,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _hxp_attach_touch: { Args: { _tbl: unknown }; Returns: undefined }
       get_effective_setting: {
         Args: {
           _brand_id?: string
@@ -964,10 +5078,36 @@ export type Database = {
       }
     }
     Enums: {
+      ai_session_status: "active" | "ended" | "error"
       app_role: "founder" | "admin" | "enterprise" | "user"
       audit_severity: "info" | "notice" | "warning" | "critical"
+      deal_stage:
+        | "lead"
+        | "qualified"
+        | "proposal"
+        | "negotiation"
+        | "won"
+        | "lost"
+      enrollment_status: "enrolled" | "in_progress" | "completed" | "dropped"
       entity_status: "active" | "inactive" | "archived" | "suspended"
+      invoice_status:
+        | "draft"
+        | "sent"
+        | "paid"
+        | "overdue"
+        | "void"
+        | "refunded"
+      job_status: "queued" | "running" | "succeeded" | "failed" | "cancelled"
       membership_status: "invited" | "active" | "suspended" | "removed"
+      notification_channel: "in_app" | "email" | "sms" | "push" | "webhook"
+      payment_status: "pending" | "succeeded" | "failed" | "refunded"
+      record_status:
+        | "draft"
+        | "active"
+        | "archived"
+        | "deleted"
+        | "pending"
+        | "suspended"
       scope_type:
         | "platform"
         | "company"
@@ -1102,10 +5242,32 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      ai_session_status: ["active", "ended", "error"],
       app_role: ["founder", "admin", "enterprise", "user"],
       audit_severity: ["info", "notice", "warning", "critical"],
+      deal_stage: [
+        "lead",
+        "qualified",
+        "proposal",
+        "negotiation",
+        "won",
+        "lost",
+      ],
+      enrollment_status: ["enrolled", "in_progress", "completed", "dropped"],
       entity_status: ["active", "inactive", "archived", "suspended"],
+      invoice_status: ["draft", "sent", "paid", "overdue", "void", "refunded"],
+      job_status: ["queued", "running", "succeeded", "failed", "cancelled"],
       membership_status: ["invited", "active", "suspended", "removed"],
+      notification_channel: ["in_app", "email", "sms", "push", "webhook"],
+      payment_status: ["pending", "succeeded", "failed", "refunded"],
+      record_status: [
+        "draft",
+        "active",
+        "archived",
+        "deleted",
+        "pending",
+        "suspended",
+      ],
       scope_type: [
         "platform",
         "company",
