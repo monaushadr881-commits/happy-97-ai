@@ -121,7 +121,11 @@ export const opsSecurityAudit = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const rows = await guard(() => securityOpsService.recentAudit(svc(context), data));
     // ip_address is Postgres inet (unknown) — coerce to string for RPC serialization.
-    return rows.map((r) => ({ ...r, ip_address: r.ip_address == null ? null : String(r.ip_address) }));
+    const safe = rows.map((r) => {
+      const { ip_address, ...rest } = r as typeof r & { ip_address: unknown };
+      return { ...rest, ip_address: ip_address == null ? null : String(ip_address) };
+    });
+    return safe as Array<Omit<(typeof rows)[number], "ip_address"> & { ip_address: string | null }>;
   });
 
 // ---- AI Ops ----
