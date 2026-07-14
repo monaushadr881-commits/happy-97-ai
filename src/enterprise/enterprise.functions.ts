@@ -150,7 +150,10 @@ export const upsertSetting = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => UpsertSettingInput.parse(i))
   .handler(async ({ data, context }) => {
-    const s = await settingsRepo(context.supabase).upsert({ ...data, value: (data.value ?? null) as import("./types").Json });
+    const value = (data.value ?? null) as import("./types").Json;
+    const s = await settingsRepo(context.supabase).upsert({
+      scope_type: data.scope_type, scope_id: data.scope_id, key: data.key, value,
+    });
     await auditRepo(context.supabase).write({
       category: "admin", action: "setting.updated",
       entity_type: "setting", entity_id: s.id,
