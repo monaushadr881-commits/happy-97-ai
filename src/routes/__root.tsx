@@ -80,19 +80,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "HAPPY X — The Human-Centered AI Operating Platform" },
+      { title: "HAPPY X — Human-Centered AI Operating Platform" },
       {
         name: "description",
         content:
-          "HAPPY X by HAPPY PERSON PRIVATE LIMITED. A sovereign AI operating platform uniting a 3D digital human, education, business OS, creator studio and enterprise intelligence.",
+          "HAPPY X by HAPPY PERSON PRIVATE LIMITED. The Enterprise AI Partner — a Human-Centered AI Operating Platform that helps you learn, build and grow, powered by HAPPY, the single digital human.",
       },
       { name: "author", content: "HAPPY PERSON PRIVATE LIMITED" },
       { name: "theme-color", content: "#0B0B0D" },
-      { property: "og:title", content: "HAPPY X — The Human-Centered AI Operating Platform" },
+      { property: "og:title", content: "HAPPY X — Human-Centered AI Operating Platform" },
       {
         property: "og:description",
         content:
-          "A sovereign AI operating platform uniting a 3D digital human, education, business OS, creator studio and enterprise intelligence.",
+          "The Enterprise AI Partner. HAPPY helps you learn, build and grow — from HAPPY PERSON PRIVATE LIMITED.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

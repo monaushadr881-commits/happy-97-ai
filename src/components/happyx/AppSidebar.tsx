@@ -28,6 +28,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import hpLogoAsset from "@/assets/hp-logo.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -107,14 +108,20 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-charcoal">
-      <SidebarHeader className="border-b border-white/5 h-14 flex-row items-center px-4">
-        <div className="h-8 w-8 rounded-md bg-gradient-to-br from-gold to-gold-deep flex items-center justify-center text-obsidian font-black text-sm shrink-0">
-          H
+      <SidebarHeader className="border-b border-white/5 h-14 flex-row items-center gap-2 px-3">
+        <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-gold/30 bg-obsidian shadow-[0_0_18px_-6px_rgba(212,175,55,0.6)]">
+          <img
+            src={hpLogoAsset.url}
+            alt="HAPPY PERSON PRIVATE LIMITED"
+            className="h-full w-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
         </div>
         {!collapsed && (
-          <div className="flex flex-col leading-tight ml-1">
+          <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold text-paper tracking-tight">HAPPY X</span>
-            <span className="text-[9px] uppercase tracking-[0.2em] text-gold/70">Executive</span>
+            <span className="text-[9px] uppercase tracking-[0.22em] text-gold/70">Enterprise AI Partner</span>
           </div>
         )}
       </SidebarHeader>
