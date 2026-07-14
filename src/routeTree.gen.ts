@@ -23,10 +23,13 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedRuntimeRouteImport } from './routes/_authenticated/runtime'
 import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
 import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins'
+import { Route as AuthenticatedNativeRouteImport } from './routes/_authenticated/native'
+import { Route as AuthenticatedMonitoringRouteImport } from './routes/_authenticated/monitoring'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMemoryRouteImport } from './routes/_authenticated/memory'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
+import { Route as AuthenticatedIotRouteImport } from './routes/_authenticated/iot'
 import { Route as AuthenticatedIntelligenceRouteImport } from './routes/_authenticated/intelligence'
 import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authenticated/hyperlocal'
 import { Route as AuthenticatedGlobalRouteImport } from './routes/_authenticated/global'
@@ -35,15 +38,19 @@ import { Route as AuthenticatedExecutionRouteImport } from './routes/_authentica
 import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_authenticated/enterprise-cloud'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
+import { Route as AuthenticatedDigitalTwinRouteImport } from './routes/_authenticated/digital-twin'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
 import { Route as AuthenticatedDevelopersRouteImport } from './routes/_authenticated/developers'
 import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticated/decision'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
+import { Route as AuthenticatedCloudRouteImport } from './routes/_authenticated/cloud'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedBrainRouteImport } from './routes/_authenticated/brain'
+import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
 import { Route as AuthenticatedAutonomousRouteImport } from './routes/_authenticated/autonomous'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated/agents'
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
@@ -308,6 +315,16 @@ const AuthenticatedPluginsRoute = AuthenticatedPluginsRouteImport.update({
   path: '/plugins',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNativeRoute = AuthenticatedNativeRouteImport.update({
+  id: '/native',
+  path: '/native',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMonitoringRoute = AuthenticatedMonitoringRouteImport.update({
+  id: '/monitoring',
+  path: '/monitoring',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
@@ -327,6 +344,11 @@ const AuthenticatedMarketplaceRoute =
 const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedIotRoute = AuthenticatedIotRouteImport.update({
+  id: '/iot',
+  path: '/iot',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedIntelligenceRoute =
@@ -371,6 +393,12 @@ const AuthenticatedEducationRoute = AuthenticatedEducationRouteImport.update({
   path: '/education',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDigitalTwinRoute =
+  AuthenticatedDigitalTwinRouteImport.update({
+    id: '/digital-twin',
+    path: '/digital-twin',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDigitalHumanRoute =
   AuthenticatedDigitalHumanRouteImport.update({
     id: '/digital-human',
@@ -397,6 +425,11 @@ const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCloudRoute = AuthenticatedCloudRouteImport.update({
+  id: '/cloud',
+  path: '/cloud',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
   id: '/business',
   path: '/business',
@@ -407,6 +440,11 @@ const AuthenticatedBrainRoute = AuthenticatedBrainRouteImport.update({
   path: '/brain',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBillingRoute = AuthenticatedBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAutonomousRoute = AuthenticatedAutonomousRouteImport.update({
   id: '/autonomous',
   path: '/autonomous',
@@ -415,6 +453,11 @@ const AuthenticatedAutonomousRoute = AuthenticatedAutonomousRouteImport.update({
 const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAgentOsRoute = AuthenticatedAgentOsRouteImport.update({
@@ -1461,27 +1504,27 @@ const AuthenticatedBrainAnalyticsRoute =
   } as any)
 const AuthenticatedAgentsRuntimeRoute =
   AuthenticatedAgentsRuntimeRouteImport.update({
-    id: '/agents/runtime',
-    path: '/agents/runtime',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/runtime',
+    path: '/runtime',
+    getParentRoute: () => AuthenticatedAgentsRoute,
   } as any)
 const AuthenticatedAgentsMetricsRoute =
   AuthenticatedAgentsMetricsRouteImport.update({
-    id: '/agents/metrics',
-    path: '/agents/metrics',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/metrics',
+    path: '/metrics',
+    getParentRoute: () => AuthenticatedAgentsRoute,
   } as any)
 const AuthenticatedAgentsExecutionRoute =
   AuthenticatedAgentsExecutionRouteImport.update({
-    id: '/agents/execution',
-    path: '/agents/execution',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/execution',
+    path: '/execution',
+    getParentRoute: () => AuthenticatedAgentsRoute,
   } as any)
 const AuthenticatedAgentsCollaborationRoute =
   AuthenticatedAgentsCollaborationRouteImport.update({
-    id: '/agents/collaboration',
-    path: '/agents/collaboration',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/collaboration',
+    path: '/collaboration',
+    getParentRoute: () => AuthenticatedAgentsRoute,
   } as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
@@ -1579,15 +1622,19 @@ export interface FileRoutesByFullPath {
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
+  '/agents': typeof AuthenticatedAgentsRouteWithChildren
   '/assistant': typeof AuthenticatedAssistantRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
+  '/billing': typeof AuthenticatedBillingRoute
   '/brain': typeof AuthenticatedBrainRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
+  '/cloud': typeof AuthenticatedCloudRoute
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
+  '/digital-twin': typeof AuthenticatedDigitalTwinRoute
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
@@ -1596,10 +1643,13 @@ export interface FileRoutesByFullPath {
   '/global': typeof AuthenticatedGlobalRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
   '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
+  '/iot': typeof AuthenticatedIotRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/monitoring': typeof AuthenticatedMonitoringRoute
+  '/native': typeof AuthenticatedNativeRoute
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/runtime': typeof AuthenticatedRuntimeRouteWithChildren
@@ -1809,16 +1859,23 @@ export interface FileRoutesByTo {
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
+  '/agents': typeof AuthenticatedAgentsRouteWithChildren
   '/assistant': typeof AuthenticatedAssistantRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
+  '/billing': typeof AuthenticatedBillingRoute
+  '/cloud': typeof AuthenticatedCloudRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
+  '/digital-twin': typeof AuthenticatedDigitalTwinRoute
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/execution': typeof AuthenticatedExecutionRouteWithChildren
   '/global': typeof AuthenticatedGlobalRoute
   '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
+  '/iot': typeof AuthenticatedIotRoute
   '/memory': typeof AuthenticatedMemoryRouteWithChildren
+  '/monitoring': typeof AuthenticatedMonitoringRoute
+  '/native': typeof AuthenticatedNativeRoute
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/runtime': typeof AuthenticatedRuntimeRouteWithChildren
@@ -2029,15 +2086,19 @@ export interface FileRoutesById {
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
+  '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/autonomous': typeof AuthenticatedAutonomousRoute
+  '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/brain': typeof AuthenticatedBrainRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
+  '/_authenticated/cloud': typeof AuthenticatedCloudRoute
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/_authenticated/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
+  '/_authenticated/digital-twin': typeof AuthenticatedDigitalTwinRoute
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
@@ -2046,10 +2107,13 @@ export interface FileRoutesById {
   '/_authenticated/global': typeof AuthenticatedGlobalRoute
   '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
   '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
+  '/_authenticated/iot': typeof AuthenticatedIotRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/_authenticated/monitoring': typeof AuthenticatedMonitoringRoute
+  '/_authenticated/native': typeof AuthenticatedNativeRoute
   '/_authenticated/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
   '/_authenticated/runtime': typeof AuthenticatedRuntimeRouteWithChildren
@@ -2261,15 +2325,19 @@ export interface FileRouteTypes {
     | '/status'
     | '/trust'
     | '/agent-os'
+    | '/agents'
     | '/assistant'
     | '/autonomous'
+    | '/billing'
     | '/brain'
     | '/business'
+    | '/cloud'
     | '/community'
     | '/dashboard'
     | '/decision'
     | '/developers'
     | '/digital-human'
+    | '/digital-twin'
     | '/education'
     | '/enterprise'
     | '/enterprise-cloud'
@@ -2278,10 +2346,13 @@ export interface FileRouteTypes {
     | '/global'
     | '/hyperlocal'
     | '/intelligence'
+    | '/iot'
     | '/knowledge'
     | '/marketplace'
     | '/memory'
     | '/messages'
+    | '/monitoring'
+    | '/native'
     | '/plugins'
     | '/roadmap'
     | '/runtime'
@@ -2491,16 +2562,23 @@ export interface FileRouteTypes {
     | '/status'
     | '/trust'
     | '/agent-os'
+    | '/agents'
     | '/assistant'
     | '/autonomous'
+    | '/billing'
+    | '/cloud'
     | '/dashboard'
     | '/decision'
     | '/developers'
+    | '/digital-twin'
     | '/enterprise-cloud'
     | '/execution'
     | '/global'
     | '/intelligence'
+    | '/iot'
     | '/memory'
+    | '/monitoring'
+    | '/native'
     | '/plugins'
     | '/roadmap'
     | '/runtime'
@@ -2710,15 +2788,19 @@ export interface FileRouteTypes {
     | '/status'
     | '/trust'
     | '/_authenticated/agent-os'
+    | '/_authenticated/agents'
     | '/_authenticated/assistant'
     | '/_authenticated/autonomous'
+    | '/_authenticated/billing'
     | '/_authenticated/brain'
     | '/_authenticated/business'
+    | '/_authenticated/cloud'
     | '/_authenticated/community'
     | '/_authenticated/dashboard'
     | '/_authenticated/decision'
     | '/_authenticated/developers'
     | '/_authenticated/digital-human'
+    | '/_authenticated/digital-twin'
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
     | '/_authenticated/enterprise-cloud'
@@ -2727,10 +2809,13 @@ export interface FileRouteTypes {
     | '/_authenticated/global'
     | '/_authenticated/hyperlocal'
     | '/_authenticated/intelligence'
+    | '/_authenticated/iot'
     | '/_authenticated/knowledge'
     | '/_authenticated/marketplace'
     | '/_authenticated/memory'
     | '/_authenticated/messages'
+    | '/_authenticated/monitoring'
+    | '/_authenticated/native'
     | '/_authenticated/plugins'
     | '/_authenticated/roadmap'
     | '/_authenticated/runtime'
@@ -3046,6 +3131,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPluginsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/native': {
+      id: '/_authenticated/native'
+      path: '/native'
+      fullPath: '/native'
+      preLoaderRoute: typeof AuthenticatedNativeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/monitoring': {
+      id: '/_authenticated/monitoring'
+      path: '/monitoring'
+      fullPath: '/monitoring'
+      preLoaderRoute: typeof AuthenticatedMonitoringRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/messages': {
       id: '/_authenticated/messages'
       path: '/messages'
@@ -3072,6 +3171,13 @@ declare module '@tanstack/react-router' {
       path: '/knowledge'
       fullPath: '/knowledge'
       preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/iot': {
+      id: '/_authenticated/iot'
+      path: '/iot'
+      fullPath: '/iot'
+      preLoaderRoute: typeof AuthenticatedIotRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/intelligence': {
@@ -3130,6 +3236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEducationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/digital-twin': {
+      id: '/_authenticated/digital-twin'
+      path: '/digital-twin'
+      fullPath: '/digital-twin'
+      preLoaderRoute: typeof AuthenticatedDigitalTwinRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/digital-human': {
       id: '/_authenticated/digital-human'
       path: '/digital-human'
@@ -3165,6 +3278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCommunityRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/cloud': {
+      id: '/_authenticated/cloud'
+      path: '/cloud'
+      fullPath: '/cloud'
+      preLoaderRoute: typeof AuthenticatedCloudRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/business': {
       id: '/_authenticated/business'
       path: '/business'
@@ -3179,6 +3299,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBrainRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/billing': {
+      id: '/_authenticated/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof AuthenticatedBillingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/autonomous': {
       id: '/_authenticated/autonomous'
       path: '/autonomous'
@@ -3191,6 +3318,13 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/agents': {
+      id: '/_authenticated/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AuthenticatedAgentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/agent-os': {
@@ -4420,31 +4554,31 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/agents/runtime': {
       id: '/_authenticated/agents/runtime'
-      path: '/agents/runtime'
+      path: '/runtime'
       fullPath: '/agents/runtime'
       preLoaderRoute: typeof AuthenticatedAgentsRuntimeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAgentsRoute
     }
     '/_authenticated/agents/metrics': {
       id: '/_authenticated/agents/metrics'
-      path: '/agents/metrics'
+      path: '/metrics'
       fullPath: '/agents/metrics'
       preLoaderRoute: typeof AuthenticatedAgentsMetricsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAgentsRoute
     }
     '/_authenticated/agents/execution': {
       id: '/_authenticated/agents/execution'
-      path: '/agents/execution'
+      path: '/execution'
       fullPath: '/agents/execution'
       preLoaderRoute: typeof AuthenticatedAgentsExecutionRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAgentsRoute
     }
     '/_authenticated/agents/collaboration': {
       id: '/_authenticated/agents/collaboration'
-      path: '/agents/collaboration'
+      path: '/collaboration'
       fullPath: '/agents/collaboration'
       preLoaderRoute: typeof AuthenticatedAgentsCollaborationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAgentsRoute
     }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
@@ -4553,6 +4687,45 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedAgentsCollaborationRouteChildren {
+  AuthenticatedAgentsCollaborationAnalyticsRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRoute
+  AuthenticatedAgentsCollaborationHistoryRoute: typeof AuthenticatedAgentsCollaborationHistoryRoute
+  AuthenticatedAgentsCollaborationLiveRoute: typeof AuthenticatedAgentsCollaborationLiveRoute
+}
+
+const AuthenticatedAgentsCollaborationRouteChildren: AuthenticatedAgentsCollaborationRouteChildren =
+  {
+    AuthenticatedAgentsCollaborationAnalyticsRoute:
+      AuthenticatedAgentsCollaborationAnalyticsRoute,
+    AuthenticatedAgentsCollaborationHistoryRoute:
+      AuthenticatedAgentsCollaborationHistoryRoute,
+    AuthenticatedAgentsCollaborationLiveRoute:
+      AuthenticatedAgentsCollaborationLiveRoute,
+  }
+
+const AuthenticatedAgentsCollaborationRouteWithChildren =
+  AuthenticatedAgentsCollaborationRoute._addFileChildren(
+    AuthenticatedAgentsCollaborationRouteChildren,
+  )
+
+interface AuthenticatedAgentsRouteChildren {
+  AuthenticatedAgentsCollaborationRoute: typeof AuthenticatedAgentsCollaborationRouteWithChildren
+  AuthenticatedAgentsExecutionRoute: typeof AuthenticatedAgentsExecutionRoute
+  AuthenticatedAgentsMetricsRoute: typeof AuthenticatedAgentsMetricsRoute
+  AuthenticatedAgentsRuntimeRoute: typeof AuthenticatedAgentsRuntimeRoute
+}
+
+const AuthenticatedAgentsRouteChildren: AuthenticatedAgentsRouteChildren = {
+  AuthenticatedAgentsCollaborationRoute:
+    AuthenticatedAgentsCollaborationRouteWithChildren,
+  AuthenticatedAgentsExecutionRoute: AuthenticatedAgentsExecutionRoute,
+  AuthenticatedAgentsMetricsRoute: AuthenticatedAgentsMetricsRoute,
+  AuthenticatedAgentsRuntimeRoute: AuthenticatedAgentsRuntimeRoute,
+}
+
+const AuthenticatedAgentsRouteWithChildren =
+  AuthenticatedAgentsRoute._addFileChildren(AuthenticatedAgentsRouteChildren)
 
 interface AuthenticatedBrainRouteChildren {
   AuthenticatedBrainAnalyticsRoute: typeof AuthenticatedBrainAnalyticsRoute
@@ -5232,38 +5405,21 @@ const AuthenticatedWorkflowsRouteWithChildren =
     AuthenticatedWorkflowsRouteChildren,
   )
 
-interface AuthenticatedAgentsCollaborationRouteChildren {
-  AuthenticatedAgentsCollaborationAnalyticsRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRoute
-  AuthenticatedAgentsCollaborationHistoryRoute: typeof AuthenticatedAgentsCollaborationHistoryRoute
-  AuthenticatedAgentsCollaborationLiveRoute: typeof AuthenticatedAgentsCollaborationLiveRoute
-}
-
-const AuthenticatedAgentsCollaborationRouteChildren: AuthenticatedAgentsCollaborationRouteChildren =
-  {
-    AuthenticatedAgentsCollaborationAnalyticsRoute:
-      AuthenticatedAgentsCollaborationAnalyticsRoute,
-    AuthenticatedAgentsCollaborationHistoryRoute:
-      AuthenticatedAgentsCollaborationHistoryRoute,
-    AuthenticatedAgentsCollaborationLiveRoute:
-      AuthenticatedAgentsCollaborationLiveRoute,
-  }
-
-const AuthenticatedAgentsCollaborationRouteWithChildren =
-  AuthenticatedAgentsCollaborationRoute._addFileChildren(
-    AuthenticatedAgentsCollaborationRouteChildren,
-  )
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
+  AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedAutonomousRoute: typeof AuthenticatedAutonomousRoute
+  AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
   AuthenticatedBrainRoute: typeof AuthenticatedBrainRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
+  AuthenticatedCloudRoute: typeof AuthenticatedCloudRoute
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
   AuthenticatedDevelopersRoute: typeof AuthenticatedDevelopersRouteWithChildren
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
+  AuthenticatedDigitalTwinRoute: typeof AuthenticatedDigitalTwinRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedEnterpriseCloudRoute: typeof AuthenticatedEnterpriseCloudRoute
@@ -5272,10 +5428,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGlobalRoute: typeof AuthenticatedGlobalRoute
   AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
   AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRouteWithChildren
+  AuthenticatedIotRoute: typeof AuthenticatedIotRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMemoryRoute: typeof AuthenticatedMemoryRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
+  AuthenticatedMonitoringRoute: typeof AuthenticatedMonitoringRoute
+  AuthenticatedNativeRoute: typeof AuthenticatedNativeRoute
   AuthenticatedPluginsRoute: typeof AuthenticatedPluginsRouteWithChildren
   AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
   AuthenticatedRuntimeRoute: typeof AuthenticatedRuntimeRouteWithChildren
@@ -5284,23 +5443,23 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
   AuthenticatedToolsRoute: typeof AuthenticatedToolsRouteWithChildren
   AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRouteWithChildren
-  AuthenticatedAgentsCollaborationRoute: typeof AuthenticatedAgentsCollaborationRouteWithChildren
-  AuthenticatedAgentsExecutionRoute: typeof AuthenticatedAgentsExecutionRoute
-  AuthenticatedAgentsMetricsRoute: typeof AuthenticatedAgentsMetricsRoute
-  AuthenticatedAgentsRuntimeRoute: typeof AuthenticatedAgentsRuntimeRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
+  AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedAutonomousRoute: AuthenticatedAutonomousRoute,
+  AuthenticatedBillingRoute: AuthenticatedBillingRoute,
   AuthenticatedBrainRoute: AuthenticatedBrainRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
+  AuthenticatedCloudRoute: AuthenticatedCloudRoute,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
   AuthenticatedDevelopersRoute: AuthenticatedDevelopersRouteWithChildren,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
+  AuthenticatedDigitalTwinRoute: AuthenticatedDigitalTwinRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedEnterpriseCloudRoute: AuthenticatedEnterpriseCloudRoute,
@@ -5309,10 +5468,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGlobalRoute: AuthenticatedGlobalRoute,
   AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,
   AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRouteWithChildren,
+  AuthenticatedIotRoute: AuthenticatedIotRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMemoryRoute: AuthenticatedMemoryRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
+  AuthenticatedMonitoringRoute: AuthenticatedMonitoringRoute,
+  AuthenticatedNativeRoute: AuthenticatedNativeRoute,
   AuthenticatedPluginsRoute: AuthenticatedPluginsRouteWithChildren,
   AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
   AuthenticatedRuntimeRoute: AuthenticatedRuntimeRouteWithChildren,
@@ -5321,11 +5483,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
   AuthenticatedToolsRoute: AuthenticatedToolsRouteWithChildren,
   AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRouteWithChildren,
-  AuthenticatedAgentsCollaborationRoute:
-    AuthenticatedAgentsCollaborationRouteWithChildren,
-  AuthenticatedAgentsExecutionRoute: AuthenticatedAgentsExecutionRoute,
-  AuthenticatedAgentsMetricsRoute: AuthenticatedAgentsMetricsRoute,
-  AuthenticatedAgentsRuntimeRoute: AuthenticatedAgentsRuntimeRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
