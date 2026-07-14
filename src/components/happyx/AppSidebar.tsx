@@ -14,6 +14,11 @@ import {
   LogOut,
   Bot,
   MapPin,
+  BrainCircuit,
+  Globe2,
+  Cloud,
+  Cpu,
+  Rocket,
 } from "lucide-react";
 import {
   Sidebar,
@@ -48,6 +53,18 @@ const modules = [
   { title: "Community", url: "/community", icon: Users },
   { title: "Marketplace", url: "/marketplace", icon: Store },
   { title: "Hyperlocal", url: "/hyperlocal", icon: MapPin },
+];
+
+// Reserved surfaces for the v2.0 – v6.0 roadmap. Routes, feature flags,
+// permissions, and API contracts already exist — implementation ships per
+// phase without changing this sidebar.
+const roadmap = [
+  { title: "Agent OS · v2.0", url: "/agent-os", icon: Bot },
+  { title: "Intelligence · v3.0", url: "/intelligence", icon: BrainCircuit },
+  { title: "Global · v4.0", url: "/global", icon: Globe2 },
+  { title: "Enterprise Cloud · v5.0", url: "/enterprise-cloud", icon: Cloud },
+  { title: "Autonomous · v6.0", url: "/autonomous", icon: Cpu },
+  { title: "Roadmap", url: "/roadmap", icon: Rocket },
 ];
 
 const admin = [
@@ -129,6 +146,7 @@ export function AppSidebar() {
       <SidebarContent className="bg-charcoal">
         {renderGroup("Workspace", primary)}
         {renderGroup("Modules", modules)}
+        {renderGroup("Roadmap · Reserved", roadmap)}
         {renderGroup("Administration", admin)}
       </SidebarContent>
 
