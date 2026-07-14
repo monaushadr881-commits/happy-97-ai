@@ -29,6 +29,7 @@ import happyAiLogoAsset from "@/assets/happy-ai-logo.png.asset.json";
 import appQrAsset from "@/assets/happyx-app-qr.png.asset.json";
 import waQrAsset from "@/assets/happyx-whatsapp-qr.jpg.asset.json";
 import { HappyAvatar } from "@/components/digital-human/HappyAvatar";
+import { BusinessWebsites } from "@/components/happyx/BusinessWebsites";
 
 export const Route = createFileRoute("/")({
   component: HappyXLanding,
