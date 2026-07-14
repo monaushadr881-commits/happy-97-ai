@@ -25,7 +25,10 @@ type Props = {
   className?: string;
   /** Render as a full portrait card (rounded rectangle) instead of a circular bust. */
   variant?: "bust" | "portrait";
+  /** Gently orient gaze/head toward the cursor when it's near the avatar. */
+  trackCursor?: boolean;
 };
+
 
 /**
  * Organic blink loop — never repeats.
@@ -114,24 +117,61 @@ export const HappyAvatar = memo(function HappyAvatar({
   size = 260,
   className,
   variant = "bust",
+  trackCursor = false,
 }: Props) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
   const drift = useMicroMotion(reducedMotion);
+  const [gaze, setGaze] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    if (!trackCursor || reducedMotion) return;
+    let raf = 0;
+    let target = { x: 0, y: 0 };
+    let current = { x: 0, y: 0 };
+    const onMove = (e: MouseEvent) => {
+      const el = rootRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dx = (e.clientX - cx) / Math.max(r.width, 1);
+      const dy = (e.clientY - cy) / Math.max(r.height, 1);
+      // clamp — gentle, never robotic
+      target = {
+        x: Math.max(-1, Math.min(1, dx)) * 3.5,
+        y: Math.max(-1, Math.min(1, dy)) * 2.2,
+      };
+    };
+    const tick = () => {
+      current = {
+        x: current.x + (target.x - current.x) * 0.06,
+        y: current.y + (target.y - current.y) * 0.06,
+      };
+      setGaze({ x: current.x, y: current.y });
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    raf = requestAnimationFrame(tick);
+    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
+  }, [trackCursor, reducedMotion]);
+
   const speaking = activity === "speaking";
   const listening = activity === "listening";
   const thinking = expression === "thinking";
   const smiling = expression === "smile" || expression === "celebrate";
 
-
   const radius = variant === "portrait" ? "1.75rem" : "9999px";
+
 
   return (
     <div
+      ref={rootRef}
       role="img"
       aria-label="HAPPY, the digital human"
       className={cn("relative select-none isolate", className)}
       style={{ width: size, height: variant === "portrait" ? Math.round(size * 1.25) : size }}
     >
+
       {/* soft gold halo */}
       <div
         aria-hidden
@@ -184,7 +224,7 @@ export const HappyAvatar = memo(function HappyAvatar({
       >
         <img
           src={happyPortraitAsset.url}
-          alt="HAPPY, the official HAPPY X digital human"
+          alt="HAPPY, the official HAPPY digital human"
           className={cn(
             "h-full w-full object-cover object-top will-change-transform",
             !reducedMotion && "dh-sway",
@@ -192,7 +232,7 @@ export const HappyAvatar = memo(function HappyAvatar({
           style={
             reducedMotion
               ? undefined
-              : { transform: `translate3d(${drift.x}px, ${drift.y}px, 0) rotate(${drift.r}deg)` }
+              : { transform: `translate3d(${drift.x + gaze.x}px, ${drift.y + gaze.y}px, 0) rotate(${drift.r}deg)` }
           }
           draggable={false}
           loading="eager"

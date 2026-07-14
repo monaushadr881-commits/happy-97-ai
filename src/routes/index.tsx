@@ -126,13 +126,14 @@ function Nav() {
           <LogoMark size={36} />
           <div className="flex flex-col leading-tight">
             <span className="font-display text-[15px] font-semibold tracking-tight text-paper">
-              HAPPY <span className="text-gradient-gold">X</span>
+              HAPPY
             </span>
             <span className="text-[9px] uppercase tracking-[0.28em] text-gold/70">
-              Enterprise AI Partner
+              Human-Centered AI
             </span>
           </div>
         </a>
+
         <nav className="hidden gap-8 text-[13px] font-medium text-soft-gray md:flex">
           {[
             ["Platform", "#platform"],
@@ -292,32 +293,47 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
-            <span className="eyebrow !text-[10px]">HAPPY Online · Enterprise AI Partner</span>
+            <span className="eyebrow !text-[10px]">HAPPY · Online · Enterprise v1.0</span>
           </div>
 
-          <h1 className="mt-8 font-display text-5xl font-medium leading-[1.02] tracking-tight text-paper md:text-7xl">
-            The AI that helps you<br />
-            <span className="text-gradient-gold">learn, build and grow.</span>
+          <h1 className="mt-8 font-display font-medium tracking-tight text-paper">
+            <span className="block text-[64px] leading-none md:text-[104px] text-gradient-gold">
+              HAPPY
+            </span>
+            <span className="mt-4 block text-[13px] uppercase tracking-[0.32em] text-gold/80">
+              Human-Centered AI Operating Platform
+            </span>
+            <span className="mt-6 block text-4xl leading-[1.05] text-paper md:text-5xl">
+              Learn.{" "}
+              <span className="text-gradient-gold">Build.</span>{" "}
+              Manage.{" "}
+              <span className="text-gradient-gold">Grow.</span>
+            </span>
           </h1>
 
-          <p className="mt-8 max-w-xl text-[17px] leading-relaxed text-soft-gray">
-            HAPPY X is the Human-Centered AI Operating Platform from HAPPY
-            PERSON PRIVATE LIMITED — a single sovereign environment uniting the
-            HAPPY digital human, executive AI, education, business, creator and
-            enterprise intelligence for the next century of work.
+          <p className="mt-8 max-w-lg text-[16px] leading-relaxed text-soft-gray">
+            HAPPY is an intelligent Digital Human — one calm presence guiding
+            you across education, business, creativity and the enterprise.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               to="/auth"
-              className="shimmer-on-hover group inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-obsidian transition-transform hover:scale-[1.02]"
+              aria-label="Talk to HAPPY"
+              className="shimmer-on-hover group inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-obsidian shadow-[0_0_30px_-4px_rgba(232,201,106,0.6)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_44px_-4px_rgba(232,201,106,0.8)]"
             >
-              Experience HAPPY X
+              Talk to HAPPY
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <button className="inline-flex items-center gap-2.5 rounded-full border border-gold/25 bg-charcoal/40 px-6 py-3.5 text-[14px] font-medium text-paper backdrop-blur transition-colors hover:bg-charcoal/70">
-              <Play className="h-3.5 w-3.5 fill-gold text-gold" />
-              Watch the film
+            <button
+              type="button"
+              aria-label="Watch demo"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-gold/25 bg-charcoal/40 px-6 py-3.5 text-[14px] font-medium text-paper backdrop-blur transition-all duration-300 hover:border-gold/50 hover:bg-charcoal/70"
+            >
+              <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-gold/15 ring-1 ring-gold/40 transition-transform group-hover:scale-110">
+                <Play className="h-3 w-3 fill-gold text-gold" />
+              </span>
+              Watch Demo
             </button>
           </div>
 
@@ -339,6 +355,7 @@ function Hero() {
           </div>
         </div>
 
+
         <HeroStage tilt={tilt} />
       </div>
 
@@ -355,7 +372,7 @@ function Hero() {
 
 function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
   return (
-    <div className="relative mx-auto w-full max-w-[520px]">
+    <div className="relative mx-auto w-full max-w-[480px] px-4 md:px-8">
       <div
         className="relative aspect-[4/5] w-full [perspective:1400px]"
         style={{ transform: `translate3d(${tilt.x * 0.6}px, ${tilt.y * -0.6}px, 0)` }}
@@ -366,28 +383,31 @@ function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
           className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 ease-out"
           style={{ transform: `rotateY(${tilt.x * 0.6}deg) rotateX(${tilt.y * 0.6}deg)` }}
         >
-          <div className="absolute inset-4 rounded-[1.85rem] overflow-hidden ring-1 ring-gold/25 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] bg-obsidian">
+          <div className="absolute inset-6 rounded-[1.85rem] overflow-hidden ring-1 ring-gold/25 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] bg-obsidian">
             <HappyAvatar
               variant="portrait"
-              size={480}
+              size={440}
               activity="listening"
               expression="smile"
+              trackCursor
               className="!w-full !h-full"
             />
 
-            {/* live chip */}
-            <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-obsidian/70 px-3 py-1.5 backdrop-blur">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-paper">HAPPY · Online</span>
-            </div>
-
-            {/* mode chip */}
-            <div className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-obsidian/70 px-3 py-1.5 backdrop-blur">
-              <Sparkle className="h-3 w-3 text-gold" />
-              <span className="text-[10px] uppercase tracking-widest text-gold">Chief of Staff</span>
+            {/* live status — top-left */}
+            <div className="absolute left-4 top-4 rounded-2xl border border-emerald-400/25 bg-obsidian/75 px-3 py-2 backdrop-blur-xl">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                </span>
+                <span className="text-[11px] font-semibold tracking-wide text-paper">HAPPY</span>
+                <span className="text-[10px] uppercase tracking-widest text-emerald-300">Online</span>
+              </div>
+              <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[9px] uppercase tracking-widest text-soft-gray">
+                <span>Enterprise v1.0</span>
+                <span className="text-gold/80">Memory Active</span>
+                <span>Fast Response</span>
+              </div>
             </div>
 
             {/* signature panel */}
@@ -428,6 +448,7 @@ function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
   );
 }
 
+
 /* ─────────────────────  ECOSYSTEM DIAGRAM  ───────────────────── */
 function Ecosystem() {
   const nodes: { id: string; label: string; icon: React.ElementType; ring: number; angle: number }[] = [
@@ -445,9 +466,9 @@ function Ecosystem() {
     <section className="relative border-t border-gold/10 py-28">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          eyebrow="The HAPPY X Ecosystem"
+          eyebrow="The HAPPY Ecosystem"
           title="One kernel. One digital human. Every domain."
-          copy="Every module of HAPPY X orbits a single sovereign AI kernel — no silos, no duplication, no lock-in."
+          copy="Every module of HAPPY orbits a single sovereign AI kernel — no silos, no duplication, no lock-in."
         />
 
         <div className="relative mx-auto mt-16 aspect-square w-full max-w-[720px]">
@@ -529,19 +550,19 @@ function Ecosystem() {
 function TrustBar() {
   const items = [
     "Enterprise Security",
-    "RBAC · MFA",
-    "GST · Tax",
-    "Multi Company",
-    "Cloud Native",
-    "Offline Ready",
+    "Responsible AI",
+    "Privacy First",
+    "Digital Human",
+    "Multi-Tenant Platform",
+    "Fast & Secure",
   ];
   return (
     <section className="border-y border-gold/10 bg-charcoal/40">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-12 gap-y-4 px-6 py-8">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-4 px-6 py-8">
         {items.map((i) => (
           <span
             key={i}
-            className="text-[11px] uppercase tracking-[0.3em] text-soft-gray"
+            className="text-[11px] uppercase tracking-[0.3em] text-soft-gray transition-colors duration-300 hover:text-gold"
           >
             {i}
           </span>
@@ -550,6 +571,7 @@ function TrustBar() {
     </section>
   );
 }
+
 
 /* ─────────────────────  AI CHAT PREVIEW  ───────────────────── */
 function ChatPreview() {
@@ -971,7 +993,7 @@ function Portfolio() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[
               {
-                t: "HAPPY X",
+                t: "HAPPY",
                 d: "Human-Centered AI Operating Platform",
                 tag: "Flagship",
               },
@@ -1162,7 +1184,7 @@ function DownloadApp() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(212,175,55,0.15),transparent_60%)]" />
           <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-              <p className="eyebrow">Download HAPPY X</p>
+              <p className="eyebrow">Download HAPPY</p>
               <h2 className="mt-4 font-display text-4xl font-medium leading-[1.1] text-paper md:text-5xl">
                 In your pocket.<br />
                 <span className="text-gradient-gold">On your desk.</span>
@@ -1225,7 +1247,7 @@ function PhoneMock() {
         title="Download HAPPY App"
         subtitle="Scan · iOS & Android"
         src={appQrAsset.url}
-        alt="Scan to download the HAPPY X mobile app"
+        alt="Scan to download the HAPPY mobile app"
       />
       <QrCard
         title="Chat on WhatsApp"
