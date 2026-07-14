@@ -208,11 +208,11 @@ function DhConversation() {
       case "speaking": return "success";
       case "listening": return "gold";
       case "thinking": return "gold";
-      case "interrupted": return "warn";
-      case "paused": return "warn";
+      case "interrupted": return "warning";
+      case "paused": return "warning";
       default: return "neutral";
     }
-  }, [convoState]) as "success" | "gold" | "warn" | "neutral";
+  }, [convoState]) as "success" | "gold" | "warning" | "neutral";
 
   const activeAssistantContent = activeChunk
     ? (transcript[activeChunk.turn]?.content ?? "")
