@@ -466,9 +466,9 @@ function Ecosystem() {
     <section className="relative border-t border-gold/10 py-28">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          eyebrow="The HAPPY X Ecosystem"
+          eyebrow="The HAPPY Ecosystem"
           title="One kernel. One digital human. Every domain."
-          copy="Every module of HAPPY X orbits a single sovereign AI kernel — no silos, no duplication, no lock-in."
+          copy="Every module of HAPPY orbits a single sovereign AI kernel — no silos, no duplication, no lock-in."
         />
 
         <div className="relative mx-auto mt-16 aspect-square w-full max-w-[720px]">
@@ -993,7 +993,7 @@ function Portfolio() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[
               {
-                t: "HAPPY X",
+                t: "HAPPY",
                 d: "Human-Centered AI Operating Platform",
                 tag: "Flagship",
               },
@@ -1184,7 +1184,7 @@ function DownloadApp() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(212,175,55,0.15),transparent_60%)]" />
           <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-              <p className="eyebrow">Download HAPPY X</p>
+              <p className="eyebrow">Download HAPPY</p>
               <h2 className="mt-4 font-display text-4xl font-medium leading-[1.1] text-paper md:text-5xl">
                 In your pocket.<br />
                 <span className="text-gradient-gold">On your desk.</span>
@@ -1247,7 +1247,7 @@ function PhoneMock() {
         title="Download HAPPY App"
         subtitle="Scan · iOS & Android"
         src={appQrAsset.url}
-        alt="Scan to download the HAPPY X mobile app"
+        alt="Scan to download the HAPPY mobile app"
       />
       <QrCard
         title="Chat on WhatsApp"

@@ -224,7 +224,7 @@ export const HappyAvatar = memo(function HappyAvatar({
       >
         <img
           src={happyPortraitAsset.url}
-          alt="HAPPY, the official HAPPY X digital human"
+          alt="HAPPY, the official HAPPY digital human"
           className={cn(
             "h-full w-full object-cover object-top will-change-transform",
             !reducedMotion && "dh-sway",
