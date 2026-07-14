@@ -16,22 +16,32 @@ const ACKS = [
   "Let me think through this with you.", "Sure — here's how I'd approach it.",
   "Great — let's unpack that.", "Absolutely.", "Fair point.", "Makes sense.",
   "Okay, here's my take.", "Interesting — let me build on that.",
+  "Happy to walk you through it.", "Good — here's the shape of it.",
+  "Let me lay it out.", "Right, here's the picture.", "Noted — here's where I'd start.",
+  "Let's break it down.", "Consider this angle.", "Here's the essence.",
 ];
 
-/** Pick an acknowledgement only ~35% of the time, avoiding repeats. */
-export function maybeAcknowledgement(lastUsed?: string): string | null {
+/** Track recent openers to avoid repeats across turns. */
+const recentAcks: string[] = [];
+export function maybeAcknowledgement(_lastUsed?: string): string | null {
   if (Math.random() > 0.35) return null;
-  const pool = ACKS.filter((a) => a !== lastUsed);
-  return pool[Math.floor(Math.random() * pool.length)];
+  const pool = ACKS.filter((a) => !recentAcks.includes(a));
+  const pick = (pool.length ? pool : ACKS)[Math.floor(Math.random() * (pool.length || ACKS.length))];
+  recentAcks.push(pick);
+  if (recentAcks.length > 6) recentAcks.shift();
+  return pick;
 }
 
 /** Short listener backchannels HAPPY may murmur before answering. */
-const BACKCHANNELS = ["Hmm.", "I see.", "Right.", "Understood.", "Okay.", "Mm-hm.", "Alright."];
-/** ~25% chance of a backchannel; never the same one twice in a row. */
-export function maybeBackchannel(lastUsed?: string): string | null {
+const BACKCHANNELS = ["Hmm.", "I see.", "Right.", "Understood.", "Okay.", "Mm-hm.", "Alright.", "Noted.", "Got it."];
+const recentBack: string[] = [];
+export function maybeBackchannel(_lastUsed?: string): string | null {
   if (Math.random() > 0.25) return null;
-  const pool = BACKCHANNELS.filter((b) => b !== lastUsed);
-  return pool[Math.floor(Math.random() * pool.length)];
+  const pool = BACKCHANNELS.filter((b) => !recentBack.includes(b));
+  const pick = (pool.length ? pool : BACKCHANNELS)[Math.floor(Math.random() * (pool.length || BACKCHANNELS.length))];
+  recentBack.push(pick);
+  if (recentBack.length > 4) recentBack.shift();
+  return pick;
 }
 
 /** Coarse intent classification from the user's message. */
