@@ -15,17 +15,16 @@ import {
   Settings2,
 } from "lucide-react";
 
-type Tab = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
-const TABS: Tab[] = [
+const TABS = [
   { to: "/founder", label: "Overview", icon: LayoutDashboard, exact: true },
-  { to: "/founder/companies", label: "Companies", icon: Building2 },
-  { to: "/founder/users", label: "Users", icon: Users },
-  { to: "/founder/ai", label: "AI", icon: Sparkles },
-  { to: "/founder/ops", label: "Operations", icon: Activity },
-  { to: "/founder/security", label: "Security", icon: Shield },
-  { to: "/founder/analytics", label: "Analytics", icon: BarChart3 },
-  { to: "/founder/system", label: "System", icon: Settings2 },
-];
+  { to: "/founder/companies", label: "Companies", icon: Building2, exact: false },
+  { to: "/founder/users", label: "Users", icon: Users, exact: false },
+  { to: "/founder/ai", label: "AI", icon: Sparkles, exact: false },
+  { to: "/founder/ops", label: "Operations", icon: Activity, exact: false },
+  { to: "/founder/security", label: "Security", icon: Shield, exact: false },
+  { to: "/founder/analytics", label: "Analytics", icon: BarChart3, exact: false },
+  { to: "/founder/system", label: "System", icon: Settings2, exact: false },
+] as const;
 
 export function FounderNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });

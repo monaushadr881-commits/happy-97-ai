@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_authenticated/founder/companies")({
   component: FounderCompanies,
 });
 
-type Company = { id: string; name: string; slug?: string | null; status?: string | null; created_at?: string };
+type Company = { id: string; display_name?: string; legal_name?: string; slug?: string | null; status?: string | null; created_at?: string };
 
 function FounderCompanies() {
   const qc = useQueryClient();
@@ -31,7 +31,7 @@ function FounderCompanies() {
   const list = useQuery({ queryKey: ["founder", "companies"], queryFn: () => apiListCompanies() });
 
   const createCo = useMutation({
-    mutationFn: (input: { name: string; slug: string }) => apiCreateCompany({ data: input }),
+    mutationFn: (input: { display_name: string; legal_name: string; slug: string }) => apiCreateCompany({ data: input }),
     onSuccess: () => {
       toast.success("Company created");
       qc.invalidateQueries({ queryKey: ["founder", "companies"] });
@@ -39,8 +39,9 @@ function FounderCompanies() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const companies = ((list.data ?? []) as Company[]).filter((c) =>
-    !q ? true : c.name.toLowerCase().includes(q.toLowerCase()),
+  const nameOf = (c: Company) => c.display_name ?? c.legal_name ?? c.slug ?? c.id.slice(0, 8);
+  const companies = ((list.data ?? []) as unknown as Company[]).filter((c) =>
+    !q ? true : nameOf(c).toLowerCase().includes(q.toLowerCase()),
   );
 
   return (

@@ -98,13 +98,13 @@ export function CommandPalette() {
 
         {Array.isArray(companies.data) && companies.data.length > 0 && (
           <CommandGroup heading="Companies">
-            {companies.data.slice(0, 6).map((c: { id: string; name: string }) => (
+            {(companies.data as Array<{ id: string; display_name?: string; legal_name?: string; slug?: string }>).slice(0, 6).map((c) => (
               <CommandItem
                 key={c.id}
                 onSelect={() => go(`/founder/companies`)}
               >
                 <Building2 className="mr-2 h-4 w-4 text-gold/80" />
-                {c.name}
+                {c.display_name ?? c.legal_name ?? c.slug ?? c.id}
               </CommandItem>
             ))}
           </CommandGroup>
