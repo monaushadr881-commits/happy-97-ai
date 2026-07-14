@@ -126,7 +126,7 @@ function Presentations() {
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-[10rem_1fr] items-start">
-                <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={160} />
+                <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={160} posture="presentation" />
                 <div className="rounded-lg border border-white/10 bg-white/[0.02] p-6 min-h-[16rem]">
                   <h2 className="text-2xl font-medium text-paper">{slide.title}</h2>
                   <Hairline className="my-4" />
