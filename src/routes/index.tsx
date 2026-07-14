@@ -674,7 +674,7 @@ function ChatPreview() {
                     </span>
                   </div>
                   <p className="mt-2 text-sm text-soft-gray">
-                    Synthesizing across Business OS, Analytics, and CRM · routing approval to Priya.
+                    Synthesizing across Business OS, Analytics, and CRM · routing approval to Kritika Ji.
                   </p>
                 </div>
               </div>
