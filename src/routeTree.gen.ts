@@ -31,6 +31,7 @@ import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_auth
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
+import { Route as AuthenticatedDevelopersRouteImport } from './routes/_authenticated/developers'
 import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticated/decision'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
@@ -76,6 +77,10 @@ import { Route as AuthenticatedKnowledgeReligionCultureRouteImport } from './rou
 import { Route as AuthenticatedKnowledgeModerationRouteImport } from './routes/_authenticated/knowledge.moderation'
 import { Route as AuthenticatedKnowledgeLibraryRouteImport } from './routes/_authenticated/knowledge.library'
 import { Route as AuthenticatedKnowledgeAskRouteImport } from './routes/_authenticated/knowledge.ask'
+import { Route as AuthenticatedIntelligenceSettingsRouteImport } from './routes/_authenticated/intelligence.settings'
+import { Route as AuthenticatedIntelligenceReportsRouteImport } from './routes/_authenticated/intelligence.reports'
+import { Route as AuthenticatedIntelligenceForecastRouteImport } from './routes/_authenticated/intelligence.forecast'
+import { Route as AuthenticatedIntelligenceDashboardRouteImport } from './routes/_authenticated/intelligence.dashboard'
 import { Route as AuthenticatedHyperlocalSettingsRouteImport } from './routes/_authenticated/hyperlocal.settings'
 import { Route as AuthenticatedHyperlocalMapRouteImport } from './routes/_authenticated/hyperlocal.map'
 import { Route as AuthenticatedHyperlocalManageRouteImport } from './routes/_authenticated/hyperlocal.manage'
@@ -119,6 +124,10 @@ import { Route as AuthenticatedDigitalHumanSessionsRouteImport } from './routes/
 import { Route as AuthenticatedDigitalHumanPresentationRouteImport } from './routes/_authenticated/digital-human.presentation'
 import { Route as AuthenticatedDigitalHumanClassroomRouteImport } from './routes/_authenticated/digital-human.classroom'
 import { Route as AuthenticatedDigitalHumanBoardroomRouteImport } from './routes/_authenticated/digital-human.boardroom'
+import { Route as AuthenticatedDevelopersWebhooksRouteImport } from './routes/_authenticated/developers.webhooks'
+import { Route as AuthenticatedDevelopersSdkRouteImport } from './routes/_authenticated/developers.sdk'
+import { Route as AuthenticatedDevelopersDocsRouteImport } from './routes/_authenticated/developers.docs'
+import { Route as AuthenticatedDevelopersApisRouteImport } from './routes/_authenticated/developers.apis'
 import { Route as AuthenticatedDecisionScenariosRouteImport } from './routes/_authenticated/decision.scenarios'
 import { Route as AuthenticatedDecisionHistoryRouteImport } from './routes/_authenticated/decision.history'
 import { Route as AuthenticatedDecisionAnalyticsRouteImport } from './routes/_authenticated/decision.analytics'
@@ -254,6 +263,11 @@ const AuthenticatedDigitalHumanRoute =
     path: '/digital-human',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDevelopersRoute = AuthenticatedDevelopersRouteImport.update({
+  id: '/developers',
+  path: '/developers',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDecisionRoute = AuthenticatedDecisionRouteImport.update({
   id: '/decision',
   path: '/decision',
@@ -515,6 +529,30 @@ const AuthenticatedKnowledgeAskRoute =
     path: '/ask',
     getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
+const AuthenticatedIntelligenceSettingsRoute =
+  AuthenticatedIntelligenceSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedIntelligenceRoute,
+  } as any)
+const AuthenticatedIntelligenceReportsRoute =
+  AuthenticatedIntelligenceReportsRouteImport.update({
+    id: '/reports',
+    path: '/reports',
+    getParentRoute: () => AuthenticatedIntelligenceRoute,
+  } as any)
+const AuthenticatedIntelligenceForecastRoute =
+  AuthenticatedIntelligenceForecastRouteImport.update({
+    id: '/forecast',
+    path: '/forecast',
+    getParentRoute: () => AuthenticatedIntelligenceRoute,
+  } as any)
+const AuthenticatedIntelligenceDashboardRoute =
+  AuthenticatedIntelligenceDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedIntelligenceRoute,
+  } as any)
 const AuthenticatedHyperlocalSettingsRoute =
   AuthenticatedHyperlocalSettingsRouteImport.update({
     id: '/settings',
@@ -771,6 +809,30 @@ const AuthenticatedDigitalHumanBoardroomRoute =
     path: '/boardroom',
     getParentRoute: () => AuthenticatedDigitalHumanRoute,
   } as any)
+const AuthenticatedDevelopersWebhooksRoute =
+  AuthenticatedDevelopersWebhooksRouteImport.update({
+    id: '/webhooks',
+    path: '/webhooks',
+    getParentRoute: () => AuthenticatedDevelopersRoute,
+  } as any)
+const AuthenticatedDevelopersSdkRoute =
+  AuthenticatedDevelopersSdkRouteImport.update({
+    id: '/sdk',
+    path: '/sdk',
+    getParentRoute: () => AuthenticatedDevelopersRoute,
+  } as any)
+const AuthenticatedDevelopersDocsRoute =
+  AuthenticatedDevelopersDocsRouteImport.update({
+    id: '/docs',
+    path: '/docs',
+    getParentRoute: () => AuthenticatedDevelopersRoute,
+  } as any)
+const AuthenticatedDevelopersApisRoute =
+  AuthenticatedDevelopersApisRouteImport.update({
+    id: '/apis',
+    path: '/apis',
+    getParentRoute: () => AuthenticatedDevelopersRoute,
+  } as any)
 const AuthenticatedDecisionScenariosRoute =
   AuthenticatedDecisionScenariosRouteImport.update({
     id: '/scenarios',
@@ -907,6 +969,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
+  '/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
@@ -914,7 +977,7 @@ export interface FileRoutesByFullPath {
   '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/global': typeof AuthenticatedGlobalRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
-  '/intelligence': typeof AuthenticatedIntelligenceRoute
+  '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/memory': typeof AuthenticatedMemoryRouteWithChildren
@@ -942,6 +1005,10 @@ export interface FileRoutesByFullPath {
   '/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
   '/decision/history': typeof AuthenticatedDecisionHistoryRoute
   '/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
+  '/developers/apis': typeof AuthenticatedDevelopersApisRoute
+  '/developers/docs': typeof AuthenticatedDevelopersDocsRoute
+  '/developers/sdk': typeof AuthenticatedDevelopersSdkRoute
+  '/developers/webhooks': typeof AuthenticatedDevelopersWebhooksRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -985,6 +1052,10 @@ export interface FileRoutesByFullPath {
   '/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
   '/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
   '/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
+  '/intelligence/dashboard': typeof AuthenticatedIntelligenceDashboardRoute
+  '/intelligence/forecast': typeof AuthenticatedIntelligenceForecastRoute
+  '/intelligence/reports': typeof AuthenticatedIntelligenceReportsRoute
+  '/intelligence/settings': typeof AuthenticatedIntelligenceSettingsRoute
   '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
@@ -1037,9 +1108,10 @@ export interface FileRoutesByTo {
   '/autonomous': typeof AuthenticatedAutonomousRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
+  '/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/global': typeof AuthenticatedGlobalRoute
-  '/intelligence': typeof AuthenticatedIntelligenceRoute
+  '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
   '/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
@@ -1063,6 +1135,10 @@ export interface FileRoutesByTo {
   '/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
   '/decision/history': typeof AuthenticatedDecisionHistoryRoute
   '/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
+  '/developers/apis': typeof AuthenticatedDevelopersApisRoute
+  '/developers/docs': typeof AuthenticatedDevelopersDocsRoute
+  '/developers/sdk': typeof AuthenticatedDevelopersSdkRoute
+  '/developers/webhooks': typeof AuthenticatedDevelopersWebhooksRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -1106,6 +1182,10 @@ export interface FileRoutesByTo {
   '/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
   '/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
   '/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
+  '/intelligence/dashboard': typeof AuthenticatedIntelligenceDashboardRoute
+  '/intelligence/forecast': typeof AuthenticatedIntelligenceForecastRoute
+  '/intelligence/reports': typeof AuthenticatedIntelligenceReportsRoute
+  '/intelligence/settings': typeof AuthenticatedIntelligenceSettingsRoute
   '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
@@ -1162,6 +1242,7 @@ export interface FileRoutesById {
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
+  '/_authenticated/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
@@ -1169,7 +1250,7 @@ export interface FileRoutesById {
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/global': typeof AuthenticatedGlobalRoute
   '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
-  '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRoute
+  '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/memory': typeof AuthenticatedMemoryRouteWithChildren
@@ -1197,6 +1278,10 @@ export interface FileRoutesById {
   '/_authenticated/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
   '/_authenticated/decision/history': typeof AuthenticatedDecisionHistoryRoute
   '/_authenticated/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
+  '/_authenticated/developers/apis': typeof AuthenticatedDevelopersApisRoute
+  '/_authenticated/developers/docs': typeof AuthenticatedDevelopersDocsRoute
+  '/_authenticated/developers/sdk': typeof AuthenticatedDevelopersSdkRoute
+  '/_authenticated/developers/webhooks': typeof AuthenticatedDevelopersWebhooksRoute
   '/_authenticated/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/_authenticated/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/_authenticated/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -1240,6 +1325,10 @@ export interface FileRoutesById {
   '/_authenticated/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
   '/_authenticated/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
   '/_authenticated/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
+  '/_authenticated/intelligence/dashboard': typeof AuthenticatedIntelligenceDashboardRoute
+  '/_authenticated/intelligence/forecast': typeof AuthenticatedIntelligenceForecastRoute
+  '/_authenticated/intelligence/reports': typeof AuthenticatedIntelligenceReportsRoute
+  '/_authenticated/intelligence/settings': typeof AuthenticatedIntelligenceSettingsRoute
   '/_authenticated/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/_authenticated/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/_authenticated/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
@@ -1296,6 +1385,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/dashboard'
     | '/decision'
+    | '/developers'
     | '/digital-human'
     | '/education'
     | '/enterprise'
@@ -1331,6 +1421,10 @@ export interface FileRouteTypes {
     | '/decision/analytics'
     | '/decision/history'
     | '/decision/scenarios'
+    | '/developers/apis'
+    | '/developers/docs'
+    | '/developers/sdk'
+    | '/developers/webhooks'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
@@ -1374,6 +1468,10 @@ export interface FileRouteTypes {
     | '/hyperlocal/manage'
     | '/hyperlocal/map'
     | '/hyperlocal/settings'
+    | '/intelligence/dashboard'
+    | '/intelligence/forecast'
+    | '/intelligence/reports'
+    | '/intelligence/settings'
     | '/knowledge/ask'
     | '/knowledge/library'
     | '/knowledge/moderation'
@@ -1426,6 +1524,7 @@ export interface FileRouteTypes {
     | '/autonomous'
     | '/dashboard'
     | '/decision'
+    | '/developers'
     | '/enterprise-cloud'
     | '/global'
     | '/intelligence'
@@ -1452,6 +1551,10 @@ export interface FileRouteTypes {
     | '/decision/analytics'
     | '/decision/history'
     | '/decision/scenarios'
+    | '/developers/apis'
+    | '/developers/docs'
+    | '/developers/sdk'
+    | '/developers/webhooks'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
@@ -1495,6 +1598,10 @@ export interface FileRouteTypes {
     | '/hyperlocal/manage'
     | '/hyperlocal/map'
     | '/hyperlocal/settings'
+    | '/intelligence/dashboard'
+    | '/intelligence/forecast'
+    | '/intelligence/reports'
+    | '/intelligence/settings'
     | '/knowledge/ask'
     | '/knowledge/library'
     | '/knowledge/moderation'
@@ -1550,6 +1657,7 @@ export interface FileRouteTypes {
     | '/_authenticated/community'
     | '/_authenticated/dashboard'
     | '/_authenticated/decision'
+    | '/_authenticated/developers'
     | '/_authenticated/digital-human'
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
@@ -1585,6 +1693,10 @@ export interface FileRouteTypes {
     | '/_authenticated/decision/analytics'
     | '/_authenticated/decision/history'
     | '/_authenticated/decision/scenarios'
+    | '/_authenticated/developers/apis'
+    | '/_authenticated/developers/docs'
+    | '/_authenticated/developers/sdk'
+    | '/_authenticated/developers/webhooks'
     | '/_authenticated/digital-human/boardroom'
     | '/_authenticated/digital-human/classroom'
     | '/_authenticated/digital-human/presentation'
@@ -1628,6 +1740,10 @@ export interface FileRouteTypes {
     | '/_authenticated/hyperlocal/manage'
     | '/_authenticated/hyperlocal/map'
     | '/_authenticated/hyperlocal/settings'
+    | '/_authenticated/intelligence/dashboard'
+    | '/_authenticated/intelligence/forecast'
+    | '/_authenticated/intelligence/reports'
+    | '/_authenticated/intelligence/settings'
     | '/_authenticated/knowledge/ask'
     | '/_authenticated/knowledge/library'
     | '/_authenticated/knowledge/moderation'
@@ -1836,6 +1952,13 @@ declare module '@tanstack/react-router' {
       path: '/digital-human'
       fullPath: '/digital-human'
       preLoaderRoute: typeof AuthenticatedDigitalHumanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/developers': {
+      id: '/_authenticated/developers'
+      path: '/developers'
+      fullPath: '/developers'
+      preLoaderRoute: typeof AuthenticatedDevelopersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/decision': {
@@ -2153,6 +2276,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedKnowledgeAskRouteImport
       parentRoute: typeof AuthenticatedKnowledgeRoute
     }
+    '/_authenticated/intelligence/settings': {
+      id: '/_authenticated/intelligence/settings'
+      path: '/settings'
+      fullPath: '/intelligence/settings'
+      preLoaderRoute: typeof AuthenticatedIntelligenceSettingsRouteImport
+      parentRoute: typeof AuthenticatedIntelligenceRoute
+    }
+    '/_authenticated/intelligence/reports': {
+      id: '/_authenticated/intelligence/reports'
+      path: '/reports'
+      fullPath: '/intelligence/reports'
+      preLoaderRoute: typeof AuthenticatedIntelligenceReportsRouteImport
+      parentRoute: typeof AuthenticatedIntelligenceRoute
+    }
+    '/_authenticated/intelligence/forecast': {
+      id: '/_authenticated/intelligence/forecast'
+      path: '/forecast'
+      fullPath: '/intelligence/forecast'
+      preLoaderRoute: typeof AuthenticatedIntelligenceForecastRouteImport
+      parentRoute: typeof AuthenticatedIntelligenceRoute
+    }
+    '/_authenticated/intelligence/dashboard': {
+      id: '/_authenticated/intelligence/dashboard'
+      path: '/dashboard'
+      fullPath: '/intelligence/dashboard'
+      preLoaderRoute: typeof AuthenticatedIntelligenceDashboardRouteImport
+      parentRoute: typeof AuthenticatedIntelligenceRoute
+    }
     '/_authenticated/hyperlocal/settings': {
       id: '/_authenticated/hyperlocal/settings'
       path: '/settings'
@@ -2454,6 +2605,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDigitalHumanBoardroomRouteImport
       parentRoute: typeof AuthenticatedDigitalHumanRoute
     }
+    '/_authenticated/developers/webhooks': {
+      id: '/_authenticated/developers/webhooks'
+      path: '/webhooks'
+      fullPath: '/developers/webhooks'
+      preLoaderRoute: typeof AuthenticatedDevelopersWebhooksRouteImport
+      parentRoute: typeof AuthenticatedDevelopersRoute
+    }
+    '/_authenticated/developers/sdk': {
+      id: '/_authenticated/developers/sdk'
+      path: '/sdk'
+      fullPath: '/developers/sdk'
+      preLoaderRoute: typeof AuthenticatedDevelopersSdkRouteImport
+      parentRoute: typeof AuthenticatedDevelopersRoute
+    }
+    '/_authenticated/developers/docs': {
+      id: '/_authenticated/developers/docs'
+      path: '/docs'
+      fullPath: '/developers/docs'
+      preLoaderRoute: typeof AuthenticatedDevelopersDocsRouteImport
+      parentRoute: typeof AuthenticatedDevelopersRoute
+    }
+    '/_authenticated/developers/apis': {
+      id: '/_authenticated/developers/apis'
+      path: '/apis'
+      fullPath: '/developers/apis'
+      preLoaderRoute: typeof AuthenticatedDevelopersApisRouteImport
+      parentRoute: typeof AuthenticatedDevelopersRoute
+    }
     '/_authenticated/decision/scenarios': {
       id: '/_authenticated/decision/scenarios'
       path: '/scenarios'
@@ -2681,6 +2860,26 @@ const AuthenticatedDecisionRouteWithChildren =
     AuthenticatedDecisionRouteChildren,
   )
 
+interface AuthenticatedDevelopersRouteChildren {
+  AuthenticatedDevelopersApisRoute: typeof AuthenticatedDevelopersApisRoute
+  AuthenticatedDevelopersDocsRoute: typeof AuthenticatedDevelopersDocsRoute
+  AuthenticatedDevelopersSdkRoute: typeof AuthenticatedDevelopersSdkRoute
+  AuthenticatedDevelopersWebhooksRoute: typeof AuthenticatedDevelopersWebhooksRoute
+}
+
+const AuthenticatedDevelopersRouteChildren: AuthenticatedDevelopersRouteChildren =
+  {
+    AuthenticatedDevelopersApisRoute: AuthenticatedDevelopersApisRoute,
+    AuthenticatedDevelopersDocsRoute: AuthenticatedDevelopersDocsRoute,
+    AuthenticatedDevelopersSdkRoute: AuthenticatedDevelopersSdkRoute,
+    AuthenticatedDevelopersWebhooksRoute: AuthenticatedDevelopersWebhooksRoute,
+  }
+
+const AuthenticatedDevelopersRouteWithChildren =
+  AuthenticatedDevelopersRoute._addFileChildren(
+    AuthenticatedDevelopersRouteChildren,
+  )
+
 interface AuthenticatedDigitalHumanRouteChildren {
   AuthenticatedDigitalHumanBoardroomRoute: typeof AuthenticatedDigitalHumanBoardroomRoute
   AuthenticatedDigitalHumanClassroomRoute: typeof AuthenticatedDigitalHumanClassroomRoute
@@ -2846,6 +3045,30 @@ const AuthenticatedHyperlocalRouteWithChildren =
     AuthenticatedHyperlocalRouteChildren,
   )
 
+interface AuthenticatedIntelligenceRouteChildren {
+  AuthenticatedIntelligenceDashboardRoute: typeof AuthenticatedIntelligenceDashboardRoute
+  AuthenticatedIntelligenceForecastRoute: typeof AuthenticatedIntelligenceForecastRoute
+  AuthenticatedIntelligenceReportsRoute: typeof AuthenticatedIntelligenceReportsRoute
+  AuthenticatedIntelligenceSettingsRoute: typeof AuthenticatedIntelligenceSettingsRoute
+}
+
+const AuthenticatedIntelligenceRouteChildren: AuthenticatedIntelligenceRouteChildren =
+  {
+    AuthenticatedIntelligenceDashboardRoute:
+      AuthenticatedIntelligenceDashboardRoute,
+    AuthenticatedIntelligenceForecastRoute:
+      AuthenticatedIntelligenceForecastRoute,
+    AuthenticatedIntelligenceReportsRoute:
+      AuthenticatedIntelligenceReportsRoute,
+    AuthenticatedIntelligenceSettingsRoute:
+      AuthenticatedIntelligenceSettingsRoute,
+  }
+
+const AuthenticatedIntelligenceRouteWithChildren =
+  AuthenticatedIntelligenceRoute._addFileChildren(
+    AuthenticatedIntelligenceRouteChildren,
+  )
+
 interface AuthenticatedKnowledgeRouteChildren {
   AuthenticatedKnowledgeAskRoute: typeof AuthenticatedKnowledgeAskRoute
   AuthenticatedKnowledgeLibraryRoute: typeof AuthenticatedKnowledgeLibraryRoute
@@ -2978,6 +3201,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
+  AuthenticatedDevelopersRoute: typeof AuthenticatedDevelopersRouteWithChildren
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
@@ -2985,7 +3209,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedGlobalRoute: typeof AuthenticatedGlobalRoute
   AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
-  AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRoute
+  AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRouteWithChildren
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMemoryRoute: typeof AuthenticatedMemoryRouteWithChildren
@@ -3004,6 +3228,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
+  AuthenticatedDevelopersRoute: AuthenticatedDevelopersRouteWithChildren,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
@@ -3011,7 +3236,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedGlobalRoute: AuthenticatedGlobalRoute,
   AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,
-  AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRoute,
+  AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRouteWithChildren,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMemoryRoute: AuthenticatedMemoryRouteWithChildren,
