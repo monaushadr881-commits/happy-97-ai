@@ -34,7 +34,7 @@ export const Route = createFileRoute("/_authenticated/knowledge/moderation")({
                       <div className="flex-1 min-w-0">
                         <div className="text-sm text-paper truncate">{a.title}</div>
                         <div className="text-[11px] text-soft-gray flex items-center gap-2">
-                          {a.is_public ? <Chip tone="positive">Public</Chip> : <Chip>Company</Chip>}
+                          {a.is_public ? <Chip tone="success">Public</Chip> : <Chip>Company</Chip>}
                           <span>{a.language}</span>
                           <span>updated {new Date(a.updated_at).toLocaleDateString()}</span>
                         </div>

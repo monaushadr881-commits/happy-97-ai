@@ -29,7 +29,7 @@ export const Route = createFileRoute("/_authenticated/knowledge/library")({
                 ? <Panel className="p-8 md:col-span-2"><EmptyState title="No public articles yet" description="Company admins can publish articles to make them public." /></Panel>
                 : arts.data!.map((a: any) => (
                   <Panel key={a.id} className="p-5">
-                    <Chip tone="positive">Public</Chip>
+                    <Chip tone="success">Public</Chip>
                     <div className="text-sm font-serif text-paper mt-2">{a.title}</div>
                     <div className="text-[12px] text-soft-gray mt-1 line-clamp-3">{a.summary}</div>
                   </Panel>

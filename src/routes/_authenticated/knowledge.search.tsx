@@ -28,7 +28,7 @@ export const Route = createFileRoute("/_authenticated/knowledge/search")({
                 {r.data!.map((a: any) => (
                   <Panel key={a.id} className="p-5">
                     <div className="flex items-center gap-2 mb-2">
-                      {a.is_public ? <Chip tone="positive">Public</Chip> : <Chip>Company</Chip>}
+                      {a.is_public ? <Chip tone="success">Public</Chip> : <Chip>Company</Chip>}
                       <span className="text-[10px] uppercase tracking-widest text-soft-gray">{a.language}</span>
                     </div>
                     <div className="text-sm font-serif text-paper">{a.title}</div>
