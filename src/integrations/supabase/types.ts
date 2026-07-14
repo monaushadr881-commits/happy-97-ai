@@ -499,6 +499,57 @@ export type Database = {
           },
         ]
       }
+      ai_tutor_sessions: {
+        Row: {
+          course_id: string | null
+          created_at: string
+          id: string
+          lesson_id: string | null
+          mode: string
+          topic: string | null
+          transcript: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          mode?: string
+          topic?: string | null
+          transcript?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          mode?: string
+          topic?: string | null
+          transcript?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_tutor_sessions_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_tutor_sessions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       alert_rules: {
         Row: {
           channels: Json
@@ -1141,6 +1192,79 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      content_uploads: {
+        Row: {
+          company_id: string | null
+          course_id: string | null
+          created_at: string
+          creator_id: string
+          description: string | null
+          id: string
+          kind: string
+          lesson_id: string | null
+          metadata: Json
+          size_bytes: number | null
+          status: string
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          company_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          creator_id: string
+          description?: string | null
+          id?: string
+          kind: string
+          lesson_id?: string | null
+          metadata?: Json
+          size_bytes?: number | null
+          status?: string
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          company_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          creator_id?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          lesson_id?: string | null
+          metadata?: Json
+          size_bytes?: number | null
+          status?: string
+          title?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_uploads_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_uploads_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_uploads_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       conversations: {
         Row: {
@@ -4709,6 +4833,240 @@ export type Database = {
           value?: Json
         }
         Relationships: []
+      }
+      study_bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          label: string | null
+          resource_id: string
+          resource_type: string
+          timestamp_seconds: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label?: string | null
+          resource_id: string
+          resource_type: string
+          timestamp_seconds?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string | null
+          resource_id?: string
+          resource_type?: string
+          timestamp_seconds?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      study_flashcards: {
+        Row: {
+          back: string
+          course_id: string | null
+          created_at: string
+          deck: string | null
+          ease: number
+          front: string
+          id: string
+          interval_days: number
+          last_reviewed_at: string | null
+          lesson_id: string | null
+          next_review_at: string
+          reps: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          back: string
+          course_id?: string | null
+          created_at?: string
+          deck?: string | null
+          ease?: number
+          front: string
+          id?: string
+          interval_days?: number
+          last_reviewed_at?: string | null
+          lesson_id?: string | null
+          next_review_at?: string
+          reps?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          back?: string
+          course_id?: string | null
+          created_at?: string
+          deck?: string | null
+          ease?: number
+          front?: string
+          id?: string
+          interval_days?: number
+          last_reviewed_at?: string | null
+          lesson_id?: string | null
+          next_review_at?: string
+          reps?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_flashcards_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "study_flashcards_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_notes: {
+        Row: {
+          body: string
+          course_id: string | null
+          created_at: string
+          id: string
+          lesson_id: string | null
+          tags: string[]
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          tags?: string[]
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          course_id?: string | null
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          tags?: string[]
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_notes_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "study_notes_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_plans: {
+        Row: {
+          created_at: string
+          goal: string | null
+          id: string
+          plan: Json
+          status: string
+          target_at: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          goal?: string | null
+          id?: string
+          plan?: Json
+          status?: string
+          target_at?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          goal?: string | null
+          id?: string
+          plan?: Json
+          status?: string
+          target_at?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      study_sessions: {
+        Row: {
+          course_id: string | null
+          created_at: string
+          ended_at: string | null
+          id: string
+          lesson_id: string | null
+          mode: string | null
+          seconds: number
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          lesson_id?: string | null
+          mode?: string | null
+          seconds?: number
+          started_at?: string
+          user_id: string
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          lesson_id?: string | null
+          mode?: string | null
+          seconds?: number
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_sessions_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "study_sessions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suppliers: {
         Row: {

@@ -26,6 +26,7 @@ import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
+import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
@@ -44,6 +45,17 @@ import { Route as AuthenticatedEnterpriseContentRouteImport } from './routes/_au
 import { Route as AuthenticatedEnterpriseCommsRouteImport } from './routes/_authenticated/enterprise.comms'
 import { Route as AuthenticatedEnterpriseBusinessRouteImport } from './routes/_authenticated/enterprise.business'
 import { Route as AuthenticatedEnterpriseAiRouteImport } from './routes/_authenticated/enterprise.ai'
+import { Route as AuthenticatedEducationTutorRouteImport } from './routes/_authenticated/education.tutor'
+import { Route as AuthenticatedEducationSearchRouteImport } from './routes/_authenticated/education.search'
+import { Route as AuthenticatedEducationPlansRouteImport } from './routes/_authenticated/education.plans'
+import { Route as AuthenticatedEducationNotesRouteImport } from './routes/_authenticated/education.notes'
+import { Route as AuthenticatedEducationMyRouteImport } from './routes/_authenticated/education.my'
+import { Route as AuthenticatedEducationLibraryRouteImport } from './routes/_authenticated/education.library'
+import { Route as AuthenticatedEducationFlashcardsRouteImport } from './routes/_authenticated/education.flashcards'
+import { Route as AuthenticatedEducationExamsRouteImport } from './routes/_authenticated/education.exams'
+import { Route as AuthenticatedEducationCreatorRouteImport } from './routes/_authenticated/education.creator'
+import { Route as AuthenticatedEducationCertificatesRouteImport } from './routes/_authenticated/education.certificates'
+import { Route as AuthenticatedEducationAnalyticsRouteImport } from './routes/_authenticated/education.analytics'
 import { Route as AuthenticatedBusinessWarehouseRouteImport } from './routes/_authenticated/business.warehouse'
 import { Route as AuthenticatedBusinessSearchRouteImport } from './routes/_authenticated/business.search'
 import { Route as AuthenticatedBusinessSalesRouteImport } from './routes/_authenticated/business.sales'
@@ -146,6 +158,12 @@ const AuthenticatedEnterpriseIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEducationIndexRoute =
+  AuthenticatedEducationIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedEducationRoute,
   } as any)
 const AuthenticatedBusinessIndexRoute =
   AuthenticatedBusinessIndexRouteImport.update({
@@ -253,6 +271,72 @@ const AuthenticatedEnterpriseAiRoute =
     path: '/ai',
     getParentRoute: () => AuthenticatedEnterpriseRoute,
   } as any)
+const AuthenticatedEducationTutorRoute =
+  AuthenticatedEducationTutorRouteImport.update({
+    id: '/tutor',
+    path: '/tutor',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationSearchRoute =
+  AuthenticatedEducationSearchRouteImport.update({
+    id: '/search',
+    path: '/search',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationPlansRoute =
+  AuthenticatedEducationPlansRouteImport.update({
+    id: '/plans',
+    path: '/plans',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationNotesRoute =
+  AuthenticatedEducationNotesRouteImport.update({
+    id: '/notes',
+    path: '/notes',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationMyRoute =
+  AuthenticatedEducationMyRouteImport.update({
+    id: '/my',
+    path: '/my',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationLibraryRoute =
+  AuthenticatedEducationLibraryRouteImport.update({
+    id: '/library',
+    path: '/library',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationFlashcardsRoute =
+  AuthenticatedEducationFlashcardsRouteImport.update({
+    id: '/flashcards',
+    path: '/flashcards',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationExamsRoute =
+  AuthenticatedEducationExamsRouteImport.update({
+    id: '/exams',
+    path: '/exams',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationCreatorRoute =
+  AuthenticatedEducationCreatorRouteImport.update({
+    id: '/creator',
+    path: '/creator',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationCertificatesRoute =
+  AuthenticatedEducationCertificatesRouteImport.update({
+    id: '/certificates',
+    path: '/certificates',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
+const AuthenticatedEducationAnalyticsRoute =
+  AuthenticatedEducationAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedEducationRoute,
+  } as any)
 const AuthenticatedBusinessWarehouseRoute =
   AuthenticatedBusinessWarehouseRouteImport.update({
     id: '/warehouse',
@@ -348,7 +432,7 @@ export interface FileRoutesByFullPath {
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/education': typeof AuthenticatedEducationRoute
+  '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/knowledge': typeof AuthenticatedKnowledgeRoute
@@ -368,6 +452,17 @@ export interface FileRoutesByFullPath {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/education/analytics': typeof AuthenticatedEducationAnalyticsRoute
+  '/education/certificates': typeof AuthenticatedEducationCertificatesRoute
+  '/education/creator': typeof AuthenticatedEducationCreatorRoute
+  '/education/exams': typeof AuthenticatedEducationExamsRoute
+  '/education/flashcards': typeof AuthenticatedEducationFlashcardsRoute
+  '/education/library': typeof AuthenticatedEducationLibraryRoute
+  '/education/my': typeof AuthenticatedEducationMyRoute
+  '/education/notes': typeof AuthenticatedEducationNotesRoute
+  '/education/plans': typeof AuthenticatedEducationPlansRoute
+  '/education/search': typeof AuthenticatedEducationSearchRoute
+  '/education/tutor': typeof AuthenticatedEducationTutorRoute
   '/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
   '/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
   '/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
@@ -386,6 +481,7 @@ export interface FileRoutesByFullPath {
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
+  '/education/': typeof AuthenticatedEducationIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -398,7 +494,6 @@ export interface FileRoutesByTo {
   '/assistant': typeof AuthenticatedAssistantRoute
   '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/education': typeof AuthenticatedEducationRoute
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -416,6 +511,17 @@ export interface FileRoutesByTo {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/education/analytics': typeof AuthenticatedEducationAnalyticsRoute
+  '/education/certificates': typeof AuthenticatedEducationCertificatesRoute
+  '/education/creator': typeof AuthenticatedEducationCreatorRoute
+  '/education/exams': typeof AuthenticatedEducationExamsRoute
+  '/education/flashcards': typeof AuthenticatedEducationFlashcardsRoute
+  '/education/library': typeof AuthenticatedEducationLibraryRoute
+  '/education/my': typeof AuthenticatedEducationMyRoute
+  '/education/notes': typeof AuthenticatedEducationNotesRoute
+  '/education/plans': typeof AuthenticatedEducationPlansRoute
+  '/education/search': typeof AuthenticatedEducationSearchRoute
+  '/education/tutor': typeof AuthenticatedEducationTutorRoute
   '/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
   '/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
   '/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
@@ -434,6 +540,7 @@ export interface FileRoutesByTo {
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
+  '/education': typeof AuthenticatedEducationIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -449,7 +556,7 @@ export interface FileRoutesById {
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/education': typeof AuthenticatedEducationRoute
+  '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRoute
@@ -469,6 +576,17 @@ export interface FileRoutesById {
   '/_authenticated/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/_authenticated/business/search': typeof AuthenticatedBusinessSearchRoute
   '/_authenticated/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/_authenticated/education/analytics': typeof AuthenticatedEducationAnalyticsRoute
+  '/_authenticated/education/certificates': typeof AuthenticatedEducationCertificatesRoute
+  '/_authenticated/education/creator': typeof AuthenticatedEducationCreatorRoute
+  '/_authenticated/education/exams': typeof AuthenticatedEducationExamsRoute
+  '/_authenticated/education/flashcards': typeof AuthenticatedEducationFlashcardsRoute
+  '/_authenticated/education/library': typeof AuthenticatedEducationLibraryRoute
+  '/_authenticated/education/my': typeof AuthenticatedEducationMyRoute
+  '/_authenticated/education/notes': typeof AuthenticatedEducationNotesRoute
+  '/_authenticated/education/plans': typeof AuthenticatedEducationPlansRoute
+  '/_authenticated/education/search': typeof AuthenticatedEducationSearchRoute
+  '/_authenticated/education/tutor': typeof AuthenticatedEducationTutorRoute
   '/_authenticated/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
   '/_authenticated/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
   '/_authenticated/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
@@ -487,6 +605,7 @@ export interface FileRoutesById {
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
+  '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -522,6 +641,17 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
+    | '/education/analytics'
+    | '/education/certificates'
+    | '/education/creator'
+    | '/education/exams'
+    | '/education/flashcards'
+    | '/education/library'
+    | '/education/my'
+    | '/education/notes'
+    | '/education/plans'
+    | '/education/search'
+    | '/education/tutor'
     | '/enterprise/ai'
     | '/enterprise/business'
     | '/enterprise/comms'
@@ -540,6 +670,7 @@ export interface FileRouteTypes {
     | '/founder/system'
     | '/founder/users'
     | '/business/'
+    | '/education/'
     | '/enterprise/'
     | '/founder/'
     | '/api/public/v1/health'
@@ -552,7 +683,6 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/community'
     | '/dashboard'
-    | '/education'
     | '/knowledge'
     | '/marketplace'
     | '/settings'
@@ -570,6 +700,17 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
+    | '/education/analytics'
+    | '/education/certificates'
+    | '/education/creator'
+    | '/education/exams'
+    | '/education/flashcards'
+    | '/education/library'
+    | '/education/my'
+    | '/education/notes'
+    | '/education/plans'
+    | '/education/search'
+    | '/education/tutor'
     | '/enterprise/ai'
     | '/enterprise/business'
     | '/enterprise/comms'
@@ -588,6 +729,7 @@ export interface FileRouteTypes {
     | '/founder/system'
     | '/founder/users'
     | '/business'
+    | '/education'
     | '/enterprise'
     | '/founder'
     | '/api/public/v1/health'
@@ -622,6 +764,17 @@ export interface FileRouteTypes {
     | '/_authenticated/business/sales'
     | '/_authenticated/business/search'
     | '/_authenticated/business/warehouse'
+    | '/_authenticated/education/analytics'
+    | '/_authenticated/education/certificates'
+    | '/_authenticated/education/creator'
+    | '/_authenticated/education/exams'
+    | '/_authenticated/education/flashcards'
+    | '/_authenticated/education/library'
+    | '/_authenticated/education/my'
+    | '/_authenticated/education/notes'
+    | '/_authenticated/education/plans'
+    | '/_authenticated/education/search'
+    | '/_authenticated/education/tutor'
     | '/_authenticated/enterprise/ai'
     | '/_authenticated/enterprise/business'
     | '/_authenticated/enterprise/comms'
@@ -640,6 +793,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
     | '/_authenticated/business/'
+    | '/_authenticated/education/'
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
     | '/api/public/v1/health'
@@ -776,6 +930,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEnterpriseIndexRouteImport
       parentRoute: typeof AuthenticatedEnterpriseRoute
     }
+    '/_authenticated/education/': {
+      id: '/_authenticated/education/'
+      path: '/'
+      fullPath: '/education/'
+      preLoaderRoute: typeof AuthenticatedEducationIndexRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
     '/_authenticated/business/': {
       id: '/_authenticated/business/'
       path: '/'
@@ -901,6 +1062,83 @@ declare module '@tanstack/react-router' {
       fullPath: '/enterprise/ai'
       preLoaderRoute: typeof AuthenticatedEnterpriseAiRouteImport
       parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/education/tutor': {
+      id: '/_authenticated/education/tutor'
+      path: '/tutor'
+      fullPath: '/education/tutor'
+      preLoaderRoute: typeof AuthenticatedEducationTutorRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/search': {
+      id: '/_authenticated/education/search'
+      path: '/search'
+      fullPath: '/education/search'
+      preLoaderRoute: typeof AuthenticatedEducationSearchRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/plans': {
+      id: '/_authenticated/education/plans'
+      path: '/plans'
+      fullPath: '/education/plans'
+      preLoaderRoute: typeof AuthenticatedEducationPlansRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/notes': {
+      id: '/_authenticated/education/notes'
+      path: '/notes'
+      fullPath: '/education/notes'
+      preLoaderRoute: typeof AuthenticatedEducationNotesRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/my': {
+      id: '/_authenticated/education/my'
+      path: '/my'
+      fullPath: '/education/my'
+      preLoaderRoute: typeof AuthenticatedEducationMyRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/library': {
+      id: '/_authenticated/education/library'
+      path: '/library'
+      fullPath: '/education/library'
+      preLoaderRoute: typeof AuthenticatedEducationLibraryRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/flashcards': {
+      id: '/_authenticated/education/flashcards'
+      path: '/flashcards'
+      fullPath: '/education/flashcards'
+      preLoaderRoute: typeof AuthenticatedEducationFlashcardsRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/exams': {
+      id: '/_authenticated/education/exams'
+      path: '/exams'
+      fullPath: '/education/exams'
+      preLoaderRoute: typeof AuthenticatedEducationExamsRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/creator': {
+      id: '/_authenticated/education/creator'
+      path: '/creator'
+      fullPath: '/education/creator'
+      preLoaderRoute: typeof AuthenticatedEducationCreatorRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/certificates': {
+      id: '/_authenticated/education/certificates'
+      path: '/certificates'
+      fullPath: '/education/certificates'
+      preLoaderRoute: typeof AuthenticatedEducationCertificatesRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
+    }
+    '/_authenticated/education/analytics': {
+      id: '/_authenticated/education/analytics'
+      path: '/analytics'
+      fullPath: '/education/analytics'
+      preLoaderRoute: typeof AuthenticatedEducationAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedEducationRoute
     }
     '/_authenticated/business/warehouse': {
       id: '/_authenticated/business/warehouse'
@@ -1050,6 +1288,44 @@ const AuthenticatedBusinessRouteWithChildren =
     AuthenticatedBusinessRouteChildren,
   )
 
+interface AuthenticatedEducationRouteChildren {
+  AuthenticatedEducationAnalyticsRoute: typeof AuthenticatedEducationAnalyticsRoute
+  AuthenticatedEducationCertificatesRoute: typeof AuthenticatedEducationCertificatesRoute
+  AuthenticatedEducationCreatorRoute: typeof AuthenticatedEducationCreatorRoute
+  AuthenticatedEducationExamsRoute: typeof AuthenticatedEducationExamsRoute
+  AuthenticatedEducationFlashcardsRoute: typeof AuthenticatedEducationFlashcardsRoute
+  AuthenticatedEducationLibraryRoute: typeof AuthenticatedEducationLibraryRoute
+  AuthenticatedEducationMyRoute: typeof AuthenticatedEducationMyRoute
+  AuthenticatedEducationNotesRoute: typeof AuthenticatedEducationNotesRoute
+  AuthenticatedEducationPlansRoute: typeof AuthenticatedEducationPlansRoute
+  AuthenticatedEducationSearchRoute: typeof AuthenticatedEducationSearchRoute
+  AuthenticatedEducationTutorRoute: typeof AuthenticatedEducationTutorRoute
+  AuthenticatedEducationIndexRoute: typeof AuthenticatedEducationIndexRoute
+}
+
+const AuthenticatedEducationRouteChildren: AuthenticatedEducationRouteChildren =
+  {
+    AuthenticatedEducationAnalyticsRoute: AuthenticatedEducationAnalyticsRoute,
+    AuthenticatedEducationCertificatesRoute:
+      AuthenticatedEducationCertificatesRoute,
+    AuthenticatedEducationCreatorRoute: AuthenticatedEducationCreatorRoute,
+    AuthenticatedEducationExamsRoute: AuthenticatedEducationExamsRoute,
+    AuthenticatedEducationFlashcardsRoute:
+      AuthenticatedEducationFlashcardsRoute,
+    AuthenticatedEducationLibraryRoute: AuthenticatedEducationLibraryRoute,
+    AuthenticatedEducationMyRoute: AuthenticatedEducationMyRoute,
+    AuthenticatedEducationNotesRoute: AuthenticatedEducationNotesRoute,
+    AuthenticatedEducationPlansRoute: AuthenticatedEducationPlansRoute,
+    AuthenticatedEducationSearchRoute: AuthenticatedEducationSearchRoute,
+    AuthenticatedEducationTutorRoute: AuthenticatedEducationTutorRoute,
+    AuthenticatedEducationIndexRoute: AuthenticatedEducationIndexRoute,
+  }
+
+const AuthenticatedEducationRouteWithChildren =
+  AuthenticatedEducationRoute._addFileChildren(
+    AuthenticatedEducationRouteChildren,
+  )
+
 interface AuthenticatedEnterpriseRouteChildren {
   AuthenticatedEnterpriseAiRoute: typeof AuthenticatedEnterpriseAiRoute
   AuthenticatedEnterpriseBusinessRoute: typeof AuthenticatedEnterpriseBusinessRoute
@@ -1117,7 +1393,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedEducationRoute: typeof AuthenticatedEducationRoute
+  AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRoute
@@ -1131,7 +1407,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedEducationRoute: AuthenticatedEducationRoute,
+  AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRoute,
