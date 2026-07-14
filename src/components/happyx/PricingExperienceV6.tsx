@@ -1295,7 +1295,7 @@ const Migration = memo(function Migration() {
 
 /* ─────────────  11. Enterprise Contact  ───────────── */
 
-const CONTACT = [
+const CONTACT: { label: string; icon: typeof Rocket; href: string; primary?: boolean }[] = [
   { label: "Start Free", icon: Rocket, href: "/auth", primary: true },
   { label: "Book Demo", icon: Presentation, href: "/auth" },
   { label: "Contact Sales", icon: Phone, href: "/auth" },
@@ -1304,7 +1304,7 @@ const CONTACT = [
   { label: "Schedule Meeting", icon: Users, href: "/auth" },
   { label: "Become Partner", icon: Landmark, href: "/auth" },
   { label: "Developer Portal", icon: Wrench, href: "/auth" },
-] as const;
+];
 
 const Contact = memo(function Contact() {
   return (
