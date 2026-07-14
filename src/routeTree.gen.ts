@@ -29,6 +29,7 @@ import { Route as AuthenticatedAssistantRouteImport } from './routes/_authentica
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
+import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authenticated/knowledge.index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
 import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
@@ -48,6 +49,12 @@ import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authent
 import { Route as AuthenticatedMarketplaceSellerRouteImport } from './routes/_authenticated/marketplace.seller'
 import { Route as AuthenticatedMarketplaceSalesRouteImport } from './routes/_authenticated/marketplace.sales'
 import { Route as AuthenticatedMarketplaceOrdersRouteImport } from './routes/_authenticated/marketplace.orders'
+import { Route as AuthenticatedKnowledgeSourcesRouteImport } from './routes/_authenticated/knowledge.sources'
+import { Route as AuthenticatedKnowledgeSearchRouteImport } from './routes/_authenticated/knowledge.search'
+import { Route as AuthenticatedKnowledgeReligionCultureRouteImport } from './routes/_authenticated/knowledge.religion-culture'
+import { Route as AuthenticatedKnowledgeModerationRouteImport } from './routes/_authenticated/knowledge.moderation'
+import { Route as AuthenticatedKnowledgeLibraryRouteImport } from './routes/_authenticated/knowledge.library'
+import { Route as AuthenticatedKnowledgeAskRouteImport } from './routes/_authenticated/knowledge.ask'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
@@ -205,6 +212,12 @@ const AuthenticatedMarketplaceIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedMarketplaceRoute,
   } as any)
+const AuthenticatedKnowledgeIndexRoute =
+  AuthenticatedKnowledgeIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
+  } as any)
 const AuthenticatedFounderIndexRoute =
   AuthenticatedFounderIndexRouteImport.update({
     id: '/',
@@ -316,6 +329,42 @@ const AuthenticatedMarketplaceOrdersRoute =
     id: '/orders',
     path: '/orders',
     getParentRoute: () => AuthenticatedMarketplaceRoute,
+  } as any)
+const AuthenticatedKnowledgeSourcesRoute =
+  AuthenticatedKnowledgeSourcesRouteImport.update({
+    id: '/sources',
+    path: '/sources',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
+  } as any)
+const AuthenticatedKnowledgeSearchRoute =
+  AuthenticatedKnowledgeSearchRouteImport.update({
+    id: '/search',
+    path: '/search',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
+  } as any)
+const AuthenticatedKnowledgeReligionCultureRoute =
+  AuthenticatedKnowledgeReligionCultureRouteImport.update({
+    id: '/religion-culture',
+    path: '/religion-culture',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
+  } as any)
+const AuthenticatedKnowledgeModerationRoute =
+  AuthenticatedKnowledgeModerationRouteImport.update({
+    id: '/moderation',
+    path: '/moderation',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
+  } as any)
+const AuthenticatedKnowledgeLibraryRoute =
+  AuthenticatedKnowledgeLibraryRouteImport.update({
+    id: '/library',
+    path: '/library',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
+  } as any)
+const AuthenticatedKnowledgeAskRoute =
+  AuthenticatedKnowledgeAskRouteImport.update({
+    id: '/ask',
+    path: '/ask',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
@@ -636,7 +685,7 @@ export interface FileRoutesByFullPath {
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/founder': typeof AuthenticatedFounderRouteWithChildren
-  '/knowledge': typeof AuthenticatedKnowledgeRoute
+  '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
@@ -691,6 +740,12 @@ export interface FileRoutesByFullPath {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
+  '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
+  '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
+  '/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
+  '/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
+  '/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
@@ -710,6 +765,7 @@ export interface FileRoutesByFullPath {
   '/education/': typeof AuthenticatedEducationIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
+  '/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
   '/studio/': typeof AuthenticatedStudioIndexRoute
@@ -722,7 +778,6 @@ export interface FileRoutesByTo {
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -774,6 +829,12 @@ export interface FileRoutesByTo {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
+  '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
+  '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
+  '/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
+  '/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
+  '/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
@@ -793,6 +854,7 @@ export interface FileRoutesByTo {
   '/education': typeof AuthenticatedEducationIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
+  '/knowledge': typeof AuthenticatedKnowledgeIndexRoute
   '/marketplace': typeof AuthenticatedMarketplaceIndexRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
   '/studio': typeof AuthenticatedStudioIndexRoute
@@ -813,7 +875,7 @@ export interface FileRoutesById {
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
-  '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRoute
+  '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
@@ -868,6 +930,12 @@ export interface FileRoutesById {
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
+  '/_authenticated/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
+  '/_authenticated/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
+  '/_authenticated/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
+  '/_authenticated/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
+  '/_authenticated/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
   '/_authenticated/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/_authenticated/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/_authenticated/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
@@ -887,6 +955,7 @@ export interface FileRoutesById {
   '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
+  '/_authenticated/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/_authenticated/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
   '/_authenticated/studio/': typeof AuthenticatedStudioIndexRoute
@@ -962,6 +1031,12 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/knowledge/ask'
+    | '/knowledge/library'
+    | '/knowledge/moderation'
+    | '/knowledge/religion-culture'
+    | '/knowledge/search'
+    | '/knowledge/sources'
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
@@ -981,6 +1056,7 @@ export interface FileRouteTypes {
     | '/education/'
     | '/enterprise/'
     | '/founder/'
+    | '/knowledge/'
     | '/marketplace/'
     | '/messages/'
     | '/studio/'
@@ -993,7 +1069,6 @@ export interface FileRouteTypes {
     | '/design'
     | '/assistant'
     | '/dashboard'
-    | '/knowledge'
     | '/settings'
     | '/business/ai'
     | '/business/analytics'
@@ -1045,6 +1120,12 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/knowledge/ask'
+    | '/knowledge/library'
+    | '/knowledge/moderation'
+    | '/knowledge/religion-culture'
+    | '/knowledge/search'
+    | '/knowledge/sources'
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
@@ -1064,6 +1145,7 @@ export interface FileRouteTypes {
     | '/education'
     | '/enterprise'
     | '/founder'
+    | '/knowledge'
     | '/marketplace'
     | '/messages'
     | '/studio'
@@ -1138,6 +1220,12 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
+    | '/_authenticated/knowledge/ask'
+    | '/_authenticated/knowledge/library'
+    | '/_authenticated/knowledge/moderation'
+    | '/_authenticated/knowledge/religion-culture'
+    | '/_authenticated/knowledge/search'
+    | '/_authenticated/knowledge/sources'
     | '/_authenticated/marketplace/orders'
     | '/_authenticated/marketplace/sales'
     | '/_authenticated/marketplace/seller'
@@ -1157,6 +1245,7 @@ export interface FileRouteTypes {
     | '/_authenticated/education/'
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
+    | '/_authenticated/knowledge/'
     | '/_authenticated/marketplace/'
     | '/_authenticated/messages/'
     | '/_authenticated/studio/'
@@ -1316,6 +1405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMarketplaceIndexRouteImport
       parentRoute: typeof AuthenticatedMarketplaceRoute
     }
+    '/_authenticated/knowledge/': {
+      id: '/_authenticated/knowledge/'
+      path: '/'
+      fullPath: '/knowledge/'
+      preLoaderRoute: typeof AuthenticatedKnowledgeIndexRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
     '/_authenticated/founder/': {
       id: '/_authenticated/founder/'
       path: '/'
@@ -1448,6 +1544,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/marketplace/orders'
       preLoaderRoute: typeof AuthenticatedMarketplaceOrdersRouteImport
       parentRoute: typeof AuthenticatedMarketplaceRoute
+    }
+    '/_authenticated/knowledge/sources': {
+      id: '/_authenticated/knowledge/sources'
+      path: '/sources'
+      fullPath: '/knowledge/sources'
+      preLoaderRoute: typeof AuthenticatedKnowledgeSourcesRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
+    '/_authenticated/knowledge/search': {
+      id: '/_authenticated/knowledge/search'
+      path: '/search'
+      fullPath: '/knowledge/search'
+      preLoaderRoute: typeof AuthenticatedKnowledgeSearchRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
+    '/_authenticated/knowledge/religion-culture': {
+      id: '/_authenticated/knowledge/religion-culture'
+      path: '/religion-culture'
+      fullPath: '/knowledge/religion-culture'
+      preLoaderRoute: typeof AuthenticatedKnowledgeReligionCultureRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
+    '/_authenticated/knowledge/moderation': {
+      id: '/_authenticated/knowledge/moderation'
+      path: '/moderation'
+      fullPath: '/knowledge/moderation'
+      preLoaderRoute: typeof AuthenticatedKnowledgeModerationRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
+    '/_authenticated/knowledge/library': {
+      id: '/_authenticated/knowledge/library'
+      path: '/library'
+      fullPath: '/knowledge/library'
+      preLoaderRoute: typeof AuthenticatedKnowledgeLibraryRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
+    '/_authenticated/knowledge/ask': {
+      id: '/_authenticated/knowledge/ask'
+      path: '/ask'
+      fullPath: '/knowledge/ask'
+      preLoaderRoute: typeof AuthenticatedKnowledgeAskRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
     }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
@@ -2008,6 +2146,34 @@ const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
 const AuthenticatedFounderRouteWithChildren =
   AuthenticatedFounderRoute._addFileChildren(AuthenticatedFounderRouteChildren)
 
+interface AuthenticatedKnowledgeRouteChildren {
+  AuthenticatedKnowledgeAskRoute: typeof AuthenticatedKnowledgeAskRoute
+  AuthenticatedKnowledgeLibraryRoute: typeof AuthenticatedKnowledgeLibraryRoute
+  AuthenticatedKnowledgeModerationRoute: typeof AuthenticatedKnowledgeModerationRoute
+  AuthenticatedKnowledgeReligionCultureRoute: typeof AuthenticatedKnowledgeReligionCultureRoute
+  AuthenticatedKnowledgeSearchRoute: typeof AuthenticatedKnowledgeSearchRoute
+  AuthenticatedKnowledgeSourcesRoute: typeof AuthenticatedKnowledgeSourcesRoute
+  AuthenticatedKnowledgeIndexRoute: typeof AuthenticatedKnowledgeIndexRoute
+}
+
+const AuthenticatedKnowledgeRouteChildren: AuthenticatedKnowledgeRouteChildren =
+  {
+    AuthenticatedKnowledgeAskRoute: AuthenticatedKnowledgeAskRoute,
+    AuthenticatedKnowledgeLibraryRoute: AuthenticatedKnowledgeLibraryRoute,
+    AuthenticatedKnowledgeModerationRoute:
+      AuthenticatedKnowledgeModerationRoute,
+    AuthenticatedKnowledgeReligionCultureRoute:
+      AuthenticatedKnowledgeReligionCultureRoute,
+    AuthenticatedKnowledgeSearchRoute: AuthenticatedKnowledgeSearchRoute,
+    AuthenticatedKnowledgeSourcesRoute: AuthenticatedKnowledgeSourcesRoute,
+    AuthenticatedKnowledgeIndexRoute: AuthenticatedKnowledgeIndexRoute,
+  }
+
+const AuthenticatedKnowledgeRouteWithChildren =
+  AuthenticatedKnowledgeRoute._addFileChildren(
+    AuthenticatedKnowledgeRouteChildren,
+  )
+
 interface AuthenticatedMarketplaceRouteChildren {
   AuthenticatedMarketplaceOrdersRoute: typeof AuthenticatedMarketplaceOrdersRoute
   AuthenticatedMarketplaceSalesRoute: typeof AuthenticatedMarketplaceSalesRoute
@@ -2079,7 +2245,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
-  AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRoute
+  AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
@@ -2095,7 +2261,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
-  AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRoute,
+  AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
