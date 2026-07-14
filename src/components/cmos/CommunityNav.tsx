@@ -3,7 +3,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { Rss, Users, UserPlus, PenSquare } from "lucide-react";
 
-const TABS = [
+type Tab = { to: string; label: string; icon: any; exact?: boolean };
+const TABS: ReadonlyArray<Tab> = [
   { to: "/community", label: "Feed", icon: Rss, exact: true },
   { to: "/community/following", label: "Following", icon: UserPlus },
   { to: "/community/groups", label: "Groups", icon: Users },

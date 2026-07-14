@@ -3,7 +3,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { Store, ShoppingBag, Package, Receipt, MessageSquare } from "lucide-react";
 
-const TABS = [
+type Tab = { to: string; label: string; icon: any; exact?: boolean };
+const TABS: ReadonlyArray<Tab> = [
   { to: "/marketplace", label: "Browse", icon: Store, exact: true },
   { to: "/marketplace/orders", label: "My Orders", icon: ShoppingBag },
   { to: "/marketplace/seller", label: "Seller Center", icon: Package },
