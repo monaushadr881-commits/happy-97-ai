@@ -372,7 +372,7 @@ function Hero() {
 
 function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
   return (
-    <div className="relative mx-auto w-full max-w-[520px]">
+    <div className="relative mx-auto w-full max-w-[480px] px-4 md:px-8">
       <div
         className="relative aspect-[4/5] w-full [perspective:1400px]"
         style={{ transform: `translate3d(${tilt.x * 0.6}px, ${tilt.y * -0.6}px, 0)` }}
@@ -383,28 +383,31 @@ function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
           className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 ease-out"
           style={{ transform: `rotateY(${tilt.x * 0.6}deg) rotateX(${tilt.y * 0.6}deg)` }}
         >
-          <div className="absolute inset-4 rounded-[1.85rem] overflow-hidden ring-1 ring-gold/25 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] bg-obsidian">
+          <div className="absolute inset-6 rounded-[1.85rem] overflow-hidden ring-1 ring-gold/25 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] bg-obsidian">
             <HappyAvatar
               variant="portrait"
-              size={480}
+              size={440}
               activity="listening"
               expression="smile"
+              trackCursor
               className="!w-full !h-full"
             />
 
-            {/* live chip */}
-            <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-obsidian/70 px-3 py-1.5 backdrop-blur">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-paper">HAPPY · Online</span>
-            </div>
-
-            {/* mode chip */}
-            <div className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-obsidian/70 px-3 py-1.5 backdrop-blur">
-              <Sparkle className="h-3 w-3 text-gold" />
-              <span className="text-[10px] uppercase tracking-widest text-gold">Chief of Staff</span>
+            {/* live status — top-left */}
+            <div className="absolute left-4 top-4 rounded-2xl border border-emerald-400/25 bg-obsidian/75 px-3 py-2 backdrop-blur-xl">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                </span>
+                <span className="text-[11px] font-semibold tracking-wide text-paper">HAPPY</span>
+                <span className="text-[10px] uppercase tracking-widest text-emerald-300">Online</span>
+              </div>
+              <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[9px] uppercase tracking-widest text-soft-gray">
+                <span>Enterprise v1.0</span>
+                <span className="text-gold/80">Memory Active</span>
+                <span>Fast Response</span>
+              </div>
             </div>
 
             {/* signature panel */}
@@ -444,6 +447,7 @@ function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
     </div>
   );
 }
+
 
 /* ─────────────────────  ECOSYSTEM DIAGRAM  ───────────────────── */
 function Ecosystem() {
