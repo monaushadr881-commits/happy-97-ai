@@ -235,6 +235,18 @@ export const HappyAvatar = memo(function HappyAvatar({
           />
         )}
 
+        {/* smile warmth — subtle golden lift across the cheeks */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 transition-opacity duration-700 ease-out"
+          style={{
+            background:
+              "radial-gradient(45% 22% at 50% 58%, rgba(232,201,106,0.28), transparent 70%)",
+            mixBlendMode: "screen",
+            opacity: smiling && !reducedMotion ? 1 : 0,
+          }}
+        />
+
         {/* bottom fade — for portrait variant */}
         {variant === "portrait" && (
           <div
@@ -243,6 +255,7 @@ export const HappyAvatar = memo(function HappyAvatar({
           />
         )}
       </div>
+
 
       <style>{`
         @keyframes dh-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-2px) scale(1.008) } }
