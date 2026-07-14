@@ -491,3 +491,33 @@ export const executiveEngineService = defineService({ name: "executive-engine", 
   async recommend(_ctx: ServiceContext) { return executiveEngine.recommend(); },
   async analytics(_ctx: ServiceContext) { return executiveEngine.executiveAnalytics(); },
 }));
+
+// ---------- v3.1 — Autonomous Intelligence Runtime (reserved contracts) ----------
+const rsvd = (m: string) => ({
+  async status(_c: ServiceContext) { return notImplemented(m, "status"); },
+  async list(_c: ServiceContext) { return notImplemented(m, "list"); },
+  async get(_c: ServiceContext, _i: unknown) { return notImplemented(m, "get"); },
+  async create(_c: ServiceContext, _i: unknown) { return notImplemented(m, "create"); },
+  async update(_c: ServiceContext, _i: unknown) { return notImplemented(m, "update"); },
+  async remove(_c: ServiceContext, _i: unknown) { return notImplemented(m, "remove"); },
+  async execute(_c: ServiceContext, _i: unknown) { return notImplemented(m, "execute"); },
+  async analytics(_c: ServiceContext) { return notImplemented(m, "analytics"); },
+  async health(_c: ServiceContext) { return notImplemented(m, "health"); },
+  async live(_c: ServiceContext) { return notImplemented(m, "live"); },
+  async history(_c: ServiceContext) { return notImplemented(m, "history"); },
+  async settings(_c: ServiceContext) { return notImplemented(m, "settings"); },
+  async updateSettings(_c: ServiceContext, _i: unknown) { return notImplemented(m, "updateSettings"); },
+});
+
+export const capabilityRuntimeService = defineService({ name: "capability-runtime", version: "v3" }, () => rsvd("capability-runtime"));
+export const memoryRuntimeService = defineService({ name: "memory-runtime", version: "v3" }, () => rsvd("memory-runtime"));
+export const decisionRuntimeService = defineService({ name: "decision-runtime", version: "v3" }, () => rsvd("decision-runtime"));
+export const executionRuntimeService = defineService({ name: "execution-runtime", version: "v3" }, () => rsvd("execution-runtime"));
+export const collaborationRuntimeService = defineService({ name: "collaboration-runtime", version: "v3" }, () => rsvd("collaboration-runtime"));
+export const automationRuntimeService = defineService({ name: "automation-runtime", version: "v3" }, () => rsvd("automation-runtime"));
+export const pluginRuntimeService = defineService({ name: "plugin-runtime", version: "v3" }, () => rsvd("plugin-runtime"));
+export const developerRuntimeService = defineService({ name: "developer-runtime", version: "v3" }, () => rsvd("developer-runtime"));
+export const skillsRuntimeService = defineService({ name: "skills-runtime", version: "v3" }, () => rsvd("skills-runtime"));
+export const dashboardRuntimeService = defineService({ name: "dashboard-runtime", version: "v3" }, () => rsvd("dashboard-runtime"));
+export const enterpriseIntelligenceRuntimeService = defineService({ name: "enterprise-intelligence-runtime", version: "v3" }, () => rsvd("enterprise-intelligence-runtime"));
+
