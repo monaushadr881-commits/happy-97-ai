@@ -81,17 +81,31 @@ import { Route as AuthenticatedSkillsCategoriesRouteImport } from './routes/_aut
 import { Route as AuthenticatedRuntimeWorkflowsRouteImport } from './routes/_authenticated/runtime.workflows'
 import { Route as AuthenticatedRuntimeToolsRouteImport } from './routes/_authenticated/runtime.tools'
 import { Route as AuthenticatedRuntimeTimelineRouteImport } from './routes/_authenticated/runtime.timeline'
+import { Route as AuthenticatedRuntimeSkillsRouteImport } from './routes/_authenticated/runtime.skills'
 import { Route as AuthenticatedRuntimeSettingsRouteImport } from './routes/_authenticated/runtime.settings'
+import { Route as AuthenticatedRuntimeSecurityRouteImport } from './routes/_authenticated/runtime.security'
 import { Route as AuthenticatedRuntimeRisksRouteImport } from './routes/_authenticated/runtime.risks'
+import { Route as AuthenticatedRuntimePluginsRouteImport } from './routes/_authenticated/runtime.plugins'
 import { Route as AuthenticatedRuntimePlanningRouteImport } from './routes/_authenticated/runtime.planning'
 import { Route as AuthenticatedRuntimePlannerRouteImport } from './routes/_authenticated/runtime.planner'
+import { Route as AuthenticatedRuntimePerformanceRouteImport } from './routes/_authenticated/runtime.performance'
+import { Route as AuthenticatedRuntimeMonitorRouteImport } from './routes/_authenticated/runtime.monitor'
+import { Route as AuthenticatedRuntimeMemoryRouteImport } from './routes/_authenticated/runtime.memory'
+import { Route as AuthenticatedRuntimeLogsRouteImport } from './routes/_authenticated/runtime.logs'
 import { Route as AuthenticatedRuntimeLiveRouteImport } from './routes/_authenticated/runtime.live'
 import { Route as AuthenticatedRuntimeIntelligenceRouteImport } from './routes/_authenticated/runtime.intelligence'
 import { Route as AuthenticatedRuntimeHistoryRouteImport } from './routes/_authenticated/runtime.history'
 import { Route as AuthenticatedRuntimeHealthRouteImport } from './routes/_authenticated/runtime.health'
 import { Route as AuthenticatedRuntimeGoalsRouteImport } from './routes/_authenticated/runtime.goals'
 import { Route as AuthenticatedRuntimeExecutionsRouteImport } from './routes/_authenticated/runtime.executions'
+import { Route as AuthenticatedRuntimeExecutionRouteImport } from './routes/_authenticated/runtime.execution'
+import { Route as AuthenticatedRuntimeDevelopersRouteImport } from './routes/_authenticated/runtime.developers'
 import { Route as AuthenticatedRuntimeDependenciesRouteImport } from './routes/_authenticated/runtime.dependencies'
+import { Route as AuthenticatedRuntimeDecisionRouteImport } from './routes/_authenticated/runtime.decision'
+import { Route as AuthenticatedRuntimeDashboardRouteImport } from './routes/_authenticated/runtime.dashboard'
+import { Route as AuthenticatedRuntimeCollaborationRouteImport } from './routes/_authenticated/runtime.collaboration'
+import { Route as AuthenticatedRuntimeCapabilitiesRouteImport } from './routes/_authenticated/runtime.capabilities'
+import { Route as AuthenticatedRuntimeAutomationRouteImport } from './routes/_authenticated/runtime.automation'
 import { Route as AuthenticatedRuntimeAnalyticsRouteImport } from './routes/_authenticated/runtime.analytics'
 import { Route as AuthenticatedPluginsStoreRouteImport } from './routes/_authenticated/plugins.store'
 import { Route as AuthenticatedPluginsSettingsRouteImport } from './routes/_authenticated/plugins.settings'
@@ -612,16 +626,34 @@ const AuthenticatedRuntimeTimelineRoute =
     path: '/timeline',
     getParentRoute: () => AuthenticatedRuntimeRoute,
   } as any)
+const AuthenticatedRuntimeSkillsRoute =
+  AuthenticatedRuntimeSkillsRouteImport.update({
+    id: '/skills',
+    path: '/skills',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
 const AuthenticatedRuntimeSettingsRoute =
   AuthenticatedRuntimeSettingsRouteImport.update({
     id: '/settings',
     path: '/settings',
     getParentRoute: () => AuthenticatedRuntimeRoute,
   } as any)
+const AuthenticatedRuntimeSecurityRoute =
+  AuthenticatedRuntimeSecurityRouteImport.update({
+    id: '/security',
+    path: '/security',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
 const AuthenticatedRuntimeRisksRoute =
   AuthenticatedRuntimeRisksRouteImport.update({
     id: '/risks',
     path: '/risks',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimePluginsRoute =
+  AuthenticatedRuntimePluginsRouteImport.update({
+    id: '/plugins',
+    path: '/plugins',
     getParentRoute: () => AuthenticatedRuntimeRoute,
   } as any)
 const AuthenticatedRuntimePlanningRoute =
@@ -634,6 +666,30 @@ const AuthenticatedRuntimePlannerRoute =
   AuthenticatedRuntimePlannerRouteImport.update({
     id: '/planner',
     path: '/planner',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimePerformanceRoute =
+  AuthenticatedRuntimePerformanceRouteImport.update({
+    id: '/performance',
+    path: '/performance',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeMonitorRoute =
+  AuthenticatedRuntimeMonitorRouteImport.update({
+    id: '/monitor',
+    path: '/monitor',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeMemoryRoute =
+  AuthenticatedRuntimeMemoryRouteImport.update({
+    id: '/memory',
+    path: '/memory',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeLogsRoute =
+  AuthenticatedRuntimeLogsRouteImport.update({
+    id: '/logs',
+    path: '/logs',
     getParentRoute: () => AuthenticatedRuntimeRoute,
   } as any)
 const AuthenticatedRuntimeLiveRoute =
@@ -672,10 +728,52 @@ const AuthenticatedRuntimeExecutionsRoute =
     path: '/executions',
     getParentRoute: () => AuthenticatedRuntimeRoute,
   } as any)
+const AuthenticatedRuntimeExecutionRoute =
+  AuthenticatedRuntimeExecutionRouteImport.update({
+    id: '/execution',
+    path: '/execution',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeDevelopersRoute =
+  AuthenticatedRuntimeDevelopersRouteImport.update({
+    id: '/developers',
+    path: '/developers',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
 const AuthenticatedRuntimeDependenciesRoute =
   AuthenticatedRuntimeDependenciesRouteImport.update({
     id: '/dependencies',
     path: '/dependencies',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeDecisionRoute =
+  AuthenticatedRuntimeDecisionRouteImport.update({
+    id: '/decision',
+    path: '/decision',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeDashboardRoute =
+  AuthenticatedRuntimeDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeCollaborationRoute =
+  AuthenticatedRuntimeCollaborationRouteImport.update({
+    id: '/collaboration',
+    path: '/collaboration',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeCapabilitiesRoute =
+  AuthenticatedRuntimeCapabilitiesRouteImport.update({
+    id: '/capabilities',
+    path: '/capabilities',
+    getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedRuntimeAutomationRoute =
+  AuthenticatedRuntimeAutomationRouteImport.update({
+    id: '/automation',
+    path: '/automation',
     getParentRoute: () => AuthenticatedRuntimeRoute,
   } as any)
 const AuthenticatedRuntimeAnalyticsRoute =
@@ -1540,17 +1638,31 @@ export interface FileRoutesByFullPath {
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
+  '/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
+  '/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
+  '/runtime/collaboration': typeof AuthenticatedRuntimeCollaborationRoute
+  '/runtime/dashboard': typeof AuthenticatedRuntimeDashboardRoute
+  '/runtime/decision': typeof AuthenticatedRuntimeDecisionRoute
   '/runtime/dependencies': typeof AuthenticatedRuntimeDependenciesRoute
+  '/runtime/developers': typeof AuthenticatedRuntimeDevelopersRoute
+  '/runtime/execution': typeof AuthenticatedRuntimeExecutionRoute
   '/runtime/executions': typeof AuthenticatedRuntimeExecutionsRoute
   '/runtime/goals': typeof AuthenticatedRuntimeGoalsRoute
   '/runtime/health': typeof AuthenticatedRuntimeHealthRoute
   '/runtime/history': typeof AuthenticatedRuntimeHistoryRoute
   '/runtime/intelligence': typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
   '/runtime/live': typeof AuthenticatedRuntimeLiveRoute
+  '/runtime/logs': typeof AuthenticatedRuntimeLogsRoute
+  '/runtime/memory': typeof AuthenticatedRuntimeMemoryRoute
+  '/runtime/monitor': typeof AuthenticatedRuntimeMonitorRoute
+  '/runtime/performance': typeof AuthenticatedRuntimePerformanceRoute
   '/runtime/planner': typeof AuthenticatedRuntimePlannerRoute
   '/runtime/planning': typeof AuthenticatedRuntimePlanningRoute
+  '/runtime/plugins': typeof AuthenticatedRuntimePluginsRoute
   '/runtime/risks': typeof AuthenticatedRuntimeRisksRoute
+  '/runtime/security': typeof AuthenticatedRuntimeSecurityRoute
   '/runtime/settings': typeof AuthenticatedRuntimeSettingsRoute
+  '/runtime/skills': typeof AuthenticatedRuntimeSkillsRoute
   '/runtime/timeline': typeof AuthenticatedRuntimeTimelineRoute
   '/runtime/tools': typeof AuthenticatedRuntimeToolsRouteWithChildren
   '/runtime/workflows': typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
@@ -1734,17 +1846,31 @@ export interface FileRoutesByTo {
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
+  '/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
+  '/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
+  '/runtime/collaboration': typeof AuthenticatedRuntimeCollaborationRoute
+  '/runtime/dashboard': typeof AuthenticatedRuntimeDashboardRoute
+  '/runtime/decision': typeof AuthenticatedRuntimeDecisionRoute
   '/runtime/dependencies': typeof AuthenticatedRuntimeDependenciesRoute
+  '/runtime/developers': typeof AuthenticatedRuntimeDevelopersRoute
+  '/runtime/execution': typeof AuthenticatedRuntimeExecutionRoute
   '/runtime/executions': typeof AuthenticatedRuntimeExecutionsRoute
   '/runtime/goals': typeof AuthenticatedRuntimeGoalsRoute
   '/runtime/health': typeof AuthenticatedRuntimeHealthRoute
   '/runtime/history': typeof AuthenticatedRuntimeHistoryRoute
   '/runtime/intelligence': typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
   '/runtime/live': typeof AuthenticatedRuntimeLiveRoute
+  '/runtime/logs': typeof AuthenticatedRuntimeLogsRoute
+  '/runtime/memory': typeof AuthenticatedRuntimeMemoryRoute
+  '/runtime/monitor': typeof AuthenticatedRuntimeMonitorRoute
+  '/runtime/performance': typeof AuthenticatedRuntimePerformanceRoute
   '/runtime/planner': typeof AuthenticatedRuntimePlannerRoute
   '/runtime/planning': typeof AuthenticatedRuntimePlanningRoute
+  '/runtime/plugins': typeof AuthenticatedRuntimePluginsRoute
   '/runtime/risks': typeof AuthenticatedRuntimeRisksRoute
+  '/runtime/security': typeof AuthenticatedRuntimeSecurityRoute
   '/runtime/settings': typeof AuthenticatedRuntimeSettingsRoute
+  '/runtime/skills': typeof AuthenticatedRuntimeSkillsRoute
   '/runtime/timeline': typeof AuthenticatedRuntimeTimelineRoute
   '/runtime/tools': typeof AuthenticatedRuntimeToolsRouteWithChildren
   '/runtime/workflows': typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
@@ -1941,17 +2067,31 @@ export interface FileRoutesById {
   '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/_authenticated/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
+  '/_authenticated/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
+  '/_authenticated/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
+  '/_authenticated/runtime/collaboration': typeof AuthenticatedRuntimeCollaborationRoute
+  '/_authenticated/runtime/dashboard': typeof AuthenticatedRuntimeDashboardRoute
+  '/_authenticated/runtime/decision': typeof AuthenticatedRuntimeDecisionRoute
   '/_authenticated/runtime/dependencies': typeof AuthenticatedRuntimeDependenciesRoute
+  '/_authenticated/runtime/developers': typeof AuthenticatedRuntimeDevelopersRoute
+  '/_authenticated/runtime/execution': typeof AuthenticatedRuntimeExecutionRoute
   '/_authenticated/runtime/executions': typeof AuthenticatedRuntimeExecutionsRoute
   '/_authenticated/runtime/goals': typeof AuthenticatedRuntimeGoalsRoute
   '/_authenticated/runtime/health': typeof AuthenticatedRuntimeHealthRoute
   '/_authenticated/runtime/history': typeof AuthenticatedRuntimeHistoryRoute
   '/_authenticated/runtime/intelligence': typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
   '/_authenticated/runtime/live': typeof AuthenticatedRuntimeLiveRoute
+  '/_authenticated/runtime/logs': typeof AuthenticatedRuntimeLogsRoute
+  '/_authenticated/runtime/memory': typeof AuthenticatedRuntimeMemoryRoute
+  '/_authenticated/runtime/monitor': typeof AuthenticatedRuntimeMonitorRoute
+  '/_authenticated/runtime/performance': typeof AuthenticatedRuntimePerformanceRoute
   '/_authenticated/runtime/planner': typeof AuthenticatedRuntimePlannerRoute
   '/_authenticated/runtime/planning': typeof AuthenticatedRuntimePlanningRoute
+  '/_authenticated/runtime/plugins': typeof AuthenticatedRuntimePluginsRoute
   '/_authenticated/runtime/risks': typeof AuthenticatedRuntimeRisksRoute
+  '/_authenticated/runtime/security': typeof AuthenticatedRuntimeSecurityRoute
   '/_authenticated/runtime/settings': typeof AuthenticatedRuntimeSettingsRoute
+  '/_authenticated/runtime/skills': typeof AuthenticatedRuntimeSkillsRoute
   '/_authenticated/runtime/timeline': typeof AuthenticatedRuntimeTimelineRoute
   '/_authenticated/runtime/tools': typeof AuthenticatedRuntimeToolsRouteWithChildren
   '/_authenticated/runtime/workflows': typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
@@ -2148,17 +2288,31 @@ export interface FileRouteTypes {
     | '/plugins/settings'
     | '/plugins/store'
     | '/runtime/analytics'
+    | '/runtime/automation'
+    | '/runtime/capabilities'
+    | '/runtime/collaboration'
+    | '/runtime/dashboard'
+    | '/runtime/decision'
     | '/runtime/dependencies'
+    | '/runtime/developers'
+    | '/runtime/execution'
     | '/runtime/executions'
     | '/runtime/goals'
     | '/runtime/health'
     | '/runtime/history'
     | '/runtime/intelligence'
     | '/runtime/live'
+    | '/runtime/logs'
+    | '/runtime/memory'
+    | '/runtime/monitor'
+    | '/runtime/performance'
     | '/runtime/planner'
     | '/runtime/planning'
+    | '/runtime/plugins'
     | '/runtime/risks'
+    | '/runtime/security'
     | '/runtime/settings'
+    | '/runtime/skills'
     | '/runtime/timeline'
     | '/runtime/tools'
     | '/runtime/workflows'
@@ -2342,17 +2496,31 @@ export interface FileRouteTypes {
     | '/plugins/settings'
     | '/plugins/store'
     | '/runtime/analytics'
+    | '/runtime/automation'
+    | '/runtime/capabilities'
+    | '/runtime/collaboration'
+    | '/runtime/dashboard'
+    | '/runtime/decision'
     | '/runtime/dependencies'
+    | '/runtime/developers'
+    | '/runtime/execution'
     | '/runtime/executions'
     | '/runtime/goals'
     | '/runtime/health'
     | '/runtime/history'
     | '/runtime/intelligence'
     | '/runtime/live'
+    | '/runtime/logs'
+    | '/runtime/memory'
+    | '/runtime/monitor'
+    | '/runtime/performance'
     | '/runtime/planner'
     | '/runtime/planning'
+    | '/runtime/plugins'
     | '/runtime/risks'
+    | '/runtime/security'
     | '/runtime/settings'
+    | '/runtime/skills'
     | '/runtime/timeline'
     | '/runtime/tools'
     | '/runtime/workflows'
@@ -2548,17 +2716,31 @@ export interface FileRouteTypes {
     | '/_authenticated/plugins/settings'
     | '/_authenticated/plugins/store'
     | '/_authenticated/runtime/analytics'
+    | '/_authenticated/runtime/automation'
+    | '/_authenticated/runtime/capabilities'
+    | '/_authenticated/runtime/collaboration'
+    | '/_authenticated/runtime/dashboard'
+    | '/_authenticated/runtime/decision'
     | '/_authenticated/runtime/dependencies'
+    | '/_authenticated/runtime/developers'
+    | '/_authenticated/runtime/execution'
     | '/_authenticated/runtime/executions'
     | '/_authenticated/runtime/goals'
     | '/_authenticated/runtime/health'
     | '/_authenticated/runtime/history'
     | '/_authenticated/runtime/intelligence'
     | '/_authenticated/runtime/live'
+    | '/_authenticated/runtime/logs'
+    | '/_authenticated/runtime/memory'
+    | '/_authenticated/runtime/monitor'
+    | '/_authenticated/runtime/performance'
     | '/_authenticated/runtime/planner'
     | '/_authenticated/runtime/planning'
+    | '/_authenticated/runtime/plugins'
     | '/_authenticated/runtime/risks'
+    | '/_authenticated/runtime/security'
     | '/_authenticated/runtime/settings'
+    | '/_authenticated/runtime/skills'
     | '/_authenticated/runtime/timeline'
     | '/_authenticated/runtime/tools'
     | '/_authenticated/runtime/workflows'
@@ -3131,6 +3313,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRuntimeTimelineRouteImport
       parentRoute: typeof AuthenticatedRuntimeRoute
     }
+    '/_authenticated/runtime/skills': {
+      id: '/_authenticated/runtime/skills'
+      path: '/skills'
+      fullPath: '/runtime/skills'
+      preLoaderRoute: typeof AuthenticatedRuntimeSkillsRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
     '/_authenticated/runtime/settings': {
       id: '/_authenticated/runtime/settings'
       path: '/settings'
@@ -3138,11 +3327,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRuntimeSettingsRouteImport
       parentRoute: typeof AuthenticatedRuntimeRoute
     }
+    '/_authenticated/runtime/security': {
+      id: '/_authenticated/runtime/security'
+      path: '/security'
+      fullPath: '/runtime/security'
+      preLoaderRoute: typeof AuthenticatedRuntimeSecurityRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
     '/_authenticated/runtime/risks': {
       id: '/_authenticated/runtime/risks'
       path: '/risks'
       fullPath: '/runtime/risks'
       preLoaderRoute: typeof AuthenticatedRuntimeRisksRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/plugins': {
+      id: '/_authenticated/runtime/plugins'
+      path: '/plugins'
+      fullPath: '/runtime/plugins'
+      preLoaderRoute: typeof AuthenticatedRuntimePluginsRouteImport
       parentRoute: typeof AuthenticatedRuntimeRoute
     }
     '/_authenticated/runtime/planning': {
@@ -3157,6 +3360,34 @@ declare module '@tanstack/react-router' {
       path: '/planner'
       fullPath: '/runtime/planner'
       preLoaderRoute: typeof AuthenticatedRuntimePlannerRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/performance': {
+      id: '/_authenticated/runtime/performance'
+      path: '/performance'
+      fullPath: '/runtime/performance'
+      preLoaderRoute: typeof AuthenticatedRuntimePerformanceRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/monitor': {
+      id: '/_authenticated/runtime/monitor'
+      path: '/monitor'
+      fullPath: '/runtime/monitor'
+      preLoaderRoute: typeof AuthenticatedRuntimeMonitorRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/memory': {
+      id: '/_authenticated/runtime/memory'
+      path: '/memory'
+      fullPath: '/runtime/memory'
+      preLoaderRoute: typeof AuthenticatedRuntimeMemoryRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/logs': {
+      id: '/_authenticated/runtime/logs'
+      path: '/logs'
+      fullPath: '/runtime/logs'
+      preLoaderRoute: typeof AuthenticatedRuntimeLogsRouteImport
       parentRoute: typeof AuthenticatedRuntimeRoute
     }
     '/_authenticated/runtime/live': {
@@ -3201,11 +3432,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRuntimeExecutionsRouteImport
       parentRoute: typeof AuthenticatedRuntimeRoute
     }
+    '/_authenticated/runtime/execution': {
+      id: '/_authenticated/runtime/execution'
+      path: '/execution'
+      fullPath: '/runtime/execution'
+      preLoaderRoute: typeof AuthenticatedRuntimeExecutionRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/developers': {
+      id: '/_authenticated/runtime/developers'
+      path: '/developers'
+      fullPath: '/runtime/developers'
+      preLoaderRoute: typeof AuthenticatedRuntimeDevelopersRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
     '/_authenticated/runtime/dependencies': {
       id: '/_authenticated/runtime/dependencies'
       path: '/dependencies'
       fullPath: '/runtime/dependencies'
       preLoaderRoute: typeof AuthenticatedRuntimeDependenciesRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/decision': {
+      id: '/_authenticated/runtime/decision'
+      path: '/decision'
+      fullPath: '/runtime/decision'
+      preLoaderRoute: typeof AuthenticatedRuntimeDecisionRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/dashboard': {
+      id: '/_authenticated/runtime/dashboard'
+      path: '/dashboard'
+      fullPath: '/runtime/dashboard'
+      preLoaderRoute: typeof AuthenticatedRuntimeDashboardRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/collaboration': {
+      id: '/_authenticated/runtime/collaboration'
+      path: '/collaboration'
+      fullPath: '/runtime/collaboration'
+      preLoaderRoute: typeof AuthenticatedRuntimeCollaborationRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/capabilities': {
+      id: '/_authenticated/runtime/capabilities'
+      path: '/capabilities'
+      fullPath: '/runtime/capabilities'
+      preLoaderRoute: typeof AuthenticatedRuntimeCapabilitiesRouteImport
+      parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/runtime/automation': {
+      id: '/_authenticated/runtime/automation'
+      path: '/automation'
+      fullPath: '/runtime/automation'
+      preLoaderRoute: typeof AuthenticatedRuntimeAutomationRouteImport
       parentRoute: typeof AuthenticatedRuntimeRoute
     }
     '/_authenticated/runtime/analytics': {
@@ -4553,17 +4833,31 @@ const AuthenticatedRuntimeWorkflowsRouteWithChildren =
 
 interface AuthenticatedRuntimeRouteChildren {
   AuthenticatedRuntimeAnalyticsRoute: typeof AuthenticatedRuntimeAnalyticsRoute
+  AuthenticatedRuntimeAutomationRoute: typeof AuthenticatedRuntimeAutomationRoute
+  AuthenticatedRuntimeCapabilitiesRoute: typeof AuthenticatedRuntimeCapabilitiesRoute
+  AuthenticatedRuntimeCollaborationRoute: typeof AuthenticatedRuntimeCollaborationRoute
+  AuthenticatedRuntimeDashboardRoute: typeof AuthenticatedRuntimeDashboardRoute
+  AuthenticatedRuntimeDecisionRoute: typeof AuthenticatedRuntimeDecisionRoute
   AuthenticatedRuntimeDependenciesRoute: typeof AuthenticatedRuntimeDependenciesRoute
+  AuthenticatedRuntimeDevelopersRoute: typeof AuthenticatedRuntimeDevelopersRoute
+  AuthenticatedRuntimeExecutionRoute: typeof AuthenticatedRuntimeExecutionRoute
   AuthenticatedRuntimeExecutionsRoute: typeof AuthenticatedRuntimeExecutionsRoute
   AuthenticatedRuntimeGoalsRoute: typeof AuthenticatedRuntimeGoalsRoute
   AuthenticatedRuntimeHealthRoute: typeof AuthenticatedRuntimeHealthRoute
   AuthenticatedRuntimeHistoryRoute: typeof AuthenticatedRuntimeHistoryRoute
   AuthenticatedRuntimeIntelligenceRoute: typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
   AuthenticatedRuntimeLiveRoute: typeof AuthenticatedRuntimeLiveRoute
+  AuthenticatedRuntimeLogsRoute: typeof AuthenticatedRuntimeLogsRoute
+  AuthenticatedRuntimeMemoryRoute: typeof AuthenticatedRuntimeMemoryRoute
+  AuthenticatedRuntimeMonitorRoute: typeof AuthenticatedRuntimeMonitorRoute
+  AuthenticatedRuntimePerformanceRoute: typeof AuthenticatedRuntimePerformanceRoute
   AuthenticatedRuntimePlannerRoute: typeof AuthenticatedRuntimePlannerRoute
   AuthenticatedRuntimePlanningRoute: typeof AuthenticatedRuntimePlanningRoute
+  AuthenticatedRuntimePluginsRoute: typeof AuthenticatedRuntimePluginsRoute
   AuthenticatedRuntimeRisksRoute: typeof AuthenticatedRuntimeRisksRoute
+  AuthenticatedRuntimeSecurityRoute: typeof AuthenticatedRuntimeSecurityRoute
   AuthenticatedRuntimeSettingsRoute: typeof AuthenticatedRuntimeSettingsRoute
+  AuthenticatedRuntimeSkillsRoute: typeof AuthenticatedRuntimeSkillsRoute
   AuthenticatedRuntimeTimelineRoute: typeof AuthenticatedRuntimeTimelineRoute
   AuthenticatedRuntimeToolsRoute: typeof AuthenticatedRuntimeToolsRouteWithChildren
   AuthenticatedRuntimeWorkflowsRoute: typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
@@ -4571,7 +4865,15 @@ interface AuthenticatedRuntimeRouteChildren {
 
 const AuthenticatedRuntimeRouteChildren: AuthenticatedRuntimeRouteChildren = {
   AuthenticatedRuntimeAnalyticsRoute: AuthenticatedRuntimeAnalyticsRoute,
+  AuthenticatedRuntimeAutomationRoute: AuthenticatedRuntimeAutomationRoute,
+  AuthenticatedRuntimeCapabilitiesRoute: AuthenticatedRuntimeCapabilitiesRoute,
+  AuthenticatedRuntimeCollaborationRoute:
+    AuthenticatedRuntimeCollaborationRoute,
+  AuthenticatedRuntimeDashboardRoute: AuthenticatedRuntimeDashboardRoute,
+  AuthenticatedRuntimeDecisionRoute: AuthenticatedRuntimeDecisionRoute,
   AuthenticatedRuntimeDependenciesRoute: AuthenticatedRuntimeDependenciesRoute,
+  AuthenticatedRuntimeDevelopersRoute: AuthenticatedRuntimeDevelopersRoute,
+  AuthenticatedRuntimeExecutionRoute: AuthenticatedRuntimeExecutionRoute,
   AuthenticatedRuntimeExecutionsRoute: AuthenticatedRuntimeExecutionsRoute,
   AuthenticatedRuntimeGoalsRoute: AuthenticatedRuntimeGoalsRoute,
   AuthenticatedRuntimeHealthRoute: AuthenticatedRuntimeHealthRoute,
@@ -4579,10 +4881,17 @@ const AuthenticatedRuntimeRouteChildren: AuthenticatedRuntimeRouteChildren = {
   AuthenticatedRuntimeIntelligenceRoute:
     AuthenticatedRuntimeIntelligenceRouteWithChildren,
   AuthenticatedRuntimeLiveRoute: AuthenticatedRuntimeLiveRoute,
+  AuthenticatedRuntimeLogsRoute: AuthenticatedRuntimeLogsRoute,
+  AuthenticatedRuntimeMemoryRoute: AuthenticatedRuntimeMemoryRoute,
+  AuthenticatedRuntimeMonitorRoute: AuthenticatedRuntimeMonitorRoute,
+  AuthenticatedRuntimePerformanceRoute: AuthenticatedRuntimePerformanceRoute,
   AuthenticatedRuntimePlannerRoute: AuthenticatedRuntimePlannerRoute,
   AuthenticatedRuntimePlanningRoute: AuthenticatedRuntimePlanningRoute,
+  AuthenticatedRuntimePluginsRoute: AuthenticatedRuntimePluginsRoute,
   AuthenticatedRuntimeRisksRoute: AuthenticatedRuntimeRisksRoute,
+  AuthenticatedRuntimeSecurityRoute: AuthenticatedRuntimeSecurityRoute,
   AuthenticatedRuntimeSettingsRoute: AuthenticatedRuntimeSettingsRoute,
+  AuthenticatedRuntimeSkillsRoute: AuthenticatedRuntimeSkillsRoute,
   AuthenticatedRuntimeTimelineRoute: AuthenticatedRuntimeTimelineRoute,
   AuthenticatedRuntimeToolsRoute: AuthenticatedRuntimeToolsRouteWithChildren,
   AuthenticatedRuntimeWorkflowsRoute:
