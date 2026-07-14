@@ -10,8 +10,10 @@
  * Public API is unchanged so every callsite keeps working.
  */
 import { memo, useEffect, useRef, useState } from "react";
-import happyPortraitAsset from "@/assets/happy-portrait.png.asset.json";
 import { cn } from "@/lib/utils";
+
+// Full-body executive portrait — served from /public so no upload roundtrip.
+const happyPortraitUrl = "/happy-portrait-v2.png";
 
 export type AvatarExpression =
   | "neutral" | "smile" | "thinking" | "explain" | "concern" | "celebrate" | "listen";
@@ -223,7 +225,7 @@ export const HappyAvatar = memo(function HappyAvatar({
         style={{ borderRadius: radius }}
       >
         <img
-          src={happyPortraitAsset.url}
+          src={happyPortraitUrl}
           alt="HAPPY, the official HAPPY digital human"
           className={cn(
             "h-full w-full object-cover object-top will-change-transform",
