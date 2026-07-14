@@ -116,9 +116,12 @@ export const HappyAvatar = memo(function HappyAvatar({
   variant = "bust",
 }: Props) {
   const blink = useBlink(reducedMotion);
+  const drift = useMicroMotion(reducedMotion);
   const speaking = activity === "speaking";
   const listening = activity === "listening";
   const thinking = expression === "thinking";
+  const smiling = expression === "smile" || expression === "celebrate";
+
 
   const radius = variant === "portrait" ? "1.75rem" : "9999px";
 
