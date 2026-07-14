@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BrainCircuit } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/enterprise-ai")({
+export const Route = createFileRoute("/_authenticated/enterprise-ai/")({
   head: () => ({ meta: [{ title: "Enterprise AI — HAPPY v6.0" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

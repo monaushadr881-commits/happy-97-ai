@@ -42,7 +42,6 @@ import { Route as AuthenticatedGlobalRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
 import { Route as AuthenticatedExecutionRouteImport } from './routes/_authenticated/execution'
 import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_authenticated/enterprise-cloud'
-import { Route as AuthenticatedEnterpriseAiRouteImport } from './routes/_authenticated/enterprise-ai'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedEcosystemRouteImport } from './routes/_authenticated/ecosystem'
@@ -70,6 +69,7 @@ import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedHyperlocalIndexRouteImport } from './routes/_authenticated/hyperlocal.index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
+import { Route as AuthenticatedEnterpriseAiIndexRouteImport } from './routes/_authenticated/enterprise-ai/index'
 import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
 import { Route as AuthenticatedDigitalHumanIndexRouteImport } from './routes/_authenticated/digital-human.index'
 import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authenticated/community.index'
@@ -433,12 +433,6 @@ const AuthenticatedEnterpriseCloudRoute =
     path: '/enterprise-cloud',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedEnterpriseAiRoute =
-  AuthenticatedEnterpriseAiRouteImport.update({
-    id: '/enterprise-ai',
-    path: '/enterprise-ai',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedEnterpriseRoute = AuthenticatedEnterpriseRouteImport.update({
   id: '/enterprise',
   path: '/enterprise',
@@ -583,6 +577,12 @@ const AuthenticatedEnterpriseIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseAiIndexRoute =
+  AuthenticatedEnterpriseAiIndexRouteImport.update({
+    id: '/enterprise-ai/',
+    path: '/enterprise-ai/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedEducationIndexRoute =
   AuthenticatedEducationIndexRouteImport.update({
@@ -1766,7 +1766,6 @@ export interface FileRoutesByFullPath {
   '/ecosystem': typeof AuthenticatedEcosystemRoute
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
-  '/enterprise-ai': typeof AuthenticatedEnterpriseAiRoute
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/execution': typeof AuthenticatedExecutionRouteWithChildren
   '/founder': typeof AuthenticatedFounderRouteWithChildren
@@ -1973,6 +1972,7 @@ export interface FileRoutesByFullPath {
   '/community/': typeof AuthenticatedCommunityIndexRoute
   '/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/education/': typeof AuthenticatedEducationIndexRoute
+  '/enterprise-ai/': typeof AuthenticatedEnterpriseAiIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
   '/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
@@ -2016,7 +2016,6 @@ export interface FileRoutesByTo {
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/digital-twin': typeof AuthenticatedDigitalTwinRoute
   '/ecosystem': typeof AuthenticatedEcosystemRoute
-  '/enterprise-ai': typeof AuthenticatedEnterpriseAiRoute
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/execution': typeof AuthenticatedExecutionRouteWithChildren
   '/global': typeof AuthenticatedGlobalRoute
@@ -2217,6 +2216,7 @@ export interface FileRoutesByTo {
   '/community': typeof AuthenticatedCommunityIndexRoute
   '/digital-human': typeof AuthenticatedDigitalHumanIndexRoute
   '/education': typeof AuthenticatedEducationIndexRoute
+  '/enterprise-ai': typeof AuthenticatedEnterpriseAiIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalIndexRoute
@@ -2268,7 +2268,6 @@ export interface FileRoutesById {
   '/_authenticated/ecosystem': typeof AuthenticatedEcosystemRoute
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
-  '/_authenticated/enterprise-ai': typeof AuthenticatedEnterpriseAiRoute
   '/_authenticated/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/_authenticated/execution': typeof AuthenticatedExecutionRouteWithChildren
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
@@ -2475,6 +2474,7 @@ export interface FileRoutesById {
   '/_authenticated/community/': typeof AuthenticatedCommunityIndexRoute
   '/_authenticated/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
+  '/_authenticated/enterprise-ai/': typeof AuthenticatedEnterpriseAiIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
   '/_authenticated/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
@@ -2526,7 +2526,6 @@ export interface FileRouteTypes {
     | '/ecosystem'
     | '/education'
     | '/enterprise'
-    | '/enterprise-ai'
     | '/enterprise-cloud'
     | '/execution'
     | '/founder'
@@ -2733,6 +2732,7 @@ export interface FileRouteTypes {
     | '/community/'
     | '/digital-human/'
     | '/education/'
+    | '/enterprise-ai/'
     | '/enterprise/'
     | '/founder/'
     | '/hyperlocal/'
@@ -2776,7 +2776,6 @@ export interface FileRouteTypes {
     | '/developers'
     | '/digital-twin'
     | '/ecosystem'
-    | '/enterprise-ai'
     | '/enterprise-cloud'
     | '/execution'
     | '/global'
@@ -2977,6 +2976,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/digital-human'
     | '/education'
+    | '/enterprise-ai'
     | '/enterprise'
     | '/founder'
     | '/hyperlocal'
@@ -3027,7 +3027,6 @@ export interface FileRouteTypes {
     | '/_authenticated/ecosystem'
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
-    | '/_authenticated/enterprise-ai'
     | '/_authenticated/enterprise-cloud'
     | '/_authenticated/execution'
     | '/_authenticated/founder'
@@ -3234,6 +3233,7 @@ export interface FileRouteTypes {
     | '/_authenticated/community/'
     | '/_authenticated/digital-human/'
     | '/_authenticated/education/'
+    | '/_authenticated/enterprise-ai/'
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
     | '/_authenticated/hyperlocal/'
@@ -3503,13 +3503,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEnterpriseCloudRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/enterprise-ai': {
-      id: '/_authenticated/enterprise-ai'
-      path: '/enterprise-ai'
-      fullPath: '/enterprise-ai'
-      preLoaderRoute: typeof AuthenticatedEnterpriseAiRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/enterprise': {
       id: '/_authenticated/enterprise'
       path: '/enterprise'
@@ -3698,6 +3691,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/enterprise/'
       preLoaderRoute: typeof AuthenticatedEnterpriseIndexRouteImport
       parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise-ai/': {
+      id: '/_authenticated/enterprise-ai/'
+      path: '/enterprise-ai'
+      fullPath: '/enterprise-ai/'
+      preLoaderRoute: typeof AuthenticatedEnterpriseAiIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/education/': {
       id: '/_authenticated/education/'
@@ -5823,7 +5823,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEcosystemRoute: typeof AuthenticatedEcosystemRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
-  AuthenticatedEnterpriseAiRoute: typeof AuthenticatedEnterpriseAiRoute
   AuthenticatedEnterpriseCloudRoute: typeof AuthenticatedEnterpriseCloudRoute
   AuthenticatedExecutionRoute: typeof AuthenticatedExecutionRouteWithChildren
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
@@ -5851,6 +5850,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedVendorsRoute: typeof AuthenticatedVendorsRoute
   AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRouteWithChildren
   AuthenticatedWorkforceRoute: typeof AuthenticatedWorkforceRoute
+  AuthenticatedEnterpriseAiIndexRoute: typeof AuthenticatedEnterpriseAiIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -5874,7 +5874,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEcosystemRoute: AuthenticatedEcosystemRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
-  AuthenticatedEnterpriseAiRoute: AuthenticatedEnterpriseAiRoute,
   AuthenticatedEnterpriseCloudRoute: AuthenticatedEnterpriseCloudRoute,
   AuthenticatedExecutionRoute: AuthenticatedExecutionRouteWithChildren,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
@@ -5902,6 +5901,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedVendorsRoute: AuthenticatedVendorsRoute,
   AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRouteWithChildren,
   AuthenticatedWorkforceRoute: AuthenticatedWorkforceRoute,
+  AuthenticatedEnterpriseAiIndexRoute: AuthenticatedEnterpriseAiIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
