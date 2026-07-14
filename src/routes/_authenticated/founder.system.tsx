@@ -68,8 +68,8 @@ function FounderSystem() {
           </div>
           <Hairline className="my-4" />
           <div className="flex flex-wrap gap-2">
-            {((languages.data ?? []) as Array<{ id: string; code: string; name: string }>).map((l) => (
-              <Chip key={l.id}>{l.code} · {l.name}</Chip>
+            {((languages.data ?? []) as Array<{ code: string; name: string }>).map((l) => (
+              <Chip key={l.code}>{l.code} · {l.name}</Chip>
             ))}
             {!(languages.data as unknown[] | undefined)?.length && <p className="text-xs text-soft-gray">No languages seeded.</p>}
           </div>

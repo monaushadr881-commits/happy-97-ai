@@ -103,8 +103,9 @@ function FounderCompanies() {
   );
 }
 
-function CreateCompanyDialog({ onCreate, pending }: { onCreate: (v: { name: string; slug: string }) => void; pending: boolean }) {
-  const [name, setName] = useState("");
+function CreateCompanyDialog({ onCreate, pending }: { onCreate: (v: { display_name: string; legal_name: string; slug: string }) => void; pending: boolean }) {
+  const [displayName, setDisplayName] = useState("");
+  const [legalName, setLegalName] = useState("");
   const [slug, setSlug] = useState("");
   const [open, setOpen] = useState(false);
   return (
@@ -117,13 +118,17 @@ function CreateCompanyDialog({ onCreate, pending }: { onCreate: (v: { name: stri
       <DialogContent className="bg-obsidian border-white/10">
         <DialogHeader><DialogTitle className="text-paper">Create Company</DialogTitle></DialogHeader>
         <div className="space-y-3">
-          <Input placeholder="Legal name" value={name} onChange={(e) => setName(e.target.value)} className="bg-white/[0.02] border-white/10" />
+          <Input placeholder="Display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className="bg-white/[0.02] border-white/10" />
+          <Input placeholder="Legal name" value={legalName} onChange={(e) => setLegalName(e.target.value)} className="bg-white/[0.02] border-white/10" />
           <Input placeholder="slug-like-this" value={slug} onChange={(e) => setSlug(e.target.value)} className="bg-white/[0.02] border-white/10" />
         </div>
         <DialogFooter>
           <Button
-            disabled={!name || !slug || pending}
-            onClick={() => { onCreate({ name, slug }); setOpen(false); setName(""); setSlug(""); }}
+            disabled={!displayName || !legalName || !slug || pending}
+            onClick={() => {
+              onCreate({ display_name: displayName, legal_name: legalName, slug });
+              setOpen(false); setDisplayName(""); setLegalName(""); setSlug("");
+            }}
             className="bg-gold text-obsidian hover:bg-gold-bright"
           >
             Create
