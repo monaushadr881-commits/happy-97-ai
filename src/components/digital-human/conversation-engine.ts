@@ -76,3 +76,14 @@ export function pausable(ms: number, signal?: AbortSignal): Promise<void> {
     signal?.addEventListener("abort", () => { clearTimeout(t); resolve(); }, { once: true });
   });
 }
+
+/** Estimate speech duration for a chunk of text (ms). ~160 wpm baseline. */
+export function estimateSpeechMs(text: string, speed = 1): number {
+  const words = (text.match(/\S+/g) ?? []).length;
+  const base = (words / 160) * 60_000; // 160 wpm
+  return Math.max(400, base / Math.max(0.5, speed));
+}
+
+/** Streaming conversational states surfaced to the UI. */
+export type ConvoState =
+  | "idle" | "listening" | "thinking" | "speaking" | "paused" | "interrupted" | "finished";
