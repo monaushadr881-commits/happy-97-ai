@@ -713,3 +713,16 @@ export const searchHubService = defineService({ name: "search-hub", version: "v1
 export const experienceFabricService = defineService({ name: "experience-fabric", version: "v16" }, () => activated("experience-fabric"));
 export const orchestrationPlatformService = defineService({ name: "orchestration-platform", version: "v16" }, () => activated("orchestration-platform"));
 export const ecosystemHubV16Service = defineService({ name: "ecosystem-hub-v16", version: "v16" }, () => activated("ecosystem-hub-v16"));
+
+
+// ---------- v17.0 — Global Intelligent Civilization Network (activated via Enterprise Brain) ----------
+export const serviceMeshService = defineService({ name: "service-mesh", version: "v17" }, () => activated("service-mesh"));
+export const apiFabricService = defineService({ name: "api-fabric", version: "v17" }, () => activated("api-fabric"));
+export const connectivityPlatformService = defineService({ name: "connectivity-platform", version: "v17" }, () => activated("connectivity-platform"));
+export const dataExchangeService = defineService({ name: "data-exchange", version: "v17" }, () => activated("data-exchange"));
+export const governanceV2Service = defineService({ name: "governance-v2", version: "v17" }, () => activated("governance-v2"));
+export const enterpriseNetworkService = defineService({ name: "enterprise-network", version: "v17" }, () => activated("enterprise-network"));
+export const intelligenceExchangeService = defineService({ name: "intelligence-exchange", version: "v17" }, () => activated("intelligence-exchange"));
+export const observabilityV3Service = defineService({ name: "observability-v3", version: "v17" }, () => activated("observability-v3"));
+export const experienceFabricV17Service = defineService({ name: "experience-fabric-v17", version: "v17" }, () => activated("experience-fabric-v17"));
+export const platformHubService = defineService({ name: "platform-hub", version: "v17" }, () => activated("platform-hub"));
