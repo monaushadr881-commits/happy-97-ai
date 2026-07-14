@@ -13,12 +13,12 @@ export const Route = createFileRoute("/_authenticated/plugins")({
   component: PluginsLayout,
 });
 
-const tabs = [
+const tabs: Array<{ to: string; label: string; icon: typeof Puzzle; exact?: boolean }> = [
   { to: "/plugins", label: "Overview", icon: Puzzle, exact: true },
   { to: "/plugins/store", label: "Store", icon: Store },
   { to: "/plugins/installed", label: "Installed", icon: Package },
   { to: "/plugins/settings", label: "Settings", icon: SettingsIcon },
-] as const;
+];
 
 function PluginsLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
