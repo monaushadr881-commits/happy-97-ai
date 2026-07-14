@@ -118,7 +118,11 @@ export const opsSecuritySummary = createServerFn({ method: "GET" })
 export const opsSecurityAudit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i ?? {})
-  .handler(async ({ data, context }) => guard(() => securityOpsService.recentAudit(svc(context), data)));
+  .handler(async ({ data, context }) => {
+    const rows = await guard(() => securityOpsService.recentAudit(svc(context), data));
+    // ip_address is Postgres inet (unknown) — coerce to string for RPC serialization.
+    return rows.map((r) => ({ ...r, ip_address: r.ip_address == null ? null : String(r.ip_address) }));
+  });
 
 // ---- AI Ops ----
 export const opsAiUsage = createServerFn({ method: "POST" })
