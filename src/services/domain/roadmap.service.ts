@@ -595,3 +595,30 @@ export const analyticsV7Service = defineService({ name: "analytics-v7", version:
 export const customer360Service = defineService({ name: "customer-360", version: "v7" }, () => activated("customer-360"));
 export const marketIntelligenceService = defineService({ name: "market-intelligence", version: "v7" }, () => activated("market-intelligence"));
 export const financialAIService = defineService({ name: "financial-ai", version: "v7" }, () => activated("financial-ai"));
+
+
+// ---------- v8.0 — Government & Smart City Platform (activated via Enterprise Brain) ----------
+export const governmentPlatformService = defineService({ name: "government-platform", version: "v8" }, () => activated("government-platform"));
+export const smartCityService = defineService({ name: "smart-city", version: "v8" }, () => activated("smart-city"));
+export const citizenService = defineService({ name: "citizen", version: "v8" }, () => activated("citizen"));
+export const publicHealthService = defineService({ name: "public-health", version: "v8" }, () => activated("public-health"));
+export const publicEducationService = defineService({ name: "public-education", version: "v8" }, () => activated("public-education"));
+export const publicSafetyService = defineService({ name: "public-safety", version: "v8" }, () => activated("public-safety"));
+export const transportService = defineService({ name: "transport", version: "v8" }, () => activated("transport"));
+export const utilitiesService = defineService({ name: "utilities", version: "v8" }, () => activated("utilities"));
+export const ruralDevelopmentService = defineService({ name: "rural-development", version: "v8" }, () => activated("rural-development"));
+export const nationalAnalyticsService = defineService({ name: "national-analytics", version: "v8" }, () => activated("national-analytics"));
+export const publicAIService = defineService({ name: "public-ai", version: "v8" }, () => activated("public-ai"));
+
+
+// ---------- v9.0 — Healthcare, Medical & Life Sciences Platform (activated via Enterprise Brain) ----------
+export const healthcarePlatformService = defineService({ name: "healthcare-platform", version: "v9" }, () => activated("healthcare-platform"));
+export const patientService = defineService({ name: "patient", version: "v9" }, () => activated("patient"));
+export const appointmentService = defineService({ name: "appointment", version: "v9" }, () => activated("appointment"));
+export const pharmacyService = defineService({ name: "pharmacy", version: "v9" }, () => activated("pharmacy"));
+export const laboratoryService = defineService({ name: "laboratory", version: "v9" }, () => activated("laboratory"));
+export const telemedicineService = defineService({ name: "telemedicine", version: "v9" }, () => activated("telemedicine"));
+export const wellnessService = defineService({ name: "wellness", version: "v9" }, () => activated("wellness"));
+export const publicHealthAnalyticsService = defineService({ name: "public-health-analytics", version: "v9" }, () => activated("public-health-analytics"));
+export const medicalAIService = defineService({ name: "medical-ai", version: "v9" }, () => activated("medical-ai"));
+export const medicalResearchService = defineService({ name: "medical-research", version: "v9" }, () => activated("medical-research"));
