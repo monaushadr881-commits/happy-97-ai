@@ -25,6 +25,7 @@ import { Route as AuthenticatedCommunityRouteImport } from './routes/_authentica
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
+import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
@@ -32,6 +33,16 @@ import { Route as AuthenticatedFounderOpsRouteImport } from './routes/_authentic
 import { Route as AuthenticatedFounderCompaniesRouteImport } from './routes/_authenticated/founder.companies'
 import { Route as AuthenticatedFounderAnalyticsRouteImport } from './routes/_authenticated/founder.analytics'
 import { Route as AuthenticatedFounderAiRouteImport } from './routes/_authenticated/founder.ai'
+import { Route as AuthenticatedEnterpriseWorkflowsRouteImport } from './routes/_authenticated/enterprise.workflows'
+import { Route as AuthenticatedEnterpriseStructureRouteImport } from './routes/_authenticated/enterprise.structure'
+import { Route as AuthenticatedEnterpriseSecurityRouteImport } from './routes/_authenticated/enterprise.security'
+import { Route as AuthenticatedEnterpriseReportsRouteImport } from './routes/_authenticated/enterprise.reports'
+import { Route as AuthenticatedEnterprisePeopleRouteImport } from './routes/_authenticated/enterprise.people'
+import { Route as AuthenticatedEnterpriseCustomersRouteImport } from './routes/_authenticated/enterprise.customers'
+import { Route as AuthenticatedEnterpriseContentRouteImport } from './routes/_authenticated/enterprise.content'
+import { Route as AuthenticatedEnterpriseCommsRouteImport } from './routes/_authenticated/enterprise.comms'
+import { Route as AuthenticatedEnterpriseBusinessRouteImport } from './routes/_authenticated/enterprise.business'
+import { Route as AuthenticatedEnterpriseAiRouteImport } from './routes/_authenticated/enterprise.ai'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 
@@ -116,6 +127,12 @@ const AuthenticatedFounderIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedFounderRoute,
   } as any)
+const AuthenticatedEnterpriseIndexRoute =
+  AuthenticatedEnterpriseIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
     id: '/users',
@@ -156,6 +173,66 @@ const AuthenticatedFounderAiRoute = AuthenticatedFounderAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AuthenticatedFounderRoute,
 } as any)
+const AuthenticatedEnterpriseWorkflowsRoute =
+  AuthenticatedEnterpriseWorkflowsRouteImport.update({
+    id: '/workflows',
+    path: '/workflows',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseStructureRoute =
+  AuthenticatedEnterpriseStructureRouteImport.update({
+    id: '/structure',
+    path: '/structure',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseSecurityRoute =
+  AuthenticatedEnterpriseSecurityRouteImport.update({
+    id: '/security',
+    path: '/security',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseReportsRoute =
+  AuthenticatedEnterpriseReportsRouteImport.update({
+    id: '/reports',
+    path: '/reports',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterprisePeopleRoute =
+  AuthenticatedEnterprisePeopleRouteImport.update({
+    id: '/people',
+    path: '/people',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseCustomersRoute =
+  AuthenticatedEnterpriseCustomersRouteImport.update({
+    id: '/customers',
+    path: '/customers',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseContentRoute =
+  AuthenticatedEnterpriseContentRouteImport.update({
+    id: '/content',
+    path: '/content',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseCommsRoute =
+  AuthenticatedEnterpriseCommsRouteImport.update({
+    id: '/comms',
+    path: '/comms',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseBusinessRoute =
+  AuthenticatedEnterpriseBusinessRouteImport.update({
+    id: '/business',
+    path: '/business',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedEnterpriseAiRoute =
+  AuthenticatedEnterpriseAiRouteImport.update({
+    id: '/ai',
+    path: '/ai',
+    getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
   path: '/api/public/v1/status',
@@ -176,12 +253,22 @@ export interface FileRoutesByFullPath {
   '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
-  '/enterprise': typeof AuthenticatedEnterpriseRoute
+  '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRoute
+  '/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
+  '/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
+  '/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
+  '/enterprise/content': typeof AuthenticatedEnterpriseContentRoute
+  '/enterprise/customers': typeof AuthenticatedEnterpriseCustomersRoute
+  '/enterprise/people': typeof AuthenticatedEnterprisePeopleRoute
+  '/enterprise/reports': typeof AuthenticatedEnterpriseReportsRoute
+  '/enterprise/security': typeof AuthenticatedEnterpriseSecurityRoute
+  '/enterprise/structure': typeof AuthenticatedEnterpriseStructureRoute
+  '/enterprise/workflows': typeof AuthenticatedEnterpriseWorkflowsRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
@@ -189,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -202,11 +290,20 @@ export interface FileRoutesByTo {
   '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
-  '/enterprise': typeof AuthenticatedEnterpriseRoute
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRoute
+  '/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
+  '/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
+  '/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
+  '/enterprise/content': typeof AuthenticatedEnterpriseContentRoute
+  '/enterprise/customers': typeof AuthenticatedEnterpriseCustomersRoute
+  '/enterprise/people': typeof AuthenticatedEnterprisePeopleRoute
+  '/enterprise/reports': typeof AuthenticatedEnterpriseReportsRoute
+  '/enterprise/security': typeof AuthenticatedEnterpriseSecurityRoute
+  '/enterprise/structure': typeof AuthenticatedEnterpriseStructureRoute
+  '/enterprise/workflows': typeof AuthenticatedEnterpriseWorkflowsRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
@@ -214,6 +311,7 @@ export interface FileRoutesByTo {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -229,12 +327,22 @@ export interface FileRoutesById {
   '/_authenticated/community': typeof AuthenticatedCommunityRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/education': typeof AuthenticatedEducationRoute
-  '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRoute
+  '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRoute
+  '/_authenticated/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
+  '/_authenticated/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
+  '/_authenticated/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
+  '/_authenticated/enterprise/content': typeof AuthenticatedEnterpriseContentRoute
+  '/_authenticated/enterprise/customers': typeof AuthenticatedEnterpriseCustomersRoute
+  '/_authenticated/enterprise/people': typeof AuthenticatedEnterprisePeopleRoute
+  '/_authenticated/enterprise/reports': typeof AuthenticatedEnterpriseReportsRoute
+  '/_authenticated/enterprise/security': typeof AuthenticatedEnterpriseSecurityRoute
+  '/_authenticated/enterprise/structure': typeof AuthenticatedEnterpriseStructureRoute
+  '/_authenticated/enterprise/workflows': typeof AuthenticatedEnterpriseWorkflowsRoute
   '/_authenticated/founder/ai': typeof AuthenticatedFounderAiRoute
   '/_authenticated/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/_authenticated/founder/companies': typeof AuthenticatedFounderCompaniesRoute
@@ -242,6 +350,7 @@ export interface FileRoutesById {
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -263,6 +372,16 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/settings'
     | '/studio'
+    | '/enterprise/ai'
+    | '/enterprise/business'
+    | '/enterprise/comms'
+    | '/enterprise/content'
+    | '/enterprise/customers'
+    | '/enterprise/people'
+    | '/enterprise/reports'
+    | '/enterprise/security'
+    | '/enterprise/structure'
+    | '/enterprise/workflows'
     | '/founder/ai'
     | '/founder/analytics'
     | '/founder/companies'
@@ -270,6 +389,7 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/enterprise/'
     | '/founder/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -283,11 +403,20 @@ export interface FileRouteTypes {
     | '/community'
     | '/dashboard'
     | '/education'
-    | '/enterprise'
     | '/knowledge'
     | '/marketplace'
     | '/settings'
     | '/studio'
+    | '/enterprise/ai'
+    | '/enterprise/business'
+    | '/enterprise/comms'
+    | '/enterprise/content'
+    | '/enterprise/customers'
+    | '/enterprise/people'
+    | '/enterprise/reports'
+    | '/enterprise/security'
+    | '/enterprise/structure'
+    | '/enterprise/workflows'
     | '/founder/ai'
     | '/founder/analytics'
     | '/founder/companies'
@@ -295,6 +424,7 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/enterprise'
     | '/founder'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -315,6 +445,16 @@ export interface FileRouteTypes {
     | '/_authenticated/marketplace'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
+    | '/_authenticated/enterprise/ai'
+    | '/_authenticated/enterprise/business'
+    | '/_authenticated/enterprise/comms'
+    | '/_authenticated/enterprise/content'
+    | '/_authenticated/enterprise/customers'
+    | '/_authenticated/enterprise/people'
+    | '/_authenticated/enterprise/reports'
+    | '/_authenticated/enterprise/security'
+    | '/_authenticated/enterprise/structure'
+    | '/_authenticated/enterprise/workflows'
     | '/_authenticated/founder/ai'
     | '/_authenticated/founder/analytics'
     | '/_authenticated/founder/companies'
@@ -322,6 +462,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
+    | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -450,6 +591,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderIndexRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
+    '/_authenticated/enterprise/': {
+      id: '/_authenticated/enterprise/'
+      path: '/'
+      fullPath: '/enterprise/'
+      preLoaderRoute: typeof AuthenticatedEnterpriseIndexRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
       path: '/users'
@@ -499,6 +647,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderAiRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
+    '/_authenticated/enterprise/workflows': {
+      id: '/_authenticated/enterprise/workflows'
+      path: '/workflows'
+      fullPath: '/enterprise/workflows'
+      preLoaderRoute: typeof AuthenticatedEnterpriseWorkflowsRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/structure': {
+      id: '/_authenticated/enterprise/structure'
+      path: '/structure'
+      fullPath: '/enterprise/structure'
+      preLoaderRoute: typeof AuthenticatedEnterpriseStructureRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/security': {
+      id: '/_authenticated/enterprise/security'
+      path: '/security'
+      fullPath: '/enterprise/security'
+      preLoaderRoute: typeof AuthenticatedEnterpriseSecurityRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/reports': {
+      id: '/_authenticated/enterprise/reports'
+      path: '/reports'
+      fullPath: '/enterprise/reports'
+      preLoaderRoute: typeof AuthenticatedEnterpriseReportsRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/people': {
+      id: '/_authenticated/enterprise/people'
+      path: '/people'
+      fullPath: '/enterprise/people'
+      preLoaderRoute: typeof AuthenticatedEnterprisePeopleRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/customers': {
+      id: '/_authenticated/enterprise/customers'
+      path: '/customers'
+      fullPath: '/enterprise/customers'
+      preLoaderRoute: typeof AuthenticatedEnterpriseCustomersRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/content': {
+      id: '/_authenticated/enterprise/content'
+      path: '/content'
+      fullPath: '/enterprise/content'
+      preLoaderRoute: typeof AuthenticatedEnterpriseContentRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/comms': {
+      id: '/_authenticated/enterprise/comms'
+      path: '/comms'
+      fullPath: '/enterprise/comms'
+      preLoaderRoute: typeof AuthenticatedEnterpriseCommsRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/business': {
+      id: '/_authenticated/enterprise/business'
+      path: '/business'
+      fullPath: '/enterprise/business'
+      preLoaderRoute: typeof AuthenticatedEnterpriseBusinessRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
+    '/_authenticated/enterprise/ai': {
+      id: '/_authenticated/enterprise/ai'
+      path: '/ai'
+      fullPath: '/enterprise/ai'
+      preLoaderRoute: typeof AuthenticatedEnterpriseAiRouteImport
+      parentRoute: typeof AuthenticatedEnterpriseRoute
+    }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
       path: '/api/public/v1/status'
@@ -515,6 +733,43 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedEnterpriseRouteChildren {
+  AuthenticatedEnterpriseAiRoute: typeof AuthenticatedEnterpriseAiRoute
+  AuthenticatedEnterpriseBusinessRoute: typeof AuthenticatedEnterpriseBusinessRoute
+  AuthenticatedEnterpriseCommsRoute: typeof AuthenticatedEnterpriseCommsRoute
+  AuthenticatedEnterpriseContentRoute: typeof AuthenticatedEnterpriseContentRoute
+  AuthenticatedEnterpriseCustomersRoute: typeof AuthenticatedEnterpriseCustomersRoute
+  AuthenticatedEnterprisePeopleRoute: typeof AuthenticatedEnterprisePeopleRoute
+  AuthenticatedEnterpriseReportsRoute: typeof AuthenticatedEnterpriseReportsRoute
+  AuthenticatedEnterpriseSecurityRoute: typeof AuthenticatedEnterpriseSecurityRoute
+  AuthenticatedEnterpriseStructureRoute: typeof AuthenticatedEnterpriseStructureRoute
+  AuthenticatedEnterpriseWorkflowsRoute: typeof AuthenticatedEnterpriseWorkflowsRoute
+  AuthenticatedEnterpriseIndexRoute: typeof AuthenticatedEnterpriseIndexRoute
+}
+
+const AuthenticatedEnterpriseRouteChildren: AuthenticatedEnterpriseRouteChildren =
+  {
+    AuthenticatedEnterpriseAiRoute: AuthenticatedEnterpriseAiRoute,
+    AuthenticatedEnterpriseBusinessRoute: AuthenticatedEnterpriseBusinessRoute,
+    AuthenticatedEnterpriseCommsRoute: AuthenticatedEnterpriseCommsRoute,
+    AuthenticatedEnterpriseContentRoute: AuthenticatedEnterpriseContentRoute,
+    AuthenticatedEnterpriseCustomersRoute:
+      AuthenticatedEnterpriseCustomersRoute,
+    AuthenticatedEnterprisePeopleRoute: AuthenticatedEnterprisePeopleRoute,
+    AuthenticatedEnterpriseReportsRoute: AuthenticatedEnterpriseReportsRoute,
+    AuthenticatedEnterpriseSecurityRoute: AuthenticatedEnterpriseSecurityRoute,
+    AuthenticatedEnterpriseStructureRoute:
+      AuthenticatedEnterpriseStructureRoute,
+    AuthenticatedEnterpriseWorkflowsRoute:
+      AuthenticatedEnterpriseWorkflowsRoute,
+    AuthenticatedEnterpriseIndexRoute: AuthenticatedEnterpriseIndexRoute,
+  }
+
+const AuthenticatedEnterpriseRouteWithChildren =
+  AuthenticatedEnterpriseRoute._addFileChildren(
+    AuthenticatedEnterpriseRouteChildren,
+  )
 
 interface AuthenticatedFounderRouteChildren {
   AuthenticatedFounderAiRoute: typeof AuthenticatedFounderAiRoute
@@ -547,7 +802,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRoute
-  AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRoute
+  AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRoute
@@ -561,7 +816,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCommunityRoute: AuthenticatedCommunityRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRoute,
-  AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRoute,
+  AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRoute,

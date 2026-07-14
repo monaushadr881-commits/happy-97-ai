@@ -1,16 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Shield } from "lucide-react";
-import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
+/**
+ * /enterprise — Enterprise Control Center layout.
+ * Provides company context + persistent sub-navigation to every child route.
+ * Every child consumes only the versioned API (api-v1 + enterprise-v1).
+ */
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { Container } from "@/design-system/primitives";
+import { EnterpriseProvider } from "@/components/enterprise/EnterpriseContext";
+import { EnterpriseNav } from "@/components/enterprise/EnterpriseNav";
 
 export const Route = createFileRoute("/_authenticated/enterprise")({
-  head: () => ({ meta: [{ title: "Enterprise — HAPPY X" }, { name: "robots", content: "noindex" }] }),
-  component: () => (
-    <ModulePlaceholder
-      eyebrow="Governance"
-      title="Enterprise Control Center"
-      icon={Shield}
-      description="Multi-company, multi-brand, RBAC, MFA, audit logs, privacy and compliance — enterprise controls built in from day one."
-      features={["Multi-Company", "Multi-Brand", "RBAC", "MFA", "Audit Logs", "Privacy Center", "Backup & Restore", "SSO", "Data Residency"]}
-    />
-  ),
+  head: () => ({
+    meta: [
+      { title: "Enterprise Control Center — HAPPY X" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: EnterpriseLayout,
 });
+
+function EnterpriseLayout() {
+  return (
+    <EnterpriseProvider>
+      <Container className="py-6 md:py-10">
+        <EnterpriseNav />
+        <Outlet />
+      </Container>
+    </EnterpriseProvider>
+  );
+}
