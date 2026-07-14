@@ -573,5 +573,12 @@ export const cloudMarketplaceService = defineService({ name: "cloud-marketplace"
 export const cloudStorageService = defineService({ name: "cloud-storage", version: "v5" }, () => activated("cloud-storage"));
 
 
-
+// ---------- v6.0 — Autonomous Enterprise (activated via Enterprise Brain) ----------
+export const enterpriseAIService = defineService({ name: "enterprise-ai", version: "v6" }, () => activated("enterprise-ai"));
+export const workforceService = defineService({ name: "workforce", version: "v6" }, () => activated("workforce"));
+export const automationStudioService = defineService({ name: "automation-studio", version: "v6" }, () => activated("automation-studio"));
+export const predictionService = defineService({ name: "prediction", version: "v6" }, () => activated("prediction"));
+export const simulationService = defineService({ name: "simulation", version: "v6" }, () => activated("simulation"));
+export const ecosystemService = defineService({ name: "ecosystem", version: "v6" }, () => activated("ecosystem"));
+export const communicationService = defineService({ name: "communication", version: "v6" }, () => activated("communication"));
 
