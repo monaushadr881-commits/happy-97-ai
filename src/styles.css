@@ -203,18 +203,18 @@
 @utility shimmer-on-hover {
   position: relative;
   overflow: hidden;
-}
 
-@utility shimmer-on-hover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgba(212, 175, 55, 0.25) 50%, transparent 70%);
-  transform: translateX(-120%) skewX(-20deg);
-  opacity: 0;
-  pointer-events: none;
-}
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(212, 175, 55, 0.25) 50%, transparent 70%);
+    transform: translateX(-120%) skewX(-20deg);
+    opacity: 0;
+    pointer-events: none;
+  }
 
-@utility shimmer-on-hover:hover::after {
-  animation: shimmer-sweep 1.2s ease forwards;
+  &:hover::after {
+    animation: shimmer-sweep 1.2s ease forwards;
+  }
 }
