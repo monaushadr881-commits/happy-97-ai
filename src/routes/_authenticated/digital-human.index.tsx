@@ -53,6 +53,7 @@ function DhConversation() {
   const [voiceSpeed, setVoiceSpeed] = useState<number>(prefs.speed ?? 1);
   const [interimHeard, setInterimHeard] = useState<string>("");
   const lastAckRef = useRef<string | undefined>(undefined);
+  const lastBackchannelRef = useRef<string | undefined>(undefined);
   const turnAbortRef = useRef<AbortController | null>(null);
   const lastAnswerRef = useRef<string>("");
 
