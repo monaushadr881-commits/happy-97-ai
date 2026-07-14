@@ -651,7 +651,7 @@ function ChatPreview() {
                 who="ai"
                 text="Understood. Reviewing last quarter's cohort data, margin drift by SKU, and Mumbai HR capacity. I'll prepare a two-page brief with three scenarios. Shall I include the manufacturing yield forecast from Business OS?"
               />
-              <ChatBubble who="you" text="Yes, and route it to Priya for review." />
+              <ChatBubble who="you" text="Yes, and route it to Kritika Ji for review." />
 
               {/* rich card — knowledge/business */}
               <div className="ml-11 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
