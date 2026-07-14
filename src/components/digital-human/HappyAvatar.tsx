@@ -25,7 +25,10 @@ type Props = {
   className?: string;
   /** Render as a full portrait card (rounded rectangle) instead of a circular bust. */
   variant?: "bust" | "portrait";
+  /** Gently orient gaze/head toward the cursor when it's near the avatar. */
+  trackCursor?: boolean;
 };
+
 
 /**
  * Organic blink loop — never repeats.
