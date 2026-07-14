@@ -126,13 +126,14 @@ function Nav() {
           <LogoMark size={36} />
           <div className="flex flex-col leading-tight">
             <span className="font-display text-[15px] font-semibold tracking-tight text-paper">
-              HAPPY <span className="text-gradient-gold">X</span>
+              HAPPY
             </span>
             <span className="text-[9px] uppercase tracking-[0.28em] text-gold/70">
-              Enterprise AI Partner
+              Human-Centered AI
             </span>
           </div>
         </a>
+
         <nav className="hidden gap-8 text-[13px] font-medium text-soft-gray md:flex">
           {[
             ["Platform", "#platform"],
