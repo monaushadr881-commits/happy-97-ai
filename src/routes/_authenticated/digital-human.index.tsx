@@ -354,7 +354,9 @@ function DhConversation() {
               <div className="text-[11px] text-soft-gray italic">HAPPY is thinking…</div>
             )}
           </div>
+          <LiveWaveform state={convoState} reducedMotion={prefs.reduced_motion} />
           <Hairline className="my-4" />
+
           <div className="flex gap-2 items-end">
             <Textarea rows={2} value={message} onChange={(e) => onUserInput(e.target.value)}
               placeholder="Type or speak to HAPPY…"
