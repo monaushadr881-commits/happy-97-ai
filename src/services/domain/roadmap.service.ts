@@ -544,4 +544,23 @@ export const brainService = defineService({ name: "enterprise-brain", version: "
   async memory(_c: ServiceContext) { return brainKernel.memorySnapshot(); },
 }));
 
+// ---------- v4.0 — Global AI Platform (activated via Enterprise Brain) ----------
+export const agentsService = defineService({ name: "agents", version: "v4" }, () => activated("agents"));
+export const cloudService = defineService({ name: "cloud", version: "v4" }, () => activated("cloud"));
+export const globalPlatformService = defineService({ name: "global-platform", version: "v4" }, () => activated("global-platform"));
+export const digitalTwinService = defineService({ name: "digital-twin", version: "v4" }, () => activated("digital-twin"));
+export const iotService = defineService({ name: "iot", version: "v4" }, () => activated("iot"));
+export const monitoringService = defineService({ name: "monitoring", version: "v4" }, () => activated("monitoring"));
+export const billingService = defineService({ name: "billing", version: "v4" }, () => activated("billing"));
+export const nativeService = defineService({ name: "native", version: "v4" }, () => activated("native"));
+export const workflowV4Service = defineService({ name: "workflow-v4", version: "v4" }, () => activated("workflow-v4"));
+export const intelligenceV4Service = defineService({ name: "intelligence-v4", version: "v4" }, () => activated("intelligence-v4"));
+export const memoryV4Service = defineService({ name: "memory-v4", version: "v4" }, () => activated("memory-v4"));
+export const decisionV4Service = defineService({ name: "decision-v4", version: "v4" }, () => activated("decision-v4"));
+export const pluginsV4Service = defineService({ name: "plugins-v4", version: "v4" }, () => activated("plugins-v4"));
+export const skillsV4Service = defineService({ name: "skills-v4", version: "v4" }, () => activated("skills-v4"));
+export const developerV4Service = defineService({ name: "developer-v4", version: "v4" }, () => activated("developer-v4"));
+export const brainV4Service = defineService({ name: "brain-v4", version: "v4" }, () => activated("brain-v4"));
+
+
 
