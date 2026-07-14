@@ -77,7 +77,7 @@ function FounderCompanies() {
                       <Building2 className="h-4 w-4" />
                     </div>
                     <div className="min-w-0">
-                      <div className="truncate text-paper">{c.name}</div>
+                      <div className="truncate text-paper">{nameOf(c)}</div>
                       <div className="text-[11px] uppercase tracking-[0.15em] text-soft-gray">{c.slug ?? c.id.slice(0, 8)}</div>
                     </div>
                   </div>
