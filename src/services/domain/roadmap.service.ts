@@ -407,3 +407,87 @@ export const executiveRuntimeService = defineService({ name: "executive-runtime"
   async decide(_ctx: ServiceContext, _input: unknown) { return notImplemented("executive-runtime", "decide"); },
   async analytics(_ctx: ServiceContext) { return notImplemented("executive-runtime", "analytics"); },
 }));
+
+// ---------- v3.0 / Phase 3.6 — Runtime Engine (real implementation) ----------
+import * as runtimeEngine from "@/runtime/engine/kernel";
+import * as plannerEngine from "@/runtime/engine/planner";
+import * as toolEngine from "@/runtime/engine/tool-engine";
+import * as workflowEngine from "@/runtime/engine/workflow-engine";
+import * as executiveEngine from "@/runtime/engine/executive-engine";
+
+export const runtimeEngineService = defineService({ name: "runtime-engine", version: "v3" }, () => ({
+  async status(_ctx: ServiceContext) { return { ok: true, health: runtimeEngine.runtimeHealth(), capabilities: runtimeEngine.CAPABILITIES, stages: runtimeEngine.STAGES }; },
+  async health(_ctx: ServiceContext) { return runtimeEngine.runtimeHealth(); },
+  async metrics(_ctx: ServiceContext) { return runtimeEngine.runtimeMetrics(); },
+  async analytics(_ctx: ServiceContext) { return runtimeEngine.runtimeAnalytics(); },
+  async capabilities(_ctx: ServiceContext) { return { enabled: runtimeEngine.getSettings().enabledCapabilities, all: runtimeEngine.CAPABILITIES }; },
+  async live(_ctx: ServiceContext) { return runtimeEngine.liveExecutions(); },
+  async history(_ctx: ServiceContext) { return runtimeEngine.listExecutions(50); },
+  async executions(_ctx: ServiceContext, _input?: { limit?: number }) { return runtimeEngine.listExecutions(_input?.limit ?? 50); },
+  async execute(ctx: ServiceContext, input: { utterance?: string; capability?: runtimeEngine.CapabilityId; tool?: string; input?: unknown; simulateFailure?: boolean; recover?: boolean }) {
+    return runtimeEngine.executeCapability({ userId: ctx.userId, ...input }, { simulateFailure: input.simulateFailure, recover: input.recover });
+  },
+  async dispatch(ctx: ServiceContext, input: { utterance?: string; capability?: runtimeEngine.CapabilityId; tool?: string }) {
+    return runtimeEngine.executeCapability({ userId: ctx.userId, ...input });
+  },
+  async settings(_ctx: ServiceContext) { return runtimeEngine.getSettings(); },
+  async updateSettings(_ctx: ServiceContext, input: Parameters<typeof runtimeEngine.updateSettings>[0]) { return runtimeEngine.updateSettings(input); },
+}));
+
+// ---------- Phase 3.7 — Planner Engine ----------
+export const plannerEngineService = defineService({ name: "planner-engine", version: "v3" }, () => ({
+  async plan(_ctx: ServiceContext, input: plannerEngine.PlanRequest) { return plannerEngine.planGoal(input); },
+  async goals(_ctx: ServiceContext) { return plannerEngine.listGoals(); },
+  async dependencies(_ctx: ServiceContext, input: { planId: string }) { return plannerEngine.resolveDependencies(input.planId); },
+  async assessRisk(_ctx: ServiceContext, input: { planId: string }) { return plannerEngine.assessRisk(input.planId); },
+  async prioritise(_ctx: ServiceContext, input: { planId: string }) { return plannerEngine.prioritise(input.planId); },
+  async scenarios(_ctx: ServiceContext, input: { planId: string }) { return plannerEngine.scenarios(input.planId); },
+  async milestones(_ctx: ServiceContext, input: { planId: string }) { return plannerEngine.milestones(input.planId); },
+  async timeline(_ctx: ServiceContext, input: { planId: string }) { return plannerEngine.timeline(input.planId); },
+  async risks(_ctx: ServiceContext) { return plannerEngine.listRisks(); },
+  async analytics(_ctx: ServiceContext) { return plannerEngine.plannerAnalytics(); },
+}));
+
+// ---------- Phase 3.8 — Tool Engine ----------
+export const toolEngineService = defineService({ name: "tool-engine", version: "v3" }, () => ({
+  async discover(_ctx: ServiceContext, input?: { query?: string; capability?: string }) { return toolEngine.discover(input?.query, input?.capability); },
+  async permissions(_ctx: ServiceContext, input: { toolId: string }) { return { toolId: input.toolId, permissions: toolEngine.permissionsFor(input.toolId) }; },
+  async validate(_ctx: ServiceContext, input: { toolId: string; granted?: string[] }) { return toolEngine.validate(input.toolId, input.granted); },
+  async execute(ctx: ServiceContext, input: { toolId: string; input?: unknown; granted?: string[]; simulateFailure?: boolean; recover?: boolean }) {
+    return toolEngine.runTool({ userId: ctx.userId, ...input });
+  },
+  async queue(_ctx: ServiceContext) { return toolEngine.toolQueue(); },
+  async history(_ctx: ServiceContext, input?: { limit?: number }) { return toolEngine.toolHistory(input?.limit ?? 50); },
+  async metrics(_ctx: ServiceContext) { return toolEngine.toolMetrics(); },
+  async health(_ctx: ServiceContext) { return toolEngine.toolHealth(); },
+  async analytics(_ctx: ServiceContext) { return toolEngine.toolAnalytics(); },
+  async live(_ctx: ServiceContext) { return toolEngine.toolQueue(); },
+}));
+
+// ---------- Phase 3.9 — Workflow Engine ----------
+export const workflowEngineService = defineService({ name: "workflow-engine", version: "v3" }, () => ({
+  async create(ctx: ServiceContext, input: { name: string; steps: workflowEngine.WorkflowStep[]; requiresApproval?: boolean; maxAttempts?: number }) {
+    return workflowEngine.createRun({ userId: ctx.userId, ...input });
+  },
+  async list(_ctx: ServiceContext, input?: { limit?: number }) { return workflowEngine.listRuns(input?.limit ?? 50); },
+  async live(_ctx: ServiceContext) { return workflowEngine.liveRuns(); },
+  async get(_ctx: ServiceContext, input: { runId: string }) { return workflowEngine.getRun(input.runId); },
+  async approve(_ctx: ServiceContext, input: { runId: string; approved: boolean }) { return workflowEngine.approve(input.runId, input.approved); },
+  async retry(_ctx: ServiceContext, input: { runId: string }) { return workflowEngine.retry(input.runId); },
+  async rollback(_ctx: ServiceContext, input: { runId: string }) { return workflowEngine.rollback(input.runId); },
+  async cancel(_ctx: ServiceContext, input: { runId: string }) { return workflowEngine.cancel(input.runId); },
+  async health(_ctx: ServiceContext) { return workflowEngine.workflowHealth(); },
+  async timeline(_ctx: ServiceContext) { return workflowEngine.workflowTimeline(); },
+  async analytics(_ctx: ServiceContext) { return workflowEngine.workflowAnalytics(); },
+}));
+
+// ---------- Phase 3.10 — Executive Engine ----------
+export const executiveEngineService = defineService({ name: "executive-engine", version: "v3" }, () => ({
+  async advisor(_ctx: ServiceContext, input: { question: string; capability?: runtimeEngine.CapabilityId }) { return executiveEngine.advisor(input); },
+  async forecast(_ctx: ServiceContext, input?: { metric?: string; horizonDays?: number }) { return executiveEngine.forecast(input ?? {}); },
+  async opportunities(_ctx: ServiceContext) { return executiveEngine.opportunities(); },
+  async risks(_ctx: ServiceContext) { return executiveEngine.risks(); },
+  async decide(_ctx: ServiceContext, input: { question: string; options: string[] }) { return executiveEngine.decide(input); },
+  async recommend(_ctx: ServiceContext) { return executiveEngine.recommend(); },
+  async analytics(_ctx: ServiceContext) { return executiveEngine.executiveAnalytics(); },
+}));
