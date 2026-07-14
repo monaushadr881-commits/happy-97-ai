@@ -24,6 +24,14 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
+import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
+import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
+import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
+import { Route as AuthenticatedFounderOpsRouteImport } from './routes/_authenticated/founder.ops'
+import { Route as AuthenticatedFounderCompaniesRouteImport } from './routes/_authenticated/founder.companies'
+import { Route as AuthenticatedFounderAnalyticsRouteImport } from './routes/_authenticated/founder.analytics'
+import { Route as AuthenticatedFounderAiRouteImport } from './routes/_authenticated/founder.ai'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 
@@ -102,6 +110,52 @@ const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFounderIndexRoute =
+  AuthenticatedFounderIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
+const AuthenticatedFounderUsersRoute =
+  AuthenticatedFounderUsersRouteImport.update({
+    id: '/users',
+    path: '/users',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
+const AuthenticatedFounderSystemRoute =
+  AuthenticatedFounderSystemRouteImport.update({
+    id: '/system',
+    path: '/system',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
+const AuthenticatedFounderSecurityRoute =
+  AuthenticatedFounderSecurityRouteImport.update({
+    id: '/security',
+    path: '/security',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
+const AuthenticatedFounderOpsRoute = AuthenticatedFounderOpsRouteImport.update({
+  id: '/ops',
+  path: '/ops',
+  getParentRoute: () => AuthenticatedFounderRoute,
+} as any)
+const AuthenticatedFounderCompaniesRoute =
+  AuthenticatedFounderCompaniesRouteImport.update({
+    id: '/companies',
+    path: '/companies',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
+const AuthenticatedFounderAnalyticsRoute =
+  AuthenticatedFounderAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
+const AuthenticatedFounderAiRoute = AuthenticatedFounderAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AuthenticatedFounderRoute,
+} as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
   path: '/api/public/v1/status',
@@ -123,11 +177,19 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
-  '/founder': typeof AuthenticatedFounderRoute
+  '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRoute
+  '/founder/ai': typeof AuthenticatedFounderAiRoute
+  '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
+  '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
+  '/founder/ops': typeof AuthenticatedFounderOpsRoute
+  '/founder/security': typeof AuthenticatedFounderSecurityRoute
+  '/founder/system': typeof AuthenticatedFounderSystemRoute
+  '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
 }
@@ -141,11 +203,18 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
-  '/founder': typeof AuthenticatedFounderRoute
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRoute
+  '/founder/ai': typeof AuthenticatedFounderAiRoute
+  '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
+  '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
+  '/founder/ops': typeof AuthenticatedFounderOpsRoute
+  '/founder/security': typeof AuthenticatedFounderSecurityRoute
+  '/founder/system': typeof AuthenticatedFounderSystemRoute
+  '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/founder': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
 }
@@ -161,11 +230,19 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/education': typeof AuthenticatedEducationRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRoute
-  '/_authenticated/founder': typeof AuthenticatedFounderRoute
+  '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRoute
+  '/_authenticated/founder/ai': typeof AuthenticatedFounderAiRoute
+  '/_authenticated/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
+  '/_authenticated/founder/companies': typeof AuthenticatedFounderCompaniesRoute
+  '/_authenticated/founder/ops': typeof AuthenticatedFounderOpsRoute
+  '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
+  '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
+  '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
 }
@@ -186,6 +263,14 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/settings'
     | '/studio'
+    | '/founder/ai'
+    | '/founder/analytics'
+    | '/founder/companies'
+    | '/founder/ops'
+    | '/founder/security'
+    | '/founder/system'
+    | '/founder/users'
+    | '/founder/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
   fileRoutesByTo: FileRoutesByTo
@@ -199,11 +284,18 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/education'
     | '/enterprise'
-    | '/founder'
     | '/knowledge'
     | '/marketplace'
     | '/settings'
     | '/studio'
+    | '/founder/ai'
+    | '/founder/analytics'
+    | '/founder/companies'
+    | '/founder/ops'
+    | '/founder/security'
+    | '/founder/system'
+    | '/founder/users'
+    | '/founder'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
   id:
@@ -223,6 +315,14 @@ export interface FileRouteTypes {
     | '/_authenticated/marketplace'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
+    | '/_authenticated/founder/ai'
+    | '/_authenticated/founder/analytics'
+    | '/_authenticated/founder/companies'
+    | '/_authenticated/founder/ops'
+    | '/_authenticated/founder/security'
+    | '/_authenticated/founder/system'
+    | '/_authenticated/founder/users'
+    | '/_authenticated/founder/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
   fileRoutesById: FileRoutesById
@@ -343,6 +443,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/founder/': {
+      id: '/_authenticated/founder/'
+      path: '/'
+      fullPath: '/founder/'
+      preLoaderRoute: typeof AuthenticatedFounderIndexRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/users': {
+      id: '/_authenticated/founder/users'
+      path: '/users'
+      fullPath: '/founder/users'
+      preLoaderRoute: typeof AuthenticatedFounderUsersRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/system': {
+      id: '/_authenticated/founder/system'
+      path: '/system'
+      fullPath: '/founder/system'
+      preLoaderRoute: typeof AuthenticatedFounderSystemRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/security': {
+      id: '/_authenticated/founder/security'
+      path: '/security'
+      fullPath: '/founder/security'
+      preLoaderRoute: typeof AuthenticatedFounderSecurityRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/ops': {
+      id: '/_authenticated/founder/ops'
+      path: '/ops'
+      fullPath: '/founder/ops'
+      preLoaderRoute: typeof AuthenticatedFounderOpsRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/companies': {
+      id: '/_authenticated/founder/companies'
+      path: '/companies'
+      fullPath: '/founder/companies'
+      preLoaderRoute: typeof AuthenticatedFounderCompaniesRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/analytics': {
+      id: '/_authenticated/founder/analytics'
+      path: '/analytics'
+      fullPath: '/founder/analytics'
+      preLoaderRoute: typeof AuthenticatedFounderAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/ai': {
+      id: '/_authenticated/founder/ai'
+      path: '/ai'
+      fullPath: '/founder/ai'
+      preLoaderRoute: typeof AuthenticatedFounderAiRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
       path: '/api/public/v1/status'
@@ -360,6 +516,31 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedFounderRouteChildren {
+  AuthenticatedFounderAiRoute: typeof AuthenticatedFounderAiRoute
+  AuthenticatedFounderAnalyticsRoute: typeof AuthenticatedFounderAnalyticsRoute
+  AuthenticatedFounderCompaniesRoute: typeof AuthenticatedFounderCompaniesRoute
+  AuthenticatedFounderOpsRoute: typeof AuthenticatedFounderOpsRoute
+  AuthenticatedFounderSecurityRoute: typeof AuthenticatedFounderSecurityRoute
+  AuthenticatedFounderSystemRoute: typeof AuthenticatedFounderSystemRoute
+  AuthenticatedFounderUsersRoute: typeof AuthenticatedFounderUsersRoute
+  AuthenticatedFounderIndexRoute: typeof AuthenticatedFounderIndexRoute
+}
+
+const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
+  AuthenticatedFounderAiRoute: AuthenticatedFounderAiRoute,
+  AuthenticatedFounderAnalyticsRoute: AuthenticatedFounderAnalyticsRoute,
+  AuthenticatedFounderCompaniesRoute: AuthenticatedFounderCompaniesRoute,
+  AuthenticatedFounderOpsRoute: AuthenticatedFounderOpsRoute,
+  AuthenticatedFounderSecurityRoute: AuthenticatedFounderSecurityRoute,
+  AuthenticatedFounderSystemRoute: AuthenticatedFounderSystemRoute,
+  AuthenticatedFounderUsersRoute: AuthenticatedFounderUsersRoute,
+  AuthenticatedFounderIndexRoute: AuthenticatedFounderIndexRoute,
+}
+
+const AuthenticatedFounderRouteWithChildren =
+  AuthenticatedFounderRoute._addFileChildren(AuthenticatedFounderRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRoute
@@ -367,7 +548,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRoute
-  AuthenticatedFounderRoute: typeof AuthenticatedFounderRoute
+  AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
@@ -381,7 +562,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRoute,
-  AuthenticatedFounderRoute: AuthenticatedFounderRoute,
+  AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
