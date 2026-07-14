@@ -1081,7 +1081,8 @@ function FounderMessage() {
 // Full pricing UI lives in a dedicated module for clarity + code-splitting.
 // Backend, services, APIs and business logic are unchanged.
 import { PricingExperience } from "@/components/happyx/PricingExperience";
-function Pricing() { return <PricingExperience />; }
+import { PricingExperienceV5 } from "@/components/happyx/PricingExperienceV5";
+function Pricing() { return (<><PricingExperience /><PricingExperienceV5 /></>); }
 
 
 
