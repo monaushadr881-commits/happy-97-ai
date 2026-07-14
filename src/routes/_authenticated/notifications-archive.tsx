@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Archive } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/archive")({
+export const Route = createFileRoute("/_authenticated/notifications-archive")({
   head: () => ({ meta: [{ title: "Archived — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

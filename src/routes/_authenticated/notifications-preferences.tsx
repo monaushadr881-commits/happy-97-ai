@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SlidersHorizontal } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/preferences")({
+export const Route = createFileRoute("/_authenticated/notifications-preferences")({
   head: () => ({ meta: [{ title: "Preferences — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

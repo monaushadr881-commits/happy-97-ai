@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AlarmClock } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/reminders")({
+export const Route = createFileRoute("/_authenticated/notifications-reminders")({
   head: () => ({ meta: [{ title: "Reminder Engine — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

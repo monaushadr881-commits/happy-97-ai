@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3 } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/analytics")({
+export const Route = createFileRoute("/_authenticated/notifications-analytics")({
   head: () => ({ meta: [{ title: "Analytics — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

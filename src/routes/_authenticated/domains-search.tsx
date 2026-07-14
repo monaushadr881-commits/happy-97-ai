@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/domains/search")({
+export const Route = createFileRoute("/_authenticated/domains-search")({
   head: () => ({ meta: [{ title: "Domain Search — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

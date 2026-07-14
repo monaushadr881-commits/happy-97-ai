@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { FileText } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/templates")({
+export const Route = createFileRoute("/_authenticated/notifications-templates")({
   head: () => ({ meta: [{ title: "Templates — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

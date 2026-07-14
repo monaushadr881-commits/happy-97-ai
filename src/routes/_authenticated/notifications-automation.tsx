@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Workflow } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/automation")({
+export const Route = createFileRoute("/_authenticated/notifications-automation")({
   head: () => ({ meta: [{ title: "Automation — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

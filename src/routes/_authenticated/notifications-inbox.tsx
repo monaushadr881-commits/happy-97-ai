@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Inbox } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/inbox")({
+export const Route = createFileRoute("/_authenticated/notifications-inbox")({
   head: () => ({ meta: [{ title: "Notification Inbox — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder

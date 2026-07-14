@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Tag } from "lucide-react";
 import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
 
-export const Route = createFileRoute("/_authenticated/notifications/categories")({
+export const Route = createFileRoute("/_authenticated/notifications-categories")({
   head: () => ({ meta: [{ title: "Categories — HAPPY" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <ModulePlaceholder
