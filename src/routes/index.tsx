@@ -25,6 +25,7 @@ import {
   MapPin,
 } from "lucide-react";
 import hpLogoAsset from "@/assets/hp-logo.png.asset.json";
+import happyAiLogoAsset from "@/assets/happy-ai-logo.png.asset.json";
 import appQrAsset from "@/assets/happyx-app-qr.png.asset.json";
 import waQrAsset from "@/assets/happyx-whatsapp-qr.jpg.asset.json";
 import { HappyAvatar } from "@/components/digital-human/HappyAvatar";
@@ -172,16 +173,36 @@ function Nav() {
 function LogoMark({ size = 36 }: { size?: number }) {
   return (
     <div
-      className="relative flex items-center justify-center rounded-full ring-1 ring-gold/30 bg-obsidian overflow-hidden shadow-[0_0_24px_-6px_rgba(212,175,55,0.45)]"
+      className="relative flex items-center justify-center rounded-full ring-1 ring-gold/40 bg-obsidian overflow-hidden shadow-[0_0_28px_-4px_rgba(212,175,55,0.55)]"
+      style={{ width: size, height: size }}
+    >
+      <span aria-hidden className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(212,175,55,0.35),transparent_65%)]" />
+      <img
+        src={happyAiLogoAsset.url}
+        alt="HAPPY AI"
+        width={size}
+        height={size}
+        className="relative h-full w-full object-contain p-1"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+  );
+}
+
+function CorporateMark({ size = 44 }: { size?: number }) {
+  return (
+    <div
+      className="relative flex items-center justify-center rounded-full ring-1 ring-gold/25 bg-obsidian overflow-hidden shadow-[0_0_20px_-6px_rgba(212,175,55,0.4)]"
       style={{ width: size, height: size }}
     >
       <img
         src={hpLogoAsset.url}
-        alt="H.P — Happy Person Private Limited"
+        alt="HAPPY PERSON PRIVATE LIMITED"
         width={size}
         height={size}
         className="h-full w-full object-cover"
-        loading="eager"
+        loading="lazy"
         decoding="async"
       />
     </div>
@@ -1359,13 +1380,13 @@ function Footer() {
         <div className="grid grid-cols-2 gap-10 md:grid-cols-7">
           <div className="col-span-2">
             <div className="flex items-center gap-3">
-              <LogoMark size={44} />
+              <CorporateMark size={44} />
               <div className="flex flex-col leading-tight">
                 <span className="font-display text-sm font-semibold text-paper">
-                  HAPPY <span className="text-gradient-gold">X</span>
+                  HAPPY PERSON <span className="text-gradient-gold">PVT LTD</span>
                 </span>
                 <span className="text-[9px] uppercase tracking-[0.28em] text-gold/70">
-                  Enterprise AI Partner
+                  Parent Company · Maker of HAPPY AI
                 </span>
               </div>
             </div>

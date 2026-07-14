@@ -28,7 +28,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import hpLogoAsset from "@/assets/hp-logo.png.asset.json";
+import happyAiLogoAsset from "@/assets/happy-ai-logo.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -111,17 +111,17 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-white/5 h-14 flex-row items-center gap-2 px-3">
         <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-gold/30 bg-obsidian shadow-[0_0_18px_-6px_rgba(212,175,55,0.6)]">
           <img
-            src={hpLogoAsset.url}
-            alt="HAPPY PERSON PRIVATE LIMITED"
-            className="h-full w-full object-cover"
+            src={happyAiLogoAsset.url}
+            alt="HAPPY AI"
+            className="h-full w-full object-contain p-0.5"
             loading="eager"
             decoding="async"
           />
         </div>
         {!collapsed && (
           <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold text-paper tracking-tight">HAPPY X</span>
-            <span className="text-[9px] uppercase tracking-[0.22em] text-gold/70">Enterprise AI Partner</span>
+            <span className="text-sm font-semibold text-paper tracking-tight">HAPPY <span className="text-gradient-gold">AI</span></span>
+            <span className="text-[9px] uppercase tracking-[0.22em] text-gold/70">Human-Centered AI</span>
           </div>
         )}
       </SidebarHeader>
