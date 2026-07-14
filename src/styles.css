@@ -7,16 +7,21 @@
 /*
  * HAPPY X — Executive AI Luxury Design System
  * Premium Black + Gold. Enterprise. Human. Timeless.
+ * Single source of visual truth for the entire ecosystem.
  */
 
 @theme inline {
+  /* Radius scale */
+  --radius-xs: 0.25rem;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 16px);
+  --radius-pill: 9999px;
 
+  /* shadcn color aliases */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -40,18 +45,31 @@
   /* HAPPY X brand tokens */
   --color-obsidian: var(--obsidian);
   --color-charcoal: var(--charcoal);
+  --color-graphite: var(--graphite);
+  --color-onyx: var(--onyx);
   --color-gold: var(--gold);
   --color-gold-bright: var(--gold-bright);
   --color-gold-deep: var(--gold-deep);
   --color-paper: var(--paper);
   --color-soft-gray: var(--soft-gray);
 
+  /* Semantic */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  /* Typography */
   --font-display: "Inter Tight", system-ui, sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "Manrope", system-ui, sans-serif;
 
+  /* Elevation */
+  --shadow-soft: 0 6px 24px -12px rgba(0, 0, 0, 0.45);
+  --shadow-lifted: 0 18px 48px -18px rgba(0, 0, 0, 0.55);
   --shadow-luxe: 0 30px 80px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 175, 55, 0.08);
   --shadow-gold: 0 20px 60px -20px rgba(212, 175, 55, 0.35);
+  --shadow-inset-hair: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 :root {
@@ -60,30 +78,38 @@
   /* Executive AI Luxury palette */
   --obsidian: #0b0b0d;
   --charcoal: #141414;
+  --graphite: #1a1a1e;
+  --onyx: #101013;
   --gold: #d4af37;
   --gold-bright: #e8c96a;
   --gold-deep: #8a6f22;
   --paper: #f8f8f8;
   --soft-gray: #a0a0a0;
 
+  /* Semantic */
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #60a5fa;
+
   --background: var(--obsidian);
   --foreground: var(--paper);
 
-  --card: #101013;
+  --card: var(--onyx);
   --card-foreground: var(--paper);
-  --popover: #101013;
+  --popover: var(--onyx);
   --popover-foreground: var(--paper);
 
   --primary: var(--gold);
   --primary-foreground: var(--obsidian);
 
-  --secondary: #1a1a1e;
+  --secondary: var(--graphite);
   --secondary-foreground: var(--paper);
 
   --muted: #16161a;
   --muted-foreground: var(--soft-gray);
 
-  --accent: #1a1a1e;
+  --accent: var(--graphite);
   --accent-foreground: var(--gold-bright);
 
   --destructive: oklch(0.62 0.22 25);
@@ -97,10 +123,51 @@
   --sidebar-foreground: var(--paper);
   --sidebar-primary: var(--gold);
   --sidebar-primary-foreground: var(--obsidian);
-  --sidebar-accent: #1a1a1e;
+  --sidebar-accent: var(--graphite);
   --sidebar-accent-foreground: var(--gold-bright);
   --sidebar-border: rgba(212, 175, 55, 0.1);
   --sidebar-ring: var(--gold);
+
+  /* Motion tokens */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 420ms;
+  --duration-luxe: 720ms;
+
+  /* Z-index scale */
+  --z-base: 1;
+  --z-dropdown: 40;
+  --z-sticky: 50;
+  --z-overlay: 60;
+  --z-modal: 70;
+  --z-toast: 80;
+  --z-command: 90;
+}
+
+/* Light theme — Premium Paper (opt-in via .light scope) */
+.light {
+  --background: #fafaf7;
+  --foreground: #0b0b0d;
+  --card: #ffffff;
+  --card-foreground: #0b0b0d;
+  --popover: #ffffff;
+  --popover-foreground: #0b0b0d;
+  --secondary: #f1efe8;
+  --secondary-foreground: #0b0b0d;
+  --muted: #f1efe8;
+  --muted-foreground: #5b5b5b;
+  --accent: #f1efe8;
+  --accent-foreground: #8a6f22;
+  --border: rgba(11, 11, 13, 0.08);
+  --input: rgba(11, 11, 13, 0.12);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0b0b0d;
+  --sidebar-accent: #f1efe8;
+  --sidebar-accent-foreground: #8a6f22;
+  --sidebar-border: rgba(11, 11, 13, 0.08);
 }
 
 @layer base {
@@ -130,11 +197,27 @@
     background: rgba(212, 175, 55, 0.35);
     color: var(--paper);
   }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 }
 
-/* Custom utilities */
+/* ============================================================
+ * Brand utilities — reusable, token-driven
+ * ============================================================ */
+
 @utility text-gradient-gold {
   background: linear-gradient(135deg, #e8c96a 0%, #d4af37 50%, #8a6f22 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-paper {
+  background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -144,10 +227,21 @@
   background-image: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
 }
 
+@utility bg-gradient-luxe {
+  background: radial-gradient(120% 80% at 50% 0%, rgba(212, 175, 55, 0.10), transparent 55%),
+              linear-gradient(180deg, #0b0b0d 0%, #101013 100%);
+}
+
 @utility glass-luxe {
   background: rgba(20, 20, 20, 0.55);
   backdrop-filter: blur(24px) saturate(140%);
   border: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+@utility glass-panel {
+  background: rgba(16, 16, 19, 0.72);
+  backdrop-filter: blur(18px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 @utility numeric {
@@ -165,7 +259,34 @@
   color: var(--gold);
 }
 
-/* Ambient motion */
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+}
+
+@utility ring-gold {
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.4), 0 0 24px -6px rgba(212, 175, 55, 0.35);
+}
+
+/* Card surface used across dashboards */
+@utility surface-card {
+  background: var(--onyx);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft), var(--shadow-inset-hair);
+}
+
+@utility surface-elevated {
+  background: linear-gradient(180deg, #131317 0%, #0e0e11 100%);
+  border: 1px solid rgba(212, 175, 55, 0.10);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lifted), var(--shadow-inset-hair);
+}
+
+/* ============================================================
+ * Motion primitives
+ * ============================================================ */
+
 @keyframes float-slow {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-14px) rotate(0.5deg); }
@@ -187,6 +308,16 @@
   100% { background-position: 200% 50%; }
 }
 
+@keyframes rise-in {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-soft {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 @utility animate-float-slow {
   animation: float-slow 9s ease-in-out infinite;
 }
@@ -198,6 +329,14 @@
 @utility animate-gold-drift {
   background-size: 200% 200%;
   animation: gold-drift 8s linear infinite;
+}
+
+@utility animate-rise-in {
+  animation: rise-in var(--duration-slow) var(--ease-emphasized) both;
+}
+
+@utility animate-fade-soft {
+  animation: fade-in-soft var(--duration-base) var(--ease-standard) both;
 }
 
 @utility shimmer-on-hover {
@@ -216,5 +355,15 @@
 
   &:hover::after {
     animation: shimmer-sweep 1.2s ease forwards;
+  }
+}
+
+/* Accessibility — reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
