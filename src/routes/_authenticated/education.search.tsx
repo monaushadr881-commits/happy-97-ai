@@ -20,17 +20,19 @@ function Search() {
   });
   const d = res.data;
 
-  const bucket = (label: string, items: Array<{ id: string; [k: string]: unknown }>, render: (i: { id: string; [k: string]: unknown }) => React.ReactNode) => (
-    <Panel className="p-5">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">{label}</h3>
-        <Chip tone="info">{items.length}</Chip>
-      </div>
-      <Hairline className="my-3" />
-      {items.length ? <ul className="divide-y divide-white/5">{items.map((i) => <li key={i.id} className="py-2 text-sm text-paper">{render(i)}</li>)}</ul>
-      : <p className="text-xs text-soft-gray">Nothing found.</p>}
-    </Panel>
-  );
+  function bucket<T extends { id: string }>(label: string, items: T[], render: (i: T) => React.ReactNode) {
+    return (
+      <Panel className="p-5">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">{label}</h3>
+          <Chip tone="info">{items.length}</Chip>
+        </div>
+        <Hairline className="my-3" />
+        {items.length ? <ul className="divide-y divide-white/5">{items.map((i) => <li key={i.id} className="py-2 text-sm text-paper">{render(i)}</li>)}</ul>
+        : <p className="text-xs text-soft-gray">Nothing found.</p>}
+      </Panel>
+    );
+  }
 
   return (
     <>
