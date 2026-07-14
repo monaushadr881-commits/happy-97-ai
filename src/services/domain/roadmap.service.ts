@@ -661,3 +661,29 @@ export const observabilityPlatformService = defineService({ name: "observability
 export const executiveCommandService = defineService({ name: "executive-command", version: "v12" }, () => activated("executive-command"));
 export const globalCollaborationService = defineService({ name: "global-collaboration", version: "v12" }, () => activated("global-collaboration"));
 export const ecosystemHubService = defineService({ name: "ecosystem-hub", version: "v12" }, () => activated("ecosystem-hub"));
+
+
+// ---------- v13.0 — Universal Intelligence Network (activated via Enterprise Brain) ----------
+export const universalIntelligenceService = defineService({ name: "universal-intelligence", version: "v13" }, () => activated("universal-intelligence"));
+export const memoryNetworkService = defineService({ name: "memory-network", version: "v13" }, () => activated("memory-network"));
+export const multimodalIntelligenceService = defineService({ name: "multimodal-intelligence", version: "v13" }, () => activated("multimodal-intelligence"));
+export const documentEngineService = defineService({ name: "document-engine", version: "v13" }, () => activated("document-engine"));
+export const knowledgeFabricService = defineService({ name: "knowledge-fabric", version: "v13" }, () => activated("knowledge-fabric"));
+export const automationNetworkService = defineService({ name: "automation-network", version: "v13" }, () => activated("automation-network"));
+export const collaborationHubService = defineService({ name: "collaboration-hub", version: "v13" }, () => activated("collaboration-hub"));
+export const operationsCenterService = defineService({ name: "operations-center", version: "v13" }, () => activated("operations-center"));
+export const searchPlatformService = defineService({ name: "search-platform", version: "v13" }, () => activated("search-platform"));
+export const experiencePlatformService = defineService({ name: "experience-platform", version: "v13" }, () => activated("experience-platform"));
+
+
+// ---------- v14.0 — Planetary Intelligence & Universal Connectivity (activated via Enterprise Brain) ----------
+export const networkPlatformService = defineService({ name: "network-platform", version: "v14" }, () => activated("network-platform"));
+export const dataFabricService = defineService({ name: "data-fabric", version: "v14" }, () => activated("data-fabric"));
+export const identityPlatformService = defineService({ name: "identity-platform", version: "v14" }, () => activated("identity-platform"));
+export const connectorPlatformService = defineService({ name: "connector-platform", version: "v14" }, () => activated("connector-platform"));
+export const eventPlatformService = defineService({ name: "event-platform", version: "v14" }, () => activated("event-platform"));
+export const knowledgeExchangeService = defineService({ name: "knowledge-exchange", version: "v14" }, () => activated("knowledge-exchange"));
+export const governancePlatformService = defineService({ name: "governance-platform", version: "v14" }, () => activated("governance-platform"));
+export const observabilityV2Service = defineService({ name: "observability-v2", version: "v14" }, () => activated("observability-v2"));
+export const ecosystemIntelligenceService = defineService({ name: "ecosystem-intelligence", version: "v14" }, () => activated("ecosystem-intelligence"));
+export const futureReadinessService = defineService({ name: "future-readiness", version: "v14" }, () => activated("future-readiness"));
