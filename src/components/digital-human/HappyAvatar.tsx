@@ -258,8 +258,11 @@ export const HappyAvatar = memo(function HappyAvatar({
 
 
       <style>{`
-        @keyframes dh-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-2px) scale(1.008) } }
-        .dh-breathe { animation: dh-breathe 5.6s ease-in-out infinite; will-change: transform; }
+        @keyframes dh-breathe { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-1.5px) scale(1.006) } }
+        .dh-breathe { animation: dh-breathe 6.4s ease-in-out infinite; will-change: transform; }
+        /* dh-sway is intentionally near-zero — organic drift is driven by useMicroMotion */
+        .dh-sway { }
+
         @keyframes dh-sway { 0%,100% { transform: translate3d(0,0,0) rotate(0deg) } 33% { transform: translate3d(2px,0,0) rotate(0.4deg) } 66% { transform: translate3d(-2px,0,0) rotate(-0.35deg) } }
         .dh-sway { animation: dh-sway 11s ease-in-out infinite; will-change: transform; }
         @keyframes dh-ring-1 { 0% { transform: scale(1); opacity: 0.85 } 100% { transform: scale(1.08); opacity: 0 } }
