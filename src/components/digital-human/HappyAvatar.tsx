@@ -263,8 +263,8 @@ export const HappyAvatar = memo(function HappyAvatar({
         /* dh-sway is intentionally near-zero — organic drift is driven by useMicroMotion */
         .dh-sway { }
 
-        @keyframes dh-sway { 0%,100% { transform: translate3d(0,0,0) rotate(0deg) } 33% { transform: translate3d(2px,0,0) rotate(0.4deg) } 66% { transform: translate3d(-2px,0,0) rotate(-0.35deg) } }
-        .dh-sway { animation: dh-sway 11s ease-in-out infinite; will-change: transform; }
+
+
         @keyframes dh-ring-1 { 0% { transform: scale(1); opacity: 0.85 } 100% { transform: scale(1.08); opacity: 0 } }
         @keyframes dh-ring-2 { 0% { transform: scale(1); opacity: 0.6 } 100% { transform: scale(1.14); opacity: 0 } }
         @keyframes dh-ring-slow { 0% { transform: scale(1); opacity: 0.55 } 100% { transform: scale(1.06); opacity: 0 } }
