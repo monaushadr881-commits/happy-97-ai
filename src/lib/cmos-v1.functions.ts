@@ -284,11 +284,13 @@ export const commercePurchase = createServerFn({ method: "POST" })
       status: "pending",
     }).select("*").single();
     if (t.error) throw t.error;
-    await context.supabase.rpc("write_audit", {
-      _category: "commerce", _action: "purchase.intent",
-      _entity_type: "marketplace_transaction", _entity_id: t.data.id,
-      _metadata: { listing_id: data.listing_id, provider: data.provider } as any,
-    }).catch(() => {});
+    try {
+      await context.supabase.rpc("write_audit", {
+        _category: "commerce", _action: "purchase.intent",
+        _entity_type: "marketplace_transaction", _entity_id: t.data.id,
+        _metadata: { listing_id: data.listing_id, provider: data.provider } as any,
+      });
+    } catch { /* audit is best-effort */ }
     return t.data;
   }));
 
@@ -323,9 +325,9 @@ export const commerceSellerStats = createServerFn({ method: "GET" })
     ]);
     const active = (listings.data ?? []).filter((l) => l.status === "active").length;
     const gross = (sales.data ?? [])
-      .filter((s) => s.status === "succeeded" || s.status === "paid")
+      .filter((s) => (s.status as string) === "succeeded" || (s.status as string) === "paid")
       .reduce((n, s) => n + Number(s.amount_cents ?? 0), 0);
-    const pending = (sales.data ?? []).filter((s) => s.status === "pending").length;
+    const pending = (sales.data ?? []).filter((s) => (s.status as string) === "pending").length;
     return {
       total_listings: listings.data?.length ?? 0,
       active_listings: active,
