@@ -367,3 +367,17 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Hide Lovable editor badge on published site (layout-safe) */
+#lovable-badge,
+a[href*="lovable.dev"][href*="badge"],
+a[aria-label*="Lovable" i],
+a[title*="Made with Lovable" i],
+div[class*="lovable-badge" i] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
