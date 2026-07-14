@@ -120,8 +120,8 @@ export function AppSidebar() {
         </div>
         {!collapsed && (
           <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold text-paper tracking-tight">HAPPY X</span>
-            <span className="text-[9px] uppercase tracking-[0.22em] text-gold/70">Enterprise AI Partner</span>
+            <span className="text-sm font-semibold text-paper tracking-tight">HAPPY <span className="text-gradient-gold">AI</span></span>
+            <span className="text-[9px] uppercase tracking-[0.22em] text-gold/70">Human-Centered AI</span>
           </div>
         )}
       </SidebarHeader>
