@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -16,11 +16,20 @@ import {
   Apple,
   Play,
   Quote,
+  Mic,
+  Volume2,
+  Cpu,
+  Network,
+  Globe2,
+  BookOpen,
+  Users2,
+  ShoppingBag,
+  MapPin,
 } from "lucide-react";
-import avatarImg from "@/assets/happyx-avatar.jpg";
 import hpLogoAsset from "@/assets/hp-logo.png.asset.json";
 import appQrAsset from "@/assets/happyx-app-qr.png.asset.json";
 import waQrAsset from "@/assets/happyx-whatsapp-qr.jpg.asset.json";
+import { HappyAvatar } from "@/components/digital-human/HappyAvatar";
 
 export const Route = createFileRoute("/")({
   component: HappyXLanding,
