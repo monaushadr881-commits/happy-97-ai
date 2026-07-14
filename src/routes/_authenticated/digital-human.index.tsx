@@ -13,7 +13,7 @@ import { useVoiceInput } from "@/components/digital-human/useVoiceInput";
 import {
   chunkForSpeech, classifyIntent, estimateSpeechMs, expressionFor,
   maybeAcknowledgement, maybeBackchannel, PACING, pausable,
-  thinkingDurationFor, timingProfileFor, type ConvoState,
+  thinkingDurationFor, timingProfileFor, voiceProfileFor, type ConvoState,
 } from "@/components/digital-human/conversation-engine";
 import { dhSpeak, DH_MODES, type DhMode } from "@/lib/digital-human-v1.functions";
 import {
