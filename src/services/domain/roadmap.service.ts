@@ -635,3 +635,29 @@ export const supplyChainIntelligenceService = defineService({ name: "supply-chai
 export const energyManagementService = defineService({ name: "energy-management", version: "v10" }, () => activated("energy-management"));
 export const industrialAIService = defineService({ name: "industrial-ai", version: "v10" }, () => activated("industrial-ai"));
 export const digitalFactoryService = defineService({ name: "digital-factory", version: "v10" }, () => activated("digital-factory"));
+
+
+// ---------- v11.0 — Robotics, Edge AI & Autonomous Systems (activated via Enterprise Brain) ----------
+export const roboticsPlatformService = defineService({ name: "robotics-platform", version: "v11" }, () => activated("robotics-platform"));
+export const edgeRuntimeService = defineService({ name: "edge-runtime", version: "v11" }, () => activated("edge-runtime"));
+export const iotRuntimeService = defineService({ name: "iot-runtime", version: "v11" }, () => activated("iot-runtime"));
+export const deviceManagementService = defineService({ name: "device-management", version: "v11" }, () => activated("device-management"));
+export const fleetManagementService = defineService({ name: "fleet-management", version: "v11" }, () => activated("fleet-management"));
+export const computerVisionService = defineService({ name: "computer-vision", version: "v11" }, () => activated("computer-vision"));
+export const multimodalService = defineService({ name: "multimodal", version: "v11" }, () => activated("multimodal"));
+export const autonomousExecutionService = defineService({ name: "autonomous-execution", version: "v11" }, () => activated("autonomous-execution"));
+export const telemetryService = defineService({ name: "telemetry", version: "v11" }, () => activated("telemetry"));
+export const digitalTwinV2Service = defineService({ name: "digital-twin-v2", version: "v11" }, () => activated("digital-twin-v2"));
+
+
+// ---------- v12.0 — Global Super Intelligence Ecosystem (activated via Enterprise Brain) ----------
+export const superIntelligenceService = defineService({ name: "super-intelligence", version: "v12" }, () => activated("super-intelligence"));
+export const unifiedOperatingSystemService = defineService({ name: "unified-os", version: "v12" }, () => activated("unified-os"));
+export const globalMemoryService = defineService({ name: "global-memory", version: "v12" }, () => activated("global-memory"));
+export const knowledgeGraphService = defineService({ name: "knowledge-graph", version: "v12" }, () => activated("knowledge-graph"));
+export const universalSearchService = defineService({ name: "universal-search", version: "v12" }, () => activated("universal-search"));
+export const orchestrationService = defineService({ name: "orchestration", version: "v12" }, () => activated("orchestration"));
+export const observabilityPlatformService = defineService({ name: "observability-platform", version: "v12" }, () => activated("observability-platform"));
+export const executiveCommandService = defineService({ name: "executive-command", version: "v12" }, () => activated("executive-command"));
+export const globalCollaborationService = defineService({ name: "global-collaboration", version: "v12" }, () => activated("global-collaboration"));
+export const ecosystemHubService = defineService({ name: "ecosystem-hub", version: "v12" }, () => activated("ecosystem-hub"));
