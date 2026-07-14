@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrustRouteImport } from './routes/trust'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -125,6 +127,16 @@ import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authentic
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 
+const TrustRoute = TrustRouteImport.update({
+  id: '/trust',
+  path: '/trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DesignRoute = DesignRouteImport.update({
   id: '/design',
   path: '/design',
@@ -791,6 +803,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/status': typeof StatusRoute
+  '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
@@ -907,6 +921,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/status': typeof StatusRoute
+  '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
@@ -1014,6 +1030,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/status': typeof StatusRoute
+  '/trust': typeof TrustRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/autonomous': typeof AuthenticatedAutonomousRoute
@@ -1132,6 +1150,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/design'
+    | '/status'
+    | '/trust'
     | '/agent-os'
     | '/assistant'
     | '/autonomous'
@@ -1248,6 +1268,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/design'
+    | '/status'
+    | '/trust'
     | '/agent-os'
     | '/assistant'
     | '/autonomous'
@@ -1354,6 +1376,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/design'
+    | '/status'
+    | '/trust'
     | '/_authenticated/agent-os'
     | '/_authenticated/assistant'
     | '/_authenticated/autonomous'
@@ -1472,6 +1496,8 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   DesignRoute: typeof DesignRoute
+  StatusRoute: typeof StatusRoute
+  TrustRoute: typeof TrustRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
   ApiPublicV1HealthRoute: typeof ApiPublicV1HealthRoute
   ApiPublicV1StatusRoute: typeof ApiPublicV1StatusRoute
@@ -1479,6 +1505,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/trust': {
+      id: '/trust'
+      path: '/trust'
+      fullPath: '/trust'
+      preLoaderRoute: typeof TrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/design': {
       id: '/design'
       path: '/design'
@@ -2656,6 +2696,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   DesignRoute: DesignRoute,
+  StatusRoute: StatusRoute,
+  TrustRoute: TrustRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
   ApiPublicV1HealthRoute: ApiPublicV1HealthRoute,
   ApiPublicV1StatusRoute: ApiPublicV1StatusRoute,
