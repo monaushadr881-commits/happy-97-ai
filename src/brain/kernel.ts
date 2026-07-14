@@ -107,10 +107,11 @@ export const brainKernel = {
       const priority = priorityEngine.rank(plan);
       const exec = executionEngine.run(plan, priority);
       const validation = validationEngine.check(exec);
-      const confidence = confidenceEngine.score({ reason, plan, exec, validation });
+      const confidence = confidenceEngine.score({ reason, validation, exec });
       const response = conversationBrain.compose({ intent, capability, exec, validation, confidence });
-      const reflection = reflectionEngine.evaluate({ req, exec, validation, confidence });
+      const reflection = reflectionEngine.evaluate({ validation, confidence });
       memoryCoordinator.commit(userId, { intent, capability, response, at: new Date().toISOString() });
+
       learningEngine.observe(module, { intent, capability, confidence, reflection });
       analyticsEngine.mark(module, Date.now() - started, true);
       const rec = { id, op: "execute", input: req, at: new Date().toISOString() };

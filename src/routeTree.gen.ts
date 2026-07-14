@@ -41,6 +41,7 @@ import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
+import { Route as AuthenticatedBrainRouteImport } from './routes/_authenticated/brain'
 import { Route as AuthenticatedAutonomousRouteImport } from './routes/_authenticated/autonomous'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
@@ -55,6 +56,7 @@ import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedDigitalHumanIndexRouteImport } from './routes/_authenticated/digital-human.index'
 import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authenticated/community.index'
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
+import { Route as AuthenticatedBrainIndexRouteImport } from './routes/_authenticated/brain.index'
 import { Route as ApiDhTtsRouteImport } from './routes/api/dh.tts'
 import { Route as AuthenticatedWorkflowsRuntimeRouteImport } from './routes/_authenticated/workflows.runtime'
 import { Route as AuthenticatedWorkflowsMonitorRouteImport } from './routes/_authenticated/workflows.monitor'
@@ -208,6 +210,15 @@ import { Route as AuthenticatedBusinessCrmRouteImport } from './routes/_authenti
 import { Route as AuthenticatedBusinessAutomationRouteImport } from './routes/_authenticated/business.automation'
 import { Route as AuthenticatedBusinessAnalyticsRouteImport } from './routes/_authenticated/business.analytics'
 import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authenticated/business.ai'
+import { Route as AuthenticatedBrainValidationRouteImport } from './routes/_authenticated/brain.validation'
+import { Route as AuthenticatedBrainRuntimeRouteImport } from './routes/_authenticated/brain.runtime'
+import { Route as AuthenticatedBrainReflectionRouteImport } from './routes/_authenticated/brain.reflection'
+import { Route as AuthenticatedBrainReasoningRouteImport } from './routes/_authenticated/brain.reasoning'
+import { Route as AuthenticatedBrainPlanningRouteImport } from './routes/_authenticated/brain.planning'
+import { Route as AuthenticatedBrainMemoryRouteImport } from './routes/_authenticated/brain.memory'
+import { Route as AuthenticatedBrainHealthRouteImport } from './routes/_authenticated/brain.health'
+import { Route as AuthenticatedBrainExecutionRouteImport } from './routes/_authenticated/brain.execution'
+import { Route as AuthenticatedBrainAnalyticsRouteImport } from './routes/_authenticated/brain.analytics'
 import { Route as AuthenticatedAgentsRuntimeRouteImport } from './routes/_authenticated/agents.runtime'
 import { Route as AuthenticatedAgentsMetricsRouteImport } from './routes/_authenticated/agents.metrics'
 import { Route as AuthenticatedAgentsExecutionRouteImport } from './routes/_authenticated/agents.execution'
@@ -391,6 +402,11 @@ const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
   path: '/business',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedBrainRoute = AuthenticatedBrainRouteImport.update({
+  id: '/brain',
+  path: '/brain',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAutonomousRoute = AuthenticatedAutonomousRouteImport.update({
   id: '/autonomous',
   path: '/autonomous',
@@ -472,6 +488,11 @@ const AuthenticatedBusinessIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedBusinessRoute,
   } as any)
+const AuthenticatedBrainIndexRoute = AuthenticatedBrainIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedBrainRoute,
+} as any)
 const ApiDhTtsRoute = ApiDhTtsRouteImport.update({
   id: '/api/dh/tts',
   path: '/api/dh/tts',
@@ -1384,6 +1405,60 @@ const AuthenticatedBusinessAiRoute = AuthenticatedBusinessAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AuthenticatedBusinessRoute,
 } as any)
+const AuthenticatedBrainValidationRoute =
+  AuthenticatedBrainValidationRouteImport.update({
+    id: '/validation',
+    path: '/validation',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainRuntimeRoute =
+  AuthenticatedBrainRuntimeRouteImport.update({
+    id: '/runtime',
+    path: '/runtime',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainReflectionRoute =
+  AuthenticatedBrainReflectionRouteImport.update({
+    id: '/reflection',
+    path: '/reflection',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainReasoningRoute =
+  AuthenticatedBrainReasoningRouteImport.update({
+    id: '/reasoning',
+    path: '/reasoning',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainPlanningRoute =
+  AuthenticatedBrainPlanningRouteImport.update({
+    id: '/planning',
+    path: '/planning',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainMemoryRoute =
+  AuthenticatedBrainMemoryRouteImport.update({
+    id: '/memory',
+    path: '/memory',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainHealthRoute =
+  AuthenticatedBrainHealthRouteImport.update({
+    id: '/health',
+    path: '/health',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainExecutionRoute =
+  AuthenticatedBrainExecutionRouteImport.update({
+    id: '/execution',
+    path: '/execution',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
+const AuthenticatedBrainAnalyticsRoute =
+  AuthenticatedBrainAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedBrainRoute,
+  } as any)
 const AuthenticatedAgentsRuntimeRoute =
   AuthenticatedAgentsRuntimeRouteImport.update({
     id: '/agents/runtime',
@@ -1506,6 +1581,7 @@ export interface FileRoutesByFullPath {
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
+  '/brain': typeof AuthenticatedBrainRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -1536,6 +1612,15 @@ export interface FileRoutesByFullPath {
   '/agents/execution': typeof AuthenticatedAgentsExecutionRoute
   '/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
   '/agents/runtime': typeof AuthenticatedAgentsRuntimeRoute
+  '/brain/analytics': typeof AuthenticatedBrainAnalyticsRoute
+  '/brain/execution': typeof AuthenticatedBrainExecutionRoute
+  '/brain/health': typeof AuthenticatedBrainHealthRoute
+  '/brain/memory': typeof AuthenticatedBrainMemoryRoute
+  '/brain/planning': typeof AuthenticatedBrainPlanningRoute
+  '/brain/reasoning': typeof AuthenticatedBrainReasoningRoute
+  '/brain/reflection': typeof AuthenticatedBrainReflectionRoute
+  '/brain/runtime': typeof AuthenticatedBrainRuntimeRoute
+  '/brain/validation': typeof AuthenticatedBrainValidationRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1689,6 +1774,7 @@ export interface FileRoutesByFullPath {
   '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
+  '/brain/': typeof AuthenticatedBrainIndexRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
   '/community/': typeof AuthenticatedCommunityIndexRoute
   '/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
@@ -1744,6 +1830,15 @@ export interface FileRoutesByTo {
   '/agents/execution': typeof AuthenticatedAgentsExecutionRoute
   '/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
   '/agents/runtime': typeof AuthenticatedAgentsRuntimeRoute
+  '/brain/analytics': typeof AuthenticatedBrainAnalyticsRoute
+  '/brain/execution': typeof AuthenticatedBrainExecutionRoute
+  '/brain/health': typeof AuthenticatedBrainHealthRoute
+  '/brain/memory': typeof AuthenticatedBrainMemoryRoute
+  '/brain/planning': typeof AuthenticatedBrainPlanningRoute
+  '/brain/reasoning': typeof AuthenticatedBrainReasoningRoute
+  '/brain/reflection': typeof AuthenticatedBrainReflectionRoute
+  '/brain/runtime': typeof AuthenticatedBrainRuntimeRoute
+  '/brain/validation': typeof AuthenticatedBrainValidationRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1897,6 +1992,7 @@ export interface FileRoutesByTo {
   '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
+  '/brain': typeof AuthenticatedBrainIndexRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
   '/community': typeof AuthenticatedCommunityIndexRoute
   '/digital-human': typeof AuthenticatedDigitalHumanIndexRoute
@@ -1935,6 +2031,7 @@ export interface FileRoutesById {
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/autonomous': typeof AuthenticatedAutonomousRoute
+  '/_authenticated/brain': typeof AuthenticatedBrainRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -1965,6 +2062,15 @@ export interface FileRoutesById {
   '/_authenticated/agents/execution': typeof AuthenticatedAgentsExecutionRoute
   '/_authenticated/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
   '/_authenticated/agents/runtime': typeof AuthenticatedAgentsRuntimeRoute
+  '/_authenticated/brain/analytics': typeof AuthenticatedBrainAnalyticsRoute
+  '/_authenticated/brain/execution': typeof AuthenticatedBrainExecutionRoute
+  '/_authenticated/brain/health': typeof AuthenticatedBrainHealthRoute
+  '/_authenticated/brain/memory': typeof AuthenticatedBrainMemoryRoute
+  '/_authenticated/brain/planning': typeof AuthenticatedBrainPlanningRoute
+  '/_authenticated/brain/reasoning': typeof AuthenticatedBrainReasoningRoute
+  '/_authenticated/brain/reflection': typeof AuthenticatedBrainReflectionRoute
+  '/_authenticated/brain/runtime': typeof AuthenticatedBrainRuntimeRoute
+  '/_authenticated/brain/validation': typeof AuthenticatedBrainValidationRoute
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
   '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/_authenticated/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -2118,6 +2224,7 @@ export interface FileRoutesById {
   '/_authenticated/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/_authenticated/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
+  '/_authenticated/brain/': typeof AuthenticatedBrainIndexRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
   '/_authenticated/community/': typeof AuthenticatedCommunityIndexRoute
   '/_authenticated/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
@@ -2156,6 +2263,7 @@ export interface FileRouteTypes {
     | '/agent-os'
     | '/assistant'
     | '/autonomous'
+    | '/brain'
     | '/business'
     | '/community'
     | '/dashboard'
@@ -2186,6 +2294,15 @@ export interface FileRouteTypes {
     | '/agents/execution'
     | '/agents/metrics'
     | '/agents/runtime'
+    | '/brain/analytics'
+    | '/brain/execution'
+    | '/brain/health'
+    | '/brain/memory'
+    | '/brain/planning'
+    | '/brain/reasoning'
+    | '/brain/reflection'
+    | '/brain/runtime'
+    | '/brain/validation'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -2339,6 +2456,7 @@ export interface FileRouteTypes {
     | '/workflows/monitor'
     | '/workflows/runtime'
     | '/api/dh/tts'
+    | '/brain/'
     | '/business/'
     | '/community/'
     | '/digital-human/'
@@ -2394,6 +2512,15 @@ export interface FileRouteTypes {
     | '/agents/execution'
     | '/agents/metrics'
     | '/agents/runtime'
+    | '/brain/analytics'
+    | '/brain/execution'
+    | '/brain/health'
+    | '/brain/memory'
+    | '/brain/planning'
+    | '/brain/reasoning'
+    | '/brain/reflection'
+    | '/brain/runtime'
+    | '/brain/validation'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -2547,6 +2674,7 @@ export interface FileRouteTypes {
     | '/workflows/monitor'
     | '/workflows/runtime'
     | '/api/dh/tts'
+    | '/brain'
     | '/business'
     | '/community'
     | '/digital-human'
@@ -2584,6 +2712,7 @@ export interface FileRouteTypes {
     | '/_authenticated/agent-os'
     | '/_authenticated/assistant'
     | '/_authenticated/autonomous'
+    | '/_authenticated/brain'
     | '/_authenticated/business'
     | '/_authenticated/community'
     | '/_authenticated/dashboard'
@@ -2614,6 +2743,15 @@ export interface FileRouteTypes {
     | '/_authenticated/agents/execution'
     | '/_authenticated/agents/metrics'
     | '/_authenticated/agents/runtime'
+    | '/_authenticated/brain/analytics'
+    | '/_authenticated/brain/execution'
+    | '/_authenticated/brain/health'
+    | '/_authenticated/brain/memory'
+    | '/_authenticated/brain/planning'
+    | '/_authenticated/brain/reasoning'
+    | '/_authenticated/brain/reflection'
+    | '/_authenticated/brain/runtime'
+    | '/_authenticated/brain/validation'
     | '/_authenticated/business/ai'
     | '/_authenticated/business/analytics'
     | '/_authenticated/business/automation'
@@ -2767,6 +2905,7 @@ export interface FileRouteTypes {
     | '/_authenticated/workflows/monitor'
     | '/_authenticated/workflows/runtime'
     | '/api/dh/tts'
+    | '/_authenticated/brain/'
     | '/_authenticated/business/'
     | '/_authenticated/community/'
     | '/_authenticated/digital-human/'
@@ -3033,6 +3172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/brain': {
+      id: '/_authenticated/brain'
+      path: '/brain'
+      fullPath: '/brain'
+      preLoaderRoute: typeof AuthenticatedBrainRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/autonomous': {
       id: '/_authenticated/autonomous'
       path: '/autonomous'
@@ -3130,6 +3276,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/business/'
       preLoaderRoute: typeof AuthenticatedBusinessIndexRouteImport
       parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/brain/': {
+      id: '/_authenticated/brain/'
+      path: '/'
+      fullPath: '/brain/'
+      preLoaderRoute: typeof AuthenticatedBrainIndexRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
     }
     '/api/dh/tts': {
       id: '/api/dh/tts'
@@ -4202,6 +4355,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessAiRouteImport
       parentRoute: typeof AuthenticatedBusinessRoute
     }
+    '/_authenticated/brain/validation': {
+      id: '/_authenticated/brain/validation'
+      path: '/validation'
+      fullPath: '/brain/validation'
+      preLoaderRoute: typeof AuthenticatedBrainValidationRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/runtime': {
+      id: '/_authenticated/brain/runtime'
+      path: '/runtime'
+      fullPath: '/brain/runtime'
+      preLoaderRoute: typeof AuthenticatedBrainRuntimeRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/reflection': {
+      id: '/_authenticated/brain/reflection'
+      path: '/reflection'
+      fullPath: '/brain/reflection'
+      preLoaderRoute: typeof AuthenticatedBrainReflectionRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/reasoning': {
+      id: '/_authenticated/brain/reasoning'
+      path: '/reasoning'
+      fullPath: '/brain/reasoning'
+      preLoaderRoute: typeof AuthenticatedBrainReasoningRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/planning': {
+      id: '/_authenticated/brain/planning'
+      path: '/planning'
+      fullPath: '/brain/planning'
+      preLoaderRoute: typeof AuthenticatedBrainPlanningRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/memory': {
+      id: '/_authenticated/brain/memory'
+      path: '/memory'
+      fullPath: '/brain/memory'
+      preLoaderRoute: typeof AuthenticatedBrainMemoryRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/health': {
+      id: '/_authenticated/brain/health'
+      path: '/health'
+      fullPath: '/brain/health'
+      preLoaderRoute: typeof AuthenticatedBrainHealthRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/execution': {
+      id: '/_authenticated/brain/execution'
+      path: '/execution'
+      fullPath: '/brain/execution'
+      preLoaderRoute: typeof AuthenticatedBrainExecutionRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
+    '/_authenticated/brain/analytics': {
+      id: '/_authenticated/brain/analytics'
+      path: '/analytics'
+      fullPath: '/brain/analytics'
+      preLoaderRoute: typeof AuthenticatedBrainAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedBrainRoute
+    }
     '/_authenticated/agents/runtime': {
       id: '/_authenticated/agents/runtime'
       path: '/agents/runtime'
@@ -4337,6 +4553,35 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedBrainRouteChildren {
+  AuthenticatedBrainAnalyticsRoute: typeof AuthenticatedBrainAnalyticsRoute
+  AuthenticatedBrainExecutionRoute: typeof AuthenticatedBrainExecutionRoute
+  AuthenticatedBrainHealthRoute: typeof AuthenticatedBrainHealthRoute
+  AuthenticatedBrainMemoryRoute: typeof AuthenticatedBrainMemoryRoute
+  AuthenticatedBrainPlanningRoute: typeof AuthenticatedBrainPlanningRoute
+  AuthenticatedBrainReasoningRoute: typeof AuthenticatedBrainReasoningRoute
+  AuthenticatedBrainReflectionRoute: typeof AuthenticatedBrainReflectionRoute
+  AuthenticatedBrainRuntimeRoute: typeof AuthenticatedBrainRuntimeRoute
+  AuthenticatedBrainValidationRoute: typeof AuthenticatedBrainValidationRoute
+  AuthenticatedBrainIndexRoute: typeof AuthenticatedBrainIndexRoute
+}
+
+const AuthenticatedBrainRouteChildren: AuthenticatedBrainRouteChildren = {
+  AuthenticatedBrainAnalyticsRoute: AuthenticatedBrainAnalyticsRoute,
+  AuthenticatedBrainExecutionRoute: AuthenticatedBrainExecutionRoute,
+  AuthenticatedBrainHealthRoute: AuthenticatedBrainHealthRoute,
+  AuthenticatedBrainMemoryRoute: AuthenticatedBrainMemoryRoute,
+  AuthenticatedBrainPlanningRoute: AuthenticatedBrainPlanningRoute,
+  AuthenticatedBrainReasoningRoute: AuthenticatedBrainReasoningRoute,
+  AuthenticatedBrainReflectionRoute: AuthenticatedBrainReflectionRoute,
+  AuthenticatedBrainRuntimeRoute: AuthenticatedBrainRuntimeRoute,
+  AuthenticatedBrainValidationRoute: AuthenticatedBrainValidationRoute,
+  AuthenticatedBrainIndexRoute: AuthenticatedBrainIndexRoute,
+}
+
+const AuthenticatedBrainRouteWithChildren =
+  AuthenticatedBrainRoute._addFileChildren(AuthenticatedBrainRouteChildren)
 
 interface AuthenticatedBusinessRouteChildren {
   AuthenticatedBusinessAiRoute: typeof AuthenticatedBusinessAiRoute
@@ -5012,6 +5257,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedAutonomousRoute: typeof AuthenticatedAutonomousRoute
+  AuthenticatedBrainRoute: typeof AuthenticatedBrainRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -5048,6 +5294,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedAutonomousRoute: AuthenticatedAutonomousRoute,
+  AuthenticatedBrainRoute: AuthenticatedBrainRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
