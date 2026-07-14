@@ -1,16 +1,25 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Palette } from "lucide-react";
-import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
+/**
+ * /studio — HAPPY Creator OS layout.
+ * The unified AI-native Creative Operating System. One identity (HAPPY),
+ * many studios (image, voice, presentation, copy, marketing, brand).
+ */
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { Container } from "@/design-system/primitives";
+import { CreatorNav } from "@/components/creator/CreatorNav";
 
 export const Route = createFileRoute("/_authenticated/studio")({
-  head: () => ({ meta: [{ title: "Creator Studio — HAPPY X" }, { name: "robots", content: "noindex" }] }),
-  component: () => (
-    <ModulePlaceholder
-      eyebrow="Create"
-      title="Creator Studio"
-      icon={Palette}
-      description="Design, video, audio, copywriting and brand systems — an AI-augmented studio for teams and independent creators."
-      features={["Design Canvas", "Video Editor", "Audio Suite", "Brand System", "Copywriting", "Asset Library", "Templates", "Collaboration", "Publishing"]}
-    />
-  ),
+  head: () => ({ meta: [
+    { title: "Creator OS — HAPPY X" },
+    { name: "robots", content: "noindex" },
+  ]}),
+  component: CreatorLayout,
 });
+
+function CreatorLayout() {
+  return (
+    <Container className="py-6 md:py-10">
+      <CreatorNav />
+      <Outlet />
+    </Container>
+  );
+}
