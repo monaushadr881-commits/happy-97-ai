@@ -186,13 +186,19 @@ export const HappyAvatar = memo(function HappyAvatar({
           src={happyPortraitAsset.url}
           alt="HAPPY, the official HAPPY X digital human"
           className={cn(
-            "h-full w-full object-cover object-top",
+            "h-full w-full object-cover object-top will-change-transform",
             !reducedMotion && "dh-sway",
           )}
+          style={
+            reducedMotion
+              ? undefined
+              : { transform: `translate3d(${drift.x}px, ${drift.y}px, 0) rotate(${drift.r}deg)` }
+          }
           draggable={false}
           loading="eager"
           decoding="async"
         />
+
 
         {/* soft top gold light */}
         <div
