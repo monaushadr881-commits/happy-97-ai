@@ -687,3 +687,29 @@ export const governancePlatformService = defineService({ name: "governance-platf
 export const observabilityV2Service = defineService({ name: "observability-v2", version: "v14" }, () => activated("observability-v2"));
 export const ecosystemIntelligenceService = defineService({ name: "ecosystem-intelligence", version: "v14" }, () => activated("ecosystem-intelligence"));
 export const futureReadinessService = defineService({ name: "future-readiness", version: "v14" }, () => activated("future-readiness"));
+
+
+// ---------- v15.0 — Universal Enterprise Ecosystem (activated via Enterprise Brain) ----------
+export const ecosystemCoreService = defineService({ name: "ecosystem-core", version: "v15" }, () => activated("ecosystem-core"));
+export const organizationCloudService = defineService({ name: "organization-cloud", version: "v15" }, () => activated("organization-cloud"));
+export const marketNetworkService = defineService({ name: "market-network", version: "v15" }, () => activated("market-network"));
+export const researchPlatformService = defineService({ name: "research-platform", version: "v15" }, () => activated("research-platform"));
+export const innovationPlatformService = defineService({ name: "innovation-platform", version: "v15" }, () => activated("innovation-platform"));
+export const learningNetworkService = defineService({ name: "learning-network", version: "v15" }, () => activated("learning-network"));
+export const communicationHubService = defineService({ name: "communication-hub", version: "v15" }, () => activated("communication-hub"));
+export const partnerPlatformService = defineService({ name: "partner-platform", version: "v15" }, () => activated("partner-platform"));
+export const sustainabilityPlatformService = defineService({ name: "sustainability-platform", version: "v15" }, () => activated("sustainability-platform"));
+export const insightEngineService = defineService({ name: "insight-engine", version: "v15" }, () => activated("insight-engine"));
+
+
+// ---------- v16.0 — Universal Intelligence Civilization Platform (activated via Enterprise Brain) ----------
+export const fabricPlatformService = defineService({ name: "fabric-platform", version: "v16" }, () => activated("fabric-platform"));
+export const workspacePlatformService = defineService({ name: "workspace-platform", version: "v16" }, () => activated("workspace-platform"));
+export const productivityPlatformService = defineService({ name: "productivity-platform", version: "v16" }, () => activated("productivity-platform"));
+export const documentCloudService = defineService({ name: "document-cloud", version: "v16" }, () => activated("document-cloud"));
+export const communicationPlatformService = defineService({ name: "communication-platform", version: "v16" }, () => activated("communication-platform"));
+export const knowledgeNetworkService = defineService({ name: "knowledge-network", version: "v16" }, () => activated("knowledge-network"));
+export const searchHubService = defineService({ name: "search-hub", version: "v16" }, () => activated("search-hub"));
+export const experienceFabricService = defineService({ name: "experience-fabric", version: "v16" }, () => activated("experience-fabric"));
+export const orchestrationPlatformService = defineService({ name: "orchestration-platform", version: "v16" }, () => activated("orchestration-platform"));
+export const ecosystemHubV16Service = defineService({ name: "ecosystem-hub-v16", version: "v16" }, () => activated("ecosystem-hub-v16"));
