@@ -1,6 +1,6 @@
 /** /plugins — Phase 2.5 Plugin Ecosystem overview. */
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Puzzle, Store, Package, Settings as SettingsIcon } from "lucide-react";
+import { Puzzle, Store, Package, Settings as SettingsIcon, Wrench, Star } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/plugins")({
   head: () => ({
@@ -17,6 +17,8 @@ const tabs: Array<{ to: string; label: string; icon: typeof Puzzle; exact?: bool
   { to: "/plugins", label: "Overview", icon: Puzzle, exact: true },
   { to: "/plugins/store", label: "Store", icon: Store },
   { to: "/plugins/installed", label: "Installed", icon: Package },
+  { to: "/plugins/manage", label: "Manage", icon: Wrench },
+  { to: "/plugins/reviews", label: "Reviews", icon: Star },
   { to: "/plugins/settings", label: "Settings", icon: SettingsIcon },
 ];
 
