@@ -27,23 +27,85 @@ type Props = {
   variant?: "bust" | "portrait";
 };
 
+/**
+ * Organic blink loop — never repeats.
+ * Uses variable inter-blink gaps (1.8–7.2s), variable close duration
+ * (95–170ms), and occasional double-blinks (~12% chance). Feels human.
+ */
 function useBlink(reduced: boolean) {
   const [closed, setClosed] = useState(false);
   useEffect(() => {
     if (reduced) return;
     let t: ReturnType<typeof setTimeout>;
+    let cancelled = false;
+    const doBlink = (after: () => void) => {
+      const closeMs = 95 + Math.random() * 75;
+      setClosed(true);
+      setTimeout(() => {
+        if (cancelled) return;
+        setClosed(false);
+        after();
+      }, closeMs);
+    };
     const loop = () => {
-      const next = 2600 + Math.random() * 3800;
+      const gap = 1800 + Math.random() * 5400;
       t = setTimeout(() => {
-        setClosed(true);
-        setTimeout(() => { setClosed(false); loop(); }, 120);
-      }, next);
+        if (cancelled) return;
+        doBlink(() => {
+          // ~12% chance of a natural double-blink
+          if (Math.random() < 0.12) {
+            setTimeout(() => !cancelled && doBlink(loop), 140 + Math.random() * 80);
+          } else {
+            loop();
+          }
+        });
+      }, gap);
     };
     loop();
-    return () => clearTimeout(t);
+    return () => { cancelled = true; clearTimeout(t); };
   }, [reduced]);
   return closed;
 }
+
+/** Micro head drift + eye saccade offsets, updated on a slow rAF cadence. */
+function useMicroMotion(reduced: boolean) {
+  const [offset, setOffset] = useState({ x: 0, y: 0, r: 0 });
+  useEffect(() => {
+    if (reduced) return;
+    let raf = 0;
+    let last = 0;
+    let target = { x: 0, y: 0, r: 0 };
+    let current = { x: 0, y: 0, r: 0 };
+    let nextRetarget = 0;
+    const tick = (t: number) => {
+      if (!last) last = t;
+      const dt = Math.min(50, t - last);
+      last = t;
+      if (t > nextRetarget) {
+        // pick a new subtle target — head + gaze focus
+        target = {
+          x: (Math.random() - 0.5) * 3.4,
+          y: (Math.random() - 0.5) * 2.0,
+          r: (Math.random() - 0.5) * 0.6,
+        };
+        nextRetarget = t + 900 + Math.random() * 2600;
+      }
+      // ease toward target
+      const k = 1 - Math.pow(0.001, dt / 1000);
+      current = {
+        x: current.x + (target.x - current.x) * k,
+        y: current.y + (target.y - current.y) * k,
+        r: current.r + (target.r - current.r) * k,
+      };
+      setOffset(current);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [reduced]);
+  return offset;
+}
+
 
 export const HappyAvatar = memo(function HappyAvatar({
   expression = "neutral",
