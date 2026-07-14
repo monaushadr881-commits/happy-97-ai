@@ -41,6 +41,7 @@ function HappyXLanding() {
       <Nav />
       <Hero />
       <TrustBar />
+      <Ecosystem />
       <ChatPreview />
       <ModuleShowcase
         id="education"
