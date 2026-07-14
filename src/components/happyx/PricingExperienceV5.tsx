@@ -620,7 +620,7 @@ const TESTIMONIALS = [
   { name: "Dr. Mehta",  role: "Principal · K-12 School",     industry: "Education",    challenge: "Manual student tracking",           solution: "HAPPY for Education + AI Tutor",   outcome: "3× parent engagement, 60% teacher time back" },
   { name: "K. Verma",   role: "CTO · Fintech",               industry: "Finance",      challenge: "Compliance + scale",                solution: "Enterprise + SSO + audit",        outcome: "SOC 2 in 6 weeks, ₹1.2Cr replaced stack" },
   { name: "R. Sharma",  role: "Founder · Creator Studio",    industry: "Creator",      challenge: "Content velocity",                  solution: "Creator Studio Pro + AI Video",    outcome: "5× publish rate, 2× revenue" },
-  { name: "Priya N.",   role: "Head Nurse · Hospital",       industry: "Healthcare",   challenge: "Shift + patient workflows",         solution: "Enterprise + dedicated runtime",  outcome: "18% faster rounds, 24×7 support" },
+  { name: "Kritika Ji",   role: "Head Nurse · Hospital",       industry: "Healthcare",   challenge: "Shift + patient workflows",         solution: "Enterprise + dedicated runtime",  outcome: "18% faster rounds, 24×7 support" },
   { name: "Arjun T.",   role: "Plant Manager · Factory",     industry: "Manufacturing",challenge: "Inventory + downtime",              solution: "Business + Manufacturing OS",     outcome: "31% downtime cut, 22% inventory saved" },
 ];
 const Testimonials = memo(function Testimonials() {

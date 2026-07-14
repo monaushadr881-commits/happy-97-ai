@@ -29,6 +29,7 @@ import happyAiLogoAsset from "@/assets/happy-ai-logo.png.asset.json";
 import appQrAsset from "@/assets/happyx-app-qr.png.asset.json";
 import waQrAsset from "@/assets/happyx-whatsapp-qr.jpg.asset.json";
 import { HappyAvatar } from "@/components/digital-human/HappyAvatar";
+import { BusinessWebsites } from "@/components/happyx/BusinessWebsites";
 
 export const Route = createFileRoute("/")({
   component: HappyXLanding,
@@ -42,6 +43,7 @@ function HappyXLanding() {
       <TrustBar />
       <Ecosystem />
       <ChatPreview />
+      <BusinessWebsites />
       <ModuleShowcase
         id="education"
         eyebrow="Education Platform"
@@ -651,7 +653,7 @@ function ChatPreview() {
                 who="ai"
                 text="Understood. Reviewing last quarter's cohort data, margin drift by SKU, and Mumbai HR capacity. I'll prepare a two-page brief with three scenarios. Shall I include the manufacturing yield forecast from Business OS?"
               />
-              <ChatBubble who="you" text="Yes, and route it to Priya for review." />
+              <ChatBubble who="you" text="Yes, and route it to Kritika Ji for review." />
 
               {/* rich card — knowledge/business */}
               <div className="ml-11 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
@@ -674,14 +676,14 @@ function ChatPreview() {
                     </span>
                   </div>
                   <p className="mt-2 text-sm text-soft-gray">
-                    Synthesizing across Business OS, Analytics, and CRM · routing approval to Priya.
+                    Synthesizing across Business OS, Analytics, and CRM · routing approval to Kritika Ji.
                   </p>
                 </div>
               </div>
 
               {/* suggested follow-ups */}
               <div className="ml-11 flex flex-wrap gap-2">
-                {["Add supplier risk view", "Show Q3 vs Q2 delta", "Draft email to Priya"].map((s) => (
+                {["Add supplier risk view", "Show Q3 vs Q2 delta", "Draft email to Kritika Ji"].map((s) => (
                   <button
                     key={s}
                     className="rounded-full border border-gold/25 bg-obsidian/50 px-3 py-1.5 text-[11px] text-paper transition-colors hover:border-gold/50 hover:bg-gold/10"
