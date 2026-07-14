@@ -142,7 +142,7 @@ export const HappyAvatar = memo(function HappyAvatar({
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
-  const drift = useMicroMotion(reducedMotion);
+  const drift = useMicroMotion(reducedMotion, activity, expression);
   const [gaze, setGaze] = useState({ x: 0, y: 0 });
   useEffect(() => {
     if (!trackCursor || reducedMotion) return;
