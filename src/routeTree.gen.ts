@@ -15,6 +15,7 @@ import { Route as DesignRouteImport } from './routes/design'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedWorkflowsRouteImport } from './routes/_authenticated/workflows'
 import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
@@ -51,6 +52,9 @@ import { Route as AuthenticatedDigitalHumanIndexRouteImport } from './routes/_au
 import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authenticated/community.index'
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
 import { Route as ApiDhTtsRouteImport } from './routes/api/dh.tts'
+import { Route as AuthenticatedWorkflowsHistoryRouteImport } from './routes/_authenticated/workflows.history'
+import { Route as AuthenticatedWorkflowsDesignerRouteImport } from './routes/_authenticated/workflows.designer'
+import { Route as AuthenticatedWorkflowsAnalyticsRouteImport } from './routes/_authenticated/workflows.analytics'
 import { Route as AuthenticatedStudioVoiceRouteImport } from './routes/_authenticated/studio.voice'
 import { Route as AuthenticatedStudioProjectsRouteImport } from './routes/_authenticated/studio.projects'
 import { Route as AuthenticatedStudioPresentationRouteImport } from './routes/_authenticated/studio.presentation'
@@ -62,6 +66,8 @@ import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenti
 import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authenticated/studio.assets'
 import { Route as AuthenticatedPluginsStoreRouteImport } from './routes/_authenticated/plugins.store'
 import { Route as AuthenticatedPluginsSettingsRouteImport } from './routes/_authenticated/plugins.settings'
+import { Route as AuthenticatedPluginsReviewsRouteImport } from './routes/_authenticated/plugins.reviews'
+import { Route as AuthenticatedPluginsManageRouteImport } from './routes/_authenticated/plugins.manage'
 import { Route as AuthenticatedPluginsInstalledRouteImport } from './routes/_authenticated/plugins.installed'
 import { Route as AuthenticatedMemoryTimelineRouteImport } from './routes/_authenticated/memory.timeline'
 import { Route as AuthenticatedMemorySettingsRouteImport } from './routes/_authenticated/memory.settings'
@@ -178,6 +184,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedWorkflowsRoute = AuthenticatedWorkflowsRouteImport.update({
+  id: '/workflows',
+  path: '/workflows',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedStudioRoute = AuthenticatedStudioRouteImport.update({
   id: '/studio',
@@ -374,6 +385,24 @@ const ApiDhTtsRoute = ApiDhTtsRouteImport.update({
   path: '/api/dh/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedWorkflowsHistoryRoute =
+  AuthenticatedWorkflowsHistoryRouteImport.update({
+    id: '/history',
+    path: '/history',
+    getParentRoute: () => AuthenticatedWorkflowsRoute,
+  } as any)
+const AuthenticatedWorkflowsDesignerRoute =
+  AuthenticatedWorkflowsDesignerRouteImport.update({
+    id: '/designer',
+    path: '/designer',
+    getParentRoute: () => AuthenticatedWorkflowsRoute,
+  } as any)
+const AuthenticatedWorkflowsAnalyticsRoute =
+  AuthenticatedWorkflowsAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedWorkflowsRoute,
+  } as any)
 const AuthenticatedStudioVoiceRoute =
   AuthenticatedStudioVoiceRouteImport.update({
     id: '/voice',
@@ -437,6 +466,18 @@ const AuthenticatedPluginsSettingsRoute =
   AuthenticatedPluginsSettingsRouteImport.update({
     id: '/settings',
     path: '/settings',
+    getParentRoute: () => AuthenticatedPluginsRoute,
+  } as any)
+const AuthenticatedPluginsReviewsRoute =
+  AuthenticatedPluginsReviewsRouteImport.update({
+    id: '/reviews',
+    path: '/reviews',
+    getParentRoute: () => AuthenticatedPluginsRoute,
+  } as any)
+const AuthenticatedPluginsManageRoute =
+  AuthenticatedPluginsManageRouteImport.update({
+    id: '/manage',
+    path: '/manage',
     getParentRoute: () => AuthenticatedPluginsRoute,
   } as any)
 const AuthenticatedPluginsInstalledRoute =
@@ -986,6 +1027,7 @@ export interface FileRoutesByFullPath {
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1071,6 +1113,8 @@ export interface FileRoutesByFullPath {
   '/memory/settings': typeof AuthenticatedMemorySettingsRoute
   '/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
   '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
+  '/plugins/manage': typeof AuthenticatedPluginsManageRoute
+  '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
@@ -1082,6 +1126,9 @@ export interface FileRoutesByFullPath {
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
   '/studio/projects': typeof AuthenticatedStudioProjectsRoute
   '/studio/voice': typeof AuthenticatedStudioVoiceRoute
+  '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
+  '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
+  '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
   '/community/': typeof AuthenticatedCommunityIndexRoute
@@ -1116,6 +1163,7 @@ export interface FileRoutesByTo {
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1201,6 +1249,8 @@ export interface FileRoutesByTo {
   '/memory/settings': typeof AuthenticatedMemorySettingsRoute
   '/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
   '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
+  '/plugins/manage': typeof AuthenticatedPluginsManageRoute
+  '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
@@ -1212,6 +1262,9 @@ export interface FileRoutesByTo {
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
   '/studio/projects': typeof AuthenticatedStudioProjectsRoute
   '/studio/voice': typeof AuthenticatedStudioVoiceRoute
+  '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
+  '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
+  '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
   '/community': typeof AuthenticatedCommunityIndexRoute
@@ -1259,6 +1312,7 @@ export interface FileRoutesById {
   '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/_authenticated/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
   '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/_authenticated/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1344,6 +1398,8 @@ export interface FileRoutesById {
   '/_authenticated/memory/settings': typeof AuthenticatedMemorySettingsRoute
   '/_authenticated/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
   '/_authenticated/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
+  '/_authenticated/plugins/manage': typeof AuthenticatedPluginsManageRoute
+  '/_authenticated/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/_authenticated/studio/assets': typeof AuthenticatedStudioAssetsRoute
@@ -1355,6 +1411,9 @@ export interface FileRoutesById {
   '/_authenticated/studio/presentation': typeof AuthenticatedStudioPresentationRoute
   '/_authenticated/studio/projects': typeof AuthenticatedStudioProjectsRoute
   '/_authenticated/studio/voice': typeof AuthenticatedStudioVoiceRoute
+  '/_authenticated/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
+  '/_authenticated/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
+  '/_authenticated/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
   '/_authenticated/community/': typeof AuthenticatedCommunityIndexRoute
@@ -1402,6 +1461,7 @@ export interface FileRouteTypes {
     | '/roadmap'
     | '/settings'
     | '/studio'
+    | '/workflows'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -1487,6 +1547,8 @@ export interface FileRouteTypes {
     | '/memory/settings'
     | '/memory/timeline'
     | '/plugins/installed'
+    | '/plugins/manage'
+    | '/plugins/reviews'
     | '/plugins/settings'
     | '/plugins/store'
     | '/studio/assets'
@@ -1498,6 +1560,9 @@ export interface FileRouteTypes {
     | '/studio/presentation'
     | '/studio/projects'
     | '/studio/voice'
+    | '/workflows/analytics'
+    | '/workflows/designer'
+    | '/workflows/history'
     | '/api/dh/tts'
     | '/business/'
     | '/community/'
@@ -1532,6 +1597,7 @@ export interface FileRouteTypes {
     | '/plugins'
     | '/roadmap'
     | '/settings'
+    | '/workflows'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -1617,6 +1683,8 @@ export interface FileRouteTypes {
     | '/memory/settings'
     | '/memory/timeline'
     | '/plugins/installed'
+    | '/plugins/manage'
+    | '/plugins/reviews'
     | '/plugins/settings'
     | '/plugins/store'
     | '/studio/assets'
@@ -1628,6 +1696,9 @@ export interface FileRouteTypes {
     | '/studio/presentation'
     | '/studio/projects'
     | '/studio/voice'
+    | '/workflows/analytics'
+    | '/workflows/designer'
+    | '/workflows/history'
     | '/api/dh/tts'
     | '/business'
     | '/community'
@@ -1674,6 +1745,7 @@ export interface FileRouteTypes {
     | '/_authenticated/roadmap'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
+    | '/_authenticated/workflows'
     | '/_authenticated/business/ai'
     | '/_authenticated/business/analytics'
     | '/_authenticated/business/automation'
@@ -1759,6 +1831,8 @@ export interface FileRouteTypes {
     | '/_authenticated/memory/settings'
     | '/_authenticated/memory/timeline'
     | '/_authenticated/plugins/installed'
+    | '/_authenticated/plugins/manage'
+    | '/_authenticated/plugins/reviews'
     | '/_authenticated/plugins/settings'
     | '/_authenticated/plugins/store'
     | '/_authenticated/studio/assets'
@@ -1770,6 +1844,9 @@ export interface FileRouteTypes {
     | '/_authenticated/studio/presentation'
     | '/_authenticated/studio/projects'
     | '/_authenticated/studio/voice'
+    | '/_authenticated/workflows/analytics'
+    | '/_authenticated/workflows/designer'
+    | '/_authenticated/workflows/history'
     | '/api/dh/tts'
     | '/_authenticated/business/'
     | '/_authenticated/community/'
@@ -1841,6 +1918,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/workflows': {
+      id: '/_authenticated/workflows'
+      path: '/workflows'
+      fullPath: '/workflows'
+      preLoaderRoute: typeof AuthenticatedWorkflowsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/studio': {
       id: '/_authenticated/studio'
@@ -2094,6 +2178,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiDhTtsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/workflows/history': {
+      id: '/_authenticated/workflows/history'
+      path: '/history'
+      fullPath: '/workflows/history'
+      preLoaderRoute: typeof AuthenticatedWorkflowsHistoryRouteImport
+      parentRoute: typeof AuthenticatedWorkflowsRoute
+    }
+    '/_authenticated/workflows/designer': {
+      id: '/_authenticated/workflows/designer'
+      path: '/designer'
+      fullPath: '/workflows/designer'
+      preLoaderRoute: typeof AuthenticatedWorkflowsDesignerRouteImport
+      parentRoute: typeof AuthenticatedWorkflowsRoute
+    }
+    '/_authenticated/workflows/analytics': {
+      id: '/_authenticated/workflows/analytics'
+      path: '/analytics'
+      fullPath: '/workflows/analytics'
+      preLoaderRoute: typeof AuthenticatedWorkflowsAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedWorkflowsRoute
+    }
     '/_authenticated/studio/voice': {
       id: '/_authenticated/studio/voice'
       path: '/voice'
@@ -2169,6 +2274,20 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/plugins/settings'
       preLoaderRoute: typeof AuthenticatedPluginsSettingsRouteImport
+      parentRoute: typeof AuthenticatedPluginsRoute
+    }
+    '/_authenticated/plugins/reviews': {
+      id: '/_authenticated/plugins/reviews'
+      path: '/reviews'
+      fullPath: '/plugins/reviews'
+      preLoaderRoute: typeof AuthenticatedPluginsReviewsRouteImport
+      parentRoute: typeof AuthenticatedPluginsRoute
+    }
+    '/_authenticated/plugins/manage': {
+      id: '/_authenticated/plugins/manage'
+      path: '/manage'
+      fullPath: '/plugins/manage'
+      preLoaderRoute: typeof AuthenticatedPluginsManageRouteImport
       parentRoute: typeof AuthenticatedPluginsRoute
     }
     '/_authenticated/plugins/installed': {
@@ -3151,12 +3270,16 @@ const AuthenticatedMessagesRouteWithChildren =
 
 interface AuthenticatedPluginsRouteChildren {
   AuthenticatedPluginsInstalledRoute: typeof AuthenticatedPluginsInstalledRoute
+  AuthenticatedPluginsManageRoute: typeof AuthenticatedPluginsManageRoute
+  AuthenticatedPluginsReviewsRoute: typeof AuthenticatedPluginsReviewsRoute
   AuthenticatedPluginsSettingsRoute: typeof AuthenticatedPluginsSettingsRoute
   AuthenticatedPluginsStoreRoute: typeof AuthenticatedPluginsStoreRoute
 }
 
 const AuthenticatedPluginsRouteChildren: AuthenticatedPluginsRouteChildren = {
   AuthenticatedPluginsInstalledRoute: AuthenticatedPluginsInstalledRoute,
+  AuthenticatedPluginsManageRoute: AuthenticatedPluginsManageRoute,
+  AuthenticatedPluginsReviewsRoute: AuthenticatedPluginsReviewsRoute,
   AuthenticatedPluginsSettingsRoute: AuthenticatedPluginsSettingsRoute,
   AuthenticatedPluginsStoreRoute: AuthenticatedPluginsStoreRoute,
 }
@@ -3193,6 +3316,24 @@ const AuthenticatedStudioRouteChildren: AuthenticatedStudioRouteChildren = {
 const AuthenticatedStudioRouteWithChildren =
   AuthenticatedStudioRoute._addFileChildren(AuthenticatedStudioRouteChildren)
 
+interface AuthenticatedWorkflowsRouteChildren {
+  AuthenticatedWorkflowsAnalyticsRoute: typeof AuthenticatedWorkflowsAnalyticsRoute
+  AuthenticatedWorkflowsDesignerRoute: typeof AuthenticatedWorkflowsDesignerRoute
+  AuthenticatedWorkflowsHistoryRoute: typeof AuthenticatedWorkflowsHistoryRoute
+}
+
+const AuthenticatedWorkflowsRouteChildren: AuthenticatedWorkflowsRouteChildren =
+  {
+    AuthenticatedWorkflowsAnalyticsRoute: AuthenticatedWorkflowsAnalyticsRoute,
+    AuthenticatedWorkflowsDesignerRoute: AuthenticatedWorkflowsDesignerRoute,
+    AuthenticatedWorkflowsHistoryRoute: AuthenticatedWorkflowsHistoryRoute,
+  }
+
+const AuthenticatedWorkflowsRouteWithChildren =
+  AuthenticatedWorkflowsRoute._addFileChildren(
+    AuthenticatedWorkflowsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
@@ -3218,6 +3359,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
+  AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -3245,6 +3387,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
+  AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
