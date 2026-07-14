@@ -107,10 +107,12 @@ export const communityAddComment = createServerFn({ method: "POST" })
     const r = await context.supabase.from("comments")
       .insert({ ...data, author_id: context.userId }).select("*").single();
     if (r.error) throw r.error;
-    await context.supabase.rpc("write_audit", {
-      _category: "community", _action: "comment.create",
-      _entity_type: "post", _entity_id: data.post_id,
-    }).catch(() => {});
+    try {
+      await context.supabase.rpc("write_audit", {
+        _category: "community", _action: "comment.create",
+        _entity_type: "post", _entity_id: data.post_id,
+      });
+    } catch { /* audit is best-effort */ }
     return r.data;
   }));
 
