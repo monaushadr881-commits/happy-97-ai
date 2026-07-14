@@ -379,11 +379,21 @@ function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
       >
         {/* glass stage plate */}
         <div className="absolute inset-0 rounded-[2.25rem] glass-luxe" />
+        {/* soft floor shadow — cinematic depth beneath the portrait */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-6 left-1/2 h-10 w-4/5 -translate-x-1/2 rounded-full bg-black/70 blur-2xl opacity-70"
+        />
+        {/* diagonal sheen sweep — reads as light traveling across glass */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[2.25rem] overflow-hidden">
+          <span className="hero-sheen absolute -inset-y-8 -left-1/3 w-1/3 rotate-[18deg] bg-gradient-to-r from-transparent via-gold/20 to-transparent blur-md" />
+        </div>
         <div
           className="relative h-full w-full [transform-style:preserve-3d] transition-transform duration-500 ease-out"
           style={{ transform: `rotateY(${tilt.x * 0.6}deg) rotateX(${tilt.y * 0.6}deg)` }}
         >
           <div className="absolute inset-6 rounded-[1.85rem] overflow-hidden ring-1 ring-gold/25 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] bg-obsidian">
+
             <HappyAvatar
               variant="portrait"
               size={440}
