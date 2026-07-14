@@ -204,6 +204,14 @@ import { Route as AuthenticatedDecisionAnalyticsRouteImport } from './routes/_au
 import { Route as AuthenticatedCommunityMineRouteImport } from './routes/_authenticated/community.mine'
 import { Route as AuthenticatedCommunityGroupsRouteImport } from './routes/_authenticated/community.groups'
 import { Route as AuthenticatedCommunityFollowingRouteImport } from './routes/_authenticated/community.following'
+import { Route as AuthenticatedCloudStorageRouteImport } from './routes/_authenticated/cloud.storage'
+import { Route as AuthenticatedCloudProjectsRouteImport } from './routes/_authenticated/cloud.projects'
+import { Route as AuthenticatedCloudModelsRouteImport } from './routes/_authenticated/cloud.models'
+import { Route as AuthenticatedCloudMarketplaceRouteImport } from './routes/_authenticated/cloud.marketplace'
+import { Route as AuthenticatedCloudDeploymentsRouteImport } from './routes/_authenticated/cloud.deployments'
+import { Route as AuthenticatedCloudComplianceRouteImport } from './routes/_authenticated/cloud.compliance'
+import { Route as AuthenticatedCloudBillingRouteImport } from './routes/_authenticated/cloud.billing'
+import { Route as AuthenticatedCloudAnalyticsRouteImport } from './routes/_authenticated/cloud.analytics'
 import { Route as AuthenticatedBusinessWarehouseRouteImport } from './routes/_authenticated/business.warehouse'
 import { Route as AuthenticatedBusinessSearchRouteImport } from './routes/_authenticated/business.search'
 import { Route as AuthenticatedBusinessSalesRouteImport } from './routes/_authenticated/business.sales'
@@ -1372,6 +1380,54 @@ const AuthenticatedCommunityFollowingRoute =
     path: '/following',
     getParentRoute: () => AuthenticatedCommunityRoute,
   } as any)
+const AuthenticatedCloudStorageRoute =
+  AuthenticatedCloudStorageRouteImport.update({
+    id: '/storage',
+    path: '/storage',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
+const AuthenticatedCloudProjectsRoute =
+  AuthenticatedCloudProjectsRouteImport.update({
+    id: '/projects',
+    path: '/projects',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
+const AuthenticatedCloudModelsRoute =
+  AuthenticatedCloudModelsRouteImport.update({
+    id: '/models',
+    path: '/models',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
+const AuthenticatedCloudMarketplaceRoute =
+  AuthenticatedCloudMarketplaceRouteImport.update({
+    id: '/marketplace',
+    path: '/marketplace',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
+const AuthenticatedCloudDeploymentsRoute =
+  AuthenticatedCloudDeploymentsRouteImport.update({
+    id: '/deployments',
+    path: '/deployments',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
+const AuthenticatedCloudComplianceRoute =
+  AuthenticatedCloudComplianceRouteImport.update({
+    id: '/compliance',
+    path: '/compliance',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
+const AuthenticatedCloudBillingRoute =
+  AuthenticatedCloudBillingRouteImport.update({
+    id: '/billing',
+    path: '/billing',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
+const AuthenticatedCloudAnalyticsRoute =
+  AuthenticatedCloudAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedCloudRoute,
+  } as any)
 const AuthenticatedBusinessWarehouseRoute =
   AuthenticatedBusinessWarehouseRouteImport.update({
     id: '/warehouse',
@@ -1628,7 +1684,7 @@ export interface FileRoutesByFullPath {
   '/billing': typeof AuthenticatedBillingRoute
   '/brain': typeof AuthenticatedBrainRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
-  '/cloud': typeof AuthenticatedCloudRoute
+  '/cloud': typeof AuthenticatedCloudRouteWithChildren
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
@@ -1684,6 +1740,14 @@ export interface FileRoutesByFullPath {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/cloud/analytics': typeof AuthenticatedCloudAnalyticsRoute
+  '/cloud/billing': typeof AuthenticatedCloudBillingRoute
+  '/cloud/compliance': typeof AuthenticatedCloudComplianceRoute
+  '/cloud/deployments': typeof AuthenticatedCloudDeploymentsRoute
+  '/cloud/marketplace': typeof AuthenticatedCloudMarketplaceRoute
+  '/cloud/models': typeof AuthenticatedCloudModelsRoute
+  '/cloud/projects': typeof AuthenticatedCloudProjectsRoute
+  '/cloud/storage': typeof AuthenticatedCloudStorageRoute
   '/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/community/mine': typeof AuthenticatedCommunityMineRoute
@@ -1863,7 +1927,7 @@ export interface FileRoutesByTo {
   '/assistant': typeof AuthenticatedAssistantRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
   '/billing': typeof AuthenticatedBillingRoute
-  '/cloud': typeof AuthenticatedCloudRoute
+  '/cloud': typeof AuthenticatedCloudRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
@@ -1909,6 +1973,14 @@ export interface FileRoutesByTo {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/cloud/analytics': typeof AuthenticatedCloudAnalyticsRoute
+  '/cloud/billing': typeof AuthenticatedCloudBillingRoute
+  '/cloud/compliance': typeof AuthenticatedCloudComplianceRoute
+  '/cloud/deployments': typeof AuthenticatedCloudDeploymentsRoute
+  '/cloud/marketplace': typeof AuthenticatedCloudMarketplaceRoute
+  '/cloud/models': typeof AuthenticatedCloudModelsRoute
+  '/cloud/projects': typeof AuthenticatedCloudProjectsRoute
+  '/cloud/storage': typeof AuthenticatedCloudStorageRoute
   '/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/community/mine': typeof AuthenticatedCommunityMineRoute
@@ -2092,7 +2164,7 @@ export interface FileRoutesById {
   '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/brain': typeof AuthenticatedBrainRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
-  '/_authenticated/cloud': typeof AuthenticatedCloudRoute
+  '/_authenticated/cloud': typeof AuthenticatedCloudRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
@@ -2148,6 +2220,14 @@ export interface FileRoutesById {
   '/_authenticated/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/_authenticated/business/search': typeof AuthenticatedBusinessSearchRoute
   '/_authenticated/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/_authenticated/cloud/analytics': typeof AuthenticatedCloudAnalyticsRoute
+  '/_authenticated/cloud/billing': typeof AuthenticatedCloudBillingRoute
+  '/_authenticated/cloud/compliance': typeof AuthenticatedCloudComplianceRoute
+  '/_authenticated/cloud/deployments': typeof AuthenticatedCloudDeploymentsRoute
+  '/_authenticated/cloud/marketplace': typeof AuthenticatedCloudMarketplaceRoute
+  '/_authenticated/cloud/models': typeof AuthenticatedCloudModelsRoute
+  '/_authenticated/cloud/projects': typeof AuthenticatedCloudProjectsRoute
+  '/_authenticated/cloud/storage': typeof AuthenticatedCloudStorageRoute
   '/_authenticated/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/_authenticated/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/_authenticated/community/mine': typeof AuthenticatedCommunityMineRoute
@@ -2387,6 +2467,14 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
+    | '/cloud/analytics'
+    | '/cloud/billing'
+    | '/cloud/compliance'
+    | '/cloud/deployments'
+    | '/cloud/marketplace'
+    | '/cloud/models'
+    | '/cloud/projects'
+    | '/cloud/storage'
     | '/community/following'
     | '/community/groups'
     | '/community/mine'
@@ -2612,6 +2700,14 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
+    | '/cloud/analytics'
+    | '/cloud/billing'
+    | '/cloud/compliance'
+    | '/cloud/deployments'
+    | '/cloud/marketplace'
+    | '/cloud/models'
+    | '/cloud/projects'
+    | '/cloud/storage'
     | '/community/following'
     | '/community/groups'
     | '/community/mine'
@@ -2850,6 +2946,14 @@ export interface FileRouteTypes {
     | '/_authenticated/business/sales'
     | '/_authenticated/business/search'
     | '/_authenticated/business/warehouse'
+    | '/_authenticated/cloud/analytics'
+    | '/_authenticated/cloud/billing'
+    | '/_authenticated/cloud/compliance'
+    | '/_authenticated/cloud/deployments'
+    | '/_authenticated/cloud/marketplace'
+    | '/_authenticated/cloud/models'
+    | '/_authenticated/cloud/projects'
+    | '/_authenticated/cloud/storage'
     | '/_authenticated/community/following'
     | '/_authenticated/community/groups'
     | '/_authenticated/community/mine'
@@ -4398,6 +4502,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCommunityFollowingRouteImport
       parentRoute: typeof AuthenticatedCommunityRoute
     }
+    '/_authenticated/cloud/storage': {
+      id: '/_authenticated/cloud/storage'
+      path: '/storage'
+      fullPath: '/cloud/storage'
+      preLoaderRoute: typeof AuthenticatedCloudStorageRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
+    '/_authenticated/cloud/projects': {
+      id: '/_authenticated/cloud/projects'
+      path: '/projects'
+      fullPath: '/cloud/projects'
+      preLoaderRoute: typeof AuthenticatedCloudProjectsRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
+    '/_authenticated/cloud/models': {
+      id: '/_authenticated/cloud/models'
+      path: '/models'
+      fullPath: '/cloud/models'
+      preLoaderRoute: typeof AuthenticatedCloudModelsRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
+    '/_authenticated/cloud/marketplace': {
+      id: '/_authenticated/cloud/marketplace'
+      path: '/marketplace'
+      fullPath: '/cloud/marketplace'
+      preLoaderRoute: typeof AuthenticatedCloudMarketplaceRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
+    '/_authenticated/cloud/deployments': {
+      id: '/_authenticated/cloud/deployments'
+      path: '/deployments'
+      fullPath: '/cloud/deployments'
+      preLoaderRoute: typeof AuthenticatedCloudDeploymentsRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
+    '/_authenticated/cloud/compliance': {
+      id: '/_authenticated/cloud/compliance'
+      path: '/compliance'
+      fullPath: '/cloud/compliance'
+      preLoaderRoute: typeof AuthenticatedCloudComplianceRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
+    '/_authenticated/cloud/billing': {
+      id: '/_authenticated/cloud/billing'
+      path: '/billing'
+      fullPath: '/cloud/billing'
+      preLoaderRoute: typeof AuthenticatedCloudBillingRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
+    '/_authenticated/cloud/analytics': {
+      id: '/_authenticated/cloud/analytics'
+      path: '/analytics'
+      fullPath: '/cloud/analytics'
+      preLoaderRoute: typeof AuthenticatedCloudAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedCloudRoute
+    }
     '/_authenticated/business/warehouse': {
       id: '/_authenticated/business/warehouse'
       path: '/warehouse'
@@ -4795,6 +4955,31 @@ const AuthenticatedBusinessRouteWithChildren =
   AuthenticatedBusinessRoute._addFileChildren(
     AuthenticatedBusinessRouteChildren,
   )
+
+interface AuthenticatedCloudRouteChildren {
+  AuthenticatedCloudAnalyticsRoute: typeof AuthenticatedCloudAnalyticsRoute
+  AuthenticatedCloudBillingRoute: typeof AuthenticatedCloudBillingRoute
+  AuthenticatedCloudComplianceRoute: typeof AuthenticatedCloudComplianceRoute
+  AuthenticatedCloudDeploymentsRoute: typeof AuthenticatedCloudDeploymentsRoute
+  AuthenticatedCloudMarketplaceRoute: typeof AuthenticatedCloudMarketplaceRoute
+  AuthenticatedCloudModelsRoute: typeof AuthenticatedCloudModelsRoute
+  AuthenticatedCloudProjectsRoute: typeof AuthenticatedCloudProjectsRoute
+  AuthenticatedCloudStorageRoute: typeof AuthenticatedCloudStorageRoute
+}
+
+const AuthenticatedCloudRouteChildren: AuthenticatedCloudRouteChildren = {
+  AuthenticatedCloudAnalyticsRoute: AuthenticatedCloudAnalyticsRoute,
+  AuthenticatedCloudBillingRoute: AuthenticatedCloudBillingRoute,
+  AuthenticatedCloudComplianceRoute: AuthenticatedCloudComplianceRoute,
+  AuthenticatedCloudDeploymentsRoute: AuthenticatedCloudDeploymentsRoute,
+  AuthenticatedCloudMarketplaceRoute: AuthenticatedCloudMarketplaceRoute,
+  AuthenticatedCloudModelsRoute: AuthenticatedCloudModelsRoute,
+  AuthenticatedCloudProjectsRoute: AuthenticatedCloudProjectsRoute,
+  AuthenticatedCloudStorageRoute: AuthenticatedCloudStorageRoute,
+}
+
+const AuthenticatedCloudRouteWithChildren =
+  AuthenticatedCloudRoute._addFileChildren(AuthenticatedCloudRouteChildren)
 
 interface AuthenticatedCommunityRouteChildren {
   AuthenticatedCommunityFollowingRoute: typeof AuthenticatedCommunityFollowingRoute
@@ -5413,7 +5598,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
   AuthenticatedBrainRoute: typeof AuthenticatedBrainRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
-  AuthenticatedCloudRoute: typeof AuthenticatedCloudRoute
+  AuthenticatedCloudRoute: typeof AuthenticatedCloudRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
@@ -5453,7 +5638,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBillingRoute: AuthenticatedBillingRoute,
   AuthenticatedBrainRoute: AuthenticatedBrainRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
-  AuthenticatedCloudRoute: AuthenticatedCloudRoute,
+  AuthenticatedCloudRoute: AuthenticatedCloudRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
