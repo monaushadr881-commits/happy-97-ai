@@ -98,7 +98,7 @@ const GlassCard = memo(function GlassCard({
   style?: CSSProperties;
   onMouseMove?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onMouseLeave?: () => void;
-  as?: keyof JSX.IntrinsicElements;
+  as?: "div" | "section" | "article";
 } & Record<string, unknown>) {
   const Comp = Tag as "div";
   return (
