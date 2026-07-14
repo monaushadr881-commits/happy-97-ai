@@ -18,6 +18,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
+import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authenticated/hyperlocal'
 import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
@@ -151,6 +152,11 @@ const AuthenticatedMarketplaceRoute =
 const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHyperlocalRoute = AuthenticatedHyperlocalRouteImport.update({
+  id: '/hyperlocal',
+  path: '/hyperlocal',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFounderRoute = AuthenticatedFounderRouteImport.update({
@@ -685,6 +691,7 @@ export interface FileRoutesByFullPath {
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/founder': typeof AuthenticatedFounderRouteWithChildren
+  '/hyperlocal': typeof AuthenticatedHyperlocalRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
@@ -778,6 +785,7 @@ export interface FileRoutesByTo {
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/hyperlocal': typeof AuthenticatedHyperlocalRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -875,6 +883,7 @@ export interface FileRoutesById {
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
+  '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
@@ -976,6 +985,7 @@ export interface FileRouteTypes {
     | '/education'
     | '/enterprise'
     | '/founder'
+    | '/hyperlocal'
     | '/knowledge'
     | '/marketplace'
     | '/messages'
@@ -1069,6 +1079,7 @@ export interface FileRouteTypes {
     | '/design'
     | '/assistant'
     | '/dashboard'
+    | '/hyperlocal'
     | '/settings'
     | '/business/ai'
     | '/business/analytics'
@@ -1165,6 +1176,7 @@ export interface FileRouteTypes {
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
     | '/_authenticated/founder'
+    | '/_authenticated/hyperlocal'
     | '/_authenticated/knowledge'
     | '/_authenticated/marketplace'
     | '/_authenticated/messages'
@@ -1326,6 +1338,13 @@ declare module '@tanstack/react-router' {
       path: '/knowledge'
       fullPath: '/knowledge'
       preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hyperlocal': {
+      id: '/_authenticated/hyperlocal'
+      path: '/hyperlocal'
+      fullPath: '/hyperlocal'
+      preLoaderRoute: typeof AuthenticatedHyperlocalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/founder': {
@@ -2245,6 +2264,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
+  AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
@@ -2261,6 +2281,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
+  AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
