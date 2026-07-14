@@ -159,7 +159,7 @@ export const settingsRepo = (sb: Sb) => ({
       _user_id: ctx.user_id ?? null,
     } as never);
     if (error) throw error;
-    return data as unknown;
+    return data as Json | null;
   },
 });
 
