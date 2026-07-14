@@ -492,32 +492,56 @@ export const executiveEngineService = defineService({ name: "executive-engine", 
   async analytics(_ctx: ServiceContext) { return executiveEngine.executiveAnalytics(); },
 }));
 
-// ---------- v3.1 — Autonomous Intelligence Runtime (reserved contracts) ----------
-const rsvd = (m: string) => ({
-  async status(_c: ServiceContext) { return notImplemented(m, "status"); },
-  async list(_c: ServiceContext) { return notImplemented(m, "list"); },
-  async get(_c: ServiceContext, _i: unknown) { return notImplemented(m, "get"); },
-  async create(_c: ServiceContext, _i: unknown) { return notImplemented(m, "create"); },
-  async update(_c: ServiceContext, _i: unknown) { return notImplemented(m, "update"); },
-  async remove(_c: ServiceContext, _i: unknown) { return notImplemented(m, "remove"); },
-  async execute(_c: ServiceContext, _i: unknown) { return notImplemented(m, "execute"); },
-  async analytics(_c: ServiceContext) { return notImplemented(m, "analytics"); },
-  async health(_c: ServiceContext) { return notImplemented(m, "health"); },
-  async live(_c: ServiceContext) { return notImplemented(m, "live"); },
-  async history(_c: ServiceContext) { return notImplemented(m, "history"); },
-  async settings(_c: ServiceContext) { return notImplemented(m, "settings"); },
-  async updateSettings(_c: ServiceContext, _i: unknown) { return notImplemented(m, "updateSettings"); },
-});
+// ---------- v3.2 — Enterprise Brain Activation (real implementations) ----------
+// HAPPY remains the ONLY Digital Human. Every service below runs internally
+// through the Enterprise Brain kernel — no separate identities.
+import { brainKernel } from "@/brain/kernel";
 
-export const capabilityRuntimeService = defineService({ name: "capability-runtime", version: "v3" }, () => rsvd("capability-runtime"));
-export const memoryRuntimeService = defineService({ name: "memory-runtime", version: "v3" }, () => rsvd("memory-runtime"));
-export const decisionRuntimeService = defineService({ name: "decision-runtime", version: "v3" }, () => rsvd("decision-runtime"));
-export const executionRuntimeService = defineService({ name: "execution-runtime", version: "v3" }, () => rsvd("execution-runtime"));
-export const collaborationRuntimeService = defineService({ name: "collaboration-runtime", version: "v3" }, () => rsvd("collaboration-runtime"));
-export const automationRuntimeService = defineService({ name: "automation-runtime", version: "v3" }, () => rsvd("automation-runtime"));
-export const pluginRuntimeService = defineService({ name: "plugin-runtime", version: "v3" }, () => rsvd("plugin-runtime"));
-export const developerRuntimeService = defineService({ name: "developer-runtime", version: "v3" }, () => rsvd("developer-runtime"));
-export const skillsRuntimeService = defineService({ name: "skills-runtime", version: "v3" }, () => rsvd("skills-runtime"));
-export const dashboardRuntimeService = defineService({ name: "dashboard-runtime", version: "v3" }, () => rsvd("dashboard-runtime"));
-export const enterpriseIntelligenceRuntimeService = defineService({ name: "enterprise-intelligence-runtime", version: "v3" }, () => rsvd("enterprise-intelligence-runtime"));
+const activated = (module: string) => {
+  const startedAt = new Date().toISOString();
+  return {
+    async status(_c: ServiceContext) {
+      return { module, status: "active" as const, activatedAt: startedAt, health: brainKernel.health(module) };
+    },
+    async list(_c: ServiceContext) { return { module, items: brainKernel.list(module) }; },
+    async get(_c: ServiceContext, i: unknown) { return { module, item: brainKernel.get(module, i) }; },
+    async create(_c: ServiceContext, i: unknown) { return { module, created: brainKernel.record(module, "create", i) }; },
+    async update(_c: ServiceContext, i: unknown) { return { module, updated: brainKernel.record(module, "update", i) }; },
+    async remove(_c: ServiceContext, i: unknown) { return { module, removed: brainKernel.record(module, "remove", i) }; },
+    async execute(ctx: ServiceContext, i: unknown) { return brainKernel.execute(module, ctx.userId, i); },
+    async analytics(_c: ServiceContext) { return { module, analytics: brainKernel.analytics(module) }; },
+    async health(_c: ServiceContext) { return { module, health: brainKernel.health(module) }; },
+    async live(_c: ServiceContext) { return { module, live: brainKernel.live(module) }; },
+    async history(_c: ServiceContext) { return { module, history: brainKernel.history(module) }; },
+    async settings(_c: ServiceContext) { return { module, settings: brainKernel.settings(module) }; },
+    async updateSettings(_c: ServiceContext, i: unknown) { return { module, settings: brainKernel.updateSettings(module, i) }; },
+  };
+};
+
+export const capabilityRuntimeService = defineService({ name: "capability-runtime", version: "v3.2" }, () => activated("capability-runtime"));
+export const memoryRuntimeService = defineService({ name: "memory-runtime", version: "v3.2" }, () => activated("memory-runtime"));
+export const decisionRuntimeService = defineService({ name: "decision-runtime", version: "v3.2" }, () => activated("decision-runtime"));
+export const executionRuntimeService = defineService({ name: "execution-runtime", version: "v3.2" }, () => activated("execution-runtime"));
+export const collaborationRuntimeService = defineService({ name: "collaboration-runtime", version: "v3.2" }, () => activated("collaboration-runtime"));
+export const automationRuntimeService = defineService({ name: "automation-runtime", version: "v3.2" }, () => activated("automation-runtime"));
+export const pluginRuntimeService = defineService({ name: "plugin-runtime", version: "v3.2" }, () => activated("plugin-runtime"));
+export const developerRuntimeService = defineService({ name: "developer-runtime", version: "v3.2" }, () => activated("developer-runtime"));
+export const skillsRuntimeService = defineService({ name: "skills-runtime", version: "v3.2" }, () => activated("skills-runtime"));
+export const dashboardRuntimeService = defineService({ name: "dashboard-runtime", version: "v3.2" }, () => activated("dashboard-runtime"));
+export const enterpriseIntelligenceRuntimeService = defineService({ name: "enterprise-intelligence-runtime", version: "v3.2" }, () => activated("enterprise-intelligence-runtime"));
+
+// ---------- v3.2 — Enterprise Brain (unified surface) ----------
+export const brainService = defineService({ name: "enterprise-brain", version: "v3.2" }, () => ({
+  async status(_c: ServiceContext) { return brainKernel.brainStatus(); },
+  async process(ctx: ServiceContext, i: unknown) { return brainKernel.process(ctx.userId, i); },
+  async reason(_c: ServiceContext, i: unknown) { return brainKernel.reason(i); },
+  async plan(_c: ServiceContext, i: unknown) { return brainKernel.plan(i); },
+  async execute(ctx: ServiceContext, i: unknown) { return brainKernel.execute("brain", ctx.userId, i); },
+  async validate(_c: ServiceContext, i: unknown) { return brainKernel.validate(i); },
+  async reflect(_c: ServiceContext, i: unknown) { return brainKernel.reflect(i); },
+  async analytics(_c: ServiceContext) { return brainKernel.brainAnalytics(); },
+  async health(_c: ServiceContext) { return brainKernel.brainHealth(); },
+  async memory(_c: ServiceContext) { return brainKernel.memorySnapshot(); },
+}));
+
 
