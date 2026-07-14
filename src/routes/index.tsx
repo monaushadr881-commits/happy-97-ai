@@ -19,8 +19,6 @@ import {
   Mic,
   Volume2,
   Cpu,
-  Network,
-  Globe2,
   BookOpen,
   Users2,
   ShoppingBag,
