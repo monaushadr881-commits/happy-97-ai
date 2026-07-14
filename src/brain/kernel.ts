@@ -26,14 +26,15 @@ import { safetyEngine } from "./safety";
 import { conversationBrain } from "./conversation";
 
 type Bucket = {
-  items: Array<{ id: string; op: string; input: unknown; at: string }>;
+  items: Array<{ id: string; op: string; input: string; at: string }>;
   history: Array<{ id: string; at: string; op: string; ok: boolean; ms: number }>;
-  settings: Record<string, unknown>;
+  settings: Record<string, string>;
 };
 
 const buckets: Record<string, Bucket> = Object.create(null);
 const bucket = (m: string): Bucket => (buckets[m] ??= { items: [], history: [], settings: {} });
 const uid = () => `b_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+const enc = (v: unknown): string => { try { return typeof v === "string" ? v : JSON.stringify(v ?? null); } catch { return String(v); } };
 
 const clamp = (n: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, n));
 
@@ -54,7 +55,7 @@ export const brainKernel = {
     return bucket(module).items.find((x) => x.id === id) ?? null;
   },
   record(module: string, op: string, input: unknown) {
-    const rec = { id: uid(), op, input, at: new Date().toISOString() };
+    const rec = { id: uid(), op, input: enc(input), at: new Date().toISOString() };
     const b = bucket(module);
     b.items.push(rec);
     if (b.items.length > 200) b.items.splice(0, b.items.length - 200);
@@ -64,9 +65,12 @@ export const brainKernel = {
   settings(module: string) { return bucket(module).settings; },
   updateSettings(module: string, i: unknown) {
     const patch = (i && typeof i === "object" ? (i as Record<string, unknown>) : {});
-    bucket(module).settings = { ...bucket(module).settings, ...patch };
+    const norm: Record<string, string> = {};
+    for (const [k, v] of Object.entries(patch)) norm[k] = enc(v);
+    bucket(module).settings = { ...bucket(module).settings, ...norm };
     return bucket(module).settings;
   },
+
   live(module: string) {
     const b = bucket(module);
     return { module, queue: b.items.length, lastAt: b.items.at(-1)?.at ?? null, active: true };
