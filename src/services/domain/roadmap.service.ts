@@ -622,3 +622,16 @@ export const wellnessService = defineService({ name: "wellness", version: "v9" }
 export const publicHealthAnalyticsService = defineService({ name: "public-health-analytics", version: "v9" }, () => activated("public-health-analytics"));
 export const medicalAIService = defineService({ name: "medical-ai", version: "v9" }, () => activated("medical-ai"));
 export const medicalResearchService = defineService({ name: "medical-research", version: "v9" }, () => activated("medical-research"));
+
+
+// ---------- v10.0 — Industrial Intelligence & Industry 4.0 (activated via Enterprise Brain) ----------
+export const industryPlatformService = defineService({ name: "industry-platform", version: "v10" }, () => activated("industry-platform"));
+export const manufacturingPlatformService = defineService({ name: "manufacturing-platform", version: "v10" }, () => activated("manufacturing-platform"));
+export const qualityPlatformService = defineService({ name: "quality-platform", version: "v10" }, () => activated("quality-platform"));
+export const maintenancePlatformService = defineService({ name: "maintenance-platform", version: "v10" }, () => activated("maintenance-platform"));
+export const assetManagementService = defineService({ name: "asset-management", version: "v10" }, () => activated("asset-management"));
+export const warehouseAutomationService = defineService({ name: "warehouse-automation", version: "v10" }, () => activated("warehouse-automation"));
+export const supplyChainIntelligenceService = defineService({ name: "supply-chain-intelligence", version: "v10" }, () => activated("supply-chain-intelligence"));
+export const energyManagementService = defineService({ name: "energy-management", version: "v10" }, () => activated("energy-management"));
+export const industrialAIService = defineService({ name: "industrial-ai", version: "v10" }, () => activated("industrial-ai"));
+export const digitalFactoryService = defineService({ name: "digital-factory", version: "v10" }, () => activated("digital-factory"));
