@@ -735,3 +735,28 @@ export const roleService = defineService({ name: "role", version: "eip" }, () =>
 export const permissionService = defineService({ name: "permission", version: "eip" }, () => activated("permission"));
 export const sessionService = defineService({ name: "session", version: "eip" }, () => activated("session"));
 export const founderControlService = defineService({ name: "founder-control", version: "eip" }, () => activated("founder-control"));
+
+
+// ---------- Enterprise Notification & Communication Platform v1.0 ----------
+export const notificationService = defineService({ name: "notification", version: "np1" }, () => activated("notification"));
+export const announcementService = defineService({ name: "announcement", version: "np1" }, () => activated("announcement"));
+export const broadcastService = defineService({ name: "broadcast", version: "np1" }, () => activated("broadcast"));
+export const reminderService = defineService({ name: "reminder", version: "np1" }, () => activated("reminder"));
+export const notificationAnalyticsService = defineService({ name: "notification-analytics", version: "np1" }, () => activated("notification-analytics"));
+export const notificationPreferenceService = defineService({ name: "notification-preference", version: "np1" }, () => activated("notification-preference"));
+
+
+// ---------- Domains & White Label Hosting Platform ----------
+export const domainService = defineService({ name: "domain", version: "dh1" }, () => activated("domain"));
+export const hostingService = defineService({ name: "hosting", version: "dh1" }, () => activated("hosting"));
+export const websiteBuilderService = defineService({ name: "website-builder", version: "dh1" }, () => activated("website-builder"));
+export const whiteLabelService = defineService({ name: "white-label", version: "dh1" }, () => activated("white-label"));
+
+
+// ---------- Universal Builder Platform v1.0 ----------
+export const builderService = defineService({ name: "builder", version: "ub1" }, () => activated("builder"));
+export const appBuilderService = defineService({ name: "app-builder", version: "ub1" }, () => activated("app-builder"));
+export const deploymentService = defineService({ name: "deployment", version: "ub1" }, () => activated("deployment"));
+export const templateService = defineService({ name: "template", version: "ub1" }, () => activated("template"));
+export const themeService = defineService({ name: "theme", version: "ub1" }, () => activated("theme"));
+export const marketplaceService = defineService({ name: "marketplace", version: "ub1" }, () => activated("marketplace"));
