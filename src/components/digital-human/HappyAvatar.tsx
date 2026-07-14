@@ -253,7 +253,7 @@ export const HappyAvatar = memo(function HappyAvatar({
           style={
             reducedMotion
               ? undefined
-              : { transform: `translate3d(${drift.x + gaze.x}px, ${drift.y + gaze.y}px, 0) rotate(${drift.r}deg)` }
+              : { transform: `translate3d(${drift.x + gaze.x}px, ${drift.y + gaze.y}px, 0) rotate(${drift.r}deg) scale(${drift.s})` }
           }
           draggable={false}
           loading="eager"
