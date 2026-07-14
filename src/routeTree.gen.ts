@@ -27,10 +27,13 @@ import { Route as AuthenticatedCommunityRouteImport } from './routes/_authentica
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
+import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
+import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
 import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
 import { Route as AuthenticatedDigitalHumanIndexRouteImport } from './routes/_authenticated/digital-human.index'
+import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authenticated/community.index'
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
 import { Route as ApiDhTtsRouteImport } from './routes/api/dh.tts'
 import { Route as AuthenticatedStudioVoiceRouteImport } from './routes/_authenticated/studio.voice'
@@ -42,6 +45,9 @@ import { Route as AuthenticatedStudioExportsRouteImport } from './routes/_authen
 import { Route as AuthenticatedStudioCopyRouteImport } from './routes/_authenticated/studio.copy'
 import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenticated/studio.brand'
 import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authenticated/studio.assets'
+import { Route as AuthenticatedMarketplaceSellerRouteImport } from './routes/_authenticated/marketplace.seller'
+import { Route as AuthenticatedMarketplaceSalesRouteImport } from './routes/_authenticated/marketplace.sales'
+import { Route as AuthenticatedMarketplaceOrdersRouteImport } from './routes/_authenticated/marketplace.orders'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
@@ -76,6 +82,9 @@ import { Route as AuthenticatedDigitalHumanSessionsRouteImport } from './routes/
 import { Route as AuthenticatedDigitalHumanPresentationRouteImport } from './routes/_authenticated/digital-human.presentation'
 import { Route as AuthenticatedDigitalHumanClassroomRouteImport } from './routes/_authenticated/digital-human.classroom'
 import { Route as AuthenticatedDigitalHumanBoardroomRouteImport } from './routes/_authenticated/digital-human.boardroom'
+import { Route as AuthenticatedCommunityMineRouteImport } from './routes/_authenticated/community.mine'
+import { Route as AuthenticatedCommunityGroupsRouteImport } from './routes/_authenticated/community.groups'
+import { Route as AuthenticatedCommunityFollowingRouteImport } from './routes/_authenticated/community.following'
 import { Route as AuthenticatedBusinessWarehouseRouteImport } from './routes/_authenticated/business.warehouse'
 import { Route as AuthenticatedBusinessSearchRouteImport } from './routes/_authenticated/business.search'
 import { Route as AuthenticatedBusinessSalesRouteImport } from './routes/_authenticated/business.sales'
@@ -184,6 +193,18 @@ const AuthenticatedStudioIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedStudioRoute,
   } as any)
+const AuthenticatedMessagesIndexRoute =
+  AuthenticatedMessagesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMessagesRoute,
+  } as any)
+const AuthenticatedMarketplaceIndexRoute =
+  AuthenticatedMarketplaceIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMarketplaceRoute,
+  } as any)
 const AuthenticatedFounderIndexRoute =
   AuthenticatedFounderIndexRouteImport.update({
     id: '/',
@@ -207,6 +228,12 @@ const AuthenticatedDigitalHumanIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDigitalHumanRoute,
+  } as any)
+const AuthenticatedCommunityIndexRoute =
+  AuthenticatedCommunityIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCommunityRoute,
   } as any)
 const AuthenticatedBusinessIndexRoute =
   AuthenticatedBusinessIndexRouteImport.update({
@@ -271,6 +298,24 @@ const AuthenticatedStudioAssetsRoute =
     id: '/assets',
     path: '/assets',
     getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedMarketplaceSellerRoute =
+  AuthenticatedMarketplaceSellerRouteImport.update({
+    id: '/seller',
+    path: '/seller',
+    getParentRoute: () => AuthenticatedMarketplaceRoute,
+  } as any)
+const AuthenticatedMarketplaceSalesRoute =
+  AuthenticatedMarketplaceSalesRouteImport.update({
+    id: '/sales',
+    path: '/sales',
+    getParentRoute: () => AuthenticatedMarketplaceRoute,
+  } as any)
+const AuthenticatedMarketplaceOrdersRoute =
+  AuthenticatedMarketplaceOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => AuthenticatedMarketplaceRoute,
   } as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
@@ -474,6 +519,24 @@ const AuthenticatedDigitalHumanBoardroomRoute =
     path: '/boardroom',
     getParentRoute: () => AuthenticatedDigitalHumanRoute,
   } as any)
+const AuthenticatedCommunityMineRoute =
+  AuthenticatedCommunityMineRouteImport.update({
+    id: '/mine',
+    path: '/mine',
+    getParentRoute: () => AuthenticatedCommunityRoute,
+  } as any)
+const AuthenticatedCommunityGroupsRoute =
+  AuthenticatedCommunityGroupsRouteImport.update({
+    id: '/groups',
+    path: '/groups',
+    getParentRoute: () => AuthenticatedCommunityRoute,
+  } as any)
+const AuthenticatedCommunityFollowingRoute =
+  AuthenticatedCommunityFollowingRouteImport.update({
+    id: '/following',
+    path: '/following',
+    getParentRoute: () => AuthenticatedCommunityRoute,
+  } as any)
 const AuthenticatedBusinessWarehouseRoute =
   AuthenticatedBusinessWarehouseRouteImport.update({
     id: '/warehouse',
@@ -567,15 +630,15 @@ export interface FileRoutesByFullPath {
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/business': typeof AuthenticatedBusinessRouteWithChildren
-  '/community': typeof AuthenticatedCommunityRoute
+  '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/knowledge': typeof AuthenticatedKnowledgeRoute
-  '/marketplace': typeof AuthenticatedMarketplaceRoute
-  '/messages': typeof AuthenticatedMessagesRoute
+  '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
+  '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
   '/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -591,6 +654,9 @@ export interface FileRoutesByFullPath {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/community/following': typeof AuthenticatedCommunityFollowingRoute
+  '/community/groups': typeof AuthenticatedCommunityGroupsRoute
+  '/community/mine': typeof AuthenticatedCommunityMineRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -625,6 +691,9 @@ export interface FileRoutesByFullPath {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
+  '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
+  '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -636,10 +705,13 @@ export interface FileRoutesByFullPath {
   '/studio/voice': typeof AuthenticatedStudioVoiceRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
+  '/community/': typeof AuthenticatedCommunityIndexRoute
   '/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/education/': typeof AuthenticatedEducationIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
+  '/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
+  '/messages/': typeof AuthenticatedMessagesIndexRoute
   '/studio/': typeof AuthenticatedStudioIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -649,11 +721,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
-  '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/knowledge': typeof AuthenticatedKnowledgeRoute
-  '/marketplace': typeof AuthenticatedMarketplaceRoute
-  '/messages': typeof AuthenticatedMessagesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -668,6 +737,9 @@ export interface FileRoutesByTo {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/community/following': typeof AuthenticatedCommunityFollowingRoute
+  '/community/groups': typeof AuthenticatedCommunityGroupsRoute
+  '/community/mine': typeof AuthenticatedCommunityMineRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -702,6 +774,9 @@ export interface FileRoutesByTo {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
+  '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
+  '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -713,10 +788,13 @@ export interface FileRoutesByTo {
   '/studio/voice': typeof AuthenticatedStudioVoiceRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
+  '/community': typeof AuthenticatedCommunityIndexRoute
   '/digital-human': typeof AuthenticatedDigitalHumanIndexRoute
   '/education': typeof AuthenticatedEducationIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
+  '/marketplace': typeof AuthenticatedMarketplaceIndexRoute
+  '/messages': typeof AuthenticatedMessagesIndexRoute
   '/studio': typeof AuthenticatedStudioIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -729,15 +807,15 @@ export interface FileRoutesById {
   '/design': typeof DesignRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
-  '/_authenticated/community': typeof AuthenticatedCommunityRoute
+  '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRoute
-  '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRoute
-  '/_authenticated/messages': typeof AuthenticatedMessagesRoute
+  '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
+  '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -753,6 +831,9 @@ export interface FileRoutesById {
   '/_authenticated/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/_authenticated/business/search': typeof AuthenticatedBusinessSearchRoute
   '/_authenticated/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
+  '/_authenticated/community/following': typeof AuthenticatedCommunityFollowingRoute
+  '/_authenticated/community/groups': typeof AuthenticatedCommunityGroupsRoute
+  '/_authenticated/community/mine': typeof AuthenticatedCommunityMineRoute
   '/_authenticated/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/_authenticated/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/_authenticated/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -787,6 +868,9 @@ export interface FileRoutesById {
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
+  '/_authenticated/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
+  '/_authenticated/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
   '/_authenticated/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/_authenticated/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/_authenticated/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -798,10 +882,13 @@ export interface FileRoutesById {
   '/_authenticated/studio/voice': typeof AuthenticatedStudioVoiceRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
+  '/_authenticated/community/': typeof AuthenticatedCommunityIndexRoute
   '/_authenticated/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
+  '/_authenticated/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
+  '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
   '/_authenticated/studio/': typeof AuthenticatedStudioIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -838,6 +925,9 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
+    | '/community/following'
+    | '/community/groups'
+    | '/community/mine'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
@@ -872,6 +962,9 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/marketplace/orders'
+    | '/marketplace/sales'
+    | '/marketplace/seller'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
@@ -883,10 +976,13 @@ export interface FileRouteTypes {
     | '/studio/voice'
     | '/api/dh/tts'
     | '/business/'
+    | '/community/'
     | '/digital-human/'
     | '/education/'
     | '/enterprise/'
     | '/founder/'
+    | '/marketplace/'
+    | '/messages/'
     | '/studio/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -896,11 +992,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/assistant'
-    | '/community'
     | '/dashboard'
     | '/knowledge'
-    | '/marketplace'
-    | '/messages'
     | '/settings'
     | '/business/ai'
     | '/business/analytics'
@@ -915,6 +1008,9 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
+    | '/community/following'
+    | '/community/groups'
+    | '/community/mine'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
@@ -949,6 +1045,9 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/marketplace/orders'
+    | '/marketplace/sales'
+    | '/marketplace/seller'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
@@ -960,10 +1059,13 @@ export interface FileRouteTypes {
     | '/studio/voice'
     | '/api/dh/tts'
     | '/business'
+    | '/community'
     | '/digital-human'
     | '/education'
     | '/enterprise'
     | '/founder'
+    | '/marketplace'
+    | '/messages'
     | '/studio'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -999,6 +1101,9 @@ export interface FileRouteTypes {
     | '/_authenticated/business/sales'
     | '/_authenticated/business/search'
     | '/_authenticated/business/warehouse'
+    | '/_authenticated/community/following'
+    | '/_authenticated/community/groups'
+    | '/_authenticated/community/mine'
     | '/_authenticated/digital-human/boardroom'
     | '/_authenticated/digital-human/classroom'
     | '/_authenticated/digital-human/presentation'
@@ -1033,6 +1138,9 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
+    | '/_authenticated/marketplace/orders'
+    | '/_authenticated/marketplace/sales'
+    | '/_authenticated/marketplace/seller'
     | '/_authenticated/studio/assets'
     | '/_authenticated/studio/brand'
     | '/_authenticated/studio/copy'
@@ -1044,10 +1152,13 @@ export interface FileRouteTypes {
     | '/_authenticated/studio/voice'
     | '/api/dh/tts'
     | '/_authenticated/business/'
+    | '/_authenticated/community/'
     | '/_authenticated/digital-human/'
     | '/_authenticated/education/'
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
+    | '/_authenticated/marketplace/'
+    | '/_authenticated/messages/'
     | '/_authenticated/studio/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -1191,6 +1302,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStudioIndexRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
     }
+    '/_authenticated/messages/': {
+      id: '/_authenticated/messages/'
+      path: '/'
+      fullPath: '/messages/'
+      preLoaderRoute: typeof AuthenticatedMessagesIndexRouteImport
+      parentRoute: typeof AuthenticatedMessagesRoute
+    }
+    '/_authenticated/marketplace/': {
+      id: '/_authenticated/marketplace/'
+      path: '/'
+      fullPath: '/marketplace/'
+      preLoaderRoute: typeof AuthenticatedMarketplaceIndexRouteImport
+      parentRoute: typeof AuthenticatedMarketplaceRoute
+    }
     '/_authenticated/founder/': {
       id: '/_authenticated/founder/'
       path: '/'
@@ -1218,6 +1343,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/digital-human/'
       preLoaderRoute: typeof AuthenticatedDigitalHumanIndexRouteImport
       parentRoute: typeof AuthenticatedDigitalHumanRoute
+    }
+    '/_authenticated/community/': {
+      id: '/_authenticated/community/'
+      path: '/'
+      fullPath: '/community/'
+      preLoaderRoute: typeof AuthenticatedCommunityIndexRouteImport
+      parentRoute: typeof AuthenticatedCommunityRoute
     }
     '/_authenticated/business/': {
       id: '/_authenticated/business/'
@@ -1295,6 +1427,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/studio/assets'
       preLoaderRoute: typeof AuthenticatedStudioAssetsRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/marketplace/seller': {
+      id: '/_authenticated/marketplace/seller'
+      path: '/seller'
+      fullPath: '/marketplace/seller'
+      preLoaderRoute: typeof AuthenticatedMarketplaceSellerRouteImport
+      parentRoute: typeof AuthenticatedMarketplaceRoute
+    }
+    '/_authenticated/marketplace/sales': {
+      id: '/_authenticated/marketplace/sales'
+      path: '/sales'
+      fullPath: '/marketplace/sales'
+      preLoaderRoute: typeof AuthenticatedMarketplaceSalesRouteImport
+      parentRoute: typeof AuthenticatedMarketplaceRoute
+    }
+    '/_authenticated/marketplace/orders': {
+      id: '/_authenticated/marketplace/orders'
+      path: '/orders'
+      fullPath: '/marketplace/orders'
+      preLoaderRoute: typeof AuthenticatedMarketplaceOrdersRouteImport
+      parentRoute: typeof AuthenticatedMarketplaceRoute
     }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
@@ -1534,6 +1687,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDigitalHumanBoardroomRouteImport
       parentRoute: typeof AuthenticatedDigitalHumanRoute
     }
+    '/_authenticated/community/mine': {
+      id: '/_authenticated/community/mine'
+      path: '/mine'
+      fullPath: '/community/mine'
+      preLoaderRoute: typeof AuthenticatedCommunityMineRouteImport
+      parentRoute: typeof AuthenticatedCommunityRoute
+    }
+    '/_authenticated/community/groups': {
+      id: '/_authenticated/community/groups'
+      path: '/groups'
+      fullPath: '/community/groups'
+      preLoaderRoute: typeof AuthenticatedCommunityGroupsRouteImport
+      parentRoute: typeof AuthenticatedCommunityRoute
+    }
+    '/_authenticated/community/following': {
+      id: '/_authenticated/community/following'
+      path: '/following'
+      fullPath: '/community/following'
+      preLoaderRoute: typeof AuthenticatedCommunityFollowingRouteImport
+      parentRoute: typeof AuthenticatedCommunityRoute
+    }
     '/_authenticated/business/warehouse': {
       id: '/_authenticated/business/warehouse'
       path: '/warehouse'
@@ -1682,6 +1856,26 @@ const AuthenticatedBusinessRouteWithChildren =
     AuthenticatedBusinessRouteChildren,
   )
 
+interface AuthenticatedCommunityRouteChildren {
+  AuthenticatedCommunityFollowingRoute: typeof AuthenticatedCommunityFollowingRoute
+  AuthenticatedCommunityGroupsRoute: typeof AuthenticatedCommunityGroupsRoute
+  AuthenticatedCommunityMineRoute: typeof AuthenticatedCommunityMineRoute
+  AuthenticatedCommunityIndexRoute: typeof AuthenticatedCommunityIndexRoute
+}
+
+const AuthenticatedCommunityRouteChildren: AuthenticatedCommunityRouteChildren =
+  {
+    AuthenticatedCommunityFollowingRoute: AuthenticatedCommunityFollowingRoute,
+    AuthenticatedCommunityGroupsRoute: AuthenticatedCommunityGroupsRoute,
+    AuthenticatedCommunityMineRoute: AuthenticatedCommunityMineRoute,
+    AuthenticatedCommunityIndexRoute: AuthenticatedCommunityIndexRoute,
+  }
+
+const AuthenticatedCommunityRouteWithChildren =
+  AuthenticatedCommunityRoute._addFileChildren(
+    AuthenticatedCommunityRouteChildren,
+  )
+
 interface AuthenticatedDigitalHumanRouteChildren {
   AuthenticatedDigitalHumanBoardroomRoute: typeof AuthenticatedDigitalHumanBoardroomRoute
   AuthenticatedDigitalHumanClassroomRoute: typeof AuthenticatedDigitalHumanClassroomRoute
@@ -1814,6 +2008,39 @@ const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
 const AuthenticatedFounderRouteWithChildren =
   AuthenticatedFounderRoute._addFileChildren(AuthenticatedFounderRouteChildren)
 
+interface AuthenticatedMarketplaceRouteChildren {
+  AuthenticatedMarketplaceOrdersRoute: typeof AuthenticatedMarketplaceOrdersRoute
+  AuthenticatedMarketplaceSalesRoute: typeof AuthenticatedMarketplaceSalesRoute
+  AuthenticatedMarketplaceSellerRoute: typeof AuthenticatedMarketplaceSellerRoute
+  AuthenticatedMarketplaceIndexRoute: typeof AuthenticatedMarketplaceIndexRoute
+}
+
+const AuthenticatedMarketplaceRouteChildren: AuthenticatedMarketplaceRouteChildren =
+  {
+    AuthenticatedMarketplaceOrdersRoute: AuthenticatedMarketplaceOrdersRoute,
+    AuthenticatedMarketplaceSalesRoute: AuthenticatedMarketplaceSalesRoute,
+    AuthenticatedMarketplaceSellerRoute: AuthenticatedMarketplaceSellerRoute,
+    AuthenticatedMarketplaceIndexRoute: AuthenticatedMarketplaceIndexRoute,
+  }
+
+const AuthenticatedMarketplaceRouteWithChildren =
+  AuthenticatedMarketplaceRoute._addFileChildren(
+    AuthenticatedMarketplaceRouteChildren,
+  )
+
+interface AuthenticatedMessagesRouteChildren {
+  AuthenticatedMessagesIndexRoute: typeof AuthenticatedMessagesIndexRoute
+}
+
+const AuthenticatedMessagesRouteChildren: AuthenticatedMessagesRouteChildren = {
+  AuthenticatedMessagesIndexRoute: AuthenticatedMessagesIndexRoute,
+}
+
+const AuthenticatedMessagesRouteWithChildren =
+  AuthenticatedMessagesRoute._addFileChildren(
+    AuthenticatedMessagesRouteChildren,
+  )
+
 interface AuthenticatedStudioRouteChildren {
   AuthenticatedStudioAssetsRoute: typeof AuthenticatedStudioAssetsRoute
   AuthenticatedStudioBrandRoute: typeof AuthenticatedStudioBrandRoute
@@ -1846,15 +2073,15 @@ const AuthenticatedStudioRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
-  AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRoute
+  AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRoute
-  AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRoute
-  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
+  AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
 }
@@ -1862,15 +2089,15 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
-  AuthenticatedCommunityRoute: AuthenticatedCommunityRoute,
+  AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRoute,
-  AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRoute,
-  AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
+  AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
 }
