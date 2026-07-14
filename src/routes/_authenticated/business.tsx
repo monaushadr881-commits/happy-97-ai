@@ -1,16 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Building2 } from "lucide-react";
-import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
+/**
+ * /business — HAPPY Business Operating System (Business OS)
+ * Unified CRM, ERP, HRMS, Inventory, Manufacturing, Finance, Automation.
+ * Company-scoped, service-layer only; all data via api-v1 + business-v1.
+ */
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { Container } from "@/design-system/primitives";
+import { BusinessProvider } from "@/components/business/BusinessContext";
+import { BusinessNav } from "@/components/business/BusinessNav";
 
 export const Route = createFileRoute("/_authenticated/business")({
-  head: () => ({ meta: [{ title: "Business OS — HAPPY X" }, { name: "robots", content: "noindex" }] }),
-  component: () => (
-    <ModulePlaceholder
-      eyebrow="Operations"
-      title="Business Operating System"
-      icon={Building2}
-      description="CRM, ERP, HRMS, Finance, Manufacturing, Inventory, Marketing and BI — unified in one AI-native cockpit for founders, CEOs and enterprise teams."
-      features={["CRM", "ERP", "HRMS", "Manufacturing", "Inventory", "Finance", "GST & Invoicing", "Analytics", "Customer Support"]}
-    />
-  ),
+  head: () => ({
+    meta: [
+      { title: "Business OS — HAPPY X" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: BusinessLayout,
 });
+
+function BusinessLayout() {
+  return (
+    <BusinessProvider>
+      <Container className="py-6 md:py-10">
+        <BusinessNav />
+        <Outlet />
+      </Container>
+    </BusinessProvider>
+  );
+}

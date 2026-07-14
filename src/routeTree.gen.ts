@@ -26,6 +26,7 @@ import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
+import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
@@ -43,6 +44,19 @@ import { Route as AuthenticatedEnterpriseContentRouteImport } from './routes/_au
 import { Route as AuthenticatedEnterpriseCommsRouteImport } from './routes/_authenticated/enterprise.comms'
 import { Route as AuthenticatedEnterpriseBusinessRouteImport } from './routes/_authenticated/enterprise.business'
 import { Route as AuthenticatedEnterpriseAiRouteImport } from './routes/_authenticated/enterprise.ai'
+import { Route as AuthenticatedBusinessWarehouseRouteImport } from './routes/_authenticated/business.warehouse'
+import { Route as AuthenticatedBusinessSearchRouteImport } from './routes/_authenticated/business.search'
+import { Route as AuthenticatedBusinessSalesRouteImport } from './routes/_authenticated/business.sales'
+import { Route as AuthenticatedBusinessPurchaseRouteImport } from './routes/_authenticated/business.purchase'
+import { Route as AuthenticatedBusinessProjectsRouteImport } from './routes/_authenticated/business.projects'
+import { Route as AuthenticatedBusinessManufacturingRouteImport } from './routes/_authenticated/business.manufacturing'
+import { Route as AuthenticatedBusinessInventoryRouteImport } from './routes/_authenticated/business.inventory'
+import { Route as AuthenticatedBusinessHrRouteImport } from './routes/_authenticated/business.hr'
+import { Route as AuthenticatedBusinessFinanceRouteImport } from './routes/_authenticated/business.finance'
+import { Route as AuthenticatedBusinessCrmRouteImport } from './routes/_authenticated/business.crm'
+import { Route as AuthenticatedBusinessAutomationRouteImport } from './routes/_authenticated/business.automation'
+import { Route as AuthenticatedBusinessAnalyticsRouteImport } from './routes/_authenticated/business.analytics'
+import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authenticated/business.ai'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 
@@ -132,6 +146,12 @@ const AuthenticatedEnterpriseIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedEnterpriseRoute,
+  } as any)
+const AuthenticatedBusinessIndexRoute =
+  AuthenticatedBusinessIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedBusinessRoute,
   } as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
@@ -233,6 +253,82 @@ const AuthenticatedEnterpriseAiRoute =
     path: '/ai',
     getParentRoute: () => AuthenticatedEnterpriseRoute,
   } as any)
+const AuthenticatedBusinessWarehouseRoute =
+  AuthenticatedBusinessWarehouseRouteImport.update({
+    id: '/warehouse',
+    path: '/warehouse',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessSearchRoute =
+  AuthenticatedBusinessSearchRouteImport.update({
+    id: '/search',
+    path: '/search',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessSalesRoute =
+  AuthenticatedBusinessSalesRouteImport.update({
+    id: '/sales',
+    path: '/sales',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessPurchaseRoute =
+  AuthenticatedBusinessPurchaseRouteImport.update({
+    id: '/purchase',
+    path: '/purchase',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessProjectsRoute =
+  AuthenticatedBusinessProjectsRouteImport.update({
+    id: '/projects',
+    path: '/projects',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessManufacturingRoute =
+  AuthenticatedBusinessManufacturingRouteImport.update({
+    id: '/manufacturing',
+    path: '/manufacturing',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessInventoryRoute =
+  AuthenticatedBusinessInventoryRouteImport.update({
+    id: '/inventory',
+    path: '/inventory',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessHrRoute = AuthenticatedBusinessHrRouteImport.update({
+  id: '/hr',
+  path: '/hr',
+  getParentRoute: () => AuthenticatedBusinessRoute,
+} as any)
+const AuthenticatedBusinessFinanceRoute =
+  AuthenticatedBusinessFinanceRouteImport.update({
+    id: '/finance',
+    path: '/finance',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessCrmRoute =
+  AuthenticatedBusinessCrmRouteImport.update({
+    id: '/crm',
+    path: '/crm',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessAutomationRoute =
+  AuthenticatedBusinessAutomationRouteImport.update({
+    id: '/automation',
+    path: '/automation',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessAnalyticsRoute =
+  AuthenticatedBusinessAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedBusinessRoute,
+  } as any)
+const AuthenticatedBusinessAiRoute = AuthenticatedBusinessAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => AuthenticatedBusinessRoute,
+} as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
   path: '/api/public/v1/status',
@@ -249,7 +345,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
-  '/business': typeof AuthenticatedBusinessRoute
+  '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
@@ -259,6 +355,19 @@ export interface FileRoutesByFullPath {
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRoute
+  '/business/ai': typeof AuthenticatedBusinessAiRoute
+  '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
+  '/business/automation': typeof AuthenticatedBusinessAutomationRoute
+  '/business/crm': typeof AuthenticatedBusinessCrmRoute
+  '/business/finance': typeof AuthenticatedBusinessFinanceRoute
+  '/business/hr': typeof AuthenticatedBusinessHrRoute
+  '/business/inventory': typeof AuthenticatedBusinessInventoryRoute
+  '/business/manufacturing': typeof AuthenticatedBusinessManufacturingRoute
+  '/business/projects': typeof AuthenticatedBusinessProjectsRoute
+  '/business/purchase': typeof AuthenticatedBusinessPurchaseRoute
+  '/business/sales': typeof AuthenticatedBusinessSalesRoute
+  '/business/search': typeof AuthenticatedBusinessSearchRoute
+  '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
   '/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
   '/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
   '/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
@@ -276,6 +385,7 @@ export interface FileRoutesByFullPath {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/business/': typeof AuthenticatedBusinessIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -286,7 +396,6 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
-  '/business': typeof AuthenticatedBusinessRoute
   '/community': typeof AuthenticatedCommunityRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
@@ -294,6 +403,19 @@ export interface FileRoutesByTo {
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRoute
+  '/business/ai': typeof AuthenticatedBusinessAiRoute
+  '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
+  '/business/automation': typeof AuthenticatedBusinessAutomationRoute
+  '/business/crm': typeof AuthenticatedBusinessCrmRoute
+  '/business/finance': typeof AuthenticatedBusinessFinanceRoute
+  '/business/hr': typeof AuthenticatedBusinessHrRoute
+  '/business/inventory': typeof AuthenticatedBusinessInventoryRoute
+  '/business/manufacturing': typeof AuthenticatedBusinessManufacturingRoute
+  '/business/projects': typeof AuthenticatedBusinessProjectsRoute
+  '/business/purchase': typeof AuthenticatedBusinessPurchaseRoute
+  '/business/sales': typeof AuthenticatedBusinessSalesRoute
+  '/business/search': typeof AuthenticatedBusinessSearchRoute
+  '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
   '/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
   '/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
   '/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
@@ -311,6 +433,7 @@ export interface FileRoutesByTo {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/business': typeof AuthenticatedBusinessIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -323,7 +446,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
-  '/_authenticated/business': typeof AuthenticatedBusinessRoute
+  '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/education': typeof AuthenticatedEducationRoute
@@ -333,6 +456,19 @@ export interface FileRoutesById {
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRoute
+  '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
+  '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
+  '/_authenticated/business/automation': typeof AuthenticatedBusinessAutomationRoute
+  '/_authenticated/business/crm': typeof AuthenticatedBusinessCrmRoute
+  '/_authenticated/business/finance': typeof AuthenticatedBusinessFinanceRoute
+  '/_authenticated/business/hr': typeof AuthenticatedBusinessHrRoute
+  '/_authenticated/business/inventory': typeof AuthenticatedBusinessInventoryRoute
+  '/_authenticated/business/manufacturing': typeof AuthenticatedBusinessManufacturingRoute
+  '/_authenticated/business/projects': typeof AuthenticatedBusinessProjectsRoute
+  '/_authenticated/business/purchase': typeof AuthenticatedBusinessPurchaseRoute
+  '/_authenticated/business/sales': typeof AuthenticatedBusinessSalesRoute
+  '/_authenticated/business/search': typeof AuthenticatedBusinessSearchRoute
+  '/_authenticated/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
   '/_authenticated/enterprise/ai': typeof AuthenticatedEnterpriseAiRoute
   '/_authenticated/enterprise/business': typeof AuthenticatedEnterpriseBusinessRoute
   '/_authenticated/enterprise/comms': typeof AuthenticatedEnterpriseCommsRoute
@@ -350,6 +486,7 @@ export interface FileRoutesById {
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -372,6 +509,19 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/settings'
     | '/studio'
+    | '/business/ai'
+    | '/business/analytics'
+    | '/business/automation'
+    | '/business/crm'
+    | '/business/finance'
+    | '/business/hr'
+    | '/business/inventory'
+    | '/business/manufacturing'
+    | '/business/projects'
+    | '/business/purchase'
+    | '/business/sales'
+    | '/business/search'
+    | '/business/warehouse'
     | '/enterprise/ai'
     | '/enterprise/business'
     | '/enterprise/comms'
@@ -389,6 +539,7 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/business/'
     | '/enterprise/'
     | '/founder/'
     | '/api/public/v1/health'
@@ -399,7 +550,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/assistant'
-    | '/business'
     | '/community'
     | '/dashboard'
     | '/education'
@@ -407,6 +557,19 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/settings'
     | '/studio'
+    | '/business/ai'
+    | '/business/analytics'
+    | '/business/automation'
+    | '/business/crm'
+    | '/business/finance'
+    | '/business/hr'
+    | '/business/inventory'
+    | '/business/manufacturing'
+    | '/business/projects'
+    | '/business/purchase'
+    | '/business/sales'
+    | '/business/search'
+    | '/business/warehouse'
     | '/enterprise/ai'
     | '/enterprise/business'
     | '/enterprise/comms'
@@ -424,6 +587,7 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/business'
     | '/enterprise'
     | '/founder'
     | '/api/public/v1/health'
@@ -445,6 +609,19 @@ export interface FileRouteTypes {
     | '/_authenticated/marketplace'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
+    | '/_authenticated/business/ai'
+    | '/_authenticated/business/analytics'
+    | '/_authenticated/business/automation'
+    | '/_authenticated/business/crm'
+    | '/_authenticated/business/finance'
+    | '/_authenticated/business/hr'
+    | '/_authenticated/business/inventory'
+    | '/_authenticated/business/manufacturing'
+    | '/_authenticated/business/projects'
+    | '/_authenticated/business/purchase'
+    | '/_authenticated/business/sales'
+    | '/_authenticated/business/search'
+    | '/_authenticated/business/warehouse'
     | '/_authenticated/enterprise/ai'
     | '/_authenticated/enterprise/business'
     | '/_authenticated/enterprise/comms'
@@ -462,6 +639,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
+    | '/_authenticated/business/'
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
     | '/api/public/v1/health'
@@ -598,6 +776,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEnterpriseIndexRouteImport
       parentRoute: typeof AuthenticatedEnterpriseRoute
     }
+    '/_authenticated/business/': {
+      id: '/_authenticated/business/'
+      path: '/'
+      fullPath: '/business/'
+      preLoaderRoute: typeof AuthenticatedBusinessIndexRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
       path: '/users'
@@ -717,6 +902,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEnterpriseAiRouteImport
       parentRoute: typeof AuthenticatedEnterpriseRoute
     }
+    '/_authenticated/business/warehouse': {
+      id: '/_authenticated/business/warehouse'
+      path: '/warehouse'
+      fullPath: '/business/warehouse'
+      preLoaderRoute: typeof AuthenticatedBusinessWarehouseRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/search': {
+      id: '/_authenticated/business/search'
+      path: '/search'
+      fullPath: '/business/search'
+      preLoaderRoute: typeof AuthenticatedBusinessSearchRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/sales': {
+      id: '/_authenticated/business/sales'
+      path: '/sales'
+      fullPath: '/business/sales'
+      preLoaderRoute: typeof AuthenticatedBusinessSalesRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/purchase': {
+      id: '/_authenticated/business/purchase'
+      path: '/purchase'
+      fullPath: '/business/purchase'
+      preLoaderRoute: typeof AuthenticatedBusinessPurchaseRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/projects': {
+      id: '/_authenticated/business/projects'
+      path: '/projects'
+      fullPath: '/business/projects'
+      preLoaderRoute: typeof AuthenticatedBusinessProjectsRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/manufacturing': {
+      id: '/_authenticated/business/manufacturing'
+      path: '/manufacturing'
+      fullPath: '/business/manufacturing'
+      preLoaderRoute: typeof AuthenticatedBusinessManufacturingRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/inventory': {
+      id: '/_authenticated/business/inventory'
+      path: '/inventory'
+      fullPath: '/business/inventory'
+      preLoaderRoute: typeof AuthenticatedBusinessInventoryRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/hr': {
+      id: '/_authenticated/business/hr'
+      path: '/hr'
+      fullPath: '/business/hr'
+      preLoaderRoute: typeof AuthenticatedBusinessHrRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/finance': {
+      id: '/_authenticated/business/finance'
+      path: '/finance'
+      fullPath: '/business/finance'
+      preLoaderRoute: typeof AuthenticatedBusinessFinanceRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/crm': {
+      id: '/_authenticated/business/crm'
+      path: '/crm'
+      fullPath: '/business/crm'
+      preLoaderRoute: typeof AuthenticatedBusinessCrmRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/automation': {
+      id: '/_authenticated/business/automation'
+      path: '/automation'
+      fullPath: '/business/automation'
+      preLoaderRoute: typeof AuthenticatedBusinessAutomationRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/analytics': {
+      id: '/_authenticated/business/analytics'
+      path: '/analytics'
+      fullPath: '/business/analytics'
+      preLoaderRoute: typeof AuthenticatedBusinessAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
+    '/_authenticated/business/ai': {
+      id: '/_authenticated/business/ai'
+      path: '/ai'
+      fullPath: '/business/ai'
+      preLoaderRoute: typeof AuthenticatedBusinessAiRouteImport
+      parentRoute: typeof AuthenticatedBusinessRoute
+    }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
       path: '/api/public/v1/status'
@@ -733,6 +1009,46 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedBusinessRouteChildren {
+  AuthenticatedBusinessAiRoute: typeof AuthenticatedBusinessAiRoute
+  AuthenticatedBusinessAnalyticsRoute: typeof AuthenticatedBusinessAnalyticsRoute
+  AuthenticatedBusinessAutomationRoute: typeof AuthenticatedBusinessAutomationRoute
+  AuthenticatedBusinessCrmRoute: typeof AuthenticatedBusinessCrmRoute
+  AuthenticatedBusinessFinanceRoute: typeof AuthenticatedBusinessFinanceRoute
+  AuthenticatedBusinessHrRoute: typeof AuthenticatedBusinessHrRoute
+  AuthenticatedBusinessInventoryRoute: typeof AuthenticatedBusinessInventoryRoute
+  AuthenticatedBusinessManufacturingRoute: typeof AuthenticatedBusinessManufacturingRoute
+  AuthenticatedBusinessProjectsRoute: typeof AuthenticatedBusinessProjectsRoute
+  AuthenticatedBusinessPurchaseRoute: typeof AuthenticatedBusinessPurchaseRoute
+  AuthenticatedBusinessSalesRoute: typeof AuthenticatedBusinessSalesRoute
+  AuthenticatedBusinessSearchRoute: typeof AuthenticatedBusinessSearchRoute
+  AuthenticatedBusinessWarehouseRoute: typeof AuthenticatedBusinessWarehouseRoute
+  AuthenticatedBusinessIndexRoute: typeof AuthenticatedBusinessIndexRoute
+}
+
+const AuthenticatedBusinessRouteChildren: AuthenticatedBusinessRouteChildren = {
+  AuthenticatedBusinessAiRoute: AuthenticatedBusinessAiRoute,
+  AuthenticatedBusinessAnalyticsRoute: AuthenticatedBusinessAnalyticsRoute,
+  AuthenticatedBusinessAutomationRoute: AuthenticatedBusinessAutomationRoute,
+  AuthenticatedBusinessCrmRoute: AuthenticatedBusinessCrmRoute,
+  AuthenticatedBusinessFinanceRoute: AuthenticatedBusinessFinanceRoute,
+  AuthenticatedBusinessHrRoute: AuthenticatedBusinessHrRoute,
+  AuthenticatedBusinessInventoryRoute: AuthenticatedBusinessInventoryRoute,
+  AuthenticatedBusinessManufacturingRoute:
+    AuthenticatedBusinessManufacturingRoute,
+  AuthenticatedBusinessProjectsRoute: AuthenticatedBusinessProjectsRoute,
+  AuthenticatedBusinessPurchaseRoute: AuthenticatedBusinessPurchaseRoute,
+  AuthenticatedBusinessSalesRoute: AuthenticatedBusinessSalesRoute,
+  AuthenticatedBusinessSearchRoute: AuthenticatedBusinessSearchRoute,
+  AuthenticatedBusinessWarehouseRoute: AuthenticatedBusinessWarehouseRoute,
+  AuthenticatedBusinessIndexRoute: AuthenticatedBusinessIndexRoute,
+}
+
+const AuthenticatedBusinessRouteWithChildren =
+  AuthenticatedBusinessRoute._addFileChildren(
+    AuthenticatedBusinessRouteChildren,
+  )
 
 interface AuthenticatedEnterpriseRouteChildren {
   AuthenticatedEnterpriseAiRoute: typeof AuthenticatedEnterpriseAiRoute
@@ -798,7 +1114,7 @@ const AuthenticatedFounderRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
-  AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRoute
+  AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRoute
@@ -812,7 +1128,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
-  AuthenticatedBusinessRoute: AuthenticatedBusinessRoute,
+  AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRoute,
