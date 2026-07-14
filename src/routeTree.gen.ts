@@ -368,6 +368,34 @@ import { Route as AuthenticatedRuntimeIntelligenceAdvisorRouteImport } from './r
 import { Route as AuthenticatedAgentsCollaborationLiveRouteImport } from './routes/_authenticated/agents.collaboration.live'
 import { Route as AuthenticatedAgentsCollaborationHistoryRouteImport } from './routes/_authenticated/agents.collaboration.history'
 import { Route as AuthenticatedAgentsCollaborationAnalyticsRouteImport } from './routes/_authenticated/agents.collaboration.analytics'
+import { Route as AuthenticatedAppsRouteImport } from './routes/_authenticated/apps'
+import { Route as AuthenticatedAutomationHubRouteImport } from './routes/_authenticated/automation-hub'
+import { Route as AuthenticatedBuilderRouteImport } from './routes/_authenticated/builder'
+import { Route as AuthenticatedContentRouteImport } from './routes/_authenticated/content'
+import { Route as AuthenticatedDeployRouteImport } from './routes/_authenticated/deploy'
+import { Route as AuthenticatedDesignRouteImport } from './routes/_authenticated/design'
+import { Route as AuthenticatedDomainsRouteImport } from './routes/_authenticated/domains'
+import { Route as AuthenticatedDomainsManageRouteImport } from './routes/_authenticated/domains-manage'
+import { Route as AuthenticatedDomainsSearchRouteImport } from './routes/_authenticated/domains-search'
+import { Route as AuthenticatedHostingRouteImport } from './routes/_authenticated/hosting'
+import { Route as AuthenticatedMarketplaceHubRouteImport } from './routes/_authenticated/marketplace-hub'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedNotificationsAnalyticsRouteImport } from './routes/_authenticated/notifications-analytics'
+import { Route as AuthenticatedNotificationsAnnouncementsRouteImport } from './routes/_authenticated/notifications-announcements'
+import { Route as AuthenticatedNotificationsArchiveRouteImport } from './routes/_authenticated/notifications-archive'
+import { Route as AuthenticatedNotificationsAutomationRouteImport } from './routes/_authenticated/notifications-automation'
+import { Route as AuthenticatedNotificationsCategoriesRouteImport } from './routes/_authenticated/notifications-categories'
+import { Route as AuthenticatedNotificationsHistoryRouteImport } from './routes/_authenticated/notifications-history'
+import { Route as AuthenticatedNotificationsInboxRouteImport } from './routes/_authenticated/notifications-inbox'
+import { Route as AuthenticatedNotificationsPreferencesRouteImport } from './routes/_authenticated/notifications-preferences'
+import { Route as AuthenticatedNotificationsRemindersRouteImport } from './routes/_authenticated/notifications-reminders'
+import { Route as AuthenticatedNotificationsSettingsRouteImport } from './routes/_authenticated/notifications-settings'
+import { Route as AuthenticatedNotificationsStarredRouteImport } from './routes/_authenticated/notifications-starred'
+import { Route as AuthenticatedNotificationsTemplatesRouteImport } from './routes/_authenticated/notifications-templates'
+import { Route as AuthenticatedTemplatesRouteImport } from './routes/_authenticated/templates'
+import { Route as AuthenticatedThemesRouteImport } from './routes/_authenticated/themes'
+import { Route as AuthenticatedWebsitesRouteImport } from './routes/_authenticated/websites'
+import { Route as AuthenticatedWhiteLabelRouteImport } from './routes/_authenticated/white-label'
 
 const TrustRoute = TrustRouteImport.update({
   id: '/trust',
@@ -2764,6 +2792,34 @@ export interface FileRoutesByFullPath {
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
+  '/apps': typeof AuthenticatedAppsRoute
+  '/automation-hub': typeof AuthenticatedAutomationHubRoute
+  '/builder': typeof AuthenticatedBuilderRoute
+  '/content': typeof AuthenticatedContentRoute
+  '/deploy': typeof AuthenticatedDeployRoute
+  '/design': typeof AuthenticatedDesignRoute
+  '/domains': typeof AuthenticatedDomainsRoute
+  '/domains/manage': typeof AuthenticatedDomainsManageRoute
+  '/domains/search': typeof AuthenticatedDomainsSearchRoute
+  '/hosting': typeof AuthenticatedHostingRoute
+  '/marketplace-hub': typeof AuthenticatedMarketplaceHubRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/notifications/analytics': typeof AuthenticatedNotificationsAnalyticsRoute
+  '/notifications/announcements': typeof AuthenticatedNotificationsAnnouncementsRoute
+  '/notifications/archive': typeof AuthenticatedNotificationsArchiveRoute
+  '/notifications/automation': typeof AuthenticatedNotificationsAutomationRoute
+  '/notifications/categories': typeof AuthenticatedNotificationsCategoriesRoute
+  '/notifications/history': typeof AuthenticatedNotificationsHistoryRoute
+  '/notifications/inbox': typeof AuthenticatedNotificationsInboxRoute
+  '/notifications/preferences': typeof AuthenticatedNotificationsPreferencesRoute
+  '/notifications/reminders': typeof AuthenticatedNotificationsRemindersRoute
+  '/notifications/settings': typeof AuthenticatedNotificationsSettingsRoute
+  '/notifications/starred': typeof AuthenticatedNotificationsStarredRoute
+  '/notifications/templates': typeof AuthenticatedNotificationsTemplatesRoute
+  '/templates': typeof AuthenticatedTemplatesRoute
+  '/themes': typeof AuthenticatedThemesRoute
+  '/websites': typeof AuthenticatedWebsitesRoute
+  '/white-label': typeof AuthenticatedWhiteLabelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -3112,6 +3168,34 @@ export interface FileRoutesByTo {
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
+  '/apps': typeof AuthenticatedAppsRoute
+  '/automation-hub': typeof AuthenticatedAutomationHubRoute
+  '/builder': typeof AuthenticatedBuilderRoute
+  '/content': typeof AuthenticatedContentRoute
+  '/deploy': typeof AuthenticatedDeployRoute
+  '/design': typeof AuthenticatedDesignRoute
+  '/domains': typeof AuthenticatedDomainsRoute
+  '/domains/manage': typeof AuthenticatedDomainsManageRoute
+  '/domains/search': typeof AuthenticatedDomainsSearchRoute
+  '/hosting': typeof AuthenticatedHostingRoute
+  '/marketplace-hub': typeof AuthenticatedMarketplaceHubRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/notifications/analytics': typeof AuthenticatedNotificationsAnalyticsRoute
+  '/notifications/announcements': typeof AuthenticatedNotificationsAnnouncementsRoute
+  '/notifications/archive': typeof AuthenticatedNotificationsArchiveRoute
+  '/notifications/automation': typeof AuthenticatedNotificationsAutomationRoute
+  '/notifications/categories': typeof AuthenticatedNotificationsCategoriesRoute
+  '/notifications/history': typeof AuthenticatedNotificationsHistoryRoute
+  '/notifications/inbox': typeof AuthenticatedNotificationsInboxRoute
+  '/notifications/preferences': typeof AuthenticatedNotificationsPreferencesRoute
+  '/notifications/reminders': typeof AuthenticatedNotificationsRemindersRoute
+  '/notifications/settings': typeof AuthenticatedNotificationsSettingsRoute
+  '/notifications/starred': typeof AuthenticatedNotificationsStarredRoute
+  '/notifications/templates': typeof AuthenticatedNotificationsTemplatesRoute
+  '/templates': typeof AuthenticatedTemplatesRoute
+  '/themes': typeof AuthenticatedThemesRoute
+  '/websites': typeof AuthenticatedWebsitesRoute
+  '/white-label': typeof AuthenticatedWhiteLabelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -3474,6 +3558,34 @@ export interface FileRoutesById {
   '/_authenticated/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
+  '/_authenticated/apps': typeof AuthenticatedAppsRoute
+  '/_authenticated/automation-hub': typeof AuthenticatedAutomationHubRoute
+  '/_authenticated/builder': typeof AuthenticatedBuilderRoute
+  '/_authenticated/content': typeof AuthenticatedContentRoute
+  '/_authenticated/deploy': typeof AuthenticatedDeployRoute
+  '/_authenticated/design': typeof AuthenticatedDesignRoute
+  '/_authenticated/domains': typeof AuthenticatedDomainsRoute
+  '/_authenticated/domains-manage': typeof AuthenticatedDomainsManageRoute
+  '/_authenticated/domains-search': typeof AuthenticatedDomainsSearchRoute
+  '/_authenticated/hosting': typeof AuthenticatedHostingRoute
+  '/_authenticated/marketplace-hub': typeof AuthenticatedMarketplaceHubRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/notifications-analytics': typeof AuthenticatedNotificationsAnalyticsRoute
+  '/_authenticated/notifications-announcements': typeof AuthenticatedNotificationsAnnouncementsRoute
+  '/_authenticated/notifications-archive': typeof AuthenticatedNotificationsArchiveRoute
+  '/_authenticated/notifications-automation': typeof AuthenticatedNotificationsAutomationRoute
+  '/_authenticated/notifications-categories': typeof AuthenticatedNotificationsCategoriesRoute
+  '/_authenticated/notifications-history': typeof AuthenticatedNotificationsHistoryRoute
+  '/_authenticated/notifications-inbox': typeof AuthenticatedNotificationsInboxRoute
+  '/_authenticated/notifications-preferences': typeof AuthenticatedNotificationsPreferencesRoute
+  '/_authenticated/notifications-reminders': typeof AuthenticatedNotificationsRemindersRoute
+  '/_authenticated/notifications-settings': typeof AuthenticatedNotificationsSettingsRoute
+  '/_authenticated/notifications-starred': typeof AuthenticatedNotificationsStarredRoute
+  '/_authenticated/notifications-templates': typeof AuthenticatedNotificationsTemplatesRoute
+  '/_authenticated/templates': typeof AuthenticatedTemplatesRoute
+  '/_authenticated/themes': typeof AuthenticatedThemesRoute
+  '/_authenticated/websites': typeof AuthenticatedWebsitesRoute
+  '/_authenticated/white-label': typeof AuthenticatedWhiteLabelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -3836,6 +3948,34 @@ export interface FileRouteTypes {
     | '/runtime/workflows/live'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
+    | '/apps'
+    | '/automation-hub'
+    | '/builder'
+    | '/content'
+    | '/deploy'
+    | '/design'
+    | '/domains'
+    | '/domains/manage'
+    | '/domains/search'
+    | '/hosting'
+    | '/marketplace-hub'
+    | '/notifications'
+    | '/notifications/analytics'
+    | '/notifications/announcements'
+    | '/notifications/archive'
+    | '/notifications/automation'
+    | '/notifications/categories'
+    | '/notifications/history'
+    | '/notifications/inbox'
+    | '/notifications/preferences'
+    | '/notifications/reminders'
+    | '/notifications/settings'
+    | '/notifications/starred'
+    | '/notifications/templates'
+    | '/templates'
+    | '/themes'
+    | '/websites'
+    | '/white-label'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -4184,6 +4324,34 @@ export interface FileRouteTypes {
     | '/runtime/workflows/live'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
+    | '/apps'
+    | '/automation-hub'
+    | '/builder'
+    | '/content'
+    | '/deploy'
+    | '/design'
+    | '/domains'
+    | '/domains/manage'
+    | '/domains/search'
+    | '/hosting'
+    | '/marketplace-hub'
+    | '/notifications'
+    | '/notifications/analytics'
+    | '/notifications/announcements'
+    | '/notifications/archive'
+    | '/notifications/automation'
+    | '/notifications/categories'
+    | '/notifications/history'
+    | '/notifications/inbox'
+    | '/notifications/preferences'
+    | '/notifications/reminders'
+    | '/notifications/settings'
+    | '/notifications/starred'
+    | '/notifications/templates'
+    | '/templates'
+    | '/themes'
+    | '/websites'
+    | '/white-label'
   id:
     | '__root__'
     | '/'
@@ -4545,6 +4713,34 @@ export interface FileRouteTypes {
     | '/_authenticated/runtime/workflows/live'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
+    | '/_authenticated/apps'
+    | '/_authenticated/automation-hub'
+    | '/_authenticated/builder'
+    | '/_authenticated/content'
+    | '/_authenticated/deploy'
+    | '/_authenticated/design'
+    | '/_authenticated/domains'
+    | '/_authenticated/domains-manage'
+    | '/_authenticated/domains-search'
+    | '/_authenticated/hosting'
+    | '/_authenticated/marketplace-hub'
+    | '/_authenticated/notifications'
+    | '/_authenticated/notifications-analytics'
+    | '/_authenticated/notifications-announcements'
+    | '/_authenticated/notifications-archive'
+    | '/_authenticated/notifications-automation'
+    | '/_authenticated/notifications-categories'
+    | '/_authenticated/notifications-history'
+    | '/_authenticated/notifications-inbox'
+    | '/_authenticated/notifications-preferences'
+    | '/_authenticated/notifications-reminders'
+    | '/_authenticated/notifications-settings'
+    | '/_authenticated/notifications-starred'
+    | '/_authenticated/notifications-templates'
+    | '/_authenticated/templates'
+    | '/_authenticated/themes'
+    | '/_authenticated/websites'
+    | '/_authenticated/white-label'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -4563,6 +4759,146 @@ export interface RootRouteChildren {
   ApiPublicV1StatusRoute: typeof ApiPublicV1StatusRoute
 }
 
+const AuthenticatedAppsRoute = AuthenticatedAppsRouteImport.update({
+  id: '/apps',
+  path: '/apps',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAutomationHubRoute = AuthenticatedAutomationHubRouteImport.update({
+  id: '/automation-hub',
+  path: '/automation-hub',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBuilderRoute = AuthenticatedBuilderRouteImport.update({
+  id: '/builder',
+  path: '/builder',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedContentRoute = AuthenticatedContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDeployRoute = AuthenticatedDeployRouteImport.update({
+  id: '/deploy',
+  path: '/deploy',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDesignRoute = AuthenticatedDesignRouteImport.update({
+  id: '/design',
+  path: '/design',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDomainsRoute = AuthenticatedDomainsRouteImport.update({
+  id: '/domains',
+  path: '/domains',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDomainsManageRoute = AuthenticatedDomainsManageRouteImport.update({
+  id: '/domains-manage',
+  path: '/domains/manage',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDomainsSearchRoute = AuthenticatedDomainsSearchRouteImport.update({
+  id: '/domains-search',
+  path: '/domains/search',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHostingRoute = AuthenticatedHostingRouteImport.update({
+  id: '/hosting',
+  path: '/hosting',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMarketplaceHubRoute = AuthenticatedMarketplaceHubRouteImport.update({
+  id: '/marketplace-hub',
+  path: '/marketplace-hub',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRoute = AuthenticatedNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsAnalyticsRoute = AuthenticatedNotificationsAnalyticsRouteImport.update({
+  id: '/notifications-analytics',
+  path: '/notifications/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsAnnouncementsRoute = AuthenticatedNotificationsAnnouncementsRouteImport.update({
+  id: '/notifications-announcements',
+  path: '/notifications/announcements',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsArchiveRoute = AuthenticatedNotificationsArchiveRouteImport.update({
+  id: '/notifications-archive',
+  path: '/notifications/archive',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsAutomationRoute = AuthenticatedNotificationsAutomationRouteImport.update({
+  id: '/notifications-automation',
+  path: '/notifications/automation',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsCategoriesRoute = AuthenticatedNotificationsCategoriesRouteImport.update({
+  id: '/notifications-categories',
+  path: '/notifications/categories',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsHistoryRoute = AuthenticatedNotificationsHistoryRouteImport.update({
+  id: '/notifications-history',
+  path: '/notifications/history',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsInboxRoute = AuthenticatedNotificationsInboxRouteImport.update({
+  id: '/notifications-inbox',
+  path: '/notifications/inbox',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsPreferencesRoute = AuthenticatedNotificationsPreferencesRouteImport.update({
+  id: '/notifications-preferences',
+  path: '/notifications/preferences',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRemindersRoute = AuthenticatedNotificationsRemindersRouteImport.update({
+  id: '/notifications-reminders',
+  path: '/notifications/reminders',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsSettingsRoute = AuthenticatedNotificationsSettingsRouteImport.update({
+  id: '/notifications-settings',
+  path: '/notifications/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsStarredRoute = AuthenticatedNotificationsStarredRouteImport.update({
+  id: '/notifications-starred',
+  path: '/notifications/starred',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsTemplatesRoute = AuthenticatedNotificationsTemplatesRouteImport.update({
+  id: '/notifications-templates',
+  path: '/notifications/templates',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTemplatesRoute = AuthenticatedTemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedThemesRoute = AuthenticatedThemesRouteImport.update({
+  id: '/themes',
+  path: '/themes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedWebsitesRoute = AuthenticatedWebsitesRouteImport.update({
+  id: '/websites',
+  path: '/websites',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedWhiteLabelRoute = AuthenticatedWhiteLabelRouteImport.update({
+  id: '/white-label',
+  path: '/white-label',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/trust': {
@@ -7078,6 +7414,202 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAgentsCollaborationRoute
     }
+      '/_authenticated/apps': {
+      id: '/_authenticated/apps'
+      path: '/apps'
+      fullPath: '/apps'
+      preLoaderRoute: typeof AuthenticatedAppsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/automation-hub': {
+      id: '/_authenticated/automation-hub'
+      path: '/automation-hub'
+      fullPath: '/automation-hub'
+      preLoaderRoute: typeof AuthenticatedAutomationHubRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/builder': {
+      id: '/_authenticated/builder'
+      path: '/builder'
+      fullPath: '/builder'
+      preLoaderRoute: typeof AuthenticatedBuilderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/content': {
+      id: '/_authenticated/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof AuthenticatedContentRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/deploy': {
+      id: '/_authenticated/deploy'
+      path: '/deploy'
+      fullPath: '/deploy'
+      preLoaderRoute: typeof AuthenticatedDeployRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/design': {
+      id: '/_authenticated/design'
+      path: '/design'
+      fullPath: '/design'
+      preLoaderRoute: typeof AuthenticatedDesignRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/domains': {
+      id: '/_authenticated/domains'
+      path: '/domains'
+      fullPath: '/domains'
+      preLoaderRoute: typeof AuthenticatedDomainsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/domains-manage': {
+      id: '/_authenticated/domains-manage'
+      path: '/domains/manage'
+      fullPath: '/domains/manage'
+      preLoaderRoute: typeof AuthenticatedDomainsManageRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/domains-search': {
+      id: '/_authenticated/domains-search'
+      path: '/domains/search'
+      fullPath: '/domains/search'
+      preLoaderRoute: typeof AuthenticatedDomainsSearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hosting': {
+      id: '/_authenticated/hosting'
+      path: '/hosting'
+      fullPath: '/hosting'
+      preLoaderRoute: typeof AuthenticatedHostingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/marketplace-hub': {
+      id: '/_authenticated/marketplace-hub'
+      path: '/marketplace-hub'
+      fullPath: '/marketplace-hub'
+      preLoaderRoute: typeof AuthenticatedMarketplaceHubRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-analytics': {
+      id: '/_authenticated/notifications-analytics'
+      path: '/notifications/analytics'
+      fullPath: '/notifications/analytics'
+      preLoaderRoute: typeof AuthenticatedNotificationsAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-announcements': {
+      id: '/_authenticated/notifications-announcements'
+      path: '/notifications/announcements'
+      fullPath: '/notifications/announcements'
+      preLoaderRoute: typeof AuthenticatedNotificationsAnnouncementsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-archive': {
+      id: '/_authenticated/notifications-archive'
+      path: '/notifications/archive'
+      fullPath: '/notifications/archive'
+      preLoaderRoute: typeof AuthenticatedNotificationsArchiveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-automation': {
+      id: '/_authenticated/notifications-automation'
+      path: '/notifications/automation'
+      fullPath: '/notifications/automation'
+      preLoaderRoute: typeof AuthenticatedNotificationsAutomationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-categories': {
+      id: '/_authenticated/notifications-categories'
+      path: '/notifications/categories'
+      fullPath: '/notifications/categories'
+      preLoaderRoute: typeof AuthenticatedNotificationsCategoriesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-history': {
+      id: '/_authenticated/notifications-history'
+      path: '/notifications/history'
+      fullPath: '/notifications/history'
+      preLoaderRoute: typeof AuthenticatedNotificationsHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-inbox': {
+      id: '/_authenticated/notifications-inbox'
+      path: '/notifications/inbox'
+      fullPath: '/notifications/inbox'
+      preLoaderRoute: typeof AuthenticatedNotificationsInboxRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-preferences': {
+      id: '/_authenticated/notifications-preferences'
+      path: '/notifications/preferences'
+      fullPath: '/notifications/preferences'
+      preLoaderRoute: typeof AuthenticatedNotificationsPreferencesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-reminders': {
+      id: '/_authenticated/notifications-reminders'
+      path: '/notifications/reminders'
+      fullPath: '/notifications/reminders'
+      preLoaderRoute: typeof AuthenticatedNotificationsRemindersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-settings': {
+      id: '/_authenticated/notifications-settings'
+      path: '/notifications/settings'
+      fullPath: '/notifications/settings'
+      preLoaderRoute: typeof AuthenticatedNotificationsSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-starred': {
+      id: '/_authenticated/notifications-starred'
+      path: '/notifications/starred'
+      fullPath: '/notifications/starred'
+      preLoaderRoute: typeof AuthenticatedNotificationsStarredRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications-templates': {
+      id: '/_authenticated/notifications-templates'
+      path: '/notifications/templates'
+      fullPath: '/notifications/templates'
+      preLoaderRoute: typeof AuthenticatedNotificationsTemplatesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/templates': {
+      id: '/_authenticated/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof AuthenticatedTemplatesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/themes': {
+      id: '/_authenticated/themes'
+      path: '/themes'
+      fullPath: '/themes'
+      preLoaderRoute: typeof AuthenticatedThemesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/websites': {
+      id: '/_authenticated/websites'
+      path: '/websites'
+      fullPath: '/websites'
+      preLoaderRoute: typeof AuthenticatedWebsitesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/white-label': {
+      id: '/_authenticated/white-label'
+      path: '/white-label'
+      fullPath: '/white-label'
+      preLoaderRoute: typeof AuthenticatedWhiteLabelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -7972,6 +8504,34 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedWorkforceRoute: typeof AuthenticatedWorkforceRoute
   AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRoute
   AuthenticatedEnterpriseAiIndexRoute: typeof AuthenticatedEnterpriseAiIndexRoute
+  AuthenticatedAppsRoute: typeof AuthenticatedAppsRoute
+  AuthenticatedAutomationHubRoute: typeof AuthenticatedAutomationHubRoute
+  AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRoute
+  AuthenticatedContentRoute: typeof AuthenticatedContentRoute
+  AuthenticatedDeployRoute: typeof AuthenticatedDeployRoute
+  AuthenticatedDesignRoute: typeof AuthenticatedDesignRoute
+  AuthenticatedDomainsRoute: typeof AuthenticatedDomainsRoute
+  AuthenticatedDomainsManageRoute: typeof AuthenticatedDomainsManageRoute
+  AuthenticatedDomainsSearchRoute: typeof AuthenticatedDomainsSearchRoute
+  AuthenticatedHostingRoute: typeof AuthenticatedHostingRoute
+  AuthenticatedMarketplaceHubRoute: typeof AuthenticatedMarketplaceHubRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedNotificationsAnalyticsRoute: typeof AuthenticatedNotificationsAnalyticsRoute
+  AuthenticatedNotificationsAnnouncementsRoute: typeof AuthenticatedNotificationsAnnouncementsRoute
+  AuthenticatedNotificationsArchiveRoute: typeof AuthenticatedNotificationsArchiveRoute
+  AuthenticatedNotificationsAutomationRoute: typeof AuthenticatedNotificationsAutomationRoute
+  AuthenticatedNotificationsCategoriesRoute: typeof AuthenticatedNotificationsCategoriesRoute
+  AuthenticatedNotificationsHistoryRoute: typeof AuthenticatedNotificationsHistoryRoute
+  AuthenticatedNotificationsInboxRoute: typeof AuthenticatedNotificationsInboxRoute
+  AuthenticatedNotificationsPreferencesRoute: typeof AuthenticatedNotificationsPreferencesRoute
+  AuthenticatedNotificationsRemindersRoute: typeof AuthenticatedNotificationsRemindersRoute
+  AuthenticatedNotificationsSettingsRoute: typeof AuthenticatedNotificationsSettingsRoute
+  AuthenticatedNotificationsStarredRoute: typeof AuthenticatedNotificationsStarredRoute
+  AuthenticatedNotificationsTemplatesRoute: typeof AuthenticatedNotificationsTemplatesRoute
+  AuthenticatedTemplatesRoute: typeof AuthenticatedTemplatesRoute
+  AuthenticatedThemesRoute: typeof AuthenticatedThemesRoute
+  AuthenticatedWebsitesRoute: typeof AuthenticatedWebsitesRoute
+  AuthenticatedWhiteLabelRoute: typeof AuthenticatedWhiteLabelRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -8125,6 +8685,34 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedWorkforceRoute: AuthenticatedWorkforceRoute,
   AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRoute,
   AuthenticatedEnterpriseAiIndexRoute: AuthenticatedEnterpriseAiIndexRoute,
+  AuthenticatedAppsRoute: AuthenticatedAppsRoute,
+  AuthenticatedAutomationHubRoute: AuthenticatedAutomationHubRoute,
+  AuthenticatedBuilderRoute: AuthenticatedBuilderRoute,
+  AuthenticatedContentRoute: AuthenticatedContentRoute,
+  AuthenticatedDeployRoute: AuthenticatedDeployRoute,
+  AuthenticatedDesignRoute: AuthenticatedDesignRoute,
+  AuthenticatedDomainsRoute: AuthenticatedDomainsRoute,
+  AuthenticatedDomainsManageRoute: AuthenticatedDomainsManageRoute,
+  AuthenticatedDomainsSearchRoute: AuthenticatedDomainsSearchRoute,
+  AuthenticatedHostingRoute: AuthenticatedHostingRoute,
+  AuthenticatedMarketplaceHubRoute: AuthenticatedMarketplaceHubRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedNotificationsAnalyticsRoute: AuthenticatedNotificationsAnalyticsRoute,
+  AuthenticatedNotificationsAnnouncementsRoute: AuthenticatedNotificationsAnnouncementsRoute,
+  AuthenticatedNotificationsArchiveRoute: AuthenticatedNotificationsArchiveRoute,
+  AuthenticatedNotificationsAutomationRoute: AuthenticatedNotificationsAutomationRoute,
+  AuthenticatedNotificationsCategoriesRoute: AuthenticatedNotificationsCategoriesRoute,
+  AuthenticatedNotificationsHistoryRoute: AuthenticatedNotificationsHistoryRoute,
+  AuthenticatedNotificationsInboxRoute: AuthenticatedNotificationsInboxRoute,
+  AuthenticatedNotificationsPreferencesRoute: AuthenticatedNotificationsPreferencesRoute,
+  AuthenticatedNotificationsRemindersRoute: AuthenticatedNotificationsRemindersRoute,
+  AuthenticatedNotificationsSettingsRoute: AuthenticatedNotificationsSettingsRoute,
+  AuthenticatedNotificationsStarredRoute: AuthenticatedNotificationsStarredRoute,
+  AuthenticatedNotificationsTemplatesRoute: AuthenticatedNotificationsTemplatesRoute,
+  AuthenticatedTemplatesRoute: AuthenticatedTemplatesRoute,
+  AuthenticatedThemesRoute: AuthenticatedThemesRoute,
+  AuthenticatedWebsitesRoute: AuthenticatedWebsitesRoute,
+  AuthenticatedWhiteLabelRoute: AuthenticatedWhiteLabelRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
