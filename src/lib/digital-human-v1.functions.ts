@@ -207,8 +207,8 @@ export const dhSpeak = createServerFn({ method: "POST" })
     const now = new Date().toISOString();
     const nextTranscript: Turn[] = [
       ...transcript,
-      { role: "user", content: data.message, at: now },
-      { role: "assistant", content: answer, at: now },
+      { role: "user" as const, content: data.message, at: now },
+      { role: "assistant" as const, content: answer, at: now },
     ].slice(-200);
 
     const upd = await s.from("dh_sessions").update({

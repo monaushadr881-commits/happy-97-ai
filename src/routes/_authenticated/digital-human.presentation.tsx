@@ -37,7 +37,7 @@ function Presentations() {
     mutationFn: () => dhGeneratePresentation({ data: { title, audience: audience || undefined, outline } }),
     onSuccess: (deck) => {
       qc.invalidateQueries({ queryKey: ["dh", "presentations"] });
-      setCurrent(deck as Deck); setSlideIdx(0);
+      setCurrent(deck as unknown as Deck); setSlideIdx(0);
       setTitle(""); setAudience(""); setOutline("");
     },
     onError: (e: Error) => toast.error(e.message),
