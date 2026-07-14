@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/customer360")({
       title="Customer 360"
       description="Complete customer experience — 360 view, journey, analytics, health, loyalty, rewards, feedback, surveys and support."
       icon={UserSearch}
-      features={customer360 customer360 UserSearch Customer 360 Complete customer experience — 360 view, journey, analytics, health, loyalty, rewards, feedback, surveys and support. Customer Experience Platform ["Customer 360","Customer Journey","Customer Analytics","Customer Health","Customer Loyalty","Rewards","Feedback","Surveys","Support"]}
+      features={["Customer 360","Customer Journey","Customer Analytics","Customer Health","Customer Loyalty","Rewards","Feedback","Surveys","Support"]}
     />
   ),
 });

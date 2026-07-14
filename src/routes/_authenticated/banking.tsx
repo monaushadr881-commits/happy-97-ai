@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/banking")({
       title="Banking Integration"
       description="Bank accounts, statement import, reconciliation, virtual accounts, payment gateway hub, payouts, collections and full UPI/NEFT/RTGS/SWIFT rails."
       icon={Banknote}
-      features={banking banking Banknote Banking Integration Bank accounts, statement import, reconciliation, virtual accounts, payment gateway hub, payouts, collections and full UPI/NEFT/RTGS/SWIFT rails. Banking Platform ["Bank Accounts","Statement Import","Reconciliation","Virtual Accounts","Payment Gateway Hub","Payout Engine","Collection Engine","UPI","NEFT","RTGS","SWIFT","International Payments"]}
+      features={["Bank Accounts","Statement Import","Reconciliation","Virtual Accounts","Payment Gateway Hub","Payout Engine","Collection Engine","UPI","NEFT","RTGS","SWIFT","International Payments"]}
     />
   ),
 });

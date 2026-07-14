@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/commerce")({
       title="Global Commerce OS"
       description="Commerce Hub orchestrating B2B, B2C, wholesale, retail, procurement, vendor, distributor and dealer marketplaces across every region."
       icon={ShoppingCart}
-      features={commerce commerce ShoppingCart Global Commerce OS Commerce Hub orchestrating B2B, B2C, wholesale, retail, procurement, vendor, distributor and dealer marketplaces across every region. Global Commerce Platform ["Commerce Hub","Global Marketplace","B2B Commerce","B2C Commerce","Wholesale","Retail","Procurement","Vendor Marketplace","Distributor Marketplace","Dealer Marketplace"]}
+      features={["Commerce Hub","Global Marketplace","B2B Commerce","B2C Commerce","Wholesale","Retail","Procurement","Vendor Marketplace","Distributor Marketplace","Dealer Marketplace"]}
     />
   ),
 });

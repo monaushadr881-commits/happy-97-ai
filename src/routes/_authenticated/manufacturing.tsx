@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/manufacturing")({
       title="Manufacturing Intelligence"
       description="Factory dashboard, machine monitoring, production analytics, BOM, production orders, quality control, maintenance, energy, waste and capacity planning."
       icon={Factory}
-      features={manufacturing manufacturing Factory Manufacturing Intelligence Factory dashboard, machine monitoring, production analytics, BOM, production orders, quality control, maintenance, energy, waste and capacity planning. Manufacturing Platform ["Factory Dashboard","Machine Monitoring","Production Analytics","BOM","Production Orders","Quality Control","Maintenance","Energy Analytics","Waste Analytics","Capacity Planning"]}
+      features={["Factory Dashboard","Machine Monitoring","Production Analytics","BOM","Production Orders","Quality Control","Maintenance","Energy Analytics","Waste Analytics","Capacity Planning"]}
     />
   ),
 });

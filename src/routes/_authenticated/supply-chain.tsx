@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/supply-chain")({
       title="Supply Chain OS"
       description="End-to-end supply chain — procurement, supplier network, purchase / demand / production planning, logistics, transportation, shipment tracking and delivery analytics."
       icon={PackageSearch}
-      features={supply-chain supply-chain PackageSearch Supply Chain OS End-to-end supply chain — procurement, supplier network, purchase / demand / production planning, logistics, transportation, shipment tracking and delivery analytics. Supply Chain Platform ["Supply Chain","Procurement","Supplier Network","Purchase Planning","Demand Planning","Production Planning","Logistics","Transportation","Shipment Tracking","Delivery Analytics"]}
+      features={["Supply Chain","Procurement","Supplier Network","Purchase Planning","Demand Planning","Production Planning","Logistics","Transportation","Shipment Tracking","Delivery Analytics"]}
     />
   ),
 });

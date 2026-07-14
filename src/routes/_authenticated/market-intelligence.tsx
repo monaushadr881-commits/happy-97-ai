@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/market-intelligence")({
       title="Global Market Intelligence"
       description="Competitor, pricing, demand and consumer trend intelligence with regional analytics, opportunity detection and risk intelligence."
       icon={Radar}
-      features={market-intelligence market-intelligence Radar Global Market Intelligence Competitor, pricing, demand and consumer trend intelligence with regional analytics, opportunity detection and risk intelligence. Market Intelligence Platform ["Competitor Analytics","Pricing Intelligence","Demand Intelligence","Consumer Trends","Regional Analytics","Opportunity Detection","Risk Intelligence"]}
+      features={["Competitor Analytics","Pricing Intelligence","Demand Intelligence","Consumer Trends","Regional Analytics","Opportunity Detection","Risk Intelligence"]}
     />
   ),
 });

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/financial-ai")({
       title="Enterprise Financial AI"
       description="AI CFO with cash flow, investment, budget, tax, revenue, profit and overall business advisory — powered by the Enterprise Brain."
       icon={Wallet}
-      features={financial-ai financial-ai Wallet Enterprise Financial AI AI CFO with cash flow, investment, budget, tax, revenue, profit and overall business advisory — powered by the Enterprise Brain. Financial AI Platform ["AI CFO","Cash Flow Advisor","Investment Advisor","Budget Advisor","Tax Advisor","Revenue Advisor","Profit Advisor","Business Advisor"]}
+      features={["AI CFO","Cash Flow Advisor","Investment Advisor","Budget Advisor","Tax Advisor","Revenue Advisor","Profit Advisor","Business Advisor"]}
     />
   ),
 });

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/finance")({
       title="Financial OS"
       description="General Ledger, AP/AR, Treasury, Cash Management, Budgeting, Forecasting, Tax/GST, Invoice, Expense, Revenue and Profitability engines — unified."
       icon={Landmark}
-      features={finance finance Landmark Financial OS General Ledger, AP/AR, Treasury, Cash Management, Budgeting, Forecasting, Tax/GST, Invoice, Expense, Revenue and Profitability engines — unified. Financial Intelligence Platform ["General Ledger","Accounts Payable","Accounts Receivable","Treasury","Cash Management","Budget Planning","Forecasting","Tax Center","GST Center","Invoice Engine","Expense Engine","Revenue Engine","Profitability Engine"]}
+      features={["General Ledger","Accounts Payable","Accounts Receivable","Treasury","Cash Management","Budget Planning","Forecasting","Tax Center","GST Center","Invoice Engine","Expense Engine","Revenue Engine","Profitability Engine"]}
     />
   ),
 });

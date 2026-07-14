@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/payments")({
       title="Global Payment Hub"
       description="Intelligent payment routing, gateway selection, settlement, refunds, subscriptions, wallet, loyalty, gift cards, coupons and promotions."
       icon={CreditCard}
-      features={payments payments CreditCard Global Payment Hub Intelligent payment routing, gateway selection, settlement, refunds, subscriptions, wallet, loyalty, gift cards, coupons and promotions. Payments Platform ["Payment Routing","Gateway Selection","Settlement","Refunds","Subscriptions","Wallet","Loyalty","Gift Cards","Coupons","Promotions"]}
+      features={["Payment Routing","Gateway Selection","Settlement","Refunds","Subscriptions","Wallet","Loyalty","Gift Cards","Coupons","Promotions"]}
     />
   ),
 });
