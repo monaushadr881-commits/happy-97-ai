@@ -113,11 +113,16 @@ function Nav() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <a href="#top" className="group flex items-center gap-2.5">
-          <LogoMark />
-          <span className="font-display text-[15px] font-semibold tracking-tight text-paper">
-            HAPPY <span className="text-gradient-gold">X</span>
-          </span>
+        <a href="#top" className="group flex items-center gap-3">
+          <LogoMark size={36} />
+          <div className="flex flex-col leading-tight">
+            <span className="font-display text-[15px] font-semibold tracking-tight text-paper">
+              HAPPY <span className="text-gradient-gold">X</span>
+            </span>
+            <span className="text-[9px] uppercase tracking-[0.28em] text-gold/70">
+              Enterprise AI Partner
+            </span>
+          </div>
         </a>
         <nav className="hidden gap-8 text-[13px] font-medium text-soft-gray md:flex">
           {[
@@ -951,35 +956,77 @@ function PlayStoreMark() {
 
 function PhoneMock() {
   return (
-    <div className="relative mx-auto w-full max-w-[300px]">
-      <div className="absolute -inset-4 rounded-[3rem] bg-gold/20 blur-3xl" />
-      <div className="relative aspect-[9/19] w-full rounded-[2.5rem] border border-gold/30 bg-obsidian p-2 shadow-luxe">
-        <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-charcoal">
-          <div className="absolute inset-x-0 top-0 flex justify-center pt-3">
-            <div className="h-4 w-24 rounded-full bg-obsidian" />
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <QrCard
+        title="Download HAPPY App"
+        subtitle="Scan · iOS & Android"
+        src={appQrAsset.url}
+        alt="Scan to download the HAPPY X mobile app"
+      />
+      <QrCard
+        title="Chat on WhatsApp"
+        subtitle="Talk to HAPPY instantly"
+        src={waQrAsset.url}
+        alt="Scan to chat with HAPPY on WhatsApp"
+        variant="light"
+      />
+    </div>
+  );
+}
+
+function QrCard({
+  title,
+  subtitle,
+  src,
+  alt,
+  variant = "dark",
+}: {
+  title: string;
+  subtitle: string;
+  src: string;
+  alt: string;
+  variant?: "dark" | "light";
+}) {
+  return (
+    <div className="group relative">
+      <div className="pointer-events-none absolute -inset-2 rounded-[1.75rem] bg-gold/15 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-90" />
+      <div className="relative overflow-hidden rounded-3xl border border-gold/25 bg-charcoal p-5 shadow-luxe transition-transform duration-500 group-hover:-translate-y-1">
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.28em] text-gold">
+              {subtitle}
+            </div>
+            <div className="mt-1 font-display text-base font-semibold text-paper">
+              {title}
+            </div>
           </div>
+          <LogoMark size={28} />
+        </div>
+        <div
+          className={`relative overflow-hidden rounded-2xl p-3 ${
+            variant === "light" ? "bg-paper" : "bg-obsidian"
+          }`}
+        >
           <img
-            src={avatarImg}
-            alt=""
-            className="h-full w-full object-cover opacity-70"
+            src={src}
+            alt={alt}
+            width={640}
+            height={640}
+            className="mx-auto block h-auto w-full max-w-[240px] object-contain"
+            loading="lazy"
+            decoding="async"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent" />
-          <div className="absolute inset-x-4 bottom-6">
-            <div className="text-[9px] uppercase tracking-widest text-gold">
-              Good evening, Naushad
-            </div>
-            <div className="mt-1 font-display text-xl text-paper">
-              How may I serve you today?
-            </div>
-            <div className="mt-4 glass-luxe flex items-center justify-between rounded-2xl px-3 py-2">
-              <span className="text-[11px] text-soft-gray">Speak to HAPPY</span>
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gold">
-                <Play className="h-3 w-3 fill-obsidian text-obsidian" />
-              </span>
-            </div>
-          </div>
+          {/* scan sweep */}
+          <div className="pointer-events-none absolute inset-x-3 top-3 h-[2px] rounded-full bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 shadow-[0_0_18px_2px_rgba(212,175,55,0.6)] transition-opacity duration-300 group-hover:opacity-100 group-hover:animate-[qrscan_2.2s_ease-in-out_infinite]" />
         </div>
       </div>
+      <style>{`
+        @keyframes qrscan {
+          0% { transform: translateY(0); }
+          50% { transform: translateY(220px); }
+          100% { transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -1050,11 +1097,16 @@ function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
           <div className="col-span-2">
-            <div className="flex items-center gap-2.5">
-              <LogoMark />
-              <span className="font-display text-sm font-semibold text-paper">
-                HAPPY <span className="text-gradient-gold">X</span>
-              </span>
+            <div className="flex items-center gap-3">
+              <LogoMark size={40} />
+              <div className="flex flex-col leading-tight">
+                <span className="font-display text-sm font-semibold text-paper">
+                  HAPPY <span className="text-gradient-gold">X</span>
+                </span>
+                <span className="text-[9px] uppercase tracking-[0.28em] text-gold/70">
+                  Enterprise AI Partner
+                </span>
+              </div>
             </div>
             <p className="mt-4 max-w-xs text-sm text-soft-gray">
               The sovereign, human-centered AI operating platform. By HAPPY
