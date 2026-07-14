@@ -293,32 +293,47 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
-            <span className="eyebrow !text-[10px]">HAPPY Online · Enterprise AI Partner</span>
+            <span className="eyebrow !text-[10px]">HAPPY · Online · Enterprise v1.0</span>
           </div>
 
-          <h1 className="mt-8 font-display text-5xl font-medium leading-[1.02] tracking-tight text-paper md:text-7xl">
-            The AI that helps you<br />
-            <span className="text-gradient-gold">learn, build and grow.</span>
+          <h1 className="mt-8 font-display font-medium tracking-tight text-paper">
+            <span className="block text-[64px] leading-none md:text-[104px] text-gradient-gold">
+              HAPPY
+            </span>
+            <span className="mt-4 block text-[13px] uppercase tracking-[0.32em] text-gold/80">
+              Human-Centered AI Operating Platform
+            </span>
+            <span className="mt-6 block text-4xl leading-[1.05] text-paper md:text-5xl">
+              Learn.{" "}
+              <span className="text-gradient-gold">Build.</span>{" "}
+              Manage.{" "}
+              <span className="text-gradient-gold">Grow.</span>
+            </span>
           </h1>
 
-          <p className="mt-8 max-w-xl text-[17px] leading-relaxed text-soft-gray">
-            HAPPY X is the Human-Centered AI Operating Platform from HAPPY
-            PERSON PRIVATE LIMITED — a single sovereign environment uniting the
-            HAPPY digital human, executive AI, education, business, creator and
-            enterprise intelligence for the next century of work.
+          <p className="mt-8 max-w-lg text-[16px] leading-relaxed text-soft-gray">
+            HAPPY is an intelligent Digital Human — one calm presence guiding
+            you across education, business, creativity and the enterprise.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               to="/auth"
-              className="shimmer-on-hover group inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-obsidian transition-transform hover:scale-[1.02]"
+              aria-label="Talk to HAPPY"
+              className="shimmer-on-hover group inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-obsidian shadow-[0_0_30px_-4px_rgba(232,201,106,0.6)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_44px_-4px_rgba(232,201,106,0.8)]"
             >
-              Experience HAPPY X
+              Talk to HAPPY
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <button className="inline-flex items-center gap-2.5 rounded-full border border-gold/25 bg-charcoal/40 px-6 py-3.5 text-[14px] font-medium text-paper backdrop-blur transition-colors hover:bg-charcoal/70">
-              <Play className="h-3.5 w-3.5 fill-gold text-gold" />
-              Watch the film
+            <button
+              type="button"
+              aria-label="Watch demo"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-gold/25 bg-charcoal/40 px-6 py-3.5 text-[14px] font-medium text-paper backdrop-blur transition-all duration-300 hover:border-gold/50 hover:bg-charcoal/70"
+            >
+              <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-gold/15 ring-1 ring-gold/40 transition-transform group-hover:scale-110">
+                <Play className="h-3 w-3 fill-gold text-gold" />
+              </span>
+              Watch Demo
             </button>
           </div>
 
@@ -339,6 +354,7 @@ function Hero() {
             ))}
           </div>
         </div>
+
 
         <HeroStage tilt={tilt} />
       </div>
