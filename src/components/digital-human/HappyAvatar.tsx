@@ -225,7 +225,7 @@ export const HappyAvatar = memo(function HappyAvatar({
         style={{ borderRadius: radius }}
       >
         <img
-          src={happyPortraitAsset.url}
+          src={happyPortraitUrl}
           alt="HAPPY, the official HAPPY digital human"
           className={cn(
             "h-full w-full object-cover object-top will-change-transform",
