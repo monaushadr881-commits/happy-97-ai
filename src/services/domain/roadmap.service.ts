@@ -336,3 +336,74 @@ export const dashboardService = defineService({ name: "dashboard", version: "v2"
   async forecastSummary(_ctx: ServiceContext) { return notImplemented("dashboard", "forecastSummary"); },
   async recommendationFeed(_ctx: ServiceContext) { return notImplemented("dashboard", "recommendationFeed"); },
 }));
+
+// ---------- v2.1 / Phase 3.0 — Autonomous Capability Runtime ----------
+export const runtimeService = defineService({ name: "runtime", version: "v3" }, () => ({
+  async status(_ctx: ServiceContext) { return notImplemented("runtime", "status"); },
+  async health(_ctx: ServiceContext) { return notImplemented("runtime", "health"); },
+  async metrics(_ctx: ServiceContext) { return notImplemented("runtime", "metrics"); },
+  async capabilities(_ctx: ServiceContext) { return notImplemented("runtime", "capabilities"); },
+  async dispatch(_ctx: ServiceContext, _input: unknown) { return notImplemented("runtime", "dispatch"); },
+  async execute(_ctx: ServiceContext, _input: unknown) { return notImplemented("runtime", "execute"); },
+  async live(_ctx: ServiceContext) { return notImplemented("runtime", "live"); },
+  async executions(_ctx: ServiceContext) { return notImplemented("runtime", "executions"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("runtime", "analytics"); },
+  async settings(_ctx: ServiceContext) { return notImplemented("runtime", "settings"); },
+  async updateSettings(_ctx: ServiceContext, _input: unknown) { return notImplemented("runtime", "updateSettings"); },
+  async context(_ctx: ServiceContext, _input: unknown) { return notImplemented("runtime", "context"); },
+  async memory(_ctx: ServiceContext) { return notImplemented("runtime", "memory"); },
+  async schedule(_ctx: ServiceContext, _input: unknown) { return notImplemented("runtime", "schedule"); },
+}));
+
+// ---------- Phase 3.1 — Planning Runtime ----------
+export const planningRuntimeService = defineService({ name: "planning-runtime", version: "v3" }, () => ({
+  async status(_ctx: ServiceContext) { return notImplemented("planning-runtime", "status"); },
+  async plan(_ctx: ServiceContext, _input: unknown) { return notImplemented("planning-runtime", "plan"); },
+  async analyzeGoal(_ctx: ServiceContext, _input: unknown) { return notImplemented("planning-runtime", "analyzeGoal"); },
+  async resolveDependencies(_ctx: ServiceContext, _input: unknown) { return notImplemented("planning-runtime", "resolveDependencies"); },
+  async assessRisk(_ctx: ServiceContext, _input: unknown) { return notImplemented("planning-runtime", "assessRisk"); },
+  async milestones(_ctx: ServiceContext, _input: unknown) { return notImplemented("planning-runtime", "milestones"); },
+  async timeline(_ctx: ServiceContext, _input: unknown) { return notImplemented("planning-runtime", "timeline"); },
+  async goals(_ctx: ServiceContext) { return notImplemented("planning-runtime", "goals"); },
+  async risks(_ctx: ServiceContext) { return notImplemented("planning-runtime", "risks"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("planning-runtime", "analytics"); },
+}));
+
+// ---------- Phase 3.2 — Tool Execution Runtime ----------
+export const toolExecutionRuntimeService = defineService({ name: "tool-execution-runtime", version: "v3" }, () => ({
+  async status(_ctx: ServiceContext) { return notImplemented("tool-execution-runtime", "status"); },
+  async load(_ctx: ServiceContext, _input: { toolId: string }) { return notImplemented("tool-execution-runtime", "load"); },
+  async validatePermissions(_ctx: ServiceContext, _input: unknown) { return notImplemented("tool-execution-runtime", "validatePermissions"); },
+  async execute(_ctx: ServiceContext, _input: unknown) { return notImplemented("tool-execution-runtime", "execute"); },
+  async queue(_ctx: ServiceContext) { return notImplemented("tool-execution-runtime", "queue"); },
+  async metrics(_ctx: ServiceContext) { return notImplemented("tool-execution-runtime", "metrics"); },
+  async health(_ctx: ServiceContext) { return notImplemented("tool-execution-runtime", "health"); },
+  async recover(_ctx: ServiceContext, _input: { runId: string }) { return notImplemented("tool-execution-runtime", "recover"); },
+  async live(_ctx: ServiceContext) { return notImplemented("tool-execution-runtime", "live"); },
+  async history(_ctx: ServiceContext) { return notImplemented("tool-execution-runtime", "history"); },
+}));
+
+// ---------- Phase 3.3 — Autonomous Workflow Runtime (v3) ----------
+export const workflowRuntimeV3Service = defineService({ name: "workflow-runtime-v3", version: "v3" }, () => ({
+  async status(_ctx: ServiceContext) { return notImplemented("workflow-runtime-v3", "status"); },
+  async monitor(_ctx: ServiceContext) { return notImplemented("workflow-runtime-v3", "monitor"); },
+  async live(_ctx: ServiceContext) { return notImplemented("workflow-runtime-v3", "live"); },
+  async history(_ctx: ServiceContext) { return notImplemented("workflow-runtime-v3", "history"); },
+  async approve(_ctx: ServiceContext, _input: unknown) { return notImplemented("workflow-runtime-v3", "approve"); },
+  async retry(_ctx: ServiceContext, _input: unknown) { return notImplemented("workflow-runtime-v3", "retry"); },
+  async rollback(_ctx: ServiceContext, _input: unknown) { return notImplemented("workflow-runtime-v3", "rollback"); },
+  async timeline(_ctx: ServiceContext) { return notImplemented("workflow-runtime-v3", "timeline"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("workflow-runtime-v3", "analytics"); },
+}));
+
+// ---------- Phase 3.4 — Executive Intelligence Runtime ----------
+export const executiveRuntimeService = defineService({ name: "executive-runtime", version: "v3" }, () => ({
+  async status(_ctx: ServiceContext) { return notImplemented("executive-runtime", "status"); },
+  async advisor(_ctx: ServiceContext, _input: unknown) { return notImplemented("executive-runtime", "advisor"); },
+  async forecast(_ctx: ServiceContext, _input: unknown) { return notImplemented("executive-runtime", "forecast"); },
+  async recommend(_ctx: ServiceContext, _input: unknown) { return notImplemented("executive-runtime", "recommend"); },
+  async opportunities(_ctx: ServiceContext) { return notImplemented("executive-runtime", "opportunities"); },
+  async risks(_ctx: ServiceContext) { return notImplemented("executive-runtime", "risks"); },
+  async decide(_ctx: ServiceContext, _input: unknown) { return notImplemented("executive-runtime", "decide"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("executive-runtime", "analytics"); },
+}));
