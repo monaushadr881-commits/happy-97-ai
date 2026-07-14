@@ -72,42 +72,61 @@ function useBlink(reduced: boolean) {
   return closed;
 }
 
-/** Micro head drift + eye saccade offsets, updated on a slow rAF cadence. */
-function useMicroMotion(reduced: boolean) {
-  const [offset, setOffset] = useState({ x: 0, y: 0, r: 0 });
+/**
+ * Micro head drift + gaze + micro weight-shift (scale) + posture bias.
+ * Adapts to activity/expression so listening feels attentive (small nod +
+ * centered gaze) and thinking feels reflective (brief upward glance + tilt).
+ */
+function useMicroMotion(reduced: boolean, activity: AvatarActivity, expression: AvatarExpression) {
+  const [offset, setOffset] = useState({ x: 0, y: 0, r: 0, s: 1 });
   useEffect(() => {
     if (reduced) return;
     let raf = 0;
     let last = 0;
-    let target = { x: 0, y: 0, r: 0 };
-    let current = { x: 0, y: 0, r: 0 };
+    let target = { x: 0, y: 0, r: 0, s: 1 };
+    let current = { x: 0, y: 0, r: 0, s: 1 };
     let nextRetarget = 0;
     const tick = (t: number) => {
       if (!last) last = t;
       const dt = Math.min(50, t - last);
       last = t;
       if (t > nextRetarget) {
-        // pick a new subtle target — head + gaze focus
-        target = {
+        const base = {
           x: (Math.random() - 0.5) * 3.4,
           y: (Math.random() - 0.5) * 2.0,
           r: (Math.random() - 0.5) * 0.6,
+          s: 1 + (Math.random() - 0.5) * 0.006, // subtle weight shift
         };
-        nextRetarget = t + 900 + Math.random() * 2600;
+        if (activity === "listening") {
+          // Attentive: tiny nod + steadier gaze.
+          base.y = 0.6 + Math.random() * 1.1;
+          base.x *= 0.4;
+          base.r *= 0.3;
+        }
+        if (expression === "thinking") {
+          // Reflective: brief upward glance + gentle tilt.
+          base.y = -1.2 + (Math.random() - 0.5) * 0.6;
+          base.r = (Math.random() < 0.5 ? -1 : 1) * (0.4 + Math.random() * 0.4);
+        }
+        target = base;
+        const gap = activity === "listening" ? 700 + Math.random() * 1400
+                  : expression === "thinking" ? 500 + Math.random() * 900
+                  : 900 + Math.random() * 2600;
+        nextRetarget = t + gap;
       }
-      // ease toward target
       const k = 1 - Math.pow(0.001, dt / 1000);
       current = {
         x: current.x + (target.x - current.x) * k,
         y: current.y + (target.y - current.y) * k,
         r: current.r + (target.r - current.r) * k,
+        s: current.s + (target.s - current.s) * k,
       };
       setOffset(current);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [reduced]);
+  }, [reduced, activity, expression]);
   return offset;
 }
 
