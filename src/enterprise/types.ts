@@ -43,7 +43,7 @@ export interface Company {
   timezone: string;
   status: EntityStatus;
   owner_id: string | null;
-  metadata: Record<string, unknown>;
+  metadata: JsonObject;
   created_at: string;
   updated_at: string;
 }
@@ -57,7 +57,7 @@ export interface Brand {
   logo_url: string | null;
   primary_color: string | null;
   status: EntityStatus;
-  metadata: Record<string, unknown>;
+  metadata: JsonObject;
   created_at: string;
   updated_at: string;
 }
@@ -70,7 +70,7 @@ export interface Workspace {
   name: string;
   description: string | null;
   status: EntityStatus;
-  metadata: Record<string, unknown>;
+  metadata: JsonObject;
   created_at: string;
   updated_at: string;
 }
@@ -143,7 +143,7 @@ export interface WorkspaceMembership {
   joined_at: string;
 }
 
-export interface Setting<T = unknown> {
+export interface Setting<T = Json> {
   id: string;
   scope_type: ScopeType;
   scope_id: string | null;
@@ -164,7 +164,7 @@ export interface AuditLog {
   entity_type: string | null;
   entity_id: string | null;
   severity: AuditSeverity;
-  metadata: Record<string, unknown>;
+  metadata: JsonObject;
 }
 
 export interface ActivityEvent {
@@ -177,5 +177,5 @@ export interface ActivityEvent {
   entity_id: string | null;
   action: string;
   source: string;
-  metadata: Record<string, unknown>;
+  metadata: JsonObject;
 }
