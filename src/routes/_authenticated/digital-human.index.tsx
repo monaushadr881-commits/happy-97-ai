@@ -1,6 +1,6 @@
 /** /digital-human — Real-Time Human Conversation Engine (RT-HCE). */
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useMutation } from "@tanstack/react-query";
 import { PageHeader, Panel, Hairline, Chip } from "@/design-system/primitives";
@@ -13,7 +13,7 @@ import { useVoiceInput } from "@/components/digital-human/useVoiceInput";
 import {
   chunkForSpeech, classifyIntent, estimateSpeechMs, expressionFor,
   maybeAcknowledgement, maybeBackchannel, PACING, pausable,
-  thinkingDurationFor, timingProfileFor, voiceProfileFor, type ConvoState,
+  timingProfileFor, voiceProfileFor, type ConvoState,
 } from "@/components/digital-human/conversation-engine";
 import { dhSpeak, DH_MODES, type DhMode } from "@/lib/digital-human-v1.functions";
 import {
@@ -34,6 +34,7 @@ const MODE_LABEL: Record<DhMode, string> = {
 };
 
 type Turn = { role: "user" | "assistant" | "system"; content: string; at: string };
+type ChunkTiming = { startedAt: number; durationMs: number };
 
 const STATE_LABEL: Record<ConvoState, string> = {
   idle: "Ready", listening: "Listening", thinking: "Thinking",
@@ -49,6 +50,7 @@ function DhConversation() {
   const [transcript, setTranscript] = useState<Turn[]>([]);
   const [convoState, setConvoState] = useState<ConvoState>("idle");
   const [activeChunk, setActiveChunk] = useState<{ turn: number; index: number } | null>(null);
+  const [chunkTiming, setChunkTiming] = useState<ChunkTiming | null>(null);
   const [handsFree, setHandsFree] = useState(false);
   const [voiceSpeed, setVoiceSpeed] = useState<number>(prefs.speed ?? 1);
   const [interimHeard, setInterimHeard] = useState<string>("");
@@ -56,6 +58,13 @@ function DhConversation() {
   const lastBackchannelRef = useRef<string | undefined>(undefined);
   const turnAbortRef = useRef<AbortController | null>(null);
   const lastAnswerRef = useRef<string>("");
+  const transcriptRef = useRef<HTMLDivElement | null>(null);
+
+  const profile = useMemo(() => voiceProfileFor(mode), [mode]);
+  const effectiveSpeed = useMemo(
+    () => Math.max(0.5, Math.min(1.5, voiceSpeed * profile.speed)),
+    [voiceSpeed, profile.speed],
+  );
 
   const cancelTurn = () => {
     turnAbortRef.current?.abort();
@@ -68,7 +77,7 @@ function DhConversation() {
     cancelTurn();
     setConvoState("interrupted");
     setActivity("listening"); setExpression("listen");
-    setActiveChunk(null);
+    setActiveChunk(null); setChunkTiming(null);
   };
 
   const voice = useVoiceInput({
@@ -82,14 +91,13 @@ function DhConversation() {
 
   useEffect(() => () => cancelTurn(), []); // cleanup on unmount
 
-  // Sync voice input to hands-free toggle.
   useEffect(() => {
     if (handsFree) { voice.start().catch((e: Error) => { toast.error(e.message); setHandsFree(false); }); }
     else { voice.stop(); setInterimHeard(""); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handsFree]);
 
-  // Push-to-talk: hold Space (outside textarea) to enable mic momentarily.
+  // Push-to-talk: hold Space outside typing targets.
   useEffect(() => {
     const isTypingTarget = (t: EventTarget | null) =>
       t instanceof HTMLElement && (t.tagName === "TEXTAREA" || t.tagName === "INPUT" || t.isContentEditable);
@@ -107,20 +115,34 @@ function DhConversation() {
     return () => { window.removeEventListener("keydown", down); window.removeEventListener("keyup", up); };
   }, [handsFree, voice]);
 
+  // Auto-scroll transcript to the active caption line.
+  useEffect(() => {
+    if (!activeChunk) return;
+    const el = transcriptRef.current;
+    if (!el) return;
+    // Smooth scroll to bottom-most active bubble.
+    el.scrollTo({ top: el.scrollHeight, behavior: prefs.reduced_motion ? "auto" : "smooth" });
+  }, [activeChunk, prefs.reduced_motion]);
+
   const speakChunks = async (text: string, abort: AbortController, turnIdx: number) => {
     if (prefs.mute_audio) return;
     setActivity("speaking");
     setConvoState("speaking");
     const chunks = chunkForSpeech(text);
+    const pausePerSentence = Math.round(PACING.sentencePauseMs * profile.sentencePauseScale);
     for (let i = 0; i < chunks.length; i++) {
       if (abort.signal.aborted) return;
       const chunk = chunks[i];
-      if (chunk === "\n\n") { await pausable(PACING.paragraphPauseMs, abort.signal); continue; }
+      if (chunk === "\n\n") {
+        await pausable(Math.round(PACING.paragraphPauseMs * profile.sentencePauseScale), abort.signal);
+        continue;
+      }
+      const durationMs = estimateSpeechMs(chunk, effectiveSpeed);
       setActiveChunk({ turn: turnIdx, index: i });
-      await speak(chunk, { voice: prefs.voice, speed: voiceSpeed });
-      // Fallback estimate keeps caption progress even if speak resolves early.
-      await pausable(Math.min(120, estimateSpeechMs(chunk, voiceSpeed) * 0.05), abort.signal);
-      await pausable(PACING.sentencePauseMs, abort.signal);
+      setChunkTiming({ startedAt: performance.now(), durationMs });
+      await speak(chunk, { voice: prefs.voice, speed: effectiveSpeed });
+      await pausable(Math.min(120, durationMs * 0.05), abort.signal);
+      await pausable(pausePerSentence, abort.signal);
     }
   };
 
@@ -148,31 +170,29 @@ function DhConversation() {
     if (abort.signal.aborted) return;
     setSessionId(res.session_id);
 
-    // Context-aware thinking pause (short greetings → snap; math/creative → longer).
     const { thinkMs } = timingProfileFor(intent, res.answer);
 
-    // Optional backchannel murmur during the thinking pause so HAPPY feels alive.
     const back = !prefs.mute_audio && intent !== "greeting" && intent !== "short"
       ? maybeBackchannel(lastBackchannelRef.current) : null;
     if (back) {
       lastBackchannelRef.current = back;
-      // Fire-and-forget short murmur; keeps thinking beat "alive".
-      speak(back, { voice: prefs.voice, speed: voiceSpeed }).catch(() => {});
+      speak(back, { voice: prefs.voice, speed: effectiveSpeed }).catch(() => {});
     }
     await pausable(thinkMs, abort.signal);
     if (abort.signal.aborted) return;
 
-    const ack = maybeAcknowledgement(lastAckRef.current);
+    // Voice-profile ack cadence — identity constant, delivery adapts.
+    const ack = Math.random() < profile.ackChance ? maybeAcknowledgement(lastAckRef.current) : null;
     if (ack) lastAckRef.current = ack;
     const framed = ack ? `${ack} ${res.answer}` : res.answer;
     lastAnswerRef.current = framed;
     const now = new Date().toISOString();
     let turnIdx = 0;
     setTranscript((t) => { turnIdx = t.length; return [...t, { role: "assistant", content: framed, at: now }]; });
-    setExpression(expressionFor(intent, (res.expression as AvatarExpression) ?? "explain"));
+    setExpression(expressionFor(intent, (res.expression as AvatarExpression) ?? profile.expression));
     await speakChunks(framed, abort, turnIdx);
     if (!abort.signal.aborted) {
-      setActiveChunk(null);
+      setActiveChunk(null); setChunkTiming(null);
       setActivity("idle"); setExpression("neutral");
       setConvoState("finished");
       setTimeout(() => setConvoState((s) => (s === "finished" ? "idle" : s)), 1400);
@@ -197,7 +217,8 @@ function DhConversation() {
   const handleStop = () => {
     cancelTurn();
     setConvoState("paused");
-    setActivity("idle"); setExpression("neutral"); setActiveChunk(null);
+    setActivity("idle"); setExpression("neutral");
+    setActiveChunk(null); setChunkTiming(null);
   };
 
   const handleReplay = async () => {
@@ -211,7 +232,7 @@ function DhConversation() {
     })();
     await speakChunks(last, abort, lastAssistantIdx);
     if (!abort.signal.aborted) {
-      setActiveChunk(null); setActivity("idle"); setExpression("neutral"); setConvoState("idle");
+      setActiveChunk(null); setChunkTiming(null); setActivity("idle"); setExpression("neutral"); setConvoState("idle");
     }
   };
 
@@ -233,17 +254,12 @@ function DhConversation() {
     }
   }, [convoState]) as "success" | "gold" | "warning" | "neutral";
 
-  const activeAssistantContent = activeChunk
-    ? (transcript[activeChunk.turn]?.content ?? "")
-    : "";
-  const activeChunks = activeAssistantContent ? chunkForSpeech(activeAssistantContent) : [];
-
   return (
     <>
       <PageHeader
         eyebrow="Digital Human OS"
         title="HAPPY"
-        description="Real-time human conversation. HAPPY listens, thinks and speaks — with natural pacing, live captions and instant interruption."
+        description="Real-time human conversation. HAPPY listens, thinks and speaks — with natural pacing, word-level captions and instant interruption."
       />
 
       <div className="grid gap-4 lg:grid-cols-[20rem_1fr]">
@@ -253,6 +269,7 @@ function DhConversation() {
             <div className="mt-4 flex items-center gap-2 flex-wrap justify-center">
               <Chip tone="gold">HAPPY · {MODE_LABEL[mode]}</Chip>
               <Chip tone={stateChipTone}>{STATE_LABEL[convoState]}</Chip>
+              <Chip>{profile.label} delivery</Chip>
             </div>
             {handsFree && (
               <div className="mt-2 text-[11px] text-gold tracking-[0.14em] uppercase" aria-live="polite">
@@ -288,7 +305,7 @@ function DhConversation() {
             </div>
             <div className="mt-4 w-full">
               <label htmlFor="dh-speed" className="text-[10px] uppercase tracking-[0.2em] text-soft-gray">
-                Voice speed · {voiceSpeed.toFixed(2)}×
+                Voice speed · {voiceSpeed.toFixed(2)}× · effective {effectiveSpeed.toFixed(2)}×
               </label>
               <input id="dh-speed" type="range" min={0.75} max={1.5} step={0.05}
                 value={voiceSpeed} onChange={(e) => setVoiceSpeed(Number(e.target.value))}
@@ -304,24 +321,26 @@ function DhConversation() {
             <div className="flex flex-wrap gap-1.5">
               {DH_MODES.map((k) => (
                 <button key={k} type="button" onClick={() => setMode(k)}
-                  className={`rounded px-2 py-1 text-[10px] uppercase tracking-[0.14em] border ${
-                    mode === k ? "bg-gold/15 border-gold/40 text-gold" : "border-white/10 text-soft-gray hover:text-paper"
+                  aria-pressed={mode === k}
+                  className={`rounded px-2 py-1 text-[10px] uppercase tracking-[0.14em] border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
+                    mode === k ? "bg-gold/15 border-gold/40 text-gold" : "border-white/10 text-soft-gray hover:text-paper hover:border-white/25"
                   }`}
                 >{MODE_LABEL[k]}</button>
               ))}
             </div>
             <p className="mt-3 text-[11px] text-soft-gray">
-              Modes are capabilities of HAPPY, not different characters.
+              Modes are capabilities of HAPPY, not different characters. Delivery auto-adapts; identity stays constant.
             </p>
           </Panel>
         </div>
 
         <Panel className={`p-5 flex flex-col ${prefs.high_contrast ? "ring-1 ring-gold/40" : ""}`}>
-          <div className={`flex-1 min-h-[22rem] space-y-3 overflow-y-auto pr-1 ${prefs.large_text ? "text-base" : "text-sm"}`}
+          <div ref={transcriptRef}
+            className={`flex-1 min-h-[22rem] space-y-3 overflow-y-auto pr-1 scroll-smooth ${prefs.large_text ? "text-base" : "text-sm"}`}
             aria-live="polite" aria-relevant="additions text">
             {transcript.length === 0 && (
               <div className="text-xs text-soft-gray">
-                Speak to HAPPY. Turn on hands-free or hold Space to talk. Captions appear here live.
+                Speak to HAPPY. Turn on hands-free or hold Space to talk. Captions appear word-by-word.
               </div>
             )}
             {transcript.map((t, i) => {
@@ -335,7 +354,7 @@ function DhConversation() {
                     {t.role === "assistant"
                       ? (prefs.captions
                           ? (isActive
-                              ? <CaptionRender text={t.content} activeChunkIdx={activeIdx} />
+                              ? <CaptionRender text={t.content} activeChunkIdx={activeIdx} timing={chunkTiming} reducedMotion={prefs.reduced_motion} />
                               : <div className="prose prose-invert prose-sm max-w-none"><ReactMarkdown>{t.content}</ReactMarkdown></div>)
                           : <span className="text-soft-gray italic">(captions off)</span>)
                       : <span>{t.content}</span>}
@@ -367,9 +386,9 @@ function DhConversation() {
               <Send className="h-4 w-4 mr-1" /> {speakMut.isPending ? "…" : "Send"}
             </Button>
           </div>
-          {activeChunks.length > 0 && (
-            <p className="mt-2 text-[10px] text-soft-gray text-right">
-              Segment {Math.min(activeChunk!.index + 1, activeChunks.length)} / {activeChunks.length}
+          {activeChunk && (
+            <p className="mt-2 text-[10px] text-soft-gray text-right" aria-live="off">
+              Speaking segment {activeChunk.index + 1}
             </p>
           )}
         </Panel>
@@ -378,28 +397,88 @@ function DhConversation() {
   );
 }
 
-/** Render an assistant message with the currently-spoken chunk highlighted. */
-function CaptionRender({ text, activeChunkIdx }: { text: string; activeChunkIdx: number }) {
+/**
+ * Word-by-word caption. Highlights the current word based on the chunk's
+ * total estimated duration, progressing on a single RAF loop. Auto-centers
+ * the active word within the caption bubble. No layout shift, GPU-only.
+ */
+const CaptionRender = memo(function CaptionRender({
+  text, activeChunkIdx, timing, reducedMotion,
+}: {
+  text: string;
+  activeChunkIdx: number;
+  timing: ChunkTiming | null;
+  reducedMotion?: boolean;
+}) {
   const chunks = useMemo(() => chunkForSpeech(text), [text]);
+  // Split the active chunk into word tokens (with trailing whitespace preserved).
+  const activeTokens = useMemo(() => {
+    const c = chunks[activeChunkIdx];
+    if (!c || c === "\n\n") return [] as string[];
+    return c.match(/\S+\s*/g) ?? [c];
+  }, [chunks, activeChunkIdx]);
+  const [wordIdx, setWordIdx] = useState(0);
+  const activeWordRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    setWordIdx(0);
+    if (!timing || !activeTokens.length) return;
+    if (reducedMotion) { setWordIdx(activeTokens.length); return; }
+    let raf = 0;
+    const perWord = timing.durationMs / activeTokens.length;
+    const tick = () => {
+      const elapsed = performance.now() - timing.startedAt;
+      const idx = Math.min(activeTokens.length, Math.floor(elapsed / perWord));
+      setWordIdx((prev) => (idx > prev ? idx : prev));
+      if (idx < activeTokens.length) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [timing, activeTokens.length, reducedMotion]);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    activeWordRef.current?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  }, [wordIdx, reducedMotion]);
+
   return (
-    <div className="prose prose-invert prose-sm max-w-none">
+    <div className="prose prose-invert prose-sm max-w-none" lang="auto">
       {chunks.map((c, i) => {
         if (c === "\n\n") return <div key={i} className="h-2" />;
         const spoken = i < activeChunkIdx;
         const active = i === activeChunkIdx;
+        if (active) {
+          return (
+            <span key={i} className="rounded">
+              {activeTokens.map((tok, j) => {
+                const wSpoken = j < wordIdx;
+                const wActive = j === wordIdx;
+                return (
+                  <span
+                    key={j}
+                    ref={wActive ? activeWordRef : undefined}
+                    className={
+                      wActive
+                        ? "bg-gold/25 text-paper rounded px-0.5 transition-colors duration-150"
+                        : wSpoken
+                        ? "text-paper transition-colors duration-150"
+                        : "text-soft-gray/70 transition-colors duration-150"
+                    }
+                  >
+                    {tok}
+                  </span>
+                );
+              })}
+            </span>
+          );
+        }
         return (
-          <span key={i} className={
-            active ? "bg-gold/15 text-paper rounded px-0.5"
-              : spoken ? "text-paper"
-              : "text-soft-gray/80"
-          }>
-            {c}{" "}
-          </span>
+          <span key={i} className={spoken ? "text-paper" : "text-soft-gray/80"}>{c}{" "}</span>
         );
       })}
     </div>
   );
-}
+});
 
 /** Live waveform tied to conversation state — reactive, GPU-only, respects reduced motion. */
 function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMotion?: boolean }) {
@@ -436,4 +515,3 @@ function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMoti
     </div>
   );
 }
-
