@@ -3,7 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
-import { manufacturingPlatformService as svcRef } from "@/services/domain/roadmap.service";
+import { smartManufacturingService as svcRef } from "@/services/domain/roadmap.service";
 
 type AuthCtx = { supabase: Parameters<typeof makeServiceContext>[0]["supabase"]; userId: string; claims?: Record<string, unknown> };
 const svc = (ctx: AuthCtx) => makeServiceContext({ supabase: ctx.supabase, userId: ctx.userId, claims: ctx.claims });
