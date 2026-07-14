@@ -26,9 +26,9 @@ function CRM() {
 
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="CRM" /><NoCompany hasAny={companies.length > 0} /></>);
 
-  const c = (customers.data ?? []) as Customer[];
-  const l = (leads.data ?? []) as Lead[];
-  const d = (deals.data ?? []) as Deal[];
+  const c = (customers.data ?? []) as unknown as Customer[];
+  const l = (leads.data ?? []) as unknown as Lead[];
+  const d = (deals.data ?? []) as unknown as Deal[];
   const pipelineByStage: Record<string, { count: number; total: number }> = {};
   for (const x of d) {
     const st = (x.stage ?? "new").toLowerCase();

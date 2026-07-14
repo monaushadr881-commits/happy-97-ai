@@ -23,8 +23,8 @@ function Purchase() {
   const po = useQuery({ queryKey: ["biz", "po", companyId], enabled: !!companyId, queryFn: () => bizListPurchaseOrders({ data: { company_id: companyId!, limit: 100 } }) });
 
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="Purchase" /><NoCompany hasAny={companies.length > 0} /></>);
-  const s = (sup.data ?? []) as Supplier[];
-  const p = (po.data ?? []) as PO[];
+  const s = (sup.data ?? []) as unknown as Supplier[];
+  const p = (po.data ?? []) as unknown as PO[];
   const spend = p.reduce((a, r) => a + (r.total_cents ?? 0), 0);
 
   return (

@@ -25,9 +25,9 @@ function Sales() {
   const pay = useQuery({ queryKey: ["biz", "pay", companyId], enabled: !!companyId, queryFn: () => bizListPayments({ data: { company_id: companyId!, limit: 100 } }) });
 
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="Sales" /><NoCompany hasAny={companies.length > 0} /></>);
-  const orders = (so.data ?? []) as Order[];
-  const invoices = (inv.data ?? []) as Invoice[];
-  const payments = (pay.data ?? []) as Payment[];
+  const orders = (so.data ?? []) as unknown as Order[];
+  const invoices = (inv.data ?? []) as unknown as Invoice[];
+  const payments = (pay.data ?? []) as unknown as Payment[];
   const revenue = orders.reduce((a, o) => a + (o.total_cents ?? 0), 0);
   const collected = payments.filter((p) => p.status === "succeeded" || p.status === "paid").reduce((a, p) => a + (p.amount_cents ?? 0), 0);
   const receivable = invoices.reduce((a, i) => a + Math.max(0, (i.total_cents ?? 0) - (i.amount_paid_cents ?? 0)), 0);

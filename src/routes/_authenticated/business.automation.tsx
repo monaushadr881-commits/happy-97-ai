@@ -21,8 +21,8 @@ function Automation() {
   const runs = useQuery({ queryKey: ["biz", "runs", companyId], enabled: !!companyId, queryFn: () => bizWorkflowRuns({ data: { company_id: companyId!, limit: 50 } }) });
 
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="Automation" /><NoCompany hasAny={companies.length > 0} /></>);
-  const w = (wf.data ?? []) as WF[];
-  const r = (runs.data ?? []) as Run[];
+  const w = (wf.data ?? []) as unknown as WF[];
+  const r = (runs.data ?? []) as unknown as Run[];
   const failed = r.filter((x) => x.status === "failed").length;
 
   return (

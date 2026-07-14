@@ -27,10 +27,10 @@ function Finance() {
   const taxes = useQuery({ queryKey: ["biz", "tax", companyId], enabled: !!companyId, queryFn: () => bizListTaxRates({ data: { company_id: companyId!, limit: 50 } }) });
 
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="Finance" /><NoCompany hasAny={companies.length > 0} /></>);
-  const a = (accts.data ?? []) as Account[];
-  const l = (ledg.data ?? []) as Entry[];
-  const e = (exps.data ?? []) as Expense[];
-  const t = (taxes.data ?? []) as Tax[];
+  const a = (accts.data ?? []) as unknown as Account[];
+  const l = (ledg.data ?? []) as unknown as Entry[];
+  const e = (exps.data ?? []) as unknown as Expense[];
+  const t = (taxes.data ?? []) as unknown as Tax[];
   const debit = l.reduce((s, r) => s + (r.debit_cents ?? 0), 0);
   const credit = l.reduce((s, r) => s + (r.credit_cents ?? 0), 0);
   const expenseTotal = e.reduce((s, r) => s + (r.amount_cents ?? 0), 0);

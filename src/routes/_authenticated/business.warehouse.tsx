@@ -21,8 +21,8 @@ function Warehouses() {
   const stock = useQuery({ queryKey: ["biz", "stock-wh", companyId], enabled: !!companyId, queryFn: () => bizListInventory({ data: { company_id: companyId!, limit: 500 } }) });
 
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="Warehouse" /><NoCompany hasAny={companies.length > 0} /></>);
-  const w = (wh.data ?? []) as WH[];
-  const s = (stock.data ?? []) as Pos[];
+  const w = (wh.data ?? []) as unknown as WH[];
+  const s = (stock.data ?? []) as unknown as Pos[];
   const totalUnits = s.reduce((a, p) => a + (p.quantity ?? 0), 0);
   const byWh: Record<string, number> = {};
   for (const p of s) byWh[p.warehouse_id] = (byWh[p.warehouse_id] ?? 0) + (p.quantity ?? 0);

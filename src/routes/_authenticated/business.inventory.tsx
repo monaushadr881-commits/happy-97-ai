@@ -23,9 +23,9 @@ function Inventory() {
   const stock = useQuery({ queryKey: ["biz", "stock", companyId], enabled: !!companyId, queryFn: () => bizListInventory({ data: { company_id: companyId!, limit: 200 } }) });
 
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="Inventory" /><NoCompany hasAny={companies.length > 0} /></>);
-  const p = (products.data ?? []) as Product[];
-  const c = (cats.data ?? []) as Category[];
-  const s = (stock.data ?? []) as Position[];
+  const p = (products.data ?? []) as unknown as Product[];
+  const c = (cats.data ?? []) as unknown as Category[];
+  const s = (stock.data ?? []) as unknown as Position[];
   const low = s.filter((r) => (r.quantity ?? 0) <= (r.reorder_point ?? 0));
 
   return (
