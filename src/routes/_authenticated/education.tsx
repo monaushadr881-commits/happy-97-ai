@@ -1,16 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { GraduationCap } from "lucide-react";
-import { ModulePlaceholder } from "@/components/happyx/ModulePlaceholder";
+/**
+ * /education — HAPPY AI Education Operating System (Education OS).
+ * The world's first AI-native education platform. HAPPY is the AI Teacher,
+ * Professor, Mentor, Tutor and Coach — these are teaching modes, not roles.
+ * No teacher entity exists in the database or the UI.
+ */
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { Container } from "@/design-system/primitives";
+import { EducationProvider } from "@/components/education/EducationContext";
+import { EducationNav } from "@/components/education/EducationNav";
 
 export const Route = createFileRoute("/_authenticated/education")({
-  head: () => ({ meta: [{ title: "Education — HAPPY X" }, { name: "robots", content: "noindex" }] }),
-  component: () => (
-    <ModulePlaceholder
-      eyebrow="Learning"
-      title="HAPPY Education Engine"
-      icon={GraduationCap}
-      description="From KG to PhD, competitive exams, coding, AI, business and languages — taught by HAPPY in a 3D classroom with adaptive mastery loops."
-      features={["3D Classroom", "AI Teacher", "Whiteboard Mode", "Mock Tests", "Assignments", "Certificates", "Teach-Back", "Mastery Tracking", "Virtual Labs"]}
-    />
-  ),
+  head: () => ({
+    meta: [
+      { title: "Education OS — HAPPY X" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: EducationLayout,
 });
+
+function EducationLayout() {
+  return (
+    <EducationProvider>
+      <Container className="py-6 md:py-10">
+        <EducationNav />
+        <Outlet />
+      </Container>
+    </EducationProvider>
+  );
+}
