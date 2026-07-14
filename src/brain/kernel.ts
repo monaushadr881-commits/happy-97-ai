@@ -118,7 +118,7 @@ export const brainKernel = {
 
       learningEngine.observe(module, { intent, capability, confidence, reflection });
       analyticsEngine.mark(module, Date.now() - started, true);
-      const rec = { id, op: "execute", input: req, at: new Date().toISOString() };
+      const rec = { id, op: "execute", input: enc(req), at: new Date().toISOString() };
       bucket(module).items.push(rec);
       bucket(module).history.push({ id, at: rec.at, op: "execute", ok: true, ms: Date.now() - started });
       return {
