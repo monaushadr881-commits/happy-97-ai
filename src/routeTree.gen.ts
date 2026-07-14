@@ -15,18 +15,24 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
+import { Route as AuthenticatedIntelligenceRouteImport } from './routes/_authenticated/intelligence'
 import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authenticated/hyperlocal'
+import { Route as AuthenticatedGlobalRouteImport } from './routes/_authenticated/global'
 import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
+import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_authenticated/enterprise-cloud'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
+import { Route as AuthenticatedAutonomousRouteImport } from './routes/_authenticated/autonomous'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
@@ -148,6 +154,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRoadmapRoute = AuthenticatedRoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
@@ -164,9 +175,20 @@ const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
   path: '/knowledge',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedIntelligenceRoute =
+  AuthenticatedIntelligenceRouteImport.update({
+    id: '/intelligence',
+    path: '/intelligence',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHyperlocalRoute = AuthenticatedHyperlocalRouteImport.update({
   id: '/hyperlocal',
   path: '/hyperlocal',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGlobalRoute = AuthenticatedGlobalRouteImport.update({
+  id: '/global',
+  path: '/global',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFounderRoute = AuthenticatedFounderRouteImport.update({
@@ -174,6 +196,12 @@ const AuthenticatedFounderRoute = AuthenticatedFounderRouteImport.update({
   path: '/founder',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedEnterpriseCloudRoute =
+  AuthenticatedEnterpriseCloudRouteImport.update({
+    id: '/enterprise-cloud',
+    path: '/enterprise-cloud',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedEnterpriseRoute = AuthenticatedEnterpriseRouteImport.update({
   id: '/enterprise',
   path: '/enterprise',
@@ -205,9 +233,19 @@ const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
   path: '/business',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAutonomousRoute = AuthenticatedAutonomousRouteImport.update({
+  id: '/autonomous',
+  path: '/autonomous',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAgentOsRoute = AuthenticatedAgentOsRouteImport.update({
+  id: '/agent-os',
+  path: '/agent-os',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedStudioIndexRoute =
@@ -753,18 +791,24 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/agent-os': typeof AuthenticatedAgentOsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
+  '/autonomous': typeof AuthenticatedAutonomousRoute
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
+  '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/founder': typeof AuthenticatedFounderRouteWithChildren
+  '/global': typeof AuthenticatedGlobalRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
+  '/intelligence': typeof AuthenticatedIntelligenceRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/roadmap': typeof AuthenticatedRoadmapRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
   '/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -863,8 +907,14 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/agent-os': typeof AuthenticatedAgentOsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
+  '/autonomous': typeof AuthenticatedAutonomousRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
+  '/global': typeof AuthenticatedGlobalRoute
+  '/intelligence': typeof AuthenticatedIntelligenceRoute
+  '/roadmap': typeof AuthenticatedRoadmapRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -964,18 +1014,24 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
+  '/_authenticated/autonomous': typeof AuthenticatedAutonomousRoute
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
+  '/_authenticated/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
+  '/_authenticated/global': typeof AuthenticatedGlobalRoute
   '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
+  '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -1076,18 +1132,24 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/design'
+    | '/agent-os'
     | '/assistant'
+    | '/autonomous'
     | '/business'
     | '/community'
     | '/dashboard'
     | '/digital-human'
     | '/education'
     | '/enterprise'
+    | '/enterprise-cloud'
     | '/founder'
+    | '/global'
     | '/hyperlocal'
+    | '/intelligence'
     | '/knowledge'
     | '/marketplace'
     | '/messages'
+    | '/roadmap'
     | '/settings'
     | '/studio'
     | '/business/ai'
@@ -1186,8 +1248,14 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/design'
+    | '/agent-os'
     | '/assistant'
+    | '/autonomous'
     | '/dashboard'
+    | '/enterprise-cloud'
+    | '/global'
+    | '/intelligence'
+    | '/roadmap'
     | '/settings'
     | '/business/ai'
     | '/business/analytics'
@@ -1286,18 +1354,24 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/design'
+    | '/_authenticated/agent-os'
     | '/_authenticated/assistant'
+    | '/_authenticated/autonomous'
     | '/_authenticated/business'
     | '/_authenticated/community'
     | '/_authenticated/dashboard'
     | '/_authenticated/digital-human'
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
+    | '/_authenticated/enterprise-cloud'
     | '/_authenticated/founder'
+    | '/_authenticated/global'
     | '/_authenticated/hyperlocal'
+    | '/_authenticated/intelligence'
     | '/_authenticated/knowledge'
     | '/_authenticated/marketplace'
     | '/_authenticated/messages'
+    | '/_authenticated/roadmap'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
     | '/_authenticated/business/ai'
@@ -1447,6 +1521,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/roadmap': {
+      id: '/_authenticated/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof AuthenticatedRoadmapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/messages': {
       id: '/_authenticated/messages'
       path: '/messages'
@@ -1468,6 +1549,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/intelligence': {
+      id: '/_authenticated/intelligence'
+      path: '/intelligence'
+      fullPath: '/intelligence'
+      preLoaderRoute: typeof AuthenticatedIntelligenceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/hyperlocal': {
       id: '/_authenticated/hyperlocal'
       path: '/hyperlocal'
@@ -1475,11 +1563,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHyperlocalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/global': {
+      id: '/_authenticated/global'
+      path: '/global'
+      fullPath: '/global'
+      preLoaderRoute: typeof AuthenticatedGlobalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/founder': {
       id: '/_authenticated/founder'
       path: '/founder'
       fullPath: '/founder'
       preLoaderRoute: typeof AuthenticatedFounderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/enterprise-cloud': {
+      id: '/_authenticated/enterprise-cloud'
+      path: '/enterprise-cloud'
+      fullPath: '/enterprise-cloud'
+      preLoaderRoute: typeof AuthenticatedEnterpriseCloudRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/enterprise': {
@@ -1524,11 +1626,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/autonomous': {
+      id: '/_authenticated/autonomous'
+      path: '/autonomous'
+      fullPath: '/autonomous'
+      preLoaderRoute: typeof AuthenticatedAutonomousRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/assistant': {
       id: '/_authenticated/assistant'
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/agent-os': {
+      id: '/_authenticated/agent-os'
+      path: '/agent-os'
+      fullPath: '/agent-os'
+      preLoaderRoute: typeof AuthenticatedAgentOsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/studio/': {
@@ -2487,35 +2603,47 @@ const AuthenticatedStudioRouteWithChildren =
   AuthenticatedStudioRoute._addFileChildren(AuthenticatedStudioRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
+  AuthenticatedAutonomousRoute: typeof AuthenticatedAutonomousRoute
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
+  AuthenticatedEnterpriseCloudRoute: typeof AuthenticatedEnterpriseCloudRoute
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
+  AuthenticatedGlobalRoute: typeof AuthenticatedGlobalRoute
   AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
+  AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
+  AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
+  AuthenticatedAutonomousRoute: AuthenticatedAutonomousRoute,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
+  AuthenticatedEnterpriseCloudRoute: AuthenticatedEnterpriseCloudRoute,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
+  AuthenticatedGlobalRoute: AuthenticatedGlobalRoute,
   AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,
+  AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
+  AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
 }

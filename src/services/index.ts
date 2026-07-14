@@ -27,3 +27,13 @@ export { featureFlagService } from "./domain/feature-flag.service";
 export { localizationService } from "./domain/localization.service";
 export { integrationService } from "./domain/integration.service";
 export { jobsService } from "./domain/jobs.service";
+
+// Roadmap (v2.0 – v6.0) — reserved service interfaces
+export {
+  agentOsService,
+  intelligenceService,
+  globalService,
+  enterpriseCloudService,
+  autonomousService,
+  type RoadmapNotImplemented,
+} from "./domain/roadmap.service";
