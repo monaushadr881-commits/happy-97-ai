@@ -127,8 +127,13 @@ function DhConversation() {
   const runTurn = async (userMessage: string) => {
     const abort = new AbortController();
     turnAbortRef.current = abort;
-    setConvoState("listening"); setActivity("listening"); setExpression("listen");
-    await pausable(PACING.listenBeatMs, abort.signal);
+    const intent = classifyIntent(userMessage);
+    const preSmile = intent === "greeting" || intent === "congrats" || intent === "farewell";
+
+    setConvoState("listening"); setActivity("listening");
+    setExpression(preSmile ? "smile" : "listen");
+    const { listenMs } = timingProfileFor(intent, userMessage);
+    await pausable(listenMs, abort.signal);
     if (abort.signal.aborted) return;
 
     setConvoState("thinking"); setExpression("thinking");
@@ -142,7 +147,19 @@ function DhConversation() {
     }
     if (abort.signal.aborted) return;
     setSessionId(res.session_id);
-    await pausable(thinkingDurationFor(res.answer), abort.signal);
+
+    // Context-aware thinking pause (short greetings → snap; math/creative → longer).
+    const { thinkMs } = timingProfileFor(intent, res.answer);
+
+    // Optional backchannel murmur during the thinking pause so HAPPY feels alive.
+    const back = !prefs.mute_audio && intent !== "greeting" && intent !== "short"
+      ? maybeBackchannel(lastBackchannelRef.current) : null;
+    if (back) {
+      lastBackchannelRef.current = back;
+      // Fire-and-forget short murmur; keeps thinking beat "alive".
+      speak(back, { voice: prefs.voice, speed: voiceSpeed }).catch(() => {});
+    }
+    await pausable(thinkMs, abort.signal);
     if (abort.signal.aborted) return;
 
     const ack = maybeAcknowledgement(lastAckRef.current);
@@ -152,7 +169,7 @@ function DhConversation() {
     const now = new Date().toISOString();
     let turnIdx = 0;
     setTranscript((t) => { turnIdx = t.length; return [...t, { role: "assistant", content: framed, at: now }]; });
-    setExpression((res.expression as AvatarExpression) ?? "explain");
+    setExpression(expressionFor(intent, (res.expression as AvatarExpression) ?? "explain"));
     await speakChunks(framed, abort, turnIdx);
     if (!abort.signal.aborted) {
       setActiveChunk(null);
