@@ -36,6 +36,7 @@ import { Route as AuthenticatedSmartCityRouteImport } from './routes/_authentica
 import { Route as AuthenticatedSkillsRouteImport } from './routes/_authenticated/skills'
 import { Route as AuthenticatedSimulationRouteImport } from './routes/_authenticated/simulation'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedServiceMeshRouteImport } from './routes/_authenticated/service-mesh'
 import { Route as AuthenticatedSearchV2RouteImport } from './routes/_authenticated/search-v2'
 import { Route as AuthenticatedSearchHubRouteImport } from './routes/_authenticated/search-hub'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
@@ -52,6 +53,7 @@ import { Route as AuthenticatedPublicEducationRouteImport } from './routes/_auth
 import { Route as AuthenticatedProductivityRouteImport } from './routes/_authenticated/productivity'
 import { Route as AuthenticatedPredictionsRouteImport } from './routes/_authenticated/predictions'
 import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins'
+import { Route as AuthenticatedPlatformHubRouteImport } from './routes/_authenticated/platform-hub'
 import { Route as AuthenticatedPharmacyRouteImport } from './routes/_authenticated/pharmacy'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
 import { Route as AuthenticatedPatientsRouteImport } from './routes/_authenticated/patients'
@@ -59,6 +61,7 @@ import { Route as AuthenticatedPartnersRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedOrganizationsRouteImport } from './routes/_authenticated/organizations'
 import { Route as AuthenticatedOrchestrationRouteImport } from './routes/_authenticated/orchestration'
 import { Route as AuthenticatedOperationsRouteImport } from './routes/_authenticated/operations'
+import { Route as AuthenticatedObservabilityV3RouteImport } from './routes/_authenticated/observability-v3'
 import { Route as AuthenticatedObservabilityV2RouteImport } from './routes/_authenticated/observability-v2'
 import { Route as AuthenticatedObservabilityRouteImport } from './routes/_authenticated/observability'
 import { Route as AuthenticatedNetworkRouteImport } from './routes/_authenticated/network'
@@ -84,6 +87,7 @@ import { Route as AuthenticatedIotRuntimeRouteImport } from './routes/_authentic
 import { Route as AuthenticatedIotRouteImport } from './routes/_authenticated/iot'
 import { Route as AuthenticatedInvestorsRouteImport } from './routes/_authenticated/investors'
 import { Route as AuthenticatedIntelligenceNetworkRouteImport } from './routes/_authenticated/intelligence-network'
+import { Route as AuthenticatedIntelligenceExchangeRouteImport } from './routes/_authenticated/intelligence-exchange'
 import { Route as AuthenticatedIntelligenceRouteImport } from './routes/_authenticated/intelligence'
 import { Route as AuthenticatedInsightsRouteImport } from './routes/_authenticated/insights'
 import { Route as AuthenticatedInnovationRouteImport } from './routes/_authenticated/innovation'
@@ -93,6 +97,7 @@ import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authentic
 import { Route as AuthenticatedHospitalsRouteImport } from './routes/_authenticated/hospitals'
 import { Route as AuthenticatedHealthcareRouteImport } from './routes/_authenticated/healthcare'
 import { Route as AuthenticatedGovernmentRouteImport } from './routes/_authenticated/government'
+import { Route as AuthenticatedGovernanceV2RouteImport } from './routes/_authenticated/governance-v2'
 import { Route as AuthenticatedGovernanceRouteImport } from './routes/_authenticated/governance'
 import { Route as AuthenticatedGlobalMemoryRouteImport } from './routes/_authenticated/global-memory'
 import { Route as AuthenticatedGlobalRouteImport } from './routes/_authenticated/global'
@@ -103,10 +108,12 @@ import { Route as AuthenticatedFinancialAiRouteImport } from './routes/_authenti
 import { Route as AuthenticatedFinanceRouteImport } from './routes/_authenticated/finance'
 import { Route as AuthenticatedFactoryRouteImport } from './routes/_authenticated/factory'
 import { Route as AuthenticatedFabricRouteImport } from './routes/_authenticated/fabric'
+import { Route as AuthenticatedExperienceFabricRouteImport } from './routes/_authenticated/experience-fabric'
 import { Route as AuthenticatedExperienceRouteImport } from './routes/_authenticated/experience'
 import { Route as AuthenticatedExecutiveRouteImport } from './routes/_authenticated/executive'
 import { Route as AuthenticatedExecutionRouteImport } from './routes/_authenticated/execution'
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
+import { Route as AuthenticatedEnterpriseNetworkRouteImport } from './routes/_authenticated/enterprise-network'
 import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_authenticated/enterprise-cloud'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEnergyRouteImport } from './routes/_authenticated/energy'
@@ -124,10 +131,12 @@ import { Route as AuthenticatedDevicesRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedDevelopersRouteImport } from './routes/_authenticated/developers'
 import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticated/decision'
 import { Route as AuthenticatedDataFabricRouteImport } from './routes/_authenticated/data-fabric'
+import { Route as AuthenticatedDataExchangeRouteImport } from './routes/_authenticated/data-exchange'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCustomersRouteImport } from './routes/_authenticated/customers'
 import { Route as AuthenticatedCustomer360RouteImport } from './routes/_authenticated/customer360'
 import { Route as AuthenticatedConnectorsRouteImport } from './routes/_authenticated/connectors'
+import { Route as AuthenticatedConnectivityRouteImport } from './routes/_authenticated/connectivity'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedCommunicationsRouteImport } from './routes/_authenticated/communications'
 import { Route as AuthenticatedCommerceRouteImport } from './routes/_authenticated/commerce'
@@ -143,6 +152,7 @@ import { Route as AuthenticatedAutomationRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedAssetsRouteImport } from './routes/_authenticated/assets'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as AuthenticatedApiFabricRouteImport } from './routes/_authenticated/api-fabric'
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated/agents'
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
@@ -486,6 +496,12 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedServiceMeshRoute =
+  AuthenticatedServiceMeshRouteImport.update({
+    id: '/service-mesh',
+    path: '/service-mesh',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSearchV2Route = AuthenticatedSearchV2RouteImport.update({
   id: '/search-v2',
   path: '/search-v2',
@@ -571,6 +587,12 @@ const AuthenticatedPluginsRoute = AuthenticatedPluginsRouteImport.update({
   path: '/plugins',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPlatformHubRoute =
+  AuthenticatedPlatformHubRouteImport.update({
+    id: '/platform-hub',
+    path: '/platform-hub',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPharmacyRoute = AuthenticatedPharmacyRouteImport.update({
   id: '/pharmacy',
   path: '/pharmacy',
@@ -608,6 +630,12 @@ const AuthenticatedOperationsRoute = AuthenticatedOperationsRouteImport.update({
   path: '/operations',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedObservabilityV3Route =
+  AuthenticatedObservabilityV3RouteImport.update({
+    id: '/observability-v3',
+    path: '/observability-v3',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedObservabilityV2Route =
   AuthenticatedObservabilityV2RouteImport.update({
     id: '/observability-v2',
@@ -746,6 +774,12 @@ const AuthenticatedIntelligenceNetworkRoute =
     path: '/intelligence-network',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedIntelligenceExchangeRoute =
+  AuthenticatedIntelligenceExchangeRouteImport.update({
+    id: '/intelligence-exchange',
+    path: '/intelligence-exchange',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedIntelligenceRoute =
   AuthenticatedIntelligenceRouteImport.update({
     id: '/intelligence',
@@ -792,6 +826,12 @@ const AuthenticatedGovernmentRoute = AuthenticatedGovernmentRouteImport.update({
   path: '/government',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedGovernanceV2Route =
+  AuthenticatedGovernanceV2RouteImport.update({
+    id: '/governance-v2',
+    path: '/governance-v2',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedGovernanceRoute = AuthenticatedGovernanceRouteImport.update({
   id: '/governance',
   path: '/governance',
@@ -844,6 +884,12 @@ const AuthenticatedFabricRoute = AuthenticatedFabricRouteImport.update({
   path: '/fabric',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedExperienceFabricRoute =
+  AuthenticatedExperienceFabricRouteImport.update({
+    id: '/experience-fabric',
+    path: '/experience-fabric',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedExperienceRoute = AuthenticatedExperienceRouteImport.update({
   id: '/experience',
   path: '/experience',
@@ -864,6 +910,12 @@ const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedEnterpriseNetworkRoute =
+  AuthenticatedEnterpriseNetworkRouteImport.update({
+    id: '/enterprise-network',
+    path: '/enterprise-network',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedEnterpriseCloudRoute =
   AuthenticatedEnterpriseCloudRouteImport.update({
     id: '/enterprise-cloud',
@@ -956,6 +1008,12 @@ const AuthenticatedDataFabricRoute = AuthenticatedDataFabricRouteImport.update({
   path: '/data-fabric',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDataExchangeRoute =
+  AuthenticatedDataExchangeRouteImport.update({
+    id: '/data-exchange',
+    path: '/data-exchange',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -977,6 +1035,12 @@ const AuthenticatedConnectorsRoute = AuthenticatedConnectorsRouteImport.update({
   path: '/connectors',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedConnectivityRoute =
+  AuthenticatedConnectivityRouteImport.update({
+    id: '/connectivity',
+    path: '/connectivity',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
   id: '/community',
   path: '/community',
@@ -1055,6 +1119,11 @@ const AuthenticatedAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedApiFabricRoute = AuthenticatedApiFabricRouteImport.update({
+  id: '/api-fabric',
+  path: '/api-fabric',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
   id: '/agents',
   path: '/agents',
@@ -2277,6 +2346,7 @@ export interface FileRoutesByFullPath {
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/api-fabric': typeof AuthenticatedApiFabricRoute
   '/appointments': typeof AuthenticatedAppointmentsRoute
   '/assets': typeof AuthenticatedAssetsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
@@ -2292,10 +2362,12 @@ export interface FileRoutesByFullPath {
   '/commerce': typeof AuthenticatedCommerceRoute
   '/communications': typeof AuthenticatedCommunicationsRoute
   '/community': typeof AuthenticatedCommunityRouteWithChildren
+  '/connectivity': typeof AuthenticatedConnectivityRoute
   '/connectors': typeof AuthenticatedConnectorsRoute
   '/customer360': typeof AuthenticatedCustomer360Route
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/data-fabric': typeof AuthenticatedDataFabricRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
@@ -2313,10 +2385,12 @@ export interface FileRoutesByFullPath {
   '/energy': typeof AuthenticatedEnergyRoute
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
+  '/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
   '/events': typeof AuthenticatedEventsRoute
   '/execution': typeof AuthenticatedExecutionRouteWithChildren
   '/executive': typeof AuthenticatedExecutiveRoute
   '/experience': typeof AuthenticatedExperienceRoute
+  '/experience-fabric': typeof AuthenticatedExperienceFabricRoute
   '/fabric': typeof AuthenticatedFabricRoute
   '/factory': typeof AuthenticatedFactoryRoute
   '/finance': typeof AuthenticatedFinanceRoute
@@ -2327,6 +2401,7 @@ export interface FileRoutesByFullPath {
   '/global': typeof AuthenticatedGlobalRoute
   '/global-memory': typeof AuthenticatedGlobalMemoryRoute
   '/governance': typeof AuthenticatedGovernanceRoute
+  '/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/government': typeof AuthenticatedGovernmentRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
   '/hospitals': typeof AuthenticatedHospitalsRoute
@@ -2336,6 +2411,7 @@ export interface FileRoutesByFullPath {
   '/innovation': typeof AuthenticatedInnovationRoute
   '/insights': typeof AuthenticatedInsightsRoute
   '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
+  '/intelligence-exchange': typeof AuthenticatedIntelligenceExchangeRoute
   '/intelligence-network': typeof AuthenticatedIntelligenceNetworkRoute
   '/investors': typeof AuthenticatedInvestorsRoute
   '/iot': typeof AuthenticatedIotRoute
@@ -2361,6 +2437,7 @@ export interface FileRoutesByFullPath {
   '/network': typeof AuthenticatedNetworkRoute
   '/observability': typeof AuthenticatedObservabilityRoute
   '/observability-v2': typeof AuthenticatedObservabilityV2Route
+  '/observability-v3': typeof AuthenticatedObservabilityV3Route
   '/operations': typeof AuthenticatedOperationsRoute
   '/orchestration': typeof AuthenticatedOrchestrationRoute
   '/organizations': typeof AuthenticatedOrganizationsRoute
@@ -2368,6 +2445,7 @@ export interface FileRoutesByFullPath {
   '/patients': typeof AuthenticatedPatientsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/pharmacy': typeof AuthenticatedPharmacyRoute
+  '/platform-hub': typeof AuthenticatedPlatformHubRoute
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/predictions': typeof AuthenticatedPredictionsRoute
   '/productivity': typeof AuthenticatedProductivityRoute
@@ -2384,6 +2462,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof AuthenticatedSearchRoute
   '/search-hub': typeof AuthenticatedSearchHubRoute
   '/search-v2': typeof AuthenticatedSearchV2Route
+  '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
@@ -2616,6 +2695,7 @@ export interface FileRoutesByTo {
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/api-fabric': typeof AuthenticatedApiFabricRoute
   '/appointments': typeof AuthenticatedAppointmentsRoute
   '/assets': typeof AuthenticatedAssetsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
@@ -2628,10 +2708,12 @@ export interface FileRoutesByTo {
   '/collaboration': typeof AuthenticatedCollaborationRoute
   '/commerce': typeof AuthenticatedCommerceRoute
   '/communications': typeof AuthenticatedCommunicationsRoute
+  '/connectivity': typeof AuthenticatedConnectivityRoute
   '/connectors': typeof AuthenticatedConnectorsRoute
   '/customer360': typeof AuthenticatedCustomer360Route
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/data-fabric': typeof AuthenticatedDataFabricRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
@@ -2646,10 +2728,12 @@ export interface FileRoutesByTo {
   '/edge': typeof AuthenticatedEdgeRoute
   '/energy': typeof AuthenticatedEnergyRoute
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
+  '/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
   '/events': typeof AuthenticatedEventsRoute
   '/execution': typeof AuthenticatedExecutionRouteWithChildren
   '/executive': typeof AuthenticatedExecutiveRoute
   '/experience': typeof AuthenticatedExperienceRoute
+  '/experience-fabric': typeof AuthenticatedExperienceFabricRoute
   '/fabric': typeof AuthenticatedFabricRoute
   '/factory': typeof AuthenticatedFactoryRoute
   '/finance': typeof AuthenticatedFinanceRoute
@@ -2659,6 +2743,7 @@ export interface FileRoutesByTo {
   '/global': typeof AuthenticatedGlobalRoute
   '/global-memory': typeof AuthenticatedGlobalMemoryRoute
   '/governance': typeof AuthenticatedGovernanceRoute
+  '/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/government': typeof AuthenticatedGovernmentRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
   '/hospitals': typeof AuthenticatedHospitalsRoute
@@ -2667,6 +2752,7 @@ export interface FileRoutesByTo {
   '/innovation': typeof AuthenticatedInnovationRoute
   '/insights': typeof AuthenticatedInsightsRoute
   '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
+  '/intelligence-exchange': typeof AuthenticatedIntelligenceExchangeRoute
   '/intelligence-network': typeof AuthenticatedIntelligenceNetworkRoute
   '/investors': typeof AuthenticatedInvestorsRoute
   '/iot': typeof AuthenticatedIotRoute
@@ -2689,6 +2775,7 @@ export interface FileRoutesByTo {
   '/network': typeof AuthenticatedNetworkRoute
   '/observability': typeof AuthenticatedObservabilityRoute
   '/observability-v2': typeof AuthenticatedObservabilityV2Route
+  '/observability-v3': typeof AuthenticatedObservabilityV3Route
   '/operations': typeof AuthenticatedOperationsRoute
   '/orchestration': typeof AuthenticatedOrchestrationRoute
   '/organizations': typeof AuthenticatedOrganizationsRoute
@@ -2696,6 +2783,7 @@ export interface FileRoutesByTo {
   '/patients': typeof AuthenticatedPatientsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/pharmacy': typeof AuthenticatedPharmacyRoute
+  '/platform-hub': typeof AuthenticatedPlatformHubRoute
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/predictions': typeof AuthenticatedPredictionsRoute
   '/productivity': typeof AuthenticatedProductivityRoute
@@ -2712,6 +2800,7 @@ export interface FileRoutesByTo {
   '/search': typeof AuthenticatedSearchRoute
   '/search-hub': typeof AuthenticatedSearchHubRoute
   '/search-v2': typeof AuthenticatedSearchV2Route
+  '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
@@ -2945,6 +3034,7 @@ export interface FileRoutesById {
   '/trust': typeof TrustRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/_authenticated/api-fabric': typeof AuthenticatedApiFabricRoute
   '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
   '/_authenticated/assets': typeof AuthenticatedAssetsRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
@@ -2960,10 +3050,12 @@ export interface FileRoutesById {
   '/_authenticated/commerce': typeof AuthenticatedCommerceRoute
   '/_authenticated/communications': typeof AuthenticatedCommunicationsRoute
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
+  '/_authenticated/connectivity': typeof AuthenticatedConnectivityRoute
   '/_authenticated/connectors': typeof AuthenticatedConnectorsRoute
   '/_authenticated/customer360': typeof AuthenticatedCustomer360Route
   '/_authenticated/customers': typeof AuthenticatedCustomersRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/_authenticated/data-fabric': typeof AuthenticatedDataFabricRoute
   '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/_authenticated/developers': typeof AuthenticatedDevelopersRouteWithChildren
@@ -2981,10 +3073,12 @@ export interface FileRoutesById {
   '/_authenticated/energy': typeof AuthenticatedEnergyRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
+  '/_authenticated/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
   '/_authenticated/execution': typeof AuthenticatedExecutionRouteWithChildren
   '/_authenticated/executive': typeof AuthenticatedExecutiveRoute
   '/_authenticated/experience': typeof AuthenticatedExperienceRoute
+  '/_authenticated/experience-fabric': typeof AuthenticatedExperienceFabricRoute
   '/_authenticated/fabric': typeof AuthenticatedFabricRoute
   '/_authenticated/factory': typeof AuthenticatedFactoryRoute
   '/_authenticated/finance': typeof AuthenticatedFinanceRoute
@@ -2995,6 +3089,7 @@ export interface FileRoutesById {
   '/_authenticated/global': typeof AuthenticatedGlobalRoute
   '/_authenticated/global-memory': typeof AuthenticatedGlobalMemoryRoute
   '/_authenticated/governance': typeof AuthenticatedGovernanceRoute
+  '/_authenticated/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/_authenticated/government': typeof AuthenticatedGovernmentRoute
   '/_authenticated/healthcare': typeof AuthenticatedHealthcareRoute
   '/_authenticated/hospitals': typeof AuthenticatedHospitalsRoute
@@ -3004,6 +3099,7 @@ export interface FileRoutesById {
   '/_authenticated/innovation': typeof AuthenticatedInnovationRoute
   '/_authenticated/insights': typeof AuthenticatedInsightsRoute
   '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
+  '/_authenticated/intelligence-exchange': typeof AuthenticatedIntelligenceExchangeRoute
   '/_authenticated/intelligence-network': typeof AuthenticatedIntelligenceNetworkRoute
   '/_authenticated/investors': typeof AuthenticatedInvestorsRoute
   '/_authenticated/iot': typeof AuthenticatedIotRoute
@@ -3029,6 +3125,7 @@ export interface FileRoutesById {
   '/_authenticated/network': typeof AuthenticatedNetworkRoute
   '/_authenticated/observability': typeof AuthenticatedObservabilityRoute
   '/_authenticated/observability-v2': typeof AuthenticatedObservabilityV2Route
+  '/_authenticated/observability-v3': typeof AuthenticatedObservabilityV3Route
   '/_authenticated/operations': typeof AuthenticatedOperationsRoute
   '/_authenticated/orchestration': typeof AuthenticatedOrchestrationRoute
   '/_authenticated/organizations': typeof AuthenticatedOrganizationsRoute
@@ -3036,6 +3133,7 @@ export interface FileRoutesById {
   '/_authenticated/patients': typeof AuthenticatedPatientsRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/_authenticated/pharmacy': typeof AuthenticatedPharmacyRoute
+  '/_authenticated/platform-hub': typeof AuthenticatedPlatformHubRoute
   '/_authenticated/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/_authenticated/predictions': typeof AuthenticatedPredictionsRoute
   '/_authenticated/productivity': typeof AuthenticatedProductivityRoute
@@ -3052,6 +3150,7 @@ export interface FileRoutesById {
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/search-hub': typeof AuthenticatedSearchHubRoute
   '/_authenticated/search-v2': typeof AuthenticatedSearchV2Route
+  '/_authenticated/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/simulation': typeof AuthenticatedSimulationRoute
   '/_authenticated/skills': typeof AuthenticatedSkillsRouteWithChildren
@@ -3286,6 +3385,7 @@ export interface FileRouteTypes {
     | '/trust'
     | '/agent-os'
     | '/agents'
+    | '/api-fabric'
     | '/appointments'
     | '/assets'
     | '/assistant'
@@ -3301,10 +3401,12 @@ export interface FileRouteTypes {
     | '/commerce'
     | '/communications'
     | '/community'
+    | '/connectivity'
     | '/connectors'
     | '/customer360'
     | '/customers'
     | '/dashboard'
+    | '/data-exchange'
     | '/data-fabric'
     | '/decision'
     | '/developers'
@@ -3322,10 +3424,12 @@ export interface FileRouteTypes {
     | '/energy'
     | '/enterprise'
     | '/enterprise-cloud'
+    | '/enterprise-network'
     | '/events'
     | '/execution'
     | '/executive'
     | '/experience'
+    | '/experience-fabric'
     | '/fabric'
     | '/factory'
     | '/finance'
@@ -3336,6 +3440,7 @@ export interface FileRouteTypes {
     | '/global'
     | '/global-memory'
     | '/governance'
+    | '/governance-v2'
     | '/government'
     | '/healthcare'
     | '/hospitals'
@@ -3345,6 +3450,7 @@ export interface FileRouteTypes {
     | '/innovation'
     | '/insights'
     | '/intelligence'
+    | '/intelligence-exchange'
     | '/intelligence-network'
     | '/investors'
     | '/iot'
@@ -3370,6 +3476,7 @@ export interface FileRouteTypes {
     | '/network'
     | '/observability'
     | '/observability-v2'
+    | '/observability-v3'
     | '/operations'
     | '/orchestration'
     | '/organizations'
@@ -3377,6 +3484,7 @@ export interface FileRouteTypes {
     | '/patients'
     | '/payments'
     | '/pharmacy'
+    | '/platform-hub'
     | '/plugins'
     | '/predictions'
     | '/productivity'
@@ -3393,6 +3501,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/search-hub'
     | '/search-v2'
+    | '/service-mesh'
     | '/settings'
     | '/simulation'
     | '/skills'
@@ -3625,6 +3734,7 @@ export interface FileRouteTypes {
     | '/trust'
     | '/agent-os'
     | '/agents'
+    | '/api-fabric'
     | '/appointments'
     | '/assets'
     | '/assistant'
@@ -3637,10 +3747,12 @@ export interface FileRouteTypes {
     | '/collaboration'
     | '/commerce'
     | '/communications'
+    | '/connectivity'
     | '/connectors'
     | '/customer360'
     | '/customers'
     | '/dashboard'
+    | '/data-exchange'
     | '/data-fabric'
     | '/decision'
     | '/developers'
@@ -3655,10 +3767,12 @@ export interface FileRouteTypes {
     | '/edge'
     | '/energy'
     | '/enterprise-cloud'
+    | '/enterprise-network'
     | '/events'
     | '/execution'
     | '/executive'
     | '/experience'
+    | '/experience-fabric'
     | '/fabric'
     | '/factory'
     | '/finance'
@@ -3668,6 +3782,7 @@ export interface FileRouteTypes {
     | '/global'
     | '/global-memory'
     | '/governance'
+    | '/governance-v2'
     | '/government'
     | '/healthcare'
     | '/hospitals'
@@ -3676,6 +3791,7 @@ export interface FileRouteTypes {
     | '/innovation'
     | '/insights'
     | '/intelligence'
+    | '/intelligence-exchange'
     | '/intelligence-network'
     | '/investors'
     | '/iot'
@@ -3698,6 +3814,7 @@ export interface FileRouteTypes {
     | '/network'
     | '/observability'
     | '/observability-v2'
+    | '/observability-v3'
     | '/operations'
     | '/orchestration'
     | '/organizations'
@@ -3705,6 +3822,7 @@ export interface FileRouteTypes {
     | '/patients'
     | '/payments'
     | '/pharmacy'
+    | '/platform-hub'
     | '/plugins'
     | '/predictions'
     | '/productivity'
@@ -3721,6 +3839,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/search-hub'
     | '/search-v2'
+    | '/service-mesh'
     | '/settings'
     | '/simulation'
     | '/skills'
@@ -3953,6 +4072,7 @@ export interface FileRouteTypes {
     | '/trust'
     | '/_authenticated/agent-os'
     | '/_authenticated/agents'
+    | '/_authenticated/api-fabric'
     | '/_authenticated/appointments'
     | '/_authenticated/assets'
     | '/_authenticated/assistant'
@@ -3968,10 +4088,12 @@ export interface FileRouteTypes {
     | '/_authenticated/commerce'
     | '/_authenticated/communications'
     | '/_authenticated/community'
+    | '/_authenticated/connectivity'
     | '/_authenticated/connectors'
     | '/_authenticated/customer360'
     | '/_authenticated/customers'
     | '/_authenticated/dashboard'
+    | '/_authenticated/data-exchange'
     | '/_authenticated/data-fabric'
     | '/_authenticated/decision'
     | '/_authenticated/developers'
@@ -3989,10 +4111,12 @@ export interface FileRouteTypes {
     | '/_authenticated/energy'
     | '/_authenticated/enterprise'
     | '/_authenticated/enterprise-cloud'
+    | '/_authenticated/enterprise-network'
     | '/_authenticated/events'
     | '/_authenticated/execution'
     | '/_authenticated/executive'
     | '/_authenticated/experience'
+    | '/_authenticated/experience-fabric'
     | '/_authenticated/fabric'
     | '/_authenticated/factory'
     | '/_authenticated/finance'
@@ -4003,6 +4127,7 @@ export interface FileRouteTypes {
     | '/_authenticated/global'
     | '/_authenticated/global-memory'
     | '/_authenticated/governance'
+    | '/_authenticated/governance-v2'
     | '/_authenticated/government'
     | '/_authenticated/healthcare'
     | '/_authenticated/hospitals'
@@ -4012,6 +4137,7 @@ export interface FileRouteTypes {
     | '/_authenticated/innovation'
     | '/_authenticated/insights'
     | '/_authenticated/intelligence'
+    | '/_authenticated/intelligence-exchange'
     | '/_authenticated/intelligence-network'
     | '/_authenticated/investors'
     | '/_authenticated/iot'
@@ -4037,6 +4163,7 @@ export interface FileRouteTypes {
     | '/_authenticated/network'
     | '/_authenticated/observability'
     | '/_authenticated/observability-v2'
+    | '/_authenticated/observability-v3'
     | '/_authenticated/operations'
     | '/_authenticated/orchestration'
     | '/_authenticated/organizations'
@@ -4044,6 +4171,7 @@ export interface FileRouteTypes {
     | '/_authenticated/patients'
     | '/_authenticated/payments'
     | '/_authenticated/pharmacy'
+    | '/_authenticated/platform-hub'
     | '/_authenticated/plugins'
     | '/_authenticated/predictions'
     | '/_authenticated/productivity'
@@ -4060,6 +4188,7 @@ export interface FileRouteTypes {
     | '/_authenticated/search'
     | '/_authenticated/search-hub'
     | '/_authenticated/search-v2'
+    | '/_authenticated/service-mesh'
     | '/_authenticated/settings'
     | '/_authenticated/simulation'
     | '/_authenticated/skills'
@@ -4488,6 +4617,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/service-mesh': {
+      id: '/_authenticated/service-mesh'
+      path: '/service-mesh'
+      fullPath: '/service-mesh'
+      preLoaderRoute: typeof AuthenticatedServiceMeshRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/search-v2': {
       id: '/_authenticated/search-v2'
       path: '/search-v2'
@@ -4600,6 +4736,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPluginsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/platform-hub': {
+      id: '/_authenticated/platform-hub'
+      path: '/platform-hub'
+      fullPath: '/platform-hub'
+      preLoaderRoute: typeof AuthenticatedPlatformHubRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pharmacy': {
       id: '/_authenticated/pharmacy'
       path: '/pharmacy'
@@ -4647,6 +4790,13 @@ declare module '@tanstack/react-router' {
       path: '/operations'
       fullPath: '/operations'
       preLoaderRoute: typeof AuthenticatedOperationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/observability-v3': {
+      id: '/_authenticated/observability-v3'
+      path: '/observability-v3'
+      fullPath: '/observability-v3'
+      preLoaderRoute: typeof AuthenticatedObservabilityV3RouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/observability-v2': {
@@ -4824,6 +4974,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIntelligenceNetworkRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/intelligence-exchange': {
+      id: '/_authenticated/intelligence-exchange'
+      path: '/intelligence-exchange'
+      fullPath: '/intelligence-exchange'
+      preLoaderRoute: typeof AuthenticatedIntelligenceExchangeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/intelligence': {
       id: '/_authenticated/intelligence'
       path: '/intelligence'
@@ -4885,6 +5042,13 @@ declare module '@tanstack/react-router' {
       path: '/government'
       fullPath: '/government'
       preLoaderRoute: typeof AuthenticatedGovernmentRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/governance-v2': {
+      id: '/_authenticated/governance-v2'
+      path: '/governance-v2'
+      fullPath: '/governance-v2'
+      preLoaderRoute: typeof AuthenticatedGovernanceV2RouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/governance': {
@@ -4957,6 +5121,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFabricRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/experience-fabric': {
+      id: '/_authenticated/experience-fabric'
+      path: '/experience-fabric'
+      fullPath: '/experience-fabric'
+      preLoaderRoute: typeof AuthenticatedExperienceFabricRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/experience': {
       id: '/_authenticated/experience'
       path: '/experience'
@@ -4983,6 +5154,13 @@ declare module '@tanstack/react-router' {
       path: '/events'
       fullPath: '/events'
       preLoaderRoute: typeof AuthenticatedEventsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/enterprise-network': {
+      id: '/_authenticated/enterprise-network'
+      path: '/enterprise-network'
+      fullPath: '/enterprise-network'
+      preLoaderRoute: typeof AuthenticatedEnterpriseNetworkRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/enterprise-cloud': {
@@ -5104,6 +5282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDataFabricRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/data-exchange': {
+      id: '/_authenticated/data-exchange'
+      path: '/data-exchange'
+      fullPath: '/data-exchange'
+      preLoaderRoute: typeof AuthenticatedDataExchangeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -5130,6 +5315,13 @@ declare module '@tanstack/react-router' {
       path: '/connectors'
       fullPath: '/connectors'
       preLoaderRoute: typeof AuthenticatedConnectorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/connectivity': {
+      id: '/_authenticated/connectivity'
+      path: '/connectivity'
+      fullPath: '/connectivity'
+      preLoaderRoute: typeof AuthenticatedConnectivityRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/community': {
@@ -5235,6 +5427,13 @@ declare module '@tanstack/react-router' {
       path: '/appointments'
       fullPath: '/appointments'
       preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/api-fabric': {
+      id: '/_authenticated/api-fabric'
+      path: '/api-fabric'
+      fullPath: '/api-fabric'
+      preLoaderRoute: typeof AuthenticatedApiFabricRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/agents': {
@@ -7413,6 +7612,7 @@ const AuthenticatedWorkflowsRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
+  AuthenticatedApiFabricRoute: typeof AuthenticatedApiFabricRoute
   AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
   AuthenticatedAssetsRoute: typeof AuthenticatedAssetsRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
@@ -7428,10 +7628,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCommerceRoute: typeof AuthenticatedCommerceRoute
   AuthenticatedCommunicationsRoute: typeof AuthenticatedCommunicationsRoute
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
+  AuthenticatedConnectivityRoute: typeof AuthenticatedConnectivityRoute
   AuthenticatedConnectorsRoute: typeof AuthenticatedConnectorsRoute
   AuthenticatedCustomer360Route: typeof AuthenticatedCustomer360Route
   AuthenticatedCustomersRoute: typeof AuthenticatedCustomersRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDataExchangeRoute: typeof AuthenticatedDataExchangeRoute
   AuthenticatedDataFabricRoute: typeof AuthenticatedDataFabricRoute
   AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
   AuthenticatedDevelopersRoute: typeof AuthenticatedDevelopersRouteWithChildren
@@ -7449,10 +7651,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEnergyRoute: typeof AuthenticatedEnergyRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedEnterpriseCloudRoute: typeof AuthenticatedEnterpriseCloudRoute
+  AuthenticatedEnterpriseNetworkRoute: typeof AuthenticatedEnterpriseNetworkRoute
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
   AuthenticatedExecutionRoute: typeof AuthenticatedExecutionRouteWithChildren
   AuthenticatedExecutiveRoute: typeof AuthenticatedExecutiveRoute
   AuthenticatedExperienceRoute: typeof AuthenticatedExperienceRoute
+  AuthenticatedExperienceFabricRoute: typeof AuthenticatedExperienceFabricRoute
   AuthenticatedFabricRoute: typeof AuthenticatedFabricRoute
   AuthenticatedFactoryRoute: typeof AuthenticatedFactoryRoute
   AuthenticatedFinanceRoute: typeof AuthenticatedFinanceRoute
@@ -7463,6 +7667,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGlobalRoute: typeof AuthenticatedGlobalRoute
   AuthenticatedGlobalMemoryRoute: typeof AuthenticatedGlobalMemoryRoute
   AuthenticatedGovernanceRoute: typeof AuthenticatedGovernanceRoute
+  AuthenticatedGovernanceV2Route: typeof AuthenticatedGovernanceV2Route
   AuthenticatedGovernmentRoute: typeof AuthenticatedGovernmentRoute
   AuthenticatedHealthcareRoute: typeof AuthenticatedHealthcareRoute
   AuthenticatedHospitalsRoute: typeof AuthenticatedHospitalsRoute
@@ -7472,6 +7677,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInnovationRoute: typeof AuthenticatedInnovationRoute
   AuthenticatedInsightsRoute: typeof AuthenticatedInsightsRoute
   AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRouteWithChildren
+  AuthenticatedIntelligenceExchangeRoute: typeof AuthenticatedIntelligenceExchangeRoute
   AuthenticatedIntelligenceNetworkRoute: typeof AuthenticatedIntelligenceNetworkRoute
   AuthenticatedInvestorsRoute: typeof AuthenticatedInvestorsRoute
   AuthenticatedIotRoute: typeof AuthenticatedIotRoute
@@ -7497,6 +7703,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNetworkRoute: typeof AuthenticatedNetworkRoute
   AuthenticatedObservabilityRoute: typeof AuthenticatedObservabilityRoute
   AuthenticatedObservabilityV2Route: typeof AuthenticatedObservabilityV2Route
+  AuthenticatedObservabilityV3Route: typeof AuthenticatedObservabilityV3Route
   AuthenticatedOperationsRoute: typeof AuthenticatedOperationsRoute
   AuthenticatedOrchestrationRoute: typeof AuthenticatedOrchestrationRoute
   AuthenticatedOrganizationsRoute: typeof AuthenticatedOrganizationsRoute
@@ -7504,6 +7711,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPatientsRoute: typeof AuthenticatedPatientsRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
   AuthenticatedPharmacyRoute: typeof AuthenticatedPharmacyRoute
+  AuthenticatedPlatformHubRoute: typeof AuthenticatedPlatformHubRoute
   AuthenticatedPluginsRoute: typeof AuthenticatedPluginsRouteWithChildren
   AuthenticatedPredictionsRoute: typeof AuthenticatedPredictionsRoute
   AuthenticatedProductivityRoute: typeof AuthenticatedProductivityRoute
@@ -7520,6 +7728,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedSearchHubRoute: typeof AuthenticatedSearchHubRoute
   AuthenticatedSearchV2Route: typeof AuthenticatedSearchV2Route
+  AuthenticatedServiceMeshRoute: typeof AuthenticatedServiceMeshRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSimulationRoute: typeof AuthenticatedSimulationRoute
   AuthenticatedSkillsRoute: typeof AuthenticatedSkillsRouteWithChildren
@@ -7547,6 +7756,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
   AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
+  AuthenticatedApiFabricRoute: AuthenticatedApiFabricRoute,
   AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
   AuthenticatedAssetsRoute: AuthenticatedAssetsRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
@@ -7562,10 +7772,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCommerceRoute: AuthenticatedCommerceRoute,
   AuthenticatedCommunicationsRoute: AuthenticatedCommunicationsRoute,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
+  AuthenticatedConnectivityRoute: AuthenticatedConnectivityRoute,
   AuthenticatedConnectorsRoute: AuthenticatedConnectorsRoute,
   AuthenticatedCustomer360Route: AuthenticatedCustomer360Route,
   AuthenticatedCustomersRoute: AuthenticatedCustomersRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDataExchangeRoute: AuthenticatedDataExchangeRoute,
   AuthenticatedDataFabricRoute: AuthenticatedDataFabricRoute,
   AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
   AuthenticatedDevelopersRoute: AuthenticatedDevelopersRouteWithChildren,
@@ -7584,10 +7796,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEnergyRoute: AuthenticatedEnergyRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedEnterpriseCloudRoute: AuthenticatedEnterpriseCloudRoute,
+  AuthenticatedEnterpriseNetworkRoute: AuthenticatedEnterpriseNetworkRoute,
   AuthenticatedEventsRoute: AuthenticatedEventsRoute,
   AuthenticatedExecutionRoute: AuthenticatedExecutionRouteWithChildren,
   AuthenticatedExecutiveRoute: AuthenticatedExecutiveRoute,
   AuthenticatedExperienceRoute: AuthenticatedExperienceRoute,
+  AuthenticatedExperienceFabricRoute: AuthenticatedExperienceFabricRoute,
   AuthenticatedFabricRoute: AuthenticatedFabricRoute,
   AuthenticatedFactoryRoute: AuthenticatedFactoryRoute,
   AuthenticatedFinanceRoute: AuthenticatedFinanceRoute,
@@ -7598,6 +7812,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGlobalRoute: AuthenticatedGlobalRoute,
   AuthenticatedGlobalMemoryRoute: AuthenticatedGlobalMemoryRoute,
   AuthenticatedGovernanceRoute: AuthenticatedGovernanceRoute,
+  AuthenticatedGovernanceV2Route: AuthenticatedGovernanceV2Route,
   AuthenticatedGovernmentRoute: AuthenticatedGovernmentRoute,
   AuthenticatedHealthcareRoute: AuthenticatedHealthcareRoute,
   AuthenticatedHospitalsRoute: AuthenticatedHospitalsRoute,
@@ -7607,6 +7822,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInnovationRoute: AuthenticatedInnovationRoute,
   AuthenticatedInsightsRoute: AuthenticatedInsightsRoute,
   AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRouteWithChildren,
+  AuthenticatedIntelligenceExchangeRoute:
+    AuthenticatedIntelligenceExchangeRoute,
   AuthenticatedIntelligenceNetworkRoute: AuthenticatedIntelligenceNetworkRoute,
   AuthenticatedInvestorsRoute: AuthenticatedInvestorsRoute,
   AuthenticatedIotRoute: AuthenticatedIotRoute,
@@ -7632,6 +7849,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNetworkRoute: AuthenticatedNetworkRoute,
   AuthenticatedObservabilityRoute: AuthenticatedObservabilityRoute,
   AuthenticatedObservabilityV2Route: AuthenticatedObservabilityV2Route,
+  AuthenticatedObservabilityV3Route: AuthenticatedObservabilityV3Route,
   AuthenticatedOperationsRoute: AuthenticatedOperationsRoute,
   AuthenticatedOrchestrationRoute: AuthenticatedOrchestrationRoute,
   AuthenticatedOrganizationsRoute: AuthenticatedOrganizationsRoute,
@@ -7639,6 +7857,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPatientsRoute: AuthenticatedPatientsRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
   AuthenticatedPharmacyRoute: AuthenticatedPharmacyRoute,
+  AuthenticatedPlatformHubRoute: AuthenticatedPlatformHubRoute,
   AuthenticatedPluginsRoute: AuthenticatedPluginsRouteWithChildren,
   AuthenticatedPredictionsRoute: AuthenticatedPredictionsRoute,
   AuthenticatedProductivityRoute: AuthenticatedProductivityRoute,
@@ -7655,6 +7874,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedSearchHubRoute: AuthenticatedSearchHubRoute,
   AuthenticatedSearchV2Route: AuthenticatedSearchV2Route,
+  AuthenticatedServiceMeshRoute: AuthenticatedServiceMeshRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSimulationRoute: AuthenticatedSimulationRoute,
   AuthenticatedSkillsRoute: AuthenticatedSkillsRouteWithChildren,
