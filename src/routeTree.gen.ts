@@ -11,6 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrustRouteImport } from './routes/trust'
 import { Route as StatusRouteImport } from './routes/status'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -37,6 +41,7 @@ import { Route as AuthenticatedSkillsRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedSimulationRouteImport } from './routes/_authenticated/simulation'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedServiceMeshRouteImport } from './routes/_authenticated/service-mesh'
+import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated/security'
 import { Route as AuthenticatedSearchV2RouteImport } from './routes/_authenticated/search-v2'
 import { Route as AuthenticatedSearchHubRouteImport } from './routes/_authenticated/search-hub'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
@@ -50,6 +55,7 @@ import { Route as AuthenticatedQualityRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedPublicSafetyRouteImport } from './routes/_authenticated/public-safety'
 import { Route as AuthenticatedPublicHealthRouteImport } from './routes/_authenticated/public-health'
 import { Route as AuthenticatedPublicEducationRouteImport } from './routes/_authenticated/public-education'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProductivityRouteImport } from './routes/_authenticated/productivity'
 import { Route as AuthenticatedPredictionsRouteImport } from './routes/_authenticated/predictions'
 import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins'
@@ -117,24 +123,29 @@ import { Route as AuthenticatedEnterpriseNetworkRouteImport } from './routes/_au
 import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_authenticated/enterprise-cloud'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEnergyRouteImport } from './routes/_authenticated/energy'
+import { Route as AuthenticatedEmployeeRouteImport } from './routes/_authenticated/employee'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedEdgeRouteImport } from './routes/_authenticated/edge'
 import { Route as AuthenticatedEcosystemIntelligenceRouteImport } from './routes/_authenticated/ecosystem-intelligence'
 import { Route as AuthenticatedEcosystemHubRouteImport } from './routes/_authenticated/ecosystem-hub'
 import { Route as AuthenticatedEcosystemRouteImport } from './routes/_authenticated/ecosystem'
 import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents'
+import { Route as AuthenticatedDistributorRouteImport } from './routes/_authenticated/distributor'
 import { Route as AuthenticatedDigitalTwinV2RouteImport } from './routes/_authenticated/digital-twin-v2'
 import { Route as AuthenticatedDigitalTwinRouteImport } from './routes/_authenticated/digital-twin'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
 import { Route as AuthenticatedDigitalFactoryRouteImport } from './routes/_authenticated/digital-factory'
 import { Route as AuthenticatedDevicesRouteImport } from './routes/_authenticated/devices'
 import { Route as AuthenticatedDevelopersRouteImport } from './routes/_authenticated/developers'
+import { Route as AuthenticatedDeveloperRouteImport } from './routes/_authenticated/developer'
 import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticated/decision'
+import { Route as AuthenticatedDealerRouteImport } from './routes/_authenticated/dealer'
 import { Route as AuthenticatedDataFabricRouteImport } from './routes/_authenticated/data-fabric'
 import { Route as AuthenticatedDataExchangeRouteImport } from './routes/_authenticated/data-exchange'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCustomersRouteImport } from './routes/_authenticated/customers'
 import { Route as AuthenticatedCustomer360RouteImport } from './routes/_authenticated/customer360'
+import { Route as AuthenticatedCustomerRouteImport } from './routes/_authenticated/customer'
 import { Route as AuthenticatedConnectorsRouteImport } from './routes/_authenticated/connectors'
 import { Route as AuthenticatedConnectivityRouteImport } from './routes/_authenticated/connectivity'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
@@ -368,6 +379,26 @@ const StatusRoute = StatusRouteImport.update({
   path: '/status',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DesignRoute = DesignRouteImport.update({
   id: '/design',
   path: '/design',
@@ -502,6 +533,11 @@ const AuthenticatedServiceMeshRoute =
     path: '/service-mesh',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSecurityRoute = AuthenticatedSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSearchV2Route = AuthenticatedSearchV2RouteImport.update({
   id: '/search-v2',
   path: '/search-v2',
@@ -570,6 +606,11 @@ const AuthenticatedPublicEducationRoute =
     path: '/public-education',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProductivityRoute =
   AuthenticatedProductivityRouteImport.update({
     id: '/productivity',
@@ -932,6 +973,11 @@ const AuthenticatedEnergyRoute = AuthenticatedEnergyRouteImport.update({
   path: '/energy',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedEmployeeRoute = AuthenticatedEmployeeRouteImport.update({
+  id: '/employee',
+  path: '/employee',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedEducationRoute = AuthenticatedEducationRouteImport.update({
   id: '/education',
   path: '/education',
@@ -964,6 +1010,12 @@ const AuthenticatedDocumentsRoute = AuthenticatedDocumentsRouteImport.update({
   path: '/documents',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDistributorRoute =
+  AuthenticatedDistributorRouteImport.update({
+    id: '/distributor',
+    path: '/distributor',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDigitalTwinV2Route =
   AuthenticatedDigitalTwinV2RouteImport.update({
     id: '/digital-twin-v2',
@@ -998,9 +1050,19 @@ const AuthenticatedDevelopersRoute = AuthenticatedDevelopersRouteImport.update({
   path: '/developers',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDeveloperRoute = AuthenticatedDeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDecisionRoute = AuthenticatedDecisionRouteImport.update({
   id: '/decision',
   path: '/decision',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDealerRoute = AuthenticatedDealerRouteImport.update({
+  id: '/dealer',
+  path: '/dealer',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDataFabricRoute = AuthenticatedDataFabricRouteImport.update({
@@ -1030,6 +1092,11 @@ const AuthenticatedCustomer360Route =
     path: '/customer360',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCustomerRoute = AuthenticatedCustomerRouteImport.update({
+  id: '/customer',
+  path: '/customer',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedConnectorsRoute = AuthenticatedConnectorsRouteImport.update({
   id: '/connectors',
   path: '/connectors',
@@ -2342,6 +2409,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
@@ -2364,24 +2435,29 @@ export interface FileRoutesByFullPath {
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/connectivity': typeof AuthenticatedConnectivityRoute
   '/connectors': typeof AuthenticatedConnectorsRoute
+  '/customer': typeof AuthenticatedCustomerRoute
   '/customer360': typeof AuthenticatedCustomer360Route
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/data-fabric': typeof AuthenticatedDataFabricRoute
+  '/dealer': typeof AuthenticatedDealerRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
+  '/developer': typeof AuthenticatedDeveloperRoute
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/devices': typeof AuthenticatedDevicesRoute
   '/digital-factory': typeof AuthenticatedDigitalFactoryRoute
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/digital-twin': typeof AuthenticatedDigitalTwinRoute
   '/digital-twin-v2': typeof AuthenticatedDigitalTwinV2Route
+  '/distributor': typeof AuthenticatedDistributorRoute
   '/documents': typeof AuthenticatedDocumentsRoute
   '/ecosystem': typeof AuthenticatedEcosystemRoute
   '/ecosystem-hub': typeof AuthenticatedEcosystemHubRoute
   '/ecosystem-intelligence': typeof AuthenticatedEcosystemIntelligenceRoute
   '/edge': typeof AuthenticatedEdgeRoute
   '/education': typeof AuthenticatedEducationRouteWithChildren
+  '/employee': typeof AuthenticatedEmployeeRoute
   '/energy': typeof AuthenticatedEnergyRoute
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
@@ -2449,6 +2525,7 @@ export interface FileRoutesByFullPath {
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/predictions': typeof AuthenticatedPredictionsRoute
   '/productivity': typeof AuthenticatedProductivityRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/public-education': typeof AuthenticatedPublicEducationRoute
   '/public-health': typeof AuthenticatedPublicHealthRoute
   '/public-safety': typeof AuthenticatedPublicSafetyRoute
@@ -2462,6 +2539,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof AuthenticatedSearchRoute
   '/search-hub': typeof AuthenticatedSearchHubRoute
   '/search-v2': typeof AuthenticatedSearchV2Route
+  '/security': typeof AuthenticatedSecurityRoute
   '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/simulation': typeof AuthenticatedSimulationRoute
@@ -2691,6 +2769,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
@@ -2710,22 +2792,27 @@ export interface FileRoutesByTo {
   '/communications': typeof AuthenticatedCommunicationsRoute
   '/connectivity': typeof AuthenticatedConnectivityRoute
   '/connectors': typeof AuthenticatedConnectorsRoute
+  '/customer': typeof AuthenticatedCustomerRoute
   '/customer360': typeof AuthenticatedCustomer360Route
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/data-fabric': typeof AuthenticatedDataFabricRoute
+  '/dealer': typeof AuthenticatedDealerRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
+  '/developer': typeof AuthenticatedDeveloperRoute
   '/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/devices': typeof AuthenticatedDevicesRoute
   '/digital-factory': typeof AuthenticatedDigitalFactoryRoute
   '/digital-twin': typeof AuthenticatedDigitalTwinRoute
   '/digital-twin-v2': typeof AuthenticatedDigitalTwinV2Route
+  '/distributor': typeof AuthenticatedDistributorRoute
   '/documents': typeof AuthenticatedDocumentsRoute
   '/ecosystem': typeof AuthenticatedEcosystemRoute
   '/ecosystem-hub': typeof AuthenticatedEcosystemHubRoute
   '/ecosystem-intelligence': typeof AuthenticatedEcosystemIntelligenceRoute
   '/edge': typeof AuthenticatedEdgeRoute
+  '/employee': typeof AuthenticatedEmployeeRoute
   '/energy': typeof AuthenticatedEnergyRoute
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
@@ -2787,6 +2874,7 @@ export interface FileRoutesByTo {
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/predictions': typeof AuthenticatedPredictionsRoute
   '/productivity': typeof AuthenticatedProductivityRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/public-education': typeof AuthenticatedPublicEducationRoute
   '/public-health': typeof AuthenticatedPublicHealthRoute
   '/public-safety': typeof AuthenticatedPublicSafetyRoute
@@ -2800,6 +2888,7 @@ export interface FileRoutesByTo {
   '/search': typeof AuthenticatedSearchRoute
   '/search-hub': typeof AuthenticatedSearchHubRoute
   '/search-v2': typeof AuthenticatedSearchV2Route
+  '/security': typeof AuthenticatedSecurityRoute
   '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/simulation': typeof AuthenticatedSimulationRoute
@@ -3030,6 +3119,10 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
@@ -3052,24 +3145,29 @@ export interface FileRoutesById {
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/connectivity': typeof AuthenticatedConnectivityRoute
   '/_authenticated/connectors': typeof AuthenticatedConnectorsRoute
+  '/_authenticated/customer': typeof AuthenticatedCustomerRoute
   '/_authenticated/customer360': typeof AuthenticatedCustomer360Route
   '/_authenticated/customers': typeof AuthenticatedCustomersRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/_authenticated/data-fabric': typeof AuthenticatedDataFabricRoute
+  '/_authenticated/dealer': typeof AuthenticatedDealerRoute
   '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
+  '/_authenticated/developer': typeof AuthenticatedDeveloperRoute
   '/_authenticated/developers': typeof AuthenticatedDevelopersRouteWithChildren
   '/_authenticated/devices': typeof AuthenticatedDevicesRoute
   '/_authenticated/digital-factory': typeof AuthenticatedDigitalFactoryRoute
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/_authenticated/digital-twin': typeof AuthenticatedDigitalTwinRoute
   '/_authenticated/digital-twin-v2': typeof AuthenticatedDigitalTwinV2Route
+  '/_authenticated/distributor': typeof AuthenticatedDistributorRoute
   '/_authenticated/documents': typeof AuthenticatedDocumentsRoute
   '/_authenticated/ecosystem': typeof AuthenticatedEcosystemRoute
   '/_authenticated/ecosystem-hub': typeof AuthenticatedEcosystemHubRoute
   '/_authenticated/ecosystem-intelligence': typeof AuthenticatedEcosystemIntelligenceRoute
   '/_authenticated/edge': typeof AuthenticatedEdgeRoute
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
+  '/_authenticated/employee': typeof AuthenticatedEmployeeRoute
   '/_authenticated/energy': typeof AuthenticatedEnergyRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
@@ -3137,6 +3235,7 @@ export interface FileRoutesById {
   '/_authenticated/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/_authenticated/predictions': typeof AuthenticatedPredictionsRoute
   '/_authenticated/productivity': typeof AuthenticatedProductivityRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/public-education': typeof AuthenticatedPublicEducationRoute
   '/_authenticated/public-health': typeof AuthenticatedPublicHealthRoute
   '/_authenticated/public-safety': typeof AuthenticatedPublicSafetyRoute
@@ -3150,6 +3249,7 @@ export interface FileRoutesById {
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/search-hub': typeof AuthenticatedSearchHubRoute
   '/_authenticated/search-v2': typeof AuthenticatedSearchV2Route
+  '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/simulation': typeof AuthenticatedSimulationRoute
@@ -3381,6 +3481,10 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/design'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
     | '/status'
     | '/trust'
     | '/agent-os'
@@ -3403,24 +3507,29 @@ export interface FileRouteTypes {
     | '/community'
     | '/connectivity'
     | '/connectors'
+    | '/customer'
     | '/customer360'
     | '/customers'
     | '/dashboard'
     | '/data-exchange'
     | '/data-fabric'
+    | '/dealer'
     | '/decision'
+    | '/developer'
     | '/developers'
     | '/devices'
     | '/digital-factory'
     | '/digital-human'
     | '/digital-twin'
     | '/digital-twin-v2'
+    | '/distributor'
     | '/documents'
     | '/ecosystem'
     | '/ecosystem-hub'
     | '/ecosystem-intelligence'
     | '/edge'
     | '/education'
+    | '/employee'
     | '/energy'
     | '/enterprise'
     | '/enterprise-cloud'
@@ -3488,6 +3597,7 @@ export interface FileRouteTypes {
     | '/plugins'
     | '/predictions'
     | '/productivity'
+    | '/profile'
     | '/public-education'
     | '/public-health'
     | '/public-safety'
@@ -3501,6 +3611,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/search-hub'
     | '/search-v2'
+    | '/security'
     | '/service-mesh'
     | '/settings'
     | '/simulation'
@@ -3730,6 +3841,10 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/design'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
     | '/status'
     | '/trust'
     | '/agent-os'
@@ -3749,22 +3864,27 @@ export interface FileRouteTypes {
     | '/communications'
     | '/connectivity'
     | '/connectors'
+    | '/customer'
     | '/customer360'
     | '/customers'
     | '/dashboard'
     | '/data-exchange'
     | '/data-fabric'
+    | '/dealer'
     | '/decision'
+    | '/developer'
     | '/developers'
     | '/devices'
     | '/digital-factory'
     | '/digital-twin'
     | '/digital-twin-v2'
+    | '/distributor'
     | '/documents'
     | '/ecosystem'
     | '/ecosystem-hub'
     | '/ecosystem-intelligence'
     | '/edge'
+    | '/employee'
     | '/energy'
     | '/enterprise-cloud'
     | '/enterprise-network'
@@ -3826,6 +3946,7 @@ export interface FileRouteTypes {
     | '/plugins'
     | '/predictions'
     | '/productivity'
+    | '/profile'
     | '/public-education'
     | '/public-health'
     | '/public-safety'
@@ -3839,6 +3960,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/search-hub'
     | '/search-v2'
+    | '/security'
     | '/service-mesh'
     | '/settings'
     | '/simulation'
@@ -4068,6 +4190,10 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/design'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
     | '/status'
     | '/trust'
     | '/_authenticated/agent-os'
@@ -4090,24 +4216,29 @@ export interface FileRouteTypes {
     | '/_authenticated/community'
     | '/_authenticated/connectivity'
     | '/_authenticated/connectors'
+    | '/_authenticated/customer'
     | '/_authenticated/customer360'
     | '/_authenticated/customers'
     | '/_authenticated/dashboard'
     | '/_authenticated/data-exchange'
     | '/_authenticated/data-fabric'
+    | '/_authenticated/dealer'
     | '/_authenticated/decision'
+    | '/_authenticated/developer'
     | '/_authenticated/developers'
     | '/_authenticated/devices'
     | '/_authenticated/digital-factory'
     | '/_authenticated/digital-human'
     | '/_authenticated/digital-twin'
     | '/_authenticated/digital-twin-v2'
+    | '/_authenticated/distributor'
     | '/_authenticated/documents'
     | '/_authenticated/ecosystem'
     | '/_authenticated/ecosystem-hub'
     | '/_authenticated/ecosystem-intelligence'
     | '/_authenticated/edge'
     | '/_authenticated/education'
+    | '/_authenticated/employee'
     | '/_authenticated/energy'
     | '/_authenticated/enterprise'
     | '/_authenticated/enterprise-cloud'
@@ -4175,6 +4306,7 @@ export interface FileRouteTypes {
     | '/_authenticated/plugins'
     | '/_authenticated/predictions'
     | '/_authenticated/productivity'
+    | '/_authenticated/profile'
     | '/_authenticated/public-education'
     | '/_authenticated/public-health'
     | '/_authenticated/public-safety'
@@ -4188,6 +4320,7 @@ export interface FileRouteTypes {
     | '/_authenticated/search'
     | '/_authenticated/search-hub'
     | '/_authenticated/search-v2'
+    | '/_authenticated/security'
     | '/_authenticated/service-mesh'
     | '/_authenticated/settings'
     | '/_authenticated/simulation'
@@ -4419,6 +4552,10 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   DesignRoute: typeof DesignRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   StatusRoute: typeof StatusRoute
   TrustRoute: typeof TrustRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
@@ -4440,6 +4577,34 @@ declare module '@tanstack/react-router' {
       path: '/status'
       fullPath: '/status'
       preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/design': {
@@ -4624,6 +4789,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedServiceMeshRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/security': {
+      id: '/_authenticated/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof AuthenticatedSecurityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/search-v2': {
       id: '/_authenticated/search-v2'
       path: '/search-v2'
@@ -4713,6 +4885,13 @@ declare module '@tanstack/react-router' {
       path: '/public-education'
       fullPath: '/public-education'
       preLoaderRoute: typeof AuthenticatedPublicEducationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/productivity': {
@@ -5184,6 +5363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEnergyRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/employee': {
+      id: '/_authenticated/employee'
+      path: '/employee'
+      fullPath: '/employee'
+      preLoaderRoute: typeof AuthenticatedEmployeeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/education': {
       id: '/_authenticated/education'
       path: '/education'
@@ -5224,6 +5410,13 @@ declare module '@tanstack/react-router' {
       path: '/documents'
       fullPath: '/documents'
       preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/distributor': {
+      id: '/_authenticated/distributor'
+      path: '/distributor'
+      fullPath: '/distributor'
+      preLoaderRoute: typeof AuthenticatedDistributorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/digital-twin-v2': {
@@ -5268,11 +5461,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDevelopersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/developer': {
+      id: '/_authenticated/developer'
+      path: '/developer'
+      fullPath: '/developer'
+      preLoaderRoute: typeof AuthenticatedDeveloperRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/decision': {
       id: '/_authenticated/decision'
       path: '/decision'
       fullPath: '/decision'
       preLoaderRoute: typeof AuthenticatedDecisionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dealer': {
+      id: '/_authenticated/dealer'
+      path: '/dealer'
+      fullPath: '/dealer'
+      preLoaderRoute: typeof AuthenticatedDealerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/data-fabric': {
@@ -5308,6 +5515,13 @@ declare module '@tanstack/react-router' {
       path: '/customer360'
       fullPath: '/customer360'
       preLoaderRoute: typeof AuthenticatedCustomer360RouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/customer': {
+      id: '/_authenticated/customer'
+      path: '/customer'
+      fullPath: '/customer'
+      preLoaderRoute: typeof AuthenticatedCustomerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/connectors': {
@@ -7630,24 +7844,29 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedConnectivityRoute: typeof AuthenticatedConnectivityRoute
   AuthenticatedConnectorsRoute: typeof AuthenticatedConnectorsRoute
+  AuthenticatedCustomerRoute: typeof AuthenticatedCustomerRoute
   AuthenticatedCustomer360Route: typeof AuthenticatedCustomer360Route
   AuthenticatedCustomersRoute: typeof AuthenticatedCustomersRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDataExchangeRoute: typeof AuthenticatedDataExchangeRoute
   AuthenticatedDataFabricRoute: typeof AuthenticatedDataFabricRoute
+  AuthenticatedDealerRoute: typeof AuthenticatedDealerRoute
   AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
+  AuthenticatedDeveloperRoute: typeof AuthenticatedDeveloperRoute
   AuthenticatedDevelopersRoute: typeof AuthenticatedDevelopersRouteWithChildren
   AuthenticatedDevicesRoute: typeof AuthenticatedDevicesRoute
   AuthenticatedDigitalFactoryRoute: typeof AuthenticatedDigitalFactoryRoute
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
   AuthenticatedDigitalTwinRoute: typeof AuthenticatedDigitalTwinRoute
   AuthenticatedDigitalTwinV2Route: typeof AuthenticatedDigitalTwinV2Route
+  AuthenticatedDistributorRoute: typeof AuthenticatedDistributorRoute
   AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRoute
   AuthenticatedEcosystemRoute: typeof AuthenticatedEcosystemRoute
   AuthenticatedEcosystemHubRoute: typeof AuthenticatedEcosystemHubRoute
   AuthenticatedEcosystemIntelligenceRoute: typeof AuthenticatedEcosystemIntelligenceRoute
   AuthenticatedEdgeRoute: typeof AuthenticatedEdgeRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
+  AuthenticatedEmployeeRoute: typeof AuthenticatedEmployeeRoute
   AuthenticatedEnergyRoute: typeof AuthenticatedEnergyRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedEnterpriseCloudRoute: typeof AuthenticatedEnterpriseCloudRoute
@@ -7715,6 +7934,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPluginsRoute: typeof AuthenticatedPluginsRouteWithChildren
   AuthenticatedPredictionsRoute: typeof AuthenticatedPredictionsRoute
   AuthenticatedProductivityRoute: typeof AuthenticatedProductivityRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedPublicEducationRoute: typeof AuthenticatedPublicEducationRoute
   AuthenticatedPublicHealthRoute: typeof AuthenticatedPublicHealthRoute
   AuthenticatedPublicSafetyRoute: typeof AuthenticatedPublicSafetyRoute
@@ -7728,6 +7948,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedSearchHubRoute: typeof AuthenticatedSearchHubRoute
   AuthenticatedSearchV2Route: typeof AuthenticatedSearchV2Route
+  AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
   AuthenticatedServiceMeshRoute: typeof AuthenticatedServiceMeshRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSimulationRoute: typeof AuthenticatedSimulationRoute
@@ -7774,18 +7995,22 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedConnectivityRoute: AuthenticatedConnectivityRoute,
   AuthenticatedConnectorsRoute: AuthenticatedConnectorsRoute,
+  AuthenticatedCustomerRoute: AuthenticatedCustomerRoute,
   AuthenticatedCustomer360Route: AuthenticatedCustomer360Route,
   AuthenticatedCustomersRoute: AuthenticatedCustomersRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDataExchangeRoute: AuthenticatedDataExchangeRoute,
   AuthenticatedDataFabricRoute: AuthenticatedDataFabricRoute,
+  AuthenticatedDealerRoute: AuthenticatedDealerRoute,
   AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
+  AuthenticatedDeveloperRoute: AuthenticatedDeveloperRoute,
   AuthenticatedDevelopersRoute: AuthenticatedDevelopersRouteWithChildren,
   AuthenticatedDevicesRoute: AuthenticatedDevicesRoute,
   AuthenticatedDigitalFactoryRoute: AuthenticatedDigitalFactoryRoute,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
   AuthenticatedDigitalTwinRoute: AuthenticatedDigitalTwinRoute,
   AuthenticatedDigitalTwinV2Route: AuthenticatedDigitalTwinV2Route,
+  AuthenticatedDistributorRoute: AuthenticatedDistributorRoute,
   AuthenticatedDocumentsRoute: AuthenticatedDocumentsRoute,
   AuthenticatedEcosystemRoute: AuthenticatedEcosystemRoute,
   AuthenticatedEcosystemHubRoute: AuthenticatedEcosystemHubRoute,
@@ -7793,6 +8018,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedEcosystemIntelligenceRoute,
   AuthenticatedEdgeRoute: AuthenticatedEdgeRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
+  AuthenticatedEmployeeRoute: AuthenticatedEmployeeRoute,
   AuthenticatedEnergyRoute: AuthenticatedEnergyRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedEnterpriseCloudRoute: AuthenticatedEnterpriseCloudRoute,
@@ -7861,6 +8087,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPluginsRoute: AuthenticatedPluginsRouteWithChildren,
   AuthenticatedPredictionsRoute: AuthenticatedPredictionsRoute,
   AuthenticatedProductivityRoute: AuthenticatedProductivityRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedPublicEducationRoute: AuthenticatedPublicEducationRoute,
   AuthenticatedPublicHealthRoute: AuthenticatedPublicHealthRoute,
   AuthenticatedPublicSafetyRoute: AuthenticatedPublicSafetyRoute,
@@ -7874,6 +8101,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedSearchHubRoute: AuthenticatedSearchHubRoute,
   AuthenticatedSearchV2Route: AuthenticatedSearchV2Route,
+  AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
   AuthenticatedServiceMeshRoute: AuthenticatedServiceMeshRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSimulationRoute: AuthenticatedSimulationRoute,
@@ -7907,6 +8135,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   DesignRoute: DesignRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   StatusRoute: StatusRoute,
   TrustRoute: TrustRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
