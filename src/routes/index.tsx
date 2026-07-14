@@ -134,13 +134,19 @@ function Nav() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <button className="hidden text-[13px] font-medium text-soft-gray transition-colors hover:text-paper md:block">
+          <Link
+            to="/auth"
+            className="hidden text-[13px] font-medium text-soft-gray transition-colors hover:text-paper md:block"
+          >
             Sign in
-          </button>
-          <button className="shimmer-on-hover group inline-flex items-center gap-2 rounded-full bg-gold px-4 py-2 text-[13px] font-semibold text-obsidian transition-transform hover:scale-[1.03]">
-            Request access
+          </Link>
+          <Link
+            to="/auth"
+            className="shimmer-on-hover group inline-flex items-center gap-2 rounded-full bg-gold px-4 py-2 text-[13px] font-semibold text-obsidian transition-transform hover:scale-[1.03]"
+          >
+            Enter console
             <ArrowRight className="h-3.5 w-3.5" />
-          </button>
+          </Link>
         </div>
       </div>
     </header>
