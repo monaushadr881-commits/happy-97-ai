@@ -17,31 +17,48 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedWorkforceRouteImport } from './routes/_authenticated/workforce'
 import { Route as AuthenticatedWorkflowsRouteImport } from './routes/_authenticated/workflows'
+import { Route as AuthenticatedWellnessRouteImport } from './routes/_authenticated/wellness'
 import { Route as AuthenticatedVendorsRouteImport } from './routes/_authenticated/vendors'
+import { Route as AuthenticatedUtilitiesRouteImport } from './routes/_authenticated/utilities'
+import { Route as AuthenticatedTransportRouteImport } from './routes/_authenticated/transport'
 import { Route as AuthenticatedToolsRouteImport } from './routes/_authenticated/tools'
+import { Route as AuthenticatedTelemedicineRouteImport } from './routes/_authenticated/telemedicine'
 import { Route as AuthenticatedSupplyChainRouteImport } from './routes/_authenticated/supply-chain'
 import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
+import { Route as AuthenticatedSmartCityRouteImport } from './routes/_authenticated/smart-city'
 import { Route as AuthenticatedSkillsRouteImport } from './routes/_authenticated/skills'
 import { Route as AuthenticatedSimulationRouteImport } from './routes/_authenticated/simulation'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedRuralRouteImport } from './routes/_authenticated/rural'
 import { Route as AuthenticatedRuntimeRouteImport } from './routes/_authenticated/runtime'
 import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
+import { Route as AuthenticatedPublicSafetyRouteImport } from './routes/_authenticated/public-safety'
+import { Route as AuthenticatedPublicHealthRouteImport } from './routes/_authenticated/public-health'
+import { Route as AuthenticatedPublicEducationRouteImport } from './routes/_authenticated/public-education'
 import { Route as AuthenticatedPredictionsRouteImport } from './routes/_authenticated/predictions'
 import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins'
+import { Route as AuthenticatedPharmacyRouteImport } from './routes/_authenticated/pharmacy'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
+import { Route as AuthenticatedPatientsRouteImport } from './routes/_authenticated/patients'
 import { Route as AuthenticatedPartnersRouteImport } from './routes/_authenticated/partners'
 import { Route as AuthenticatedNativeRouteImport } from './routes/_authenticated/native'
+import { Route as AuthenticatedNationalRouteImport } from './routes/_authenticated/national'
 import { Route as AuthenticatedMonitoringRouteImport } from './routes/_authenticated/monitoring'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMemoryRouteImport } from './routes/_authenticated/memory'
+import { Route as AuthenticatedMedicalResearchRouteImport } from './routes/_authenticated/medical-research'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedMarketIntelligenceRouteImport } from './routes/_authenticated/market-intelligence'
 import { Route as AuthenticatedManufacturingRouteImport } from './routes/_authenticated/manufacturing'
+import { Route as AuthenticatedLaboratoryRouteImport } from './routes/_authenticated/laboratory'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
 import { Route as AuthenticatedIotRouteImport } from './routes/_authenticated/iot'
 import { Route as AuthenticatedInvestorsRouteImport } from './routes/_authenticated/investors'
 import { Route as AuthenticatedIntelligenceRouteImport } from './routes/_authenticated/intelligence'
 import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authenticated/hyperlocal'
+import { Route as AuthenticatedHospitalsRouteImport } from './routes/_authenticated/hospitals'
+import { Route as AuthenticatedHealthcareRouteImport } from './routes/_authenticated/healthcare'
+import { Route as AuthenticatedGovernmentRouteImport } from './routes/_authenticated/government'
 import { Route as AuthenticatedGlobalRouteImport } from './routes/_authenticated/global'
 import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
 import { Route as AuthenticatedFinancialAiRouteImport } from './routes/_authenticated/financial-ai'
@@ -62,6 +79,7 @@ import { Route as AuthenticatedCommunityRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCommunicationsRouteImport } from './routes/_authenticated/communications'
 import { Route as AuthenticatedCommerceRouteImport } from './routes/_authenticated/commerce'
 import { Route as AuthenticatedCloudRouteImport } from './routes/_authenticated/cloud'
+import { Route as AuthenticatedCitizensRouteImport } from './routes/_authenticated/citizens'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedBrainRouteImport } from './routes/_authenticated/brain'
 import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
@@ -69,6 +87,7 @@ import { Route as AuthenticatedBankingRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAutonomousRouteImport } from './routes/_authenticated/autonomous'
 import { Route as AuthenticatedAutomationRouteImport } from './routes/_authenticated/automation'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated/agents'
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
@@ -313,9 +332,24 @@ const AuthenticatedWorkflowsRoute = AuthenticatedWorkflowsRouteImport.update({
   path: '/workflows',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedWellnessRoute = AuthenticatedWellnessRouteImport.update({
+  id: '/wellness',
+  path: '/wellness',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedVendorsRoute = AuthenticatedVendorsRouteImport.update({
   id: '/vendors',
   path: '/vendors',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedUtilitiesRoute = AuthenticatedUtilitiesRouteImport.update({
+  id: '/utilities',
+  path: '/utilities',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTransportRoute = AuthenticatedTransportRouteImport.update({
+  id: '/transport',
+  path: '/transport',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedToolsRoute = AuthenticatedToolsRouteImport.update({
@@ -323,6 +357,12 @@ const AuthenticatedToolsRoute = AuthenticatedToolsRouteImport.update({
   path: '/tools',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTelemedicineRoute =
+  AuthenticatedTelemedicineRouteImport.update({
+    id: '/telemedicine',
+    path: '/telemedicine',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSupplyChainRoute =
   AuthenticatedSupplyChainRouteImport.update({
     id: '/supply-chain',
@@ -332,6 +372,11 @@ const AuthenticatedSupplyChainRoute =
 const AuthenticatedStudioRoute = AuthenticatedStudioRouteImport.update({
   id: '/studio',
   path: '/studio',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSmartCityRoute = AuthenticatedSmartCityRouteImport.update({
+  id: '/smart-city',
+  path: '/smart-city',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSkillsRoute = AuthenticatedSkillsRouteImport.update({
@@ -349,6 +394,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRuralRoute = AuthenticatedRuralRouteImport.update({
+  id: '/rural',
+  path: '/rural',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRuntimeRoute = AuthenticatedRuntimeRouteImport.update({
   id: '/runtime',
   path: '/runtime',
@@ -359,6 +409,24 @@ const AuthenticatedRoadmapRoute = AuthenticatedRoadmapRouteImport.update({
   path: '/roadmap',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPublicSafetyRoute =
+  AuthenticatedPublicSafetyRouteImport.update({
+    id: '/public-safety',
+    path: '/public-safety',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPublicHealthRoute =
+  AuthenticatedPublicHealthRouteImport.update({
+    id: '/public-health',
+    path: '/public-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPublicEducationRoute =
+  AuthenticatedPublicEducationRouteImport.update({
+    id: '/public-education',
+    path: '/public-education',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPredictionsRoute =
   AuthenticatedPredictionsRouteImport.update({
     id: '/predictions',
@@ -370,9 +438,19 @@ const AuthenticatedPluginsRoute = AuthenticatedPluginsRouteImport.update({
   path: '/plugins',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPharmacyRoute = AuthenticatedPharmacyRouteImport.update({
+  id: '/pharmacy',
+  path: '/pharmacy',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPatientsRoute = AuthenticatedPatientsRouteImport.update({
+  id: '/patients',
+  path: '/patients',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedPartnersRoute = AuthenticatedPartnersRouteImport.update({
@@ -383,6 +461,11 @@ const AuthenticatedPartnersRoute = AuthenticatedPartnersRouteImport.update({
 const AuthenticatedNativeRoute = AuthenticatedNativeRouteImport.update({
   id: '/native',
   path: '/native',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNationalRoute = AuthenticatedNationalRouteImport.update({
+  id: '/national',
+  path: '/national',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMonitoringRoute = AuthenticatedMonitoringRouteImport.update({
@@ -400,6 +483,12 @@ const AuthenticatedMemoryRoute = AuthenticatedMemoryRouteImport.update({
   path: '/memory',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMedicalResearchRoute =
+  AuthenticatedMedicalResearchRouteImport.update({
+    id: '/medical-research',
+    path: '/medical-research',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMarketplaceRoute =
   AuthenticatedMarketplaceRouteImport.update({
     id: '/marketplace',
@@ -418,6 +507,11 @@ const AuthenticatedManufacturingRoute =
     path: '/manufacturing',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedLaboratoryRoute = AuthenticatedLaboratoryRouteImport.update({
+  id: '/laboratory',
+  path: '/laboratory',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
@@ -442,6 +536,21 @@ const AuthenticatedIntelligenceRoute =
 const AuthenticatedHyperlocalRoute = AuthenticatedHyperlocalRouteImport.update({
   id: '/hyperlocal',
   path: '/hyperlocal',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHospitalsRoute = AuthenticatedHospitalsRouteImport.update({
+  id: '/hospitals',
+  path: '/hospitals',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHealthcareRoute = AuthenticatedHealthcareRouteImport.update({
+  id: '/healthcare',
+  path: '/healthcare',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGovernmentRoute = AuthenticatedGovernmentRouteImport.update({
+  id: '/government',
+  path: '/government',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedGlobalRoute = AuthenticatedGlobalRouteImport.update({
@@ -550,6 +659,11 @@ const AuthenticatedCloudRoute = AuthenticatedCloudRouteImport.update({
   path: '/cloud',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCitizensRoute = AuthenticatedCitizensRouteImport.update({
+  id: '/citizens',
+  path: '/citizens',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
   id: '/business',
   path: '/business',
@@ -585,6 +699,12 @@ const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppointmentsRoute =
+  AuthenticatedAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
   id: '/agents',
   path: '/agents',
@@ -1807,6 +1927,7 @@ export interface FileRoutesByFullPath {
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/appointments': typeof AuthenticatedAppointmentsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/automation': typeof AuthenticatedAutomationRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
@@ -1814,6 +1935,7 @@ export interface FileRoutesByFullPath {
   '/billing': typeof AuthenticatedBillingRoute
   '/brain': typeof AuthenticatedBrainRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
+  '/citizens': typeof AuthenticatedCitizensRoute
   '/cloud': typeof AuthenticatedCloudRouteWithChildren
   '/commerce': typeof AuthenticatedCommerceRoute
   '/communications': typeof AuthenticatedCommunicationsRoute
@@ -1834,31 +1956,48 @@ export interface FileRoutesByFullPath {
   '/financial-ai': typeof AuthenticatedFinancialAiRoute
   '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/global': typeof AuthenticatedGlobalRoute
+  '/government': typeof AuthenticatedGovernmentRoute
+  '/healthcare': typeof AuthenticatedHealthcareRoute
+  '/hospitals': typeof AuthenticatedHospitalsRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
   '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
   '/investors': typeof AuthenticatedInvestorsRoute
   '/iot': typeof AuthenticatedIotRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
+  '/laboratory': typeof AuthenticatedLaboratoryRoute
   '/manufacturing': typeof AuthenticatedManufacturingRoute
   '/market-intelligence': typeof AuthenticatedMarketIntelligenceRoute
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
+  '/medical-research': typeof AuthenticatedMedicalResearchRoute
   '/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/monitoring': typeof AuthenticatedMonitoringRoute
+  '/national': typeof AuthenticatedNationalRoute
   '/native': typeof AuthenticatedNativeRoute
   '/partners': typeof AuthenticatedPartnersRoute
+  '/patients': typeof AuthenticatedPatientsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
+  '/pharmacy': typeof AuthenticatedPharmacyRoute
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/predictions': typeof AuthenticatedPredictionsRoute
+  '/public-education': typeof AuthenticatedPublicEducationRoute
+  '/public-health': typeof AuthenticatedPublicHealthRoute
+  '/public-safety': typeof AuthenticatedPublicSafetyRoute
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/runtime': typeof AuthenticatedRuntimeRouteWithChildren
+  '/rural': typeof AuthenticatedRuralRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
+  '/smart-city': typeof AuthenticatedSmartCityRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
   '/supply-chain': typeof AuthenticatedSupplyChainRoute
+  '/telemedicine': typeof AuthenticatedTelemedicineRoute
   '/tools': typeof AuthenticatedToolsRouteWithChildren
+  '/transport': typeof AuthenticatedTransportRoute
+  '/utilities': typeof AuthenticatedUtilitiesRoute
   '/vendors': typeof AuthenticatedVendorsRoute
+  '/wellness': typeof AuthenticatedWellnessRoute
   '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/workforce': typeof AuthenticatedWorkforceRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -2072,11 +2211,13 @@ export interface FileRoutesByTo {
   '/trust': typeof TrustRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/appointments': typeof AuthenticatedAppointmentsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/automation': typeof AuthenticatedAutomationRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
   '/banking': typeof AuthenticatedBankingRoute
   '/billing': typeof AuthenticatedBillingRoute
+  '/citizens': typeof AuthenticatedCitizensRoute
   '/cloud': typeof AuthenticatedCloudRouteWithChildren
   '/commerce': typeof AuthenticatedCommerceRoute
   '/communications': typeof AuthenticatedCommunicationsRoute
@@ -2092,26 +2233,43 @@ export interface FileRoutesByTo {
   '/finance': typeof AuthenticatedFinanceRoute
   '/financial-ai': typeof AuthenticatedFinancialAiRoute
   '/global': typeof AuthenticatedGlobalRoute
+  '/government': typeof AuthenticatedGovernmentRoute
+  '/healthcare': typeof AuthenticatedHealthcareRoute
+  '/hospitals': typeof AuthenticatedHospitalsRoute
   '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
   '/investors': typeof AuthenticatedInvestorsRoute
   '/iot': typeof AuthenticatedIotRoute
+  '/laboratory': typeof AuthenticatedLaboratoryRoute
   '/manufacturing': typeof AuthenticatedManufacturingRoute
   '/market-intelligence': typeof AuthenticatedMarketIntelligenceRoute
+  '/medical-research': typeof AuthenticatedMedicalResearchRoute
   '/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/monitoring': typeof AuthenticatedMonitoringRoute
+  '/national': typeof AuthenticatedNationalRoute
   '/native': typeof AuthenticatedNativeRoute
   '/partners': typeof AuthenticatedPartnersRoute
+  '/patients': typeof AuthenticatedPatientsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
+  '/pharmacy': typeof AuthenticatedPharmacyRoute
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/predictions': typeof AuthenticatedPredictionsRoute
+  '/public-education': typeof AuthenticatedPublicEducationRoute
+  '/public-health': typeof AuthenticatedPublicHealthRoute
+  '/public-safety': typeof AuthenticatedPublicSafetyRoute
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/runtime': typeof AuthenticatedRuntimeRouteWithChildren
+  '/rural': typeof AuthenticatedRuralRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
+  '/smart-city': typeof AuthenticatedSmartCityRoute
   '/supply-chain': typeof AuthenticatedSupplyChainRoute
+  '/telemedicine': typeof AuthenticatedTelemedicineRoute
   '/tools': typeof AuthenticatedToolsRouteWithChildren
+  '/transport': typeof AuthenticatedTransportRoute
+  '/utilities': typeof AuthenticatedUtilitiesRoute
   '/vendors': typeof AuthenticatedVendorsRoute
+  '/wellness': typeof AuthenticatedWellnessRoute
   '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/workforce': typeof AuthenticatedWorkforceRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -2327,6 +2485,7 @@ export interface FileRoutesById {
   '/trust': typeof TrustRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/automation': typeof AuthenticatedAutomationRoute
   '/_authenticated/autonomous': typeof AuthenticatedAutonomousRoute
@@ -2334,6 +2493,7 @@ export interface FileRoutesById {
   '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/brain': typeof AuthenticatedBrainRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
+  '/_authenticated/citizens': typeof AuthenticatedCitizensRoute
   '/_authenticated/cloud': typeof AuthenticatedCloudRouteWithChildren
   '/_authenticated/commerce': typeof AuthenticatedCommerceRoute
   '/_authenticated/communications': typeof AuthenticatedCommunicationsRoute
@@ -2354,31 +2514,48 @@ export interface FileRoutesById {
   '/_authenticated/financial-ai': typeof AuthenticatedFinancialAiRoute
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/global': typeof AuthenticatedGlobalRoute
+  '/_authenticated/government': typeof AuthenticatedGovernmentRoute
+  '/_authenticated/healthcare': typeof AuthenticatedHealthcareRoute
+  '/_authenticated/hospitals': typeof AuthenticatedHospitalsRoute
   '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
   '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
   '/_authenticated/investors': typeof AuthenticatedInvestorsRoute
   '/_authenticated/iot': typeof AuthenticatedIotRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
+  '/_authenticated/laboratory': typeof AuthenticatedLaboratoryRoute
   '/_authenticated/manufacturing': typeof AuthenticatedManufacturingRoute
   '/_authenticated/market-intelligence': typeof AuthenticatedMarketIntelligenceRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
+  '/_authenticated/medical-research': typeof AuthenticatedMedicalResearchRoute
   '/_authenticated/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/monitoring': typeof AuthenticatedMonitoringRoute
+  '/_authenticated/national': typeof AuthenticatedNationalRoute
   '/_authenticated/native': typeof AuthenticatedNativeRoute
   '/_authenticated/partners': typeof AuthenticatedPartnersRoute
+  '/_authenticated/patients': typeof AuthenticatedPatientsRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
+  '/_authenticated/pharmacy': typeof AuthenticatedPharmacyRoute
   '/_authenticated/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/_authenticated/predictions': typeof AuthenticatedPredictionsRoute
+  '/_authenticated/public-education': typeof AuthenticatedPublicEducationRoute
+  '/_authenticated/public-health': typeof AuthenticatedPublicHealthRoute
+  '/_authenticated/public-safety': typeof AuthenticatedPublicSafetyRoute
   '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
   '/_authenticated/runtime': typeof AuthenticatedRuntimeRouteWithChildren
+  '/_authenticated/rural': typeof AuthenticatedRuralRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/simulation': typeof AuthenticatedSimulationRoute
   '/_authenticated/skills': typeof AuthenticatedSkillsRouteWithChildren
+  '/_authenticated/smart-city': typeof AuthenticatedSmartCityRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
   '/_authenticated/supply-chain': typeof AuthenticatedSupplyChainRoute
+  '/_authenticated/telemedicine': typeof AuthenticatedTelemedicineRoute
   '/_authenticated/tools': typeof AuthenticatedToolsRouteWithChildren
+  '/_authenticated/transport': typeof AuthenticatedTransportRoute
+  '/_authenticated/utilities': typeof AuthenticatedUtilitiesRoute
   '/_authenticated/vendors': typeof AuthenticatedVendorsRoute
+  '/_authenticated/wellness': typeof AuthenticatedWellnessRoute
   '/_authenticated/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/_authenticated/workforce': typeof AuthenticatedWorkforceRoute
   '/_authenticated/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -2594,6 +2771,7 @@ export interface FileRouteTypes {
     | '/trust'
     | '/agent-os'
     | '/agents'
+    | '/appointments'
     | '/assistant'
     | '/automation'
     | '/autonomous'
@@ -2601,6 +2779,7 @@ export interface FileRouteTypes {
     | '/billing'
     | '/brain'
     | '/business'
+    | '/citizens'
     | '/cloud'
     | '/commerce'
     | '/communications'
@@ -2621,31 +2800,48 @@ export interface FileRouteTypes {
     | '/financial-ai'
     | '/founder'
     | '/global'
+    | '/government'
+    | '/healthcare'
+    | '/hospitals'
     | '/hyperlocal'
     | '/intelligence'
     | '/investors'
     | '/iot'
     | '/knowledge'
+    | '/laboratory'
     | '/manufacturing'
     | '/market-intelligence'
     | '/marketplace'
+    | '/medical-research'
     | '/memory'
     | '/messages'
     | '/monitoring'
+    | '/national'
     | '/native'
     | '/partners'
+    | '/patients'
     | '/payments'
+    | '/pharmacy'
     | '/plugins'
     | '/predictions'
+    | '/public-education'
+    | '/public-health'
+    | '/public-safety'
     | '/roadmap'
     | '/runtime'
+    | '/rural'
     | '/settings'
     | '/simulation'
     | '/skills'
+    | '/smart-city'
     | '/studio'
     | '/supply-chain'
+    | '/telemedicine'
     | '/tools'
+    | '/transport'
+    | '/utilities'
     | '/vendors'
+    | '/wellness'
     | '/workflows'
     | '/workforce'
     | '/agents/collaboration'
@@ -2859,11 +3055,13 @@ export interface FileRouteTypes {
     | '/trust'
     | '/agent-os'
     | '/agents'
+    | '/appointments'
     | '/assistant'
     | '/automation'
     | '/autonomous'
     | '/banking'
     | '/billing'
+    | '/citizens'
     | '/cloud'
     | '/commerce'
     | '/communications'
@@ -2879,26 +3077,43 @@ export interface FileRouteTypes {
     | '/finance'
     | '/financial-ai'
     | '/global'
+    | '/government'
+    | '/healthcare'
+    | '/hospitals'
     | '/intelligence'
     | '/investors'
     | '/iot'
+    | '/laboratory'
     | '/manufacturing'
     | '/market-intelligence'
+    | '/medical-research'
     | '/memory'
     | '/monitoring'
+    | '/national'
     | '/native'
     | '/partners'
+    | '/patients'
     | '/payments'
+    | '/pharmacy'
     | '/plugins'
     | '/predictions'
+    | '/public-education'
+    | '/public-health'
+    | '/public-safety'
     | '/roadmap'
     | '/runtime'
+    | '/rural'
     | '/settings'
     | '/simulation'
     | '/skills'
+    | '/smart-city'
     | '/supply-chain'
+    | '/telemedicine'
     | '/tools'
+    | '/transport'
+    | '/utilities'
     | '/vendors'
+    | '/wellness'
     | '/workflows'
     | '/workforce'
     | '/agents/collaboration'
@@ -3113,6 +3328,7 @@ export interface FileRouteTypes {
     | '/trust'
     | '/_authenticated/agent-os'
     | '/_authenticated/agents'
+    | '/_authenticated/appointments'
     | '/_authenticated/assistant'
     | '/_authenticated/automation'
     | '/_authenticated/autonomous'
@@ -3120,6 +3336,7 @@ export interface FileRouteTypes {
     | '/_authenticated/billing'
     | '/_authenticated/brain'
     | '/_authenticated/business'
+    | '/_authenticated/citizens'
     | '/_authenticated/cloud'
     | '/_authenticated/commerce'
     | '/_authenticated/communications'
@@ -3140,31 +3357,48 @@ export interface FileRouteTypes {
     | '/_authenticated/financial-ai'
     | '/_authenticated/founder'
     | '/_authenticated/global'
+    | '/_authenticated/government'
+    | '/_authenticated/healthcare'
+    | '/_authenticated/hospitals'
     | '/_authenticated/hyperlocal'
     | '/_authenticated/intelligence'
     | '/_authenticated/investors'
     | '/_authenticated/iot'
     | '/_authenticated/knowledge'
+    | '/_authenticated/laboratory'
     | '/_authenticated/manufacturing'
     | '/_authenticated/market-intelligence'
     | '/_authenticated/marketplace'
+    | '/_authenticated/medical-research'
     | '/_authenticated/memory'
     | '/_authenticated/messages'
     | '/_authenticated/monitoring'
+    | '/_authenticated/national'
     | '/_authenticated/native'
     | '/_authenticated/partners'
+    | '/_authenticated/patients'
     | '/_authenticated/payments'
+    | '/_authenticated/pharmacy'
     | '/_authenticated/plugins'
     | '/_authenticated/predictions'
+    | '/_authenticated/public-education'
+    | '/_authenticated/public-health'
+    | '/_authenticated/public-safety'
     | '/_authenticated/roadmap'
     | '/_authenticated/runtime'
+    | '/_authenticated/rural'
     | '/_authenticated/settings'
     | '/_authenticated/simulation'
     | '/_authenticated/skills'
+    | '/_authenticated/smart-city'
     | '/_authenticated/studio'
     | '/_authenticated/supply-chain'
+    | '/_authenticated/telemedicine'
     | '/_authenticated/tools'
+    | '/_authenticated/transport'
+    | '/_authenticated/utilities'
     | '/_authenticated/vendors'
+    | '/_authenticated/wellness'
     | '/_authenticated/workflows'
     | '/_authenticated/workforce'
     | '/_authenticated/agents/collaboration'
@@ -3441,6 +3675,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWorkflowsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/wellness': {
+      id: '/_authenticated/wellness'
+      path: '/wellness'
+      fullPath: '/wellness'
+      preLoaderRoute: typeof AuthenticatedWellnessRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/vendors': {
       id: '/_authenticated/vendors'
       path: '/vendors'
@@ -3448,11 +3689,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVendorsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/utilities': {
+      id: '/_authenticated/utilities'
+      path: '/utilities'
+      fullPath: '/utilities'
+      preLoaderRoute: typeof AuthenticatedUtilitiesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/transport': {
+      id: '/_authenticated/transport'
+      path: '/transport'
+      fullPath: '/transport'
+      preLoaderRoute: typeof AuthenticatedTransportRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tools': {
       id: '/_authenticated/tools'
       path: '/tools'
       fullPath: '/tools'
       preLoaderRoute: typeof AuthenticatedToolsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/telemedicine': {
+      id: '/_authenticated/telemedicine'
+      path: '/telemedicine'
+      fullPath: '/telemedicine'
+      preLoaderRoute: typeof AuthenticatedTelemedicineRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/supply-chain': {
@@ -3467,6 +3729,13 @@ declare module '@tanstack/react-router' {
       path: '/studio'
       fullPath: '/studio'
       preLoaderRoute: typeof AuthenticatedStudioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/smart-city': {
+      id: '/_authenticated/smart-city'
+      path: '/smart-city'
+      fullPath: '/smart-city'
+      preLoaderRoute: typeof AuthenticatedSmartCityRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/skills': {
@@ -3490,6 +3759,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/rural': {
+      id: '/_authenticated/rural'
+      path: '/rural'
+      fullPath: '/rural'
+      preLoaderRoute: typeof AuthenticatedRuralRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/runtime': {
       id: '/_authenticated/runtime'
       path: '/runtime'
@@ -3502,6 +3778,27 @@ declare module '@tanstack/react-router' {
       path: '/roadmap'
       fullPath: '/roadmap'
       preLoaderRoute: typeof AuthenticatedRoadmapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/public-safety': {
+      id: '/_authenticated/public-safety'
+      path: '/public-safety'
+      fullPath: '/public-safety'
+      preLoaderRoute: typeof AuthenticatedPublicSafetyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/public-health': {
+      id: '/_authenticated/public-health'
+      path: '/public-health'
+      fullPath: '/public-health'
+      preLoaderRoute: typeof AuthenticatedPublicHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/public-education': {
+      id: '/_authenticated/public-education'
+      path: '/public-education'
+      fullPath: '/public-education'
+      preLoaderRoute: typeof AuthenticatedPublicEducationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/predictions': {
@@ -3518,11 +3815,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPluginsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pharmacy': {
+      id: '/_authenticated/pharmacy'
+      path: '/pharmacy'
+      fullPath: '/pharmacy'
+      preLoaderRoute: typeof AuthenticatedPharmacyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/payments': {
       id: '/_authenticated/payments'
       path: '/payments'
       fullPath: '/payments'
       preLoaderRoute: typeof AuthenticatedPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/patients': {
+      id: '/_authenticated/patients'
+      path: '/patients'
+      fullPath: '/patients'
+      preLoaderRoute: typeof AuthenticatedPatientsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/partners': {
@@ -3537,6 +3848,13 @@ declare module '@tanstack/react-router' {
       path: '/native'
       fullPath: '/native'
       preLoaderRoute: typeof AuthenticatedNativeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/national': {
+      id: '/_authenticated/national'
+      path: '/national'
+      fullPath: '/national'
+      preLoaderRoute: typeof AuthenticatedNationalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/monitoring': {
@@ -3560,6 +3878,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMemoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/medical-research': {
+      id: '/_authenticated/medical-research'
+      path: '/medical-research'
+      fullPath: '/medical-research'
+      preLoaderRoute: typeof AuthenticatedMedicalResearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/marketplace': {
       id: '/_authenticated/marketplace'
       path: '/marketplace'
@@ -3579,6 +3904,13 @@ declare module '@tanstack/react-router' {
       path: '/manufacturing'
       fullPath: '/manufacturing'
       preLoaderRoute: typeof AuthenticatedManufacturingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/laboratory': {
+      id: '/_authenticated/laboratory'
+      path: '/laboratory'
+      fullPath: '/laboratory'
+      preLoaderRoute: typeof AuthenticatedLaboratoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/knowledge': {
@@ -3614,6 +3946,27 @@ declare module '@tanstack/react-router' {
       path: '/hyperlocal'
       fullPath: '/hyperlocal'
       preLoaderRoute: typeof AuthenticatedHyperlocalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hospitals': {
+      id: '/_authenticated/hospitals'
+      path: '/hospitals'
+      fullPath: '/hospitals'
+      preLoaderRoute: typeof AuthenticatedHospitalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/healthcare': {
+      id: '/_authenticated/healthcare'
+      path: '/healthcare'
+      fullPath: '/healthcare'
+      preLoaderRoute: typeof AuthenticatedHealthcareRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/government': {
+      id: '/_authenticated/government'
+      path: '/government'
+      fullPath: '/government'
+      preLoaderRoute: typeof AuthenticatedGovernmentRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/global': {
@@ -3756,6 +4109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCloudRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/citizens': {
+      id: '/_authenticated/citizens'
+      path: '/citizens'
+      fullPath: '/citizens'
+      preLoaderRoute: typeof AuthenticatedCitizensRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/business': {
       id: '/_authenticated/business'
       path: '/business'
@@ -3803,6 +4163,13 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/appointments': {
+      id: '/_authenticated/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/agents': {
@@ -5981,6 +6348,7 @@ const AuthenticatedWorkflowsRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
+  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedAutomationRoute: typeof AuthenticatedAutomationRoute
   AuthenticatedAutonomousRoute: typeof AuthenticatedAutonomousRoute
@@ -5988,6 +6356,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
   AuthenticatedBrainRoute: typeof AuthenticatedBrainRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
+  AuthenticatedCitizensRoute: typeof AuthenticatedCitizensRoute
   AuthenticatedCloudRoute: typeof AuthenticatedCloudRouteWithChildren
   AuthenticatedCommerceRoute: typeof AuthenticatedCommerceRoute
   AuthenticatedCommunicationsRoute: typeof AuthenticatedCommunicationsRoute
@@ -6008,31 +6377,48 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFinancialAiRoute: typeof AuthenticatedFinancialAiRoute
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedGlobalRoute: typeof AuthenticatedGlobalRoute
+  AuthenticatedGovernmentRoute: typeof AuthenticatedGovernmentRoute
+  AuthenticatedHealthcareRoute: typeof AuthenticatedHealthcareRoute
+  AuthenticatedHospitalsRoute: typeof AuthenticatedHospitalsRoute
   AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
   AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRouteWithChildren
   AuthenticatedInvestorsRoute: typeof AuthenticatedInvestorsRoute
   AuthenticatedIotRoute: typeof AuthenticatedIotRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
+  AuthenticatedLaboratoryRoute: typeof AuthenticatedLaboratoryRoute
   AuthenticatedManufacturingRoute: typeof AuthenticatedManufacturingRoute
   AuthenticatedMarketIntelligenceRoute: typeof AuthenticatedMarketIntelligenceRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
+  AuthenticatedMedicalResearchRoute: typeof AuthenticatedMedicalResearchRoute
   AuthenticatedMemoryRoute: typeof AuthenticatedMemoryRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedMonitoringRoute: typeof AuthenticatedMonitoringRoute
+  AuthenticatedNationalRoute: typeof AuthenticatedNationalRoute
   AuthenticatedNativeRoute: typeof AuthenticatedNativeRoute
   AuthenticatedPartnersRoute: typeof AuthenticatedPartnersRoute
+  AuthenticatedPatientsRoute: typeof AuthenticatedPatientsRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
+  AuthenticatedPharmacyRoute: typeof AuthenticatedPharmacyRoute
   AuthenticatedPluginsRoute: typeof AuthenticatedPluginsRouteWithChildren
   AuthenticatedPredictionsRoute: typeof AuthenticatedPredictionsRoute
+  AuthenticatedPublicEducationRoute: typeof AuthenticatedPublicEducationRoute
+  AuthenticatedPublicHealthRoute: typeof AuthenticatedPublicHealthRoute
+  AuthenticatedPublicSafetyRoute: typeof AuthenticatedPublicSafetyRoute
   AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
   AuthenticatedRuntimeRoute: typeof AuthenticatedRuntimeRouteWithChildren
+  AuthenticatedRuralRoute: typeof AuthenticatedRuralRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSimulationRoute: typeof AuthenticatedSimulationRoute
   AuthenticatedSkillsRoute: typeof AuthenticatedSkillsRouteWithChildren
+  AuthenticatedSmartCityRoute: typeof AuthenticatedSmartCityRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
   AuthenticatedSupplyChainRoute: typeof AuthenticatedSupplyChainRoute
+  AuthenticatedTelemedicineRoute: typeof AuthenticatedTelemedicineRoute
   AuthenticatedToolsRoute: typeof AuthenticatedToolsRouteWithChildren
+  AuthenticatedTransportRoute: typeof AuthenticatedTransportRoute
+  AuthenticatedUtilitiesRoute: typeof AuthenticatedUtilitiesRoute
   AuthenticatedVendorsRoute: typeof AuthenticatedVendorsRoute
+  AuthenticatedWellnessRoute: typeof AuthenticatedWellnessRoute
   AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRouteWithChildren
   AuthenticatedWorkforceRoute: typeof AuthenticatedWorkforceRoute
   AuthenticatedEnterpriseAiIndexRoute: typeof AuthenticatedEnterpriseAiIndexRoute
@@ -6041,6 +6427,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
   AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
+  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedAutomationRoute: AuthenticatedAutomationRoute,
   AuthenticatedAutonomousRoute: AuthenticatedAutonomousRoute,
@@ -6048,6 +6435,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBillingRoute: AuthenticatedBillingRoute,
   AuthenticatedBrainRoute: AuthenticatedBrainRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
+  AuthenticatedCitizensRoute: AuthenticatedCitizensRoute,
   AuthenticatedCloudRoute: AuthenticatedCloudRouteWithChildren,
   AuthenticatedCommerceRoute: AuthenticatedCommerceRoute,
   AuthenticatedCommunicationsRoute: AuthenticatedCommunicationsRoute,
@@ -6068,31 +6456,48 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFinancialAiRoute: AuthenticatedFinancialAiRoute,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedGlobalRoute: AuthenticatedGlobalRoute,
+  AuthenticatedGovernmentRoute: AuthenticatedGovernmentRoute,
+  AuthenticatedHealthcareRoute: AuthenticatedHealthcareRoute,
+  AuthenticatedHospitalsRoute: AuthenticatedHospitalsRoute,
   AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,
   AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRouteWithChildren,
   AuthenticatedInvestorsRoute: AuthenticatedInvestorsRoute,
   AuthenticatedIotRoute: AuthenticatedIotRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
+  AuthenticatedLaboratoryRoute: AuthenticatedLaboratoryRoute,
   AuthenticatedManufacturingRoute: AuthenticatedManufacturingRoute,
   AuthenticatedMarketIntelligenceRoute: AuthenticatedMarketIntelligenceRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
+  AuthenticatedMedicalResearchRoute: AuthenticatedMedicalResearchRoute,
   AuthenticatedMemoryRoute: AuthenticatedMemoryRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedMonitoringRoute: AuthenticatedMonitoringRoute,
+  AuthenticatedNationalRoute: AuthenticatedNationalRoute,
   AuthenticatedNativeRoute: AuthenticatedNativeRoute,
   AuthenticatedPartnersRoute: AuthenticatedPartnersRoute,
+  AuthenticatedPatientsRoute: AuthenticatedPatientsRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
+  AuthenticatedPharmacyRoute: AuthenticatedPharmacyRoute,
   AuthenticatedPluginsRoute: AuthenticatedPluginsRouteWithChildren,
   AuthenticatedPredictionsRoute: AuthenticatedPredictionsRoute,
+  AuthenticatedPublicEducationRoute: AuthenticatedPublicEducationRoute,
+  AuthenticatedPublicHealthRoute: AuthenticatedPublicHealthRoute,
+  AuthenticatedPublicSafetyRoute: AuthenticatedPublicSafetyRoute,
   AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
   AuthenticatedRuntimeRoute: AuthenticatedRuntimeRouteWithChildren,
+  AuthenticatedRuralRoute: AuthenticatedRuralRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSimulationRoute: AuthenticatedSimulationRoute,
   AuthenticatedSkillsRoute: AuthenticatedSkillsRouteWithChildren,
+  AuthenticatedSmartCityRoute: AuthenticatedSmartCityRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
   AuthenticatedSupplyChainRoute: AuthenticatedSupplyChainRoute,
+  AuthenticatedTelemedicineRoute: AuthenticatedTelemedicineRoute,
   AuthenticatedToolsRoute: AuthenticatedToolsRouteWithChildren,
+  AuthenticatedTransportRoute: AuthenticatedTransportRoute,
+  AuthenticatedUtilitiesRoute: AuthenticatedUtilitiesRoute,
   AuthenticatedVendorsRoute: AuthenticatedVendorsRoute,
+  AuthenticatedWellnessRoute: AuthenticatedWellnessRoute,
   AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRouteWithChildren,
   AuthenticatedWorkforceRoute: AuthenticatedWorkforceRoute,
   AuthenticatedEnterpriseAiIndexRoute: AuthenticatedEnterpriseAiIndexRoute,
