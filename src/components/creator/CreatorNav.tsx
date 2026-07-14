@@ -6,7 +6,8 @@ import {
   PenLine, Megaphone, Palette, Download,
 } from "lucide-react";
 
-const TABS = [
+type Tab = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+const TABS: ReadonlyArray<Tab> = [
   { to: "/studio", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/studio/projects", label: "Projects", icon: FolderKanban },
   { to: "/studio/image", label: "Image", icon: ImageIcon },
@@ -17,7 +18,7 @@ const TABS = [
   { to: "/studio/brand", label: "Brand", icon: Palette },
   { to: "/studio/assets", label: "Media", icon: Images },
   { to: "/studio/exports", label: "Exports", icon: Download },
-] as const;
+];
 
 export function CreatorNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
