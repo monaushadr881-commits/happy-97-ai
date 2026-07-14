@@ -15,7 +15,7 @@ export interface HealthReport {
   status: HealthStatus;
   latencyMs: number;
   message?: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, string | number | boolean | null>;
   checkedAt: string;
 }
 
@@ -41,11 +41,11 @@ export const healthService = defineService({ name: "ops.health", version: "v1" }
   async queue(ctx: ServiceContext): Promise<HealthReport> {
     try {
       const { v, ms } = await timed(async () => {
-        const [ready, failed] = await Promise.all([
-          ctx.supabase.from("job_queue").select("id", { head: true, count: "exact" }).eq("status", "ready"),
-          ctx.supabase.from("job_queue").select("id", { head: true, count: "exact" }).eq("status", "failed"),
+        const [queued, failed] = await Promise.all([
+          ctx.supabase.from("job_queue").select("id", { head: true, count: "exact" }).eq("status", "queued" as never),
+          ctx.supabase.from("job_queue").select("id", { head: true, count: "exact" }).eq("status", "failed" as never),
         ]);
-        return { ready: ready.count ?? 0, failed: failed.count ?? 0 };
+        return { queued: queued.count ?? 0, failed: failed.count ?? 0 };
       });
       const status: HealthStatus = v.failed > 100 ? "degraded" : v.failed > 500 ? "down" : "ok";
       return { service: "queue", status, latencyMs: ms, metadata: v, checkedAt: new Date().toISOString() };
@@ -92,7 +92,7 @@ export const healthService = defineService({ name: "ops.health", version: "v1" }
       const { v, ms } = await timed(async () => {
         const { count } = await ctx.supabase
           .from("webhook_deliveries").select("id", { head: true, count: "exact" })
-          .eq("status", "failed");
+          .gte("response_status", 400);
         return { failed: count ?? 0 };
       });
       const status: HealthStatus = v.failed > 20 ? "degraded" : "ok";

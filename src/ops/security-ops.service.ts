@@ -25,7 +25,7 @@ export const securityOpsService = defineService({ name: "ops.security", version:
   async recentAudit(ctx: ServiceContext, input: unknown = {}) {
     const p = validate(z.object({ limit: z.number().int().min(1).max(500).default(100), severity: z.string().optional() }), input);
     let q = ctx.supabase.from("audit_logs").select("*").order("occurred_at", { ascending: false }).limit(p.limit);
-    if (p.severity) q = q.eq("severity", p.severity);
+    if (p.severity) q = q.eq("severity", p.severity as never);
     const { data, error } = await q;
     if (error) throw error;
     return data ?? [];

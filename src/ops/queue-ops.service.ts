@@ -8,7 +8,7 @@ import { defineService, V, validate, z, type ServiceContext } from "@/services/c
 export const queueOpsService = defineService({ name: "ops.queue", version: "v1" }, () => ({
   async stats(ctx: ServiceContext) {
     const counts = await Promise.all(
-      (["ready", "running", "succeeded", "failed", "dead"] as const).map(async (s) => {
+      (["queued", "running", "succeeded", "failed", "cancelled"] as const).map(async (s) => {
         const { count } = await ctx.supabase
           .from("job_queue").select("id", { head: true, count: "exact" }).eq("status", s);
         return [s, count ?? 0] as const;
@@ -26,14 +26,14 @@ export const queueOpsService = defineService({ name: "ops.queue", version: "v1" 
   async retry(ctx: ServiceContext, id: string) {
     const uid = validate(V.uuid, id);
     const { data, error } = await ctx.supabase.from("job_queue").update({
-      status: "ready", run_at: new Date().toISOString(), last_error: null,
+      status: "queued", run_after: new Date().toISOString(), error: null, attempts: 0,
     } as never).eq("id", uid).select("*").single();
     if (error) throw error;
     return data;
   },
   async moveToDlq(ctx: ServiceContext, id: string) {
     const uid = validate(V.uuid, id);
-    const { data, error } = await ctx.supabase.from("job_queue").update({ status: "dead" } as never)
+    const { data, error } = await ctx.supabase.from("job_queue").update({ status: "cancelled" } as never)
       .eq("id", uid).select("*").single();
     if (error) throw error;
     return data;

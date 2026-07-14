@@ -1,6 +1,8 @@
 /**
  * HAPPY X Ops — AI Operations Service
  * Read-only slice over ai_sessions for cost/latency/usage dashboards.
+ * Grouped by `channel` (persona/module label); the current schema stores
+ * cost in cents and separate input/output token counters.
  */
 import { defineService, validate, z, type ServiceContext } from "@/services/core";
 
@@ -10,28 +12,32 @@ export const aiOpsService = defineService({ name: "ops.ai", version: "v1" }, () 
     const since = new Date(Date.now() - p.hours * 60 * 60_000).toISOString();
     const { data, error } = await ctx.supabase
       .from("ai_sessions")
-      .select("model, total_tokens, cost_credits, latency_ms, started_at")
+      .select("channel, input_tokens, output_tokens, cost_cents, started_at, ended_at")
       .gte("started_at", since).limit(5000);
     if (error) throw error;
-    const rows = (data ?? []) as { model: string; total_tokens: number | null; cost_credits: number | null; latency_ms: number | null }[];
-    const byModel = new Map<string, { calls: number; tokens: number; credits: number; latencySum: number; latencyN: number }>();
+    type Row = { channel: string; input_tokens: number; output_tokens: number; cost_cents: number; started_at: string; ended_at: string | null };
+    const rows = (data ?? []) as Row[];
+    const byChannel = new Map<string, { calls: number; tokens: number; cents: number; latencySum: number; latencyN: number }>();
     for (const r of rows) {
-      const b = byModel.get(r.model) ?? { calls: 0, tokens: 0, credits: 0, latencySum: 0, latencyN: 0 };
+      const b = byChannel.get(r.channel) ?? { calls: 0, tokens: 0, cents: 0, latencySum: 0, latencyN: 0 };
       b.calls += 1;
-      b.tokens += r.total_tokens ?? 0;
-      b.credits += Number(r.cost_credits ?? 0);
-      if (r.latency_ms != null) { b.latencySum += r.latency_ms; b.latencyN += 1; }
-      byModel.set(r.model, b);
+      b.tokens += (r.input_tokens ?? 0) + (r.output_tokens ?? 0);
+      b.cents += Number(r.cost_cents ?? 0);
+      if (r.ended_at) {
+        b.latencySum += new Date(r.ended_at).getTime() - new Date(r.started_at).getTime();
+        b.latencyN += 1;
+      }
+      byChannel.set(r.channel, b);
     }
     return {
       windowHours: p.hours,
       totals: {
         calls: rows.length,
-        tokens: rows.reduce((s, r) => s + (r.total_tokens ?? 0), 0),
-        credits: rows.reduce((s, r) => s + Number(r.cost_credits ?? 0), 0),
+        tokens: rows.reduce((s, r) => s + (r.input_tokens ?? 0) + (r.output_tokens ?? 0), 0),
+        costCents: rows.reduce((s, r) => s + Number(r.cost_cents ?? 0), 0),
       },
-      byModel: Array.from(byModel.entries()).map(([model, b]) => ({
-        model, calls: b.calls, tokens: b.tokens, credits: b.credits,
+      byChannel: Array.from(byChannel.entries()).map(([channel, b]) => ({
+        channel, calls: b.calls, tokens: b.tokens, costCents: b.cents,
         avgLatencyMs: b.latencyN ? Math.round(b.latencySum / b.latencyN) : null,
       })),
     };

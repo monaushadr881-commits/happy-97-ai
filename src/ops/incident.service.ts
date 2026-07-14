@@ -28,7 +28,7 @@ const EventInput = z.object({
 export const incidentService = defineService({ name: "ops.incident", version: "v1" }, () => ({
   async list(ctx: ServiceContext, status?: string) {
     let q = ctx.supabase.from("incidents").select("*").order("opened_at", { ascending: false }).limit(200);
-    if (status) q = q.eq("status", status);
+    if (status) q = q.eq("status", status as never);
     const { data, error } = await q;
     if (error) throw error;
     return data ?? [];
