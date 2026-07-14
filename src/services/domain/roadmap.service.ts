@@ -726,3 +726,12 @@ export const intelligenceExchangeService = defineService({ name: "intelligence-e
 export const observabilityV3Service = defineService({ name: "observability-v3", version: "v17" }, () => activated("observability-v3"));
 export const experienceFabricV17Service = defineService({ name: "experience-fabric-v17", version: "v17" }, () => activated("experience-fabric-v17"));
 export const platformHubService = defineService({ name: "platform-hub", version: "v17" }, () => activated("platform-hub"));
+
+
+// ---------- Enterprise Identity Platform (activated via Enterprise Brain) ----------
+export const authenticationService = defineService({ name: "authentication", version: "eip" }, () => activated("authentication"));
+export const identityService = defineService({ name: "identity", version: "eip" }, () => activated("identity"));
+export const roleService = defineService({ name: "role", version: "eip" }, () => activated("role"));
+export const permissionService = defineService({ name: "permission", version: "eip" }, () => activated("permission"));
+export const sessionService = defineService({ name: "session", version: "eip" }, () => activated("session"));
+export const founderControlService = defineService({ name: "founder-control", version: "eip" }, () => activated("founder-control"));
