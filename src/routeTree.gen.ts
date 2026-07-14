@@ -20,6 +20,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
 import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
+import { Route as AuthenticatedMemoryRouteImport } from './routes/_authenticated/memory'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
 import { Route as AuthenticatedIntelligenceRouteImport } from './routes/_authenticated/intelligence'
@@ -30,6 +31,7 @@ import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_auth
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
+import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticated/decision'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
@@ -60,6 +62,11 @@ import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authent
 import { Route as AuthenticatedPluginsStoreRouteImport } from './routes/_authenticated/plugins.store'
 import { Route as AuthenticatedPluginsSettingsRouteImport } from './routes/_authenticated/plugins.settings'
 import { Route as AuthenticatedPluginsInstalledRouteImport } from './routes/_authenticated/plugins.installed'
+import { Route as AuthenticatedMemoryTimelineRouteImport } from './routes/_authenticated/memory.timeline'
+import { Route as AuthenticatedMemorySettingsRouteImport } from './routes/_authenticated/memory.settings'
+import { Route as AuthenticatedMemorySearchRouteImport } from './routes/_authenticated/memory.search'
+import { Route as AuthenticatedMemoryPreferencesRouteImport } from './routes/_authenticated/memory.preferences'
+import { Route as AuthenticatedMemoryDashboardRouteImport } from './routes/_authenticated/memory.dashboard'
 import { Route as AuthenticatedMarketplaceSellerRouteImport } from './routes/_authenticated/marketplace.seller'
 import { Route as AuthenticatedMarketplaceSalesRouteImport } from './routes/_authenticated/marketplace.sales'
 import { Route as AuthenticatedMarketplaceOrdersRouteImport } from './routes/_authenticated/marketplace.orders'
@@ -112,6 +119,9 @@ import { Route as AuthenticatedDigitalHumanSessionsRouteImport } from './routes/
 import { Route as AuthenticatedDigitalHumanPresentationRouteImport } from './routes/_authenticated/digital-human.presentation'
 import { Route as AuthenticatedDigitalHumanClassroomRouteImport } from './routes/_authenticated/digital-human.classroom'
 import { Route as AuthenticatedDigitalHumanBoardroomRouteImport } from './routes/_authenticated/digital-human.boardroom'
+import { Route as AuthenticatedDecisionScenariosRouteImport } from './routes/_authenticated/decision.scenarios'
+import { Route as AuthenticatedDecisionHistoryRouteImport } from './routes/_authenticated/decision.history'
+import { Route as AuthenticatedDecisionAnalyticsRouteImport } from './routes/_authenticated/decision.analytics'
 import { Route as AuthenticatedCommunityMineRouteImport } from './routes/_authenticated/community.mine'
 import { Route as AuthenticatedCommunityGroupsRouteImport } from './routes/_authenticated/community.groups'
 import { Route as AuthenticatedCommunityFollowingRouteImport } from './routes/_authenticated/community.following'
@@ -185,6 +195,11 @@ const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMemoryRoute = AuthenticatedMemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMarketplaceRoute =
   AuthenticatedMarketplaceRouteImport.update({
     id: '/marketplace',
@@ -239,6 +254,11 @@ const AuthenticatedDigitalHumanRoute =
     path: '/digital-human',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDecisionRoute = AuthenticatedDecisionRouteImport.update({
+  id: '/decision',
+  path: '/decision',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -410,6 +430,36 @@ const AuthenticatedPluginsInstalledRoute =
     id: '/installed',
     path: '/installed',
     getParentRoute: () => AuthenticatedPluginsRoute,
+  } as any)
+const AuthenticatedMemoryTimelineRoute =
+  AuthenticatedMemoryTimelineRouteImport.update({
+    id: '/timeline',
+    path: '/timeline',
+    getParentRoute: () => AuthenticatedMemoryRoute,
+  } as any)
+const AuthenticatedMemorySettingsRoute =
+  AuthenticatedMemorySettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedMemoryRoute,
+  } as any)
+const AuthenticatedMemorySearchRoute =
+  AuthenticatedMemorySearchRouteImport.update({
+    id: '/search',
+    path: '/search',
+    getParentRoute: () => AuthenticatedMemoryRoute,
+  } as any)
+const AuthenticatedMemoryPreferencesRoute =
+  AuthenticatedMemoryPreferencesRouteImport.update({
+    id: '/preferences',
+    path: '/preferences',
+    getParentRoute: () => AuthenticatedMemoryRoute,
+  } as any)
+const AuthenticatedMemoryDashboardRoute =
+  AuthenticatedMemoryDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedMemoryRoute,
   } as any)
 const AuthenticatedMarketplaceSellerRoute =
   AuthenticatedMarketplaceSellerRouteImport.update({
@@ -721,6 +771,24 @@ const AuthenticatedDigitalHumanBoardroomRoute =
     path: '/boardroom',
     getParentRoute: () => AuthenticatedDigitalHumanRoute,
   } as any)
+const AuthenticatedDecisionScenariosRoute =
+  AuthenticatedDecisionScenariosRouteImport.update({
+    id: '/scenarios',
+    path: '/scenarios',
+    getParentRoute: () => AuthenticatedDecisionRoute,
+  } as any)
+const AuthenticatedDecisionHistoryRoute =
+  AuthenticatedDecisionHistoryRouteImport.update({
+    id: '/history',
+    path: '/history',
+    getParentRoute: () => AuthenticatedDecisionRoute,
+  } as any)
+const AuthenticatedDecisionAnalyticsRoute =
+  AuthenticatedDecisionAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedDecisionRoute,
+  } as any)
 const AuthenticatedCommunityMineRoute =
   AuthenticatedCommunityMineRouteImport.update({
     id: '/mine',
@@ -838,6 +906,7 @@ export interface FileRoutesByFullPath {
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
@@ -848,6 +917,7 @@ export interface FileRoutesByFullPath {
   '/intelligence': typeof AuthenticatedIntelligenceRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
+  '/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
@@ -869,6 +939,9 @@ export interface FileRoutesByFullPath {
   '/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/community/mine': typeof AuthenticatedCommunityMineRoute
+  '/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
+  '/decision/history': typeof AuthenticatedDecisionHistoryRoute
+  '/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -921,6 +994,11 @@ export interface FileRoutesByFullPath {
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/memory/dashboard': typeof AuthenticatedMemoryDashboardRoute
+  '/memory/preferences': typeof AuthenticatedMemoryPreferencesRoute
+  '/memory/search': typeof AuthenticatedMemorySearchRoute
+  '/memory/settings': typeof AuthenticatedMemorySettingsRoute
+  '/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
   '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
@@ -958,9 +1036,11 @@ export interface FileRoutesByTo {
   '/assistant': typeof AuthenticatedAssistantRoute
   '/autonomous': typeof AuthenticatedAutonomousRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/global': typeof AuthenticatedGlobalRoute
   '/intelligence': typeof AuthenticatedIntelligenceRoute
+  '/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -980,6 +1060,9 @@ export interface FileRoutesByTo {
   '/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/community/mine': typeof AuthenticatedCommunityMineRoute
+  '/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
+  '/decision/history': typeof AuthenticatedDecisionHistoryRoute
+  '/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -1032,6 +1115,11 @@ export interface FileRoutesByTo {
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/memory/dashboard': typeof AuthenticatedMemoryDashboardRoute
+  '/memory/preferences': typeof AuthenticatedMemoryPreferencesRoute
+  '/memory/search': typeof AuthenticatedMemorySearchRoute
+  '/memory/settings': typeof AuthenticatedMemorySettingsRoute
+  '/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
   '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
@@ -1073,6 +1161,7 @@ export interface FileRoutesById {
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
@@ -1083,6 +1172,7 @@ export interface FileRoutesById {
   '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
+  '/_authenticated/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
@@ -1104,6 +1194,9 @@ export interface FileRoutesById {
   '/_authenticated/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/_authenticated/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/_authenticated/community/mine': typeof AuthenticatedCommunityMineRoute
+  '/_authenticated/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
+  '/_authenticated/decision/history': typeof AuthenticatedDecisionHistoryRoute
+  '/_authenticated/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
   '/_authenticated/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/_authenticated/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/_authenticated/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
@@ -1156,6 +1249,11 @@ export interface FileRoutesById {
   '/_authenticated/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/_authenticated/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/_authenticated/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/_authenticated/memory/dashboard': typeof AuthenticatedMemoryDashboardRoute
+  '/_authenticated/memory/preferences': typeof AuthenticatedMemoryPreferencesRoute
+  '/_authenticated/memory/search': typeof AuthenticatedMemorySearchRoute
+  '/_authenticated/memory/settings': typeof AuthenticatedMemorySettingsRoute
+  '/_authenticated/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
   '/_authenticated/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
   '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
@@ -1197,6 +1295,7 @@ export interface FileRouteTypes {
     | '/business'
     | '/community'
     | '/dashboard'
+    | '/decision'
     | '/digital-human'
     | '/education'
     | '/enterprise'
@@ -1207,6 +1306,7 @@ export interface FileRouteTypes {
     | '/intelligence'
     | '/knowledge'
     | '/marketplace'
+    | '/memory'
     | '/messages'
     | '/plugins'
     | '/roadmap'
@@ -1228,6 +1328,9 @@ export interface FileRouteTypes {
     | '/community/following'
     | '/community/groups'
     | '/community/mine'
+    | '/decision/analytics'
+    | '/decision/history'
+    | '/decision/scenarios'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
@@ -1280,6 +1383,11 @@ export interface FileRouteTypes {
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
+    | '/memory/dashboard'
+    | '/memory/preferences'
+    | '/memory/search'
+    | '/memory/settings'
+    | '/memory/timeline'
     | '/plugins/installed'
     | '/plugins/settings'
     | '/plugins/store'
@@ -1317,9 +1425,11 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/autonomous'
     | '/dashboard'
+    | '/decision'
     | '/enterprise-cloud'
     | '/global'
     | '/intelligence'
+    | '/memory'
     | '/plugins'
     | '/roadmap'
     | '/settings'
@@ -1339,6 +1449,9 @@ export interface FileRouteTypes {
     | '/community/following'
     | '/community/groups'
     | '/community/mine'
+    | '/decision/analytics'
+    | '/decision/history'
+    | '/decision/scenarios'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
@@ -1391,6 +1504,11 @@ export interface FileRouteTypes {
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
+    | '/memory/dashboard'
+    | '/memory/preferences'
+    | '/memory/search'
+    | '/memory/settings'
+    | '/memory/timeline'
     | '/plugins/installed'
     | '/plugins/settings'
     | '/plugins/store'
@@ -1431,6 +1549,7 @@ export interface FileRouteTypes {
     | '/_authenticated/business'
     | '/_authenticated/community'
     | '/_authenticated/dashboard'
+    | '/_authenticated/decision'
     | '/_authenticated/digital-human'
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
@@ -1441,6 +1560,7 @@ export interface FileRouteTypes {
     | '/_authenticated/intelligence'
     | '/_authenticated/knowledge'
     | '/_authenticated/marketplace'
+    | '/_authenticated/memory'
     | '/_authenticated/messages'
     | '/_authenticated/plugins'
     | '/_authenticated/roadmap'
@@ -1462,6 +1582,9 @@ export interface FileRouteTypes {
     | '/_authenticated/community/following'
     | '/_authenticated/community/groups'
     | '/_authenticated/community/mine'
+    | '/_authenticated/decision/analytics'
+    | '/_authenticated/decision/history'
+    | '/_authenticated/decision/scenarios'
     | '/_authenticated/digital-human/boardroom'
     | '/_authenticated/digital-human/classroom'
     | '/_authenticated/digital-human/presentation'
@@ -1514,6 +1637,11 @@ export interface FileRouteTypes {
     | '/_authenticated/marketplace/orders'
     | '/_authenticated/marketplace/sales'
     | '/_authenticated/marketplace/seller'
+    | '/_authenticated/memory/dashboard'
+    | '/_authenticated/memory/preferences'
+    | '/_authenticated/memory/search'
+    | '/_authenticated/memory/settings'
+    | '/_authenticated/memory/timeline'
     | '/_authenticated/plugins/installed'
     | '/_authenticated/plugins/settings'
     | '/_authenticated/plugins/store'
@@ -1633,6 +1761,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/memory': {
+      id: '/_authenticated/memory'
+      path: '/memory'
+      fullPath: '/memory'
+      preLoaderRoute: typeof AuthenticatedMemoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/marketplace': {
       id: '/_authenticated/marketplace'
       path: '/marketplace'
@@ -1701,6 +1836,13 @@ declare module '@tanstack/react-router' {
       path: '/digital-human'
       fullPath: '/digital-human'
       preLoaderRoute: typeof AuthenticatedDigitalHumanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/decision': {
+      id: '/_authenticated/decision'
+      path: '/decision'
+      fullPath: '/decision'
+      preLoaderRoute: typeof AuthenticatedDecisionRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -1912,6 +2054,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/plugins/installed'
       preLoaderRoute: typeof AuthenticatedPluginsInstalledRouteImport
       parentRoute: typeof AuthenticatedPluginsRoute
+    }
+    '/_authenticated/memory/timeline': {
+      id: '/_authenticated/memory/timeline'
+      path: '/timeline'
+      fullPath: '/memory/timeline'
+      preLoaderRoute: typeof AuthenticatedMemoryTimelineRouteImport
+      parentRoute: typeof AuthenticatedMemoryRoute
+    }
+    '/_authenticated/memory/settings': {
+      id: '/_authenticated/memory/settings'
+      path: '/settings'
+      fullPath: '/memory/settings'
+      preLoaderRoute: typeof AuthenticatedMemorySettingsRouteImport
+      parentRoute: typeof AuthenticatedMemoryRoute
+    }
+    '/_authenticated/memory/search': {
+      id: '/_authenticated/memory/search'
+      path: '/search'
+      fullPath: '/memory/search'
+      preLoaderRoute: typeof AuthenticatedMemorySearchRouteImport
+      parentRoute: typeof AuthenticatedMemoryRoute
+    }
+    '/_authenticated/memory/preferences': {
+      id: '/_authenticated/memory/preferences'
+      path: '/preferences'
+      fullPath: '/memory/preferences'
+      preLoaderRoute: typeof AuthenticatedMemoryPreferencesRouteImport
+      parentRoute: typeof AuthenticatedMemoryRoute
+    }
+    '/_authenticated/memory/dashboard': {
+      id: '/_authenticated/memory/dashboard'
+      path: '/dashboard'
+      fullPath: '/memory/dashboard'
+      preLoaderRoute: typeof AuthenticatedMemoryDashboardRouteImport
+      parentRoute: typeof AuthenticatedMemoryRoute
     }
     '/_authenticated/marketplace/seller': {
       id: '/_authenticated/marketplace/seller'
@@ -2277,6 +2454,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDigitalHumanBoardroomRouteImport
       parentRoute: typeof AuthenticatedDigitalHumanRoute
     }
+    '/_authenticated/decision/scenarios': {
+      id: '/_authenticated/decision/scenarios'
+      path: '/scenarios'
+      fullPath: '/decision/scenarios'
+      preLoaderRoute: typeof AuthenticatedDecisionScenariosRouteImport
+      parentRoute: typeof AuthenticatedDecisionRoute
+    }
+    '/_authenticated/decision/history': {
+      id: '/_authenticated/decision/history'
+      path: '/history'
+      fullPath: '/decision/history'
+      preLoaderRoute: typeof AuthenticatedDecisionHistoryRouteImport
+      parentRoute: typeof AuthenticatedDecisionRoute
+    }
+    '/_authenticated/decision/analytics': {
+      id: '/_authenticated/decision/analytics'
+      path: '/analytics'
+      fullPath: '/decision/analytics'
+      preLoaderRoute: typeof AuthenticatedDecisionAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedDecisionRoute
+    }
     '/_authenticated/community/mine': {
       id: '/_authenticated/community/mine'
       path: '/mine'
@@ -2464,6 +2662,23 @@ const AuthenticatedCommunityRouteChildren: AuthenticatedCommunityRouteChildren =
 const AuthenticatedCommunityRouteWithChildren =
   AuthenticatedCommunityRoute._addFileChildren(
     AuthenticatedCommunityRouteChildren,
+  )
+
+interface AuthenticatedDecisionRouteChildren {
+  AuthenticatedDecisionAnalyticsRoute: typeof AuthenticatedDecisionAnalyticsRoute
+  AuthenticatedDecisionHistoryRoute: typeof AuthenticatedDecisionHistoryRoute
+  AuthenticatedDecisionScenariosRoute: typeof AuthenticatedDecisionScenariosRoute
+}
+
+const AuthenticatedDecisionRouteChildren: AuthenticatedDecisionRouteChildren = {
+  AuthenticatedDecisionAnalyticsRoute: AuthenticatedDecisionAnalyticsRoute,
+  AuthenticatedDecisionHistoryRoute: AuthenticatedDecisionHistoryRoute,
+  AuthenticatedDecisionScenariosRoute: AuthenticatedDecisionScenariosRoute,
+}
+
+const AuthenticatedDecisionRouteWithChildren =
+  AuthenticatedDecisionRoute._addFileChildren(
+    AuthenticatedDecisionRouteChildren,
   )
 
 interface AuthenticatedDigitalHumanRouteChildren {
@@ -2679,6 +2894,25 @@ const AuthenticatedMarketplaceRouteWithChildren =
     AuthenticatedMarketplaceRouteChildren,
   )
 
+interface AuthenticatedMemoryRouteChildren {
+  AuthenticatedMemoryDashboardRoute: typeof AuthenticatedMemoryDashboardRoute
+  AuthenticatedMemoryPreferencesRoute: typeof AuthenticatedMemoryPreferencesRoute
+  AuthenticatedMemorySearchRoute: typeof AuthenticatedMemorySearchRoute
+  AuthenticatedMemorySettingsRoute: typeof AuthenticatedMemorySettingsRoute
+  AuthenticatedMemoryTimelineRoute: typeof AuthenticatedMemoryTimelineRoute
+}
+
+const AuthenticatedMemoryRouteChildren: AuthenticatedMemoryRouteChildren = {
+  AuthenticatedMemoryDashboardRoute: AuthenticatedMemoryDashboardRoute,
+  AuthenticatedMemoryPreferencesRoute: AuthenticatedMemoryPreferencesRoute,
+  AuthenticatedMemorySearchRoute: AuthenticatedMemorySearchRoute,
+  AuthenticatedMemorySettingsRoute: AuthenticatedMemorySettingsRoute,
+  AuthenticatedMemoryTimelineRoute: AuthenticatedMemoryTimelineRoute,
+}
+
+const AuthenticatedMemoryRouteWithChildren =
+  AuthenticatedMemoryRoute._addFileChildren(AuthenticatedMemoryRouteChildren)
+
 interface AuthenticatedMessagesRouteChildren {
   AuthenticatedMessagesIndexRoute: typeof AuthenticatedMessagesIndexRoute
 }
@@ -2743,6 +2977,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
@@ -2753,6 +2988,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
+  AuthenticatedMemoryRoute: typeof AuthenticatedMemoryRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedPluginsRoute: typeof AuthenticatedPluginsRouteWithChildren
   AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
@@ -2767,6 +3003,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
@@ -2777,6 +3014,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
+  AuthenticatedMemoryRoute: AuthenticatedMemoryRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedPluginsRoute: AuthenticatedPluginsRouteWithChildren,
   AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
