@@ -117,16 +117,51 @@ export const HappyAvatar = memo(function HappyAvatar({
   size = 260,
   className,
   variant = "bust",
+  trackCursor = false,
 }: Props) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
   const drift = useMicroMotion(reducedMotion);
+  const [gaze, setGaze] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    if (!trackCursor || reducedMotion) return;
+    let raf = 0;
+    let target = { x: 0, y: 0 };
+    let current = { x: 0, y: 0 };
+    const onMove = (e: MouseEvent) => {
+      const el = rootRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dx = (e.clientX - cx) / Math.max(r.width, 1);
+      const dy = (e.clientY - cy) / Math.max(r.height, 1);
+      // clamp — gentle, never robotic
+      target = {
+        x: Math.max(-1, Math.min(1, dx)) * 3.5,
+        y: Math.max(-1, Math.min(1, dy)) * 2.2,
+      };
+    };
+    const tick = () => {
+      current = {
+        x: current.x + (target.x - current.x) * 0.06,
+        y: current.y + (target.y - current.y) * 0.06,
+      };
+      setGaze({ x: current.x, y: current.y });
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    raf = requestAnimationFrame(tick);
+    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
+  }, [trackCursor, reducedMotion]);
+
   const speaking = activity === "speaking";
   const listening = activity === "listening";
   const thinking = expression === "thinking";
   const smiling = expression === "smile" || expression === "celebrate";
 
-
   const radius = variant === "portrait" ? "1.75rem" : "9999px";
+
 
   return (
     <div
