@@ -165,11 +165,13 @@ export const HappyAvatar = memo(function HappyAvatar({
 
   return (
     <div
+      ref={rootRef}
       role="img"
       aria-label="HAPPY, the digital human"
       className={cn("relative select-none isolate", className)}
       style={{ width: size, height: variant === "portrait" ? Math.round(size * 1.25) : size }}
     >
+
       {/* soft gold halo */}
       <div
         aria-hidden
