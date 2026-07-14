@@ -562,5 +562,16 @@ export const skillsV4Service = defineService({ name: "skills-v4", version: "v4" 
 export const developerV4Service = defineService({ name: "developer-v4", version: "v4" }, () => activated("developer-v4"));
 export const brainV4Service = defineService({ name: "brain-v4", version: "v4" }, () => activated("brain-v4"));
 
+// ---------- v5.0 — Global Cloud Platform (activated via Enterprise Brain) ----------
+export const cloudPlatformService = defineService({ name: "cloud-platform", version: "v5" }, () => activated("cloud-platform"));
+export const deploymentService = defineService({ name: "deployment", version: "v5" }, () => activated("deployment"));
+export const modelManagementService = defineService({ name: "model-management", version: "v5" }, () => activated("model-management"));
+export const billingPlatformService = defineService({ name: "billing-platform", version: "v5" }, () => activated("billing-platform"));
+export const analyticsPlatformService = defineService({ name: "analytics-platform", version: "v5" }, () => activated("analytics-platform"));
+export const complianceService = defineService({ name: "compliance", version: "v5" }, () => activated("compliance"));
+export const cloudMarketplaceService = defineService({ name: "cloud-marketplace", version: "v5" }, () => activated("cloud-marketplace"));
+export const cloudStorageService = defineService({ name: "cloud-storage", version: "v5" }, () => activated("cloud-storage"));
+
+
 
 
