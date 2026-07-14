@@ -1,6 +1,6 @@
 /** /digital-human — Conversation with HAPPY (modes as capabilities). */
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useMutation } from "@tanstack/react-query";
 import { PageHeader, Panel, Hairline, Chip } from "@/design-system/primitives";
@@ -9,6 +9,9 @@ import { Button } from "@/components/ui/button";
 import { HappyAvatar, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { useDigitalHuman } from "@/components/digital-human/DigitalHumanContext";
 import { useHappySpeech } from "@/components/digital-human/useHappySpeech";
+import {
+  chunkForSpeech, maybeAcknowledgement, PACING, pausable, thinkingDurationFor,
+} from "@/components/digital-human/conversation-engine";
 import { dhSpeak, DH_MODES, type DhMode } from "@/lib/digital-human-v1.functions";
 import { Send, StopCircle, Volume2, VolumeX } from "lucide-react";
 import { toast } from "sonner";
@@ -34,37 +37,93 @@ function DhConversation() {
   const [message, setMessage] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<Turn[]>([]);
+  const [statusHint, setStatusHint] = useState<string>("");
+  const lastAckRef = useRef<string | undefined>(undefined);
+  const turnAbortRef = useRef<AbortController | null>(null);
+
+  const cancelTurn = () => {
+    turnAbortRef.current?.abort();
+    turnAbortRef.current = null;
+    stop();
+  };
+
+  useEffect(() => () => cancelTurn(), []); // cleanup on unmount
 
   const speakMut = useMutation({
     mutationFn: () => dhSpeak({ data: { mode, surface: "conversation", session_id: sessionId, message } }),
-    onMutate: () => { setExpression("thinking"); setActivity("listening"); },
-    onSuccess: async (res) => {
-      setSessionId(res.session_id);
-      setTranscript(res.transcript as Turn[]);
+    onMutate: () => {
+      // Optimistic: show the user turn immediately, then run the listening → thinking beats.
+      const now = new Date().toISOString();
+      setTranscript((t) => [...t, { role: "user", content: message, at: now }]);
       setMessage("");
-      setExpression(res.expression as AvatarExpression);
-      if (!prefs.mute_audio) {
-        setActivity("speaking");
-        await speak(res.answer, {
-          voice: prefs.voice,
-          speed: prefs.speed,
-          onEnd: () => { setActivity("idle"); setExpression("neutral"); },
-        });
-      } else {
-        setActivity("idle");
-      }
+      setActivity("listening");
+      setExpression("listen");
+      setStatusHint("Listening…");
     },
-    onError: (e: Error) => { toast.error(e.message); setActivity("idle"); setExpression("neutral"); },
+    onSuccess: async (res) => {
+      const abort = new AbortController();
+      turnAbortRef.current = abort;
+      setSessionId(res.session_id);
+
+      // Small listening beat, then thinking beat scaled to answer length.
+      await pausable(PACING.listenBeatMs, abort.signal);
+      if (abort.signal.aborted) return;
+      setExpression("thinking");
+      setStatusHint("Thinking…");
+      await pausable(thinkingDurationFor(res.answer), abort.signal);
+      if (abort.signal.aborted) return;
+
+      // Reveal the assistant turn now, framed by an occasional acknowledgement.
+      const ack = maybeAcknowledgement(lastAckRef.current);
+      if (ack) lastAckRef.current = ack;
+      const framed = ack ? `${ack} ${res.answer}` : res.answer;
+      const now = new Date().toISOString();
+      setTranscript((t) => [...t, { role: "assistant", content: framed, at: now }]);
+
+      setExpression((res.expression as AvatarExpression) ?? "explain");
+      setStatusHint(prefs.mute_audio ? "" : "Speaking…");
+
+      if (prefs.mute_audio) { setActivity("idle"); return; }
+
+      // Speak in chunks so playback breathes at punctuation, not a wall of audio.
+      setActivity("speaking");
+      const chunks = chunkForSpeech(framed);
+      for (const chunk of chunks) {
+        if (abort.signal.aborted) break;
+        if (chunk === "\n\n") { await pausable(PACING.paragraphPauseMs, abort.signal); continue; }
+        await speak(chunk, { voice: prefs.voice, speed: prefs.speed });
+        await pausable(PACING.sentencePauseMs, abort.signal);
+      }
+      if (!abort.signal.aborted) { setActivity("idle"); setExpression("neutral"); setStatusHint(""); }
+    },
+    onError: (e: Error) => {
+      toast.error(e.message);
+      setActivity("idle"); setExpression("neutral"); setStatusHint("");
+    },
   });
 
-  const handleStop = () => { stop(); setActivity("idle"); setExpression("neutral"); };
+  const handleStop = () => {
+    cancelTurn();
+    setActivity("idle"); setExpression("neutral"); setStatusHint("");
+  };
+
+  // Turn-taking: if the user starts typing while HAPPY is speaking, stop immediately.
+  const onUserInput = (val: string) => {
+    if (val.length > message.length && (activity === "speaking" || activity === "listening")) {
+      cancelTurn();
+      setActivity("listening");
+      setExpression("listen");
+      setStatusHint("Listening…");
+    }
+    setMessage(val);
+  };
 
   return (
     <>
       <PageHeader
         eyebrow="Digital Human OS"
         title="HAPPY"
-        description="One digital human, many capabilities. HAPPY speaks, listens and adapts — every mode is a facet of the same identity."
+        description="One digital human, many capabilities. HAPPY listens, thinks, then speaks — with natural pacing and turn-taking."
       />
 
       <div className="grid gap-4 lg:grid-cols-[20rem_1fr]">
@@ -75,12 +134,17 @@ function DhConversation() {
               <Chip tone="gold">HAPPY · {MODE_LABEL[mode]}</Chip>
               <Chip tone={activity === "speaking" ? "success" : "neutral"}>{activity}</Chip>
             </div>
+            {statusHint && (
+              <div className="mt-2 text-[11px] text-soft-gray tracking-[0.14em] uppercase" aria-live="polite">
+                {statusHint}
+              </div>
+            )}
             <div className="mt-3 flex gap-2">
               <Button size="sm" variant="outline" onClick={() => updatePrefs({ mute_audio: !prefs.mute_audio })}>
                 {prefs.mute_audio ? <VolumeX className="h-4 w-4 mr-1" /> : <Volume2 className="h-4 w-4 mr-1" />}
                 {prefs.mute_audio ? "Muted" : "Voice on"}
               </Button>
-              {activity === "speaking" && (
+              {(activity === "speaking" || activity === "listening") && (
                 <Button size="sm" variant="outline" onClick={handleStop}>
                   <StopCircle className="h-4 w-4 mr-1" /> Stop
                 </Button>
@@ -123,10 +187,16 @@ function DhConversation() {
                 </div>
               </div>
             ))}
+            {speakMut.isPending && activity === "listening" && (
+              <div className="text-[11px] text-soft-gray italic">HAPPY is listening…</div>
+            )}
+            {expression === "thinking" && (
+              <div className="text-[11px] text-soft-gray italic">HAPPY is thinking…</div>
+            )}
           </div>
           <Hairline className="my-4" />
           <div className="flex gap-2">
-            <Textarea rows={2} value={message} onChange={(e) => setMessage(e.target.value)}
+            <Textarea rows={2} value={message} onChange={(e) => onUserInput(e.target.value)}
               placeholder="Say something to HAPPY…"
               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey && message.trim()) { e.preventDefault(); speakMut.mutate(); } }}
             />
