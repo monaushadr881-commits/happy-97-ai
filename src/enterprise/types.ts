@@ -11,6 +11,9 @@ export type EntityStatus = "active" | "inactive" | "archived" | "suspended";
 export type MembershipStatus = "invited" | "active" | "suspended" | "removed";
 export type AuditSeverity = "info" | "notice" | "warning" | "critical";
 
+export type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
+export type JsonObject = { [key: string]: Json };
+
 export type SystemRoleCode =
   | "super_founder" | "founder" | "board" | "super_admin"
   | "company_admin" | "department_admin" | "manager" | "employee"
