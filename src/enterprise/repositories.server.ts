@@ -9,7 +9,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import type {
-  AuditLog, Brand, Company, Employee, Permission, Role, RoleAssignment,
+  AuditLog, Brand, Company, Employee, Json, Permission, Role, RoleAssignment,
   ScopeType, Setting, Workspace, WorkspaceMembership,
 } from "./types";
 
