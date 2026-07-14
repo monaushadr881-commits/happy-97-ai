@@ -16,13 +16,21 @@
 
 import { defineService, type ServiceContext } from "../core";
 
-const notImplemented = <T = unknown>(module: string, method: string): T => ({
-  status: "not_implemented" as const,
+export interface RoadmapNotImplemented {
+  status: "not_implemented";
+  module: string;
+  method: string;
+  message: string;
+  reservedAt: string;
+}
+
+const notImplemented = (module: string, method: string): RoadmapNotImplemented => ({
+  status: "not_implemented",
   module,
   method,
   message: `Reserved for HAPPY roadmap. ${module}.${method} ships with the corresponding phase.`,
   reservedAt: "2026-07-14",
-}) as unknown as T;
+});
 
 // ---------- v2.0 — Agent OS & Developer Platform ----------
 export const agentOsService = defineService({ name: "agent-os", version: "v2" }, () => ({
