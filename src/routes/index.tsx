@@ -681,7 +681,7 @@ function ChatPreview() {
 
               {/* suggested follow-ups */}
               <div className="ml-11 flex flex-wrap gap-2">
-                {["Add supplier risk view", "Show Q3 vs Q2 delta", "Draft email to Priya"].map((s) => (
+                {["Add supplier risk view", "Show Q3 vs Q2 delta", "Draft email to Kritika Ji"].map((s) => (
                   <button
                     key={s}
                     className="rounded-full border border-gold/25 bg-obsidian/50 px-3 py-1.5 text-[11px] text-paper transition-colors hover:border-gold/50 hover:bg-gold/10"
