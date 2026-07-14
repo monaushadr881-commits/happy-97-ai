@@ -308,7 +308,7 @@ export const bizAdvisor = createServerFn({ method: "POST" })
       s.from("inventory_items").select("id, product_id, quantity, reorder_point, warehouse_id, products:product_id(name, sku)").eq("company_id", cid).limit(1000),
       s.from("products").select("id", { count: "exact", head: true }).eq("company_id", cid).eq("status", "active"),
       s.from("invoices").select("id, total_cents, amount_paid_cents, due_at, status, customer_id").eq("company_id", cid).neq("status", "paid").lt("due_at", new Date().toISOString()).limit(500),
-      s.from("deals").select("id, amount_cents, stage, expected_close_at, probability").eq("company_id", cid).neq("status", "closed").limit(500),
+      s.from("deals").select("id, amount_cents, stage, expected_close_at, probability").eq("company_id", cid).is("closed_at", null).limit(500),
     ]);
     const inventory = (inv.data ?? []) as Array<{ id: string; quantity: number | null; reorder_point: number | null; products: { name: string | null; sku: string | null } | null }>;
     const lowStock = inventory.filter((r) => (r.quantity ?? 0) <= (r.reorder_point ?? 0));
