@@ -103,7 +103,7 @@ export const creatorListAssets = createServerFn({ method: "POST" })
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
     let q = context.supabase.from("creator_assets")
-      .select("id, kind, mime_type, name, data_url, external_url, width, height, duration_ms, size_bytes, prompt, model, tags, project_id, created_at")
+      .select("id, kind, mime_type, name, data_url, external_url, width, height, duration_ms, size_bytes, prompt, model, tags, project_id, metadata, created_at")
       .eq("user_id", context.userId)
       .order("created_at", { ascending: false })
       .limit(data.limit);
