@@ -499,6 +499,48 @@ export type Database = {
           },
         ]
       }
+      alert_rules: {
+        Row: {
+          channels: Json
+          condition: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          service: string
+          severity: Database["public"]["Enums"]["alert_severity"]
+          updated_at: string
+        }
+        Insert: {
+          channels?: Json
+          condition?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          service: string
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          updated_at?: string
+        }
+        Update: {
+          channels?: Json
+          condition?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          service?: string
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           company_id: string
@@ -1522,6 +1564,42 @@ export type Database = {
           },
         ]
       }
+      cron_runs: {
+        Row: {
+          created_at: string
+          duration_ms: number | null
+          finished_at: string | null
+          id: string
+          job_name: string
+          message: string | null
+          metadata: Json
+          started_at: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          job_name: string
+          message?: string | null
+          metadata?: Json
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          job_name?: string
+          message?: string | null
+          metadata?: Json
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
       currencies: {
         Row: {
           code: string
@@ -1811,6 +1889,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      deployments: {
+        Row: {
+          channel: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          initiated_by: string | null
+          metadata: Json
+          notes: string | null
+          started_at: string
+          status: Database["public"]["Enums"]["deployment_status"]
+          strategy: Database["public"]["Enums"]["deployment_strategy"]
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          channel?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          initiated_by?: string | null
+          metadata?: Json
+          notes?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["deployment_status"]
+          strategy?: Database["public"]["Enums"]["deployment_strategy"]
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          channel?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          initiated_by?: string | null
+          metadata?: Json
+          notes?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["deployment_status"]
+          strategy?: Database["public"]["Enums"]["deployment_strategy"]
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
       }
       employees: {
         Row: {
@@ -2142,6 +2265,131 @@ export type Database = {
           updated_by?: string | null
           version?: number
           visibility?: string
+        }
+        Relationships: []
+      }
+      health_checks: {
+        Row: {
+          checked_at: string
+          created_at: string
+          id: string
+          kind: string
+          latency_ms: number | null
+          message: string | null
+          metadata: Json
+          service: string
+          status: Database["public"]["Enums"]["health_status"]
+        }
+        Insert: {
+          checked_at?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          latency_ms?: number | null
+          message?: string | null
+          metadata?: Json
+          service: string
+          status?: Database["public"]["Enums"]["health_status"]
+        }
+        Update: {
+          checked_at?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          latency_ms?: number | null
+          message?: string | null
+          metadata?: Json
+          service?: string
+          status?: Database["public"]["Enums"]["health_status"]
+        }
+        Relationships: []
+      }
+      incident_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          incident_id: string
+          kind: string
+          message: string
+          metadata: Json
+          occurred_at: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          incident_id: string
+          kind: string
+          message: string
+          metadata?: Json
+          occurred_at?: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          incident_id?: string
+          kind?: string
+          message?: string
+          metadata?: Json
+          occurred_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incident_events_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incidents: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json
+          opened_at: string
+          opened_by: string | null
+          resolved_at: string | null
+          root_cause: string | null
+          service: string
+          severity: Database["public"]["Enums"]["alert_severity"]
+          status: Database["public"]["Enums"]["incident_status"]
+          summary: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          opened_at?: string
+          opened_by?: string | null
+          resolved_at?: string | null
+          root_cause?: string | null
+          service: string
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          status?: Database["public"]["Enums"]["incident_status"]
+          summary?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          opened_at?: string
+          opened_by?: string | null
+          resolved_at?: string | null
+          root_cause?: string | null
+          service?: string
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          status?: Database["public"]["Enums"]["incident_status"]
+          summary?: string | null
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -3226,6 +3474,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      metrics_events: {
+        Row: {
+          created_at: string
+          id: string
+          labels: Json
+          metric: string
+          occurred_at: string
+          service: string
+          unit: string | null
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          labels?: Json
+          metric: string
+          occurred_at?: string
+          service: string
+          unit?: string | null
+          value: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          labels?: Json
+          metric?: string
+          occurred_at?: string
+          service?: string
+          unit?: string | null
+          value?: number
+        }
+        Relationships: []
       }
       notification_preferences: {
         Row: {
@@ -5048,6 +5329,7 @@ export type Database = {
         Args: { _company_id: string; _user_id: string }
         Returns: boolean
       }
+      is_ops_admin: { Args: { _user_id: string }; Returns: boolean }
       is_platform_founder: { Args: { _user_id: string }; Returns: boolean }
       is_workspace_member: {
         Args: { _user_id: string; _workspace_id: string }
@@ -5079,6 +5361,7 @@ export type Database = {
     }
     Enums: {
       ai_session_status: "active" | "ended" | "error"
+      alert_severity: "info" | "warning" | "critical"
       app_role: "founder" | "admin" | "enterprise" | "user"
       audit_severity: "info" | "notice" | "warning" | "critical"
       deal_stage:
@@ -5088,8 +5371,22 @@ export type Database = {
         | "negotiation"
         | "won"
         | "lost"
+      deployment_status:
+        | "pending"
+        | "in_progress"
+        | "succeeded"
+        | "failed"
+        | "rolled_back"
+      deployment_strategy: "rolling" | "blue_green" | "canary" | "hotfix"
       enrollment_status: "enrolled" | "in_progress" | "completed" | "dropped"
       entity_status: "active" | "inactive" | "archived" | "suspended"
+      health_status: "ok" | "degraded" | "down" | "unknown"
+      incident_status:
+        | "open"
+        | "investigating"
+        | "identified"
+        | "monitoring"
+        | "resolved"
       invoice_status:
         | "draft"
         | "sent"
@@ -5243,6 +5540,7 @@ export const Constants = {
   public: {
     Enums: {
       ai_session_status: ["active", "ended", "error"],
+      alert_severity: ["info", "warning", "critical"],
       app_role: ["founder", "admin", "enterprise", "user"],
       audit_severity: ["info", "notice", "warning", "critical"],
       deal_stage: [
@@ -5253,8 +5551,24 @@ export const Constants = {
         "won",
         "lost",
       ],
+      deployment_status: [
+        "pending",
+        "in_progress",
+        "succeeded",
+        "failed",
+        "rolled_back",
+      ],
+      deployment_strategy: ["rolling", "blue_green", "canary", "hotfix"],
       enrollment_status: ["enrolled", "in_progress", "completed", "dropped"],
       entity_status: ["active", "inactive", "archived", "suspended"],
+      health_status: ["ok", "degraded", "down", "unknown"],
+      incident_status: [
+        "open",
+        "investigating",
+        "identified",
+        "monitoring",
+        "resolved",
+      ],
       invoice_status: ["draft", "sent", "paid", "overdue", "void", "refunded"],
       job_status: ["queued", "running", "succeeded", "failed", "cancelled"],
       membership_status: ["invited", "active", "suspended", "removed"],
