@@ -1380,13 +1380,13 @@ function Footer() {
         <div className="grid grid-cols-2 gap-10 md:grid-cols-7">
           <div className="col-span-2">
             <div className="flex items-center gap-3">
-              <LogoMark size={44} />
+              <CorporateMark size={44} />
               <div className="flex flex-col leading-tight">
                 <span className="font-display text-sm font-semibold text-paper">
-                  HAPPY <span className="text-gradient-gold">X</span>
+                  HAPPY PERSON <span className="text-gradient-gold">PVT LTD</span>
                 </span>
                 <span className="text-[9px] uppercase tracking-[0.28em] text-gold/70">
-                  Enterprise AI Partner
+                  Parent Company · Maker of HAPPY AI
                 </span>
               </div>
             </div>
