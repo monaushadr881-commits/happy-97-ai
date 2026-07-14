@@ -582,3 +582,16 @@ export const simulationService = defineService({ name: "simulation", version: "v
 export const ecosystemService = defineService({ name: "ecosystem", version: "v6" }, () => activated("ecosystem"));
 export const communicationService = defineService({ name: "communication", version: "v6" }, () => activated("communication"));
 
+
+
+// ---------- v7.0 — Global Commerce & Financial Intelligence (activated via Enterprise Brain) ----------
+export const commercePlatformService = defineService({ name: "commerce-platform", version: "v7" }, () => activated("commerce-platform"));
+export const financePlatformService = defineService({ name: "finance-platform", version: "v7" }, () => activated("finance-platform"));
+export const bankingPlatformService = defineService({ name: "banking-platform", version: "v7" }, () => activated("banking-platform"));
+export const paymentsPlatformService = defineService({ name: "payments-platform", version: "v7" }, () => activated("payments-platform"));
+export const supplyChainPlatformService = defineService({ name: "supply-chain-platform", version: "v7" }, () => activated("supply-chain-platform"));
+export const manufacturingPlatformService = defineService({ name: "manufacturing-platform", version: "v7" }, () => activated("manufacturing-platform"));
+export const analyticsV7Service = defineService({ name: "analytics-v7", version: "v7" }, () => activated("analytics-v7"));
+export const customer360Service = defineService({ name: "customer-360", version: "v7" }, () => activated("customer-360"));
+export const marketIntelligenceService = defineService({ name: "market-intelligence", version: "v7" }, () => activated("market-intelligence"));
+export const financialAIService = defineService({ name: "financial-ai", version: "v7" }, () => activated("financial-ai"));
