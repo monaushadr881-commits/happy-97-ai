@@ -192,3 +192,74 @@ export const workflowService = defineService({ name: "workflow", version: "v2" }
   async analytics(_ctx: ServiceContext) { return notImplemented("workflow", "analytics"); },
   async dependencyGraph(_ctx: ServiceContext, _input: { workflowId: string }) { return notImplemented("workflow", "dependencyGraph"); },
 }));
+
+// ---------- v2.13 — Multi-Capability Collaboration Engine ----------
+export const collaborationService = defineService({ name: "collaboration", version: "v2" }, () => ({
+  async plan(_ctx: ServiceContext, _input: { request: string; context?: unknown }) { return notImplemented("collaboration", "plan"); },
+  async selectCapabilities(_ctx: ServiceContext, _input: { intent: string }) { return notImplemented("collaboration", "selectCapabilities"); },
+  async distribute(_ctx: ServiceContext, _input: unknown) { return notImplemented("collaboration", "distribute"); },
+  async negotiate(_ctx: ServiceContext, _input: unknown) { return notImplemented("collaboration", "negotiate"); },
+  async execute(_ctx: ServiceContext, _input: { planId: string }) { return notImplemented("collaboration", "execute"); },
+  async sharedContext(_ctx: ServiceContext, _input: { sessionId: string }) { return notImplemented("collaboration", "sharedContext"); },
+  async sharedMemory(_ctx: ServiceContext, _input: { sessionId: string }) { return notImplemented("collaboration", "sharedMemory"); },
+  async resolveConflict(_ctx: ServiceContext, _input: unknown) { return notImplemented("collaboration", "resolveConflict"); },
+  async prioritize(_ctx: ServiceContext, _input: unknown) { return notImplemented("collaboration", "prioritize"); },
+  async consensus(_ctx: ServiceContext, _input: unknown) { return notImplemented("collaboration", "consensus"); },
+  async compose(_ctx: ServiceContext, _input: { planId: string }) { return notImplemented("collaboration", "compose"); },
+  async live(_ctx: ServiceContext) { return notImplemented("collaboration", "live"); },
+  async history(_ctx: ServiceContext) { return notImplemented("collaboration", "history"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("collaboration", "analytics"); },
+}));
+
+// ---------- v2.14 — AI Skills Marketplace ----------
+export const skillsService = defineService({ name: "skills", version: "v2" }, () => ({
+  async listRegistry(_ctx: ServiceContext) { return notImplemented("skills", "listRegistry"); },
+  async searchStore(_ctx: ServiceContext, _input: { query?: string; category?: string }) { return notImplemented("skills", "searchStore"); },
+  async listCategories(_ctx: ServiceContext) { return notImplemented("skills", "listCategories"); },
+  async getDetail(_ctx: ServiceContext, _input: { skillId: string }) { return notImplemented("skills", "getDetail"); },
+  async install(_ctx: ServiceContext, _input: { skillId: string; version?: string }) { return notImplemented("skills", "install"); },
+  async uninstall(_ctx: ServiceContext, _input: { skillId: string }) { return notImplemented("skills", "uninstall"); },
+  async listInstalled(_ctx: ServiceContext) { return notImplemented("skills", "listInstalled"); },
+  async checkUpdates(_ctx: ServiceContext) { return notImplemented("skills", "checkUpdates"); },
+  async update(_ctx: ServiceContext, _input: { skillId: string; toVersion?: string }) { return notImplemented("skills", "update"); },
+  async getPermissions(_ctx: ServiceContext, _input: { skillId: string }) { return notImplemented("skills", "getPermissions"); },
+  async grantPermissions(_ctx: ServiceContext, _input: { skillId: string; permissions: string[] }) { return notImplemented("skills", "grantPermissions"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("skills", "analytics"); },
+  async rate(_ctx: ServiceContext, _input: { skillId: string; rating: number; review?: string }) { return notImplemented("skills", "rate"); },
+  async listRatings(_ctx: ServiceContext, _input: { skillId: string }) { return notImplemented("skills", "listRatings"); },
+  async verify(_ctx: ServiceContext, _input: { skillId: string }) { return notImplemented("skills", "verify"); },
+  async settings(_ctx: ServiceContext) { return notImplemented("skills", "settings"); },
+  async updateSettings(_ctx: ServiceContext, _input: unknown) { return notImplemented("skills", "updateSettings"); },
+}));
+
+// ---------- v2.15 — Autonomous Execution Engine ----------
+export const executionService = defineService({ name: "execution", version: "v2" }, () => ({
+  async listGoals(_ctx: ServiceContext) { return notImplemented("execution", "listGoals"); },
+  async createGoal(_ctx: ServiceContext, _input: unknown) { return notImplemented("execution", "createGoal"); },
+  async plan(_ctx: ServiceContext, _input: { goalId: string }) { return notImplemented("execution", "plan"); },
+  async listTasks(_ctx: ServiceContext) { return notImplemented("execution", "listTasks"); },
+  async enqueue(_ctx: ServiceContext, _input: unknown) { return notImplemented("execution", "enqueue"); },
+  async dependencyGraph(_ctx: ServiceContext, _input: { goalId: string }) { return notImplemented("execution", "dependencyGraph"); },
+  async approve(_ctx: ServiceContext, _input: { taskId: string; approved: boolean }) { return notImplemented("execution", "approve"); },
+  async retry(_ctx: ServiceContext, _input: { taskId: string }) { return notImplemented("execution", "retry"); },
+  async rollback(_ctx: ServiceContext, _input: { taskId: string }) { return notImplemented("execution", "rollback"); },
+  async progress(_ctx: ServiceContext, _input: { goalId: string }) { return notImplemented("execution", "progress"); },
+  async schedule(_ctx: ServiceContext, _input: unknown) { return notImplemented("execution", "schedule"); },
+  async cancel(_ctx: ServiceContext, _input: { taskId: string }) { return notImplemented("execution", "cancel"); },
+  async history(_ctx: ServiceContext) { return notImplemented("execution", "history"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("execution", "analytics"); },
+}));
+
+// ---------- v2.16 — Enterprise Intelligence 2.0 (Advisor / Insights / Recommendations) ----------
+export const enterpriseIntelligenceV2Service = defineService({ name: "enterprise-intelligence-v2", version: "v2" }, () => ({
+  async advisor(_ctx: ServiceContext, _input: unknown) { return notImplemented("enterprise-intelligence-v2", "advisor"); },
+  async forecast(_ctx: ServiceContext, _input: unknown) { return notImplemented("enterprise-intelligence-v2", "forecast"); },
+  async revenue(_ctx: ServiceContext) { return notImplemented("enterprise-intelligence-v2", "revenue"); },
+  async market(_ctx: ServiceContext) { return notImplemented("enterprise-intelligence-v2", "market"); },
+  async customer(_ctx: ServiceContext) { return notImplemented("enterprise-intelligence-v2", "customer"); },
+  async operations(_ctx: ServiceContext) { return notImplemented("enterprise-intelligence-v2", "operations"); },
+  async manufacturing(_ctx: ServiceContext) { return notImplemented("enterprise-intelligence-v2", "manufacturing"); },
+  async learning(_ctx: ServiceContext) { return notImplemented("enterprise-intelligence-v2", "learning"); },
+  async insights(_ctx: ServiceContext) { return notImplemented("enterprise-intelligence-v2", "insights"); },
+  async recommend(_ctx: ServiceContext, _input: unknown) { return notImplemented("enterprise-intelligence-v2", "recommend"); },
+}));
