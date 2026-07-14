@@ -18,6 +18,9 @@ import {
   Quote,
 } from "lucide-react";
 import avatarImg from "@/assets/happyx-avatar.jpg";
+import hpLogoAsset from "@/assets/hp-logo.png.asset.json";
+import appQrAsset from "@/assets/happyx-app-qr.png.asset.json";
+import waQrAsset from "@/assets/happyx-whatsapp-qr.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: HappyXLanding,
@@ -153,13 +156,21 @@ function Nav() {
   );
 }
 
-function LogoMark() {
+function LogoMark({ size = 36 }: { size?: number }) {
   return (
-    <div className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-gold/30 bg-charcoal">
-      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-gold/25 via-transparent to-transparent" />
-      <span className="relative font-display text-[13px] font-bold text-gradient-gold">
-        H
-      </span>
+    <div
+      className="relative flex items-center justify-center rounded-full ring-1 ring-gold/30 bg-obsidian overflow-hidden shadow-[0_0_24px_-6px_rgba(212,175,55,0.45)]"
+      style={{ width: size, height: size }}
+    >
+      <img
+        src={hpLogoAsset.url}
+        alt="H.P — Happy Person Private Limited"
+        width={size}
+        height={size}
+        className="h-full w-full object-cover"
+        loading="eager"
+        decoding="async"
+      />
     </div>
   );
 }
@@ -181,19 +192,19 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
             </span>
-            <span className="eyebrow !text-[10px]">Now inviting founding partners</span>
+            <span className="eyebrow !text-[10px]">HAPPY · Enterprise AI Partner</span>
           </div>
 
           <h1 className="mt-8 font-display text-5xl font-medium leading-[1.02] tracking-tight text-paper md:text-7xl">
-            The Human-Centered<br />
-            <span className="text-gradient-gold">AI Operating Platform.</span>
+            The AI that helps you<br />
+            <span className="text-gradient-gold">learn, build and grow.</span>
           </h1>
 
           <p className="mt-8 max-w-xl text-[17px] leading-relaxed text-soft-gray">
-            HAPPY X unifies a photorealistic 3D digital human, an executive AI
-            brain, an education platform from KG to PhD, and a complete business
-            operating system — into a single sovereign environment engineered
-            for the next century of enterprise.
+            HAPPY X is the Human-Centered AI Operating Platform from HAPPY
+            PERSON PRIVATE LIMITED — a single sovereign environment uniting the
+            HAPPY digital human, executive AI, education, business, creator and
+            enterprise intelligence for the next century of work.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
