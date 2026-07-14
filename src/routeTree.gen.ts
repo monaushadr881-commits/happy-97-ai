@@ -31,6 +31,7 @@ import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
 import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authenticated/knowledge.index'
+import { Route as AuthenticatedHyperlocalIndexRouteImport } from './routes/_authenticated/hyperlocal.index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
 import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
@@ -56,6 +57,15 @@ import { Route as AuthenticatedKnowledgeReligionCultureRouteImport } from './rou
 import { Route as AuthenticatedKnowledgeModerationRouteImport } from './routes/_authenticated/knowledge.moderation'
 import { Route as AuthenticatedKnowledgeLibraryRouteImport } from './routes/_authenticated/knowledge.library'
 import { Route as AuthenticatedKnowledgeAskRouteImport } from './routes/_authenticated/knowledge.ask'
+import { Route as AuthenticatedHyperlocalSettingsRouteImport } from './routes/_authenticated/hyperlocal.settings'
+import { Route as AuthenticatedHyperlocalMapRouteImport } from './routes/_authenticated/hyperlocal.map'
+import { Route as AuthenticatedHyperlocalManageRouteImport } from './routes/_authenticated/hyperlocal.manage'
+import { Route as AuthenticatedHyperlocalJobsRouteImport } from './routes/_authenticated/hyperlocal.jobs'
+import { Route as AuthenticatedHyperlocalEventsRouteImport } from './routes/_authenticated/hyperlocal.events'
+import { Route as AuthenticatedHyperlocalDiscoverRouteImport } from './routes/_authenticated/hyperlocal.discover'
+import { Route as AuthenticatedHyperlocalBusinessesRouteImport } from './routes/_authenticated/hyperlocal.businesses'
+import { Route as AuthenticatedHyperlocalAskRouteImport } from './routes/_authenticated/hyperlocal.ask'
+import { Route as AuthenticatedHyperlocalAlertsRouteImport } from './routes/_authenticated/hyperlocal.alerts'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
@@ -224,6 +234,12 @@ const AuthenticatedKnowledgeIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
+const AuthenticatedHyperlocalIndexRoute =
+  AuthenticatedHyperlocalIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
 const AuthenticatedFounderIndexRoute =
   AuthenticatedFounderIndexRouteImport.update({
     id: '/',
@@ -371,6 +387,60 @@ const AuthenticatedKnowledgeAskRoute =
     id: '/ask',
     path: '/ask',
     getParentRoute: () => AuthenticatedKnowledgeRoute,
+  } as any)
+const AuthenticatedHyperlocalSettingsRoute =
+  AuthenticatedHyperlocalSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalMapRoute =
+  AuthenticatedHyperlocalMapRouteImport.update({
+    id: '/map',
+    path: '/map',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalManageRoute =
+  AuthenticatedHyperlocalManageRouteImport.update({
+    id: '/manage',
+    path: '/manage',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalJobsRoute =
+  AuthenticatedHyperlocalJobsRouteImport.update({
+    id: '/jobs',
+    path: '/jobs',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalEventsRoute =
+  AuthenticatedHyperlocalEventsRouteImport.update({
+    id: '/events',
+    path: '/events',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalDiscoverRoute =
+  AuthenticatedHyperlocalDiscoverRouteImport.update({
+    id: '/discover',
+    path: '/discover',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalBusinessesRoute =
+  AuthenticatedHyperlocalBusinessesRouteImport.update({
+    id: '/businesses',
+    path: '/businesses',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalAskRoute =
+  AuthenticatedHyperlocalAskRouteImport.update({
+    id: '/ask',
+    path: '/ask',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
+  } as any)
+const AuthenticatedHyperlocalAlertsRoute =
+  AuthenticatedHyperlocalAlertsRouteImport.update({
+    id: '/alerts',
+    path: '/alerts',
+    getParentRoute: () => AuthenticatedHyperlocalRoute,
   } as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
@@ -691,7 +761,7 @@ export interface FileRoutesByFullPath {
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/founder': typeof AuthenticatedFounderRouteWithChildren
-  '/hyperlocal': typeof AuthenticatedHyperlocalRoute
+  '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
@@ -747,6 +817,15 @@ export interface FileRoutesByFullPath {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
+  '/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
+  '/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
+  '/hyperlocal/discover': typeof AuthenticatedHyperlocalDiscoverRoute
+  '/hyperlocal/events': typeof AuthenticatedHyperlocalEventsRoute
+  '/hyperlocal/jobs': typeof AuthenticatedHyperlocalJobsRoute
+  '/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
+  '/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
+  '/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
   '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
@@ -772,6 +851,7 @@ export interface FileRoutesByFullPath {
   '/education/': typeof AuthenticatedEducationIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
+  '/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
@@ -785,7 +865,6 @@ export interface FileRoutesByTo {
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/hyperlocal': typeof AuthenticatedHyperlocalRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -837,6 +916,15 @@ export interface FileRoutesByTo {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
+  '/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
+  '/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
+  '/hyperlocal/discover': typeof AuthenticatedHyperlocalDiscoverRoute
+  '/hyperlocal/events': typeof AuthenticatedHyperlocalEventsRoute
+  '/hyperlocal/jobs': typeof AuthenticatedHyperlocalJobsRoute
+  '/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
+  '/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
+  '/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
   '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
@@ -862,6 +950,7 @@ export interface FileRoutesByTo {
   '/education': typeof AuthenticatedEducationIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
+  '/hyperlocal': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge': typeof AuthenticatedKnowledgeIndexRoute
   '/marketplace': typeof AuthenticatedMarketplaceIndexRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
@@ -883,7 +972,7 @@ export interface FileRoutesById {
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
-  '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRoute
+  '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
@@ -939,6 +1028,15 @@ export interface FileRoutesById {
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
+  '/_authenticated/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
+  '/_authenticated/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
+  '/_authenticated/hyperlocal/discover': typeof AuthenticatedHyperlocalDiscoverRoute
+  '/_authenticated/hyperlocal/events': typeof AuthenticatedHyperlocalEventsRoute
+  '/_authenticated/hyperlocal/jobs': typeof AuthenticatedHyperlocalJobsRoute
+  '/_authenticated/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
+  '/_authenticated/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
+  '/_authenticated/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
   '/_authenticated/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/_authenticated/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/_authenticated/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
@@ -964,6 +1062,7 @@ export interface FileRoutesById {
   '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
+  '/_authenticated/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/_authenticated/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/_authenticated/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
@@ -1041,6 +1140,15 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/hyperlocal/alerts'
+    | '/hyperlocal/ask'
+    | '/hyperlocal/businesses'
+    | '/hyperlocal/discover'
+    | '/hyperlocal/events'
+    | '/hyperlocal/jobs'
+    | '/hyperlocal/manage'
+    | '/hyperlocal/map'
+    | '/hyperlocal/settings'
     | '/knowledge/ask'
     | '/knowledge/library'
     | '/knowledge/moderation'
@@ -1066,6 +1174,7 @@ export interface FileRouteTypes {
     | '/education/'
     | '/enterprise/'
     | '/founder/'
+    | '/hyperlocal/'
     | '/knowledge/'
     | '/marketplace/'
     | '/messages/'
@@ -1079,7 +1188,6 @@ export interface FileRouteTypes {
     | '/design'
     | '/assistant'
     | '/dashboard'
-    | '/hyperlocal'
     | '/settings'
     | '/business/ai'
     | '/business/analytics'
@@ -1131,6 +1239,15 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/hyperlocal/alerts'
+    | '/hyperlocal/ask'
+    | '/hyperlocal/businesses'
+    | '/hyperlocal/discover'
+    | '/hyperlocal/events'
+    | '/hyperlocal/jobs'
+    | '/hyperlocal/manage'
+    | '/hyperlocal/map'
+    | '/hyperlocal/settings'
     | '/knowledge/ask'
     | '/knowledge/library'
     | '/knowledge/moderation'
@@ -1156,6 +1273,7 @@ export interface FileRouteTypes {
     | '/education'
     | '/enterprise'
     | '/founder'
+    | '/hyperlocal'
     | '/knowledge'
     | '/marketplace'
     | '/messages'
@@ -1232,6 +1350,15 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
+    | '/_authenticated/hyperlocal/alerts'
+    | '/_authenticated/hyperlocal/ask'
+    | '/_authenticated/hyperlocal/businesses'
+    | '/_authenticated/hyperlocal/discover'
+    | '/_authenticated/hyperlocal/events'
+    | '/_authenticated/hyperlocal/jobs'
+    | '/_authenticated/hyperlocal/manage'
+    | '/_authenticated/hyperlocal/map'
+    | '/_authenticated/hyperlocal/settings'
     | '/_authenticated/knowledge/ask'
     | '/_authenticated/knowledge/library'
     | '/_authenticated/knowledge/moderation'
@@ -1257,6 +1384,7 @@ export interface FileRouteTypes {
     | '/_authenticated/education/'
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
+    | '/_authenticated/hyperlocal/'
     | '/_authenticated/knowledge/'
     | '/_authenticated/marketplace/'
     | '/_authenticated/messages/'
@@ -1430,6 +1558,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/knowledge/'
       preLoaderRoute: typeof AuthenticatedKnowledgeIndexRouteImport
       parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
+    '/_authenticated/hyperlocal/': {
+      id: '/_authenticated/hyperlocal/'
+      path: '/'
+      fullPath: '/hyperlocal/'
+      preLoaderRoute: typeof AuthenticatedHyperlocalIndexRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
     }
     '/_authenticated/founder/': {
       id: '/_authenticated/founder/'
@@ -1605,6 +1740,69 @@ declare module '@tanstack/react-router' {
       fullPath: '/knowledge/ask'
       preLoaderRoute: typeof AuthenticatedKnowledgeAskRouteImport
       parentRoute: typeof AuthenticatedKnowledgeRoute
+    }
+    '/_authenticated/hyperlocal/settings': {
+      id: '/_authenticated/hyperlocal/settings'
+      path: '/settings'
+      fullPath: '/hyperlocal/settings'
+      preLoaderRoute: typeof AuthenticatedHyperlocalSettingsRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/map': {
+      id: '/_authenticated/hyperlocal/map'
+      path: '/map'
+      fullPath: '/hyperlocal/map'
+      preLoaderRoute: typeof AuthenticatedHyperlocalMapRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/manage': {
+      id: '/_authenticated/hyperlocal/manage'
+      path: '/manage'
+      fullPath: '/hyperlocal/manage'
+      preLoaderRoute: typeof AuthenticatedHyperlocalManageRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/jobs': {
+      id: '/_authenticated/hyperlocal/jobs'
+      path: '/jobs'
+      fullPath: '/hyperlocal/jobs'
+      preLoaderRoute: typeof AuthenticatedHyperlocalJobsRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/events': {
+      id: '/_authenticated/hyperlocal/events'
+      path: '/events'
+      fullPath: '/hyperlocal/events'
+      preLoaderRoute: typeof AuthenticatedHyperlocalEventsRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/discover': {
+      id: '/_authenticated/hyperlocal/discover'
+      path: '/discover'
+      fullPath: '/hyperlocal/discover'
+      preLoaderRoute: typeof AuthenticatedHyperlocalDiscoverRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/businesses': {
+      id: '/_authenticated/hyperlocal/businesses'
+      path: '/businesses'
+      fullPath: '/hyperlocal/businesses'
+      preLoaderRoute: typeof AuthenticatedHyperlocalBusinessesRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/ask': {
+      id: '/_authenticated/hyperlocal/ask'
+      path: '/ask'
+      fullPath: '/hyperlocal/ask'
+      preLoaderRoute: typeof AuthenticatedHyperlocalAskRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/hyperlocal/alerts': {
+      id: '/_authenticated/hyperlocal/alerts'
+      path: '/alerts'
+      fullPath: '/hyperlocal/alerts'
+      preLoaderRoute: typeof AuthenticatedHyperlocalAlertsRouteImport
+      parentRoute: typeof AuthenticatedHyperlocalRoute
     }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
@@ -2165,6 +2363,39 @@ const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
 const AuthenticatedFounderRouteWithChildren =
   AuthenticatedFounderRoute._addFileChildren(AuthenticatedFounderRouteChildren)
 
+interface AuthenticatedHyperlocalRouteChildren {
+  AuthenticatedHyperlocalAlertsRoute: typeof AuthenticatedHyperlocalAlertsRoute
+  AuthenticatedHyperlocalAskRoute: typeof AuthenticatedHyperlocalAskRoute
+  AuthenticatedHyperlocalBusinessesRoute: typeof AuthenticatedHyperlocalBusinessesRoute
+  AuthenticatedHyperlocalDiscoverRoute: typeof AuthenticatedHyperlocalDiscoverRoute
+  AuthenticatedHyperlocalEventsRoute: typeof AuthenticatedHyperlocalEventsRoute
+  AuthenticatedHyperlocalJobsRoute: typeof AuthenticatedHyperlocalJobsRoute
+  AuthenticatedHyperlocalManageRoute: typeof AuthenticatedHyperlocalManageRoute
+  AuthenticatedHyperlocalMapRoute: typeof AuthenticatedHyperlocalMapRoute
+  AuthenticatedHyperlocalSettingsRoute: typeof AuthenticatedHyperlocalSettingsRoute
+  AuthenticatedHyperlocalIndexRoute: typeof AuthenticatedHyperlocalIndexRoute
+}
+
+const AuthenticatedHyperlocalRouteChildren: AuthenticatedHyperlocalRouteChildren =
+  {
+    AuthenticatedHyperlocalAlertsRoute: AuthenticatedHyperlocalAlertsRoute,
+    AuthenticatedHyperlocalAskRoute: AuthenticatedHyperlocalAskRoute,
+    AuthenticatedHyperlocalBusinessesRoute:
+      AuthenticatedHyperlocalBusinessesRoute,
+    AuthenticatedHyperlocalDiscoverRoute: AuthenticatedHyperlocalDiscoverRoute,
+    AuthenticatedHyperlocalEventsRoute: AuthenticatedHyperlocalEventsRoute,
+    AuthenticatedHyperlocalJobsRoute: AuthenticatedHyperlocalJobsRoute,
+    AuthenticatedHyperlocalManageRoute: AuthenticatedHyperlocalManageRoute,
+    AuthenticatedHyperlocalMapRoute: AuthenticatedHyperlocalMapRoute,
+    AuthenticatedHyperlocalSettingsRoute: AuthenticatedHyperlocalSettingsRoute,
+    AuthenticatedHyperlocalIndexRoute: AuthenticatedHyperlocalIndexRoute,
+  }
+
+const AuthenticatedHyperlocalRouteWithChildren =
+  AuthenticatedHyperlocalRoute._addFileChildren(
+    AuthenticatedHyperlocalRouteChildren,
+  )
+
 interface AuthenticatedKnowledgeRouteChildren {
   AuthenticatedKnowledgeAskRoute: typeof AuthenticatedKnowledgeAskRoute
   AuthenticatedKnowledgeLibraryRoute: typeof AuthenticatedKnowledgeLibraryRoute
@@ -2264,7 +2495,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
-  AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRoute
+  AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
@@ -2281,7 +2512,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
-  AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRoute,
+  AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
