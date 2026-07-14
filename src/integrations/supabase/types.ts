@@ -2826,6 +2826,485 @@ export type Database = {
         }
         Relationships: []
       }
+      hl_alerts: {
+        Row: {
+          body: string | null
+          city: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          kind: string
+          latitude: number | null
+          longitude: number | null
+          metadata: Json
+          pincode: string | null
+          place_id: string | null
+          posted_by: string
+          radius_km: number | null
+          severity: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          city?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          kind?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          pincode?: string | null
+          place_id?: string | null
+          posted_by: string
+          radius_km?: number | null
+          severity?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          city?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          kind?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          pincode?: string | null
+          place_id?: string | null
+          posted_by?: string
+          radius_km?: number | null
+          severity?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hl_alerts_place_id_fkey"
+            columns: ["place_id"]
+            isOneToOne: false
+            referencedRelation: "hl_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hl_businesses: {
+        Row: {
+          address: string | null
+          category: string
+          city: string | null
+          company_id: string | null
+          created_at: string
+          description: string | null
+          email: string | null
+          hours: Json
+          id: string
+          latitude: number | null
+          longitude: number | null
+          metadata: Json
+          name: string
+          offers: Json
+          owner_id: string
+          phone: string | null
+          photos: Json
+          pincode: string | null
+          place_id: string | null
+          rating_avg: number
+          rating_count: number
+          slug: string | null
+          status: string
+          subcategory: string | null
+          updated_at: string
+          verification_status: string
+          verified: boolean
+          videos: Json
+          website: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          address?: string | null
+          category: string
+          city?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          hours?: Json
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          name: string
+          offers?: Json
+          owner_id: string
+          phone?: string | null
+          photos?: Json
+          pincode?: string | null
+          place_id?: string | null
+          rating_avg?: number
+          rating_count?: number
+          slug?: string | null
+          status?: string
+          subcategory?: string | null
+          updated_at?: string
+          verification_status?: string
+          verified?: boolean
+          videos?: Json
+          website?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          address?: string | null
+          category?: string
+          city?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          hours?: Json
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          name?: string
+          offers?: Json
+          owner_id?: string
+          phone?: string | null
+          photos?: Json
+          pincode?: string | null
+          place_id?: string | null
+          rating_avg?: number
+          rating_count?: number
+          slug?: string | null
+          status?: string
+          subcategory?: string | null
+          updated_at?: string
+          verification_status?: string
+          verified?: boolean
+          videos?: Json
+          website?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hl_businesses_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hl_businesses_place_id_fkey"
+            columns: ["place_id"]
+            isOneToOne: false
+            referencedRelation: "hl_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hl_events: {
+        Row: {
+          category: string | null
+          city: string | null
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          ends_at: string | null
+          id: string
+          latitude: number | null
+          longitude: number | null
+          metadata: Json
+          organizer_id: string
+          pincode: string | null
+          place_id: string | null
+          starts_at: string
+          status: string
+          title: string
+          updated_at: string
+          venue: string | null
+        }
+        Insert: {
+          category?: string | null
+          city?: string | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          organizer_id: string
+          pincode?: string | null
+          place_id?: string | null
+          starts_at: string
+          status?: string
+          title: string
+          updated_at?: string
+          venue?: string | null
+        }
+        Update: {
+          category?: string | null
+          city?: string | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          organizer_id?: string
+          pincode?: string | null
+          place_id?: string | null
+          starts_at?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          venue?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hl_events_place_id_fkey"
+            columns: ["place_id"]
+            isOneToOne: false
+            referencedRelation: "hl_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hl_jobs: {
+        Row: {
+          business_id: string | null
+          category: string | null
+          city: string | null
+          contact: string | null
+          created_at: string
+          currency: string | null
+          description: string | null
+          expires_at: string | null
+          id: string
+          job_type: string
+          latitude: number | null
+          longitude: number | null
+          metadata: Json
+          pay_max: number | null
+          pay_min: number | null
+          pincode: string | null
+          place_id: string | null
+          posted_by: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          business_id?: string | null
+          category?: string | null
+          city?: string | null
+          contact?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          job_type?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          pay_max?: number | null
+          pay_min?: number | null
+          pincode?: string | null
+          place_id?: string | null
+          posted_by: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string | null
+          category?: string | null
+          city?: string | null
+          contact?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          job_type?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json
+          pay_max?: number | null
+          pay_min?: number | null
+          pincode?: string | null
+          place_id?: string | null
+          posted_by?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hl_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "hl_businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hl_jobs_place_id_fkey"
+            columns: ["place_id"]
+            isOneToOne: false
+            referencedRelation: "hl_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hl_places: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          created_by: string
+          district: string | null
+          id: string
+          label: string | null
+          latitude: number | null
+          locality: string | null
+          longitude: number | null
+          metadata: Json
+          pincode: string | null
+          state: string | null
+          town: string | null
+          updated_at: string
+          village: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          created_by: string
+          district?: string | null
+          id?: string
+          label?: string | null
+          latitude?: number | null
+          locality?: string | null
+          longitude?: number | null
+          metadata?: Json
+          pincode?: string | null
+          state?: string | null
+          town?: string | null
+          updated_at?: string
+          village?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          created_by?: string
+          district?: string | null
+          id?: string
+          label?: string | null
+          latitude?: number | null
+          locality?: string | null
+          longitude?: number | null
+          metadata?: Json
+          pincode?: string | null
+          state?: string | null
+          town?: string | null
+          updated_at?: string
+          village?: string | null
+        }
+        Relationships: []
+      }
+      hl_reviews: {
+        Row: {
+          business_id: string
+          comment: string | null
+          created_at: string
+          id: string
+          rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          business_id: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          rating: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          business_id?: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hl_reviews_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "hl_businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hl_user_location: {
+        Row: {
+          allow_background: boolean
+          allow_precise: boolean
+          city: string | null
+          last_latitude: number | null
+          last_longitude: number | null
+          last_place_id: string | null
+          pincode: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allow_background?: boolean
+          allow_precise?: boolean
+          city?: string | null
+          last_latitude?: number | null
+          last_longitude?: number | null
+          last_place_id?: string | null
+          pincode?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allow_background?: boolean
+          allow_precise?: boolean
+          city?: string | null
+          last_latitude?: number | null
+          last_longitude?: number | null
+          last_place_id?: string | null
+          pincode?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hl_user_location_last_place_id_fkey"
+            columns: ["last_place_id"]
+            isOneToOne: false
+            referencedRelation: "hl_places"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       incident_events: {
         Row: {
           actor_id: string | null

@@ -13,6 +13,7 @@ import {
   Settings,
   LogOut,
   Bot,
+  MapPin,
 } from "lucide-react";
 import {
   Sidebar,
@@ -45,6 +46,7 @@ const modules = [
   { title: "Knowledge", url: "/knowledge", icon: BookOpen },
   { title: "Community", url: "/community", icon: Users },
   { title: "Marketplace", url: "/marketplace", icon: Store },
+  { title: "Hyperlocal", url: "/hyperlocal", icon: MapPin },
 ];
 
 const admin = [
