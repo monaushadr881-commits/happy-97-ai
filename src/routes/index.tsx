@@ -1078,115 +1078,307 @@ function FounderMessage() {
 }
 
 /* ─────────────────────  PRICING  ───────────────────── */
-function Pricing() {
-  const tiers = [
-    {
-      name: "Individual",
-      price: "₹999",
-      period: "/month",
-      copy: "The full HAPPY experience for one person.",
-      features: [
-        "AI Assistant & Chat",
-        "Digital Human · Standard",
-        "Creator Studio · basic",
-        "10 GB sovereign memory",
-      ],
-      cta: "Begin",
-      featured: false,
-    },
-    {
-      name: "Business",
-      price: "₹9,999",
-      period: "/month",
-      copy: "Business OS + team collaboration.",
-      features: [
-        "Everything in Individual",
-        "CRM · ERP · HRMS",
-        "Up to 25 team members",
-        "Analytics & Workflow Builder",
-      ],
-      cta: "Start business",
-      featured: true,
-    },
-    {
-      name: "Enterprise",
-      price: "Bespoke",
-      period: "",
-      copy: "Multi-company, multi-brand, unlimited.",
-      features: [
-        "Everything in Business",
-        "Founder & Global Control Center",
-        "Dedicated digital humans",
-        "SOC-class audit & residency",
-      ],
-      cta: "Speak to us",
-      featured: false,
-    },
-  ];
+type Tier = {
+  name: string;
+  price: string;
+  period: string;
+  copy: string;
+  features: string[];
+  cta: string;
+  featured?: boolean;
+};
 
+const PRICING_TIERS: Tier[] = [
+  {
+    name: "Starter",
+    price: "₹199",
+    period: "/month",
+    copy: "For students and individuals.",
+    features: [
+      "HAPPY AI Chat",
+      "Digital Human",
+      "AI Voice Chat",
+      "AI Notes",
+      "AI Learning",
+      "5 GB Memory",
+      "Creator Studio Basic",
+      "Mobile App",
+      "Community Access",
+      "Email Support",
+    ],
+    cta: "Start Free",
+  },
+  {
+    name: "Professional",
+    price: "₹499",
+    period: "/month",
+    copy: "For creators, teachers and power users.",
+    features: [
+      "Everything in Starter",
+      "Unlimited AI Chat",
+      "Advanced Digital Human",
+      "AI Teacher",
+      "AI Research",
+      "AI Presentations",
+      "AI Whiteboard",
+      "Creator Studio Pro",
+      "50 GB Memory",
+      "Priority Support",
+      "API Access",
+    ],
+    cta: "Upgrade Now",
+    featured: true,
+  },
+  {
+    name: "Business",
+    price: "₹1,499",
+    period: "/month",
+    copy: "For companies & teams.",
+    features: [
+      "Everything in Professional",
+      "Business OS",
+      "CRM · ERP · HRMS",
+      "Inventory",
+      "Workflow Automation",
+      "Team Collaboration",
+      "Founder Dashboard",
+      "Analytics",
+      "Unlimited Workspace",
+      "500 GB Enterprise Memory",
+      "Business AI Advisor",
+      "Priority SLA",
+    ],
+    cta: "Start Business",
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    period: "",
+    copy: "For multi-brand, regulated & global orgs.",
+    features: [
+      "Everything in Business",
+      "Multi Company · Multi Brand",
+      "Dedicated Deployment",
+      "Dedicated Digital Human",
+      "Enterprise AI Runtime",
+      "SSO",
+      "Security Policies",
+      "Dedicated Success Manager",
+      "Custom Integrations",
+      "24×7 Support",
+      "White Label",
+      "Unlimited Everything",
+    ],
+    cta: "Talk To Sales",
+  },
+];
+
+const COMPARISON_ROWS: Array<{ label: string; values: [string, string, string, string] }> = [
+  { label: "AI Chat", values: ["Limited", "Unlimited", "Unlimited", "Unlimited"] },
+  { label: "Digital Human", values: ["Standard", "Advanced", "Advanced", "Dedicated"] },
+  { label: "Voice", values: ["✓", "✓", "✓", "✓"] },
+  { label: "Whiteboard", values: ["—", "✓", "✓", "✓"] },
+  { label: "Research", values: ["—", "✓", "✓", "✓"] },
+  { label: "Memory", values: ["5 GB", "50 GB", "500 GB", "Unlimited"] },
+  { label: "Creator Studio", values: ["Basic", "Pro", "Pro", "Pro+"] },
+  { label: "Business OS", values: ["—", "—", "✓", "✓"] },
+  { label: "CRM", values: ["—", "—", "✓", "✓"] },
+  { label: "ERP", values: ["—", "—", "✓", "✓"] },
+  { label: "HRMS", values: ["—", "—", "✓", "✓"] },
+  { label: "Automation", values: ["—", "Basic", "✓", "Advanced"] },
+  { label: "API", values: ["—", "✓", "✓", "✓"] },
+  { label: "Priority Support", values: ["—", "✓", "SLA", "24×7"] },
+  { label: "Dedicated Deployment", values: ["—", "—", "—", "✓"] },
+  { label: "SSO", values: ["—", "—", "—", "✓"] },
+  { label: "White Label", values: ["—", "—", "—", "✓"] },
+  { label: "24×7 Support", values: ["—", "—", "—", "✓"] },
+];
+
+const PRICING_FAQ: Array<{ q: string; a: string }> = [
+  { q: "How does the subscription work?", a: "Every plan is billed monthly and renews automatically until you cancel. You can upgrade, downgrade or pause at any time from your account." },
+  { q: "Do you offer refunds?", a: "Yes. Every paid plan is covered by a 30-day money-back guarantee. If HAPPY isn't right for you, email us within 30 days for a full refund." },
+  { q: "Can I upgrade or downgrade later?", a: "Absolutely. Upgrades apply immediately with a pro-rated charge. Downgrades take effect at the end of your current billing cycle." },
+  { q: "What does Enterprise pricing include?", a: "Enterprise is custom-quoted based on scale, deployment model (cloud, dedicated or on-prem), integrations, SLAs and support tier." },
+  { q: "How do you handle security?", a: "End-to-end encryption, MFA, RBAC and RLS by default. Enterprise adds SSO, custom security policies, audit exports and data-residency controls." },
+  { q: "Which payment methods are supported?", a: "UPI, Credit Card, Debit Card, Net Banking, Razorpay, Stripe and PayPal. Enterprise supports invoicing, PO and bank transfer." },
+  { q: "Is GST included in the price?", a: "Prices are exclusive of GST. A tax-compliant GST invoice is generated for every payment and available in your billing dashboard." },
+  { q: "How do I cancel my subscription?", a: "Cancel any time in one click from your account. You keep access until the end of the paid period — no cancellation fees, ever." },
+  { q: "When does my plan renew?", a: "On the same calendar date each month. We send a renewal reminder 3 days in advance so you always stay in control." },
+  { q: "Can I try HAPPY before paying?", a: "Yes. Starter includes a free tier so you can experience HAPPY end-to-end before upgrading." },
+];
+
+const PAYMENT_METHODS = ["UPI", "Credit Card", "Debit Card", "Net Banking", "Razorpay", "Stripe", "PayPal"];
+
+const TRUST_BADGES: Array<{ title: string; copy: string }> = [
+  { title: "30-Day Money Back", copy: "Full refund, no questions." },
+  { title: "Secure Payment", copy: "PCI-DSS grade encryption." },
+  { title: "No Hidden Charges", copy: "One transparent price." },
+  { title: "Cancel Anytime", copy: "One click. No penalties." },
+  { title: "Enterprise Security", copy: "SSO, RBAC, RLS, audit." },
+  { title: "99.9% Uptime", copy: "Sovereign, resilient runtime." },
+];
+
+function Pricing() {
   return (
     <section id="pricing" className="relative border-t border-gold/10 py-28">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Pricing"
-          title="Sovereign by default. Priced with dignity."
-          copy="Every plan includes end-to-end encryption, MFA, RBAC, GST invoicing, and full data export. No hidden meters."
+          title="From student to enterprise. One sovereign platform."
+          copy="Four plans engineered for every stage of growth. Every plan includes end-to-end encryption, MFA, RBAC, GST invoicing and full data export."
         />
 
-        <div className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {tiers.map((t) => (
+        {/* Tier cards */}
+        <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          {PRICING_TIERS.map((t) => (
             <div
               key={t.name}
-              className={`relative overflow-hidden rounded-3xl border p-8 transition-colors ${
+              className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border p-7 transition-all duration-300 will-change-transform hover:-translate-y-1 ${
                 t.featured
-                  ? "border-gold/40 bg-gradient-to-b from-charcoal to-obsidian"
-                  : "border-gold/15 bg-charcoal"
+                  ? "border-gold/60 bg-gradient-to-b from-charcoal via-charcoal to-obsidian shadow-[0_0_60px_-15px_rgba(232,201,106,0.55)]"
+                  : "border-gold/15 bg-charcoal hover:border-gold/35"
               }`}
             >
               {t.featured && (
-                <div className="absolute right-6 top-6 rounded-full border border-gold/40 bg-gold/10 px-2.5 py-1 text-[10px] uppercase tracking-widest text-gold">
-                  Most chosen
-                </div>
+                <>
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(232,201,106,0.18),transparent_60%)]" />
+                  <div className="absolute -top-px left-1/2 -translate-x-1/2 rounded-b-full border-x border-b border-gold/50 bg-gold px-4 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-obsidian">
+                    Most Popular
+                  </div>
+                </>
               )}
-              <div className="text-[11px] uppercase tracking-widest text-soft-gray">
-                {t.name}
-              </div>
-              <div className="mt-4 flex items-baseline gap-1">
-                <span className="numeric font-display text-5xl font-semibold text-paper">
-                  {t.price}
-                </span>
-                {t.period && (
-                  <span className="text-sm text-soft-gray">{t.period}</span>
-                )}
-              </div>
-              <p className="mt-3 text-sm text-soft-gray">{t.copy}</p>
 
-              <ul className="mt-8 space-y-3 border-t border-gold/10 pt-6">
-                {t.features.map((f) => (
-                  <li key={f} className="flex items-center gap-3 text-sm text-paper">
-                    <Check className="h-4 w-4 flex-none text-gold" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
+              <div className="relative flex h-full flex-col">
+                <div className="text-[11px] uppercase tracking-widest text-soft-gray">{t.name}</div>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="numeric font-display text-[42px] font-semibold leading-none text-paper">
+                    {t.price}
+                  </span>
+                  {t.period && <span className="text-sm text-soft-gray">{t.period}</span>}
+                </div>
+                <p className="mt-3 text-sm text-soft-gray">{t.copy}</p>
 
-              <button
-                className={`mt-10 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-transform hover:scale-[1.01] ${
-                  t.featured
-                    ? "bg-gold text-obsidian"
-                    : "border border-gold/25 text-paper hover:bg-gold/10"
-                }`}
-              >
-                {t.cta}
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
+                <ul className="mt-6 flex-1 space-y-2.5 border-t border-gold/10 pt-5">
+                  {t.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-paper">
+                      <Check className="mt-0.5 h-3.5 w-3.5 flex-none text-gold" />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-transform duration-200 hover:scale-[1.02] ${
+                    t.featured
+                      ? "bg-gold text-obsidian shadow-[0_0_24px_-4px_rgba(232,201,106,0.7)]"
+                      : "border border-gold/25 text-paper hover:bg-gold/10"
+                  }`}
+                >
+                  {t.cta}
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* Comparison Table */}
+        <div className="mt-24">
+          <h3 className="font-display text-2xl font-semibold text-paper">Compare every plan</h3>
+          <p className="mt-2 text-sm text-soft-gray">Feature-by-feature breakdown across Starter, Professional, Business and Enterprise.</p>
+          <div className="mt-8 overflow-x-auto rounded-2xl border border-gold/15 bg-charcoal">
+            <table className="w-full min-w-[720px] text-left text-sm">
+              <thead>
+                <tr className="border-b border-gold/15 text-[11px] uppercase tracking-widest text-soft-gray">
+                  <th className="px-5 py-4 font-medium">Capability</th>
+                  {PRICING_TIERS.map((t) => (
+                    <th key={t.name} className={`px-5 py-4 font-medium ${t.featured ? "text-gold" : "text-paper"}`}>
+                      {t.name}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARISON_ROWS.map((row, i) => (
+                  <tr key={row.label} className={i % 2 === 0 ? "bg-obsidian/40" : ""}>
+                    <td className="px-5 py-3.5 text-[13px] text-paper">{row.label}</td>
+                    {row.values.map((v, idx) => (
+                      <td
+                        key={idx}
+                        className={`px-5 py-3.5 text-[13px] ${
+                          v === "—" ? "text-soft-gray/60" : PRICING_TIERS[idx].featured ? "text-gold" : "text-paper"
+                        }`}
+                      >
+                        {v}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Trust Section */}
+        <div className="mt-24">
+          <h3 className="font-display text-2xl font-semibold text-paper">Built on trust</h3>
+          <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+            {TRUST_BADGES.map((b) => (
+              <div
+                key={b.title}
+                className="rounded-2xl border border-gold/15 bg-charcoal p-5 transition-colors hover:border-gold/35"
+              >
+                <Shield className="h-5 w-5 text-gold" />
+                <div className="mt-3 text-[13px] font-semibold text-paper">{b.title}</div>
+                <div className="mt-1 text-[11px] leading-relaxed text-soft-gray">{b.copy}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Payment Methods */}
+        <div className="mt-16 rounded-2xl border border-gold/15 bg-charcoal p-8">
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div>
+              <div className="text-[11px] uppercase tracking-widest text-soft-gray">Payments</div>
+              <div className="mt-2 font-display text-xl font-semibold text-paper">Every payment method Indians and enterprises use.</div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {PAYMENT_METHODS.map((p) => (
+                <span
+                  key={p}
+                  className="rounded-full border border-gold/20 bg-obsidian/60 px-3.5 py-1.5 text-[12px] font-medium text-paper"
+                >
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ */}
+        <div className="mt-24">
+          <h3 className="font-display text-2xl font-semibold text-paper">Frequently asked questions</h3>
+          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+            {PRICING_FAQ.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-2xl border border-gold/15 bg-charcoal p-5 transition-colors open:border-gold/35"
+              >
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-[14px] font-semibold text-paper">
+                  <span>{f.q}</span>
+                  <span className="mt-0.5 text-gold transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-[13px] leading-relaxed text-soft-gray">{f.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 /* ─────────────────────  DOWNLOAD APP  ───────────────────── */
 function DownloadApp() {
