@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
+import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
@@ -56,6 +57,9 @@ import { Route as AuthenticatedStudioExportsRouteImport } from './routes/_authen
 import { Route as AuthenticatedStudioCopyRouteImport } from './routes/_authenticated/studio.copy'
 import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenticated/studio.brand'
 import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authenticated/studio.assets'
+import { Route as AuthenticatedPluginsStoreRouteImport } from './routes/_authenticated/plugins.store'
+import { Route as AuthenticatedPluginsSettingsRouteImport } from './routes/_authenticated/plugins.settings'
+import { Route as AuthenticatedPluginsInstalledRouteImport } from './routes/_authenticated/plugins.installed'
 import { Route as AuthenticatedMarketplaceSellerRouteImport } from './routes/_authenticated/marketplace.seller'
 import { Route as AuthenticatedMarketplaceSalesRouteImport } from './routes/_authenticated/marketplace.sales'
 import { Route as AuthenticatedMarketplaceOrdersRouteImport } from './routes/_authenticated/marketplace.orders'
@@ -169,6 +173,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
 const AuthenticatedRoadmapRoute = AuthenticatedRoadmapRouteImport.update({
   id: '/roadmap',
   path: '/roadmap',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPluginsRoute = AuthenticatedPluginsRouteImport.update({
+  id: '/plugins',
+  path: '/plugins',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
@@ -383,6 +392,24 @@ const AuthenticatedStudioAssetsRoute =
     id: '/assets',
     path: '/assets',
     getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedPluginsStoreRoute =
+  AuthenticatedPluginsStoreRouteImport.update({
+    id: '/store',
+    path: '/store',
+    getParentRoute: () => AuthenticatedPluginsRoute,
+  } as any)
+const AuthenticatedPluginsSettingsRoute =
+  AuthenticatedPluginsSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedPluginsRoute,
+  } as any)
+const AuthenticatedPluginsInstalledRoute =
+  AuthenticatedPluginsInstalledRouteImport.update({
+    id: '/installed',
+    path: '/installed',
+    getParentRoute: () => AuthenticatedPluginsRoute,
   } as any)
 const AuthenticatedMarketplaceSellerRoute =
   AuthenticatedMarketplaceSellerRouteImport.update({
@@ -822,6 +849,7 @@ export interface FileRoutesByFullPath {
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
@@ -893,6 +921,9 @@ export interface FileRoutesByFullPath {
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
+  '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
+  '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -930,6 +961,7 @@ export interface FileRoutesByTo {
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
   '/global': typeof AuthenticatedGlobalRoute
   '/intelligence': typeof AuthenticatedIntelligenceRoute
+  '/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -1000,6 +1032,9 @@ export interface FileRoutesByTo {
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
+  '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
+  '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -1049,6 +1084,7 @@ export interface FileRoutesById {
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/_authenticated/plugins': typeof AuthenticatedPluginsRouteWithChildren
   '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
@@ -1120,6 +1156,9 @@ export interface FileRoutesById {
   '/_authenticated/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/_authenticated/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/_authenticated/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/_authenticated/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
+  '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
+  '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/_authenticated/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/_authenticated/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/_authenticated/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -1169,6 +1208,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/marketplace'
     | '/messages'
+    | '/plugins'
     | '/roadmap'
     | '/settings'
     | '/studio'
@@ -1240,6 +1280,9 @@ export interface FileRouteTypes {
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
+    | '/plugins/installed'
+    | '/plugins/settings'
+    | '/plugins/store'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
@@ -1277,6 +1320,7 @@ export interface FileRouteTypes {
     | '/enterprise-cloud'
     | '/global'
     | '/intelligence'
+    | '/plugins'
     | '/roadmap'
     | '/settings'
     | '/business/ai'
@@ -1347,6 +1391,9 @@ export interface FileRouteTypes {
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
+    | '/plugins/installed'
+    | '/plugins/settings'
+    | '/plugins/store'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
@@ -1395,6 +1442,7 @@ export interface FileRouteTypes {
     | '/_authenticated/knowledge'
     | '/_authenticated/marketplace'
     | '/_authenticated/messages'
+    | '/_authenticated/plugins'
     | '/_authenticated/roadmap'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
@@ -1466,6 +1514,9 @@ export interface FileRouteTypes {
     | '/_authenticated/marketplace/orders'
     | '/_authenticated/marketplace/sales'
     | '/_authenticated/marketplace/seller'
+    | '/_authenticated/plugins/installed'
+    | '/_authenticated/plugins/settings'
+    | '/_authenticated/plugins/store'
     | '/_authenticated/studio/assets'
     | '/_authenticated/studio/brand'
     | '/_authenticated/studio/copy'
@@ -1566,6 +1617,13 @@ declare module '@tanstack/react-router' {
       path: '/roadmap'
       fullPath: '/roadmap'
       preLoaderRoute: typeof AuthenticatedRoadmapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/plugins': {
+      id: '/_authenticated/plugins'
+      path: '/plugins'
+      fullPath: '/plugins'
+      preLoaderRoute: typeof AuthenticatedPluginsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/messages': {
@@ -1833,6 +1891,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/studio/assets'
       preLoaderRoute: typeof AuthenticatedStudioAssetsRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/plugins/store': {
+      id: '/_authenticated/plugins/store'
+      path: '/store'
+      fullPath: '/plugins/store'
+      preLoaderRoute: typeof AuthenticatedPluginsStoreRouteImport
+      parentRoute: typeof AuthenticatedPluginsRoute
+    }
+    '/_authenticated/plugins/settings': {
+      id: '/_authenticated/plugins/settings'
+      path: '/settings'
+      fullPath: '/plugins/settings'
+      preLoaderRoute: typeof AuthenticatedPluginsSettingsRouteImport
+      parentRoute: typeof AuthenticatedPluginsRoute
+    }
+    '/_authenticated/plugins/installed': {
+      id: '/_authenticated/plugins/installed'
+      path: '/installed'
+      fullPath: '/plugins/installed'
+      preLoaderRoute: typeof AuthenticatedPluginsInstalledRouteImport
+      parentRoute: typeof AuthenticatedPluginsRoute
     }
     '/_authenticated/marketplace/seller': {
       id: '/_authenticated/marketplace/seller'
@@ -2613,6 +2692,21 @@ const AuthenticatedMessagesRouteWithChildren =
     AuthenticatedMessagesRouteChildren,
   )
 
+interface AuthenticatedPluginsRouteChildren {
+  AuthenticatedPluginsInstalledRoute: typeof AuthenticatedPluginsInstalledRoute
+  AuthenticatedPluginsSettingsRoute: typeof AuthenticatedPluginsSettingsRoute
+  AuthenticatedPluginsStoreRoute: typeof AuthenticatedPluginsStoreRoute
+}
+
+const AuthenticatedPluginsRouteChildren: AuthenticatedPluginsRouteChildren = {
+  AuthenticatedPluginsInstalledRoute: AuthenticatedPluginsInstalledRoute,
+  AuthenticatedPluginsSettingsRoute: AuthenticatedPluginsSettingsRoute,
+  AuthenticatedPluginsStoreRoute: AuthenticatedPluginsStoreRoute,
+}
+
+const AuthenticatedPluginsRouteWithChildren =
+  AuthenticatedPluginsRoute._addFileChildren(AuthenticatedPluginsRouteChildren)
+
 interface AuthenticatedStudioRouteChildren {
   AuthenticatedStudioAssetsRoute: typeof AuthenticatedStudioAssetsRoute
   AuthenticatedStudioBrandRoute: typeof AuthenticatedStudioBrandRoute
@@ -2660,6 +2754,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
+  AuthenticatedPluginsRoute: typeof AuthenticatedPluginsRouteWithChildren
   AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
@@ -2683,6 +2778,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
+  AuthenticatedPluginsRoute: AuthenticatedPluginsRouteWithChildren,
   AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,

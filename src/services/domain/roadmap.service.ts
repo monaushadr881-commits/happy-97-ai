@@ -87,3 +87,21 @@ export const autonomousService = defineService({ name: "autonomous", version: "v
   async enterpriseAutomation(_ctx: ServiceContext) { return notImplemented("autonomous", "enterpriseAutomation"); },
   async processManager(_ctx: ServiceContext, _input: unknown) { return notImplemented("autonomous", "processManager"); },
 }));
+
+// ---------- v2.5 — Plugin Ecosystem ----------
+export const pluginService = defineService({ name: "plugins", version: "v2" }, () => ({
+  async listRegistry(_ctx: ServiceContext) { return notImplemented("plugins", "listRegistry"); },
+  async searchStore(_ctx: ServiceContext, _input: { query?: string; category?: string }) { return notImplemented("plugins", "searchStore"); },
+  async getDetail(_ctx: ServiceContext, _input: { pluginId: string }) { return notImplemented("plugins", "getDetail"); },
+  async install(_ctx: ServiceContext, _input: { pluginId: string; version?: string }) { return notImplemented("plugins", "install"); },
+  async uninstall(_ctx: ServiceContext, _input: { pluginId: string }) { return notImplemented("plugins", "uninstall"); },
+  async listInstalled(_ctx: ServiceContext) { return notImplemented("plugins", "listInstalled"); },
+  async checkUpdates(_ctx: ServiceContext) { return notImplemented("plugins", "checkUpdates"); },
+  async update(_ctx: ServiceContext, _input: { pluginId: string; toVersion?: string }) { return notImplemented("plugins", "update"); },
+  async getPermissions(_ctx: ServiceContext, _input: { pluginId: string }) { return notImplemented("plugins", "getPermissions"); },
+  async grantPermissions(_ctx: ServiceContext, _input: { pluginId: string; permissions: string[] }) { return notImplemented("plugins", "grantPermissions"); },
+  async revokePermissions(_ctx: ServiceContext, _input: { pluginId: string; permissions: string[] }) { return notImplemented("plugins", "revokePermissions"); },
+  async analytics(_ctx: ServiceContext) { return notImplemented("plugins", "analytics"); },
+  async getSettings(_ctx: ServiceContext, _input: { pluginId: string }) { return notImplemented("plugins", "getSettings"); },
+  async updateSettings(_ctx: ServiceContext, _input: { pluginId: string; settings: Record<string, unknown> }) { return notImplemented("plugins", "updateSettings"); },
+}));
