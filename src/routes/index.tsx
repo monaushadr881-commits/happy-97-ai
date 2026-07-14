@@ -452,8 +452,11 @@ function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
       <style>{`
         @keyframes hero-wave { 0%,100% { transform: scaleY(0.4) } 50% { transform: scaleY(1.1) } }
         .hero-wave { animation: hero-wave 1.1s ease-in-out infinite; transform-origin: bottom; }
-        @media (prefers-reduced-motion: reduce) { .hero-wave { animation: none !important; } }
+        @keyframes hero-sheen { 0% { transform: translateX(0) rotate(18deg); opacity: 0 } 15% { opacity: 0.9 } 60% { transform: translateX(520%) rotate(18deg); opacity: 0 } 100% { transform: translateX(520%) rotate(18deg); opacity: 0 } }
+        .hero-sheen { animation: hero-sheen 7.5s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .hero-wave, .hero-sheen { animation: none !important; } }
       `}</style>
+
     </div>
   );
 }
