@@ -153,3 +153,42 @@ export function estimateSpeechMs(text: string, speed = 1): number {
 /** Streaming conversational states surfaced to the UI. */
 export type ConvoState =
   | "idle" | "listening" | "thinking" | "speaking" | "paused" | "interrupted" | "finished";
+
+/** Context-aware voice delivery profile — identity stays HAPPY, delivery adapts. */
+export type VoiceProfile = {
+  speed: number;                 // playback multiplier
+  sentencePauseScale: number;    // scales PACING.sentencePauseMs
+  ackChance: number;             // 0..1 — cadence of openers
+  expression: AvatarExpression;  // default while speaking
+  label: string;
+};
+
+/** Map every HAPPY mode to a delivery profile. Identity remains HAPPY. */
+export function voiceProfileFor(mode: string): VoiceProfile {
+  switch (mode) {
+    case "business":
+    case "enterprise":
+    case "founder":
+    case "interview":
+      return { speed: 1.02, sentencePauseScale: 1.15, ackChance: 0.25, expression: "explain", label: "Executive" };
+    case "teacher":
+    case "professor":
+    case "tutor":
+    case "language":
+      return { speed: 0.94, sentencePauseScale: 1.35, ackChance: 0.45, expression: "explain", label: "Patient" };
+    case "research":
+      return { speed: 0.98, sentencePauseScale: 1.25, ackChance: 0.2, expression: "thinking", label: "Analytical" };
+    case "creator":
+    case "presentation":
+    case "public_speaker":
+      return { speed: 1.08, sentencePauseScale: 0.9, ackChance: 0.35, expression: "smile", label: "Energetic" };
+    case "support":
+    case "coach":
+    case "mentor":
+      return { speed: 0.98, sentencePauseScale: 1.2, ackChance: 0.5, expression: "smile", label: "Calm" };
+    case "coding":
+      return { speed: 1, sentencePauseScale: 1.1, ackChance: 0.2, expression: "explain", label: "Precise" };
+    default:
+      return { speed: 1, sentencePauseScale: 1, ackChance: 0.35, expression: "explain", label: "Balanced" };
+  }
+}
