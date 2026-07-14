@@ -346,7 +346,7 @@ const CONTACT: Array<{ title: string; copy: string; cta: string; icon: React.Ele
 /* ────────────────────── Small hooks ────────────────────── */
 function useCountUp(target: number, active: boolean, ms = 900) {
   const [v, setV] = useState(0);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | undefined>(undefined);
   useEffect(() => {
     if (!active) { setV(target); return; }
     const start = performance.now();
