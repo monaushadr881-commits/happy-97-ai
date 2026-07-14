@@ -1688,6 +1688,262 @@ export type Database = {
           },
         ]
       }
+      creator_assets: {
+        Row: {
+          created_at: string
+          data_url: string | null
+          duration_ms: number | null
+          external_url: string | null
+          height: number | null
+          id: string
+          kind: string
+          metadata: Json
+          mime_type: string
+          model: string | null
+          name: string
+          project_id: string | null
+          prompt: string | null
+          size_bytes: number | null
+          tags: string[]
+          user_id: string
+          width: number | null
+        }
+        Insert: {
+          created_at?: string
+          data_url?: string | null
+          duration_ms?: number | null
+          external_url?: string | null
+          height?: number | null
+          id?: string
+          kind: string
+          metadata?: Json
+          mime_type?: string
+          model?: string | null
+          name: string
+          project_id?: string | null
+          prompt?: string | null
+          size_bytes?: number | null
+          tags?: string[]
+          user_id: string
+          width?: number | null
+        }
+        Update: {
+          created_at?: string
+          data_url?: string | null
+          duration_ms?: number | null
+          external_url?: string | null
+          height?: number | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          mime_type?: string
+          model?: string | null
+          name?: string
+          project_id?: string | null
+          prompt?: string | null
+          size_bytes?: number | null
+          tags?: string[]
+          user_id?: string
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_assets_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "creator_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_brand_kits: {
+        Row: {
+          accent_color: string
+          body_font: string
+          company_id: string | null
+          created_at: string
+          heading_font: string
+          id: string
+          is_default: boolean
+          logo_asset_id: string | null
+          metadata: Json
+          name: string
+          primary_color: string
+          secondary_color: string
+          updated_at: string
+          user_id: string
+          voice_guide: string | null
+        }
+        Insert: {
+          accent_color?: string
+          body_font?: string
+          company_id?: string | null
+          created_at?: string
+          heading_font?: string
+          id?: string
+          is_default?: boolean
+          logo_asset_id?: string | null
+          metadata?: Json
+          name: string
+          primary_color?: string
+          secondary_color?: string
+          updated_at?: string
+          user_id: string
+          voice_guide?: string | null
+        }
+        Update: {
+          accent_color?: string
+          body_font?: string
+          company_id?: string | null
+          created_at?: string
+          heading_font?: string
+          id?: string
+          is_default?: boolean
+          logo_asset_id?: string | null
+          metadata?: Json
+          name?: string
+          primary_color?: string
+          secondary_color?: string
+          updated_at?: string
+          user_id?: string
+          voice_guide?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_brand_kits_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creator_brand_kits_logo_asset_id_fkey"
+            columns: ["logo_asset_id"]
+            isOneToOne: false
+            referencedRelation: "creator_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_generations: {
+        Row: {
+          cost_credits: number | null
+          created_at: string
+          duration_ms: number | null
+          error: string | null
+          id: string
+          input: Json
+          model: string | null
+          operation: string
+          output_asset_id: string | null
+          project_id: string | null
+          prompt: string | null
+          status: string
+          studio: string
+          user_id: string
+        }
+        Insert: {
+          cost_credits?: number | null
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          input?: Json
+          model?: string | null
+          operation: string
+          output_asset_id?: string | null
+          project_id?: string | null
+          prompt?: string | null
+          status?: string
+          studio: string
+          user_id: string
+        }
+        Update: {
+          cost_credits?: number | null
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          input?: Json
+          model?: string | null
+          operation?: string
+          output_asset_id?: string | null
+          project_id?: string | null
+          prompt?: string | null
+          status?: string
+          studio?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_generations_output_asset_id_fkey"
+            columns: ["output_asset_id"]
+            isOneToOne: false
+            referencedRelation: "creator_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creator_generations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "creator_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creator_projects: {
+        Row: {
+          archived: boolean
+          company_id: string | null
+          cover_asset_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          kind: string
+          metadata: Json
+          name: string
+          tags: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          archived?: boolean
+          company_id?: string | null
+          cover_asset_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          name: string
+          tags?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          archived?: boolean
+          company_id?: string | null
+          cover_asset_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          name?: string
+          tags?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_projects_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cron_runs: {
         Row: {
           created_at: string

@@ -25,12 +25,22 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
 import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
 import { Route as AuthenticatedDigitalHumanIndexRouteImport } from './routes/_authenticated/digital-human.index'
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
 import { Route as ApiDhTtsRouteImport } from './routes/api/dh.tts'
+import { Route as AuthenticatedStudioVoiceRouteImport } from './routes/_authenticated/studio.voice'
+import { Route as AuthenticatedStudioProjectsRouteImport } from './routes/_authenticated/studio.projects'
+import { Route as AuthenticatedStudioPresentationRouteImport } from './routes/_authenticated/studio.presentation'
+import { Route as AuthenticatedStudioMarketingRouteImport } from './routes/_authenticated/studio.marketing'
+import { Route as AuthenticatedStudioImageRouteImport } from './routes/_authenticated/studio.image'
+import { Route as AuthenticatedStudioExportsRouteImport } from './routes/_authenticated/studio.exports'
+import { Route as AuthenticatedStudioCopyRouteImport } from './routes/_authenticated/studio.copy'
+import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenticated/studio.brand'
+import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authenticated/studio.assets'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
@@ -162,6 +172,12 @@ const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedStudioIndexRoute =
+  AuthenticatedStudioIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
 const AuthenticatedFounderIndexRoute =
   AuthenticatedFounderIndexRouteImport.update({
     id: '/',
@@ -197,6 +213,59 @@ const ApiDhTtsRoute = ApiDhTtsRouteImport.update({
   path: '/api/dh/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedStudioVoiceRoute =
+  AuthenticatedStudioVoiceRouteImport.update({
+    id: '/voice',
+    path: '/voice',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedStudioProjectsRoute =
+  AuthenticatedStudioProjectsRouteImport.update({
+    id: '/projects',
+    path: '/projects',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedStudioPresentationRoute =
+  AuthenticatedStudioPresentationRouteImport.update({
+    id: '/presentation',
+    path: '/presentation',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedStudioMarketingRoute =
+  AuthenticatedStudioMarketingRouteImport.update({
+    id: '/marketing',
+    path: '/marketing',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedStudioImageRoute =
+  AuthenticatedStudioImageRouteImport.update({
+    id: '/image',
+    path: '/image',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedStudioExportsRoute =
+  AuthenticatedStudioExportsRouteImport.update({
+    id: '/exports',
+    path: '/exports',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedStudioCopyRoute = AuthenticatedStudioCopyRouteImport.update({
+  id: '/copy',
+  path: '/copy',
+  getParentRoute: () => AuthenticatedStudioRoute,
+} as any)
+const AuthenticatedStudioBrandRoute =
+  AuthenticatedStudioBrandRouteImport.update({
+    id: '/brand',
+    path: '/brand',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedStudioAssetsRoute =
+  AuthenticatedStudioAssetsRouteImport.update({
+    id: '/assets',
+    path: '/assets',
+    getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
     id: '/users',
@@ -501,7 +570,7 @@ export interface FileRoutesByFullPath {
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/studio': typeof AuthenticatedStudioRoute
+  '/studio': typeof AuthenticatedStudioRouteWithChildren
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -549,12 +618,22 @@ export interface FileRoutesByFullPath {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/studio/assets': typeof AuthenticatedStudioAssetsRoute
+  '/studio/brand': typeof AuthenticatedStudioBrandRoute
+  '/studio/copy': typeof AuthenticatedStudioCopyRoute
+  '/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/studio/image': typeof AuthenticatedStudioImageRoute
+  '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
+  '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
+  '/studio/projects': typeof AuthenticatedStudioProjectsRoute
+  '/studio/voice': typeof AuthenticatedStudioVoiceRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
   '/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/education/': typeof AuthenticatedEducationIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
+  '/studio/': typeof AuthenticatedStudioIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
 }
@@ -568,7 +647,6 @@ export interface FileRoutesByTo {
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/studio': typeof AuthenticatedStudioRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -616,12 +694,22 @@ export interface FileRoutesByTo {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/studio/assets': typeof AuthenticatedStudioAssetsRoute
+  '/studio/brand': typeof AuthenticatedStudioBrandRoute
+  '/studio/copy': typeof AuthenticatedStudioCopyRoute
+  '/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/studio/image': typeof AuthenticatedStudioImageRoute
+  '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
+  '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
+  '/studio/projects': typeof AuthenticatedStudioProjectsRoute
+  '/studio/voice': typeof AuthenticatedStudioVoiceRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
   '/digital-human': typeof AuthenticatedDigitalHumanIndexRoute
   '/education': typeof AuthenticatedEducationIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
+  '/studio': typeof AuthenticatedStudioIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
 }
@@ -642,7 +730,7 @@ export interface FileRoutesById {
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/_authenticated/studio': typeof AuthenticatedStudioRoute
+  '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
   '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/_authenticated/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -690,12 +778,22 @@ export interface FileRoutesById {
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/studio/assets': typeof AuthenticatedStudioAssetsRoute
+  '/_authenticated/studio/brand': typeof AuthenticatedStudioBrandRoute
+  '/_authenticated/studio/copy': typeof AuthenticatedStudioCopyRoute
+  '/_authenticated/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/_authenticated/studio/image': typeof AuthenticatedStudioImageRoute
+  '/_authenticated/studio/marketing': typeof AuthenticatedStudioMarketingRoute
+  '/_authenticated/studio/presentation': typeof AuthenticatedStudioPresentationRoute
+  '/_authenticated/studio/projects': typeof AuthenticatedStudioProjectsRoute
+  '/_authenticated/studio/voice': typeof AuthenticatedStudioVoiceRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
   '/_authenticated/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
+  '/_authenticated/studio/': typeof AuthenticatedStudioIndexRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
 }
@@ -764,12 +862,22 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/studio/assets'
+    | '/studio/brand'
+    | '/studio/copy'
+    | '/studio/exports'
+    | '/studio/image'
+    | '/studio/marketing'
+    | '/studio/presentation'
+    | '/studio/projects'
+    | '/studio/voice'
     | '/api/dh/tts'
     | '/business/'
     | '/digital-human/'
     | '/education/'
     | '/enterprise/'
     | '/founder/'
+    | '/studio/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
   fileRoutesByTo: FileRoutesByTo
@@ -783,7 +891,6 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/marketplace'
     | '/settings'
-    | '/studio'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -831,12 +938,22 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/studio/assets'
+    | '/studio/brand'
+    | '/studio/copy'
+    | '/studio/exports'
+    | '/studio/image'
+    | '/studio/marketing'
+    | '/studio/presentation'
+    | '/studio/projects'
+    | '/studio/voice'
     | '/api/dh/tts'
     | '/business'
     | '/digital-human'
     | '/education'
     | '/enterprise'
     | '/founder'
+    | '/studio'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
   id:
@@ -904,12 +1021,22 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
+    | '/_authenticated/studio/assets'
+    | '/_authenticated/studio/brand'
+    | '/_authenticated/studio/copy'
+    | '/_authenticated/studio/exports'
+    | '/_authenticated/studio/image'
+    | '/_authenticated/studio/marketing'
+    | '/_authenticated/studio/presentation'
+    | '/_authenticated/studio/projects'
+    | '/_authenticated/studio/voice'
     | '/api/dh/tts'
     | '/_authenticated/business/'
     | '/_authenticated/digital-human/'
     | '/_authenticated/education/'
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder/'
+    | '/_authenticated/studio/'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
   fileRoutesById: FileRoutesById
@@ -1038,6 +1165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/studio/': {
+      id: '/_authenticated/studio/'
+      path: '/'
+      fullPath: '/studio/'
+      preLoaderRoute: typeof AuthenticatedStudioIndexRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
     '/_authenticated/founder/': {
       id: '/_authenticated/founder/'
       path: '/'
@@ -1079,6 +1213,69 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/dh/tts'
       preLoaderRoute: typeof ApiDhTtsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/studio/voice': {
+      id: '/_authenticated/studio/voice'
+      path: '/voice'
+      fullPath: '/studio/voice'
+      preLoaderRoute: typeof AuthenticatedStudioVoiceRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/projects': {
+      id: '/_authenticated/studio/projects'
+      path: '/projects'
+      fullPath: '/studio/projects'
+      preLoaderRoute: typeof AuthenticatedStudioProjectsRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/presentation': {
+      id: '/_authenticated/studio/presentation'
+      path: '/presentation'
+      fullPath: '/studio/presentation'
+      preLoaderRoute: typeof AuthenticatedStudioPresentationRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/marketing': {
+      id: '/_authenticated/studio/marketing'
+      path: '/marketing'
+      fullPath: '/studio/marketing'
+      preLoaderRoute: typeof AuthenticatedStudioMarketingRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/image': {
+      id: '/_authenticated/studio/image'
+      path: '/image'
+      fullPath: '/studio/image'
+      preLoaderRoute: typeof AuthenticatedStudioImageRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/exports': {
+      id: '/_authenticated/studio/exports'
+      path: '/exports'
+      fullPath: '/studio/exports'
+      preLoaderRoute: typeof AuthenticatedStudioExportsRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/copy': {
+      id: '/_authenticated/studio/copy'
+      path: '/copy'
+      fullPath: '/studio/copy'
+      preLoaderRoute: typeof AuthenticatedStudioCopyRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/brand': {
+      id: '/_authenticated/studio/brand'
+      path: '/brand'
+      fullPath: '/studio/brand'
+      preLoaderRoute: typeof AuthenticatedStudioBrandRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/assets': {
+      id: '/_authenticated/studio/assets'
+      path: '/assets'
+      fullPath: '/studio/assets'
+      preLoaderRoute: typeof AuthenticatedStudioAssetsRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
     }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
@@ -1598,6 +1795,35 @@ const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
 const AuthenticatedFounderRouteWithChildren =
   AuthenticatedFounderRoute._addFileChildren(AuthenticatedFounderRouteChildren)
 
+interface AuthenticatedStudioRouteChildren {
+  AuthenticatedStudioAssetsRoute: typeof AuthenticatedStudioAssetsRoute
+  AuthenticatedStudioBrandRoute: typeof AuthenticatedStudioBrandRoute
+  AuthenticatedStudioCopyRoute: typeof AuthenticatedStudioCopyRoute
+  AuthenticatedStudioExportsRoute: typeof AuthenticatedStudioExportsRoute
+  AuthenticatedStudioImageRoute: typeof AuthenticatedStudioImageRoute
+  AuthenticatedStudioMarketingRoute: typeof AuthenticatedStudioMarketingRoute
+  AuthenticatedStudioPresentationRoute: typeof AuthenticatedStudioPresentationRoute
+  AuthenticatedStudioProjectsRoute: typeof AuthenticatedStudioProjectsRoute
+  AuthenticatedStudioVoiceRoute: typeof AuthenticatedStudioVoiceRoute
+  AuthenticatedStudioIndexRoute: typeof AuthenticatedStudioIndexRoute
+}
+
+const AuthenticatedStudioRouteChildren: AuthenticatedStudioRouteChildren = {
+  AuthenticatedStudioAssetsRoute: AuthenticatedStudioAssetsRoute,
+  AuthenticatedStudioBrandRoute: AuthenticatedStudioBrandRoute,
+  AuthenticatedStudioCopyRoute: AuthenticatedStudioCopyRoute,
+  AuthenticatedStudioExportsRoute: AuthenticatedStudioExportsRoute,
+  AuthenticatedStudioImageRoute: AuthenticatedStudioImageRoute,
+  AuthenticatedStudioMarketingRoute: AuthenticatedStudioMarketingRoute,
+  AuthenticatedStudioPresentationRoute: AuthenticatedStudioPresentationRoute,
+  AuthenticatedStudioProjectsRoute: AuthenticatedStudioProjectsRoute,
+  AuthenticatedStudioVoiceRoute: AuthenticatedStudioVoiceRoute,
+  AuthenticatedStudioIndexRoute: AuthenticatedStudioIndexRoute,
+}
+
+const AuthenticatedStudioRouteWithChildren =
+  AuthenticatedStudioRoute._addFileChildren(AuthenticatedStudioRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
@@ -1610,7 +1836,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-  AuthenticatedStudioRoute: typeof AuthenticatedStudioRoute
+  AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -1625,7 +1851,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-  AuthenticatedStudioRoute: AuthenticatedStudioRoute,
+  AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
