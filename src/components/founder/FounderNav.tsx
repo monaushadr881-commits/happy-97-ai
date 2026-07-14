@@ -15,7 +15,8 @@ import {
   Settings2,
 } from "lucide-react";
 
-const TABS = [
+type Tab = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+const TABS: Tab[] = [
   { to: "/founder", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/founder/companies", label: "Companies", icon: Building2 },
   { to: "/founder/users", label: "Users", icon: Users },
@@ -24,7 +25,7 @@ const TABS = [
   { to: "/founder/security", label: "Security", icon: Shield },
   { to: "/founder/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/founder/system", label: "System", icon: Settings2 },
-] as const;
+];
 
 export function FounderNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
