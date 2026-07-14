@@ -17,7 +17,6 @@ import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
-import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -65,11 +64,6 @@ const AuthenticatedMarketplaceRoute =
 const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFounderRoute = AuthenticatedFounderRouteImport.update({
-  id: '/founder',
-  path: '/founder',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedEnterpriseRoute = AuthenticatedEnterpriseRouteImport.update({
@@ -123,7 +117,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
-  '/founder': typeof AuthenticatedFounderRoute
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -141,7 +134,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/education': typeof AuthenticatedEducationRoute
   '/enterprise': typeof AuthenticatedEnterpriseRoute
-  '/founder': typeof AuthenticatedFounderRoute
   '/knowledge': typeof AuthenticatedKnowledgeRoute
   '/marketplace': typeof AuthenticatedMarketplaceRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -161,7 +153,6 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/education': typeof AuthenticatedEducationRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRoute
-  '/_authenticated/founder': typeof AuthenticatedFounderRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
@@ -181,7 +172,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/education'
     | '/enterprise'
-    | '/founder'
     | '/knowledge'
     | '/marketplace'
     | '/settings'
@@ -199,7 +189,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/education'
     | '/enterprise'
-    | '/founder'
     | '/knowledge'
     | '/marketplace'
     | '/settings'
@@ -218,7 +207,6 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
-    | '/_authenticated/founder'
     | '/_authenticated/knowledge'
     | '/_authenticated/marketplace'
     | '/_authenticated/settings'
@@ -294,13 +282,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/founder': {
-      id: '/_authenticated/founder'
-      path: '/founder'
-      fullPath: '/founder'
-      preLoaderRoute: typeof AuthenticatedFounderRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/enterprise': {
       id: '/_authenticated/enterprise'
       path: '/enterprise'
@@ -367,7 +348,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRoute
-  AuthenticatedFounderRoute: typeof AuthenticatedFounderRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
@@ -381,7 +361,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRoute,
-  AuthenticatedFounderRoute: AuthenticatedFounderRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
