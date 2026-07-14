@@ -550,19 +550,19 @@ function Ecosystem() {
 function TrustBar() {
   const items = [
     "Enterprise Security",
-    "RBAC · MFA",
-    "GST · Tax",
-    "Multi Company",
-    "Cloud Native",
-    "Offline Ready",
+    "Responsible AI",
+    "Privacy First",
+    "Digital Human",
+    "Multi-Tenant Platform",
+    "Fast & Secure",
   ];
   return (
     <section className="border-y border-gold/10 bg-charcoal/40">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-12 gap-y-4 px-6 py-8">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-4 px-6 py-8">
         {items.map((i) => (
           <span
             key={i}
-            className="text-[11px] uppercase tracking-[0.3em] text-soft-gray"
+            className="text-[11px] uppercase tracking-[0.3em] text-soft-gray transition-colors duration-300 hover:text-gold"
           >
             {i}
           </span>
@@ -571,6 +571,7 @@ function TrustBar() {
     </section>
   );
 }
+
 
 /* ─────────────────────  AI CHAT PREVIEW  ───────────────────── */
 function ChatPreview() {
