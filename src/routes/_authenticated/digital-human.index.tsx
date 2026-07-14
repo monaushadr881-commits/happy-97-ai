@@ -11,8 +11,9 @@ import { useDigitalHuman } from "@/components/digital-human/DigitalHumanContext"
 import { useHappySpeech } from "@/components/digital-human/useHappySpeech";
 import { useVoiceInput } from "@/components/digital-human/useVoiceInput";
 import {
-  chunkForSpeech, estimateSpeechMs, maybeAcknowledgement, PACING, pausable,
-  thinkingDurationFor, type ConvoState,
+  chunkForSpeech, classifyIntent, estimateSpeechMs, expressionFor,
+  maybeAcknowledgement, maybeBackchannel, PACING, pausable,
+  thinkingDurationFor, timingProfileFor, type ConvoState,
 } from "@/components/digital-human/conversation-engine";
 import { dhSpeak, DH_MODES, type DhMode } from "@/lib/digital-human-v1.functions";
 import {
