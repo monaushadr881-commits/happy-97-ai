@@ -82,7 +82,7 @@ function useBlink(reduced: boolean) {
  * Adapts to activity/expression so listening feels attentive (small nod +
  * centered gaze) and thinking feels reflective (brief upward glance + tilt).
  */
-function useMicroMotion(reduced: boolean, activity: AvatarActivity, expression: AvatarExpression) {
+function useMicroMotion(reduced: boolean, activity: AvatarActivity, expression: AvatarExpression, posture: AvatarPosture) {
   const [offset, setOffset] = useState({ x: 0, y: 0, r: 0, s: 1 });
   useEffect(() => {
     if (reduced) return;
@@ -91,35 +91,46 @@ function useMicroMotion(reduced: boolean, activity: AvatarActivity, expression: 
     let target = { x: 0, y: 0, r: 0, s: 1 };
     let current = { x: 0, y: 0, r: 0, s: 1 };
     let nextRetarget = 0;
+    const presentation = posture === "presentation";
+    // Presentation posture: straighter, calmer, holds longer. Drift ranges shrink.
+    const driftScale = presentation ? 0.55 : 1;
     const tick = (t: number) => {
       if (!last) last = t;
       const dt = Math.min(50, t - last);
       last = t;
       if (t > nextRetarget) {
         const base = {
-          x: (Math.random() - 0.5) * 3.4,
-          y: (Math.random() - 0.5) * 2.0,
-          r: (Math.random() - 0.5) * 0.6,
-          s: 1 + (Math.random() - 0.5) * 0.006, // subtle weight shift
+          x: (Math.random() - 0.5) * 3.4 * driftScale,
+          y: (Math.random() - 0.5) * 2.0 * driftScale,
+          r: (Math.random() - 0.5) * 0.6 * driftScale,
+          s: 1 + (Math.random() - 0.5) * 0.006,
         };
         if (activity === "listening") {
-          // Attentive: tiny nod + steadier gaze.
-          base.y = 0.6 + Math.random() * 1.1;
+          base.y = (0.6 + Math.random() * 1.1) * (presentation ? 0.6 : 1);
           base.x *= 0.4;
           base.r *= 0.3;
         }
         if (expression === "thinking") {
-          // Reflective: brief upward glance + gentle tilt.
           base.y = -1.2 + (Math.random() - 0.5) * 0.6;
           base.r = (Math.random() < 0.5 ? -1 : 1) * (0.4 + Math.random() * 0.4);
         }
+        if (presentation) {
+          // Confident chin-lift + longer holds; centered stance.
+          base.y -= 0.4;
+          base.x *= 0.6;
+          base.r *= 0.4;
+        }
         target = base;
-        const gap = activity === "listening" ? 700 + Math.random() * 1400
-                  : expression === "thinking" ? 500 + Math.random() * 900
-                  : 900 + Math.random() * 2600;
+        const gap = presentation
+          ? 1800 + Math.random() * 2600
+          : activity === "listening" ? 700 + Math.random() * 1400
+          : expression === "thinking" ? 500 + Math.random() * 900
+          : 900 + Math.random() * 2600;
         nextRetarget = t + gap;
       }
-      const k = 1 - Math.pow(0.001, dt / 1000);
+      // Presentation eases slower for a calmer look.
+      const settleBase = presentation ? 0.0005 : 0.001;
+      const k = 1 - Math.pow(settleBase, dt / 1000);
       current = {
         x: current.x + (target.x - current.x) * k,
         y: current.y + (target.y - current.y) * k,
@@ -131,7 +142,7 @@ function useMicroMotion(reduced: boolean, activity: AvatarActivity, expression: 
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [reduced, activity, expression]);
+  }, [reduced, activity, expression, posture]);
   return offset;
 }
 
@@ -144,30 +155,40 @@ export const HappyAvatar = memo(function HappyAvatar({
   className,
   variant = "bust",
   trackCursor = false,
+  posture = "normal",
+  gazeTarget = null,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
-  const drift = useMicroMotion(reducedMotion, activity, expression);
+  const drift = useMicroMotion(reducedMotion, activity, expression, posture);
   const [gaze, setGaze] = useState({ x: 0, y: 0 });
+  // Explicit gaze target (e.g. whiteboard region) overrides cursor tracking.
   useEffect(() => {
-    if (!trackCursor || reducedMotion) return;
+    if (reducedMotion) return;
+    if (!gazeTarget && !trackCursor) return;
     let raf = 0;
     let target = { x: 0, y: 0 };
     let current = { x: 0, y: 0 };
+    const clampFromDelta = (dx: number, dy: number, w: number, h: number) => ({
+      x: Math.max(-1, Math.min(1, dx / Math.max(w, 1))) * 3.5,
+      y: Math.max(-1, Math.min(1, dy / Math.max(h, 1))) * 2.2,
+    });
     const onMove = (e: MouseEvent) => {
+      if (gazeTarget) return; // explicit target wins
       const el = rootRef.current;
       if (!el) return;
       const r = el.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      const dx = (e.clientX - cx) / Math.max(r.width, 1);
-      const dy = (e.clientY - cy) / Math.max(r.height, 1);
-      // clamp — gentle, never robotic
-      target = {
-        x: Math.max(-1, Math.min(1, dx)) * 3.5,
-        y: Math.max(-1, Math.min(1, dy)) * 2.2,
-      };
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      target = clampFromDelta(dx, dy, r.width, r.height);
     };
+    const applyExplicit = () => {
+      const el = rootRef.current;
+      if (!el || !gazeTarget) return;
+      const r = el.getBoundingClientRect();
+      target = clampFromDelta(gazeTarget.x, gazeTarget.y, r.width, r.height);
+    };
+    if (gazeTarget) applyExplicit();
     const tick = () => {
       current = {
         x: current.x + (target.x - current.x) * 0.06,
@@ -176,10 +197,14 @@ export const HappyAvatar = memo(function HappyAvatar({
       setGaze({ x: current.x, y: current.y });
       raf = requestAnimationFrame(tick);
     };
-    window.addEventListener("mousemove", onMove, { passive: true });
+    if (trackCursor) window.addEventListener("mousemove", onMove, { passive: true });
     raf = requestAnimationFrame(tick);
-    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
-  }, [trackCursor, reducedMotion]);
+    return () => {
+      if (trackCursor) window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, [trackCursor, reducedMotion, gazeTarget]);
+
 
   const speaking = activity === "speaking";
   const listening = activity === "listening";
