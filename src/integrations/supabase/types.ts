@@ -2059,6 +2059,148 @@ export type Database = {
         }
         Relationships: []
       }
+      dh_preferences: {
+        Row: {
+          camera_consent: boolean
+          captions: boolean
+          emotion_adaptation: boolean
+          high_contrast: boolean
+          language: string
+          large_text: boolean
+          memory_enabled: boolean
+          microphone_consent: boolean
+          mute_audio: boolean
+          reduced_motion: boolean
+          speed: number
+          updated_at: string
+          user_id: string
+          voice: string
+        }
+        Insert: {
+          camera_consent?: boolean
+          captions?: boolean
+          emotion_adaptation?: boolean
+          high_contrast?: boolean
+          language?: string
+          large_text?: boolean
+          memory_enabled?: boolean
+          microphone_consent?: boolean
+          mute_audio?: boolean
+          reduced_motion?: boolean
+          speed?: number
+          updated_at?: string
+          user_id: string
+          voice?: string
+        }
+        Update: {
+          camera_consent?: boolean
+          captions?: boolean
+          emotion_adaptation?: boolean
+          high_contrast?: boolean
+          language?: string
+          large_text?: boolean
+          memory_enabled?: boolean
+          microphone_consent?: boolean
+          mute_audio?: boolean
+          reduced_motion?: boolean
+          speed?: number
+          updated_at?: string
+          user_id?: string
+          voice?: string
+        }
+        Relationships: []
+      }
+      dh_presentations: {
+        Row: {
+          audience: string | null
+          company_id: string | null
+          created_at: string
+          id: string
+          slides: Json
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          audience?: string | null
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          slides?: Json
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          audience?: string | null
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          slides?: Json
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dh_presentations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dh_sessions: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          id: string
+          memory: Json
+          mode: string
+          surface: string
+          title: string | null
+          transcript: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          memory?: Json
+          mode?: string
+          surface?: string
+          title?: string | null
+          transcript?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          memory?: Json
+          mode?: string
+          surface?: string
+          title?: string | null
+          transcript?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dh_sessions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       employees: {
         Row: {
           company_id: string
