@@ -18,6 +18,7 @@ const happyPortraitUrl = "/happy-portrait-v2.png";
 export type AvatarExpression =
   | "neutral" | "smile" | "thinking" | "explain" | "concern" | "celebrate" | "listen";
 export type AvatarActivity = "idle" | "listening" | "speaking";
+export type AvatarPosture = "normal" | "presentation";
 
 type Props = {
   expression?: AvatarExpression;
@@ -29,6 +30,10 @@ type Props = {
   variant?: "bust" | "portrait";
   /** Gently orient gaze/head toward the cursor when it's near the avatar. */
   trackCursor?: boolean;
+  /** Executive posture: straighter, slower drift, longer eye-contact holds. */
+  posture?: AvatarPosture;
+  /** Pixel offset from avatar center to look toward. Overrides cursor when set. */
+  gazeTarget?: { x: number; y: number } | null;
 };
 
 
