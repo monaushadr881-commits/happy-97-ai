@@ -400,3 +400,40 @@ function CaptionRender({ text, activeChunkIdx }: { text: string; activeChunkIdx:
     </div>
   );
 }
+
+/** Live waveform tied to conversation state — reactive, GPU-only, respects reduced motion. */
+function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMotion?: boolean }) {
+  const bars = 42;
+  const speaking = state === "speaking";
+  const listening = state === "listening";
+  const thinking = state === "thinking";
+  const active = speaking || listening || thinking;
+  const intensity = speaking ? 1 : listening ? 0.55 : thinking ? 0.35 : 0.18;
+  const speed = speaking ? 0.9 : listening ? 1.6 : thinking ? 2.2 : 3;
+  return (
+    <div className="mt-3 flex items-end justify-center gap-[3px] h-8" aria-hidden>
+      {Array.from({ length: bars }).map((_, i) => {
+        const base = 18 + ((i * 37) % 62) * intensity;
+        return (
+          <span
+            key={i}
+            className="w-[3px] rounded-full bg-gradient-to-t from-gold-deep to-gold dh-live-wave"
+            style={{
+              height: `${base}%`,
+              animationDuration: `${speed + (i % 5) * 0.08}s`,
+              animationDelay: `${(i % 12) * 55}ms`,
+              opacity: active ? 0.85 : 0.35,
+              animationPlayState: reducedMotion || !active ? "paused" : "running",
+            }}
+          />
+        );
+      })}
+      <style>{`
+        @keyframes dh-live-wave { 0%,100% { transform: scaleY(0.35) } 50% { transform: scaleY(1.05) } }
+        .dh-live-wave { animation-name: dh-live-wave; animation-timing-function: ease-in-out; animation-iteration-count: infinite; transform-origin: bottom; }
+        @media (prefers-reduced-motion: reduce) { .dh-live-wave { animation: none !important; } }
+      `}</style>
+    </div>
+  );
+}
+
