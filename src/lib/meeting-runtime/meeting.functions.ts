@@ -76,7 +76,7 @@ export const setMeetingStatusFn = createServerFn({ method: 'POST' })
       patch.actual_end = new Date().toISOString();
     }
     const { data: row, error } = await context.supabase.from('meetings')
-      .update(patch).eq('id', data.meetingId).select('*').single();
+      .update(patch as any).eq('id', data.meetingId).select('*').single();
     if (error) throw error;
     return row;
   });
@@ -116,7 +116,7 @@ export const updateAttendanceFn = createServerFn({ method: 'POST' })
     if (data.status === 'joined') patch.joined_at = new Date().toISOString();
     if (data.status === 'left') patch.left_at = new Date().toISOString();
     const { data: row, error } = await context.supabase.from('meeting_participants')
-      .update(patch).eq('id', data.participantId).select('*').single();
+      .update(patch as any).eq('id', data.participantId).select('*').single();
     if (error) throw error;
     return row;
   });
@@ -234,7 +234,7 @@ export const setActionStatusFn = createServerFn({ method: 'POST' })
     const patch: Record<string, unknown> = { status: data.status };
     if (data.status === 'done') patch.completed_at = new Date().toISOString();
     const { data: row, error } = await context.supabase.from('meeting_action_items')
-      .update(patch).eq('id', data.actionId).select('*').single();
+      .update(patch as any).eq('id', data.actionId).select('*').single();
     if (error) throw error;
     return row;
   });

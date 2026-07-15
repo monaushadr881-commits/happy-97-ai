@@ -209,7 +209,7 @@ export const setReleaseStatusFn = createServerFn({ method: 'POST' })
     const patch: Record<string, unknown> = { status: data.status };
     if (data.status === 'released') patch.released_at = new Date().toISOString();
     const { data: row, error } = await context.supabase.from('release_records')
-      .update(patch).eq('id', data.releaseId).select('*').single();
+      .update(patch as any).eq('id', data.releaseId).select('*').single();
     if (error) throw error;
     return row;
   });

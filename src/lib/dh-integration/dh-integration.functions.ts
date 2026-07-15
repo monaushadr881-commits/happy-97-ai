@@ -95,7 +95,7 @@ export const heartbeatDhSessionFn = createServerFn({ method: 'POST' })
     if (data.syncState) patch.sync_state = data.syncState;
     if (data.status === 'ended') patch.ended_at = new Date().toISOString();
     const { data: row, error } = await context.supabase.from('dh_integration_sessions')
-      .update(patch).eq('id', data.sessionId).select('*').single();
+      .update(patch as any).eq('id', data.sessionId).select('*').single();
     if (error) throw error;
     return row;
   });
