@@ -216,20 +216,34 @@ export const financialService = defineService({ name: "financial", version: "v1"
   // ---------- FOUNDER OVERVIEW -----------------------------------------
   async founderOverview(ctx: ServiceContext) {
     const sb = ctx.supabase;
-    const [subs, wallets, credits] = await Promise.all([
-      this.subscriptionOverview(ctx),
+    const in30 = new Date(Date.now() + 30 * 86_400_000).toISOString();
+    const [all, active, trial, cancelled, renew30, wallets, credits] = await Promise.all([
+      sb.from("subscriptions").select("id", { count: "exact", head: true }),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).in("status", ["cancelled", "expired"]),
+      sb.from("subscriptions").select("id", { count: "exact", head: true })
+        .eq("auto_renew", true).lte("current_period_end", in30).in("status", ["active", "trial"]),
       sb.from("v_wallet_balances").select("balance_cents, currency"),
       sb.from("v_credit_balances").select("balance"),
     ]);
+    const okSubs = !all.error && !active.error;
     const walletVolume = wallets.error ? null
       : (wallets.data ?? []).reduce((a, r) => a + Number((r as { balance_cents: number }).balance_cents || 0), 0);
     const creditsOutstanding = credits.error ? null
       : (credits.data ?? []).reduce((a, r) => a + Number((r as { balance: number }).balance || 0), 0);
     return {
-      subscriptions: subs,
+      subscriptions: {
+        total: okSubs ? (all.count ?? 0) : null,
+        active: okSubs ? (active.count ?? 0) : null,
+        trial: okSubs ? (trial.count ?? 0) : null,
+        cancelled: okSubs ? (cancelled.count ?? 0) : null,
+        renewalsUpcoming30d: renew30.error ? null : (renew30.count ?? 0),
+      },
       walletVolumeCents: walletVolume,
       creditsOutstanding,
       generatedAt: new Date().toISOString(),
     };
   },
 }));
+
