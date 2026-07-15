@@ -944,6 +944,120 @@ export type Database = {
           },
         ]
       }
+      bill_of_materials: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          notes: string | null
+          product_id: string
+          status: string
+          uom: string
+          updated_at: string
+          version: number
+          yield_quantity: number
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          product_id: string
+          status?: string
+          uom?: string
+          updated_at?: string
+          version?: number
+          yield_quantity?: number
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          product_id?: string
+          status?: string
+          uom?: string
+          updated_at?: string
+          version?: number
+          yield_quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bill_of_materials_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bill_of_materials_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bom_items: {
+        Row: {
+          bom_id: string
+          component_product_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          quantity: number
+          scrap_pct: number
+          uom: string
+        }
+        Insert: {
+          bom_id: string
+          component_product_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          quantity: number
+          scrap_pct?: number
+          uom?: string
+        }
+        Update: {
+          bom_id?: string
+          component_product_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          quantity?: number
+          scrap_pct?: number
+          uom?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bom_items_bom_id_fkey"
+            columns: ["bom_id"]
+            isOneToOne: false
+            referencedRelation: "bill_of_materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bom_items_component_product_id_fkey"
+            columns: ["component_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       brands: {
         Row: {
           company_id: string
@@ -5303,6 +5417,171 @@ export type Database = {
           },
         ]
       }
+      machine_downtime: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          ended_at: string | null
+          id: string
+          machine_id: string
+          notes: string | null
+          reason: string
+          started_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          ended_at?: string | null
+          id?: string
+          machine_id: string
+          notes?: string | null
+          reason?: string
+          started_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          ended_at?: string | null
+          id?: string
+          machine_id?: string
+          notes?: string | null
+          reason?: string
+          started_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machine_downtime_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_downtime_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      machines: {
+        Row: {
+          capacity_per_hour: number | null
+          code: string
+          company_id: string
+          created_at: string
+          id: string
+          kind: string
+          metadata: Json
+          name: string
+          status: string
+          updated_at: string
+          warehouse_id: string | null
+        }
+        Insert: {
+          capacity_per_hour?: number | null
+          code: string
+          company_id: string
+          created_at?: string
+          id?: string
+          kind?: string
+          metadata?: Json
+          name: string
+          status?: string
+          updated_at?: string
+          warehouse_id?: string | null
+        }
+        Update: {
+          capacity_per_hour?: number | null
+          code?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          metadata?: Json
+          name?: string
+          status?: string
+          updated_at?: string
+          warehouse_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machines_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machines_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_orders: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          kind: string
+          machine_id: string
+          notes: string | null
+          performed_at: string | null
+          performed_by: string | null
+          scheduled_for: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          kind?: string
+          machine_id: string
+          notes?: string | null
+          performed_at?: string | null
+          performed_by?: string | null
+          scheduled_for?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          machine_id?: string
+          notes?: string | null
+          performed_at?: string | null
+          performed_by?: string | null
+          scheduled_for?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_orders_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_orders_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       marketplace_transactions: {
         Row: {
           amount_cents: number
@@ -5497,6 +5776,51 @@ export type Database = {
           value?: number
         }
         Relationships: []
+      }
+      mfg_product_kinds: {
+        Row: {
+          company_id: string
+          created_at: string
+          kind: string
+          product_id: string
+          shelf_life_days: number | null
+          uom: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          kind: string
+          product_id: string
+          shelf_life_days?: number | null
+          uom?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          kind?: string
+          product_id?: string
+          shelf_life_days?: number | null
+          uom?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mfg_product_kinds_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mfg_product_kinds_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: true
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notification_preferences: {
         Row: {
@@ -5995,6 +6319,178 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      production_batches: {
+        Row: {
+          batch_number: string
+          company_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          manufactured_at: string
+          notes: string | null
+          product_id: string
+          production_order_id: string | null
+          quality_status: string
+          quantity: number
+          traceability: Json
+          updated_at: string
+        }
+        Insert: {
+          batch_number: string
+          company_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          manufactured_at?: string
+          notes?: string | null
+          product_id: string
+          production_order_id?: string | null
+          quality_status?: string
+          quantity?: number
+          traceability?: Json
+          updated_at?: string
+        }
+        Update: {
+          batch_number?: string
+          company_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          manufactured_at?: string
+          notes?: string | null
+          product_id?: string
+          production_order_id?: string | null
+          quality_status?: string
+          quantity?: number
+          traceability?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_batches_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_batches_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_batches_production_order_id_fkey"
+            columns: ["production_order_id"]
+            isOneToOne: false
+            referencedRelation: "production_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      production_orders: {
+        Row: {
+          bom_id: string | null
+          company_id: string
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          machine_id: string | null
+          notes: string | null
+          number: string
+          operator_id: string | null
+          planned_quantity: number
+          produced_quantity: number
+          product_id: string
+          scheduled_end: string | null
+          scheduled_start: string | null
+          started_at: string | null
+          status: string
+          updated_at: string
+          warehouse_id: string | null
+        }
+        Insert: {
+          bom_id?: string | null
+          company_id: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          machine_id?: string | null
+          notes?: string | null
+          number: string
+          operator_id?: string | null
+          planned_quantity?: number
+          produced_quantity?: number
+          product_id: string
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+          warehouse_id?: string | null
+        }
+        Update: {
+          bom_id?: string | null
+          company_id?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          machine_id?: string | null
+          notes?: string | null
+          number?: string
+          operator_id?: string | null
+          planned_quantity?: number
+          produced_quantity?: number
+          product_id?: string
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+          warehouse_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_orders_bom_id_fkey"
+            columns: ["bom_id"]
+            isOneToOne: false
+            referencedRelation: "bill_of_materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_orders_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_orders_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_orders_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
             referencedColumns: ["id"]
           },
         ]
@@ -6679,6 +7175,67 @@ export type Database = {
             columns: ["department_id"]
             isOneToOne: false
             referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quality_inspections: {
+        Row: {
+          batch_id: string | null
+          company_id: string
+          created_at: string
+          criteria: Json
+          id: string
+          inspected_at: string
+          inspector_id: string | null
+          notes: string | null
+          production_order_id: string | null
+          result: string
+        }
+        Insert: {
+          batch_id?: string | null
+          company_id: string
+          created_at?: string
+          criteria?: Json
+          id?: string
+          inspected_at?: string
+          inspector_id?: string | null
+          notes?: string | null
+          production_order_id?: string | null
+          result: string
+        }
+        Update: {
+          batch_id?: string | null
+          company_id?: string
+          created_at?: string
+          criteria?: Json
+          id?: string
+          inspected_at?: string
+          inspector_id?: string | null
+          notes?: string | null
+          production_order_id?: string | null
+          result?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quality_inspections_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "production_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_inspections_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quality_inspections_production_order_id_fkey"
+            columns: ["production_order_id"]
+            isOneToOne: false
+            referencedRelation: "production_orders"
             referencedColumns: ["id"]
           },
         ]
