@@ -12,7 +12,8 @@
  *   - This is the real signal driving the avatar mouth overlay and the
  *     live waveform. Not fake timers.
  */
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { clearSpeech, publishSpeech, useSpeechSignal } from "./audio-bus";
 
 type Options = { voice?: string; speed?: number; onStart?: () => void; onEnd?: () => void };
 
@@ -29,29 +30,9 @@ function parseSse(chunk: string, onEvent: (data: string) => void, carry: { buf: 
   }
 }
 
-// Module-level singleton amplitude bus so multiple components (avatar +
-// waveform) can subscribe to the same live signal without prop drilling.
-let _amp = 0;
-const _subs = new Set<() => void>();
-function setAmp(v: number) {
-  if (Math.abs(v - _amp) < 0.001) return;
-  _amp = v;
-  _subs.forEach((cb) => cb());
-}
-function subscribe(cb: () => void) {
-  _subs.add(cb);
-  return () => _subs.delete(cb);
-}
-function getSnapshot() {
-  return _amp;
-}
-function getServerSnapshot() {
-  return 0;
-}
-
-/** Subscribe to HAPPY's live speech amplitude (0..1). Rerenders at ~60 Hz while speaking. */
+/** Subscribe to HAPPY's live speech amplitude (0..1). Legacy shim. */
 export function useSpeechAmplitude(): number {
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSpeechSignal().rms;
 }
 
 export function useHappySpeech() {
