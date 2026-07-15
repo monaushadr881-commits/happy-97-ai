@@ -6,7 +6,7 @@
  */
 
 import type {
-  BehaviorMode, Emotion, EmotionState, GestureIntent, Mood, PresenceState,
+  BehaviorMode, Emotion, EmotionState, GestureIntent, JsonValue, Mood, PresenceState,
 } from "./contracts";
 import { isBehaviorMode, isEmotion, isMood } from "./contracts";
 
