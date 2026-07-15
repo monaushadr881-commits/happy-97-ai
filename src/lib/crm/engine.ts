@@ -47,13 +47,13 @@ async function audit(
     _category: "crm",
     _action: action,
     _entity_type: entityType,
-    _entity_id: entityId,
-    _company_id: companyId,
-    _before: before as never,
-    _after: after as never,
+    _entity_id: entityId ?? undefined,
+    _company_id: companyId ?? undefined,
+    _before: (before ?? undefined) as never,
+    _after: (after ?? undefined) as never,
     _severity: "info",
     _metadata: {} as never,
-  });
+  } as never);
 }
 
 // ---- Leads ----
