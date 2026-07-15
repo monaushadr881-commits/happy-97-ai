@@ -69,7 +69,7 @@ export const updateAppearance = createServerFn({ method: "POST" })
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_appearance")
-      .update(data)
+      .update(data as any)
       .eq("identity_id", id)
       .select("*")
       .single();
@@ -100,8 +100,8 @@ export const upsertVoice = createServerFn({ method: "POST" })
     const id = await getIdentityId(context.supabase);
     const payload = { ...data, identity_id: id };
     const { data: row, error } = data.id
-      ? await context.supabase.from("happy_voice").update(payload).eq("id", data.id).select("*").single()
-      : await context.supabase.from("happy_voice").insert(payload).select("*").single();
+      ? await context.supabase.from("happy_voice").update(payload as any).eq("id", data.id).select("*").single()
+      : await context.supabase.from("happy_voice").insert(payload as any).select("*").single();
     if (error) throw error;
     return { voice: row };
   });
@@ -121,7 +121,7 @@ export const upsertBehavior = createServerFn({ method: "POST" })
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_behavior")
-      .upsert({ ...data, identity_id: id }, { onConflict: "identity_id,mode" })
+      .upsert({ ...data, identity_id: id } as any, { onConflict: "identity_id,mode" })
       .select("*")
       .single();
     if (error) throw error;
@@ -145,7 +145,7 @@ export const upsertSkill = createServerFn({ method: "POST" })
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_skills")
-      .upsert({ ...data, identity_id: id }, { onConflict: "identity_id,skill_code" })
+      .upsert({ ...data, identity_id: id } as any, { onConflict: "identity_id,skill_code" })
       .select("*")
       .single();
     if (error) throw error;
@@ -167,7 +167,7 @@ export const addKnowledgeRef = createServerFn({ method: "POST" })
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_knowledge_refs")
-      .insert({ ...data, identity_id: id })
+      .insert({ ...data, identity_id: id } as any)
       .select("*")
       .single();
     if (error) throw error;
@@ -191,7 +191,7 @@ export const upsertAnimation = createServerFn({ method: "POST" })
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_animations")
-      .upsert({ ...data, identity_id: id }, { onConflict: "identity_id,clip_code" })
+      .upsert({ ...data, identity_id: id } as any, { onConflict: "identity_id,clip_code" })
       .select("*")
       .single();
     if (error) throw error;
@@ -261,7 +261,7 @@ export const transitionVersion = createServerFn({ method: "POST" })
 
     const { data: updated, error } = await context.supabase
       .from("happy_versions")
-      .update(patch)
+      .update(patch as any)
       .eq("id", data.version_id)
       .select("*")
       .single();
