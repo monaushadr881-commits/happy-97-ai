@@ -1,6 +1,6 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** Batch R5 (Revenue Cloud + Founder integration).
+**Last updated:** Batch R6 (Enterprise Financial Foundation — Subscriptions + Wallet + Credits).
 
 > This document supersedes every "Successfully Activated" / "Production
 > Certified" declaration in the `docs/architecture/*.md` and
