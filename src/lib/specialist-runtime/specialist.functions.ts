@@ -21,7 +21,7 @@ const startSchema = z.object({
   workspaceId: z.string().uuid().nullish(),
   happySessionId: z.string().uuid().nullish(),
   language: z.string().min(2).max(8).optional(),
-  metadata: z.record(z.string(), z.unknown()).optional(),
+  metadata: z.record(z.string(), jsonValue).optional(),
 });
 export const startSpecialistSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
