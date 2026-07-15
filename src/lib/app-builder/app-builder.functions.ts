@@ -341,8 +341,8 @@ export const getAppBuilderOverview = createServerFn({ method: "GET" })
         .order("updated_at", { ascending: false })
         .limit(200),
       supabaseAdmin.from("creator_generations")
-        .select("id, status, model, latency_ms, created_at")
-        .eq("kind", "app_tree")
+        .select("id, status, model, duration_ms, created_at")
+        .eq("studio", "app_builder")
         .order("created_at", { ascending: false })
         .limit(200),
     ]);
@@ -352,7 +352,7 @@ export const getAppBuilderOverview = createServerFn({ method: "GET" })
       metadata: Record<string, unknown> | null; updated_at: string; user_id: string;
     }>;
     const generations = (generationsResp.data ?? []) as Array<{
-      status: string; model: string | null; latency_ms: number | null;
+      status: string; model: string | null; duration_ms: number | null;
     }>;
 
     let published = 0, drafts = 0, buildReady = 0, buildFailed = 0;
