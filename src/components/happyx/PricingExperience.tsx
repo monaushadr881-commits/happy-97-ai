@@ -3,7 +3,7 @@
  * Frontend-only. Enterprise AI conversion surface.
  * No backend / service / API modifications.
  */
-import { memo, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { Fragment, memo, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import {
   ArrowRight, Check, Shield, Search, ChevronDown, Sparkle, Calendar, Phone,
   FileText, MessageSquare, Zap, Printer, Download, GraduationCap, Building2,
