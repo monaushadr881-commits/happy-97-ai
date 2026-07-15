@@ -1,3 +1,7 @@
+> **STATUS DISCLAIMER (Batch R1):** The "Successfully Activated" and "Production Certified" declarations in this document describe intent, not shipped functionality. Most services referenced here return `NOT_IMPLEMENTED` and most routes render `V2TabBody` placeholders. See `docs/STATUS.md` for the honest matrix.
+
+---
+
 # HAPPY Global Cloud Platform — Batch 09
 
 **Status:** Expansion-only. All frozen layers from Batches 01–08 remain untouched.

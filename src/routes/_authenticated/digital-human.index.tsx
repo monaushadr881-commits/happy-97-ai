@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { HappyAvatar, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { useDigitalHuman } from "@/components/digital-human/DigitalHumanContext";
-import { useHappySpeech } from "@/components/digital-human/useHappySpeech";
+import { useHappySpeech, useSpeechAmplitude } from "@/components/digital-human/useHappySpeech";
 import { useVoiceInput } from "@/components/digital-human/useVoiceInput";
 import {
   chunkForSpeech, classifyIntent, estimateSpeechMs, expressionFor,
@@ -44,6 +44,7 @@ const STATE_LABEL: Record<ConvoState, string> = {
 function DhConversation() {
   const { prefs, updatePrefs, activity, setActivity, expression, setExpression } = useDigitalHuman();
   const { speak, stop } = useHappySpeech();
+  const speechAmp = useSpeechAmplitude();
   const [mode, setMode] = useState<DhMode>("assistant");
   const [message, setMessage] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -265,7 +266,7 @@ function DhConversation() {
       <div className="grid gap-4 lg:grid-cols-[20rem_1fr]">
         <div className="space-y-4">
           <Panel className="p-6 flex flex-col items-center">
-            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} />
+            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} amplitude={speechAmp} />
             <div className="mt-4 flex items-center gap-2 flex-wrap justify-center">
               <Chip tone="gold">HAPPY · {MODE_LABEL[mode]}</Chip>
               <Chip tone={stateChipTone}>{STATE_LABEL[convoState]}</Chip>
@@ -480,38 +481,65 @@ const CaptionRender = memo(function CaptionRender({
   );
 });
 
-/** Live waveform tied to conversation state — reactive, GPU-only, respects reduced motion. */
+/** Live waveform — real audio signal from useHappySpeech's analyser while
+ *  speaking. Falls back to a gentle idle shimmer when not speaking. */
 function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMotion?: boolean }) {
   const bars = 42;
+  const amplitude = useSpeechAmplitude();
   const speaking = state === "speaking";
   const listening = state === "listening";
   const thinking = state === "thinking";
   const active = speaking || listening || thinking;
-  const intensity = speaking ? 1 : listening ? 0.55 : thinking ? 0.35 : 0.18;
-  const speed = speaking ? 0.9 : listening ? 1.6 : thinking ? 2.2 : 3;
+
+  // Build a per-frame per-bar height. During speaking, drive it from the live
+  // amplitude with a stable per-bar phase so bars pulse in a natural pattern.
+  // During listening/thinking, use a low ambient shimmer.
+  const ampRef = useRef(amplitude);
+  ampRef.current = amplitude;
+  const rafRef = useRef<number | null>(null);
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    if (reducedMotion || !active) return;
+    const loop = () => {
+      setTick((t) => (t + 1) & 0xffff);
+      rafRef.current = requestAnimationFrame(loop);
+    };
+    rafRef.current = requestAnimationFrame(loop);
+    return () => {
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+  }, [reducedMotion, active]);
+
   return (
-    <div className="mt-3 flex items-end justify-center gap-[3px] h-8" aria-hidden>
+    <div className="mt-3 flex items-end justify-center gap-[3px] h-8" aria-hidden data-tick={tick}>
       {Array.from({ length: bars }).map((_, i) => {
-        const base = 18 + ((i * 37) % 62) * intensity;
+        // Stable per-bar phase — different bars react slightly differently.
+        const phase = ((i * 7) % 11) / 11;
+        let h: number;
+        if (speaking) {
+          const wobble = 0.6 + 0.4 * Math.sin((tick / 6) + phase * Math.PI * 2);
+          h = 18 + Math.min(1, ampRef.current) * 78 * wobble;
+        } else if (listening) {
+          h = 22 + 30 * (0.5 + 0.5 * Math.sin((tick / 12) + phase * Math.PI * 2));
+        } else if (thinking) {
+          h = 18 + 18 * (0.5 + 0.5 * Math.sin((tick / 20) + phase * Math.PI * 2));
+        } else {
+          h = 12 + ((i * 37) % 20);
+        }
         return (
           <span
             key={i}
-            className="w-[3px] rounded-full bg-gradient-to-t from-gold-deep to-gold dh-live-wave"
+            className="w-[3px] rounded-full bg-gradient-to-t from-gold-deep to-gold"
             style={{
-              height: `${base}%`,
-              animationDuration: `${speed + (i % 5) * 0.08}s`,
-              animationDelay: `${(i % 12) * 55}ms`,
-              opacity: active ? 0.85 : 0.35,
-              animationPlayState: reducedMotion || !active ? "paused" : "running",
+              height: `${Math.max(6, Math.min(100, h))}%`,
+              opacity: active ? 0.85 : 0.3,
+              transition: "height 40ms linear",
+              transformOrigin: "bottom",
             }}
           />
         );
       })}
-      <style>{`
-        @keyframes dh-live-wave { 0%,100% { transform: scaleY(0.35) } 50% { transform: scaleY(1.05) } }
-        .dh-live-wave { animation-name: dh-live-wave; animation-timing-function: ease-in-out; animation-iteration-count: infinite; transform-origin: bottom; }
-        @media (prefers-reduced-motion: reduce) { .dh-live-wave { animation: none !important; } }
-      `}</style>
     </div>
   );
 }

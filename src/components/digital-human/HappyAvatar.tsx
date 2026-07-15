@@ -34,6 +34,8 @@ type Props = {
   posture?: AvatarPosture;
   /** Pixel offset from avatar center to look toward. Overrides cursor when set. */
   gazeTarget?: { x: number; y: number } | null;
+  /** Live speech amplitude in 0..1 — drives the mouth region overlay. */
+  amplitude?: number;
 };
 
 
@@ -157,6 +159,7 @@ export const HappyAvatar = memo(function HappyAvatar({
   trackCursor = false,
   posture = "normal",
   gazeTarget = null,
+  amplitude = 0,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
@@ -356,15 +359,22 @@ export const HappyAvatar = memo(function HappyAvatar({
           }}
         />
 
-        {/* speaking bottom mouth glow */}
+        {/* Audio-reactive mouth region — real amplitude drives opacity + scaleY.
+            The portrait is a photo, so we cannot morph the mouth mesh — but the
+            golden glow, brightness lift and vertical pulse are now genuinely
+            tied to the live TTS analyser (see useHappySpeech). */}
         {speaking && !reducedMotion && (
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 dh-mouth-glow"
+            className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "radial-gradient(28% 10% at 50% 68%, rgba(232,201,106,0.55), transparent 70%)",
+                "radial-gradient(28% 10% at 50% 68%, rgba(232,201,106,0.75), transparent 70%)",
               mixBlendMode: "screen",
+              opacity: 0.35 + Math.min(1, amplitude) * 0.65,
+              transform: `translateZ(0) scaleY(${1 + Math.min(1, amplitude) * 0.35})`,
+              transformOrigin: "50% 72%",
+              transition: "opacity 40ms linear, transform 40ms linear",
             }}
           />
         )}

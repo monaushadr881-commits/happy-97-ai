@@ -106,6 +106,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/__l5e/assets-v1/f97dc3a4-df45-4ab3-9243-dee2ce4cbc3d/happy-ai-logo.png", type: "image/png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/happy-portrait-v2.png" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "HAPPY PERSON PRIVATE LIMITED",
+          url: "https://happy-x-nexus.lovable.app",
+          logo: "https://happy-x-nexus.lovable.app/happy-portrait-v2.png",
+          sameAs: [],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "HAPPY X",
+          url: "https://happy-x-nexus.lovable.app",
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,
