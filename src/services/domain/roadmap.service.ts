@@ -766,3 +766,8 @@ export const marketplaceService = defineService({ name: "marketplace", version: 
 export const themeEngineService = defineService({ name: "theme-engine", version: "dte2" }, () => activated("theme-engine"));
 export const appearanceService = defineService({ name: "appearance", version: "dte2" }, () => activated("appearance"));
 export const personalizationService = defineService({ name: "personalization", version: "dte2" }, () => activated("personalization"));
+
+
+// ---------- Ultimate Visual Experience v4.0 ----------
+export const wallpaperService = defineService({ name: "wallpaper", version: "uve4" }, () => activated("wallpaper"));
+export const themeMarketplaceService = defineService({ name: "theme-marketplace", version: "uve4" }, () => activated("theme-marketplace"));
