@@ -92,7 +92,7 @@ export const apiUpsertSetting = createServerFn({ method: "POST" })
 // ------------------------- Notifications ---------------------
 export const apiMyNotifications = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => notificationService.listMine(svc(context))));
+  .handler(async ({ context }) => guard(() => notificationService.list(svc(context), { filter: "all", limit: 100 })));
 
 export const apiMarkNotificationRead = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
