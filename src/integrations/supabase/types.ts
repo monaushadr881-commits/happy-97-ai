@@ -7605,6 +7605,144 @@ export type Database = {
           },
         ]
       }
+      happy_asset_validations: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          manifest_id: string
+          missing: Json
+          report: Json
+          runner: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          manifest_id: string
+          missing?: Json
+          report?: Json
+          runner?: string | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          manifest_id?: string
+          missing?: Json
+          report?: Json
+          runner?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_asset_validations_manifest_id_fkey"
+            columns: ["manifest_id"]
+            isOneToOne: false
+            referencedRelation: "happy_character_manifests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_asset_versions: {
+        Row: {
+          asset_id: string
+          checksum_sha256: string
+          created_at: string
+          created_by: string | null
+          id: string
+          meta: Json
+          mime_type: string | null
+          published_at: string | null
+          size_bytes: number
+          status: string
+          storage_ref: string
+          version: string
+        }
+        Insert: {
+          asset_id: string
+          checksum_sha256: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          meta?: Json
+          mime_type?: string | null
+          published_at?: string | null
+          size_bytes: number
+          status?: string
+          storage_ref: string
+          version: string
+        }
+        Update: {
+          asset_id?: string
+          checksum_sha256?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          meta?: Json
+          mime_type?: string | null
+          published_at?: string | null
+          size_bytes?: number
+          status?: string
+          storage_ref?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_asset_versions_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "happy_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_assets: {
+        Row: {
+          asset_type: string
+          created_at: string
+          created_by: string | null
+          current_version_id: string | null
+          description: string | null
+          id: string
+          name: string
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          asset_type: string
+          created_at?: string
+          created_by?: string | null
+          current_version_id?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          asset_type?: string
+          created_at?: string
+          created_by?: string | null
+          current_version_id?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_assets_current_version_fk"
+            columns: ["current_version_id"]
+            isOneToOne: false
+            referencedRelation: "happy_asset_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       happy_behavior: {
         Row: {
           boundaries: string[]
@@ -7711,6 +7849,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      happy_character_manifests: {
+        Row: {
+          animation_set: Json
+          blendshape_profile: string
+          character_key: string
+          created_at: string
+          created_by: string | null
+          id: string
+          notes: string | null
+          published_at: string | null
+          rig_meta: Json
+          skeleton_meta: Json
+          status: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          animation_set?: Json
+          blendshape_profile?: string
+          character_key?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          published_at?: string | null
+          rig_meta?: Json
+          skeleton_meta?: Json
+          status?: string
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          animation_set?: Json
+          blendshape_profile?: string
+          character_key?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          published_at?: string | null
+          rig_meta?: Json
+          skeleton_meta?: Json
+          status?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
       }
       happy_conversation_turns: {
         Row: {
@@ -7975,6 +8161,51 @@ export type Database = {
             columns: ["identity_id"]
             isOneToOne: false
             referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_manifest_assets: {
+        Row: {
+          asset_version_id: string
+          created_at: string
+          id: string
+          manifest_id: string
+          required: boolean
+          role: string
+          slot: string | null
+        }
+        Insert: {
+          asset_version_id: string
+          created_at?: string
+          id?: string
+          manifest_id: string
+          required?: boolean
+          role: string
+          slot?: string | null
+        }
+        Update: {
+          asset_version_id?: string
+          created_at?: string
+          id?: string
+          manifest_id?: string
+          required?: boolean
+          role?: string
+          slot?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_manifest_assets_asset_version_id_fkey"
+            columns: ["asset_version_id"]
+            isOneToOne: false
+            referencedRelation: "happy_asset_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "happy_manifest_assets_manifest_id_fkey"
+            columns: ["manifest_id"]
+            isOneToOne: false
+            referencedRelation: "happy_character_manifests"
             referencedColumns: ["id"]
           },
         ]
