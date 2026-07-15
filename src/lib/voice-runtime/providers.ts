@@ -19,6 +19,8 @@ import {
   type VoiceProvider,
 } from "@/lib/happy-runtime/voice";
 
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [k: string]: JsonValue };
+
 export type ProviderConfigRow = {
   id: string;
   company_id: string | null;
@@ -28,7 +30,7 @@ export type ProviderConfigRow = {
   language: string;
   priority: number;
   enabled: boolean;
-  style_defaults: Record<string, unknown>;
+  style_defaults: Record<string, JsonValue>;
 };
 
 export type SelectVoiceInput = {
@@ -43,7 +45,7 @@ export type SelectedVoice = {
   voice_id: string;
   language: string;
   source: "preference" | "company" | "global" | "fallback";
-  style_defaults: Record<string, unknown>;
+  style_defaults: Record<string, JsonValue>;
 };
 
 export async function listProviderConfigs(
