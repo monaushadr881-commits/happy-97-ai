@@ -648,6 +648,68 @@ export type Database = {
           },
         ]
       }
+      approvals: {
+        Row: {
+          amount_cents: number | null
+          approver_id: string | null
+          company_id: string
+          created_at: string
+          currency: string | null
+          decided_at: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          metadata: Json
+          reason: string | null
+          requested_by: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents?: number | null
+          approver_id?: string | null
+          company_id: string
+          created_at?: string
+          currency?: string | null
+          decided_at?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          requested_by?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number | null
+          approver_id?: string | null
+          company_id?: string
+          created_at?: string
+          currency?: string | null
+          decided_at?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          requested_by?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "approvals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       assignment_submissions: {
         Row: {
           assignment_id: string
@@ -6272,6 +6334,7 @@ export type Database = {
       }
       purchase_orders: {
         Row: {
+          approval_status: string
           company_id: string
           created_at: string
           created_by: string | null
@@ -6293,6 +6356,7 @@ export type Database = {
           warehouse_id: string | null
         }
         Insert: {
+          approval_status?: string
           company_id: string
           created_at?: string
           created_by?: string | null
@@ -6314,6 +6378,7 @@ export type Database = {
           warehouse_id?: string | null
         }
         Update: {
+          approval_status?: string
           company_id?: string
           created_at?: string
           created_by?: string | null
@@ -6761,6 +6826,7 @@ export type Database = {
       }
       sales_orders: {
         Row: {
+          approval_status: string
           company_id: string
           created_at: string
           created_by: string | null
@@ -6782,6 +6848,7 @@ export type Database = {
           warehouse_id: string | null
         }
         Insert: {
+          approval_status?: string
           company_id: string
           created_at?: string
           created_by?: string | null
@@ -6803,6 +6870,7 @@ export type Database = {
           warehouse_id?: string | null
         }
         Update: {
+          approval_status?: string
           company_id?: string
           created_at?: string
           created_by?: string | null
