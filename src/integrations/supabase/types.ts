@@ -4057,6 +4057,87 @@ export type Database = {
           },
         ]
       }
+      capability_health_checks: {
+        Row: {
+          capability_code: string
+          checked_at: string
+          checked_by: string | null
+          evidence: Json
+          id: string
+          latency_ms: number | null
+          status: string
+          verification_method: string
+        }
+        Insert: {
+          capability_code: string
+          checked_at?: string
+          checked_by?: string | null
+          evidence?: Json
+          id?: string
+          latency_ms?: number | null
+          status: string
+          verification_method: string
+        }
+        Update: {
+          capability_code?: string
+          checked_at?: string
+          checked_by?: string | null
+          evidence?: Json
+          id?: string
+          latency_ms?: number | null
+          status?: string
+          verification_method?: string
+        }
+        Relationships: []
+      }
+      capability_registry: {
+        Row: {
+          code: string
+          created_at: string
+          dependencies: string[]
+          description: string | null
+          id: string
+          label: string
+          metadata: Json
+          owner: string | null
+          release_id: string
+          runtime: string
+          status: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          dependencies?: string[]
+          description?: string | null
+          id?: string
+          label: string
+          metadata?: Json
+          owner?: string | null
+          release_id: string
+          runtime: string
+          status?: string
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          dependencies?: string[]
+          description?: string | null
+          id?: string
+          label?: string
+          metadata?: Json
+          owner?: string | null
+          release_id?: string
+          runtime?: string
+          status?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           company_id: string | null
@@ -4107,6 +4188,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      certification_reports: {
+        Row: {
+          blocked_items: Json
+          capability_matrix: Json
+          created_at: string
+          dependency_matrix: Json
+          facts: Json
+          generated_by: string
+          health_matrix: Json
+          id: string
+          overall_status: string
+          performance_matrix: Json
+          readiness_score: number
+          recommendations: Json
+          release_id: string
+          risk_matrix: Json
+          security_matrix: Json
+          version: string
+        }
+        Insert: {
+          blocked_items?: Json
+          capability_matrix?: Json
+          created_at?: string
+          dependency_matrix?: Json
+          facts?: Json
+          generated_by: string
+          health_matrix?: Json
+          id?: string
+          overall_status: string
+          performance_matrix?: Json
+          readiness_score?: number
+          recommendations?: Json
+          release_id: string
+          risk_matrix?: Json
+          security_matrix?: Json
+          version: string
+        }
+        Update: {
+          blocked_items?: Json
+          capability_matrix?: Json
+          created_at?: string
+          dependency_matrix?: Json
+          facts?: Json
+          generated_by?: string
+          health_matrix?: Json
+          id?: string
+          overall_status?: string
+          performance_matrix?: Json
+          readiness_score?: number
+          recommendations?: Json
+          release_id?: string
+          risk_matrix?: Json
+          security_matrix?: Json
+          version?: string
+        }
+        Relationships: []
       }
       chart_of_accounts: {
         Row: {
@@ -6353,6 +6491,101 @@ export type Database = {
         }
         Relationships: []
       }
+      dh_integration_events: {
+        Row: {
+          channel: string
+          emitted_at: string
+          event_type: string
+          id: string
+          payload: Json
+          seq: number
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          emitted_at?: string
+          event_type: string
+          id?: string
+          payload?: Json
+          seq: number
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          emitted_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          seq?: number
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dh_integration_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "dh_integration_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dh_integration_sessions: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          ended_at: string | null
+          happy_session_id: string | null
+          id: string
+          identity_id: string | null
+          last_heartbeat_at: string | null
+          latency_ms: number | null
+          renderer_code: string
+          started_at: string
+          status: string
+          sync_state: Json
+          updated_at: string
+          user_id: string
+          voice_session_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          identity_id?: string | null
+          last_heartbeat_at?: string | null
+          latency_ms?: number | null
+          renderer_code: string
+          started_at?: string
+          status?: string
+          sync_state?: Json
+          updated_at?: string
+          user_id: string
+          voice_session_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          identity_id?: string | null
+          last_heartbeat_at?: string | null
+          latency_ms?: number | null
+          renderer_code?: string
+          started_at?: string
+          status?: string
+          sync_state?: Json
+          updated_at?: string
+          user_id?: string
+          voice_session_id?: string | null
+        }
+        Relationships: []
+      }
       dh_preferences: {
         Row: {
           camera_consent: boolean
@@ -6447,6 +6680,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      dh_renderer_adapters: {
+        Row: {
+          capabilities: Json
+          code: string
+          created_at: string
+          enabled: boolean
+          id: string
+          kind: string
+          label: string
+          registered_by: string | null
+          required_assets: Json
+          updated_at: string
+        }
+        Insert: {
+          capabilities?: Json
+          code: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind: string
+          label: string
+          registered_by?: string | null
+          required_assets?: Json
+          updated_at?: string
+        }
+        Update: {
+          capabilities?: Json
+          code?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind?: string
+          label?: string
+          registered_by?: string | null
+          required_assets?: Json
+          updated_at?: string
+        }
+        Relationships: []
       }
       dh_sessions: {
         Row: {
@@ -6789,6 +7061,51 @@ export type Database = {
           },
         ]
       }
+      founder_business_health_snapshots: {
+        Row: {
+          company_id: string | null
+          computed_by: string
+          created_at: string
+          dimension: string
+          facts: Json
+          id: string
+          period_end: string
+          period_start: string
+          recommendations: Json
+          score: number
+          source_runtimes: string[]
+          status: string
+        }
+        Insert: {
+          company_id?: string | null
+          computed_by: string
+          created_at?: string
+          dimension: string
+          facts?: Json
+          id?: string
+          period_end: string
+          period_start: string
+          recommendations?: Json
+          score: number
+          source_runtimes?: string[]
+          status: string
+        }
+        Update: {
+          company_id?: string | null
+          computed_by?: string
+          created_at?: string
+          dimension?: string
+          facts?: Json
+          id?: string
+          period_end?: string
+          period_start?: string
+          recommendations?: Json
+          score?: number
+          source_runtimes?: string[]
+          status?: string
+        }
+        Relationships: []
+      }
       founder_command_history: {
         Row: {
           capability: string | null
@@ -6844,6 +7161,108 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      founder_decision_records: {
+        Row: {
+          alternatives: Json
+          category: string
+          company_id: string | null
+          confidence: number
+          created_at: string
+          decided_by: string
+          decision: string
+          facts: Json
+          id: string
+          outcome: string | null
+          outcome_recorded_at: string | null
+          rationale: string | null
+          recommendations_considered: Json
+          title: string
+        }
+        Insert: {
+          alternatives?: Json
+          category: string
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by: string
+          decision: string
+          facts?: Json
+          id?: string
+          outcome?: string | null
+          outcome_recorded_at?: string | null
+          rationale?: string | null
+          recommendations_considered?: Json
+          title: string
+        }
+        Update: {
+          alternatives?: Json
+          category?: string
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by?: string
+          decision?: string
+          facts?: Json
+          id?: string
+          outcome?: string | null
+          outcome_recorded_at?: string | null
+          rationale?: string | null
+          recommendations_considered?: Json
+          title?: string
+        }
+        Relationships: []
+      }
+      founder_executive_reports: {
+        Row: {
+          company_id: string | null
+          content: Json
+          created_at: string
+          facts_count: number
+          generated_by: string
+          id: string
+          period_end: string
+          period_start: string
+          recommendations_count: number
+          report_type: string
+          source_runtimes: string[]
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id?: string | null
+          content: Json
+          created_at?: string
+          facts_count?: number
+          generated_by: string
+          id?: string
+          period_end: string
+          period_start: string
+          recommendations_count?: number
+          report_type: string
+          source_runtimes?: string[]
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string | null
+          content?: Json
+          created_at?: string
+          facts_count?: number
+          generated_by?: string
+          id?: string
+          period_end?: string
+          period_start?: string
+          recommendations_count?: number
+          report_type?: string
+          source_runtimes?: string[]
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       founder_recommendations: {
         Row: {
@@ -10732,6 +11151,92 @@ export type Database = {
           },
         ]
       }
+      learning_path_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_ref: string
+          item_type: string
+          path_id: string
+          required: boolean
+          seq: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_ref: string
+          item_type: string
+          path_id: string
+          required?: boolean
+          seq: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_ref?: string
+          item_type?: string
+          path_id?: string
+          required?: boolean
+          seq?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_path_items_path_id_fkey"
+            columns: ["path_id"]
+            isOneToOne: false
+            referencedRelation: "learning_paths"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      learning_paths: {
+        Row: {
+          audience: string
+          category: string
+          code: string
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          metadata: Json
+          status: string
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          audience?: string
+          category: string
+          code: string
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          status?: string
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          audience?: string
+          category?: string
+          code?: string
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          status?: string
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
       ledger_entries: {
         Row: {
           account_id: string
@@ -11618,6 +12123,345 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      meeting_action_items: {
+        Row: {
+          agenda_item_id: string | null
+          assignee_email: string | null
+          assignee_id: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          due_at: string | null
+          id: string
+          linked_task_id: string | null
+          meeting_id: string
+          priority: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          agenda_item_id?: string | null
+          assignee_email?: string | null
+          assignee_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          linked_task_id?: string | null
+          meeting_id: string
+          priority?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          agenda_item_id?: string | null
+          assignee_email?: string | null
+          assignee_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          linked_task_id?: string | null
+          meeting_id?: string
+          priority?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_action_items_agenda_item_id_fkey"
+            columns: ["agenda_item_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_agenda_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meeting_action_items_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_agenda_items: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          duration_minutes: number | null
+          id: string
+          meeting_id: string
+          owner_user_id: string | null
+          seq: number
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          meeting_id: string
+          owner_user_id?: string | null
+          seq: number
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          meeting_id?: string
+          owner_user_id?: string | null
+          seq?: number
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_agenda_items_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_decisions: {
+        Row: {
+          agenda_item_id: string | null
+          confidence: number
+          created_at: string
+          decided_by: string
+          decision: string
+          evidence: Json
+          facts: Json
+          id: string
+          meeting_id: string
+          rationale: string | null
+          recommendations: Json
+          title: string
+        }
+        Insert: {
+          agenda_item_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by: string
+          decision: string
+          evidence?: Json
+          facts?: Json
+          id?: string
+          meeting_id: string
+          rationale?: string | null
+          recommendations?: Json
+          title: string
+        }
+        Update: {
+          agenda_item_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by?: string
+          decision?: string
+          evidence?: Json
+          facts?: Json
+          id?: string
+          meeting_id?: string
+          rationale?: string | null
+          recommendations?: Json
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_decisions_agenda_item_id_fkey"
+            columns: ["agenda_item_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_agenda_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meeting_decisions_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_minutes: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          authored_by: string
+          content: Json
+          created_at: string
+          id: string
+          meeting_id: string
+          status: string
+          summary: string | null
+          version: number
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          authored_by: string
+          content: Json
+          created_at?: string
+          id?: string
+          meeting_id: string
+          status?: string
+          summary?: string | null
+          version: number
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          authored_by?: string
+          content?: Json
+          created_at?: string
+          id?: string
+          meeting_id?: string
+          status?: string
+          summary?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_minutes_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_participants: {
+        Row: {
+          attendance_status: string
+          created_at: string
+          display_name: string | null
+          external_email: string | null
+          id: string
+          joined_at: string | null
+          left_at: string | null
+          meeting_id: string
+          role: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          attendance_status?: string
+          created_at?: string
+          display_name?: string | null
+          external_email?: string | null
+          id?: string
+          joined_at?: string | null
+          left_at?: string | null
+          meeting_id: string
+          role?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          attendance_status?: string
+          created_at?: string
+          display_name?: string | null
+          external_email?: string | null
+          id?: string
+          joined_at?: string | null
+          left_at?: string | null
+          meeting_id?: string
+          role?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_participants_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meetings: {
+        Row: {
+          actual_end: string | null
+          actual_start: string | null
+          company_id: string | null
+          created_at: string
+          description: string | null
+          host_id: string
+          id: string
+          join_url: string | null
+          linked_presentation_session_id: string | null
+          location: string | null
+          meeting_type: string
+          metadata: Json
+          scheduled_end: string
+          scheduled_start: string
+          status: string
+          title: string
+          updated_at: string
+          workspace_id: string | null
+        }
+        Insert: {
+          actual_end?: string | null
+          actual_start?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          host_id: string
+          id?: string
+          join_url?: string | null
+          linked_presentation_session_id?: string | null
+          location?: string | null
+          meeting_type: string
+          metadata?: Json
+          scheduled_end: string
+          scheduled_start: string
+          status?: string
+          title: string
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Update: {
+          actual_end?: string | null
+          actual_start?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          host_id?: string
+          id?: string
+          join_url?: string | null
+          linked_presentation_session_id?: string | null
+          location?: string | null
+          meeting_type?: string
+          metadata?: Json
+          scheduled_end?: string
+          scheduled_start?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Relationships: []
       }
       memory_access_log: {
         Row: {
@@ -14593,6 +15437,232 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      receptionist_analytics_snapshots: {
+        Row: {
+          appointment_conversions: number
+          avg_confidence: number
+          avg_latency_ms: number
+          company_id: string | null
+          computed_by: string | null
+          created_at: string
+          domain_distribution: Json
+          id: string
+          languages: Json
+          lead_conversions: number
+          mode_distribution: Json
+          ticket_conversions: number
+          total_sessions: number
+          total_turns: number
+          window_end: string
+          window_start: string
+        }
+        Insert: {
+          appointment_conversions?: number
+          avg_confidence?: number
+          avg_latency_ms?: number
+          company_id?: string | null
+          computed_by?: string | null
+          created_at?: string
+          domain_distribution?: Json
+          id?: string
+          languages?: Json
+          lead_conversions?: number
+          mode_distribution?: Json
+          ticket_conversions?: number
+          total_sessions?: number
+          total_turns?: number
+          window_end: string
+          window_start: string
+        }
+        Update: {
+          appointment_conversions?: number
+          avg_confidence?: number
+          avg_latency_ms?: number
+          company_id?: string | null
+          computed_by?: string | null
+          created_at?: string
+          domain_distribution?: Json
+          id?: string
+          languages?: Json
+          lead_conversions?: number
+          mode_distribution?: Json
+          ticket_conversions?: number
+          total_sessions?: number
+          total_turns?: number
+          window_end?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      receptionist_sessions: {
+        Row: {
+          channel: string
+          company_id: string | null
+          created_at: string
+          ended_at: string | null
+          id: string
+          is_returning: boolean
+          language: string
+          last_activity_at: string
+          metadata: Json
+          mode: string
+          started_at: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          visitor_key: string
+        }
+        Insert: {
+          channel?: string
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_returning?: boolean
+          language?: string
+          last_activity_at?: string
+          metadata?: Json
+          mode?: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          visitor_key: string
+        }
+        Update: {
+          channel?: string
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_returning?: boolean
+          language?: string
+          last_activity_at?: string
+          metadata?: Json
+          mode?: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          visitor_key?: string
+        }
+        Relationships: []
+      }
+      receptionist_turns: {
+        Row: {
+          company_id: string | null
+          confidence: number
+          created_at: string
+          domain: string
+          facts: Json
+          id: string
+          input: Json
+          intent: string
+          latency_ms: number | null
+          mode: string
+          outcome: Json
+          recommendations: Json
+          routed_runtime: string
+          seq: number
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          domain: string
+          facts?: Json
+          id?: string
+          input?: Json
+          intent: string
+          latency_ms?: number | null
+          mode: string
+          outcome?: Json
+          recommendations?: Json
+          routed_runtime: string
+          seq: number
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          domain?: string
+          facts?: Json
+          id?: string
+          input?: Json
+          intent?: string
+          latency_ms?: number | null
+          mode?: string
+          outcome?: Json
+          recommendations?: Json
+          routed_runtime?: string
+          seq?: number
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "receptionist_turns_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "receptionist_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_records: {
+        Row: {
+          certification_id: string | null
+          channel: string
+          compatibility: Json
+          created_at: string
+          id: string
+          release_notes: string | null
+          released_at: string | null
+          released_by: string
+          status: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          certification_id?: string | null
+          channel?: string
+          compatibility?: Json
+          created_at?: string
+          id?: string
+          release_notes?: string | null
+          released_at?: string | null
+          released_by: string
+          status?: string
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          certification_id?: string | null
+          channel?: string
+          compatibility?: Json
+          created_at?: string
+          id?: string
+          release_notes?: string | null
+          released_at?: string | null
+          released_by?: string
+          status?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_records_certification_id_fkey"
+            columns: ["certification_id"]
+            isOneToOne: false
+            referencedRelation: "certification_reports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       remote_config: {
         Row: {

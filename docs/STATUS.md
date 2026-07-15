@@ -1849,3 +1849,162 @@ Status: **WORKING (asset contract + registry + validators). Renderer NOT include
 - Single HAPPY chat surface that consumes this runtime is a future UI pass.
 - LLM-based intent classification (beyond keyword router) is a future upgrade.
 - Cron rollup of analytics is on-demand only.
+
+---
+
+## R45 — Founder Executive AI — WORKING (backend orchestration)
+
+| Component                         | Status  | Notes                                                          |
+|-----------------------------------|---------|----------------------------------------------------------------|
+| Founder AI Runtime                | WORKING | `src/lib/founder-executive/founder-executive.functions.ts`     |
+| Executive Briefing Runtime        | WORKING | `generateExecutiveReportFn` with briefing_type (morning/…/annual) |
+| Executive Decision Runtime        | WORKING | `recordFounderDecisionFn`, outcome tracking                    |
+| Risk Analysis Runtime             | WORKING | Health `security`/`platform` dimensions score risk             |
+| Growth Analysis Runtime           | WORKING | Health `growth`/`sales`/`customer` dimensions                  |
+| Business Health Runtime           | WORKING | 9 dimensions rolled up from real runtimes (finance/crm/wms/mfg/deployment/audit/observability) |
+| Executive Report Runtime          | WORKING | `founder_executive_reports` structured content model, PDF-ready |
+| Strategic Recommendations         | WORKING | Kept in `recommendations` column, never merged with `facts`    |
+| Founder Analytics                 | WORKING | `listBusinessHealthFn` + `listExecutiveReportsFn`              |
+
+### Files
+- `supabase/migrations/*_r45_*` — founder_business_health_snapshots, founder_decision_records, founder_executive_reports
+- `src/lib/founder-executive/founder-executive.functions.ts` — 6 auth-gated server fns
+- `src/lib/happy-orchestration/json.ts` — shared JsonValue / Fact / Recommendation contracts
+
+### Security
+- RLS: company admins + ops admins read; only founders write; snapshots/reports immutable via trigger.
+- Runs as caller (`requireSupabaseAuth`); no `service_role` escalation.
+
+### Reuse (no duplication)
+- Never queries a dashboard runtime. Aggregates directly from `invoices`, `deals`,
+  `customers`, `inventory_thresholds`, `production_orders`, `project_deployments`,
+  `audit_logs`, `health_checks`, `leads` — all pre-existing.
+- FACT and AI RECOMMENDATION are physically separate columns everywhere.
+
+---
+
+## R46 — Public AI Receptionist — WORKING (backend orchestration)
+
+| Component                          | Status  | Notes                                                          |
+|------------------------------------|---------|----------------------------------------------------------------|
+| Receptionist Runtime               | WORKING | `src/lib/receptionist/receptionist.functions.ts`               |
+| Visitor Session Runtime            | WORKING | start / end / returning-visitor detection via visitor_key      |
+| Lead Qualification Runtime         | WORKING | Delegates to `leads` (CRM) via RLS                             |
+| Inquiry / Navigation Runtime       | WORKING | Deterministic keyword router → mode+domain+runtime             |
+| Appointment / Quotation Runtime    | PARTIAL | Outcome accepts appointment_id / quotation_id; creation runs in existing runtimes |
+| FAQ Runtime                        | WORKING | Handled through Universal Search reuse pattern                 |
+| Visitor Analytics Runtime          | WORKING | `computeReceptionistAnalyticsFn`                               |
+
+### Files
+- `supabase/migrations/*_r46_*` — receptionist_sessions, receptionist_turns (immutable), receptionist_analytics_snapshots
+- `src/lib/receptionist/receptionist.functions.ts` — 4 auth-gated server fns
+
+### Security
+- RLS: visitor owns own sessions; company admins + ops admins can read all for their company.
+- Turns and analytics rows immutable via trigger.
+- Never returns founder-only data — router only maps to public-facing domains (marketplace / cms / support / crm) and RLS on target tables enforces the rest.
+
+---
+
+## R47 — Meeting & Collaboration — WORKING (backend orchestration)
+
+| Component                | Status  | Notes                                                          |
+|--------------------------|---------|----------------------------------------------------------------|
+| Meeting Runtime          | WORKING | `meetings` (18 meeting types)                                  |
+| Meeting Session Runtime  | WORKING | `setMeetingStatusFn` (scheduled/active/paused/completed/…)     |
+| Agenda Runtime           | WORKING | `meeting_agenda_items` seq-ordered                             |
+| Minutes Runtime          | WORKING | `meeting_minutes` versioned + approvals                        |
+| Action Item Runtime      | WORKING | `meeting_action_items` with `linked_task_id` back to CRM tasks |
+| Decision Runtime         | WORKING | `meeting_decisions` immutable, FACT/RECOMMENDATION separated   |
+| Attendance Runtime       | WORKING | `meeting_participants` roles + status                          |
+| Follow-up Runtime        | WORKING | Follow-ups defer to existing Notification/Automation runtimes via linked ids |
+| Meeting Analytics        | WORKING | `computeMeetingAnalyticsFn` — attendance / agenda / action completion |
+
+### Files
+- `supabase/migrations/*_r47_*` — meetings, meeting_participants, meeting_agenda_items, meeting_minutes, meeting_action_items, meeting_decisions
+- `src/lib/meeting-runtime/meeting.functions.ts` — 12 auth-gated server fns
+
+### Security
+- RLS: host + confirmed participants + company admins read; host writes core fields; participants append minutes/actions/decisions; decisions immutable.
+- `linked_presentation_session_id` and `linked_task_id` are back-references — no duplication of Presentation Runtime or task management.
+
+---
+
+## R48 — Learning & Training — WORKING (backend orchestration)
+
+| Component                    | Status  | Notes                                                          |
+|------------------------------|---------|----------------------------------------------------------------|
+| Learning Runtime             | WORKING | `src/lib/learning-runtime/learning.functions.ts`               |
+| Training Runtime             | WORKING | Learning paths compose training material                        |
+| Course / Lesson / Module     | WORKING | Reuses existing `courses`, `course_modules`, `lessons`         |
+| Learning Path Runtime        | WORKING | `learning_paths` + `learning_path_items` with typed refs       |
+| Assessment Runtime           | WORKING | Reuses `quizzes`, `quiz_questions`, `quiz_attempts`, `assignments` |
+| Progress Runtime             | WORKING | `computeLearningPathProgressFn` reads `course_enrollments` / `lesson_progress` / `quiz_attempts` / `assignment_submissions` |
+| Certificate Runtime          | WORKING | Reuses existing `certificates` table                           |
+| Knowledge Navigation         | WORKING | Reuses Knowledge Graph, Digital Library, Universal Search      |
+| Learning Analytics           | WORKING | Path progress rollup                                           |
+
+### Files
+- `supabase/migrations/*_r48_*` — learning_paths, learning_path_items
+- `src/lib/learning-runtime/learning.functions.ts` — 6 auth-gated server fns
+
+### Security
+- RLS: any authenticated user can read paths; only ops admins can author paths and items.
+- Path items validate that referenced course/lesson/quiz/etc. is accessible to the caller before insert (prevents dangling refs).
+
+---
+
+## R49 — Digital Human Integration — PARTIAL (adapters + streaming; renderers external)
+
+| Component                       | Status  | Notes                                                          |
+|---------------------------------|---------|----------------------------------------------------------------|
+| Integration Runtime             | WORKING | `src/lib/dh-integration/dh-integration.functions.ts`           |
+| Renderer Adapter Runtime        | WORKING | 8 adapters seeded (portrait, layered, live2d, live3d, threejs, babylonjs, unreal_pixel, omniverse_ace) |
+| Character Runtime               | WORKING | Consumes R40 manifest; adapter `required_assets` gate          |
+| Voice Integration               | WORKING | `voice_session_id` link into `voice_sessions`                  |
+| Emotion Integration             | WORKING | Consumes R42 expression/gesture events (unchanged)             |
+| Animation / Lip Sync / Gesture  | WORKING | Event channels: animation / lipsync / gesture / lookat / environment / health / stream |
+| Eye Contact Adapter             | WORKING | `lookat` channel; renderers consume                            |
+| Environment Runtime             | WORKING | Configuration through session `sync_state`                     |
+| Streaming Runtime               | WORKING | Session lifecycle + heartbeat + latency tracking               |
+| Renderer Health Runtime         | WORKING | `dhSessionHealthFn` reports staleness + channel counts         |
+| Live2D / Live3D / Unreal / ACE  | BLOCKED / PLANNED | Adapters registered `enabled=false` until real assets/renderers provisioned |
+
+### Files
+- `supabase/migrations/*_r49_*` — dh_renderer_adapters (seeded 8), dh_integration_sessions, dh_integration_events (immutable)
+- `src/lib/dh-integration/dh-integration.functions.ts` — 6 auth-gated server fns
+
+### Certification policy
+- Runtime never claims a renderer works. Blocked/planned adapters are marked `enabled=false`; `startDhIntegrationSessionFn` refuses to open a session for a disabled adapter.
+- Rendering itself is BLOCKED until real HAPPY assets, real skeletons/blendshapes/clips, and real GPU infra are provisioned.
+
+---
+
+## R50 — Production Readiness / Certification — WORKING
+
+| Component                       | Status  | Notes                                                          |
+|---------------------------------|---------|----------------------------------------------------------------|
+| Production Runtime              | WORKING | `src/lib/certification/certification.functions.ts`             |
+| Capability Registry             | WORKING | Seeded with 13 primary capabilities R38..R50 + 5 renderer entries |
+| Capability Health Checks        | WORKING | Immutable append-only `capability_health_checks`               |
+| Certification Runtime           | WORKING | `generateCertificationReportFn` — capability, dependency, health matrices; blocked items enumerated |
+| Release Runtime                 | WORKING | `release_records` with rc/stable/hotfix/rollback + link to certification |
+| Founder readiness panel data    | WORKING | `listCapabilitiesFn` + `listCertificationReportsFn` + `listReleasesFn` |
+
+### Files
+- `supabase/migrations/*_r50_*` — capability_registry, capability_health_checks, certification_reports, release_records
+- `src/lib/certification/certification.functions.ts` — 8 auth-gated server fns
+
+### Security
+- All ops-admin gated (`is_ops_admin`). Health checks + certification + registry writes require ops admin.
+- Health checks + certification reports immutable via trigger; never edited retroactively.
+
+### HAPPY v1.0 release criteria (evidence-based)
+- WORKING backend runtimes: R38 (Founder Workspace), R39 (Happy), R40 (Assets), R41 (Voice), R42 (Emotion), R43 (Presentation), R44 (Specialist), R45 (Founder AI), R46 (Receptionist), R47 (Meeting), R48 (Learning), R50 (Certification).
+- PARTIAL: R49 Digital Human Integration — orchestration layer WORKING; specific renderer adapters (Live2D/Live3D/Unreal Pixel/Omniverse ACE/XR/VR/AR) BLOCKED or PLANNED pending real assets and GPU infrastructure. Explicit blocked entries recorded in `capability_registry`.
+- Never certify hyper-real rendering until real character assets, renderer runtime, and end-to-end verification exist.
+
+### Honest gaps (system-wide)
+- Chat / dashboard UI surfaces that consume these runtimes are a future UI pass.
+- Automated health-check schedulers are on-demand only; cron rollup is a future pass.
+- Renderer integrations are stubbed at the adapter layer only; no visual rendering is claimed.
