@@ -174,7 +174,7 @@ export async function getCollectionWithItems(sb: SB, code: string, limit = 24) {
 
   // For algorithmic collections we compute live; for manual we read pinned items.
   const kind = (coll as { kind: CollectionKind }).kind;
-  let listings: unknown[] = [];
+  let listings: Json[] = [];
   if (kind === "manual" || kind === "founder_picks") {
     const { data, error } = await sb.from("store_collection_items")
       .select("position, pinned_at, listing:listings(*)")
@@ -414,7 +414,7 @@ export async function computeFactRecommendations(
   sb: SB, userId: string,
   scope: "global" | "user" = "global",
   limit = 12,
-): Promise<{ id: string; listing_ids: string[]; evidence: Record<string, unknown> }> {
+): Promise<{ id: string; listing_ids: string[]; evidence: Json }> {
   await assertOpsAdmin(sb, userId);
   const since = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString();
 
@@ -461,7 +461,7 @@ export async function computeFactRecommendations(
     expires_at: new Date(Date.now() + 6 * 3600 * 1000).toISOString(),
   } as never).select("id, listing_ids, evidence").single();
   if (error) throw error;
-  return data as { id: string; listing_ids: string[]; evidence: Record<string, unknown> };
+  return data as { id: string; listing_ids: string[]; evidence: Json };
 }
 
 export async function getLatestFactRecommendations(sb: SB, limit = 12) {
@@ -471,7 +471,7 @@ export async function getLatestFactRecommendations(sb: SB, limit = 12) {
     .order("generated_at", { ascending: false })
     .limit(1);
   if (error) throw error;
-  const row = (data ?? [])[0] as { listing_ids: string[]; evidence: unknown } | undefined;
+  const row = (data ?? [])[0] as { listing_ids: string[]; evidence: Json } | undefined;
   if (!row) return { listing_ids: [], evidence: {}, listings: [] };
   const ids = (row.listing_ids ?? []).slice(0, limit);
   if (!ids.length) return { listing_ids: [], evidence: row.evidence, listings: [] };
