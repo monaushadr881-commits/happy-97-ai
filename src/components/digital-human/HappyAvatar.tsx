@@ -16,7 +16,8 @@ import { cn } from "@/lib/utils";
 const happyPortraitUrl = "/happy-portrait-v2.png";
 
 export type AvatarExpression =
-  | "neutral" | "smile" | "thinking" | "explain" | "concern" | "celebrate" | "listen";
+  | "neutral" | "smile" | "thinking" | "explain" | "concern" | "celebrate" | "listen"
+  | "confidence" | "empathy" | "teaching" | "business" | "founder";
 export type AvatarActivity = "idle" | "listening" | "speaking";
 export type AvatarPosture = "normal" | "presentation";
 
@@ -36,6 +37,8 @@ type Props = {
   gazeTarget?: { x: number; y: number } | null;
   /** Live speech amplitude in 0..1 — drives the mouth region overlay. */
   amplitude?: number;
+  /** Spectral centroid 0..1 — biases mouth shape (closed/O ↔ E/AI). */
+  centroid?: number;
 };
 
 
@@ -160,6 +163,7 @@ export const HappyAvatar = memo(function HappyAvatar({
   posture = "normal",
   gazeTarget = null,
   amplitude = 0,
+  centroid = 0,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
