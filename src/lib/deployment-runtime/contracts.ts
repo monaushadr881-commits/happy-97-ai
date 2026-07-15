@@ -40,6 +40,11 @@ export interface AdapterPlanResult {
   blocked_reason?: string;
 }
 
+export type JsonValue =
+  | string | number | boolean | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
 export interface AdapterExecuteResult {
   status: BuildStatus;
   logs_url?: string;
@@ -52,9 +57,10 @@ export interface AdapterExecuteResult {
     storage_url?: string;
     signed?: boolean;
     signing_identity?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: { [key: string]: JsonValue };
   }>;
 }
+
 
 export interface PlatformAdapter {
   code: PlatformCode;
