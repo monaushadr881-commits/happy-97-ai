@@ -6553,6 +6553,7 @@ export type Database = {
           metadata: Json
           owner_id: string
           owner_type: Database["public"]["Enums"]["wallet_owner_type"]
+          status: string
           updated_at: string
         }
         Insert: {
@@ -6563,6 +6564,7 @@ export type Database = {
           metadata?: Json
           owner_id: string
           owner_type: Database["public"]["Enums"]["wallet_owner_type"]
+          status?: string
           updated_at?: string
         }
         Update: {
@@ -6573,6 +6575,7 @@ export type Database = {
           metadata?: Json
           owner_id?: string
           owner_type?: Database["public"]["Enums"]["wallet_owner_type"]
+          status?: string
           updated_at?: string
         }
         Relationships: []

@@ -280,3 +280,54 @@ trial_start, trial_end, payment_failed, payment_recovered.
 - Real provider renewal charges — still `BLOCKED` on provider SDK keys
   (R7 note stands). Renewals executed here are the ledger/state side
   only.
+
+## R10 — Enterprise Wallet Ledger Engine (WORKING)
+
+Immutable-ledger wallet runtime over `public.wallets` +
+`wallet_ledger_entries` + `v_wallet_balances`. Balance is always derived
+from the view — no stored balance is ever written.
+
+**Ledger rules (enforced in DB, not just code)**
+- `wallet_ledger_immutable` trigger blocks UPDATE/DELETE on entries.
+- `wallet_ledger_wallet_open` trigger blocks writes on frozen/closed
+  wallets (R10 migration).
+- Partial unique index
+  `(wallet_id, reference_type, reference_id, entry_type, direction)`
+  guarantees idempotent processing of the same source event
+  (R10 migration).
+
+**Supported ops** (`src/lib/wallet/engine.ts`)
+- `ensureWallet`, `setWalletStatus(open|frozen|closed)`
+- `postLedgerEntry` — credit/debit for every `wallet_entry_type`
+  (purchase, refund, reward, referral, marketplace_earning,
+  builder_earning, consume, payout, chargeback, adjustment).
+- `postTransfer` — paired debit+credit with compensating reversal on
+  destination failure.
+- Overdraft prevention on debits.
+- Low-balance notification when post-debit balance falls below 500¢.
+
+**Server functions** (`src/lib/wallet/wallet.functions.ts`,
+`requireSupabaseAuth`-gated)
+- `createWallet`, `setWalletStatusFn` (ops-admin only for freeze/close),
+- `creditWallet`, `debitWallet`, `transferWallet`
+  (adjustment entries require ops-admin),
+- `getWalletOverview` — wallet count, per-currency totals, today's
+  credits/debits, frozen/closed counts, largest & most-recent
+  transactions for the founder dashboard.
+
+**Security**
+- User wallets: only the owner (or ops-admin) may credit/debit/close.
+- Company wallets: `is_company_admin` required for mutations,
+  `is_company_member` for reads (existing RLS).
+- Adjustments require `is_ops_admin` — enforced at both the engine and
+  RLS layers.
+- Every mutation writes `audit_logs` and (when addressable) an in-app
+  `notifications` row.
+
+**Not in this pass (honest labels)**
+- Founder Dashboard UI wiring of `getWalletOverview` — server surface
+  ready, panel not rendered yet. `PARTIAL`.
+- Payment webhook → wallet auto-credit — engine ready; business
+  processor still writes into `payments` only. `PARTIAL`.
+- Multi-currency FX conversion on transfer — engine refuses
+  cross-currency transfers. `PLANNED`.
