@@ -113,13 +113,14 @@ const MessageInput = z.object({
 export const sendHappyMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof MessageInput>) => MessageInput.parse(d))
-  .handler(async ({ data, context }) =>
-    handleMessage(context.supabase, {
+  .handler(async ({ data, context }) => {
+    const r = await handleMessage(context.supabase, {
       sessionId: data.session_id,
       message: data.message,
       requestedMode: data.requested_mode,
-    }),
-  );
+    });
+    return r as unknown as Record<string, unknown>;
+  });
 
 const ModeInput = z.object({
   session_id: z.string().uuid(),
