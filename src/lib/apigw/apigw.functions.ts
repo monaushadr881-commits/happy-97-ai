@@ -63,7 +63,7 @@ export const gwKeyList = createServerFn({ method: "POST" })
 export const gwKeyVerify = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { raw: string; required_scope?: string; api_id?: string }) => d)
-  .handler(async ({ data, context }) => (await apiKeyVerify(context.supabase, data.raw, { required_scope: data.required_scope, api_id: data.api_id })) as unknown as Record<string, unknown>);
+  .handler(async ({ data, context }) => JSON.parse(JSON.stringify(await apiKeyVerify(context.supabase, data.raw, { required_scope: data.required_scope, api_id: data.api_id }))) as { ok: boolean; reason?: string });
 
 // ----- rate limit / usage -----
 export const gwRateLimitCheck = createServerFn({ method: "POST" })
