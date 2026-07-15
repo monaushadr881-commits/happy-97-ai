@@ -1,6 +1,15 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** Batch R4-CHAR (Official HAPPY Character Identity locked — see `src/assets/digital-human/character/`). Prior working rounds R1–R6 unchanged.
+**Last updated:** Identity Lock v1.0 (permanent HAPPY identity lock — see `docs/digital-human/identity-lock.md`). Prior working rounds R1–R6 and R4-CHAR unchanged.
+
+## Identity Lock v1.0 — 2026-07-15
+
+- Permanent Founder lock on HAPPY identity: face, hair, clothing, executive appearance, greeting, voice, personality.
+- Primary live human model reference registered: `src/assets/digital-human/character/happy-live-model-v1.png.asset.json`.
+- R4 seated portrait retained as secondary reference.
+- Character manifest bumped to `1.1.0` with `reference_assets` map.
+- No runtime, architecture, database, or business-logic changes in this pass.
+- Live2D and Live3D remain **Blocked (asset)** — same identity required when assets arrive.
 
 ## R4-CHAR — Character Identity Lock
 
