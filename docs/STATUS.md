@@ -1304,3 +1304,41 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - Partial index on webhook deliveries `WHERE status IN ('pending','retrying')` for hot dispatcher queue.
 - Partial indexes on active-only rows for `apigw_keys` and `apigw_webhook_endpoints`.
 - Rate counters keyed `(scope_key, window_start)` with unique constraint enabling upsert semantics.
+
+## R33 — Enterprise Monitoring / Observability / System Health
+
+### Files
+- `supabase/migrations/20260715144335_r33_observability.sql` — 4 tables (obs_trace_spans, obs_log_entries, obs_status_components, obs_status_updates) with RLS gated to `is_ops_admin`, immutability triggers on traces / logs / status updates, and seed rows for 22 default components.
+- `src/lib/observability/engine.ts` — unified probe engine across 22 registered runtimes (DB, API Gateway, Webhooks, Queue, Notifications, Brain, Memory, KG, Analytics, Automation, Agents, Revenue, Wallet, CRM, ERP, Manufacturing, Warehouse, Finance, Marketplace, Deployment, Digital Human, AI Gateway). Real HEAD counts + AI gateway HTTP probe with AbortController timeout. Summarise / recordSnapshot / syncStatusComponents / publicStatus.
+- `src/lib/observability/observability.functions.ts` — 20 auth-gated server functions: `obsHealthProbe`, `obsHealthSnapshot`, `obsLogWrite`, `obsLogQuery`, `obsTraceWrite`, `obsTraceGet`, `obsListComponents`, `obsUpsertComponent`, `obsPushStatusUpdate`, `obsStatusTimeline`, `obsDashboard`, plus reused `obsMetrics*`, `obsIncident*`, `obsAlert*` bridging to existing `@/ops` services (no duplication).
+
+### Status
+- Health Runtime — WORKING (22 real probes, no fabrication).
+- Metrics Runtime — WORKING (reuses `metrics_events` via `metricsService`).
+- Logging Runtime — WORKING (`obs_log_entries` immutable, correlation IDs).
+- Tracing Runtime — WORKING (`obs_trace_spans` immutable, trace_id/span_id/parent).
+- Alert Runtime — WORKING (reuses `alert_rules` + `alertingService`).
+- Incident Runtime — WORKING (reuses `incidents` + `incident_events` lifecycle).
+- Status Page Runtime — WORKING (components + immutable timeline; probe-driven sync).
+- Diagnostics / Founder Dashboard — WORKING (`obsDashboard` aggregates probes + queue + AI + security + incidents + DB, computes availability and error-budget-remaining vs 99% SLO, separates `fact` from `recommendation`).
+- Alert channel dispatch (email/slack/webhook) — PARTIAL (rules + trip stored; delivery via existing notification runtime).
+- Public status page UI — PLANNED.
+
+### Verification
+- Migration applied cleanly (linter warnings are pre-existing project state, not introduced by this pass).
+- All new tables: RLS enabled + gated to `is_ops_admin(auth.uid())`, explicit `GRANT` block, no `ALL USING (true)`.
+- Immutability triggers on `obs_trace_spans`, `obs_log_entries`, `obs_status_updates` (raise on UPDATE/DELETE).
+- Engine reuses existing runtimes; no direct writes to business tables.
+- AI Gateway probe uses `AbortController` with 3s timeout.
+- Every dashboard number labelled `fact.*`; heuristic guidance labelled `AI RECOMMENDATION:` and returned under `recommendation`.
+
+### Security
+- All server functions require `requireSupabaseAuth`; RLS further restricts to ops-admins.
+- No public exposure of traces/logs/health snapshots.
+- Log/trace/status writes carry `actor_id = auth.uid()` for audit.
+- Status components can be flagged non-public; public page reads gated separately.
+
+### Performance
+- Health probes run in parallel; DB probes use `HEAD` + `count: exact` (no row fetch).
+- Composite indexes on trace `(trace_id, started_at)` and log `(service, occurred_at DESC)` / `(level, occurred_at DESC)` / `(correlation_id)` for hot queries.
+- Snapshot insert is a single batched insert into `health_checks`.
