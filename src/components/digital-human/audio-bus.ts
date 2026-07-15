@@ -56,7 +56,7 @@ export function clearMic() { publish(micBus, EMPTY); }
 function subFactory(bus: Bus) {
   return (cb: () => void) => {
     bus.subs.add(cb);
-    return () => bus.subs.delete(cb);
+    return () => { bus.subs.delete(cb); };
   };
 }
 function getSpeech() { return speechBus.value; }
