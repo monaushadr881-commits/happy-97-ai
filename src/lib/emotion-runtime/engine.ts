@@ -316,7 +316,7 @@ export async function currentState(
     mood_weight: Number(row.mood_weight),
     confidence: Number(row.confidence),
     source: row.source as string,
-    evidence: (row.evidence as Record<string, unknown>) ?? {},
+    evidence: (row.evidence as { [k: string]: JsonValue }) ?? {},
     timestamp: row.created_at as string,
   };
 }

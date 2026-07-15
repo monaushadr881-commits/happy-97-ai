@@ -37,7 +37,7 @@ const InputsSchema = z.object({
   empathy: z.boolean().optional(),
   language: z.string().max(16).nullable().optional(),
   source: z.string().max(80).optional(),
-  evidence: z.record(z.string(), z.unknown()).optional(),
+  evidence: z.record(z.string(), z.any()).optional(),
 });
 
 const RecordEmotionInput = z.object({
@@ -67,7 +67,7 @@ const StateSchema = z.object({
   mood_weight: z.number().min(0).max(1),
   confidence: z.number().min(0).max(1),
   source: z.string(),
-  evidence: z.record(z.string(), z.unknown()).default({}),
+  evidence: z.record(z.string(), z.any()).default({}),
   timestamp: z.string(),
 });
 
