@@ -175,7 +175,7 @@ export async function createDeployment(
     target: DeploymentTarget;
     version?: string;
     releaseNotes?: string;
-    buildProfile?: Record<string, unknown>;
+    buildProfile?: JsonObject;
   },
 ): Promise<DeploymentRow> {
   const { data, error } = await sb.from("project_deployments").insert({

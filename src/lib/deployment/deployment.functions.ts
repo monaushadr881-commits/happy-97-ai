@@ -23,6 +23,7 @@ import {
   runDeployment,
   type DeploymentEnv,
   type DeploymentTarget,
+  type JsonObject,
 } from "./engine";
 
 type Ctx = { supabase: unknown; userId: string };
@@ -105,7 +106,7 @@ export const createProjectDeployment = createServerFn({ method: "POST" })
     target: DeploymentTarget;
     version?: string;
     releaseNotes?: string;
-    buildProfile?: Record<string, unknown>;
+    buildProfile?: JsonObject;
     autoRun?: boolean;
   }) => {
     if (!ENVS.includes(d.environment)) throw new Error("invalid_environment");
