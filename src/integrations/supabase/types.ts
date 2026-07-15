@@ -7712,6 +7712,71 @@ export type Database = {
           },
         ]
       }
+      happy_conversation_turns: {
+        Row: {
+          capability: string | null
+          created_at: string
+          error: string | null
+          evidence: Json
+          id: string
+          intent: string | null
+          latency_ms: number | null
+          message: string | null
+          occurred_at: string
+          response: string | null
+          role: string
+          session_id: string
+          tokens_in: number | null
+          tokens_out: number | null
+          turn_index: number
+          user_id: string | null
+        }
+        Insert: {
+          capability?: string | null
+          created_at?: string
+          error?: string | null
+          evidence?: Json
+          id?: string
+          intent?: string | null
+          latency_ms?: number | null
+          message?: string | null
+          occurred_at?: string
+          response?: string | null
+          role: string
+          session_id: string
+          tokens_in?: number | null
+          tokens_out?: number | null
+          turn_index: number
+          user_id?: string | null
+        }
+        Update: {
+          capability?: string | null
+          created_at?: string
+          error?: string | null
+          evidence?: Json
+          id?: string
+          intent?: string | null
+          latency_ms?: number | null
+          message?: string | null
+          occurred_at?: string
+          response?: string | null
+          role?: string
+          session_id?: string
+          tokens_in?: number | null
+          tokens_out?: number | null
+          turn_index?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_conversation_turns_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "happy_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       happy_deployments: {
         Row: {
           channel: string
@@ -7765,6 +7830,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      happy_greeting_templates: {
+        Row: {
+          audience: string | null
+          channel: string | null
+          created_at: string
+          enabled: boolean
+          id: string
+          key: string
+          locale: string
+          priority: number
+          template: string
+          time_of_day: string | null
+          updated_at: string
+        }
+        Insert: {
+          audience?: string | null
+          channel?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          key: string
+          locale?: string
+          priority?: number
+          template: string
+          time_of_day?: string | null
+          updated_at?: string
+        }
+        Update: {
+          audience?: string | null
+          channel?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          key?: string
+          locale?: string
+          priority?: number
+          template?: string
+          time_of_day?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       happy_identity: {
         Row: {
@@ -7871,6 +7978,130 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      happy_mode_transitions: {
+        Row: {
+          actor: string | null
+          from_mode: string | null
+          id: string
+          occurred_at: string
+          reason: string | null
+          session_id: string
+          to_mode: string
+        }
+        Insert: {
+          actor?: string | null
+          from_mode?: string | null
+          id?: string
+          occurred_at?: string
+          reason?: string | null
+          session_id: string
+          to_mode: string
+        }
+        Update: {
+          actor?: string | null
+          from_mode?: string | null
+          id?: string
+          occurred_at?: string
+          reason?: string | null
+          session_id?: string
+          to_mode?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_mode_transitions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "happy_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_presence_events: {
+        Row: {
+          id: string
+          note: string | null
+          occurred_at: string
+          presence: string
+          session_id: string
+        }
+        Insert: {
+          id?: string
+          note?: string | null
+          occurred_at?: string
+          presence: string
+          session_id: string
+        }
+        Update: {
+          id?: string
+          note?: string | null
+          occurred_at?: string
+          presence?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_presence_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "happy_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_sessions: {
+        Row: {
+          audience: string
+          channel: string
+          client_meta: Json
+          company_id: string | null
+          created_at: string
+          ended_at: string | null
+          id: string
+          language: string
+          last_activity_at: string
+          mode: string
+          persona: string
+          presence: string
+          started_at: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          audience: string
+          channel: string
+          client_meta?: Json
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          language?: string
+          last_activity_at?: string
+          mode: string
+          persona: string
+          presence?: string
+          started_at?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          audience?: string
+          channel?: string
+          client_meta?: Json
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          language?: string
+          last_activity_at?: string
+          mode?: string
+          persona?: string
+          presence?: string
+          started_at?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
       }
       happy_skills: {
         Row: {
