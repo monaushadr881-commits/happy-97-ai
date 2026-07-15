@@ -771,3 +771,11 @@ export const personalizationService = defineService({ name: "personalization", v
 // ---------- Ultimate Visual Experience v4.0 ----------
 export const wallpaperService = defineService({ name: "wallpaper", version: "uve4" }, () => activated("wallpaper"));
 export const themeMarketplaceService = defineService({ name: "theme-marketplace", version: "uve4" }, () => activated("theme-marketplace"));
+
+
+// ---------- Ultimate User Experience v5.0 ----------
+export const workspaceUxService = defineService({ name: "workspace-ux", version: "uue5" }, () => activated("workspace-ux"));
+export const coachService = defineService({ name: "coach", version: "uue5" }, () => activated("coach"));
+export const achievementService = defineService({ name: "achievement", version: "uue5" }, () => activated("achievement"));
+export const streakService = defineService({ name: "streak", version: "uue5" }, () => activated("streak"));
+export const widgetService = defineService({ name: "widget", version: "uue5" }, () => activated("widget"));
