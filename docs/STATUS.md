@@ -1256,3 +1256,51 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - Every inter-agent message and tool call is DB-immutable; result facts and AI recommendations are stored in separate columns.
 - Escalation creates a child task with a lower priority number (higher priority) linked via `parent_task_id`.
 - All reads/writes RLS-scoped by `is_company_member`/`is_company_admin`; registry uniqueness prevents duplicate agents per company.
+
+## R32 — HAPPY Enterprise API Gateway, Integration Hub, Developer Platform
+
+### Files
+- `supabase/migrations/…_r32_api_gateway.sql` — 13 tables prefixed `apigw_` (api_registry, api_routes, keys, service_accounts, oauth_clients, oauth_tokens, usage_log, rate_counters, webhook_endpoints, webhook_deliveries, webhook_inbound, connectors, connections). All with RLS (company-member read, company-admin write). Usage log is immutable via `apigw_usage_immutable()` trigger. Webhook deliveries have a unique `(endpoint_id, event_id)` idempotency index. Inbound webhooks have a unique `(source, event_id)` replay-protection index. Connector catalog seeded with 20 providers.
+- `src/lib/apigw/engine.ts` — SHA-256 & HMAC-SHA-256 helpers (Web Crypto, Worker-safe), timing-safe hex compare, cryptographic random token generation. Full CRUD for APIs, routes, keys (hashed-only storage, prefix + last4 shown), rotation-with-lineage, verification with scope/API/rate checks. Fixed 1-minute-window rate limiter. Usage logging + p50/p95/top-N stats. Outgoing webhooks: emit with per-endpoint HMAC signature and idempotency, dispatcher with exponential/linear backoff and dead-letter, replay. Incoming webhooks: idempotent record + HMAC verify. Connector enable/disable/list + real health probe (public HEAD/GET to documented health URLs for github/gitlab/cloudflare/netlify/vercel/slack/discord/stripe/paypal/digitalocean). OpenAPI 3.0.3 generator built from `apigw_api_routes`. SDK snippet generator for TypeScript/JavaScript/Python/Go/Java/C#/PHP/curl. Founder health aggregate with facts and separated AI recommendations.
+- `src/lib/apigw/apigw.functions.ts` — 26 auth-gated `createServerFn` endpoints covering registry, routes, keys, rate limit, usage, webhooks (in/out), connectors, OpenAPI, SDK snippets, and gateway health.
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| API Registry + Route Registry (versioning, kinds, deprecation) | WORKING |
+| API Keys (issue/list/rotate/revoke, hashed storage, prefix+last4, allowed_apis, scopes) | WORKING |
+| Key Verification (scope + API allowlist + rate-limit + last_used tracking) | WORKING |
+| Rate Limiting (fixed 1-min window, per scope_key) | WORKING |
+| Usage Logging (immutable) + p50/p95/top-N stats | WORKING |
+| Outgoing Webhooks (HMAC sign, idempotent, retry with backoff, dead-letter, replay) | WORKING |
+| Incoming Webhooks (idempotent + HMAC verify + replay protection) | WORKING |
+| Connector Registry (20 seeded connectors) | WORKING |
+| Connection Management (enable/disable/list/health probe) | WORKING |
+| OpenAPI 3.0.3 Generation | WORKING |
+| SDK Snippet Generation (8 languages) | WORKING |
+| Founder Gateway Health (facts + AI recommendations, cleanly separated) | WORKING |
+| Service Accounts | WORKING |
+| OAuth2 Clients + Tokens (schema + admin RLS) | PARTIAL — authorization-code flow endpoints not yet exposed |
+| Streaming Responses | PLANNED |
+| Full monitoring dashboard UI | PLANNED |
+
+### Verification
+- Migration applied cleanly. Distinct `apigw_` prefix avoids collision with legacy `api_keys` / `webhook_deliveries` tables.
+- `bunx tsgo --noEmit` passes on `src/lib/apigw/*`.
+- Usage log immutability enforced (trigger raises on UPDATE/DELETE).
+- Idempotency enforced by unique indexes on both delivery event_id and inbound event_id.
+- All destructive fetch calls (webhook dispatch, connector health) have AbortController timeouts and never bypass business runtimes.
+
+### Security
+- Every table RLS-gated: company members read; company admins write. OAuth tokens admin-only. Usage log insert requires company membership; reads restricted to members.
+- API key raw values shown once at issuance; only SHA-256 hash stored (unique index prevents collision reuse).
+- Webhook secrets shown once at endpoint creation; only SHA-256 hash stored; HMAC-SHA-256 signature per delivery over `event_id.body`.
+- Timing-safe hex comparison for HMAC verification.
+- Connector health probes are GET-only against documented public endpoints; no credential exposure.
+- All server functions require Supabase auth via `requireSupabaseAuth`; RLS enforces scope.
+
+### Performance
+- Composite indexes on usage log by company/api/key + partial index on status_code >= 400 for error triage.
+- Partial index on webhook deliveries `WHERE status IN ('pending','retrying')` for hot dispatcher queue.
+- Partial indexes on active-only rows for `apigw_keys` and `apigw_webhook_endpoints`.
+- Rate counters keyed `(scope_key, window_start)` with unique constraint enabling upsert semantics.
