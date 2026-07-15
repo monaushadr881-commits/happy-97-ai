@@ -2,7 +2,7 @@
  * Digital Human context — preferences, activity, expression, posture, gaze.
  * Preferences are server-authoritative (dh_preferences RLS row).
  */
-import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dhGetPreferences, dhUpdatePreferences } from "@/lib/digital-human-v1.functions";
 import type { AvatarActivity, AvatarExpression } from "./HappyAvatar";
