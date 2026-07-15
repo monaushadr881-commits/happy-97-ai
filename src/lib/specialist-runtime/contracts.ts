@@ -24,17 +24,22 @@ export type SpecialistDomain =
 
 export type SessionStatus = 'active' | 'paused' | 'archived' | 'ended';
 
+export type JsonValue =
+  | string | number | boolean | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
 export interface Fact {
   source_runtime: string;
   timestamp: string;
-  evidence: unknown;
+  evidence: JsonValue;
   confidence: number; // 0..1
 }
 
 export interface Recommendation {
   reason: string;
   confidence: number; // 0..1
-  supporting_evidence: unknown[];
+  supporting_evidence: JsonValue[];
   source_runtime: string;
   timestamp: string;
 }

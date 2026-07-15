@@ -58,16 +58,26 @@ export const setSpecialistStatusFn = createServerFn({ method: 'POST' })
   .inputValidator((d: unknown) => statusSchema.parse(d))
   .handler(async ({ data, context }) => setStatus(context.supabase, data.sessionId, data.status));
 
+const jsonValue: z.ZodType<import('./contracts').JsonValue> = z.lazy(() =>
+  z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+    z.array(jsonValue),
+    z.record(z.string(), jsonValue),
+  ]),
+);
 const factSchema = z.object({
   source_runtime: z.string().min(1),
   timestamp: z.string().min(1),
-  evidence: z.unknown(),
+  evidence: jsonValue,
   confidence: z.number().min(0).max(1),
 });
 const recSchema = z.object({
   reason: z.string().min(1),
   confidence: z.number().min(0).max(1),
-  supporting_evidence: z.array(z.unknown()).default([]),
+  supporting_evidence: z.array(jsonValue).default([]),
   source_runtime: z.string().min(1),
   timestamp: z.string().min(1),
 });
