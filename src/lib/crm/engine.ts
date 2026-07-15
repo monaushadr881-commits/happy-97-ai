@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
+import type { Database, Json } from "@/integrations/supabase/types";
 
 type SB = SupabaseClient<Database>;
 type EntityType = "lead" | "customer" | "deal" | "company" | "contact";
@@ -181,7 +181,7 @@ export const customers = {
       sb.from("customers").select("*").eq("id", id).single(),
       sb.from("invoices").select("*").eq("customer_id", id).order("created_at", { ascending: false }).limit(50),
       sb.from("payments").select("*").eq("customer_id", id).order("created_at", { ascending: false }).limit(50),
-      Promise.resolve({ data: [] as Record<string, unknown>[] }),
+      Promise.resolve({ data: [] as Record<string, Json>[] }),
       sb.from("listing_purchases").select("*").eq("buyer_id", id).limit(50),
       sb.from("activity_events").select("*").eq("entity_id", id).order("occurred_at", { ascending: false }).limit(100),
     ]);
@@ -290,7 +290,7 @@ export const tasks = {
     if (opts.due_before) q = q.lte("due_at", opts.due_before);
     const { data, error } = await q.order("due_at", { ascending: true, nullsFirst: false }).limit(opts.limit ?? 200);
     if (error) throw error;
-    return (data ?? []) as Record<string, unknown>[];
+    return (data ?? []) as Record<string, Json>[];
   },
   async create(sb: SB, userId: string, input: { company_id: string; title: string; description?: string; assignee_id?: string; due_at?: string; reminder_at?: string; kind?: string; priority?: string; entity_type?: EntityType; entity_id?: string; recurrence?: string }) {
     const { data, error } = await sb.from("crm_tasks" as never).insert({
@@ -339,16 +339,16 @@ export const notes = {
   async list(sb: SB, entity_type: EntityType, entity_id: string, limit = 100) {
     const { data, error } = await sb.from("crm_notes" as never).select("*").eq("entity_type", entity_type).eq("entity_id", entity_id).order("pinned", { ascending: false }).order("created_at", { ascending: false }).limit(limit);
     if (error) throw error;
-    return (data ?? []) as Record<string, unknown>[];
+    return (data ?? []) as Record<string, Json>[];
   },
-  async create(sb: SB, userId: string, input: { company_id: string; entity_type: EntityType; entity_id: string; body: string; pinned?: boolean; attachments?: unknown[] }) {
+  async create(sb: SB, userId: string, input: { company_id: string; entity_type: EntityType; entity_id: string; body: string; pinned?: boolean; attachments?: Json[] }) {
     const { data, error } = await sb.from("crm_notes" as never).insert({ ...input, author_id: userId } as never).select().single();
     if (error) throw error;
     const row = data as { id: string; company_id: string };
     await logActivity(sb, row.company_id, userId, input.entity_type, input.entity_id, "note_added", { note_id: row.id });
     return row;
   },
-  async update(sb: SB, _userId: string, id: string, patch: { body?: string; pinned?: boolean; attachments?: unknown[] }) {
+  async update(sb: SB, _userId: string, id: string, patch: { body?: string; pinned?: boolean; attachments?: Json[] }) {
     const { data, error } = await sb.from("crm_notes" as never).update({ ...patch } as never).eq("id", id).select().single();
     if (error) throw error;
     return data;
