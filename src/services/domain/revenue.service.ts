@@ -10,17 +10,18 @@
  */
 import { defineService, V, validate, z, type ServiceContext } from "../core";
 
-type InvoiceStatus = "draft" | "issued" | "partially_paid" | "paid" | "void" | "overdue";
-type PaymentStatus = "pending" | "succeeded" | "failed" | "refunded";
+const INVOICE_STATUSES = ["draft", "sent", "paid", "overdue", "void", "refunded"] as const;
+const PAYMENT_STATUSES = ["pending", "succeeded", "failed", "refunded"] as const;
+type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
 
 const ListInvoicesInput = z.object({
-  status: z.enum(["draft", "issued", "partially_paid", "paid", "void", "overdue"]).optional(),
+  status: z.enum(INVOICE_STATUSES).optional(),
   companyId: V.uuid.optional(),
   limit: z.number().int().min(1).max(200).default(50),
 }).default({ limit: 50 });
 
 const ListPaymentsInput = z.object({
-  status: z.enum(["pending", "succeeded", "failed", "refunded"]).optional(),
+  status: z.enum(PAYMENT_STATUSES).optional(),
   companyId: V.uuid.optional(),
   limit: z.number().int().min(1).max(200).default(50),
 }).default({ limit: 50 });
