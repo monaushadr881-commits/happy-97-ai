@@ -207,8 +207,20 @@ async function handlePaymentSucceeded(
     "Payment received", `A payment of ${(evt.amountMinor ?? 0) / 100} ${evt.currency ?? ""} was received.`,
     { payment_id: paymentId, provider: evt.provider });
 
+  // If this payment is correlated with a subscription in past_due, recover it.
+  if (cor.subscription_id) {
+    const { transitionSubscription } = await import("@/lib/subscriptions/lifecycle");
+    await transitionSubscription(admin, {
+      subscriptionId: cor.subscription_id, action: "payment_recovered",
+      provider: evt.provider, providerRef: evt.providerEventId,
+      notifyUserId: cor.user_id ?? null,
+      metadata: { source: "webhook", canonical: evt.canonicalType, payment_id: paymentId },
+    });
+  }
+
   return { status: "processed", details: { payment_id: paymentId } };
 }
+
 
 async function handlePaymentFailed(
   admin: Admin, evt: CanonicalWebhookEvent, cor: Correlation,
