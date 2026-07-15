@@ -2806,6 +2806,149 @@ export type Database = {
           },
         ]
       }
+      cycle_count_items: {
+        Row: {
+          bin_id: string | null
+          count_id: string
+          counted_qty: number | null
+          created_at: string
+          expected_qty: number
+          id: string
+          lot_id: string | null
+          product_id: string
+          reason: string | null
+          variance: number | null
+        }
+        Insert: {
+          bin_id?: string | null
+          count_id: string
+          counted_qty?: number | null
+          created_at?: string
+          expected_qty?: number
+          id?: string
+          lot_id?: string | null
+          product_id: string
+          reason?: string | null
+          variance?: number | null
+        }
+        Update: {
+          bin_id?: string | null
+          count_id?: string
+          counted_qty?: number | null
+          created_at?: string
+          expected_qty?: number
+          id?: string
+          lot_id?: string | null
+          product_id?: string
+          reason?: string | null
+          variance?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cycle_count_items_bin_id_fkey"
+            columns: ["bin_id"]
+            isOneToOne: false
+            referencedRelation: "warehouse_bins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cycle_count_items_count_id_fkey"
+            columns: ["count_id"]
+            isOneToOne: false
+            referencedRelation: "cycle_counts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cycle_count_items_lot_id_fkey"
+            columns: ["lot_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_lots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cycle_count_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cycle_counts: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          company_id: string
+          completed_at: string | null
+          counted_by: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          is_blind: boolean
+          notes: string | null
+          number: string
+          scheduled_at: string
+          scope: Json
+          started_at: string | null
+          status: Database["public"]["Enums"]["wms_count_status"]
+          updated_at: string
+          warehouse_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id: string
+          completed_at?: string | null
+          counted_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_blind?: boolean
+          notes?: string | null
+          number: string
+          scheduled_at?: string
+          scope?: Json
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["wms_count_status"]
+          updated_at?: string
+          warehouse_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id?: string
+          completed_at?: string | null
+          counted_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_blind?: boolean
+          notes?: string | null
+          number?: string
+          scheduled_at?: string
+          scope?: Json
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["wms_count_status"]
+          updated_at?: string
+          warehouse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cycle_counts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cycle_counts_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       data_requests: {
         Row: {
           created_at: string
@@ -4327,6 +4470,262 @@ export type Database = {
           },
           {
             foreignKeyName: "inventory_items_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_lots: {
+        Row: {
+          batch_no: string | null
+          bin_id: string | null
+          company_id: string
+          created_at: string
+          expiry_date: string | null
+          id: string
+          lot_no: string | null
+          metadata: Json
+          mfg_date: string | null
+          product_id: string
+          quantity: number
+          status: Database["public"]["Enums"]["wms_lot_status"]
+          supplier_id: string | null
+          unit_cost: number | null
+          updated_at: string
+          warehouse_id: string
+        }
+        Insert: {
+          batch_no?: string | null
+          bin_id?: string | null
+          company_id: string
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          lot_no?: string | null
+          metadata?: Json
+          mfg_date?: string | null
+          product_id: string
+          quantity?: number
+          status?: Database["public"]["Enums"]["wms_lot_status"]
+          supplier_id?: string | null
+          unit_cost?: number | null
+          updated_at?: string
+          warehouse_id: string
+        }
+        Update: {
+          batch_no?: string | null
+          bin_id?: string | null
+          company_id?: string
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          lot_no?: string | null
+          metadata?: Json
+          mfg_date?: string | null
+          product_id?: string
+          quantity?: number
+          status?: Database["public"]["Enums"]["wms_lot_status"]
+          supplier_id?: string | null
+          unit_cost?: number | null
+          updated_at?: string
+          warehouse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_lots_bin_id_fkey"
+            columns: ["bin_id"]
+            isOneToOne: false
+            referencedRelation: "warehouse_bins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_lots_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_lots_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_lots_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_lots_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_thresholds: {
+        Row: {
+          company_id: string
+          created_at: string
+          expiry_alert_days: number
+          id: string
+          max_stock: number | null
+          min_stock: number
+          product_id: string
+          reorder_level: number
+          safety_stock: number
+          updated_at: string
+          valuation: Database["public"]["Enums"]["wms_valuation"]
+          warehouse_id: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          expiry_alert_days?: number
+          id?: string
+          max_stock?: number | null
+          min_stock?: number
+          product_id: string
+          reorder_level?: number
+          safety_stock?: number
+          updated_at?: string
+          valuation?: Database["public"]["Enums"]["wms_valuation"]
+          warehouse_id?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          expiry_alert_days?: number
+          id?: string
+          max_stock?: number | null
+          min_stock?: number
+          product_id?: string
+          reorder_level?: number
+          safety_stock?: number
+          updated_at?: string
+          valuation?: Database["public"]["Enums"]["wms_valuation"]
+          warehouse_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_thresholds_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_thresholds_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_thresholds_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_transactions: {
+        Row: {
+          actor_id: string | null
+          balance_after: number | null
+          bin_id: string | null
+          company_id: string
+          created_at: string
+          id: string
+          lot_id: string | null
+          metadata: Json
+          notes: string | null
+          product_id: string
+          qty_delta: number
+          ref_id: string | null
+          ref_number: string | null
+          ref_type: string | null
+          txn_type: Database["public"]["Enums"]["wms_txn_type"]
+          unit_cost: number | null
+          warehouse_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          balance_after?: number | null
+          bin_id?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          lot_id?: string | null
+          metadata?: Json
+          notes?: string | null
+          product_id: string
+          qty_delta: number
+          ref_id?: string | null
+          ref_number?: string | null
+          ref_type?: string | null
+          txn_type: Database["public"]["Enums"]["wms_txn_type"]
+          unit_cost?: number | null
+          warehouse_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          balance_after?: number | null
+          bin_id?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          lot_id?: string | null
+          metadata?: Json
+          notes?: string | null
+          product_id?: string
+          qty_delta?: number
+          ref_id?: string | null
+          ref_number?: string | null
+          ref_type?: string | null
+          txn_type?: Database["public"]["Enums"]["wms_txn_type"]
+          unit_cost?: number | null
+          warehouse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_transactions_bin_id_fkey"
+            columns: ["bin_id"]
+            isOneToOne: false
+            referencedRelation: "warehouse_bins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_lot_id_fkey"
+            columns: ["lot_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_lots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_warehouse_id_fkey"
             columns: ["warehouse_id"]
             isOneToOne: false
             referencedRelation: "warehouses"
@@ -7812,6 +8211,240 @@ export type Database = {
         }
         Relationships: []
       }
+      stock_reservations: {
+        Row: {
+          actor_id: string | null
+          company_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          lot_id: string | null
+          metadata: Json
+          product_id: string
+          quantity: number
+          ref_id: string | null
+          ref_type: string
+          released_at: string | null
+          status: Database["public"]["Enums"]["wms_reservation_status"]
+          updated_at: string
+          warehouse_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          company_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          lot_id?: string | null
+          metadata?: Json
+          product_id: string
+          quantity: number
+          ref_id?: string | null
+          ref_type: string
+          released_at?: string | null
+          status?: Database["public"]["Enums"]["wms_reservation_status"]
+          updated_at?: string
+          warehouse_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          company_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          lot_id?: string | null
+          metadata?: Json
+          product_id?: string
+          quantity?: number
+          ref_id?: string | null
+          ref_type?: string
+          released_at?: string | null
+          status?: Database["public"]["Enums"]["wms_reservation_status"]
+          updated_at?: string
+          warehouse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_reservations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_reservations_lot_id_fkey"
+            columns: ["lot_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_lots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_reservations_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_reservations_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stock_transfer_items: {
+        Row: {
+          created_at: string
+          from_bin_id: string | null
+          id: string
+          lot_id: string | null
+          notes: string | null
+          product_id: string
+          quantity: number
+          quantity_received: number
+          to_bin_id: string | null
+          transfer_id: string
+        }
+        Insert: {
+          created_at?: string
+          from_bin_id?: string | null
+          id?: string
+          lot_id?: string | null
+          notes?: string | null
+          product_id: string
+          quantity: number
+          quantity_received?: number
+          to_bin_id?: string | null
+          transfer_id: string
+        }
+        Update: {
+          created_at?: string
+          from_bin_id?: string | null
+          id?: string
+          lot_id?: string | null
+          notes?: string | null
+          product_id?: string
+          quantity?: number
+          quantity_received?: number
+          to_bin_id?: string | null
+          transfer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_transfer_items_from_bin_id_fkey"
+            columns: ["from_bin_id"]
+            isOneToOne: false
+            referencedRelation: "warehouse_bins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_transfer_items_lot_id_fkey"
+            columns: ["lot_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_lots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_transfer_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_transfer_items_to_bin_id_fkey"
+            columns: ["to_bin_id"]
+            isOneToOne: false
+            referencedRelation: "warehouse_bins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_transfer_items_transfer_id_fkey"
+            columns: ["transfer_id"]
+            isOneToOne: false
+            referencedRelation: "stock_transfers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stock_transfers: {
+        Row: {
+          company_id: string
+          created_at: string
+          created_by: string | null
+          from_warehouse_id: string
+          id: string
+          metadata: Json
+          notes: string | null
+          number: string
+          received_at: string | null
+          received_by: string | null
+          shipped_at: string | null
+          shipped_by: string | null
+          status: Database["public"]["Enums"]["wms_transfer_status"]
+          to_warehouse_id: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          from_warehouse_id: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          number: string
+          received_at?: string | null
+          received_by?: string | null
+          shipped_at?: string | null
+          shipped_by?: string | null
+          status?: Database["public"]["Enums"]["wms_transfer_status"]
+          to_warehouse_id: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          from_warehouse_id?: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          number?: string
+          received_at?: string | null
+          received_by?: string | null
+          shipped_at?: string | null
+          shipped_by?: string | null
+          status?: Database["public"]["Enums"]["wms_transfer_status"]
+          to_warehouse_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_transfers_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_transfers_from_warehouse_id_fkey"
+            columns: ["from_warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stock_transfers_to_warehouse_id_fkey"
+            columns: ["to_warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       study_bookmarks: {
         Row: {
           created_at: string
@@ -8801,6 +9434,136 @@ export type Database = {
         }
         Relationships: []
       }
+      warehouse_bins: {
+        Row: {
+          capacity: number | null
+          code: string
+          company_id: string
+          created_at: string
+          id: string
+          metadata: Json
+          position: string | null
+          rack: string | null
+          shelf: string | null
+          status: string
+          updated_at: string
+          warehouse_id: string
+          zone_id: string | null
+        }
+        Insert: {
+          capacity?: number | null
+          code: string
+          company_id: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          position?: string | null
+          rack?: string | null
+          shelf?: string | null
+          status?: string
+          updated_at?: string
+          warehouse_id: string
+          zone_id?: string | null
+        }
+        Update: {
+          capacity?: number | null
+          code?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          position?: string | null
+          rack?: string | null
+          shelf?: string | null
+          status?: string
+          updated_at?: string
+          warehouse_id?: string
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "warehouse_bins_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "warehouse_bins_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "warehouse_bins_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "warehouse_zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      warehouse_zones: {
+        Row: {
+          aisle: string | null
+          code: string
+          company_id: string
+          created_at: string
+          id: string
+          metadata: Json
+          name: string
+          sort_order: number
+          status: string
+          updated_at: string
+          warehouse_id: string
+          zone_type: Database["public"]["Enums"]["wms_zone_type"]
+        }
+        Insert: {
+          aisle?: string | null
+          code: string
+          company_id: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          name: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          warehouse_id: string
+          zone_type?: Database["public"]["Enums"]["wms_zone_type"]
+        }
+        Update: {
+          aisle?: string | null
+          code?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          name?: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          warehouse_id?: string
+          zone_type?: Database["public"]["Enums"]["wms_zone_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "warehouse_zones_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "warehouse_zones_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       warehouses: {
         Row: {
           address: Json
@@ -9411,6 +10174,50 @@ export type Database = {
         | "replay"
         | "missing"
         | "error"
+      wms_count_status:
+        | "scheduled"
+        | "in_progress"
+        | "completed"
+        | "approved"
+        | "cancelled"
+      wms_lot_status:
+        | "available"
+        | "quarantine"
+        | "damaged"
+        | "expired"
+        | "consumed"
+        | "on_hold"
+      wms_reservation_status:
+        | "active"
+        | "released"
+        | "fulfilled"
+        | "expired"
+        | "cancelled"
+      wms_transfer_status: "draft" | "in_transit" | "received" | "cancelled"
+      wms_txn_type:
+        | "receive"
+        | "issue"
+        | "transfer_out"
+        | "transfer_in"
+        | "adjustment"
+        | "damage"
+        | "expiry"
+        | "return"
+        | "reserve"
+        | "release"
+        | "count_adjust"
+        | "production_in"
+        | "production_out"
+      wms_valuation: "FIFO" | "FEFO" | "LIFO" | "WEIGHTED_AVG"
+      wms_zone_type:
+        | "storage"
+        | "receiving"
+        | "dispatch"
+        | "staging"
+        | "quarantine"
+        | "damage"
+        | "returns"
+        | "production"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -9709,6 +10516,55 @@ export const Constants = {
         "replay",
         "missing",
         "error",
+      ],
+      wms_count_status: [
+        "scheduled",
+        "in_progress",
+        "completed",
+        "approved",
+        "cancelled",
+      ],
+      wms_lot_status: [
+        "available",
+        "quarantine",
+        "damaged",
+        "expired",
+        "consumed",
+        "on_hold",
+      ],
+      wms_reservation_status: [
+        "active",
+        "released",
+        "fulfilled",
+        "expired",
+        "cancelled",
+      ],
+      wms_transfer_status: ["draft", "in_transit", "received", "cancelled"],
+      wms_txn_type: [
+        "receive",
+        "issue",
+        "transfer_out",
+        "transfer_in",
+        "adjustment",
+        "damage",
+        "expiry",
+        "return",
+        "reserve",
+        "release",
+        "count_adjust",
+        "production_in",
+        "production_out",
+      ],
+      wms_valuation: ["FIFO", "FEFO", "LIFO", "WEIGHTED_AVG"],
+      wms_zone_type: [
+        "storage",
+        "receiving",
+        "dispatch",
+        "staging",
+        "quarantine",
+        "damage",
+        "returns",
+        "production",
       ],
     },
   },
