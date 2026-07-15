@@ -47,9 +47,9 @@ export const revenueService = defineService({ name: "revenue", version: "v1" }, 
         .not("paid_at", "is", null).gte("paid_at", since(365)),
       sb.from("invoices").select("id", { count: "exact", head: true }),
       sb.from("invoices").select("id", { count: "exact", head: true })
-        .in("status", ["issued", "partially_paid"] as InvoiceStatus[]),
+        .in("status", ["sent"]),
       sb.from("invoices").select("id", { count: "exact", head: true })
-        .eq("status", "overdue" as InvoiceStatus),
+        .eq("status", "overdue"),
       sb.from("payments").select("amount_cents, status, currency, received_at")
         .eq("status", "succeeded" as PaymentStatus).gte("received_at", since(30)),
       sb.from("payments").select("amount_cents", { count: "exact" })
