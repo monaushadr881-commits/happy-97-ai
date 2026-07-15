@@ -352,36 +352,79 @@ export const HappyAvatar = memo(function HappyAvatar({
           }}
         />
 
-        {/* blink veil — subtle brightness dip that reads as a blink */}
-        <div
+        {/* Eyelid overlays — narrow SVG bands over the approximate eye Y
+            of the shipped portrait. Two independent lids scale vertically
+            with `blink`. This is a photo, not a rig, so the bands are an
+            honest darkening at the eye row rather than a full-screen veil. */}
+        <svg
           aria-hidden
-          className="pointer-events-none absolute inset-0 transition-opacity duration-[110ms] ease-out"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 22%, rgba(0,0,0,0.55) 34%, rgba(0,0,0,0.6) 42%, transparent 55%)",
-            opacity: blink && !reducedMotion ? 0.75 : 0,
-          }}
-        />
-
-        {/* Audio-reactive mouth region — real amplitude drives opacity + scaleY.
-            The portrait is a photo, so we cannot morph the mouth mesh — but the
-            golden glow, brightness lift and vertical pulse are now genuinely
-            tied to the live TTS analyser (see useHappySpeech). */}
-        {speaking && !reducedMotion && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-0 h-full w-full"
+        >
+          <defs>
+            <linearGradient id="dh-lid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(20,14,10,0.85)" />
+              <stop offset="100%" stopColor="rgba(20,14,10,0.55)" />
+            </linearGradient>
+          </defs>
+          {/* Left lid — closes downward from the brow */}
+          <rect
+            x="34" y="28" width="14" height="5"
+            fill="url(#dh-lid)"
             style={{
-              background:
-                "radial-gradient(28% 10% at 50% 68%, rgba(232,201,106,0.75), transparent 70%)",
-              mixBlendMode: "screen",
-              opacity: 0.35 + Math.min(1, amplitude) * 0.65,
-              transform: `translateZ(0) scaleY(${1 + Math.min(1, amplitude) * 0.35})`,
-              transformOrigin: "50% 72%",
-              transition: "opacity 40ms linear, transform 40ms linear",
+              transformOrigin: "41px 28px",
+              transform: `scaleY(${blink && !reducedMotion ? 1 : 0.02})`,
+              transition: "transform 110ms ease-out",
+              opacity: 0.9,
             }}
           />
-        )}
+          {/* Right lid */}
+          <rect
+            x="52" y="28" width="14" height="5"
+            fill="url(#dh-lid)"
+            style={{
+              transformOrigin: "59px 28px",
+              transform: `scaleY(${blink && !reducedMotion ? 1 : 0.02})`,
+              transition: "transform 110ms ease-out",
+              opacity: 0.9,
+            }}
+          />
+        </svg>
+
+        {/* Audio-reactive mouth region — real amplitude drives opacity + scaleY.
+            Spectral centroid biases the shape: low centroid = round (O/U),
+            high centroid = wide (E/AI). Portrait is a photo so mouth geometry
+            cannot morph, but width/height/opacity of the highlight overlay are
+            all driven by live analyser data (see useHappySpeech). */}
+        {speaking && !reducedMotion && (() => {
+          // Blend a "wide" and a "round" shape by centroid weighting.
+          const amp = Math.min(1, amplitude);
+          const wideW = 22 + amp * 14;      // % width of overlay
+          const wideH = 6 + amp * 4;        // % height
+          const roundW = 14 + amp * 8;
+          const roundH = 10 + amp * 8;
+          const w = wideW * centroid + roundW * (1 - centroid);
+          const h = wideH * centroid + roundH * (1 - centroid);
+          return (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  `radial-gradient(${w}% ${h}% at 50% 68%, rgba(232,201,106,0.75), transparent 70%)`,
+                mixBlendMode: "screen",
+                opacity: 0.3 + amp * 0.7,
+                transition: "opacity 40ms linear, background 60ms linear",
+              }}
+            />
+          );
+        })()}
+
+        {/* Expression overlay layer — weighted tints for each expression
+            token. Multiple layers can be visible at low opacity so the
+            transition between states is a real blend, never a hard switch. */}
+        <ExpressionLayer expression={expression} reducedMotion={reducedMotion} />
 
         {/* smile warmth — subtle golden lift across the cheeks */}
         <div
@@ -394,6 +437,7 @@ export const HappyAvatar = memo(function HappyAvatar({
             opacity: smiling && !reducedMotion ? 1 : 0,
           }}
         />
+
 
         {/* bottom fade — for portrait variant */}
         {variant === "portrait" && (
