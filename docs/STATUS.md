@@ -1,6 +1,28 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** R7 — Payment Provider Foundation + Secure Webhook Runtime.
+**Last updated:** R8 — Payment Business Processor (Event → Business Runtime).
+
+## R8 — Payment Business Processor — 2026-07-15
+
+- **Business processor: Working.** `src/lib/payments/business-processor.ts` — dispatcher + idempotent handlers for `payment.succeeded/failed`, `refund.created/completed`, `subscription.created/renewed/cancelled/expired`, `invoice.paid/failed`, `customer.updated`. Unknown events short-circuit as `ignored`.
+- **Inline dispatch: Working.** `POST /api/public/webhooks/payments/:provider` now runs verify → audit → normalize → **process** in the same request. Provider still gets `200` immediately after audit; processor failures update the audit row (never block ACK).
+- **Idempotency: Working.** New unique index `payments_provider_ref_uk` on `(provider, provider_ref)` + upsert on-conflict. Processor guards on `process_status IN ('processed','ignored','dead')` — re-delivery is a no-op.
+- **Retry queue + backoff: Working.** New columns `attempts, last_error, next_attempt_at, processed_at, business_result` on `payment_webhook_events`. Backoff schedule: 30s, 2m, 10m, 30m, 2h.
+- **Dead-letter: Working.** New enum value `webhook_process_status.dead`. Events transition to `dead` at `attempts >= 5`.
+- **Retry poller: Working.** `POST /api/public/cron/payments-retry` (also `GET`) — picks up to 25 failed events with `next_attempt_at <= now()` and re-dispatches. Wire via pg_cron (SQL example in the route file).
+- **Manual reprocess (ops): Working.** `reprocessWebhookEvent(eventId)` server fn — gated by `is_ops_admin`.
+- **Processor stats (ops): Working.** `getProcessorStats()` — 24h totals per outcome + last error surface.
+- **Audit trail: Working.** Every successful handler writes `public.audit_logs` via `write_audit` RPC.
+- **Notifications: Working (best-effort).** Insert into `public.notifications` when `metadata.user_id` correlation is present; silently skipped otherwise (never fake a recipient).
+- **Subscription events: Working.** Handlers append to `public.subscription_events` with `provider` + `provider_event_id`.
+- **Invoice settlement: Working.** `invoice.paid` and payment-linked `invoice_id` update `amount_paid_cents`, flip status to `paid`, set `paid_at`. `invoice.failed` flips to `overdue`.
+- **Wallet runtime: Blocked.** No wallet-provider correlation contract yet — event marked `failed`/`unmapped_wallet` rather than fabricating balances. Real handler lands with wallet runtime.
+- **Credits runtime: Blocked.** Same rule — never grant fake credits.
+- **Correlation contract: Documented in code.** Providers must include `company_id`/`invoice_id`/`subscription_id`/`user_id` inside `metadata`/`notes`/`custom_data`. Unmapped events flow to `failed` with `unmapped_<field>` (no silent success).
+- **Founder dashboard refresh: Partial.** Ops-scoped read surfaces (`getWebhookHealth`, `getProcessorStats`) return live data; dashboard widget wiring is a UI-only follow-up.
+- **Security:** Immutability trigger relaxed — original event fields (`provider`, `verify_result`, `payload_digest`, `received_at`, etc.) remain immutable; only lifecycle columns (`process_status`, `attempts`, `last_error`, `processed_at`, `next_attempt_at`, `business_result`) are writable. Retry endpoint is service-role only and only reads/writes its own table. Linter warnings (8) are the pre-existing SECURITY DEFINER role helpers — not introduced by this pass.
+- **Playwright:** Public webhook + retry endpoints run on the SSR worker with raw bodies + HMAC headers — not driveable from the browser preview. Deferred to the P0.1 regression harness.
+- **Files changed:** `supabase/migrations/…_r8_payment_business_processor.sql`, `src/lib/payments/business-processor.ts`, `src/lib/payments/business-processor.functions.ts`, `src/routes/api/public/webhooks/payments.$provider.ts`, `src/routes/api/public/cron/payments-retry.ts`, `docs/STATUS.md`.
 
 ## R7 — Payment Provider Foundation + Secure Webhook Runtime — 2026-07-15
 

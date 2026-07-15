@@ -4699,16 +4699,21 @@ export type Database = {
       }
       payment_webhook_events: {
         Row: {
+          attempts: number
+          business_result: Json
           canonical_type: string | null
           correlation_id: string
           error_reason: string | null
           event_type: string
           http_status: number
           id: string
+          last_error: string | null
           latency_ms: number
           metadata: Json
+          next_attempt_at: string | null
           payload_digest: string | null
           process_status: Database["public"]["Enums"]["webhook_process_status"]
+          processed_at: string | null
           provider: Database["public"]["Enums"]["payment_provider_code"]
           provider_event_id: string | null
           received_at: string
@@ -4717,16 +4722,21 @@ export type Database = {
           verify_result: Database["public"]["Enums"]["webhook_verify_result"]
         }
         Insert: {
+          attempts?: number
+          business_result?: Json
           canonical_type?: string | null
           correlation_id?: string
           error_reason?: string | null
           event_type: string
           http_status: number
           id?: string
+          last_error?: string | null
           latency_ms?: number
           metadata?: Json
+          next_attempt_at?: string | null
           payload_digest?: string | null
           process_status?: Database["public"]["Enums"]["webhook_process_status"]
+          processed_at?: string | null
           provider: Database["public"]["Enums"]["payment_provider_code"]
           provider_event_id?: string | null
           received_at?: string
@@ -4735,16 +4745,21 @@ export type Database = {
           verify_result: Database["public"]["Enums"]["webhook_verify_result"]
         }
         Update: {
+          attempts?: number
+          business_result?: Json
           canonical_type?: string | null
           correlation_id?: string
           error_reason?: string | null
           event_type?: string
           http_status?: number
           id?: string
+          last_error?: string | null
           latency_ms?: number
           metadata?: Json
+          next_attempt_at?: string | null
           payload_digest?: string | null
           process_status?: Database["public"]["Enums"]["webhook_process_status"]
+          processed_at?: string | null
           provider?: Database["public"]["Enums"]["payment_provider_code"]
           provider_event_id?: string | null
           received_at?: string
@@ -7121,7 +7136,12 @@ export type Database = {
         | "payout"
         | "chargeback"
       wallet_owner_type: "user" | "company"
-      webhook_process_status: "received" | "processed" | "ignored" | "failed"
+      webhook_process_status:
+        | "received"
+        | "processed"
+        | "ignored"
+        | "failed"
+        | "dead"
       webhook_verify_result:
         | "verified"
         | "bad_signature"
@@ -7382,7 +7402,13 @@ export const Constants = {
         "chargeback",
       ],
       wallet_owner_type: ["user", "company"],
-      webhook_process_status: ["received", "processed", "ignored", "failed"],
+      webhook_process_status: [
+        "received",
+        "processed",
+        "ignored",
+        "failed",
+        "dead",
+      ],
       webhook_verify_result: [
         "verified",
         "bad_signature",
