@@ -6947,6 +6947,17 @@ export type Database = {
         }
         Relationships: []
       }
+      v_credit_totals: {
+        Row: {
+          consumed: number | null
+          expired: number | null
+          issued: number | null
+          owner_id: string | null
+          owner_type: Database["public"]["Enums"]["wallet_owner_type"] | null
+          refunded: number | null
+        }
+        Relationships: []
+      }
       v_wallet_balances: {
         Row: {
           balance_cents: number | null
