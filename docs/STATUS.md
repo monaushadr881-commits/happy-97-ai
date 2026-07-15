@@ -1491,3 +1491,50 @@ Real backend implementation. Single-identity guarantee enforced by DB constraint
 - Only published/approved versions can deploy (server-side check).
 - Deployment FSM prevents invalid transitions.
 
+
+---
+
+## R37 — Enterprise Ecosystem Platform — WORKING
+
+Extends the existing Marketplace Runtime (`src/lib/marketplace`) — never duplicates it.
+
+### Added (all RLS + GRANTs)
+- `store_categories` — hierarchical taxonomy (seeded with 19 canonical categories)
+- `store_collections` + `store_collection_items` — curated groupings (Featured, Trending, Recently Updated, Top Rated, Founder Picks seeded)
+- `store_featured_slots` — time-bounded featured placements
+- `store_compatibility` — per-version compatibility matrix
+- `store_recommendations` — cached rec sets, kind = `fact` or `ai` (never mixed)
+- `creator_profiles` — publisher metadata + verification
+- `creator_payouts` — payout requests, settled only on evidence
+- `creator_support_tickets` — buyer/creator threads
+- `store_events` — immutable audit trail (trigger enforced)
+
+### Runtime (`src/lib/ecosystem/`)
+- `engine.ts` — category / collection / featured / compatibility / fact-recommendation / creator / payout / support / overview
+- `ecosystem.functions.ts` — 20 server functions (public reads + auth-gated writes)
+
+### Reused (never duplicated)
+- `listings`, `listing_versions`, `listing_reviews`, `listing_purchases`, `listing_downloads`, `listing_wishlist`
+- `marketplace_transactions`, `wallet_ledger_entries`, `credit_ledger_entries`
+- `notifications`, `follows`, `audit_logs`
+- `plugin_installations` (bridge for `category=plugins`)
+
+### Security
+- Ops-admin gate on category / collection / featured / verification / payout settlement
+- Owner gate on compatibility (seller_id) and support ticket updates (participant)
+- Public reads restricted to `active` rows only; `store_events` append-only
+
+### Fact vs AI recommendations
+`computeFactRecommendations` uses a deterministic score
+`downloads_30d*3 + rating_avg*10*rating_count + 20/age_days` and stores full evidence.
+`kind='ai'` rows are reserved for LLM-authored suggestions and stay separate.
+
+### Digital-human categories
+Digital Human Assets / Voice Packs / Animation Packs / 3D Assets are installable
+catalog items only. Runtime playback stays **PLANNED** until real rig + blendshapes +
+renderer are provisioned (see R39–R50 seams).
+
+### Verification
+- `bunx tsgo --noEmit` — clean
+- Migration applied; seed data verified via `store_categories`/`store_collections`
+- Public catalog paths accessible via `publicClient()` (anon)
