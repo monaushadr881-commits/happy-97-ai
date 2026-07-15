@@ -78,7 +78,7 @@ export type HandleMessageResult = {
     ok: boolean;
     runtime_route?: string;
     skill_code?: string;
-    result?: unknown;
+    result?: any;
     error?: string;
   } | null;
   response: string;

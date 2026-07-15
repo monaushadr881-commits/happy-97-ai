@@ -15,7 +15,7 @@ export type EvidenceItem = {
   source_runtime: string;   // e.g. "crm", "finance", "founder-workspace"
   ref?: string;             // record id / capability code
   timestamp: string;        // ISO
-  payload?: unknown;
+  payload?: any;
 };
 
 export type Recommendation = {
