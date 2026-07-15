@@ -185,7 +185,7 @@ export async function listContent(sb: SB, params: {
   limit?: number;
   offset?: number;
 }) {
-  let q = sb.from("cms_contents").select("*", { count: "exact" });
+  let q = sb.from("cms_contents").select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at", { count: "exact" });
   if (params.company_id !== undefined) q = params.company_id === null ? q.is("company_id", null) : q.eq("company_id", params.company_id);
   if (params.type) q = q.eq("type", params.type);
   if (params.status) q = q.eq("status", params.status);
