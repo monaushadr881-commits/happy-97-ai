@@ -2008,3 +2008,42 @@ Status: **WORKING (asset contract + registry + validators). Renderer NOT include
 - Chat / dashboard UI surfaces that consume these runtimes are a future UI pass.
 - Automated health-check schedulers are on-demand only; cron rollup is a future pass.
 - Renderer integrations are stubbed at the adapter layer only; no visual rendering is claimed.
+
+---
+
+## R61 — Universal Deployment Runtime (2026-07-15)
+
+**Status:** WORKING (orchestration) · Native binaries BLOCKED (external toolchains)
+
+### Delivered
+- DB: `deploy_platform_registry`, `deploy_builds`, `deploy_artifacts`, `deploy_store_readiness` (RLS admin-gated, append-only where required, seeded).
+- Runtime: `src/lib/deployment-runtime/{contracts,adapters,deployment.functions}.ts`.
+- Scaffolds: `capacitor.config.ts`, `src-tauri/tauri.conf.json`.
+- 7 server fns: `listPlatforms`, `getCompatibilityMatrix`, `startBuild`, `getBuild`, `listBuilds`, `getStoreReadiness`, `refreshStoreReadiness`.
+
+### Compatibility matrix
+| Platform | Status | Blocker |
+|---|---|---|
+| web | WORKING | — |
+| pwa (manifest-installable) | WORKING | — |
+| chromeos | WORKING (via web) | — |
+| linux | PARTIAL | Rust toolchain absent in sandbox |
+| android_apk / android_aab | BLOCKED | Android SDK + release/upload keystore |
+| ios / ipados | BLOCKED | macOS host + Xcode + Apple Developer account |
+| macos | BLOCKED | macOS host + Developer ID cert |
+| windows | BLOCKED | Windows host + code-signing cert |
+| android_tv / wearos / visionpro | PLANNED | Future-ready |
+
+### Store readiness (seeded)
+- google_play → blocked (missing Play Console service account, upload keystore)
+- app_store → blocked (missing App Store Connect API key, Apple Dev account)
+- microsoft_store → blocked (missing Partner Center account, code-signing cert)
+- web → ready
+
+### happy.ai
+BLOCKED — no registrar access from sandbox. Required records:
+```
+A     @    → 185.158.133.1
+A     www  → 185.158.133.1
+TXT   _lovable → lovable_verify=<value from Project Settings → Domains>
+```
