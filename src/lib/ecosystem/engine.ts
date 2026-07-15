@@ -472,16 +472,16 @@ export async function getLatestFactRecommendations(sb: SB, limit = 12) {
     .limit(1);
   if (error) throw error;
   const row = (data ?? [])[0] as { listing_ids: string[]; evidence: Json } | undefined;
-  if (!row) return { listing_ids: [], evidence: {}, listings: [] };
+  if (!row) return { listing_ids: [] as string[], evidence: {} as Json, listings: [] as Json[] };
   const ids = (row.listing_ids ?? []).slice(0, limit);
-  if (!ids.length) return { listing_ids: [], evidence: row.evidence, listings: [] };
+  if (!ids.length) return { listing_ids: [] as string[], evidence: row.evidence, listings: [] as Json[] };
   const { data: ls } = await sb.from("listings").select("*").in("id", ids);
-  const byId = new Map<string, unknown>();
-  for (const l of (ls ?? []) as { id: string }[]) byId.set(l.id, l);
+  const byId = new Map<string, Json>();
+  for (const l of (ls ?? []) as Array<{ id: string } & Record<string, Json>>) byId.set(l.id, l as unknown as Json);
   return {
     listing_ids: ids,
     evidence: row.evidence,
-    listings: ids.map((id) => byId.get(id)).filter(Boolean),
+    listings: ids.map((id) => byId.get(id)).filter((v): v is Json => Boolean(v)),
   };
 }
 
