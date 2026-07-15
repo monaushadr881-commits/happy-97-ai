@@ -60,7 +60,7 @@ export type Seo = z.infer<typeof seoSchema>;
 export type Section = {
   id: string;
   type: SectionType;
-  props: Record<string, unknown>;
+  props?: Record<string, unknown>;
   children?: Section[];
 };
 export const sectionSchema: z.ZodType<Section> = z.lazy(() =>
