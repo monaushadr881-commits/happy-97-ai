@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -23,11 +24,14 @@ import {
   Users2,
   ShoppingBag,
   MapPin,
+  Instagram,
 } from "lucide-react";
 import hpLogoAsset from "@/assets/hp-logo.png.asset.json";
 import happyAiLogoAsset from "@/assets/happy-ai-logo.png.asset.json";
 import appQrAsset from "@/assets/happyx-app-qr.png.asset.json";
-import waQrAsset from "@/assets/happyx-whatsapp-qr.jpg.asset.json";
+import instagramQrAsset from "@/assets/happy-instagram-qr.png.asset.json";
+
+const HAPPY_INSTAGRAM_USERNAME = "@happy_official_97";
 import { HappyAvatar } from "@/components/digital-human/HappyAvatar";
 import { BusinessWebsites } from "@/components/happyx/BusinessWebsites";
 
@@ -1170,14 +1174,21 @@ function PhoneMock() {
         title="Download HAPPY App"
         subtitle="Scan · iOS & Android"
         src={appQrAsset.url}
-        alt="Scan to download the HAPPY mobile app"
+        alt="Scan the AAS PAAS app QR to download HAPPY"
       />
       <QrCard
-        title="Chat on WhatsApp"
-        subtitle="Talk to HAPPY instantly"
-        src={waQrAsset.url}
-        alt="Scan to chat with HAPPY on WhatsApp"
+        title={<>Follow HAPPY<br />on Instagram</>}
+        subtitle="Scan Instagram QR"
+        src={instagramQrAsset.url}
+        alt="Scan to follow HAPPY on Instagram"
         variant="light"
+        icon={<Instagram className="h-7 w-7 text-gold" strokeWidth={1.6} />}
+        footer={
+          <>
+            <span className="text-paper/70">Follow us on Instagram</span>
+            <span className="font-display text-gold">{HAPPY_INSTAGRAM_USERNAME}</span>
+          </>
+        }
       />
     </div>
   );
@@ -1189,12 +1200,16 @@ function QrCard({
   src,
   alt,
   variant = "dark",
+  icon,
+  footer,
 }: {
-  title: string;
+  title: React.ReactNode;
   subtitle: string;
   src: string;
   alt: string;
   variant?: "dark" | "light";
+  icon?: React.ReactNode;
+  footer?: React.ReactNode;
 }) {
   return (
     <div className="group relative">
@@ -1209,7 +1224,7 @@ function QrCard({
               {title}
             </div>
           </div>
-          <LogoMark size={28} />
+          {icon ?? <LogoMark size={28} />}
         </div>
         <div
           className={`relative overflow-hidden rounded-2xl p-3 ${
@@ -1228,6 +1243,11 @@ function QrCard({
           {/* scan sweep */}
           <div className="pointer-events-none absolute inset-x-3 top-3 h-[2px] rounded-full bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 shadow-[0_0_18px_2px_rgba(212,175,55,0.6)] transition-opacity duration-300 group-hover:opacity-100 group-hover:animate-[qrscan_2.2s_ease-in-out_infinite]" />
         </div>
+        {footer && (
+          <div className="mt-4 flex items-center justify-between text-[11px] uppercase tracking-[0.22em]">
+            {footer}
+          </div>
+        )}
       </div>
       <style>{`
         @keyframes qrscan {
