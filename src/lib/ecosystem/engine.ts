@@ -182,7 +182,7 @@ export async function getCollectionWithItems(sb: SB, code: string, limit = 24) {
       .order("position", { ascending: true })
       .limit(limit);
     if (error) throw error;
-    listings = (data ?? []).map((r) => (r as { listing: unknown }).listing).filter(Boolean);
+    listings = (data ?? []).map((r) => (r as { listing: Json }).listing).filter(Boolean) as Json[];
   } else if (kind === "top_rated") {
     const { data, error } = await sb.from("listings")
       .select("*")
