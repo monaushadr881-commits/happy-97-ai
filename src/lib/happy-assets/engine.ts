@@ -24,7 +24,7 @@ export type ImportAssetVersionInput = {
   checksum_sha256: string;
   size_bytes: number;
   mime_type?: string;
-  meta?: Record<string, unknown>;
+  meta?: Record<string, any>;
   depends_on?: string[]; // asset_version_ids
 };
 
@@ -117,8 +117,8 @@ export async function validateManifest(
   if (ae) throw new Error(`assets_read_failed:${ae.message}`);
   const linked = (linkedRaw ?? []) as ManifestAssetLite[];
 
-  const rigMeta = (m.rig_meta as Record<string, unknown>) ?? {};
-  const skeletonMeta = (m.skeleton_meta as Record<string, unknown>) ?? {};
+  const rigMeta = (m.rig_meta as Record<string, any>) ?? {};
+  const skeletonMeta = (m.skeleton_meta as Record<string, any>) ?? {};
   const clips: string[] = Array.isArray(m.animation_set)
     ? (m.animation_set as unknown[]).map((c) =>
         typeof c === "string" ? c : ((c as { name?: string })?.name ?? ""),
@@ -201,7 +201,7 @@ export async function founderPanel(
     .eq("manifest_id", manifestId)
     .order("created_at", { ascending: false });
 
-  const latestByKind = new Map<string, Record<string, unknown>>();
+  const latestByKind = new Map<string, Record<string, any>>();
   for (const v of validations ?? []) if (!latestByKind.has(v.kind as string)) latestByKind.set(v.kind as string, v);
 
   const voicePresent = (linked ?? []).some((l) => l.role === "voice_profile");

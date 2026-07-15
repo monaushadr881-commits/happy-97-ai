@@ -15,7 +15,7 @@ import {
 export type ValidationResult = {
   status: ValidationStatus;
   missing: string[];
-  report: Record<string, unknown>;
+  report: Record<string, any>;
 };
 
 function statusFor(missingRequired: number, missingOptional: number): ValidationStatus {
