@@ -4243,6 +4243,149 @@ export type Database = {
           },
         ]
       }
+      listing_downloads: {
+        Row: {
+          artifact_path: string | null
+          buyer_id: string
+          created_at: string
+          id: string
+          ip_hash: string | null
+          listing_id: string
+          metadata: Json
+          purchase_id: string | null
+          user_agent: string | null
+          version: number
+        }
+        Insert: {
+          artifact_path?: string | null
+          buyer_id: string
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          listing_id: string
+          metadata?: Json
+          purchase_id?: string | null
+          user_agent?: string | null
+          version: number
+        }
+        Update: {
+          artifact_path?: string | null
+          buyer_id?: string
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          listing_id?: string
+          metadata?: Json
+          purchase_id?: string | null
+          user_agent?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_downloads_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_downloads_purchase_id_fkey"
+            columns: ["purchase_id"]
+            isOneToOne: false
+            referencedRelation: "listing_purchases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listing_purchases: {
+        Row: {
+          buyer_id: string
+          created_at: string
+          credit_ledger_id: string | null
+          currency: string
+          id: string
+          listing_id: string
+          metadata: Json
+          price_cents: number
+          price_credits: number
+          purchase_type: string
+          refunded_at: string | null
+          seller_id: string
+          status: string
+          transaction_id: string | null
+          updated_at: string
+          version_at_purchase: number
+          wallet_ledger_id: string | null
+        }
+        Insert: {
+          buyer_id: string
+          created_at?: string
+          credit_ledger_id?: string | null
+          currency?: string
+          id?: string
+          listing_id: string
+          metadata?: Json
+          price_cents?: number
+          price_credits?: number
+          purchase_type: string
+          refunded_at?: string | null
+          seller_id: string
+          status?: string
+          transaction_id?: string | null
+          updated_at?: string
+          version_at_purchase: number
+          wallet_ledger_id?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          created_at?: string
+          credit_ledger_id?: string | null
+          currency?: string
+          id?: string
+          listing_id?: string
+          metadata?: Json
+          price_cents?: number
+          price_credits?: number
+          purchase_type?: string
+          refunded_at?: string | null
+          seller_id?: string
+          status?: string
+          transaction_id?: string | null
+          updated_at?: string
+          version_at_purchase?: number
+          wallet_ledger_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_purchases_credit_ledger_id_fkey"
+            columns: ["credit_ledger_id"]
+            isOneToOne: false
+            referencedRelation: "credit_ledger_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_purchases_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_purchases_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_purchases_wallet_ledger_id_fkey"
+            columns: ["wallet_ledger_id"]
+            isOneToOne: false
+            referencedRelation: "wallet_ledger_entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       listing_reviews: {
         Row: {
           body: string | null
@@ -4278,72 +4421,202 @@ export type Database = {
           },
         ]
       }
+      listing_versions: {
+        Row: {
+          artifact_bytes: number | null
+          artifact_path: string | null
+          changelog: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          listing_id: string
+          metadata: Json
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          artifact_bytes?: number | null
+          artifact_path?: string | null
+          changelog?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          listing_id: string
+          metadata?: Json
+          updated_at?: string
+          version: number
+        }
+        Update: {
+          artifact_bytes?: number | null
+          artifact_path?: string | null
+          changelog?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          listing_id?: string
+          metadata?: Json
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_versions_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listing_wishlist: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_wishlist_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       listings: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
+          artifact_path: string | null
+          asset_type: string
           category: string | null
           company_id: string | null
           cover_url: string | null
           created_at: string
           created_by: string | null
           currency: string
+          current_version: number
           deleted_at: string | null
           description: string | null
+          download_count: number
+          favorite_count: number
           id: string
+          long_description: string | null
+          metadata: Json
+          preview_urls: Json
           price_cents: number
+          price_credits: number
           product_id: string | null
+          published_at: string | null
+          purchase_type: string
           rating_avg: number
           rating_count: number
+          rejected_reason: string | null
+          review_status: string
           seller_id: string
           slug: string
           status: Database["public"]["Enums"]["record_status"]
+          subscription_plan_id: string | null
+          tags: string[]
           title: string
           updated_at: string
           updated_by: string | null
           version: number
+          view_count: number
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          artifact_path?: string | null
+          asset_type?: string
           category?: string | null
           company_id?: string | null
           cover_url?: string | null
           created_at?: string
           created_by?: string | null
           currency?: string
+          current_version?: number
           deleted_at?: string | null
           description?: string | null
+          download_count?: number
+          favorite_count?: number
           id?: string
+          long_description?: string | null
+          metadata?: Json
+          preview_urls?: Json
           price_cents?: number
+          price_credits?: number
           product_id?: string | null
+          published_at?: string | null
+          purchase_type?: string
           rating_avg?: number
           rating_count?: number
+          rejected_reason?: string | null
+          review_status?: string
           seller_id: string
           slug: string
           status?: Database["public"]["Enums"]["record_status"]
+          subscription_plan_id?: string | null
+          tags?: string[]
           title: string
           updated_at?: string
           updated_by?: string | null
           version?: number
+          view_count?: number
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          artifact_path?: string | null
+          asset_type?: string
           category?: string | null
           company_id?: string | null
           cover_url?: string | null
           created_at?: string
           created_by?: string | null
           currency?: string
+          current_version?: number
           deleted_at?: string | null
           description?: string | null
+          download_count?: number
+          favorite_count?: number
           id?: string
+          long_description?: string | null
+          metadata?: Json
+          preview_urls?: Json
           price_cents?: number
+          price_credits?: number
           product_id?: string | null
+          published_at?: string | null
+          purchase_type?: string
           rating_avg?: number
           rating_count?: number
+          rejected_reason?: string | null
+          review_status?: string
           seller_id?: string
           slug?: string
           status?: Database["public"]["Enums"]["record_status"]
+          subscription_plan_id?: string | null
+          tags?: string[]
           title?: string
           updated_at?: string
           updated_by?: string | null
           version?: number
+          view_count?: number
         }
         Relationships: [
           {
@@ -4358,6 +4631,13 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listings_subscription_plan_id_fkey"
+            columns: ["subscription_plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
             referencedColumns: ["id"]
           },
         ]

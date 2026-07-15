@@ -658,3 +658,102 @@ builder logic is not duplicated.
 - SSL `active` state is unreachable without a real certificate; provider
   integration remains PLANNED and is labelled as such in every code path
   and notification body.
+
+## R16 — Enterprise Marketplace Runtime
+
+### WORKING
+- Listing lifecycle state machine on `listings.review_status`:
+  `draft → pending_review → approved → published → hidden | rejected | archived`,
+  enforced by CHECK constraint. `review_status` and `status` are kept in
+  sync (published → active; hidden → suspended; archived → archived).
+- 19 asset types + 6 purchase types (`free`, `one_time`, `subscription`,
+  `credits`, `wallet`, `enterprise`), CHECK-constrained.
+- Listing versioning via `listing_versions`; publishing a new version
+  bumps `listings.current_version` and notifies every buyer with an
+  active entitlement (`update_available`).
+- Purchase engine (`purchaseListing`) — real settlement paths:
+  - `free`  → instant entitlement.
+  - `credits` → `credits.consume` debit (idempotent by
+    `reference_type=listing`, `reference_id=listing_id`).
+  - `wallet`  → `wallet.postLedgerEntry` debit buyer / credit seller
+    (`marketplace_earning`), same-ref idempotent.
+  - `one_time` / `subscription` / `enterprise` → creates a PENDING
+    `marketplace_transactions` row. Entitlement only lands via
+    `settleMarketplacePurchase(transactionId)` when the transaction row
+    is `succeeded`. We never fabricate settled revenue.
+- Entitlement uniqueness: `UNIQUE (listing_id, buyer_id, version_at_purchase)`
+  guarantees a buyer can't be double-charged for the same version.
+- Download engine (`authorizeDownload`) — refuses without an active
+  purchase (seller and ops-admin exempt), writes an immutable
+  `listing_downloads` row (BEFORE UPDATE/DELETE trigger), increments
+  `download_count`. IP is stored as a day-bucketed hash — no raw IP PII.
+- Review engine — reviewer must have an active purchase; rating recomputes
+  `rating_avg` + `rating_count`; seller notified.
+- Approval flow (`submitForReview` → `approveListing` /
+  `rejectListing` / `hideListing`) — approval is ops-admin only, stamps
+  `approved_by`, `approved_at`, `published_at`; rejection stores
+  `rejected_reason`; seller notified on every transition.
+- Wishlist (`toggleWishlist`, `listWishlist`) with maintained
+  `favorite_count`.
+- Founder overview (`getMarketplaceOverview`) — counts by review state,
+  gross settled revenue in cents, purchase count, download count, top 10
+  by downloads, supported asset/purchase-type catalogs.
+- Notifications: `marketplace.listing_submitted / listing_approved /
+  listing_rejected / listing_hidden / purchase_pending / purchase_complete /
+  sale_complete / refund / refund_issued / update_available / review_received`.
+- Full RLS: buyers see only their purchases/downloads/wishlist; sellers
+  see their own listings + their sales; ops admin sees everything.
+  `listing_downloads` is DB-immutable.
+- Public catalog reads (`browseCatalog`, `getListing`) use the
+  publishable-key server client so shareable listing URLs work
+  unauthenticated — filtered strictly to `review_status = 'published'`.
+
+### PARTIAL
+- Subscription-priced listings capture the plan reference at listing time
+  but currently settle through the same PENDING-transaction path as
+  one_time; recurring lifecycle events land via the R9 subscription
+  engine — enrollment is not yet auto-bound to a listing purchase.
+- Storage-signed download URL: `authorizeDownload` returns the logical
+  `artifact_path`; a signed-URL step lands when the marketplace bucket
+  is provisioned.
+
+### PLANNED (honest, not faked)
+- Payment provider webhooks bridging to `settlePendingPurchase` for real
+  card / gateway settlement (Stripe/Razorpay/Paddle/Cashfree/PayPal
+  adapters remain PLANNED as documented in MASTER_STATUS).
+- Automated content scanning of uploaded artifacts before approval.
+- AI-driven "recommended listings" — surface exists in the founder
+  overview `topByDownloads`, but personalised recommendations are not
+  yet computed and are NOT faked.
+
+### Security
+- Buyers cannot access another buyer's purchase / download / wishlist —
+  RLS scoped by `auth.uid()`.
+- Download authorization double-enforced: RLS on `listing_downloads` +
+  `no_active_entitlement` in-code check.
+- Reviews require a real active purchase server-side.
+- Sellers cannot buy their own listing (in-code guard).
+- Ops-admin surfaces (`approveListingByFounder`, `rejectListingByFounder`,
+  `hideListingByFounder`, `getMarketplaceOverview`,
+  `refundListingPurchase`, `settleMarketplacePurchase`) gated by
+  `is_ops_admin`.
+- Marketplace revenue only counted when `listing_purchases.status =
+  'active'` — the pending-transaction path can NOT inflate revenue.
+
+### Files added
+- `supabase/migrations/<R16 marketplace>.sql`
+- `src/lib/marketplace/engine.ts`
+- `src/lib/marketplace/marketplace.functions.ts`
+
+### Files edited
+- `docs/STATUS.md`
+- `src/integrations/supabase/types.ts` (regenerated)
+
+### Final rule adherence
+- Real listings, real approvals, real free/credits/wallet purchases, real
+  downloads, real reviews — all persisted and RLS-scoped.
+- Payment-provider settlement is NOT certified as WORKING; the pending →
+  settle path exists and only flips a purchase to `active` after the
+  `marketplace_transactions` row is `succeeded` (which today only comes
+  from the R9 payments processor, not from a live provider webhook).
+- No fabricated recommendations, no fake balances, no mock listings.
