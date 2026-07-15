@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Json } from "@/integrations/supabase/types";
 import { leads, customers, deals, tasks, notes, activity, search, dashboard } from "./engine";
 
 const auth = () => createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]);
@@ -103,11 +104,11 @@ export const crmListNotes = auth()
   .handler(async ({ data, context }) => notes.list(context.supabase, data.entity_type, data.entity_id, data.limit));
 
 export const crmCreateNote = auth()
-  .inputValidator((d: { company_id: string; entity_type: "lead" | "customer" | "deal" | "company" | "contact"; entity_id: string; body: string; pinned?: boolean; attachments?: unknown[] }) => d)
+  .inputValidator((d: { company_id: string; entity_type: "lead" | "customer" | "deal" | "company" | "contact"; entity_id: string; body: string; pinned?: boolean; attachments?: Json[] }) => d)
   .handler(async ({ data, context }) => notes.create(context.supabase, context.userId, data));
 
 export const crmUpdateNote = auth()
-  .inputValidator((d: { id: string; patch: { body?: string; pinned?: boolean; attachments?: unknown[] } }) => d)
+  .inputValidator((d: { id: string; patch: { body?: string; pinned?: boolean; attachments?: Json[] } }) => d)
   .handler(async ({ data, context }) => notes.update(context.supabase, context.userId, data.id, data.patch));
 
 export const crmDeleteNote = auth()
