@@ -68,6 +68,402 @@ export type Database = {
           },
         ]
       }
+      agent_messages: {
+        Row: {
+          channel: string
+          company_id: string
+          content: string
+          created_at: string
+          from_agent_id: string | null
+          id: string
+          metadata: Json
+          role: string
+          task_id: string | null
+          to_agent_id: string | null
+          to_user_id: string | null
+        }
+        Insert: {
+          channel: string
+          company_id: string
+          content: string
+          created_at?: string
+          from_agent_id?: string | null
+          id?: string
+          metadata?: Json
+          role?: string
+          task_id?: string | null
+          to_agent_id?: string | null
+          to_user_id?: string | null
+        }
+        Update: {
+          channel?: string
+          company_id?: string
+          content?: string
+          created_at?: string
+          from_agent_id?: string | null
+          id?: string
+          metadata?: Json
+          role?: string
+          task_id?: string | null
+          to_agent_id?: string | null
+          to_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_messages_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_messages_from_agent_id_fkey"
+            columns: ["from_agent_id"]
+            isOneToOne: false
+            referencedRelation: "agent_registry"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_messages_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "agent_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_messages_to_agent_id_fkey"
+            columns: ["to_agent_id"]
+            isOneToOne: false
+            referencedRelation: "agent_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_metrics_daily: {
+        Row: {
+          agent_id: string
+          avg_duration_ms: number
+          company_id: string
+          created_at: string
+          day: string
+          id: string
+          tasks_escalated: number
+          tasks_failed: number
+          tasks_succeeded: number
+          tasks_total: number
+          tool_calls: number
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          avg_duration_ms?: number
+          company_id: string
+          created_at?: string
+          day: string
+          id?: string
+          tasks_escalated?: number
+          tasks_failed?: number
+          tasks_succeeded?: number
+          tasks_total?: number
+          tool_calls?: number
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          avg_duration_ms?: number
+          company_id?: string
+          created_at?: string
+          day?: string
+          id?: string
+          tasks_escalated?: number
+          tasks_failed?: number
+          tasks_succeeded?: number
+          tasks_total?: number
+          tool_calls?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_metrics_daily_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agent_registry"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_metrics_daily_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_registry: {
+        Row: {
+          active: boolean
+          allowed_actions: string[]
+          allowed_runtimes: string[]
+          capabilities: string[]
+          code: string
+          company_id: string | null
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          kind: string
+          max_concurrent: number
+          max_iterations: number
+          model: string
+          name: string
+          system_prompt: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          allowed_actions?: string[]
+          allowed_runtimes?: string[]
+          capabilities?: string[]
+          code: string
+          company_id?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          kind?: string
+          max_concurrent?: number
+          max_iterations?: number
+          model?: string
+          name: string
+          system_prompt?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          allowed_actions?: string[]
+          allowed_runtimes?: string[]
+          capabilities?: string[]
+          code?: string
+          company_id?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          kind?: string
+          max_concurrent?: number
+          max_iterations?: number
+          model?: string
+          name?: string
+          system_prompt?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_registry_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_tasks: {
+        Row: {
+          agent_id: string
+          brain_session_id: string | null
+          company_id: string
+          completed_at: string | null
+          context: Json
+          created_at: string
+          deadline_at: string | null
+          duration_ms: number | null
+          error: string | null
+          escalated_to: string | null
+          escalation_reason: string | null
+          goal: string
+          id: string
+          input: Json
+          iterations: number
+          parent_task_id: string | null
+          priority: number
+          requested_by: string | null
+          result: Json
+          started_at: string | null
+          status: string
+          task_type: string
+          updated_at: string
+          workflow_run_id: string | null
+        }
+        Insert: {
+          agent_id: string
+          brain_session_id?: string | null
+          company_id: string
+          completed_at?: string | null
+          context?: Json
+          created_at?: string
+          deadline_at?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          goal: string
+          id?: string
+          input?: Json
+          iterations?: number
+          parent_task_id?: string | null
+          priority?: number
+          requested_by?: string | null
+          result?: Json
+          started_at?: string | null
+          status?: string
+          task_type: string
+          updated_at?: string
+          workflow_run_id?: string | null
+        }
+        Update: {
+          agent_id?: string
+          brain_session_id?: string | null
+          company_id?: string
+          completed_at?: string | null
+          context?: Json
+          created_at?: string
+          deadline_at?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          goal?: string
+          id?: string
+          input?: Json
+          iterations?: number
+          parent_task_id?: string | null
+          priority?: number
+          requested_by?: string | null
+          result?: Json
+          started_at?: string | null
+          status?: string
+          task_type?: string
+          updated_at?: string
+          workflow_run_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_tasks_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agent_registry"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tasks_brain_session_id_fkey"
+            columns: ["brain_session_id"]
+            isOneToOne: false
+            referencedRelation: "brain_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tasks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tasks_escalated_to_fkey"
+            columns: ["escalated_to"]
+            isOneToOne: false
+            referencedRelation: "agent_registry"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tasks_parent_task_id_fkey"
+            columns: ["parent_task_id"]
+            isOneToOne: false
+            referencedRelation: "agent_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tasks_workflow_run_id_fkey"
+            columns: ["workflow_run_id"]
+            isOneToOne: false
+            referencedRelation: "auto_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_tool_calls: {
+        Row: {
+          action: string
+          agent_id: string | null
+          ai_recommendation: string | null
+          arguments: Json
+          company_id: string
+          created_at: string
+          duration_ms: number | null
+          error: string | null
+          id: string
+          result_facts: Json
+          runtime: string
+          status: string
+          task_id: string | null
+        }
+        Insert: {
+          action: string
+          agent_id?: string | null
+          ai_recommendation?: string | null
+          arguments?: Json
+          company_id: string
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          result_facts?: Json
+          runtime: string
+          status: string
+          task_id?: string | null
+        }
+        Update: {
+          action?: string
+          agent_id?: string | null
+          ai_recommendation?: string | null
+          arguments?: Json
+          company_id?: string
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          result_facts?: Json
+          runtime?: string
+          status?: string
+          task_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_tool_calls_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agent_registry"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tool_calls_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tool_calls_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "agent_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ai_knowledge_chunks: {
         Row: {
           chunk_index: number
