@@ -3181,6 +3181,411 @@ export type Database = {
           },
         ]
       }
+      bkp_artifacts: {
+        Row: {
+          checksum: string
+          created_at: string
+          id: string
+          job_id: string
+          metadata: Json
+          object_count: number
+          size_bytes: number
+          storage_ref: string | null
+          target: string
+        }
+        Insert: {
+          checksum: string
+          created_at?: string
+          id?: string
+          job_id: string
+          metadata?: Json
+          object_count?: number
+          size_bytes?: number
+          storage_ref?: string | null
+          target: string
+        }
+        Update: {
+          checksum?: string
+          created_at?: string
+          id?: string
+          job_id?: string
+          metadata?: Json
+          object_count?: number
+          size_bytes?: number
+          storage_ref?: string | null
+          target?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bkp_artifacts_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "bkp_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bkp_audit_events: {
+        Row: {
+          actor_id: string | null
+          id: string
+          kind: string
+          message: string
+          metadata: Json
+          occurred_at: string
+          ref_id: string | null
+          ref_type: string
+          severity: string
+        }
+        Insert: {
+          actor_id?: string | null
+          id?: string
+          kind: string
+          message: string
+          metadata?: Json
+          occurred_at?: string
+          ref_id?: string | null
+          ref_type: string
+          severity?: string
+        }
+        Update: {
+          actor_id?: string | null
+          id?: string
+          kind?: string
+          message?: string
+          metadata?: Json
+          occurred_at?: string
+          ref_id?: string | null
+          ref_type?: string
+          severity?: string
+        }
+        Relationships: []
+      }
+      bkp_jobs: {
+        Row: {
+          backup_type: string
+          checksum: string | null
+          compression: string | null
+          created_at: string
+          created_by: string | null
+          duration_ms: number | null
+          encryption_algo: string | null
+          error: string | null
+          finished_at: string | null
+          id: string
+          metadata: Json
+          object_count: number
+          parent_job_id: string | null
+          policy_id: string | null
+          size_bytes: number
+          started_at: string
+          status: string
+          storage_ref: string | null
+          target: string
+          trigger: string
+          updated_at: string
+          verification_checksum: string | null
+          verified_at: string | null
+        }
+        Insert: {
+          backup_type?: string
+          checksum?: string | null
+          compression?: string | null
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          encryption_algo?: string | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          metadata?: Json
+          object_count?: number
+          parent_job_id?: string | null
+          policy_id?: string | null
+          size_bytes?: number
+          started_at?: string
+          status?: string
+          storage_ref?: string | null
+          target: string
+          trigger?: string
+          updated_at?: string
+          verification_checksum?: string | null
+          verified_at?: string | null
+        }
+        Update: {
+          backup_type?: string
+          checksum?: string | null
+          compression?: string | null
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          encryption_algo?: string | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          metadata?: Json
+          object_count?: number
+          parent_job_id?: string | null
+          policy_id?: string | null
+          size_bytes?: number
+          started_at?: string
+          status?: string
+          storage_ref?: string | null
+          target?: string
+          trigger?: string
+          updated_at?: string
+          verification_checksum?: string | null
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bkp_jobs_parent_job_id_fkey"
+            columns: ["parent_job_id"]
+            isOneToOne: false
+            referencedRelation: "bkp_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bkp_jobs_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "bkp_policies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bkp_policies: {
+        Row: {
+          backup_type: string
+          compression: string
+          created_at: string
+          created_by: string | null
+          deduplication: boolean
+          description: string | null
+          enabled: boolean
+          encryption_algo: string
+          id: string
+          name: string
+          retention_daily: number
+          retention_monthly: number
+          retention_weekly: number
+          retention_yearly: number
+          schedule_cron: string | null
+          target_scope: string
+          updated_at: string
+        }
+        Insert: {
+          backup_type?: string
+          compression?: string
+          created_at?: string
+          created_by?: string | null
+          deduplication?: boolean
+          description?: string | null
+          enabled?: boolean
+          encryption_algo?: string
+          id?: string
+          name: string
+          retention_daily?: number
+          retention_monthly?: number
+          retention_weekly?: number
+          retention_yearly?: number
+          schedule_cron?: string | null
+          target_scope: string
+          updated_at?: string
+        }
+        Update: {
+          backup_type?: string
+          compression?: string
+          created_at?: string
+          created_by?: string | null
+          deduplication?: boolean
+          description?: string | null
+          enabled?: boolean
+          encryption_algo?: string
+          id?: string
+          name?: string
+          retention_daily?: number
+          retention_monthly?: number
+          retention_weekly?: number
+          retention_yearly?: number
+          schedule_cron?: string | null
+          target_scope?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bkp_recovery_drills: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          duration_ms: number | null
+          error: string | null
+          findings: Json
+          finished_at: string | null
+          id: string
+          plan_id: string
+          started_at: string
+          status: string
+          steps_result: Json
+          updated_at: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          findings?: Json
+          finished_at?: string | null
+          id?: string
+          plan_id: string
+          started_at?: string
+          status?: string
+          steps_result?: Json
+          updated_at?: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          findings?: Json
+          finished_at?: string | null
+          id?: string
+          plan_id?: string
+          started_at?: string
+          status?: string
+          steps_result?: Json
+          updated_at?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bkp_recovery_drills_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "bkp_recovery_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bkp_recovery_plans: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          enabled: boolean
+          id: string
+          last_drill_at: string | null
+          last_drill_status: string | null
+          name: string
+          owner_id: string | null
+          rpo_minutes: number
+          rto_minutes: number
+          steps: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          last_drill_at?: string | null
+          last_drill_status?: string | null
+          name: string
+          owner_id?: string | null
+          rpo_minutes?: number
+          rto_minutes?: number
+          steps?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          last_drill_at?: string | null
+          last_drill_status?: string | null
+          name?: string
+          owner_id?: string | null
+          rpo_minutes?: number
+          rto_minutes?: number
+          steps?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bkp_restore_jobs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          duration_ms: number | null
+          error: string | null
+          finished_at: string | null
+          id: string
+          metadata: Json
+          mode: string
+          restored_objects: number
+          scope: Json
+          source_job_id: string | null
+          started_at: string
+          status: string
+          target: string
+          updated_at: string
+          verification_checksum: string | null
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          metadata?: Json
+          mode?: string
+          restored_objects?: number
+          scope?: Json
+          source_job_id?: string | null
+          started_at?: string
+          status?: string
+          target: string
+          updated_at?: string
+          verification_checksum?: string | null
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          metadata?: Json
+          mode?: string
+          restored_objects?: number
+          scope?: Json
+          source_job_id?: string | null
+          started_at?: string
+          status?: string
+          target?: string
+          updated_at?: string
+          verification_checksum?: string | null
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bkp_restore_jobs_source_job_id_fkey"
+            columns: ["source_job_id"]
+            isOneToOne: false
+            referencedRelation: "bkp_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bom_items: {
         Row: {
           bom_id: string

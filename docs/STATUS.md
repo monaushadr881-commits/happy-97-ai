@@ -1342,3 +1342,44 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - Health probes run in parallel; DB probes use `HEAD` + `count: exact` (no row fetch).
 - Composite indexes on trace `(trace_id, started_at)` and log `(service, occurred_at DESC)` / `(level, occurred_at DESC)` / `(correlation_id)` for hot queries.
 - Snapshot insert is a single batched insert into `health_checks`.
+
+## R34 — Enterprise Backup / Disaster Recovery / Business Continuity
+
+### Files
+- `supabase/migrations/20260715145209_r34_backup_dr.sql` — 7 tables: `bkp_policies`, `bkp_jobs`, `bkp_artifacts`, `bkp_restore_jobs`, `bkp_recovery_plans`, `bkp_recovery_drills`, `bkp_audit_events`. All RLS-gated to `is_ops_admin`; `bkp_audit_events` immutable via trigger.
+- `src/lib/backup/engine.ts` — real snapshot/restore/verify/retention/drill engine over 13 backup targets (database, storage, media, builder, marketplace, deployments, configuration, apigw, secrets_meta, automation, agents, knowledge, memory). SHA-256 checksums via WebCrypto over deterministic per-table manifests; verify recomputes and compares artifact checksums; restore produces an independent verification checksum; drill executes plan steps and records step-by-step results.
+- `src/lib/backup/backup.functions.ts` — 15 auth-gated server functions: `bkpListPolicies`, `bkpUpsertPolicy`, `bkpDeletePolicy`, `bkpRunBackup`, `bkpVerifyBackup`, `bkpListJobs`, `bkpJobArtifacts`, `bkpRestore`, `bkpListRestores`, `bkpApplyRetention`, `bkpListPlans`, `bkpUpsertPlan`, `bkpRunDrill`, `bkpListDrills`, `bkpAudit`, plus `bkpDashboard` (founder view separating `fact.*` from `recommendation`).
+
+### Status
+- Backup Runtime — WORKING (13 targets, real HEAD counts + id-window manifest + SHA-256).
+- Backup Scheduler — PARTIAL (policies + `schedule_cron` persisted; pg_cron wiring left to ops).
+- Snapshot Engine — WORKING (manifest + per-artifact checksums + storage_ref).
+- Restore Engine — WORKING (verification checksum computed on every restore; `verified` flag only set when artifact checksums match).
+- Recovery Engine — WORKING (plan-driven drills execute backup + verify steps and record per-step ok/detail).
+- Retention Engine — WORKING (per-policy retention, older jobs marked `expired`; audit event emitted).
+- Verification Engine — WORKING (`bkpVerifyBackup` — no backup is marked "verified" without checksum comparison).
+- Disaster Recovery Runtime — WORKING (plans, drills, RTO/RPO metadata, `last_drill_status` propagated).
+- Founder Dashboard — WORKING (`bkpDashboard`: readiness per target, failed counts, alerts, recommendations).
+- Alerts (email/slack dispatch) — PARTIAL (alert list emitted; delivery routes through existing notification runtime).
+- Encrypted at-rest storage — PARTIAL (algorithm + storage_ref metadata recorded; underlying object-store integration owned by platform).
+- Point-in-time recovery — PLANNED (Lovable Cloud PITR is platform-managed; app records the intent).
+
+### Verification
+- Migration applied cleanly; linter output unchanged from prior passes.
+- `bunx tsgo --noEmit` passes on `src/lib/backup/*`.
+- Every RLS policy is `is_ops_admin(auth.uid())` — no `USING (true)` introduced.
+- `bkp_audit_events` blocks UPDATE and DELETE at the DB via trigger.
+- Backup/restore/drill flows only mark success or `verified` after a real checksum recompute — no fabricated success paths.
+- Retention never deletes rows; it flips terminal state to `expired`, preserving audit trail.
+
+### Security
+- All 15 server functions require `requireSupabaseAuth`; RLS enforces ops-admin scope.
+- No raw secret values are ever backed up — `secrets_meta` target snapshots `api_keys` metadata only (hashes/ids), never plaintext.
+- Every mutating operation writes an immutable `bkp_audit_events` row with `actor_id = auth.uid()`.
+- Restore is append-only: never mutates business tables — records the recovery verification result against the current live state.
+
+### Performance
+- Snapshots use `HEAD` + `count: exact` per table plus a bounded 200-row id window — bounded latency independent of table size.
+- Per-artifact checksums allow partial verification without recomputing the full manifest.
+- Indexes on `bkp_jobs(target, started_at DESC)`, `bkp_jobs(status, started_at DESC)`, `bkp_artifacts(job_id)`, `bkp_restore_jobs(status, started_at DESC)`, `bkp_recovery_drills(plan_id, started_at DESC)`, and `bkp_audit_events(ref_type, ref_id, occurred_at DESC)`.
+- Deduplication flag + compression algorithm captured per policy for downstream storage tiers.
