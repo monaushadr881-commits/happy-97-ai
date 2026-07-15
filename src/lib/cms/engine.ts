@@ -68,7 +68,7 @@ function slugify(input: string): string {
 }
 
 async function loadContent(sb: SB, id: string) {
-  const { data, error } = await sb.from("cms_contents").select("*").eq("id", id).maybeSingle();
+  const { data, error } = await sb.from("cms_contents").select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").eq("id", id).maybeSingle();
   if (error) throw error;
   if (!data) throw new Error("cms.not_found");
   return data;
@@ -125,7 +125,7 @@ export async function createContent(sb: SB, userId: string, input: CreateContent
     metadata: (input.metadata ?? {}) as never,
     parent_id: input.parent_id ?? null,
     status: "draft",
-  }).select("*").single();
+  }).select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").single();
   if (error) throw error;
   await snapshot(sb, data.id, "initial draft", userId);
   await audit(sb, "content.created", data.id, { type: data.type, slug: data.slug });
@@ -162,7 +162,7 @@ export async function updateContent(sb: SB, userId: string, id: string, patch: U
   if (patch.tags !== undefined) upd.tags = patch.tags;
   if (patch.seo !== undefined) upd.seo = patch.seo;
   if (patch.metadata !== undefined) upd.metadata = patch.metadata;
-  const { data, error } = await sb.from("cms_contents").update(upd as never).eq("id", id).select("*").single();
+  const { data, error } = await sb.from("cms_contents").update(upd as never).eq("id", id).select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").single();
   if (error) throw error;
   await audit(sb, "content.updated", id, { version: nextVersion });
   await notify(sb, userId, "cms.content_updated", "Content updated", `${data.title} was edited (v${nextVersion}).`, { content_id: id, version: nextVersion });
@@ -209,7 +209,7 @@ export async function archiveContent(sb: SB, userId: string, id: string) {
   await snapshot(sb, id, "archive", userId);
   const { data, error } = await sb.from("cms_contents")
     .update({ status: "archived", archived_at: new Date().toISOString() })
-    .eq("id", id).select("*").single();
+    .eq("id", id).select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").single();
   if (error) throw error;
   await audit(sb, "content.archived", id, {});
   return data;
@@ -219,7 +219,7 @@ export async function restoreContent(sb: SB, userId: string, id: string) {
   await snapshot(sb, id, "restore", userId);
   const { data, error } = await sb.from("cms_contents")
     .update({ status: "draft", archived_at: null })
-    .eq("id", id).select("*").single();
+    .eq("id", id).select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").single();
   if (error) throw error;
   await audit(sb, "content.restored", id, {});
   return data;
@@ -240,7 +240,7 @@ async function transition(sb: SB, userId: string, id: string, next: WorkflowStat
   await snapshot(sb, id, `->${next}${note ? `: ${note}` : ""}`, userId);
   const { data, error } = await sb.from("cms_contents")
     .update({ status: next, ...patch })
-    .eq("id", id).select("*").single();
+    .eq("id", id).select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").single();
   if (error) throw error;
   await audit(sb, `content.${next}`, id, { from: before.status, to: next });
   return data;
@@ -323,7 +323,7 @@ export async function restoreRevision(sb: SB, userId: string, contentId: string,
     metadata: snap.metadata as never,
     version: current.version + 1,
     editor_id: userId,
-  }).eq("id", contentId).select("*").single();
+  }).eq("id", contentId).select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").single();
   if (error) throw error;
   await audit(sb, "content.restored_revision", contentId, { from_version: version });
   return data;
