@@ -204,7 +204,7 @@ export const financialService = defineService({ name: "financial", version: "v1"
         reference_id: p.reference_id ?? null,
         description: p.description ?? null,
         expires_at: p.expires_at ?? null,
-        metadata: p.metadata ?? {},
+        metadata: (p.metadata ?? {}) as never,
         created_by: ctx.userId ?? null,
       })
       .select("*")
