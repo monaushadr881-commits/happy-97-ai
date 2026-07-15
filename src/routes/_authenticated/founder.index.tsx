@@ -22,6 +22,8 @@ import {
   opsHealthAll, opsDeploymentAnalytics, opsQueueStats, opsSecuritySummary,
 } from "@/lib/ops-v1.functions";
 import { revOverview } from "@/lib/revenue-v1.functions";
+import { finFounderOverview } from "@/lib/financial-v1.functions";
+
 import {
   Building2, Users, Sparkles, Activity, ShieldCheck, Rocket,
   ListChecks, AlertTriangle, MessageSquare, Bell, RefreshCw,
@@ -96,6 +98,8 @@ function FounderOverview() {
   const security = useQuery({ queryKey: ["founder", "security"], queryFn: () => opsSecuritySummary() });
   const audit = useQuery({ queryKey: ["founder", "audit"], queryFn: () => apiRecentAudit({ data: { limit: 12 } }) });
   const revenue = useQuery({ queryKey: ["founder", "revenue"], queryFn: () => revOverview(), refetchInterval: 60_000 });
+  const finances = useQuery({ queryKey: ["founder", "financial"], queryFn: () => finFounderOverview(), refetchInterval: 60_000 });
+
 
   const rv = revenue.data;
   const rvCur = rv?.currency ?? "USD";
@@ -159,8 +163,12 @@ function FounderOverview() {
         <StatCard label="Refunds (30d)" value={fmtMoney(rv?.refunds30dCents)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
         <StatCard label="Open Invoices" value={fmtCount(rv?.invoicesOpen ?? null)} icon={<Receipt className="h-4 w-4" aria-hidden="true" />} />
         <StatCard label="Overdue" value={fmtCount(rv?.invoicesOverdue ?? null)} icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />} />
-        <StatCard label="Wallet Balance" value={fmtMoney(rv?.walletBalanceCents)} icon={<Wallet className="h-4 w-4" aria-hidden="true" />} />
-        <StatCard label="Credits" value={fmtCount(rv?.creditsBalance)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Wallet Volume" value={fmtMoney(finances.data?.walletVolumeCents ?? null)} icon={<Wallet className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Credits Outstanding" value={fmtCount(finances.data?.creditsOutstanding ?? null)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Active Subscriptions" value={fmtCount(finances.data?.subscriptions?.active ?? null)} icon={<Receipt className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Trials" value={fmtCount(finances.data?.subscriptions?.trial ?? null)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Renewals (30d)" value={fmtCount(finances.data?.subscriptions?.renewalsUpcoming30d ?? null)} icon={<TrendingUp className="h-4 w-4" aria-hidden="true" />} />
+
       </section>
 
       {overview.isError && (
