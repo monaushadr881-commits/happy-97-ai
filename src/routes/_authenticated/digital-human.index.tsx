@@ -266,7 +266,7 @@ function DhConversation() {
       <div className="grid gap-4 lg:grid-cols-[20rem_1fr]">
         <div className="space-y-4">
           <Panel className="p-6 flex flex-col items-center">
-            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} />
+            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} amplitude={speechAmp} />
             <div className="mt-4 flex items-center gap-2 flex-wrap justify-center">
               <Chip tone="gold">HAPPY · {MODE_LABEL[mode]}</Chip>
               <Chip tone={stateChipTone}>{STATE_LABEL[convoState]}</Chip>
