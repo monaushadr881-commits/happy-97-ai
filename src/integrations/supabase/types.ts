@@ -1944,6 +1944,54 @@ export type Database = {
           },
         ]
       }
+      credit_ledger_entries: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          description: string | null
+          direction: Database["public"]["Enums"]["ledger_direction"]
+          entry_type: Database["public"]["Enums"]["credit_entry_type"]
+          expires_at: string | null
+          id: string
+          metadata: Json
+          owner_id: string
+          owner_type: Database["public"]["Enums"]["wallet_owner_type"]
+          reference_id: string | null
+          reference_type: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          direction: Database["public"]["Enums"]["ledger_direction"]
+          entry_type: Database["public"]["Enums"]["credit_entry_type"]
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          owner_id: string
+          owner_type: Database["public"]["Enums"]["wallet_owner_type"]
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          direction?: Database["public"]["Enums"]["ledger_direction"]
+          entry_type?: Database["public"]["Enums"]["credit_entry_type"]
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          owner_id?: string
+          owner_type?: Database["public"]["Enums"]["wallet_owner_type"]
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Relationships: []
+      }
       cron_runs: {
         Row: {
           created_at: string
@@ -4743,6 +4791,63 @@ export type Database = {
         }
         Relationships: []
       }
+      plans: {
+        Row: {
+          billing_interval: Database["public"]["Enums"]["billing_interval"]
+          code: string
+          created_at: string
+          credits_included: number
+          currency: string
+          features: Json
+          id: string
+          is_active: boolean
+          metadata: Json
+          name: string
+          price_cents: number
+          seats_included: number
+          sort_order: number
+          tier: Database["public"]["Enums"]["plan_tier"]
+          trial_days: number
+          updated_at: string
+        }
+        Insert: {
+          billing_interval?: Database["public"]["Enums"]["billing_interval"]
+          code: string
+          created_at?: string
+          credits_included?: number
+          currency?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          name: string
+          price_cents?: number
+          seats_included?: number
+          sort_order?: number
+          tier?: Database["public"]["Enums"]["plan_tier"]
+          trial_days?: number
+          updated_at?: string
+        }
+        Update: {
+          billing_interval?: Database["public"]["Enums"]["billing_interval"]
+          code?: string
+          created_at?: string
+          credits_included?: number
+          currency?: string
+          features?: Json
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          name?: string
+          price_cents?: number
+          seats_included?: number
+          sort_order?: number
+          tier?: Database["public"]["Enums"]["plan_tier"]
+          trial_days?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           author_id: string
@@ -5945,6 +6050,136 @@ export type Database = {
           },
         ]
       }
+      subscription_events: {
+        Row: {
+          actor_id: string | null
+          event_type: Database["public"]["Enums"]["subscription_event_type"]
+          from_plan_id: string | null
+          id: string
+          metadata: Json
+          occurred_at: string
+          subscription_id: string
+          to_plan_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          event_type: Database["public"]["Enums"]["subscription_event_type"]
+          from_plan_id?: string | null
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          subscription_id: string
+          to_plan_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          event_type?: Database["public"]["Enums"]["subscription_event_type"]
+          from_plan_id?: string | null
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          subscription_id?: string
+          to_plan_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_events_from_plan_id_fkey"
+            columns: ["from_plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscription_events_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscription_events_to_plan_id_fkey"
+            columns: ["to_plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          auto_renew: boolean
+          cancel_at: string | null
+          cancelled_at: string | null
+          company_id: string
+          created_at: string
+          currency: string
+          current_period_end: string | null
+          current_period_start: string
+          id: string
+          metadata: Json
+          plan_id: string
+          provider: string | null
+          provider_ref: string | null
+          seats: number
+          status: Database["public"]["Enums"]["subscription_status"]
+          trial_ends_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          auto_renew?: boolean
+          cancel_at?: string | null
+          cancelled_at?: string | null
+          company_id: string
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          current_period_start?: string
+          id?: string
+          metadata?: Json
+          plan_id: string
+          provider?: string | null
+          provider_ref?: string | null
+          seats?: number
+          status?: Database["public"]["Enums"]["subscription_status"]
+          trial_ends_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          auto_renew?: boolean
+          cancel_at?: string | null
+          cancelled_at?: string | null
+          company_id?: string
+          created_at?: string
+          currency?: string
+          current_period_end?: string | null
+          current_period_start?: string
+          id?: string
+          metadata?: Json
+          plan_id?: string
+          provider?: string | null
+          provider_ref?: string | null
+          seats?: number
+          status?: Database["public"]["Enums"]["subscription_status"]
+          trial_ends_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       suppliers: {
         Row: {
           address: Json
@@ -6174,6 +6409,99 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      wallet_ledger_entries: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          created_by: string | null
+          currency: string
+          description: string | null
+          direction: Database["public"]["Enums"]["ledger_direction"]
+          entry_type: Database["public"]["Enums"]["wallet_entry_type"]
+          id: string
+          metadata: Json
+          reference_id: string | null
+          reference_type: string | null
+          wallet_id: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          direction: Database["public"]["Enums"]["ledger_direction"]
+          entry_type: Database["public"]["Enums"]["wallet_entry_type"]
+          id?: string
+          metadata?: Json
+          reference_id?: string | null
+          reference_type?: string | null
+          wallet_id: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          direction?: Database["public"]["Enums"]["ledger_direction"]
+          entry_type?: Database["public"]["Enums"]["wallet_entry_type"]
+          id?: string
+          metadata?: Json
+          reference_id?: string | null
+          reference_type?: string | null
+          wallet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_ledger_entries_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "v_wallet_balances"
+            referencedColumns: ["wallet_id"]
+          },
+          {
+            foreignKeyName: "wallet_ledger_entries_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallets: {
+        Row: {
+          created_at: string
+          currency: string
+          id: string
+          is_active: boolean
+          metadata: Json
+          owner_id: string
+          owner_type: Database["public"]["Enums"]["wallet_owner_type"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          owner_id: string
+          owner_type: Database["public"]["Enums"]["wallet_owner_type"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          owner_id?: string
+          owner_type?: Database["public"]["Enums"]["wallet_owner_type"]
+          updated_at?: string
         }
         Relationships: []
       }
@@ -6534,7 +6862,28 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_credit_balances: {
+        Row: {
+          balance: number | null
+          entry_count: number | null
+          last_entry_at: string | null
+          owner_id: string | null
+          owner_type: Database["public"]["Enums"]["wallet_owner_type"] | null
+        }
+        Relationships: []
+      }
+      v_wallet_balances: {
+        Row: {
+          balance_cents: number | null
+          currency: string | null
+          entry_count: number | null
+          last_entry_at: string | null
+          owner_id: string | null
+          owner_type: Database["public"]["Enums"]["wallet_owner_type"] | null
+          wallet_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       _hxp_attach_touch: { Args: { _tbl: unknown }; Returns: undefined }
@@ -6599,6 +6948,28 @@ export type Database = {
       alert_severity: "info" | "warning" | "critical"
       app_role: "founder" | "admin" | "enterprise" | "user"
       audit_severity: "info" | "notice" | "warning" | "critical"
+      billing_interval:
+        | "month"
+        | "quarter"
+        | "half_year"
+        | "year"
+        | "three_year"
+        | "five_year"
+        | "lifetime"
+      credit_entry_type:
+        | "purchase"
+        | "consume"
+        | "refund"
+        | "expire"
+        | "transfer_in"
+        | "transfer_out"
+        | "bonus"
+        | "referral"
+        | "admin_grant"
+        | "marketplace_usage"
+        | "ai_usage"
+        | "builder_usage"
+        | "automation_usage"
       deal_stage:
         | "lead"
         | "qualified"
@@ -6630,9 +7001,17 @@ export type Database = {
         | "void"
         | "refunded"
       job_status: "queued" | "running" | "succeeded" | "failed" | "cancelled"
+      ledger_direction: "credit" | "debit"
       membership_status: "invited" | "active" | "suspended" | "removed"
       notification_channel: "in_app" | "email" | "sms" | "push" | "webhook"
       payment_status: "pending" | "succeeded" | "failed" | "refunded"
+      plan_tier:
+        | "free"
+        | "starter"
+        | "professional"
+        | "business"
+        | "enterprise"
+        | "custom"
       record_status:
         | "draft"
         | "active"
@@ -6647,6 +7026,37 @@ export type Database = {
         | "workspace"
         | "department"
         | "team"
+      subscription_event_type:
+        | "created"
+        | "trial_started"
+        | "activated"
+        | "renewed"
+        | "upgraded"
+        | "downgraded"
+        | "paused"
+        | "resumed"
+        | "cancelled"
+        | "expired"
+        | "payment_failed"
+      subscription_status:
+        | "trial"
+        | "active"
+        | "paused"
+        | "past_due"
+        | "cancelled"
+        | "expired"
+      wallet_entry_type:
+        | "purchase"
+        | "refund"
+        | "reward"
+        | "referral"
+        | "adjustment"
+        | "marketplace_earning"
+        | "builder_earning"
+        | "consume"
+        | "payout"
+        | "chargeback"
+      wallet_owner_type: "user" | "company"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -6778,6 +7188,30 @@ export const Constants = {
       alert_severity: ["info", "warning", "critical"],
       app_role: ["founder", "admin", "enterprise", "user"],
       audit_severity: ["info", "notice", "warning", "critical"],
+      billing_interval: [
+        "month",
+        "quarter",
+        "half_year",
+        "year",
+        "three_year",
+        "five_year",
+        "lifetime",
+      ],
+      credit_entry_type: [
+        "purchase",
+        "consume",
+        "refund",
+        "expire",
+        "transfer_in",
+        "transfer_out",
+        "bonus",
+        "referral",
+        "admin_grant",
+        "marketplace_usage",
+        "ai_usage",
+        "builder_usage",
+        "automation_usage",
+      ],
       deal_stage: [
         "lead",
         "qualified",
@@ -6806,9 +7240,18 @@ export const Constants = {
       ],
       invoice_status: ["draft", "sent", "paid", "overdue", "void", "refunded"],
       job_status: ["queued", "running", "succeeded", "failed", "cancelled"],
+      ledger_direction: ["credit", "debit"],
       membership_status: ["invited", "active", "suspended", "removed"],
       notification_channel: ["in_app", "email", "sms", "push", "webhook"],
       payment_status: ["pending", "succeeded", "failed", "refunded"],
+      plan_tier: [
+        "free",
+        "starter",
+        "professional",
+        "business",
+        "enterprise",
+        "custom",
+      ],
       record_status: [
         "draft",
         "active",
@@ -6825,6 +7268,40 @@ export const Constants = {
         "department",
         "team",
       ],
+      subscription_event_type: [
+        "created",
+        "trial_started",
+        "activated",
+        "renewed",
+        "upgraded",
+        "downgraded",
+        "paused",
+        "resumed",
+        "cancelled",
+        "expired",
+        "payment_failed",
+      ],
+      subscription_status: [
+        "trial",
+        "active",
+        "paused",
+        "past_due",
+        "cancelled",
+        "expired",
+      ],
+      wallet_entry_type: [
+        "purchase",
+        "refund",
+        "reward",
+        "referral",
+        "adjustment",
+        "marketplace_earning",
+        "builder_earning",
+        "consume",
+        "payout",
+        "chargeback",
+      ],
+      wallet_owner_type: ["user", "company"],
     },
   },
 } as const
