@@ -523,11 +523,14 @@ function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMoti
           const wobble = 0.6 + 0.4 * Math.sin((tick / 6) + phase * Math.PI * 2);
           h = 18 + Math.min(1, ampRef.current) * 78 * wobble;
         } else if (listening) {
-          h = 22 + 30 * (0.5 + 0.5 * Math.sin((tick / 12) + phase * Math.PI * 2));
+          // Real mic RMS. Falls to a low idle shimmer when the user is silent.
+          const amp = Math.min(1, ampRef.current);
+          const shimmer = 0.5 + 0.5 * Math.sin((tick / 12) + phase * Math.PI * 2);
+          h = 14 + amp * 70 * (0.6 + 0.4 * shimmer) + (1 - amp) * 12 * shimmer;
         } else if (thinking) {
           h = 18 + 18 * (0.5 + 0.5 * Math.sin((tick / 20) + phase * Math.PI * 2));
         } else {
-          h = 12 + ((i * 37) % 20);
+          h = 10;
         }
         return (
           <span
