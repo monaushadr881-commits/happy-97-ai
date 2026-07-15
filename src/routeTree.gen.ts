@@ -226,6 +226,7 @@ import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
 import { Route as AuthenticatedBrainIndexRouteImport } from './routes/_authenticated/brain.index'
 import { Route as ApiDhTtsRouteImport } from './routes/api/dh.tts'
+import { Route as AuthenticatedWorkspaceHomeRouteImport } from './routes/_authenticated/workspace.home'
 import { Route as AuthenticatedWorkflowsRuntimeRouteImport } from './routes/_authenticated/workflows.runtime'
 import { Route as AuthenticatedWorkflowsMonitorRouteImport } from './routes/_authenticated/workflows.monitor'
 import { Route as AuthenticatedWorkflowsHistoryRouteImport } from './routes/_authenticated/workflows.history'
@@ -1590,6 +1591,12 @@ const ApiDhTtsRoute = ApiDhTtsRouteImport.update({
   path: '/api/dh/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedWorkspaceHomeRoute =
+  AuthenticatedWorkspaceHomeRouteImport.update({
+    id: '/home',
+    path: '/home',
+    getParentRoute: () => AuthenticatedWorkspaceRoute,
+  } as any)
 const AuthenticatedWorkflowsRuntimeRoute =
   AuthenticatedWorkflowsRuntimeRouteImport.update({
     id: '/runtime',
@@ -2945,7 +2952,7 @@ export interface FileRoutesByFullPath {
   '/widgets': typeof AuthenticatedWidgetsRoute
   '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/workforce': typeof AuthenticatedWorkforceRoute
-  '/workspace': typeof AuthenticatedWorkspaceRoute
+  '/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
@@ -3123,6 +3130,7 @@ export interface FileRoutesByFullPath {
   '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
+  '/workspace/home': typeof AuthenticatedWorkspaceHomeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/brain/': typeof AuthenticatedBrainIndexRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
@@ -3345,7 +3353,7 @@ export interface FileRoutesByTo {
   '/widgets': typeof AuthenticatedWidgetsRoute
   '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/workforce': typeof AuthenticatedWorkforceRoute
-  '/workspace': typeof AuthenticatedWorkspaceRoute
+  '/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
@@ -3523,6 +3531,7 @@ export interface FileRoutesByTo {
   '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
+  '/workspace/home': typeof AuthenticatedWorkspaceHomeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/brain': typeof AuthenticatedBrainIndexRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
@@ -3759,7 +3768,7 @@ export interface FileRoutesById {
   '/_authenticated/widgets': typeof AuthenticatedWidgetsRoute
   '/_authenticated/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/_authenticated/workforce': typeof AuthenticatedWorkforceRoute
-  '/_authenticated/workspace': typeof AuthenticatedWorkspaceRoute
+  '/_authenticated/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
   '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
   '/_authenticated/zen': typeof AuthenticatedZenRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
@@ -3937,6 +3946,7 @@ export interface FileRoutesById {
   '/_authenticated/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/_authenticated/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/_authenticated/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
+  '/_authenticated/workspace/home': typeof AuthenticatedWorkspaceHomeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/_authenticated/brain/': typeof AuthenticatedBrainIndexRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
@@ -4351,6 +4361,7 @@ export interface FileRouteTypes {
     | '/workflows/history'
     | '/workflows/monitor'
     | '/workflows/runtime'
+    | '/workspace/home'
     | '/api/dh/tts'
     | '/brain/'
     | '/business/'
@@ -4751,6 +4762,7 @@ export interface FileRouteTypes {
     | '/workflows/history'
     | '/workflows/monitor'
     | '/workflows/runtime'
+    | '/workspace/home'
     | '/api/dh/tts'
     | '/brain'
     | '/business'
@@ -5164,6 +5176,7 @@ export interface FileRouteTypes {
     | '/_authenticated/workflows/history'
     | '/_authenticated/workflows/monitor'
     | '/_authenticated/workflows/runtime'
+    | '/_authenticated/workspace/home'
     | '/api/dh/tts'
     | '/_authenticated/brain/'
     | '/_authenticated/business/'
@@ -6745,6 +6758,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/dh/tts'
       preLoaderRoute: typeof ApiDhTtsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/workspace/home': {
+      id: '/_authenticated/workspace/home'
+      path: '/home'
+      fullPath: '/workspace/home'
+      preLoaderRoute: typeof AuthenticatedWorkspaceHomeRouteImport
+      parentRoute: typeof AuthenticatedWorkspaceRoute
     }
     '/_authenticated/workflows/runtime': {
       id: '/_authenticated/workflows/runtime'
@@ -8849,6 +8869,20 @@ const AuthenticatedWorkflowsRouteWithChildren =
     AuthenticatedWorkflowsRouteChildren,
   )
 
+interface AuthenticatedWorkspaceRouteChildren {
+  AuthenticatedWorkspaceHomeRoute: typeof AuthenticatedWorkspaceHomeRoute
+}
+
+const AuthenticatedWorkspaceRouteChildren: AuthenticatedWorkspaceRouteChildren =
+  {
+    AuthenticatedWorkspaceHomeRoute: AuthenticatedWorkspaceHomeRoute,
+  }
+
+const AuthenticatedWorkspaceRouteWithChildren =
+  AuthenticatedWorkspaceRoute._addFileChildren(
+    AuthenticatedWorkspaceRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
@@ -9038,7 +9072,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedWidgetsRoute: typeof AuthenticatedWidgetsRoute
   AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRouteWithChildren
   AuthenticatedWorkforceRoute: typeof AuthenticatedWorkforceRoute
-  AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRoute
+  AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRouteWithChildren
   AuthenticatedWorkspacesRoute: typeof AuthenticatedWorkspacesRoute
   AuthenticatedZenRoute: typeof AuthenticatedZenRoute
   AuthenticatedEnterpriseAiIndexRoute: typeof AuthenticatedEnterpriseAiIndexRoute
@@ -9248,7 +9282,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedWidgetsRoute: AuthenticatedWidgetsRoute,
   AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRouteWithChildren,
   AuthenticatedWorkforceRoute: AuthenticatedWorkforceRoute,
-  AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRoute,
+  AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRouteWithChildren,
   AuthenticatedWorkspacesRoute: AuthenticatedWorkspacesRoute,
   AuthenticatedZenRoute: AuthenticatedZenRoute,
   AuthenticatedEnterpriseAiIndexRoute: AuthenticatedEnterpriseAiIndexRoute,

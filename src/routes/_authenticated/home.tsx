@@ -9,7 +9,7 @@ import { useWorkspace, workspaceForRoute, WORKSPACES } from "@/workspace";
 import { Star, Clock, Sparkles, Rocket, LayoutGrid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/_authenticated/workspace/home")({
+export const Route = createFileRoute("/_authenticated/home")({
   head: () => ({
     meta: [
       { title: "Workspace — HAPPY OS" },
