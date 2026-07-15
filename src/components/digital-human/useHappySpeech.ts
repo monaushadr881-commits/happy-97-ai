@@ -46,7 +46,7 @@ export function useHappySpeech() {
   const stopMeter = useCallback(() => {
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     rafRef.current = null;
-    setAmp(0);
+    clearSpeech();
   }, []);
 
   const stop = useCallback(() => {
@@ -72,8 +72,8 @@ export function useHappySpeech() {
         const gain = ctx.createGain();
         gain.gain.value = 1;
         const analyser = ctx.createAnalyser();
-        analyser.fftSize = 512;
-        analyser.smoothingTimeConstant = 0.6;
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.55;
         gain.connect(analyser);
         analyser.connect(ctx.destination);
         gainRef.current = gain;
@@ -82,8 +82,8 @@ export function useHappySpeech() {
       if (ctx.state === "suspended") await ctx.resume().catch(() => {});
 
       const analyser = analyserRef.current!;
-      const gain = gainRef.current!;
       const timeBuf = new Uint8Array(analyser.fftSize);
+      const freqBuf = new Uint8Array(analyser.frequencyBinCount);
 
       const tick = () => {
         analyser.getByteTimeDomainData(timeBuf);
@@ -93,9 +93,20 @@ export function useHappySpeech() {
           sum += s * s;
         }
         const rms = Math.sqrt(sum / timeBuf.length);
-        // Soft-shape: emphasize the middle of the range for expressive mouth motion.
         const shaped = Math.min(1, Math.pow(rms * 2.4, 0.85));
-        setAmp(shaped);
+
+        // Spectral centroid → normalised 0..1. Rough proxy for vowel
+        // brightness: closed/O sit low, E/AI sit high.
+        analyser.getByteFrequencyData(freqBuf);
+        let num = 0, den = 0;
+        for (let i = 0; i < freqBuf.length; i++) {
+          const w = freqBuf[i];
+          num += i * w;
+          den += w;
+        }
+        const centroid = den > 0 ? Math.min(1, (num / den) / freqBuf.length) : 0;
+
+        publishSpeech(shaped, centroid);
         if (speakingRef.current) rafRef.current = requestAnimationFrame(tick);
         else stopMeter();
       };
