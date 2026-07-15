@@ -7320,6 +7320,320 @@ export type Database = {
           },
         ]
       }
+      memory_access_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          company_id: string | null
+          id: string
+          memory_id: string | null
+          metadata: Json
+          occurred_at: string
+          reason: string | null
+          runtime: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          company_id?: string | null
+          id?: string
+          memory_id?: string | null
+          metadata?: Json
+          occurred_at?: string
+          reason?: string | null
+          runtime?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          company_id?: string | null
+          id?: string
+          memory_id?: string | null
+          metadata?: Json
+          occurred_at?: string
+          reason?: string | null
+          runtime?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_access_log_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "memory_access_log_memory_id_fkey"
+            columns: ["memory_id"]
+            isOneToOne: false
+            referencedRelation: "memory_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      memory_events: {
+        Row: {
+          actor_id: string | null
+          category: string | null
+          company_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          occurred_at: string
+          scope: string
+          severity: string
+          summary: string
+          user_id: string | null
+          workspace_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          category?: string | null
+          company_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          scope?: string
+          severity?: string
+          summary: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          category?: string | null
+          company_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          scope?: string
+          severity?: string
+          summary?: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "memory_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      memory_items: {
+        Row: {
+          access_count: number
+          archived: boolean
+          body: string
+          company_id: string | null
+          created_at: string
+          embedding: Json | null
+          entity_id: string | null
+          entity_type: string | null
+          expires_at: string | null
+          id: string
+          importance: number
+          kind: string
+          last_accessed_at: string | null
+          metadata: Json
+          pinned: boolean
+          scope: string
+          search_tsv: unknown
+          sensitivity: string
+          source: string | null
+          summary: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+          user_id: string | null
+          workspace_id: string | null
+        }
+        Insert: {
+          access_count?: number
+          archived?: boolean
+          body?: string
+          company_id?: string | null
+          created_at?: string
+          embedding?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          expires_at?: string | null
+          id?: string
+          importance?: number
+          kind: string
+          last_accessed_at?: string | null
+          metadata?: Json
+          pinned?: boolean
+          scope: string
+          search_tsv?: unknown
+          sensitivity?: string
+          source?: string | null
+          summary?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Update: {
+          access_count?: number
+          archived?: boolean
+          body?: string
+          company_id?: string | null
+          created_at?: string
+          embedding?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          expires_at?: string | null
+          id?: string
+          importance?: number
+          kind?: string
+          last_accessed_at?: string | null
+          metadata?: Json
+          pinned?: boolean
+          scope?: string
+          search_tsv?: unknown
+          sensitivity?: string
+          source?: string | null
+          summary?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_items_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "memory_items_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      memory_links: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          from_memory_id: string
+          id: string
+          link_kind: string
+          to_memory_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          from_memory_id: string
+          id?: string
+          link_kind?: string
+          to_memory_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          from_memory_id?: string
+          id?: string
+          link_kind?: string
+          to_memory_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_links_from_memory_id_fkey"
+            columns: ["from_memory_id"]
+            isOneToOne: false
+            referencedRelation: "memory_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "memory_links_to_memory_id_fkey"
+            columns: ["to_memory_id"]
+            isOneToOne: false
+            referencedRelation: "memory_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      memory_retention_policies: {
+        Row: {
+          active: boolean
+          archive_after_days: number | null
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          hard_delete: boolean
+          id: string
+          kind: string
+          max_age_days: number | null
+          max_items: number | null
+          scope: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          archive_after_days?: number | null
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          hard_delete?: boolean
+          id?: string
+          kind: string
+          max_age_days?: number | null
+          max_items?: number | null
+          scope: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          archive_after_days?: number | null
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          hard_delete?: boolean
+          id?: string
+          kind?: string
+          max_age_days?: number | null
+          max_items?: number | null
+          scope?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_retention_policies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string

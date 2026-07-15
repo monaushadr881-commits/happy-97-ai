@@ -1137,3 +1137,33 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - Every tool call records `result_facts` (observed) and `ai_recommendation` (advisory) in separate columns.
 - RLS enforces company isolation via `is_company_member`/`is_company_admin`; sessions readable only by owner or company admin.
 - Safety engine denies unauthenticated / cross-company access and blocks destructive tools without confirmation.
+
+## R28 — HAPPY Enterprise Memory Engine
+
+### Files
+- `supabase/migrations/*_r28_memory.sql` — 5 new tables (`memory_items`, `memory_events`, `memory_links`, `memory_retention_policies`, `memory_access_log`) with RLS scoped by `is_workspace_member`/`is_company_member`/`is_company_admin`; immutability triggers on `memory_events` and `memory_access_log`; full-text `search_tsv` on `memory_items`.
+- `src/lib/memory/engine.ts` — store/retrieve/list/search/update/archive/forget/merge/link, timeline events, context aggregator (personal + workspace + company), retention runner, ranking (importance × recency × pinned), audit logger.
+- `src/lib/memory/memory.functions.ts` — 14 auth-gated `createServerFn` endpoints (`memStore`, `memGet`, `memList`, `memSearch`, `memUpdate`, `memArchive`, `memForget`, `memMerge`, `memLink`, `memLogEvent`, `memTimeline`, `memContext`, `memRetentionUpsert`, `memRetentionApply`).
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Memory Runtime (store/retrieve/update/archive/forget/merge) | WORKING |
+| Memory Types (conversation/workspace/project/company/customer/builder/marketplace/crm/erp/finance/mfg/warehouse/deployment/founder/personal/ai) | WORKING |
+| Memory Index (GIN on `tags` + `search_tsv`; scope/kind/company/workspace/user indexes) | WORKING |
+| Search (keyword full-text via websearch operator + local rank) | WORKING |
+| Timeline (`memory_events` chronological + severity/category) | WORKING |
+| Ranking (importance × recency × pinned) | WORKING |
+| Context Aggregator (personal + workspace + company merge, FACT-only) | WORKING |
+| Retention Policies (max_age, archive_after, expires_at, hard_delete) | WORKING |
+| Audit (`memory_access_log`, immutable, read/store/update/archive/forget/merge/expire/search) | WORKING |
+| RBAC / RLS (personal=owner; workspace=members; company=members read + admins write) | WORKING |
+| Semantic Search (pgvector) | PLANNED — `embedding` column reserved |
+| Real-time push to Brain | PLANNED — R29 (Knowledge Gateway) |
+
+### Guarantees
+- Memory NEVER invents facts — all retrieval reads existing rows; context aggregator returns `retrieved_facts_only` with an explicit `note` separator.
+- User controls: `memForget` performs a hard delete and logs a `forget` audit entry with reason.
+- RLS enforces scope isolation; company memory requires admin to write, members to read; personal memory is owner-only.
+- `memory_events` and `memory_access_log` are DB-immutable (triggers reject UPDATE/DELETE).
+- Retention runner honors `pinned=true` (never archived/deleted automatically) and `expires_at`.
