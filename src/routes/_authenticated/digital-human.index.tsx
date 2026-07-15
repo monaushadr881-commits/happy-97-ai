@@ -195,6 +195,22 @@ function DhConversation() {
     if (abort.signal.aborted) return;
     setSessionId(res.session_id);
 
+    // Apply HAPPY tool client-actions (navigate, invalidate, toast).
+    type ClientAction =
+      | { type: "navigate"; to: string; label?: string }
+      | { type: "invalidate"; keys: string[]; label?: string }
+      | { type: "toast"; kind: "success" | "info" | "warning" | "error"; message: string };
+    const actions = ((res as { client_actions?: ClientAction[] }).client_actions ?? []);
+    for (const act of actions) {
+      if (act.type === "invalidate") {
+        for (const k of act.keys) qc.invalidateQueries({ queryKey: [k] });
+      } else if (act.type === "toast") {
+        toast[act.kind === "error" ? "error" : act.kind === "warning" ? "warning" : act.kind === "success" ? "success" : "info"](act.message);
+      }
+    }
+    // Navigate after speaking begins — schedule at end so it doesn't cut speech mid-sentence.
+    const navAction = actions.find((a): a is Extract<ClientAction, { type: "navigate" }> => a.type === "navigate");
+
     const { thinkMs } = timingProfileFor(intent, res.answer);
 
     const back = !prefs.mute_audio && intent !== "greeting" && intent !== "short"
