@@ -5308,51 +5308,176 @@ export type Database = {
           },
         ]
       }
+      project_domain_certificates: {
+        Row: {
+          created_at: string
+          domain_id: string
+          expires_at: string | null
+          fingerprint: string | null
+          id: string
+          issued_at: string | null
+          issuer: string | null
+          metadata: Json
+          renewed_from: string | null
+          serial: string | null
+          state: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          domain_id: string
+          expires_at?: string | null
+          fingerprint?: string | null
+          id?: string
+          issued_at?: string | null
+          issuer?: string | null
+          metadata?: Json
+          renewed_from?: string | null
+          serial?: string | null
+          state?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          domain_id?: string
+          expires_at?: string | null
+          fingerprint?: string | null
+          id?: string
+          issued_at?: string | null
+          issuer?: string | null
+          metadata?: Json
+          renewed_from?: string | null
+          serial?: string | null
+          state?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_domain_certificates_domain_id_fkey"
+            columns: ["domain_id"]
+            isOneToOne: false
+            referencedRelation: "project_domains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_domain_certificates_renewed_from_fkey"
+            columns: ["renewed_from"]
+            isOneToOne: false
+            referencedRelation: "project_domain_certificates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_domain_events: {
+        Row: {
+          created_at: string
+          domain_id: string
+          event_type: string
+          id: string
+          level: string
+          message: string | null
+          metadata: Json
+        }
+        Insert: {
+          created_at?: string
+          domain_id: string
+          event_type: string
+          id?: string
+          level?: string
+          message?: string | null
+          metadata?: Json
+        }
+        Update: {
+          created_at?: string
+          domain_id?: string
+          event_type?: string
+          id?: string
+          level?: string
+          message?: string | null
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_domain_events_domain_id_fkey"
+            columns: ["domain_id"]
+            isOneToOne: false
+            referencedRelation: "project_domains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_domains: {
         Row: {
           created_at: string
           dns_records: Json
+          dns_status: string
           hostname: string
           id: string
           is_primary: boolean
           last_checked_at: string | null
           metadata: Json
           project_id: string
+          redirect_rules: Json
+          ssl_expires_at: string | null
+          ssl_issued_at: string | null
+          ssl_issuer: string | null
+          ssl_last_error: string | null
+          ssl_serial: string | null
+          ssl_state: string
           ssl_status: string
-          status: Database["public"]["Enums"]["project_domain_status"]
+          status: string
           updated_at: string
           user_id: string
           verification_token: string | null
+          verified_at: string | null
         }
         Insert: {
           created_at?: string
           dns_records?: Json
+          dns_status?: string
           hostname: string
           id?: string
           is_primary?: boolean
           last_checked_at?: string | null
           metadata?: Json
           project_id: string
+          redirect_rules?: Json
+          ssl_expires_at?: string | null
+          ssl_issued_at?: string | null
+          ssl_issuer?: string | null
+          ssl_last_error?: string | null
+          ssl_serial?: string | null
+          ssl_state?: string
           ssl_status?: string
-          status?: Database["public"]["Enums"]["project_domain_status"]
+          status?: string
           updated_at?: string
           user_id: string
           verification_token?: string | null
+          verified_at?: string | null
         }
         Update: {
           created_at?: string
           dns_records?: Json
+          dns_status?: string
           hostname?: string
           id?: string
           is_primary?: boolean
           last_checked_at?: string | null
           metadata?: Json
           project_id?: string
+          redirect_rules?: Json
+          ssl_expires_at?: string | null
+          ssl_issued_at?: string | null
+          ssl_issuer?: string | null
+          ssl_last_error?: string | null
+          ssl_serial?: string | null
+          ssl_state?: string
           ssl_status?: string
-          status?: Database["public"]["Enums"]["project_domain_status"]
+          status?: string
           updated_at?: string
           user_id?: string
           verification_token?: string | null
+          verified_at?: string | null
         }
         Relationships: [
           {

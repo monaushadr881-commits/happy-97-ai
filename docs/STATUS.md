@@ -596,3 +596,65 @@ builder logic is not duplicated.
   strict RPC serializability check.
 - Deployments only marked WORKING for targets that produce a real artifact
   and honest URL. All external hosting providers stay PLANNED.
+
+## R15 — Domain & SSL Management Runtime
+
+### WORKING
+- Domain lifecycle: `pending → verification_required → verifying → verified
+  → active → suspended | expired | failed`, persisted on `project_domains`
+  with CHECK constraint enforcement.
+- Real DNS verification via DNS-over-HTTPS (Cloudflare 1.1.1.1). Checks
+  the `_hxp-verify.<host>` TXT token AND the `<host>` CNAME → platform
+  target. Marks `verified` only when both records match.
+- Immutable domain audit trail in `project_domain_events` (BEFORE
+  UPDATE/DELETE trigger). Every add / remove / verify / SSL request /
+  suspend / redirect update writes an event.
+- Certificate store `project_domain_certificates` with lifecycle state
+  (`pending / issued / active / renewing / expired / failed`) and renewal
+  chain via `renewed_from`.
+- Primary domain enforcement (single primary per project, requires
+  verified/active status).
+- Redirect rule storage (`redirect_rules` jsonb, validated 301/302).
+- Founder overview via `getDomainOverview`: counts by domain state, SSL
+  state, expiring-soon (< 30d), latest 25.
+- All 14 server functions behind `requireSupabaseAuth` with in-code
+  ownership re-checks; `getDomainOverview` and `suspendProjectDomain`
+  gated by `is_ops_admin`.
+- Notifications on `domain.added / verified / verification_failed /
+  removed / primary_set / suspended / ssl_requested / ssl_renewal_started`.
+
+### PARTIAL
+- DNS check only queries Cloudflare DoH. Multi-resolver quorum (Google,
+  Quad9) not yet implemented.
+
+### PLANNED (honest, not faked)
+- Real ACME/SSL provisioning (Let's Encrypt, ZeroSSL, Cloudflare). SSL is
+  recorded as `pending` and NEVER marked `active` without a real
+  certificate. `requestSsl` and `renewSsl` record intent + audit; no
+  fabricated `active` state, no fake serials.
+- Provider-specific DNS automation (Cloudflare/Route53/GoDaddy API).
+- Automatic renewal cron (safe to add once issuance is real).
+
+### Security
+- RLS on `project_domain_certificates` and `project_domain_events` scoped
+  by parent `project_domains.user_id` OR `is_ops_admin`.
+- Events are DB-immutable (trigger raises on UPDATE/DELETE).
+- Suspension is founder-only.
+- Only verified/active domains can be set primary or request SSL.
+
+### Files added
+- `supabase/migrations/<R15 columns + tables + events immutable>.sql`
+- `supabase/migrations/<R15 status widening>.sql`
+- `src/lib/domains/engine.ts`
+- `src/lib/domains/domains.functions.ts`
+
+### Files edited
+- `docs/STATUS.md`
+- `src/integrations/supabase/types.ts` (regenerated)
+
+### Final rule adherence
+- Domains marked `verified` only after real DNS-over-HTTPS confirmation
+  of the expected TXT + CNAME records.
+- SSL `active` state is unreachable without a real certificate; provider
+  integration remains PLANNED and is labelled as such in every code path
+  and notification body.
