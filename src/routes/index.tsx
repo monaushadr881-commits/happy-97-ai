@@ -1173,20 +1173,43 @@ function PhoneMock() {
         title="Download HAPPY App"
         subtitle="Scan · iOS & Android"
         src={appQrAsset.url}
-        alt="Scan to download the HAPPY mobile app"
+        alt="Scan the AAS PAAS app QR to download HAPPY"
       />
       <QrCard
-        title="Chat on WhatsApp"
-        subtitle="Talk to HAPPY instantly"
-        src={waQrAsset.url}
-        alt="Scan to chat with HAPPY on WhatsApp"
+        title={<>Follow HAPPY<br />on Instagram</>}
+        subtitle="Scan Instagram QR"
+        src={instagramQrAsset.url}
+        alt="Scan to follow HAPPY on Instagram"
         variant="light"
+        icon={<Instagram className="h-7 w-7 text-gold" strokeWidth={1.6} />}
+        footer={
+          <>
+            <span className="text-paper/70">Follow us on Instagram</span>
+            <span className="font-display text-gold">{HAPPY_INSTAGRAM_USERNAME}</span>
+          </>
+        }
       />
     </div>
   );
 }
 
 function QrCard({
+  title,
+  subtitle,
+  src,
+  alt,
+  variant = "dark",
+  icon,
+  footer,
+}: {
+  title: React.ReactNode;
+  subtitle: string;
+  src: string;
+  alt: string;
+  variant?: "dark" | "light";
+  icon?: React.ReactNode;
+  footer?: React.ReactNode;
+}) {
   title,
   subtitle,
   src,
