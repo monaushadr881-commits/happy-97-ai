@@ -22,6 +22,8 @@ import {
   opsHealthAll, opsDeploymentAnalytics, opsQueueStats, opsSecuritySummary,
 } from "@/lib/ops-v1.functions";
 import { revOverview } from "@/lib/revenue-v1.functions";
+import { finFounderOverview } from "@/lib/financial-v1.functions";
+
 import {
   Building2, Users, Sparkles, Activity, ShieldCheck, Rocket,
   ListChecks, AlertTriangle, MessageSquare, Bell, RefreshCw,
