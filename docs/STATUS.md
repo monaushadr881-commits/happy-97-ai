@@ -757,3 +757,67 @@ builder logic is not duplicated.
   `marketplace_transactions` row is `succeeded` (which today only comes
   from the R9 payments processor, not from a live provider webhook).
 - No fabricated recommendations, no fake balances, no mock listings.
+
+---
+
+## R17 — Enterprise CMS Runtime
+
+Unified content platform. Reused by Website Builder, App Builder, Marketplace,
+Digital Library, Razvi Academy, AAS PAAS, HP SHUDDH MASALE, Founder Dashboard.
+Reuses `notifications`, `audit_logs`, `media_assets`, and the shared RBAC
+helpers (`is_company_member`, `is_company_admin`, `is_platform_founder`).
+
+### WORKING
+- `cms_contents` CRUD with slug/locale uniqueness, ownership + company RLS,
+  founder bypass, public read of published+public rows, GIN full-text search
+  over title/excerpt/tags/categories (BEFORE trigger, immutable-safe).
+- Workflow state machine: draft → in_review → approved → scheduled → published,
+  plus archived / rejected / unpublish. Every transition snapshots the row.
+- `cms_revisions` immutable version history (UPDATE/DELETE trigger), list /
+  get / compare / restore. Restore bumps version, adds an "restore vN"
+  snapshot, keeps history intact.
+- Media library (`cms_media`) + hierarchical folders (`cms_media_folders`),
+  archive + delete, GIN tag index, kind-based filters, folder scoping.
+- Localization (`cms_translations`) — per-locale variants keyed to a parent
+  content row, upsert-by-conflict, status machine, translator attribution.
+- Notifications on: draft created, content updated, review requested,
+  approved, rejected, scheduled, published.
+- Audit trail on every state change and mutation via `write_audit`.
+- Founder overview: total / published / drafts / scheduled / pending_review /
+  media_count / storage_bytes / top authors / health.
+- Public reads via publishable-key server client (`cmsPublicGet`,
+  `cmsPublicList`) — no bearer needed, RLS scoped to public+published.
+- Cron tick `/api/public/cron/cms-publish` publishes ready scheduled items
+  (apikey-gated via SUPABASE_PUBLISHABLE_KEY).
+
+### PARTIAL
+- Search is Postgres FTS with `simple` config (no stemming); acceptable for
+  admin search + shortlists. Language-aware ranking is not wired.
+- Media upload happens against a URL / asset_id already produced elsewhere;
+  the CMS records metadata but does not itself sign storage uploads.
+- Folder path is derived from parent + slug; renaming/moving does not
+  cascade rewrites yet.
+
+### BLOCKED
+- None.
+
+### PLANNED
+- CMS admin UI (author workspace, media browser, review queue).
+- Signed storage upload URLs.
+- Search: pg_trgm fuzzy + per-locale text configs.
+- Reference tracking (which page uses which media) for safe delete.
+
+### Files Changed
+- `supabase/migrations/20260715120555_r17_cms.sql` — cms_contents,
+  cms_revisions, cms_media_folders, cms_media, cms_translations with RLS,
+  grants, triggers, FTS.
+- `src/lib/cms/engine.ts` — content, workflow, revisions, media, folders,
+  translations, founder overview, scheduled-publish tick.
+- `src/lib/cms/cms.functions.ts` — 27 auth-gated `createServerFn` endpoints
+  + `cmsPublicGet` / `cmsPublicList` (unauth) for shareable rendering.
+- `src/routes/api/public/cron/cms-publish.ts` — apikey-gated queue tick.
+- Regenerated `src/integrations/supabase/types.ts` via migration.
+
+### Final Rule
+CMS is marked WORKING only for the surfaces actually built end-to-end above.
+No admin UI is claimed — that ships in a later pass.

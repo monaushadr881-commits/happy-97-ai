@@ -1046,6 +1046,341 @@ export type Database = {
           },
         ]
       }
+      cms_contents: {
+        Row: {
+          archived_at: string | null
+          author_id: string
+          body: Json
+          categories: string[]
+          company_id: string | null
+          cover_url: string | null
+          created_at: string
+          editor_id: string | null
+          excerpt: string | null
+          id: string
+          locale: string
+          metadata: Json
+          parent_id: string | null
+          published_at: string | null
+          publisher_id: string | null
+          review_note: string | null
+          reviewer_id: string | null
+          scheduled_at: string | null
+          search_tsv: unknown
+          seo: Json
+          slug: string
+          status: string
+          tags: string[]
+          title: string
+          type: string
+          updated_at: string
+          version: number
+          visibility: string
+        }
+        Insert: {
+          archived_at?: string | null
+          author_id: string
+          body?: Json
+          categories?: string[]
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          editor_id?: string | null
+          excerpt?: string | null
+          id?: string
+          locale?: string
+          metadata?: Json
+          parent_id?: string | null
+          published_at?: string | null
+          publisher_id?: string | null
+          review_note?: string | null
+          reviewer_id?: string | null
+          scheduled_at?: string | null
+          search_tsv?: unknown
+          seo?: Json
+          slug: string
+          status?: string
+          tags?: string[]
+          title: string
+          type: string
+          updated_at?: string
+          version?: number
+          visibility?: string
+        }
+        Update: {
+          archived_at?: string | null
+          author_id?: string
+          body?: Json
+          categories?: string[]
+          company_id?: string | null
+          cover_url?: string | null
+          created_at?: string
+          editor_id?: string | null
+          excerpt?: string | null
+          id?: string
+          locale?: string
+          metadata?: Json
+          parent_id?: string | null
+          published_at?: string | null
+          publisher_id?: string | null
+          review_note?: string | null
+          reviewer_id?: string | null
+          scheduled_at?: string | null
+          search_tsv?: unknown
+          seo?: Json
+          slug?: string
+          status?: string
+          tags?: string[]
+          title?: string
+          type?: string
+          updated_at?: string
+          version?: number
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_contents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cms_contents_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "cms_contents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_media: {
+        Row: {
+          archived_at: string | null
+          asset_id: string | null
+          checksum: string | null
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          duration_seconds: number | null
+          folder_id: string | null
+          height: number | null
+          id: string
+          kind: string
+          metadata: Json
+          mime_type: string | null
+          name: string
+          size_bytes: number | null
+          tags: string[]
+          updated_at: string
+          url: string
+          version: number
+          width: number | null
+        }
+        Insert: {
+          archived_at?: string | null
+          asset_id?: string | null
+          checksum?: string | null
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          folder_id?: string | null
+          height?: number | null
+          id?: string
+          kind: string
+          metadata?: Json
+          mime_type?: string | null
+          name: string
+          size_bytes?: number | null
+          tags?: string[]
+          updated_at?: string
+          url: string
+          version?: number
+          width?: number | null
+        }
+        Update: {
+          archived_at?: string | null
+          asset_id?: string | null
+          checksum?: string | null
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          folder_id?: string | null
+          height?: number | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          mime_type?: string | null
+          name?: string
+          size_bytes?: number | null
+          tags?: string[]
+          updated_at?: string
+          url?: string
+          version?: number
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_media_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cms_media_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cms_media_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "cms_media_folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_media_folders: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          parent_id: string | null
+          path: string
+          updated_at: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          parent_id?: string | null
+          path: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          parent_id?: string | null
+          path?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_media_folders_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cms_media_folders_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "cms_media_folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_revisions: {
+        Row: {
+          author_id: string | null
+          content_id: string
+          created_at: string
+          id: string
+          note: string | null
+          snapshot: Json
+          version: number
+        }
+        Insert: {
+          author_id?: string | null
+          content_id: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          snapshot: Json
+          version: number
+        }
+        Update: {
+          author_id?: string | null
+          content_id?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          snapshot?: Json
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_revisions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "cms_contents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_translations: {
+        Row: {
+          body: Json
+          content_id: string
+          created_at: string
+          excerpt: string | null
+          id: string
+          locale: string
+          status: string
+          title: string
+          translator_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          body?: Json
+          content_id: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          locale: string
+          status?: string
+          title: string
+          translator_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: Json
+          content_id?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          locale?: string
+          status?: string
+          title?: string
+          translator_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_translations_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "cms_contents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           author_id: string
