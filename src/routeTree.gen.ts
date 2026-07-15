@@ -414,6 +414,7 @@ import { Route as AuthenticatedRuntimeIntelligenceAdvisorRouteImport } from './r
 import { Route as AuthenticatedAgentsCollaborationLiveRouteImport } from './routes/_authenticated/agents.collaboration.live'
 import { Route as AuthenticatedAgentsCollaborationHistoryRouteImport } from './routes/_authenticated/agents.collaboration.history'
 import { Route as AuthenticatedAgentsCollaborationAnalyticsRouteImport } from './routes/_authenticated/agents.collaboration.analytics'
+import { Route as ApiPublicWebhooksPaymentsProviderRouteImport } from './routes/api/public/webhooks/payments.$provider'
 
 const TrustRoute = TrustRouteImport.update({
   id: '/trust',
@@ -2705,6 +2706,12 @@ const AuthenticatedAgentsCollaborationAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAgentsCollaborationRoute,
   } as any)
+const ApiPublicWebhooksPaymentsProviderRoute =
+  ApiPublicWebhooksPaymentsProviderRouteImport.update({
+    id: '/api/public/webhooks/payments/$provider',
+    path: '/api/public/webhooks/payments/$provider',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -3111,6 +3118,7 @@ export interface FileRoutesByFullPath {
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
+  '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -3505,6 +3513,7 @@ export interface FileRoutesByTo {
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
+  '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -3913,6 +3922,7 @@ export interface FileRoutesById {
   '/_authenticated/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
+  '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -4321,6 +4331,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/live'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
+    | '/api/public/webhooks/payments/$provider'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -4715,6 +4726,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/live'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
+    | '/api/public/webhooks/payments/$provider'
   id:
     | '__root__'
     | '/'
@@ -5122,6 +5134,7 @@ export interface FileRouteTypes {
     | '/_authenticated/runtime/workflows/live'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
+    | '/api/public/webhooks/payments/$provider'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -5140,6 +5153,7 @@ export interface RootRouteChildren {
   ApiDhTtsRoute: typeof ApiDhTtsRoute
   ApiPublicV1HealthRoute: typeof ApiPublicV1HealthRoute
   ApiPublicV1StatusRoute: typeof ApiPublicV1StatusRoute
+  ApiPublicWebhooksPaymentsProviderRoute: typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -7979,6 +7993,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAgentsCollaborationRoute
     }
+    '/api/public/webhooks/payments/$provider': {
+      id: '/api/public/webhooks/payments/$provider'
+      path: '/api/public/webhooks/payments/$provider'
+      fullPath: '/api/public/webhooks/payments/$provider'
+      preLoaderRoute: typeof ApiPublicWebhooksPaymentsProviderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -9148,6 +9169,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiDhTtsRoute: ApiDhTtsRoute,
   ApiPublicV1HealthRoute: ApiPublicV1HealthRoute,
   ApiPublicV1StatusRoute: ApiPublicV1StatusRoute,
+  ApiPublicWebhooksPaymentsProviderRoute:
+    ApiPublicWebhooksPaymentsProviderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

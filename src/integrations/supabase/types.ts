@@ -4697,6 +4697,63 @@ export type Database = {
           },
         ]
       }
+      payment_webhook_events: {
+        Row: {
+          canonical_type: string | null
+          correlation_id: string
+          error_reason: string | null
+          event_type: string
+          http_status: number
+          id: string
+          latency_ms: number
+          metadata: Json
+          payload_digest: string | null
+          process_status: Database["public"]["Enums"]["webhook_process_status"]
+          provider: Database["public"]["Enums"]["payment_provider_code"]
+          provider_event_id: string | null
+          received_at: string
+          signature_present: boolean
+          timestamp_present: boolean
+          verify_result: Database["public"]["Enums"]["webhook_verify_result"]
+        }
+        Insert: {
+          canonical_type?: string | null
+          correlation_id?: string
+          error_reason?: string | null
+          event_type: string
+          http_status: number
+          id?: string
+          latency_ms?: number
+          metadata?: Json
+          payload_digest?: string | null
+          process_status?: Database["public"]["Enums"]["webhook_process_status"]
+          provider: Database["public"]["Enums"]["payment_provider_code"]
+          provider_event_id?: string | null
+          received_at?: string
+          signature_present?: boolean
+          timestamp_present?: boolean
+          verify_result: Database["public"]["Enums"]["webhook_verify_result"]
+        }
+        Update: {
+          canonical_type?: string | null
+          correlation_id?: string
+          error_reason?: string | null
+          event_type?: string
+          http_status?: number
+          id?: string
+          latency_ms?: number
+          metadata?: Json
+          payload_digest?: string | null
+          process_status?: Database["public"]["Enums"]["webhook_process_status"]
+          provider?: Database["public"]["Enums"]["payment_provider_code"]
+          provider_event_id?: string | null
+          received_at?: string
+          signature_present?: boolean
+          timestamp_present?: boolean
+          verify_result?: Database["public"]["Enums"]["webhook_verify_result"]
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount_cents: number
@@ -7004,6 +7061,13 @@ export type Database = {
       ledger_direction: "credit" | "debit"
       membership_status: "invited" | "active" | "suspended" | "removed"
       notification_channel: "in_app" | "email" | "sms" | "push" | "webhook"
+      payment_provider_code:
+        | "stripe"
+        | "razorpay"
+        | "paddle"
+        | "cashfree"
+        | "paypal"
+        | "manual"
       payment_status: "pending" | "succeeded" | "failed" | "refunded"
       plan_tier:
         | "free"
@@ -7057,6 +7121,14 @@ export type Database = {
         | "payout"
         | "chargeback"
       wallet_owner_type: "user" | "company"
+      webhook_process_status: "received" | "processed" | "ignored" | "failed"
+      webhook_verify_result:
+        | "verified"
+        | "bad_signature"
+        | "expired"
+        | "replay"
+        | "missing"
+        | "error"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -7243,6 +7315,14 @@ export const Constants = {
       ledger_direction: ["credit", "debit"],
       membership_status: ["invited", "active", "suspended", "removed"],
       notification_channel: ["in_app", "email", "sms", "push", "webhook"],
+      payment_provider_code: [
+        "stripe",
+        "razorpay",
+        "paddle",
+        "cashfree",
+        "paypal",
+        "manual",
+      ],
       payment_status: ["pending", "succeeded", "failed", "refunded"],
       plan_tier: [
         "free",
@@ -7302,6 +7382,15 @@ export const Constants = {
         "chargeback",
       ],
       wallet_owner_type: ["user", "company"],
+      webhook_process_status: ["received", "processed", "ignored", "failed"],
+      webhook_verify_result: [
+        "verified",
+        "bad_signature",
+        "expired",
+        "replay",
+        "missing",
+        "error",
+      ],
     },
   },
 } as const

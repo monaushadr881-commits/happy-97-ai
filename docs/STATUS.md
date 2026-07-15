@@ -1,12 +1,25 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** FD-003 / FD-004 recorded + P0.2 Webhook security helper landed. Prior working rounds R1–R6, R4-CHAR, and Identity Lock v1.0 unchanged.
+**Last updated:** R7 — Payment Provider Foundation + Secure Webhook Runtime.
 
-## FD-003 + FD-004 + P0.2 — 2026-07-15
+## R7 — Payment Provider Foundation + Secure Webhook Runtime — 2026-07-15
 
-- Founder Master Directive v2.0 and Phase-X Real Implementation Program preserved in `docs/FOUNDER_DECISIONS.md` (permanent, cumulative ledger).
-- **P0.2 — Webhook HMAC + replay-guard helper: Working.** `src/lib/webhook-security.ts` — WebCrypto HMAC-SHA256, constant-time compare, timestamp tolerance window, sliding replay cache. Provider-agnostic; provider adapters (Stripe/Paddle/Razorpay) will wrap it.
-- Prerequisite for P0.4 (payment provider adapters) and P0.5 (public webhook routes). No architecture, schema, or business-logic changes in this pass.
+- **Webhook Security helper (P0.2): Working.** `src/lib/webhook-security.ts` unchanged; reused by every adapter (no duplication).
+- **Provider abstraction: Working.** `src/lib/payments/types.ts` — `PaymentAdapter`, `CanonicalWebhookEvent`, `CanonicalEventType`, capability flags. No provider-specific business logic outside adapters.
+- **Provider registry / factory: Working.** `src/lib/payments/registry.ts` — `getAdapter(code)`, `listProviders()`, per-provider `getWebhookSecret()` env-var lookup.
+- **Stripe adapter: Partial.** Webhook verify + normalize Working (16 event types mapped). Checkout / refunds / subscriptions Blocked on `STRIPE_SECRET_KEY` + SDK selection.
+- **Razorpay adapter: Partial.** Webhook verify + normalize Working (12 events). Charge/refund APIs Planned.
+- **Paddle adapter: Partial.** Webhook verify + normalize Working (Paddle Billing v2 header format `ts=…;h1=…`). Transactions/subscriptions Planned.
+- **Cashfree adapter: Partial.** Webhook verify + normalize Working (base64 HMAC + `x-webhook-timestamp` window). Orders/refunds Planned.
+- **PayPal adapter: Missing (reserved).** Contract in place; adapter not implemented.
+- **Public webhook runtime: Working.** `POST /api/public/webhooks/payments/:provider` — HMAC verify → replay-guard → normalize → append-only audit row. Correct HTTP statuses: 200 verified, 400 missing, 401 bad_signature, 408 expired, 409 replay, 503 no secret. CORS + OPTIONS handled.
+- **Audit log: Working.** New table `payment_webhook_events` — append-only via immutable trigger, unique on `(provider, provider_event_id)` for idempotency, RLS restricts reads to `is_ops_admin`.
+- **Founder webhook health surface: Working (read).** `getWebhookHealth` server fn returns 24h counts, last success/failure per provider from real rows. Non-admins get empty rows (correct signal for "Not available").
+- **Business processing (activate subscription / credit wallet / settle invoice): Planned.** Ingest is decoupled from processing; downstream workers read `payment_webhook_events`. Ships with P0.4 charge SDKs.
+- **Security warnings from migration:** 8 `SECURITY DEFINER` warnings are **pre-existing** role-check helpers (`has_role`, `is_ops_admin`, `is_platform_founder`, etc.) required for RLS. R7 added only `payment_webhook_events_immutable` (SECURITY INVOKER). Not introduced by this pass.
+- **Files:** `supabase/migrations/…_r7_payment_webhook_events.sql`, `src/lib/payments/{types,registry,webhook-runtime.functions}.ts`, `src/lib/payments/adapters/{stripe,razorpay,paddle,cashfree}.ts`, `src/routes/api/public/webhooks/payments.$provider.ts`, `docs/STATUS.md`.
+- **Verification:** `tsgo --noEmit` clean. Playwright signature/replay tests deferred to P0.1 regression harness (browser preview cannot invoke public webhook routes with raw bodies).
+
 
 
 ## Identity Lock v1.0 — 2026-07-15
