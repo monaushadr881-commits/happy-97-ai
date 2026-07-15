@@ -92,7 +92,7 @@ export const leads = {
   async update(sb: SB, userId: string, id: string, patch: Partial<{ name: string; email: string; phone: string; source: string; stage: string; owner_id: string; notes: string; score: number; status: string }>) {
     const { data: before } = await sb.from("leads").select("*").eq("id", id).maybeSingle();
     if (!before) throw new Error("Lead not found");
-    const { data, error } = await sb.from("leads").update({ ...(patch as never), updated_by: userId }).eq("id", id).select().single();
+    const { data, error } = await sb.from("leads").update({ ...patch, updated_by: userId } as never).eq("id", id).select().single();
     if (error) throw error;
     const row = data as { id: string; company_id: string; owner_id: string | null };
     await logActivity(sb, row.company_id, userId, "lead", row.id, "updated", patch as Record<string, unknown>);
@@ -169,7 +169,7 @@ export const customers = {
   async update(sb: SB, userId: string, id: string, patch: Record<string, unknown>) {
     const { data: before } = await sb.from("customers").select("*").eq("id", id).maybeSingle();
     if (!before) throw new Error("Customer not found");
-    const { data, error } = await sb.from("customers").update({ ...(patch as never), updated_by: userId }).eq("id", id).select().single();
+    const { data, error } = await sb.from("customers").update({ ...patch, updated_by: userId } as never).eq("id", id).select().single();
     if (error) throw error;
     const row = data as { id: string; company_id: string };
     await logActivity(sb, row.company_id, userId, "customer", row.id, "updated", patch);
@@ -252,7 +252,7 @@ export const deals = {
       patch.closed_at = new Date().toISOString();
       patch.status = stage === "won" ? "active" : "archived";
     }
-    const { data, error } = await sb.from("deals").update(patch as never).eq("id", id).select().single();
+    const { data, error } = await sb.from("deals").update({ ...patch } as never).eq("id", id).select().single();
     if (error) throw error;
     const row = data as { id: string; company_id: string; owner_id: string | null; title: string };
     await logActivity(sb, row.company_id, userId, "deal", row.id, "stage_changed", { from: (before as { stage: string }).stage, to: stage });
@@ -263,7 +263,7 @@ export const deals = {
   },
   async update(sb: SB, userId: string, id: string, patch: Record<string, unknown>) {
     const { data: before } = await sb.from("deals").select("*").eq("id", id).single();
-    const { data, error } = await sb.from("deals").update({ ...(patch as never), updated_by: userId }).eq("id", id).select().single();
+    const { data, error } = await sb.from("deals").update({ ...patch, updated_by: userId } as never).eq("id", id).select().single();
     if (error) throw error;
     const row = data as { id: string; company_id: string };
     await logActivity(sb, row.company_id, userId, "deal", id, "updated", patch);
@@ -310,7 +310,7 @@ export const tasks = {
   async update(sb: SB, userId: string, id: string, patch: Record<string, unknown>) {
     const { data: before } = await sb.from("crm_tasks" as never).select("*").eq("id", id).maybeSingle();
     if (!before) throw new Error("Task not found");
-    const { data, error } = await sb.from("crm_tasks" as never).update(patch as never).eq("id", id).select().single();
+    const { data, error } = await sb.from("crm_tasks" as never).update({ ...patch } as never).eq("id", id).select().single();
     if (error) throw error;
     const row = data as { id: string; company_id: string };
     await audit(sb, "task.update", "task", id, row.company_id, before as never, row as never);
@@ -349,7 +349,7 @@ export const notes = {
     return row;
   },
   async update(sb: SB, _userId: string, id: string, patch: { body?: string; pinned?: boolean; attachments?: unknown[] }) {
-    const { data, error } = await sb.from("crm_notes" as never).update(patch as never).eq("id", id).select().single();
+    const { data, error } = await sb.from("crm_notes" as never).update({ ...patch } as never).eq("id", id).select().single();
     if (error) throw error;
     return data;
   },
