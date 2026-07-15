@@ -1106,3 +1106,34 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 ### Verification
 - Migration applied cleanly (9 pre-existing linter warnings on SECURITY DEFINER helpers — not introduced by R26).
 - All 25 server functions type-check under `bunx tsgo --noEmit`.
+
+## R27 — HAPPY Brain Runtime (AI Decision Engine)
+
+### Files
+- `supabase/migrations/*_r27_brain.sql` — 5 new tables (`brain_sessions`, `brain_intents`, `brain_plans`, `brain_decisions`, `brain_tool_calls`) with RLS + immutability triggers on intents/decisions/tool_calls.
+- `src/lib/brain/engine.ts` — intent classifier, context snapshot, planner, tool gateway (routes ONLY through existing runtimes: analytics, finance, wms, mfg, crm, marketplace, deployment), safety check, reasoning engine (FACT vs RECOMMENDATION), decision recorder, end-to-end orchestrator.
+- `src/lib/brain/brain.functions.ts` — 8 auth-gated `createServerFn` endpoints (`brainRun`, `brainClassify`, `brainPreviewPlan`, `brainContext`, `brainSessionsList`, `brainInvoke`, `brainReason`, `brainFounderMode`).
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Intent Engine (rule-based, deterministic; 16 runtime rules + conversation fallback) | WORKING |
+| Context Engine (user, company, roles, module, session snapshot) | WORKING |
+| Planning Engine (per-intent step decomposition with risks/deps/alternatives) | WORKING |
+| Decision Engine (runtime choice recorded with candidates + rationale) | WORKING |
+| Tool Gateway (analytics/finance/wms/mfg/crm/marketplace/deployment via existing engines) | WORKING |
+| Reasoning Engine (why/what/next/risks + FACT vs RECOMMENDATION separation) | WORKING |
+| Safety Engine (company membership check, destructive-action gate) | WORKING |
+| Founder Mode (composite overview + insights via analytics runtime) | WORKING |
+| Orchestrator (session → intent → decision → plan → execute → reason → complete) | WORKING |
+| Memory Gateway | PLANNED — R28 |
+| Knowledge Gateway | PLANNED — R29 |
+| Voice input adapter | PARTIAL — accepts `source: "voice"`; transcription belongs to Digital Human runtime |
+| Destructive tool execution (builder/deployment/notifications) | BLOCKED — safety engine defers to explicit human confirmation UI |
+
+### Guarantees
+- Brain NEVER manipulates business tables directly — every effect passes through an existing runtime engine.
+- `brain_intents`, `brain_decisions`, `brain_tool_calls` are DB-immutable after insert (triggers).
+- Every tool call records `result_facts` (observed) and `ai_recommendation` (advisory) in separate columns.
+- RLS enforces company isolation via `is_company_member`/`is_company_admin`; sessions readable only by owner or company admin.
+- Safety engine denies unauthenticated / cross-company access and blocks destructive tools without confirmation.
