@@ -26,6 +26,7 @@ import { Route as AuthenticatedWhiteLabelRouteImport } from './routes/_authentic
 import { Route as AuthenticatedWellnessRouteImport } from './routes/_authenticated/wellness'
 import { Route as AuthenticatedWebsitesRouteImport } from './routes/_authenticated/websites'
 import { Route as AuthenticatedWarehouseRouteImport } from './routes/_authenticated/warehouse'
+import { Route as AuthenticatedWallpaperMarketplaceRouteImport } from './routes/_authenticated/wallpaper-marketplace'
 import { Route as AuthenticatedVisionRouteImport } from './routes/_authenticated/vision'
 import { Route as AuthenticatedVendorsRouteImport } from './routes/_authenticated/vendors'
 import { Route as AuthenticatedUtilitiesRouteImport } from './routes/_authenticated/utilities'
@@ -34,6 +35,7 @@ import { Route as AuthenticatedUnifiedOsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedTransportRouteImport } from './routes/_authenticated/transport'
 import { Route as AuthenticatedToolsRouteImport } from './routes/_authenticated/tools'
 import { Route as AuthenticatedThemesRouteImport } from './routes/_authenticated/themes'
+import { Route as AuthenticatedThemeMarketplaceRouteImport } from './routes/_authenticated/theme-marketplace'
 import { Route as AuthenticatedTemplatesRouteImport } from './routes/_authenticated/templates'
 import { Route as AuthenticatedTelemedicineRouteImport } from './routes/_authenticated/telemedicine'
 import { Route as AuthenticatedSustainabilityRouteImport } from './routes/_authenticated/sustainability'
@@ -43,7 +45,9 @@ import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedSmartCityRouteImport } from './routes/_authenticated/smart-city'
 import { Route as AuthenticatedSkillsRouteImport } from './routes/_authenticated/skills'
 import { Route as AuthenticatedSimulationRouteImport } from './routes/_authenticated/simulation'
+import { Route as AuthenticatedSettingsWallpapersRouteImport } from './routes/_authenticated/settings-wallpapers'
 import { Route as AuthenticatedSettingsThemeRouteImport } from './routes/_authenticated/settings-theme'
+import { Route as AuthenticatedSettingsBackgroundRouteImport } from './routes/_authenticated/settings-background'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings-appearance'
 import { Route as AuthenticatedSettingsAccessibilityRouteImport } from './routes/_authenticated/settings-accessibility'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -484,6 +488,12 @@ const AuthenticatedWarehouseRoute = AuthenticatedWarehouseRouteImport.update({
   path: '/warehouse',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedWallpaperMarketplaceRoute =
+  AuthenticatedWallpaperMarketplaceRouteImport.update({
+    id: '/wallpaper-marketplace',
+    path: '/wallpaper-marketplace',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedVisionRoute = AuthenticatedVisionRouteImport.update({
   id: '/vision',
   path: '/vision',
@@ -524,6 +534,12 @@ const AuthenticatedThemesRoute = AuthenticatedThemesRouteImport.update({
   path: '/themes',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedThemeMarketplaceRoute =
+  AuthenticatedThemeMarketplaceRouteImport.update({
+    id: '/theme-marketplace',
+    path: '/theme-marketplace',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTemplatesRoute = AuthenticatedTemplatesRouteImport.update({
   id: '/templates',
   path: '/templates',
@@ -573,10 +589,22 @@ const AuthenticatedSimulationRoute = AuthenticatedSimulationRouteImport.update({
   path: '/simulation',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSettingsWallpapersRoute =
+  AuthenticatedSettingsWallpapersRouteImport.update({
+    id: '/settings-wallpapers',
+    path: '/settings-wallpapers',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsThemeRoute =
   AuthenticatedSettingsThemeRouteImport.update({
     id: '/settings-theme',
     path: '/settings-theme',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSettingsBackgroundRoute =
+  AuthenticatedSettingsBackgroundRouteImport.update({
+    id: '/settings-background',
+    path: '/settings-background',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSettingsAppearanceRoute =
@@ -2774,7 +2802,9 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
   '/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/settings-background': typeof AuthenticatedSettingsBackgroundRoute
   '/settings-theme': typeof AuthenticatedSettingsThemeRoute
+  '/settings-wallpapers': typeof AuthenticatedSettingsWallpapersRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
   '/smart-city': typeof AuthenticatedSmartCityRoute
@@ -2784,6 +2814,7 @@ export interface FileRoutesByFullPath {
   '/sustainability': typeof AuthenticatedSustainabilityRoute
   '/telemedicine': typeof AuthenticatedTelemedicineRoute
   '/templates': typeof AuthenticatedTemplatesRoute
+  '/theme-marketplace': typeof AuthenticatedThemeMarketplaceRoute
   '/themes': typeof AuthenticatedThemesRoute
   '/tools': typeof AuthenticatedToolsRouteWithChildren
   '/transport': typeof AuthenticatedTransportRoute
@@ -2792,6 +2823,7 @@ export interface FileRoutesByFullPath {
   '/utilities': typeof AuthenticatedUtilitiesRoute
   '/vendors': typeof AuthenticatedVendorsRoute
   '/vision': typeof AuthenticatedVisionRoute
+  '/wallpaper-marketplace': typeof AuthenticatedWallpaperMarketplaceRoute
   '/warehouse': typeof AuthenticatedWarehouseRoute
   '/websites': typeof AuthenticatedWebsitesRoute
   '/wellness': typeof AuthenticatedWellnessRoute
@@ -3154,7 +3186,9 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
   '/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/settings-background': typeof AuthenticatedSettingsBackgroundRoute
   '/settings-theme': typeof AuthenticatedSettingsThemeRoute
+  '/settings-wallpapers': typeof AuthenticatedSettingsWallpapersRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
   '/smart-city': typeof AuthenticatedSmartCityRoute
@@ -3163,6 +3197,7 @@ export interface FileRoutesByTo {
   '/sustainability': typeof AuthenticatedSustainabilityRoute
   '/telemedicine': typeof AuthenticatedTelemedicineRoute
   '/templates': typeof AuthenticatedTemplatesRoute
+  '/theme-marketplace': typeof AuthenticatedThemeMarketplaceRoute
   '/themes': typeof AuthenticatedThemesRoute
   '/tools': typeof AuthenticatedToolsRouteWithChildren
   '/transport': typeof AuthenticatedTransportRoute
@@ -3171,6 +3206,7 @@ export interface FileRoutesByTo {
   '/utilities': typeof AuthenticatedUtilitiesRoute
   '/vendors': typeof AuthenticatedVendorsRoute
   '/vision': typeof AuthenticatedVisionRoute
+  '/wallpaper-marketplace': typeof AuthenticatedWallpaperMarketplaceRoute
   '/warehouse': typeof AuthenticatedWarehouseRoute
   '/websites': typeof AuthenticatedWebsitesRoute
   '/wellness': typeof AuthenticatedWellnessRoute
@@ -3546,7 +3582,9 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
   '/_authenticated/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/_authenticated/settings-background': typeof AuthenticatedSettingsBackgroundRoute
   '/_authenticated/settings-theme': typeof AuthenticatedSettingsThemeRoute
+  '/_authenticated/settings-wallpapers': typeof AuthenticatedSettingsWallpapersRoute
   '/_authenticated/simulation': typeof AuthenticatedSimulationRoute
   '/_authenticated/skills': typeof AuthenticatedSkillsRouteWithChildren
   '/_authenticated/smart-city': typeof AuthenticatedSmartCityRoute
@@ -3556,6 +3594,7 @@ export interface FileRoutesById {
   '/_authenticated/sustainability': typeof AuthenticatedSustainabilityRoute
   '/_authenticated/telemedicine': typeof AuthenticatedTelemedicineRoute
   '/_authenticated/templates': typeof AuthenticatedTemplatesRoute
+  '/_authenticated/theme-marketplace': typeof AuthenticatedThemeMarketplaceRoute
   '/_authenticated/themes': typeof AuthenticatedThemesRoute
   '/_authenticated/tools': typeof AuthenticatedToolsRouteWithChildren
   '/_authenticated/transport': typeof AuthenticatedTransportRoute
@@ -3564,6 +3603,7 @@ export interface FileRoutesById {
   '/_authenticated/utilities': typeof AuthenticatedUtilitiesRoute
   '/_authenticated/vendors': typeof AuthenticatedVendorsRoute
   '/_authenticated/vision': typeof AuthenticatedVisionRoute
+  '/_authenticated/wallpaper-marketplace': typeof AuthenticatedWallpaperMarketplaceRoute
   '/_authenticated/warehouse': typeof AuthenticatedWarehouseRoute
   '/_authenticated/websites': typeof AuthenticatedWebsitesRoute
   '/_authenticated/wellness': typeof AuthenticatedWellnessRoute
@@ -3939,7 +3979,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/settings-accessibility'
     | '/settings-appearance'
+    | '/settings-background'
     | '/settings-theme'
+    | '/settings-wallpapers'
     | '/simulation'
     | '/skills'
     | '/smart-city'
@@ -3949,6 +3991,7 @@ export interface FileRouteTypes {
     | '/sustainability'
     | '/telemedicine'
     | '/templates'
+    | '/theme-marketplace'
     | '/themes'
     | '/tools'
     | '/transport'
@@ -3957,6 +4000,7 @@ export interface FileRouteTypes {
     | '/utilities'
     | '/vendors'
     | '/vision'
+    | '/wallpaper-marketplace'
     | '/warehouse'
     | '/websites'
     | '/wellness'
@@ -4319,7 +4363,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/settings-accessibility'
     | '/settings-appearance'
+    | '/settings-background'
     | '/settings-theme'
+    | '/settings-wallpapers'
     | '/simulation'
     | '/skills'
     | '/smart-city'
@@ -4328,6 +4374,7 @@ export interface FileRouteTypes {
     | '/sustainability'
     | '/telemedicine'
     | '/templates'
+    | '/theme-marketplace'
     | '/themes'
     | '/tools'
     | '/transport'
@@ -4336,6 +4383,7 @@ export interface FileRouteTypes {
     | '/utilities'
     | '/vendors'
     | '/vision'
+    | '/wallpaper-marketplace'
     | '/warehouse'
     | '/websites'
     | '/wellness'
@@ -4710,7 +4758,9 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/settings-accessibility'
     | '/_authenticated/settings-appearance'
+    | '/_authenticated/settings-background'
     | '/_authenticated/settings-theme'
+    | '/_authenticated/settings-wallpapers'
     | '/_authenticated/simulation'
     | '/_authenticated/skills'
     | '/_authenticated/smart-city'
@@ -4720,6 +4770,7 @@ export interface FileRouteTypes {
     | '/_authenticated/sustainability'
     | '/_authenticated/telemedicine'
     | '/_authenticated/templates'
+    | '/_authenticated/theme-marketplace'
     | '/_authenticated/themes'
     | '/_authenticated/tools'
     | '/_authenticated/transport'
@@ -4728,6 +4779,7 @@ export interface FileRouteTypes {
     | '/_authenticated/utilities'
     | '/_authenticated/vendors'
     | '/_authenticated/vision'
+    | '/_authenticated/wallpaper-marketplace'
     | '/_authenticated/warehouse'
     | '/_authenticated/websites'
     | '/_authenticated/wellness'
@@ -5076,6 +5128,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWarehouseRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/wallpaper-marketplace': {
+      id: '/_authenticated/wallpaper-marketplace'
+      path: '/wallpaper-marketplace'
+      fullPath: '/wallpaper-marketplace'
+      preLoaderRoute: typeof AuthenticatedWallpaperMarketplaceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/vision': {
       id: '/_authenticated/vision'
       path: '/vision'
@@ -5130,6 +5189,13 @@ declare module '@tanstack/react-router' {
       path: '/themes'
       fullPath: '/themes'
       preLoaderRoute: typeof AuthenticatedThemesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/theme-marketplace': {
+      id: '/_authenticated/theme-marketplace'
+      path: '/theme-marketplace'
+      fullPath: '/theme-marketplace'
+      preLoaderRoute: typeof AuthenticatedThemeMarketplaceRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/templates': {
@@ -5195,11 +5261,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSimulationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/settings-wallpapers': {
+      id: '/_authenticated/settings-wallpapers'
+      path: '/settings-wallpapers'
+      fullPath: '/settings-wallpapers'
+      preLoaderRoute: typeof AuthenticatedSettingsWallpapersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings-theme': {
       id: '/_authenticated/settings-theme'
       path: '/settings-theme'
       fullPath: '/settings-theme'
       preLoaderRoute: typeof AuthenticatedSettingsThemeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings-background': {
+      id: '/_authenticated/settings-background'
+      path: '/settings-background'
+      fullPath: '/settings-background'
+      preLoaderRoute: typeof AuthenticatedSettingsBackgroundRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings-appearance': {
@@ -8586,7 +8666,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSettingsAccessibilityRoute: typeof AuthenticatedSettingsAccessibilityRoute
   AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
+  AuthenticatedSettingsBackgroundRoute: typeof AuthenticatedSettingsBackgroundRoute
   AuthenticatedSettingsThemeRoute: typeof AuthenticatedSettingsThemeRoute
+  AuthenticatedSettingsWallpapersRoute: typeof AuthenticatedSettingsWallpapersRoute
   AuthenticatedSimulationRoute: typeof AuthenticatedSimulationRoute
   AuthenticatedSkillsRoute: typeof AuthenticatedSkillsRouteWithChildren
   AuthenticatedSmartCityRoute: typeof AuthenticatedSmartCityRoute
@@ -8596,6 +8678,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSustainabilityRoute: typeof AuthenticatedSustainabilityRoute
   AuthenticatedTelemedicineRoute: typeof AuthenticatedTelemedicineRoute
   AuthenticatedTemplatesRoute: typeof AuthenticatedTemplatesRoute
+  AuthenticatedThemeMarketplaceRoute: typeof AuthenticatedThemeMarketplaceRoute
   AuthenticatedThemesRoute: typeof AuthenticatedThemesRoute
   AuthenticatedToolsRoute: typeof AuthenticatedToolsRouteWithChildren
   AuthenticatedTransportRoute: typeof AuthenticatedTransportRoute
@@ -8604,6 +8687,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUtilitiesRoute: typeof AuthenticatedUtilitiesRoute
   AuthenticatedVendorsRoute: typeof AuthenticatedVendorsRoute
   AuthenticatedVisionRoute: typeof AuthenticatedVisionRoute
+  AuthenticatedWallpaperMarketplaceRoute: typeof AuthenticatedWallpaperMarketplaceRoute
   AuthenticatedWarehouseRoute: typeof AuthenticatedWarehouseRoute
   AuthenticatedWebsitesRoute: typeof AuthenticatedWebsitesRoute
   AuthenticatedWellnessRoute: typeof AuthenticatedWellnessRoute
@@ -8782,7 +8866,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsAccessibilityRoute:
     AuthenticatedSettingsAccessibilityRoute,
   AuthenticatedSettingsAppearanceRoute: AuthenticatedSettingsAppearanceRoute,
+  AuthenticatedSettingsBackgroundRoute: AuthenticatedSettingsBackgroundRoute,
   AuthenticatedSettingsThemeRoute: AuthenticatedSettingsThemeRoute,
+  AuthenticatedSettingsWallpapersRoute: AuthenticatedSettingsWallpapersRoute,
   AuthenticatedSimulationRoute: AuthenticatedSimulationRoute,
   AuthenticatedSkillsRoute: AuthenticatedSkillsRouteWithChildren,
   AuthenticatedSmartCityRoute: AuthenticatedSmartCityRoute,
@@ -8792,6 +8878,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSustainabilityRoute: AuthenticatedSustainabilityRoute,
   AuthenticatedTelemedicineRoute: AuthenticatedTelemedicineRoute,
   AuthenticatedTemplatesRoute: AuthenticatedTemplatesRoute,
+  AuthenticatedThemeMarketplaceRoute: AuthenticatedThemeMarketplaceRoute,
   AuthenticatedThemesRoute: AuthenticatedThemesRoute,
   AuthenticatedToolsRoute: AuthenticatedToolsRouteWithChildren,
   AuthenticatedTransportRoute: AuthenticatedTransportRoute,
@@ -8800,6 +8887,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedUtilitiesRoute: AuthenticatedUtilitiesRoute,
   AuthenticatedVendorsRoute: AuthenticatedVendorsRoute,
   AuthenticatedVisionRoute: AuthenticatedVisionRoute,
+  AuthenticatedWallpaperMarketplaceRoute:
+    AuthenticatedWallpaperMarketplaceRoute,
   AuthenticatedWarehouseRoute: AuthenticatedWarehouseRoute,
   AuthenticatedWebsitesRoute: AuthenticatedWebsitesRoute,
   AuthenticatedWellnessRoute: AuthenticatedWellnessRoute,
