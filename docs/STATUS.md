@@ -1,6 +1,24 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** R35 — Multi-Region / High Availability Platform.
+**Last updated:** R42 — Emotion & Expression Runtime.
+
+## R42 — Emotion & Expression Runtime — 2026-07-15
+
+- **Emotion runtime: Working.** `happy_emotion_events` (immutable) + deterministic `classifyEmotion()` — 19 emotion states × 9 mood states × 9 behavior modes. Every event carries `emotion`, `mood`, `presence`, `behavior_mode`, `emotion_weight`, `mood_weight`, `confidence`, `source`, `evidence`, and conversation/voice session correlation.
+- **Expression runtime: Working.** `happy_expression_frames` (immutable) + `synthesizeFrames()` — renderer-independent per-tick output: `eye_open`, `blink`, `double_blink`, `smile_amount`, `jaw_intent`, `brow_intent`, `head_turn`, `head_tilt`, `shoulder_intent`, `hand_gesture`, `body_pose`, `breathing_level`, `attention_level`, `interest_level`, `speaking_energy`, `viseme_sync_ref`. Deterministic 3.2s blink cadence + double-blink every 5th blink. No random drift.
+- **Gesture intent runtime: Working.** `happy_gesture_intents` (immutable) + `inferGesture()` — 13-intent taxonomy (idle, greeting, wave, point_left, point_right, explain, present, teach, listen, think, celebrate, thank_you, goodbye). Duration + intensity derived from emotion weight; every row records reason + confidence.
+- **Mood runtime: Working.** `happy_mood_snapshots` + `snapshotMood()` — computes real average speaking energy + attention from the frame stream in the window. Never fabricates.
+- **Behavior runtime: Working.** `happy_behavior_profiles` (ops-admin write, seeded with founder, business, receptionist, sales, support, research, meeting, learning, presentation) — each preset carries `emotion_weight`, `gesture_weight`, `speech_style`, and JSON weights.
+- **Timeline runtime: Working.** `timeline.ts` — pure read-side merge of emotion/expression/gesture/mood/voice/presence/turn streams into a single ordered timeline for founder dashboards. Never writes.
+- **Emotion analytics: Working.** `computeAnalytics()` — real emotion/mode/gesture distributions, expression usage, average speaking energy, listening time (sum of listen-intent durations), and quality score = `0.5·attention + 0.5·(1 − |energy − 0.5|·2)`. Persistable to `happy_emotion_analytics` (immutable).
+- **API: Working.** 9 auth-gated server functions in `emotion.functions.ts` (recordEmotion, emitExpression, recordGesture, snapshotMood, analytics, listEmotions, listFrames, listBehaviorProfiles, currentState).
+- **Security:** All 6 tables RLS-gated. Owner reads + company-admin reads + ops-admin reads. Every event/frame/gesture/analytics table is append-only via `memory_events_immutable` trigger. No `service_role` escalation from any server fn. Behavior profiles are read-any / write-ops-admin only.
+- **Digital Human Policy:** Zero rendering. Zero animation. Zero fake facial movement. Every renderer (Portrait, Layered, Live2D, Live3D, XR/VR/AR) consumes these structured outputs later; this runtime only computes and persists them.
+- **No duplicates:** Consumes Happy Runtime sessions, Voice Runtime session IDs, Conversation Runtime turn IDs, Presence Runtime states, and behavior modes from the Founder Runtime. Never re-implements any of them.
+- **Verification:** `bunx tsgo --noEmit` — clean. Migration linter: 0 new warnings (10 pre-existing SECURITY DEFINER role-helper warnings from earlier passes; none introduced this pass).
+- **Files changed:** created `src/lib/emotion-runtime/{contracts,mapping,expression,timeline,engine,emotion.functions}.ts`, `supabase/migrations/…_r42_emotion_runtime.sql`; edited `docs/STATUS.md`.
+
+
 
 ## R35 — Multi-Region / High Availability — 2026-07-15
 
