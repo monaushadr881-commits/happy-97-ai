@@ -12,6 +12,7 @@
  * the required APIs so callers stay simple.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { clearMic, publishMic } from "./audio-bus";
 
 type SpeechRecognitionCtor = new () => SpeechRecognitionLike;
 type SpeechRecognitionLike = {
@@ -66,6 +67,7 @@ export function useVoiceInput(opts: Options = {}) {
     streamRef.current = null;
     ctxRef.current?.close().catch(() => {});
     ctxRef.current = null;
+    clearMic();
   }, []);
 
   const start = useCallback(async () => {
@@ -82,6 +84,7 @@ export function useVoiceInput(opts: Options = {}) {
       analyser.fftSize = 1024;
       src.connect(analyser);
       const buf = new Uint8Array(analyser.fftSize);
+      const freq = new Uint8Array(analyser.frequencyBinCount);
 
       const tick = () => {
         analyser.getByteTimeDomainData(buf);
@@ -92,6 +95,17 @@ export function useVoiceInput(opts: Options = {}) {
           sum += v * v;
         }
         const rms = Math.sqrt(sum / buf.length);
+        // Spectral centroid → normalised 0..1 (for waveform colour hint).
+        analyser.getByteFrequencyData(freq);
+        let num = 0, den = 0;
+        for (let i = 0; i < freq.length; i++) {
+          const w = freq[i];
+          num += i * w;
+          den += w;
+        }
+        const centroid = den > 0 ? Math.min(1, (num / den) / freq.length) : 0;
+        publishMic(Math.min(1, Math.pow(rms * 2.2, 0.9)), centroid);
+
         // Adapt noise floor slowly downward during silence.
         noiseFloorRef.current = Math.min(noiseFloorRef.current * 0.995 + rms * 0.005, 0.08);
         const threshold = Math.max(noiseFloorRef.current * 2.2, 0.035);
