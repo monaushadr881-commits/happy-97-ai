@@ -106,7 +106,7 @@ export const publishPluginVersion = createServerFn({ method: "POST" })
       .insert({
         plugin_id: pluginId,
         version: manifest.version,
-        manifest: manifest as unknown as Record<string, unknown>,
+        manifest: manifest as any,
         entry_point: manifest.entry_point ?? null,
         runtime: manifest.runtime,
         checksum,
@@ -206,7 +206,7 @@ export const installPlugin = createServerFn({ method: "POST" })
           plugin_version_id: versionId,
           status: "installed",
           enabled: true,
-          config: data.config,
+          config: data.config as any,
           granted_permissions: data.granted_permissions,
           installed_by: context.userId,
         },

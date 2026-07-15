@@ -24,7 +24,7 @@ export const invokeCapability = createServerFn({ method: "POST" })
   .inputValidator((d: z.input<typeof RouteCapabilityInput>) => RouteCapabilityInput.parse(d))
   .handler(async ({ data, context }) => {
     const persona = data.persona && isPersona(data.persona) ? data.persona : undefined;
-    return routeCapability(context.supabase, {
+    const r = await routeCapability(context.supabase, {
       capability: data.capability,
       args: data.args,
       companyId: data.company_id,

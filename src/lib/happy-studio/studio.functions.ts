@@ -316,7 +316,7 @@ export const deployToChannel = createServerFn({ method: "POST" })
       .upsert({ identity_id: id, channel: data.channel,
           version_id: data.version_id,
           status: nextStatus,
-          config: data.config,
+          config: data.config as any,
           deployed_by: context.userId,
           deployed_at: new Date().toISOString(),
         },
@@ -373,7 +373,7 @@ export const proposeChange = createServerFn({ method: "POST" })
       .insert({
         identity_id: id,
         request_type: data.request_type,
-        proposed_changes: data.proposed_changes,
+        proposed_changes: data.proposed_changes as any,
         rationale: data.rationale ?? null,
         requested_by: context.userId,
       })
