@@ -403,6 +403,7 @@ import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/st
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 import { Route as ApiPublicCronSubscriptionsTickRouteImport } from './routes/api/public/cron/subscriptions-tick'
 import { Route as ApiPublicCronPaymentsRetryRouteImport } from './routes/api/public/cron/payments-retry'
+import { Route as ApiPublicCronCreditsExpireRouteImport } from './routes/api/public/cron/credits-expire'
 import { Route as AuthenticatedRuntimeWorkflowsLiveRouteImport } from './routes/_authenticated/runtime.workflows.live'
 import { Route as AuthenticatedRuntimeWorkflowsHistoryRouteImport } from './routes/_authenticated/runtime.workflows.history'
 import { Route as AuthenticatedRuntimeWorkflowsAnalyticsRouteImport } from './routes/_authenticated/runtime.workflows.analytics'
@@ -2642,6 +2643,12 @@ const ApiPublicCronPaymentsRetryRoute =
     path: '/api/public/cron/payments-retry',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicCronCreditsExpireRoute =
+  ApiPublicCronCreditsExpireRouteImport.update({
+    id: '/api/public/cron/credits-expire',
+    path: '/api/public/cron/credits-expire',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedRuntimeWorkflowsLiveRoute =
   AuthenticatedRuntimeWorkflowsLiveRouteImport.update({
     id: '/live',
@@ -3130,6 +3137,7 @@ export interface FileRoutesByFullPath {
   '/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
   '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
+  '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
   '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -3527,6 +3535,7 @@ export interface FileRoutesByTo {
   '/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
   '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
+  '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
   '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -3938,6 +3947,7 @@ export interface FileRoutesById {
   '/_authenticated/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
   '/_authenticated/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/_authenticated/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
+  '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
   '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
@@ -4349,6 +4359,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/analytics'
     | '/runtime/workflows/history'
     | '/runtime/workflows/live'
+    | '/api/public/cron/credits-expire'
     | '/api/public/cron/payments-retry'
     | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
@@ -4746,6 +4757,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/analytics'
     | '/runtime/workflows/history'
     | '/runtime/workflows/live'
+    | '/api/public/cron/credits-expire'
     | '/api/public/cron/payments-retry'
     | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
@@ -5156,6 +5168,7 @@ export interface FileRouteTypes {
     | '/_authenticated/runtime/workflows/analytics'
     | '/_authenticated/runtime/workflows/history'
     | '/_authenticated/runtime/workflows/live'
+    | '/api/public/cron/credits-expire'
     | '/api/public/cron/payments-retry'
     | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
@@ -5177,6 +5190,7 @@ export interface RootRouteChildren {
   ApiRobotsDottxtRoute: typeof ApiRobotsDottxtRoute
   ApiSitemapDotxmlRoute: typeof ApiSitemapDotxmlRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
+  ApiPublicCronCreditsExpireRoute: typeof ApiPublicCronCreditsExpireRoute
   ApiPublicCronPaymentsRetryRoute: typeof ApiPublicCronPaymentsRetryRoute
   ApiPublicCronSubscriptionsTickRoute: typeof ApiPublicCronSubscriptionsTickRoute
   ApiPublicV1HealthRoute: typeof ApiPublicV1HealthRoute
@@ -7944,6 +7958,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicCronPaymentsRetryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cron/credits-expire': {
+      id: '/api/public/cron/credits-expire'
+      path: '/api/public/cron/credits-expire'
+      fullPath: '/api/public/cron/credits-expire'
+      preLoaderRoute: typeof ApiPublicCronCreditsExpireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/runtime/workflows/live': {
       id: '/_authenticated/runtime/workflows/live'
       path: '/live'
@@ -9209,6 +9230,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiRobotsDottxtRoute: ApiRobotsDottxtRoute,
   ApiSitemapDotxmlRoute: ApiSitemapDotxmlRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
+  ApiPublicCronCreditsExpireRoute: ApiPublicCronCreditsExpireRoute,
   ApiPublicCronPaymentsRetryRoute: ApiPublicCronPaymentsRetryRoute,
   ApiPublicCronSubscriptionsTickRoute: ApiPublicCronSubscriptionsTickRoute,
   ApiPublicV1HealthRoute: ApiPublicV1HealthRoute,
