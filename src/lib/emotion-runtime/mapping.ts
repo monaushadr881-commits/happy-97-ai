@@ -27,7 +27,7 @@ export type EmotionInputs = {
   empathy?: boolean;
   language?: string | null;
   source?: string;
-  evidence?: Record<string, unknown>;
+  evidence?: { [k: string]: JsonValue };
 };
 
 const MODE_DEFAULTS: Record<BehaviorMode, { emotion: Emotion; mood: Mood; speech: string }> = {
