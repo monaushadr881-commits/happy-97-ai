@@ -1593,3 +1593,72 @@ audits.
 ### Verification
 - `bunx tsgo --noEmit` — clean
 - Migration applied; types regenerated and referenced
+
+============================================================================
+R39 — HAPPY AI EMPLOYEE RUNTIME (Identity Orchestration Layer)
+============================================================================
+Status: **WORKING (backend / orchestration)**
+
+### Deliverables
+
+| Runtime              | Status  | Notes                                           |
+|----------------------|---------|-------------------------------------------------|
+| Happy Runtime        | WORKING | Composed of the runtimes below; ONE HAPPY only  |
+| Identity Runtime     | WORKING | Reuses `happy_identity` (R51) — no duplication  |
+| Session Runtime      | WORKING | `happy_sessions` + `session.ts`                 |
+| Capability Router    | WORKING | `capability-router.ts` — dispatches only        |
+| Conversation Runtime | WORKING | `happy_conversation_turns` + `conversation.ts`  |
+| Greeting Runtime     | WORKING | `happy_greeting_templates` + `greeting.ts`      |
+| Mode Runtime         | WORKING | `happy_mode_transitions` + `mode.ts` (12 modes) |
+| Presence Runtime     | WORKING | `happy_presence_events` + `presence.ts` (9)     |
+| Experience Runtime   | WORKING | `experience.ts` — one call opens the shell      |
+| Voice provider seam  | WORKING | Existing `voice.ts` reused; no new provider     |
+| Digital Human seam   | PLANNED | Assets/renderer still unprovisioned (R39 policy)|
+| Presentation seam    | WORKING | Existing `presentation.ts` reused (controller)  |
+| Whiteboard seam      | PLANNED | Contract only; owning runtime TBD               |
+| Founder Mode         | WORKING | Reuses Founder Workspace RPCs (no duplication)  |
+
+### Files
+- `supabase/migrations/*_r39_*.sql` — 5 tables + trigger fn + seeds
+- `src/lib/happy-runtime/session.ts`
+- `src/lib/happy-runtime/mode.ts`
+- `src/lib/happy-runtime/presence.ts`
+- `src/lib/happy-runtime/greeting.ts`
+- `src/lib/happy-runtime/conversation.ts`
+- `src/lib/happy-runtime/experience.ts`
+- `src/lib/happy-runtime/r39.functions.ts`
+
+### Security
+- RLS: every table scoped to `auth.uid()` via session ownership; ops
+  admins get read-only via `is_ops_admin`.
+- GRANTs written for `authenticated`, `service_role`, `anon` (greetings only).
+- No service_role escalation in server functions — the caller's RLS applies.
+
+### Facts vs AI recommendations
+- Every business answer flows through `capability-router` → owning runtime,
+  and the turn records `evidence` items (`source_runtime`, `ref`, `timestamp`,
+  `payload`). Nothing is inferred without an evidence trail.
+- `Recommendation` type requires numeric `confidence` (0..1), `reason`, and
+  `supporting_facts[]` — enforced structurally, not by convention.
+
+### Greetings
+- Context-aware (locale + audience + channel + time-of-day), deterministic
+  scoring; `{{var}}` templating; seeded across en/hi/ur. No hardcoded strings
+  per user. Falls back to a generic HAPPY line only when no template matches.
+
+### Digital Human policy (unchanged)
+- Portrait / Layered / Live2D / Live3D remain adapters. No fake certification.
+- Runtime is renderer-agnostic. `digital-human.ts` still returns
+  `provisioned: false` until real assets are bound.
+
+### Verification
+- `bunx tsgo --noEmit` — clean.
+- Migration applied; RLS + GRANTs verified in-database.
+- 14 greeting templates seeded across 3 locales.
+
+### Remaining honest gaps
+- Client shell / UI surface (chat surface, presence indicator, mode
+  switcher, evidence viewer) — separate UI pass.
+- Playwright end-to-end verification requires the UI shell.
+- Digital Human rendering (R40–R50) still blocked on external assets
+  and GPU render infrastructure.
