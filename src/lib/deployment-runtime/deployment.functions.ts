@@ -74,7 +74,7 @@ export const startBuild = createServerFn({ method: "POST" })
         git_sha: data.git_sha ?? null,
         status: "running",
         started_by: context.userId,
-        metadata: { plan, validation },
+        metadata: JSON.parse(JSON.stringify({ plan, validation })) as any,
       })
       .select("*")
       .single();
@@ -89,7 +89,7 @@ export const startBuild = createServerFn({ method: "POST" })
     // Persist artifacts
     if (result.artifacts.length) {
       const rows = result.artifacts.map((a) => ({
-        build_id: buildRow.id,
+        build_id: buildRow.id as string,
         kind: a.kind,
         filename: a.filename,
         size_bytes: a.size_bytes,
@@ -97,11 +97,12 @@ export const startBuild = createServerFn({ method: "POST" })
         storage_url: a.storage_url ?? null,
         signed: !!a.signed,
         signing_identity: a.signing_identity ?? null,
-        metadata: a.metadata ?? {},
+        metadata: JSON.parse(JSON.stringify(a.metadata ?? {})) as any,
       }));
-      const { error: artErr } = await context.supabase.from("deploy_artifacts").insert(rows);
+      const { error: artErr } = await context.supabase.from("deploy_artifacts").insert(rows as any);
       if (artErr) throw new Error(artErr.message);
     }
+
 
     // Finalize build row
     const { error: updErr } = await context.supabase
