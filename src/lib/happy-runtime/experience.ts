@@ -139,8 +139,8 @@ export async function handleMessage(
   await recordTurn(supabase, {
     sessionId: input.sessionId,
     role: "happy",
-    intent: classified?.intent ?? null,
-    capability: classified?.capability ?? null,
+    intent: classified?.intent,
+    capability: classified?.capability,
     response,
     evidence,
     latencyMs: Date.now() - t0,
