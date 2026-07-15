@@ -128,7 +128,7 @@ export async function selectVoice(
 
 export type SynthesizeWithFallbackResult =
   | (SynthesizeResult & { selected: SelectedVoice; attempts: Array<{ provider: VoiceProvider; ok: boolean; error?: string; latency_ms: number }> })
-  | { ok: false; provider: "none"; error: string; attempts: Array<{ provider: VoiceProvider; ok: boolean; error?: string; latency_ms: number }>; selected: null };
+  | { ok: false; provider: "none"; error: string; attempts: Array<{ provider: VoiceProvider; ok: boolean; error?: string; latency_ms: number }>; selected: SelectedVoice | null };
 
 export async function synthesizeWithFallback(
   supabase: SupabaseClient,
