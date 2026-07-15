@@ -47,7 +47,7 @@
 | PWA — manifest (home-screen install) | Working (Batch R1) | `public/manifest.webmanifest` + link + apple-touch-icon |
 | PWA — service worker / offline | Not implemented | Intentional per PWA skill (user has not asked for offline) |
 | Brain runtime | Stub | `brain-v3.functions.ts` → `roadmap.service.ts` returns `NOT_IMPLEMENTED` |
-| Founder Command Center (`/founder`) | Working (R3-CC) | Real Supabase counts (companies, users, workspaces, brands, ai_sessions, conversations, deployments, notifications), live ops health probes, queue stats, deployment analytics, security snapshot, audit feed — with Loading/Error/Empty/Retry per panel. Metrics without a backend render as "Not Available Yet" (Revenue MRR, Credits Consumed, Wallet Balance). `analytics.service.ts` platformOverview expanded; health/queue field-name bugs fixed. |
+| Founder Command Center (`/founder`) | Working (R3-CC → R5) | Real Supabase counts + live ops (health/queue/deploys/security/audit). Revenue KPIs wired to `revenueService.overview` (MRR 30d, ARR est., Payments 30d, Refunds 30d, Open/Overdue invoices). Wallet / Credits still render "Not Available Yet" — no wallet or credit ledger table exists. |
 | Founder sub-pages (Users, Companies, Ops, Security, Analytics, AI, System) | Partial | Legacy routes, not audited this pass |
 | Digital Human — OS `prefers-reduced-motion` respected | Working (R3-CC) | `DigitalHumanContext.usePrefersReducedMotion` merges into `prefs.reduced_motion` |
 | Digital Human — SR live-region status announcer | Working (R3-CC) | `role=status aria-live=polite` in `digital-human.index.tsx` announces state transitions |
