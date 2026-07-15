@@ -1,3 +1,7 @@
+> **STATUS DISCLAIMER (Batch R1):** The "Successfully Activated" and "Production Certified" declarations in this document describe intent, not shipped functionality. Most services referenced here return `NOT_IMPLEMENTED` and most routes render `V2TabBody` placeholders. See `docs/STATUS.md` for the honest matrix.
+
+---
+
 # HAPPY Global AI Model Hub — Batch 07
 
 **Status:** Expansion-only. Architecture, Database, Business Logic, Services, APIs, Auth, RBAC, Security, Brain OS, Digital Human, Universal Builder, Business OS, Revenue Cloud, Global AI Platform, Execution Platform, Memory Fabric, Knowledge Graph, Theme Engine, Notification Engine are **FROZEN**.

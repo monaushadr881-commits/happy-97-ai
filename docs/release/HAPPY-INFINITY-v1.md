@@ -1,3 +1,7 @@
+> **STATUS DISCLAIMER (Batch R1):** The "Successfully Activated" and "Production Certified" declarations in this document describe intent, not shipped functionality. Most services referenced here return `NOT_IMPLEMENTED` and most routes render `V2TabBody` placeholders. See `docs/STATUS.md` for the honest matrix.
+
+---
+
 # HAPPY Infinity Edition — v1.0 Global Release
 
 **Status:** FINAL. Expansion-only. All frozen layers from Batches 01–09 remain untouched.

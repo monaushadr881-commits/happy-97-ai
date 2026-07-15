@@ -1,3 +1,7 @@
+> **STATUS DISCLAIMER (Batch R1):** The "Successfully Activated" and "Production Certified" declarations in this document describe intent, not shipped functionality. Most services referenced here return `NOT_IMPLEMENTED` and most routes render `V2TabBody` placeholders. See `docs/STATUS.md` for the honest matrix.
+
+---
+
 # HAPPY Global AI Operating System — Batch 05
 
 **Status:** Expansion-only. Architecture, Database, Business Logic, Services, APIs, Auth, RBAC, Security, Digital Human, Brain OS, Business OS, Builder Platform, Revenue Platform, Credits, Wallet, Marketplace, Notification Engine, Theme Engine, Wallpaper Engine are **FROZEN**. No parallel models, no side-channels.
