@@ -4016,6 +4016,115 @@ export type Database = {
           },
         ]
       }
+      build_pipeline_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          detail: Json
+          event_type: string
+          id: string
+          message: string | null
+          run_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          detail?: Json
+          event_type: string
+          id?: string
+          message?: string | null
+          run_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          detail?: Json
+          event_type?: string
+          id?: string
+          message?: string | null
+          run_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "build_pipeline_events_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "build_pipeline_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      build_pipeline_runs: {
+        Row: {
+          blocked_reason: string | null
+          build_kind: string
+          cache_hit: boolean
+          created_at: string
+          duration_ms: number | null
+          estimated_ms: number | null
+          finished_at: string | null
+          id: string
+          logs_url: string | null
+          metadata: Json
+          platform_code: string
+          priority: number
+          queued_at: string
+          release_id: string | null
+          requested_by: string | null
+          started_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          blocked_reason?: string | null
+          build_kind?: string
+          cache_hit?: boolean
+          created_at?: string
+          duration_ms?: number | null
+          estimated_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          logs_url?: string | null
+          metadata?: Json
+          platform_code: string
+          priority?: number
+          queued_at?: string
+          release_id?: string | null
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          blocked_reason?: string | null
+          build_kind?: string
+          cache_hit?: boolean
+          created_at?: string
+          duration_ms?: number | null
+          estimated_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          logs_url?: string | null
+          metadata?: Json
+          platform_code?: string
+          priority?: number
+          queued_at?: string
+          release_id?: string | null
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "build_pipeline_runs_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_units: {
         Row: {
           code: string | null
@@ -15795,6 +15904,62 @@ export type Database = {
           },
         ]
       }
+      release_artifact_registry: {
+        Row: {
+          created_at: string
+          filename: string
+          id: string
+          kind: string
+          metadata: Json
+          release_id: string
+          sha256: string | null
+          size_bytes: number | null
+          storage_url: string | null
+          updated_at: string
+          uploaded_by: string | null
+          validation_detail: Json
+          validation_status: string
+        }
+        Insert: {
+          created_at?: string
+          filename: string
+          id?: string
+          kind: string
+          metadata?: Json
+          release_id: string
+          sha256?: string | null
+          size_bytes?: number | null
+          storage_url?: string | null
+          updated_at?: string
+          uploaded_by?: string | null
+          validation_detail?: Json
+          validation_status?: string
+        }
+        Update: {
+          created_at?: string
+          filename?: string
+          id?: string
+          kind?: string
+          metadata?: Json
+          release_id?: string
+          sha256?: string | null
+          size_bytes?: number | null
+          storage_url?: string | null
+          updated_at?: string
+          uploaded_by?: string | null
+          validation_detail?: Json
+          validation_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_artifact_registry_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       release_artifacts: {
         Row: {
           artifact_id: string | null
@@ -15854,6 +16019,47 @@ export type Database = {
           },
           {
             foreignKeyName: "release_artifacts_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_automation_checks: {
+        Row: {
+          actor_id: string | null
+          check_kind: string
+          checked_at: string
+          created_at: string
+          detail: Json
+          id: string
+          release_id: string
+          status: string
+        }
+        Insert: {
+          actor_id?: string | null
+          check_kind: string
+          checked_at?: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          release_id: string
+          status: string
+        }
+        Update: {
+          actor_id?: string | null
+          check_kind?: string
+          checked_at?: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          release_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_automation_checks_release_id_fkey"
             columns: ["release_id"]
             isOneToOne: false
             referencedRelation: "release_records"
@@ -15948,6 +16154,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      release_pipeline_metrics_daily: {
+        Row: {
+          avg_duration_ms: number | null
+          builds_blocked: number
+          builds_cancelled: number
+          builds_failed: number
+          builds_succeeded: number
+          builds_total: number
+          created_at: string
+          day: string
+          released_count: number
+          rollback_count: number
+          updated_at: string
+        }
+        Insert: {
+          avg_duration_ms?: number | null
+          builds_blocked?: number
+          builds_cancelled?: number
+          builds_failed?: number
+          builds_succeeded?: number
+          builds_total?: number
+          created_at?: string
+          day: string
+          released_count?: number
+          rollback_count?: number
+          updated_at?: string
+        }
+        Update: {
+          avg_duration_ms?: number | null
+          builds_blocked?: number
+          builds_cancelled?: number
+          builds_failed?: number
+          builds_succeeded?: number
+          builds_total?: number
+          created_at?: string
+          day?: string
+          released_count?: number
+          rollback_count?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       release_records: {
         Row: {
@@ -16059,6 +16307,100 @@ export type Database = {
           },
         ]
       }
+      release_rollout_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          from_percent: number | null
+          from_state: string | null
+          id: string
+          reason: string | null
+          rollout_id: string
+          to_percent: number | null
+          to_state: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          from_percent?: number | null
+          from_state?: string | null
+          id?: string
+          reason?: string | null
+          rollout_id: string
+          to_percent?: number | null
+          to_state: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          from_percent?: number | null
+          from_state?: string | null
+          id?: string
+          reason?: string | null
+          rollout_id?: string
+          to_percent?: number | null
+          to_state?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_rollout_events_rollout_id_fkey"
+            columns: ["rollout_id"]
+            isOneToOne: false
+            referencedRelation: "release_rollouts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_rollouts: {
+        Row: {
+          country_scope: Json
+          created_at: string
+          current_percent: number
+          id: string
+          metadata: Json
+          release_id: string
+          state: string
+          store: string
+          target_percent: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          country_scope?: Json
+          created_at?: string
+          current_percent?: number
+          id?: string
+          metadata?: Json
+          release_id: string
+          state?: string
+          store: string
+          target_percent?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          country_scope?: Json
+          created_at?: string
+          current_percent?: number
+          id?: string
+          metadata?: Json
+          release_id?: string
+          state?: string
+          store?: string
+          target_percent?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_rollouts_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       release_signing_profiles: {
         Row: {
           created_at: string
@@ -16100,6 +16442,74 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      release_store_metrics: {
+        Row: {
+          anr_rate: number | null
+          crash_free_rate: number | null
+          created_at: string
+          downloads: number
+          id: string
+          installs: number
+          rating_avg: number | null
+          rating_count: number
+          release_id: string
+          retention_d1: number | null
+          retention_d30: number | null
+          retention_d7: number | null
+          revenue_cents: number
+          snapshot_at: string
+          source: string
+          store: string
+          updates: number
+        }
+        Insert: {
+          anr_rate?: number | null
+          crash_free_rate?: number | null
+          created_at?: string
+          downloads?: number
+          id?: string
+          installs?: number
+          rating_avg?: number | null
+          rating_count?: number
+          release_id: string
+          retention_d1?: number | null
+          retention_d30?: number | null
+          retention_d7?: number | null
+          revenue_cents?: number
+          snapshot_at?: string
+          source?: string
+          store: string
+          updates?: number
+        }
+        Update: {
+          anr_rate?: number | null
+          crash_free_rate?: number | null
+          created_at?: string
+          downloads?: number
+          id?: string
+          installs?: number
+          rating_avg?: number | null
+          rating_count?: number
+          release_id?: string
+          retention_d1?: number | null
+          retention_d30?: number | null
+          retention_d7?: number | null
+          revenue_cents?: number
+          snapshot_at?: string
+          source?: string
+          store?: string
+          updates?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_store_metrics_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       release_store_submissions: {
         Row: {
