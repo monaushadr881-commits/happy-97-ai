@@ -363,9 +363,9 @@ export const getAppBuilderOverview = createServerFn({ method: "GET" })
       if (m.lastBuildStatus === "failed") buildFailed++;
     }
     const genCount = generations.length;
-    const genOk = generations.filter((g) => g.status === "completed").length;
+    const genOk = generations.filter((g) => g.status === "succeeded").length;
     const genFail = generations.filter((g) => g.status === "failed").length;
-    const latencies = generations.map((g) => g.latency_ms ?? 0).filter((n) => n > 0);
+    const latencies = generations.map((g) => g.duration_ms ?? 0).filter((n) => n > 0);
     const avgLatency = latencies.length ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length) : 0;
 
     return {
