@@ -89,3 +89,20 @@ Legend: ✅ WORKING · 🟡 PARTIAL · ⚪ SCAFFOLDED / STUB · ❌ MISSING · �
 
 ## Company brands
 - Tenanted via `companies` + `brands` — H.P PRIVATE LIMITED, H.P SHUDDH MASALE, AAS PAAS, Razvi Academy, H.P Library, Digital Library.
+
+## R36 Plugin Framework — WORKING
+Registry, versions, permissions (grants + catalog seeded), installations, immutable events, analytics. RLS + GRANTs everywhere. 12 server fns. Files: `src/lib/plugins/{engine.ts,plugins.functions.ts}` and migration.
+
+## R37 Enterprise Ecosystem — PLANNED
+Full engineering plan in `docs/PLAN_R37_R38.md`. Not implemented.
+
+## R38 Founder Copilot — PLANNED
+Full engineering plan in `docs/PLAN_R37_R38.md`. Not implemented.
+
+## R39–R50 — SEAMS ONLY (NOT CERTIFIED)
+Runtime seams shipped: personas registry, capability router, real voice (Lovable/OpenAI/Gemini/ElevenLabs), presentation/whiteboard state machines, digital-human integration contracts (stub throws until real renderer is bound). Files under `src/lib/happy-runtime/`.
+
+Honest unavailable dependencies: rigged character, blendshapes, streaming renderer, GPU runtime, realtime transport, Audio2Face-class lip sync. Do NOT certify photoreal / live 3D — none of it exists yet.
+
+## R51 HAPPY Studio — WORKING (backend)
+Single-identity guarantee (DB singleton). Immutable versioned snapshots. Founder-only writes via RLS. Deployment FSM. Change-request approval flow. 15 server fns. Files: `src/lib/happy-studio/{engine.ts,studio.functions.ts}` and migration. UI PLANNED.
