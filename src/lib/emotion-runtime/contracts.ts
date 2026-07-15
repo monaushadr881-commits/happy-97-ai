@@ -54,6 +54,9 @@ export type ExpressionFrame = {
   viseme_sync_ref: string | null;
 };
 
+export type JsonPrimitive = string | number | boolean | null;
+export type JsonValue = JsonPrimitive | JsonValue[] | { [k: string]: JsonValue };
+
 export type EmotionState = {
   emotion: Emotion;
   mood: Mood;
@@ -63,7 +66,7 @@ export type EmotionState = {
   mood_weight: number;
   confidence: number;
   source: string;
-  evidence: Record<string, unknown>;
+  evidence: { [k: string]: JsonValue };
   timestamp: string;
 };
 
