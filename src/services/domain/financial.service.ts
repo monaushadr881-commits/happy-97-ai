@@ -142,7 +142,7 @@ export const financialService = defineService({ name: "financial", version: "v1"
   async postWalletEntry(ctx: ServiceContext, input: unknown) {
     const p = validate(WalletMove, input);
     // Ensure wallet exists (RLS-scoped)
-    const wallet = await this.ensureWallet(ctx, { owner_type: p.owner_type, owner_id: p.owner_id, currency: p.currency });
+    const wallet = await this.ensureWallet(ctx, { owner_type: p.owner_type, owner_id: p.owner_id, currency: p.currency }) as { id: string };
     const { data, error } = await ctx.supabase
       .from("wallet_ledger_entries")
       .insert({
@@ -154,7 +154,7 @@ export const financialService = defineService({ name: "financial", version: "v1"
         reference_type: p.reference_type ?? null,
         reference_id: p.reference_id ?? null,
         description: p.description ?? null,
-        metadata: p.metadata ?? {},
+        metadata: (p.metadata ?? {}) as never,
         created_by: ctx.userId ?? null,
       })
       .select("*")
@@ -162,6 +162,7 @@ export const financialService = defineService({ name: "financial", version: "v1"
     if (error) throw error;
     return data;
   },
+
 
   // ---------- CREDITS ---------------------------------------------------
   async creditBalance(ctx: ServiceContext, input: unknown) {
