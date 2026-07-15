@@ -178,8 +178,8 @@ export async function neighborhood(sb: SB, userId: string, opts: {
 }) {
   const depth = Math.min(Math.max(opts.depth ?? 1, 1), 3);
   const visited = new Set<string>([opts.entity_id]);
-  const nodes: Record<string, unknown>[] = [];
-  const edges: Record<string, unknown>[] = [];
+  const nodes: any[] = [];
+  const edges: any[] = [];
   const rootEnt = await entityGet(sb, userId, opts.entity_id);
   if (rootEnt) nodes.push(rootEnt);
   let frontier = [opts.entity_id];
@@ -224,11 +224,11 @@ export async function entitySearch(sb: SB, _userId: string, opts: {
 
 export interface NLQueryResult {
   intent: string;
-  entities: unknown[];
-  relations: unknown[];
+  entities: any[];
+  relations: any[];
   answer_summary: string;
-  facts: unknown[];
-  inferences: unknown[];
+  facts: any[];
+  inferences: any[];
 }
 
 // Deterministic natural-language query router (facts only).
@@ -252,7 +252,7 @@ export async function naturalQuery(sb: SB, userId: string, opts: { company_id: s
   const chosen = relMap.find(([re]) => re.test(q));
   const candidates = await entitySearch(sb, userId, { company_id: opts.company_id, q, limit: 8 });
 
-  let relations: unknown[] = [];
+  let relations: any[] = [];
   if (candidates.length && chosen) {
     relations = await relationsList(sb, userId, {
       company_id: opts.company_id, entity_id: candidates[0].id, direction: "both",
