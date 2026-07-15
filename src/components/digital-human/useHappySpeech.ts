@@ -126,7 +126,7 @@ export function useHappySpeech() {
         buf.copyToChannel(floats, 0);
         const src = ctx!.createBufferSource();
         src.buffer = buf;
-        src.connect(gain);
+        src.connect(gainRef.current!);
         if (playhead === 0) playhead = ctx!.currentTime + 0.05;
         else playhead = Math.max(playhead, ctx!.currentTime);
         src.start(playhead);
