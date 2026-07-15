@@ -1167,3 +1167,33 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - RLS enforces scope isolation; company memory requires admin to write, members to read; personal memory is owner-only.
 - `memory_events` and `memory_access_log` are DB-immutable (triggers reject UPDATE/DELETE).
 - Retention runner honors `pinned=true` (never archived/deleted automatically) and `expires_at`.
+
+## R29 — HAPPY Enterprise Knowledge Graph
+
+### Files
+- `supabase/migrations/*_r29_kg.sql` — 4 new tables (`kg_entities`, `kg_relations`, `kg_inferences`, `kg_search_cache`) with RLS (company-member read, company-admin write), unique keys on `(company_id, kind, ref_id)` and `(from,to,relation)`, GIN full-text on `kg_entities`, and immutable-core trigger on `kg_inferences`.
+- `src/lib/kg/engine.ts` — entity upsert/resolve/list/archive/delete, relation upsert/delete/list, breadth-first neighborhood traversal (max depth 3), full-text entity search, deterministic natural-language query router, rule-based inference engine (3 seed rules), inference record/review/list, graph health dashboard.
+- `src/lib/kg/kg.functions.ts` — 16 auth-gated `createServerFn` endpoints.
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Entity Engine (29 kinds, ref_table/ref_id link back to source tables) | WORKING |
+| Relationship Engine (15 typed relations, weight, validity window, evidence) | WORKING |
+| Semantic / Full-text Search (`websearch` on `search_tsv`) | WORKING |
+| Natural-Language Query Router (13 rule patterns → verified facts only) | WORKING |
+| Neighborhood / Traversal (BFS, depth ≤ 3, verified filter) | WORKING |
+| Inference Engine (rule-based: owns+depends_on, purchased+produces, reports_to-transitive) | WORKING |
+| Inference Review (accept promotes to verified relation) | WORKING |
+| Graph Health Dashboard (entity/relation counts, verification rate, kind distribution) | WORKING |
+| Audit surface (immutable inference log with reviewer + rationale) | WORKING |
+| Vector / Embedding search | PLANNED — schema reserves extensibility via `attributes` jsonb |
+| Live Graph Explorer UI | PLANNED — engine is UI-ready; visualization component to follow |
+
+### Guarantees
+- Verified vs AI-inferred are stored in **separate tables**: `kg_relations.verified=true` are platform facts; `kg_inferences` are proposals requiring human review before promotion.
+- `inferenceRun` NEVER creates new entities and NEVER writes to `kg_relations` directly — it only records proposals in `kg_inferences`.
+- `kg_inferences` core fields are DB-immutable (trigger); only status/reviewed_by/reviewed_at may change.
+- `naturalQuery` returns `inferences: []` explicitly and answers only from verified data.
+- All writes scoped by `is_company_admin`; all reads by `is_company_member` via RLS.
+- Entity uniqueness (`company_id, kind, ref_id`) prevents duplicate entities from repeated syncs.

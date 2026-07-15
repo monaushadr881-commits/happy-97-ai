@@ -6149,6 +6149,255 @@ export type Database = {
           },
         ]
       }
+      kg_entities: {
+        Row: {
+          attributes: Json
+          company_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          kind: string
+          label: string
+          owner_user_id: string | null
+          ref_id: string | null
+          ref_table: string | null
+          search_tsv: unknown
+          slug: string | null
+          status: string
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          attributes?: Json
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind: string
+          label: string
+          owner_user_id?: string | null
+          ref_id?: string | null
+          ref_table?: string | null
+          search_tsv?: unknown
+          slug?: string | null
+          status?: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          attributes?: Json
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          label?: string
+          owner_user_id?: string | null
+          ref_id?: string | null
+          ref_table?: string | null
+          search_tsv?: unknown
+          slug?: string | null
+          status?: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kg_entities_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kg_inferences: {
+        Row: {
+          company_id: string | null
+          confidence: number
+          created_at: string
+          created_by: string | null
+          evidence: Json
+          from_entity_id: string | null
+          id: string
+          rationale: string
+          relation: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          to_entity_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          confidence: number
+          created_at?: string
+          created_by?: string | null
+          evidence?: Json
+          from_entity_id?: string | null
+          id?: string
+          rationale: string
+          relation: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          to_entity_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          created_by?: string | null
+          evidence?: Json
+          from_entity_id?: string | null
+          id?: string
+          rationale?: string
+          relation?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          to_entity_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kg_inferences_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kg_inferences_from_entity_id_fkey"
+            columns: ["from_entity_id"]
+            isOneToOne: false
+            referencedRelation: "kg_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kg_inferences_to_entity_id_fkey"
+            columns: ["to_entity_id"]
+            isOneToOne: false
+            referencedRelation: "kg_entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kg_relations: {
+        Row: {
+          company_id: string | null
+          confidence: number
+          created_at: string
+          created_by: string | null
+          evidence: Json
+          from_entity_id: string
+          id: string
+          relation: string
+          source: string | null
+          to_entity_id: string
+          updated_at: string
+          valid_from: string | null
+          valid_to: string | null
+          verified: boolean
+          weight: number
+        }
+        Insert: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          created_by?: string | null
+          evidence?: Json
+          from_entity_id: string
+          id?: string
+          relation: string
+          source?: string | null
+          to_entity_id: string
+          updated_at?: string
+          valid_from?: string | null
+          valid_to?: string | null
+          verified?: boolean
+          weight?: number
+        }
+        Update: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          created_by?: string | null
+          evidence?: Json
+          from_entity_id?: string
+          id?: string
+          relation?: string
+          source?: string | null
+          to_entity_id?: string
+          updated_at?: string
+          valid_from?: string | null
+          valid_to?: string | null
+          verified?: boolean
+          weight?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kg_relations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kg_relations_from_entity_id_fkey"
+            columns: ["from_entity_id"]
+            isOneToOne: false
+            referencedRelation: "kg_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kg_relations_to_entity_id_fkey"
+            columns: ["to_entity_id"]
+            isOneToOne: false
+            referencedRelation: "kg_entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kg_search_cache: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          expires_at: string
+          hit_count: number
+          hits: Json
+          id: string
+          query_hash: string
+          query_text: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          expires_at?: string
+          hit_count?: number
+          hits?: Json
+          id?: string
+          query_hash: string
+          query_text: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          expires_at?: string
+          hit_count?: number
+          hits?: Json
+          id?: string
+          query_hash?: string
+          query_text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kg_search_cache_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       knowledge_articles: {
         Row: {
           body: string
