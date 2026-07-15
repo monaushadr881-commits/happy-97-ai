@@ -181,22 +181,83 @@ export const dhSpeak = createServerFn({ method: "POST" })
       ? "The user has opted in to gentle emotional adaptation. Adjust tone warmly but never assert their emotional state."
       : "Do not adapt tone based on assumed emotions. Stay professional and neutral.";
 
-    const messages = [
-      { role: "system", content: `${IDENTITY} ${MODE_INSTRUCTIONS[data.mode]} ${emotionRule} Reply in ${prefs.language ?? "en"}. Use short paragraphs suitable for spoken delivery. Avoid tables unless asked.` },
-      ...(prefs.memory_enabled ? transcript.slice(-30) : []).map((m) => ({ role: m.role, content: m.content })),
+    const { HAPPY_TOOLS, runHappyTool } = await import("./happy-tools.server");
+    type ClientAction =
+      | { type: "navigate"; to: string; label?: string }
+      | { type: "invalidate"; keys: string[]; label?: string }
+      | { type: "toast"; kind: "success" | "info" | "warning" | "error"; message: string };
+
+    const systemPrompt = `${IDENTITY} ${MODE_INSTRUCTIONS[data.mode]} ${emotionRule} Reply in ${prefs.language ?? "en"}. Use short paragraphs suitable for spoken delivery. Avoid tables unless asked.
+
+You are integrated with the HAPPY platform and can call tools to answer with live data or execute in-app actions on the user's behalf. Prefer tools over guessing whenever the question is about the user's own notifications, platform metrics, health, deployments, queues, security, or when the user asks you to navigate somewhere or mark notifications read. After tools return, summarize what you found in one to three short spoken sentences.`;
+
+    type ChatMsg = {
+      role: "system" | "user" | "assistant" | "tool";
+      content: string | null;
+      tool_calls?: Array<{ id: string; type: "function"; function: { name: string; arguments: string } }>;
+      tool_call_id?: string;
+    };
+
+    const messages: ChatMsg[] = [
+      { role: "system", content: systemPrompt },
+      ...(prefs.memory_enabled ? transcript.slice(-30) : []).map((m) => ({ role: m.role, content: m.content } as ChatMsg)),
       { role: "user", content: data.expression_hint ? `[expression:${data.expression_hint}] ${data.message}` : data.message },
     ];
 
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({ model: "google/gemini-2.5-flash", messages }),
-    });
-    if (res.status === 429) throw new Error("HAPPY is busy — please try again in a moment.");
-    if (res.status === 402) throw new Error("AI credits exhausted for this workspace.");
-    if (!res.ok) throw new Error(`AI Gateway error: ${res.status}`);
-    const json = await res.json() as { choices?: Array<{ message?: { content?: string } }> };
-    const answer = (json.choices?.[0]?.message?.content ?? "").trim();
+    const clientActions: ClientAction[] = [];
+    const toolsUsed: string[] = [];
+    let answer = "";
+
+    // Tool-call loop, capped to prevent runaway rounds.
+    for (let round = 0; round < 4; round++) {
+      const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages,
+          tools: HAPPY_TOOLS,
+          tool_choice: "auto",
+        }),
+      });
+      if (res.status === 429) throw new Error("HAPPY is busy — please try again in a moment.");
+      if (res.status === 402) throw new Error("AI credits exhausted for this workspace.");
+      if (!res.ok) throw new Error(`AI Gateway error: ${res.status}`);
+      const json = await res.json() as {
+        choices?: Array<{
+          message?: {
+            content?: string | null;
+            tool_calls?: Array<{ id: string; type: "function"; function: { name: string; arguments: string } }>;
+          };
+          finish_reason?: string;
+        }>;
+      };
+      const msg = json.choices?.[0]?.message;
+      const toolCalls = msg?.tool_calls ?? [];
+
+      if (toolCalls.length > 0) {
+        messages.push({ role: "assistant", content: msg?.content ?? null, tool_calls: toolCalls });
+        for (const call of toolCalls) {
+          toolsUsed.push(call.function.name);
+          let parsed: unknown = {};
+          try { parsed = JSON.parse(call.function.arguments || "{}"); } catch { /* ignore */ }
+          const result = await runHappyTool(call.function.name, parsed, {
+            supabase: context.supabase, userId: context.userId, claims: context.claims,
+          });
+          if (result.client_actions) clientActions.push(...result.client_actions);
+          messages.push({
+            role: "tool",
+            tool_call_id: call.id,
+            content: JSON.stringify(result.error ? { error: result.error } : (result.data ?? {})).slice(0, 4000),
+          });
+        }
+        continue; // ask model to summarize with tool results
+      }
+
+      answer = (msg?.content ?? "").trim();
+      break;
+    }
+    if (!answer) answer = "I couldn't compose a response — please try again.";
 
     // Heuristic expression tag for the avatar — never asserts user emotion.
     const expression =
@@ -219,7 +280,7 @@ export const dhSpeak = createServerFn({ method: "POST" })
     }).eq("id", sessionId).eq("user_id", context.userId);
     if (upd.error) throw upd.error;
 
-    return { session_id: sessionId, answer, expression, transcript: nextTranscript };
+    return { session_id: sessionId, answer, expression, transcript: nextTranscript, client_actions: clientActions, tools_used: toolsUsed };
   }));
 
 // =====================================================================

@@ -1,5 +1,6 @@
 /** /digital-human — Real-Time Human Conversation Engine (RT-HCE). */
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useMutation } from "@tanstack/react-query";
@@ -44,6 +45,8 @@ const STATE_LABEL: Record<ConvoState, string> = {
 
 function DhConversation() {
   const { prefs, updatePrefs, activity, setActivity, expression, setExpression } = useDigitalHuman();
+  const navigate = useNavigate();
+  const qc = useQueryClient();
   const { speak, stop } = useHappySpeech();
   const speechSig = useSpeechSignal();
   const [mode, setMode] = useState<DhMode>("assistant");
@@ -192,6 +195,22 @@ function DhConversation() {
     if (abort.signal.aborted) return;
     setSessionId(res.session_id);
 
+    // Apply HAPPY tool client-actions (navigate, invalidate, toast).
+    type ClientAction =
+      | { type: "navigate"; to: string; label?: string }
+      | { type: "invalidate"; keys: string[]; label?: string }
+      | { type: "toast"; kind: "success" | "info" | "warning" | "error"; message: string };
+    const actions = ((res as { client_actions?: ClientAction[] }).client_actions ?? []);
+    for (const act of actions) {
+      if (act.type === "invalidate") {
+        for (const k of act.keys) qc.invalidateQueries({ queryKey: [k] });
+      } else if (act.type === "toast") {
+        toast[act.kind === "error" ? "error" : act.kind === "warning" ? "warning" : act.kind === "success" ? "success" : "info"](act.message);
+      }
+    }
+    // Navigate after speaking begins — schedule at end so it doesn't cut speech mid-sentence.
+    const navAction = actions.find((a): a is Extract<ClientAction, { type: "navigate" }> => a.type === "navigate");
+
     const { thinkMs } = timingProfileFor(intent, res.answer);
 
     const back = !prefs.mute_audio && intent !== "greeting" && intent !== "short"
@@ -218,6 +237,10 @@ function DhConversation() {
       setActivity("idle"); setExpression("neutral");
       setConvoState("finished");
       setTimeout(() => setConvoState((s) => (s === "finished" ? "idle" : s)), 1400);
+      if (navAction) {
+        // Give speech ~200ms of settle time so the final word isn't clipped by route change.
+        setTimeout(() => { navigate({ to: navAction.to }); }, 250);
+      }
     }
   };
 
