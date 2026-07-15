@@ -163,8 +163,12 @@ function FounderOverview() {
         <StatCard label="Refunds (30d)" value={fmtMoney(rv?.refunds30dCents)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
         <StatCard label="Open Invoices" value={fmtCount(rv?.invoicesOpen ?? null)} icon={<Receipt className="h-4 w-4" aria-hidden="true" />} />
         <StatCard label="Overdue" value={fmtCount(rv?.invoicesOverdue ?? null)} icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />} />
-        <StatCard label="Wallet Balance" value={fmtMoney(rv?.walletBalanceCents)} icon={<Wallet className="h-4 w-4" aria-hidden="true" />} />
-        <StatCard label="Credits" value={fmtCount(rv?.creditsBalance)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Wallet Volume" value={fmtMoney(finances.data?.walletVolumeCents ?? null)} icon={<Wallet className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Credits Outstanding" value={fmtCount(finances.data?.creditsOutstanding ?? null)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Active Subscriptions" value={fmtCount(finances.data?.subscriptions?.active ?? null)} icon={<Receipt className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Trials" value={fmtCount(finances.data?.subscriptions?.trial ?? null)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Renewals (30d)" value={fmtCount(finances.data?.subscriptions?.renewalsUpcoming30d ?? null)} icon={<TrendingUp className="h-4 w-4" aria-hidden="true" />} />
+
       </section>
 
       {overview.isError && (
