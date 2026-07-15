@@ -57,17 +57,18 @@ export const seoSchema = z.object({
 export type Seo = z.infer<typeof seoSchema>;
 
 // Sections are recursive (columns can contain sections).
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [k: string]: JsonValue };
 export type Section = {
   id: string;
   type: SectionType;
-  props?: Record<string, unknown>;
+  props?: { [k: string]: JsonValue };
   children?: Section[];
 };
 export const sectionSchema: z.ZodType<Section> = z.lazy(() =>
   z.object({
     id: z.string().min(1).max(64),
     type: z.enum(SECTION_TYPES),
-    props: z.record(z.string(), z.unknown()).default({}),
+    props: z.record(z.string(), z.any()).default({}),
     children: z.array(sectionSchema).max(64).optional(),
   }),
 );
