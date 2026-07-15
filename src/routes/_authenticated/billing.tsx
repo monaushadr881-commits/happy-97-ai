@@ -16,8 +16,15 @@ import {
   revOverview, revTimeseries, revListInvoices, revListPayments,
 } from "@/lib/revenue-v1.functions";
 import {
+  finListPlans, finListSubscriptions, finSubscriptionOverview,
+  finListWallets, finEnsureUserWallet, finWalletLedger,
+  finCreditBalance, finCreditLedger,
+} from "@/lib/financial-v1.functions";
+import {
   Receipt, RefreshCw, CreditCard, Wallet, Repeat, Undo2, TrendingUp, AlertTriangle,
+  Sparkles, Coins,
 } from "lucide-react";
+
 
 export const Route = createFileRoute("/_authenticated/billing")({
   head: () => ({ meta: [
