@@ -436,7 +436,7 @@ export async function webhookEmit(sb: SB, opts: {
     // but we produce a delivery-side signature using hash(secret_hash || body) — the subscriber
     // rotates their secret via the endpoint create/rotate flow.
     const { data: epFull } = await sb.from("apigw_webhook_endpoints" as never).select("secret_hash").eq("id", ep.id).single();
-    const secret_hash = (epFull as { secret_hash: string }).secret_hash;
+    const secret_hash = (epFull as unknown as { secret_hash: string } | null)?.secret_hash ?? "";
     const signature = await hmacSha256Hex(secret_hash, `${event_id}.${body}`);
     const row = {
       endpoint_id: ep.id,
