@@ -12,7 +12,8 @@
  *   - This is the real signal driving the avatar mouth overlay and the
  *     live waveform. Not fake timers.
  */
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { clearSpeech, publishSpeech, useSpeechSignal } from "./audio-bus";
 
 type Options = { voice?: string; speed?: number; onStart?: () => void; onEnd?: () => void };
 
@@ -29,29 +30,9 @@ function parseSse(chunk: string, onEvent: (data: string) => void, carry: { buf: 
   }
 }
 
-// Module-level singleton amplitude bus so multiple components (avatar +
-// waveform) can subscribe to the same live signal without prop drilling.
-let _amp = 0;
-const _subs = new Set<() => void>();
-function setAmp(v: number) {
-  if (Math.abs(v - _amp) < 0.001) return;
-  _amp = v;
-  _subs.forEach((cb) => cb());
-}
-function subscribe(cb: () => void) {
-  _subs.add(cb);
-  return () => _subs.delete(cb);
-}
-function getSnapshot() {
-  return _amp;
-}
-function getServerSnapshot() {
-  return 0;
-}
-
-/** Subscribe to HAPPY's live speech amplitude (0..1). Rerenders at ~60 Hz while speaking. */
+/** Subscribe to HAPPY's live speech amplitude (0..1). Legacy shim. */
 export function useSpeechAmplitude(): number {
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSpeechSignal().rms;
 }
 
 export function useHappySpeech() {
@@ -65,7 +46,7 @@ export function useHappySpeech() {
   const stopMeter = useCallback(() => {
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     rafRef.current = null;
-    setAmp(0);
+    clearSpeech();
   }, []);
 
   const stop = useCallback(() => {
@@ -91,8 +72,8 @@ export function useHappySpeech() {
         const gain = ctx.createGain();
         gain.gain.value = 1;
         const analyser = ctx.createAnalyser();
-        analyser.fftSize = 512;
-        analyser.smoothingTimeConstant = 0.6;
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.55;
         gain.connect(analyser);
         analyser.connect(ctx.destination);
         gainRef.current = gain;
@@ -101,8 +82,8 @@ export function useHappySpeech() {
       if (ctx.state === "suspended") await ctx.resume().catch(() => {});
 
       const analyser = analyserRef.current!;
-      const gain = gainRef.current!;
       const timeBuf = new Uint8Array(analyser.fftSize);
+      const freqBuf = new Uint8Array(analyser.frequencyBinCount);
 
       const tick = () => {
         analyser.getByteTimeDomainData(timeBuf);
@@ -112,9 +93,20 @@ export function useHappySpeech() {
           sum += s * s;
         }
         const rms = Math.sqrt(sum / timeBuf.length);
-        // Soft-shape: emphasize the middle of the range for expressive mouth motion.
         const shaped = Math.min(1, Math.pow(rms * 2.4, 0.85));
-        setAmp(shaped);
+
+        // Spectral centroid → normalised 0..1. Rough proxy for vowel
+        // brightness: closed/O sit low, E/AI sit high.
+        analyser.getByteFrequencyData(freqBuf);
+        let num = 0, den = 0;
+        for (let i = 0; i < freqBuf.length; i++) {
+          const w = freqBuf[i];
+          num += i * w;
+          den += w;
+        }
+        const centroid = den > 0 ? Math.min(1, (num / den) / freqBuf.length) : 0;
+
+        publishSpeech(shaped, centroid);
         if (speakingRef.current) rafRef.current = requestAnimationFrame(tick);
         else stopMeter();
       };
@@ -134,7 +126,7 @@ export function useHappySpeech() {
         buf.copyToChannel(floats, 0);
         const src = ctx!.createBufferSource();
         src.buffer = buf;
-        src.connect(gain);
+        src.connect(gainRef.current!);
         if (playhead === 0) playhead = ctx!.currentTime + 0.05;
         else playhead = Math.max(playhead, ctx!.currentTime);
         src.start(playhead);

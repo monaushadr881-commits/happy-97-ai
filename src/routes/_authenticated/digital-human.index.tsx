@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { HappyAvatar, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { useDigitalHuman } from "@/components/digital-human/DigitalHumanContext";
-import { useHappySpeech, useSpeechAmplitude } from "@/components/digital-human/useHappySpeech";
+import { useHappySpeech } from "@/components/digital-human/useHappySpeech";
+import { useSpeechSignal, useMicSignal } from "@/components/digital-human/audio-bus";
 import { useVoiceInput } from "@/components/digital-human/useVoiceInput";
 import {
   chunkForSpeech, classifyIntent, estimateSpeechMs, expressionFor,
@@ -44,7 +45,7 @@ const STATE_LABEL: Record<ConvoState, string> = {
 function DhConversation() {
   const { prefs, updatePrefs, activity, setActivity, expression, setExpression } = useDigitalHuman();
   const { speak, stop } = useHappySpeech();
-  const speechAmp = useSpeechAmplitude();
+  const speechSig = useSpeechSignal();
   const [mode, setMode] = useState<DhMode>("assistant");
   const [message, setMessage] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -91,6 +92,26 @@ function DhConversation() {
   });
 
   useEffect(() => () => cancelTurn(), []); // cleanup on unmount
+
+  // Greeting engine — first visit of the session only. Eye contact +
+  // smile + a short spoken greeting. Skipped when muted or reduced-motion.
+  const greetedRef = useRef(false);
+  useEffect(() => {
+    if (greetedRef.current) return;
+    greetedRef.current = true;
+    if (prefs.mute_audio || prefs.reduced_motion) return;
+    const t = setTimeout(() => {
+      setExpression("smile"); setActivity("speaking"); setConvoState("speaking");
+      speak("Hi, I'm HAPPY.", { voice: prefs.voice, speed: effectiveSpeed })
+        .catch(() => {})
+        .finally(() => {
+          setActivity("idle"); setExpression("neutral"); setConvoState("idle");
+        });
+    }, 650);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   useEffect(() => {
     if (handsFree) { voice.start().catch((e: Error) => { toast.error(e.message); setHandsFree(false); }); }
@@ -266,7 +287,7 @@ function DhConversation() {
       <div className="grid gap-4 lg:grid-cols-[20rem_1fr]">
         <div className="space-y-4">
           <Panel className="p-6 flex flex-col items-center">
-            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} amplitude={speechAmp} />
+            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} amplitude={speechSig.rms} centroid={speechSig.centroid} />
             <div className="mt-4 flex items-center gap-2 flex-wrap justify-center">
               <Chip tone="gold">HAPPY · {MODE_LABEL[mode]}</Chip>
               <Chip tone={stateChipTone}>{STATE_LABEL[convoState]}</Chip>
@@ -485,17 +506,18 @@ const CaptionRender = memo(function CaptionRender({
  *  speaking. Falls back to a gentle idle shimmer when not speaking. */
 function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMotion?: boolean }) {
   const bars = 42;
-  const amplitude = useSpeechAmplitude();
+  const speech = useSpeechSignal();
+  const mic = useMicSignal();
   const speaking = state === "speaking";
   const listening = state === "listening";
   const thinking = state === "thinking";
   const active = speaking || listening || thinking;
 
-  // Build a per-frame per-bar height. During speaking, drive it from the live
-  // amplitude with a stable per-bar phase so bars pulse in a natural pattern.
-  // During listening/thinking, use a low ambient shimmer.
-  const ampRef = useRef(amplitude);
-  ampRef.current = amplitude;
+  // During speaking → TTS analyser. During listening → mic analyser.
+  // During thinking → gentle idle shimmer. No fake data.
+  const liveAmp = speaking ? speech.rms : listening ? mic.rms : 0;
+  const ampRef = useRef(liveAmp);
+  ampRef.current = liveAmp;
   const rafRef = useRef<number | null>(null);
   const [tick, setTick] = useState(0);
   useEffect(() => {
@@ -521,11 +543,14 @@ function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMoti
           const wobble = 0.6 + 0.4 * Math.sin((tick / 6) + phase * Math.PI * 2);
           h = 18 + Math.min(1, ampRef.current) * 78 * wobble;
         } else if (listening) {
-          h = 22 + 30 * (0.5 + 0.5 * Math.sin((tick / 12) + phase * Math.PI * 2));
+          // Real mic RMS. Falls to a low idle shimmer when the user is silent.
+          const amp = Math.min(1, ampRef.current);
+          const shimmer = 0.5 + 0.5 * Math.sin((tick / 12) + phase * Math.PI * 2);
+          h = 14 + amp * 70 * (0.6 + 0.4 * shimmer) + (1 - amp) * 12 * shimmer;
         } else if (thinking) {
           h = 18 + 18 * (0.5 + 0.5 * Math.sin((tick / 20) + phase * Math.PI * 2));
         } else {
-          h = 12 + ((i * 37) % 20);
+          h = 10;
         }
         return (
           <span
