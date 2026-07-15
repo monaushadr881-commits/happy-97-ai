@@ -13,14 +13,16 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+// Snapshots contain arbitrary JSONB payloads; use `any` so downstream
+// consumers can serialize freely and Supabase generic overloads accept it.
 export type IdentitySnapshot = {
-  identity: unknown;
-  appearance: unknown;
-  voice: unknown[];
-  behavior: unknown[];
-  skills: unknown[];
-  knowledge_refs: unknown[];
-  animations: unknown[];
+  identity: any;
+  appearance: any;
+  voice: any[];
+  behavior: any[];
+  skills: any[];
+  knowledge_refs: any[];
+  animations: any[];
 };
 
 export async function buildSnapshot(
