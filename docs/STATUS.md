@@ -1806,3 +1806,46 @@ Status: **WORKING (asset contract + registry + validators). Renderer NOT include
 - No in-browser microphone capture / VAD (client-owned; not runtime).
 - No renderer — timing timelines are exposed but nothing is drawn.
 - Analytics snapshotting to `voice_analytics_snapshots` is on-demand via `computeAnalytics`; periodic cron is a future pass.
+
+---
+
+## R44 — Business Specialist Modes — WORKING (backend orchestration)
+
+| Component                       | Status  | Notes                                                                 |
+|---------------------------------|---------|-----------------------------------------------------------------------|
+| Business Specialist Runtime     | WORKING | `src/lib/specialist-runtime/engine.ts`                                |
+| Mode Orchestrator               | WORKING | 30 modes seeded into `specialist_mode_registry`                       |
+| Domain Router                   | WORKING | `router.ts` — deterministic keyword→(domain,mode,capability,runtime)  |
+| Business Session Runtime        | WORKING | start / transition / pause / resume / archive / end                   |
+| Evidence Resolver               | WORKING | Callers pass `facts[]` from owning runtimes; engine records only      |
+| Recommendation Resolver         | WORKING | `recommendations[]` stored separately from facts; strict shape        |
+| Business Analytics              | WORKING | `computeAnalytics` rollup: modes, domains, evidence coverage, latency |
+| Founder dashboard data          | WORKING | `listSpecialistSessionsFn` + `computeSpecialistAnalyticsFn`           |
+| Multi-mode auto switching       | WORKING | Router auto-transitions when routed mode ≠ current & confidence ≥ .55 |
+| Renderer / chat UI              | PLANNED | Runtime only; the single HAPPY surface consumes it                    |
+
+### Files
+- `supabase/migrations/*_r44_*` — 4 tables (registry, sessions, turns, analytics_snapshots) + 30-mode seed
+- `src/lib/specialist-runtime/contracts.ts` — mode/domain taxonomy, Fact/Recommendation, JsonValue
+- `src/lib/specialist-runtime/router.ts` — deterministic intent → routing resolver
+- `src/lib/specialist-runtime/engine.ts` — session lifecycle, turn processing, analytics
+- `src/lib/specialist-runtime/specialist.functions.ts` — 7 auth-gated server functions
+
+### Security
+- RLS on every table. Sessions/turns readable by owner, company admins, ops admins.
+- `specialist_turns` and `specialist_analytics_snapshots` immutable (UPDATE/DELETE blocked by trigger).
+- `specialist_mode_registry` writable only by `is_ops_admin`; readable by all authenticated.
+- Company isolation via `company_id` filters and `is_company_admin` check.
+
+### Reuse (no duplication)
+- Engine never executes business logic; it records the routing decision.
+- `runtime_routes` in the registry names existing runtimes (finance, crm, erp, wms,
+  mfg, brain, agents, automation, marketplace, plugins, deployment, knowledge,
+  education, cms, support, compliance, security, operations, founder-workspace).
+- Reuses `is_company_admin` / `is_ops_admin` — no new role helpers.
+- FACT and AI RECOMMENDATION are physically separate columns in `specialist_turns`.
+
+### Honest gaps
+- Single HAPPY chat surface that consumes this runtime is a future UI pass.
+- LLM-based intent classification (beyond keyword router) is a future upgrade.
+- Cron rollup of analytics is on-demand only.
