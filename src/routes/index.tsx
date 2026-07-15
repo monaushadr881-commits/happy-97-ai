@@ -1210,18 +1210,6 @@ function QrCard({
   icon?: React.ReactNode;
   footer?: React.ReactNode;
 }) {
-  title,
-  subtitle,
-  src,
-  alt,
-  variant = "dark",
-}: {
-  title: string;
-  subtitle: string;
-  src: string;
-  alt: string;
-  variant?: "dark" | "light";
-}) {
   return (
     <div className="group relative">
       <div className="pointer-events-none absolute -inset-2 rounded-[1.75rem] bg-gold/15 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-90" />
@@ -1235,7 +1223,7 @@ function QrCard({
               {title}
             </div>
           </div>
-          <LogoMark size={28} />
+          {icon ?? <LogoMark size={28} />}
         </div>
         <div
           className={`relative overflow-hidden rounded-2xl p-3 ${
@@ -1254,6 +1242,11 @@ function QrCard({
           {/* scan sweep */}
           <div className="pointer-events-none absolute inset-x-3 top-3 h-[2px] rounded-full bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 shadow-[0_0_18px_2px_rgba(212,175,55,0.6)] transition-opacity duration-300 group-hover:opacity-100 group-hover:animate-[qrscan_2.2s_ease-in-out_infinite]" />
         </div>
+        {footer && (
+          <div className="mt-4 flex items-center justify-between text-[11px] uppercase tracking-[0.22em]">
+            {footer}
+          </div>
+        )}
       </div>
       <style>{`
         @keyframes qrscan {
