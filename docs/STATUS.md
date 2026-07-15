@@ -1,6 +1,6 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** Batch R2-DH (Digital Human real-implementation pass).
+**Last updated:** Batch R3-CC (Founder Command Center + DH polish).
 
 > This document supersedes every "Successfully Activated" / "Production
 > Certified" declaration in the `docs/architecture/*.md` and
@@ -47,7 +47,10 @@
 | PWA — manifest (home-screen install) | Working (Batch R1) | `public/manifest.webmanifest` + link + apple-touch-icon |
 | PWA — service worker / offline | Not implemented | Intentional per PWA skill (user has not asked for offline) |
 | Brain runtime | Stub | `brain-v3.functions.ts` → `roadmap.service.ts` returns `NOT_IMPLEMENTED` |
-| Founder dashboard | Stub | `founder-v2.functions.ts` 18 LOC; UI is `V2TabBody` |
+| Founder Command Center (`/founder`) | Working (R3-CC) | Real Supabase counts (companies, users, workspaces, brands, ai_sessions, conversations, deployments, notifications), live ops health probes, queue stats, deployment analytics, security snapshot, audit feed — with Loading/Error/Empty/Retry per panel. Metrics without a backend render as "Not Available Yet" (Revenue MRR, Credits Consumed, Wallet Balance). `analytics.service.ts` platformOverview expanded; health/queue field-name bugs fixed. |
+| Founder sub-pages (Users, Companies, Ops, Security, Analytics, AI, System) | Partial | Legacy routes, not audited this pass |
+| Digital Human — OS `prefers-reduced-motion` respected | Working (R3-CC) | `DigitalHumanContext.usePrefersReducedMotion` merges into `prefs.reduced_motion` |
+| Digital Human — SR live-region status announcer | Working (R3-CC) | `role=status aria-live=polite` in `digital-human.index.tsx` announces state transitions |
 | Business modules (CRM, ERP, HRMS, Manufacturing, Finance, Inventory) | Stub | Tables exist; UI routes are `V2TabBody` |
 | Revenue Cloud (subscriptions, invoices, webhooks, customer portal) | Missing | No Stripe/Paddle enabled; only scaffold functions |
 | Notifications runtime (email + push + in-app delivery) | Missing | `notifications` table exists; no send pipeline |

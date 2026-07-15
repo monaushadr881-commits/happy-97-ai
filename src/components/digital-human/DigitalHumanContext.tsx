@@ -2,7 +2,7 @@
  * Digital Human context — preferences, activity, expression, posture, gaze.
  * Preferences are server-authoritative (dh_preferences RLS row).
  */
-import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dhGetPreferences, dhUpdatePreferences } from "@/lib/digital-human-v1.functions";
 import type { AvatarActivity, AvatarExpression } from "./HappyAvatar";
@@ -43,10 +43,27 @@ type Ctx = {
 
 const DhCtx = createContext<Ctx | null>(null);
 
+/** Track the OS-level prefers-reduced-motion so the DH runtime honors accessibility even if the user hasn't set the app-level toggle. */
+function useOsReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => setReduced(mq.matches);
+    apply();
+    mq.addEventListener?.("change", apply);
+    return () => mq.removeEventListener?.("change", apply);
+  }, []);
+  return reduced;
+}
+
 export function DigitalHumanProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["dh", "prefs"], queryFn: () => dhGetPreferences() });
-  const prefs = { ...DEFAULTS, ...(q.data ?? {}) } as DhPreferences;
+  const osReducedMotion = useOsReducedMotion();
+  const raw = { ...DEFAULTS, ...(q.data ?? {}) } as DhPreferences;
+  // OS setting can force reduced motion on, but a user opt-in via prefs stays honored.
+  const prefs: DhPreferences = { ...raw, reduced_motion: raw.reduced_motion || osReducedMotion };
   const [activity, setActivity] = useState<AvatarActivity>("idle");
   const [expression, setExpression] = useState<AvatarExpression>("neutral");
   const [posture, setPosture] = useState<Posture>("normal");

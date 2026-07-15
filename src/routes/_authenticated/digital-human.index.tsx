@@ -284,6 +284,12 @@ function DhConversation() {
         description="Real-time human conversation. HAPPY listens, thinks and speaks — with natural pacing, word-level captions and instant interruption."
       />
 
+      {/* Screen-reader status announcer for conversation state transitions. */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        HAPPY is {STATE_LABEL[convoState].toLowerCase()}.
+      </div>
+
+
       <div className="grid gap-4 lg:grid-cols-[20rem_1fr]">
         <div className="space-y-4">
           <Panel className="p-6 flex flex-col items-center">
