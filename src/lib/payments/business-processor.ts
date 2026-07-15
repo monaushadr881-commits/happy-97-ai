@@ -251,8 +251,20 @@ async function handlePaymentFailed(
   await notify(admin, cor.user_id ?? null, cor.company_id, "payment_failed",
     "Payment failed", `A payment attempt failed. Please review your billing details.`,
     { payment_id: paymentId, provider: evt.provider });
+
+  if (cor.subscription_id) {
+    const { transitionSubscription } = await import("@/lib/subscriptions/lifecycle");
+    await transitionSubscription(admin, {
+      subscriptionId: cor.subscription_id, action: "payment_failed",
+      provider: evt.provider, providerRef: evt.providerEventId,
+      notifyUserId: cor.user_id ?? null,
+      metadata: { source: "webhook", canonical: evt.canonicalType, payment_id: paymentId },
+    });
+  }
+
   return { status: "processed", details: { payment_id: paymentId } };
 }
+
 
 async function handleRefund(
   admin: Admin, evt: CanonicalWebhookEvent, cor: Correlation, completed: boolean,
