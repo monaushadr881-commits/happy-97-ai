@@ -19,6 +19,8 @@ import { Route as DesignRouteImport } from './routes/design'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSitemapDotxmlRouteImport } from './routes/api/sitemap[.]xml'
+import { Route as ApiRobotsDottxtRouteImport } from './routes/api/robots[.]txt'
 import { Route as AuthenticatedZenRouteImport } from './routes/_authenticated/zen'
 import { Route as AuthenticatedWorkspacesRouteImport } from './routes/_authenticated/workspaces'
 import { Route as AuthenticatedWorkspaceRouteImport } from './routes/_authenticated/workspace'
@@ -460,6 +462,16 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSitemapDotxmlRoute = ApiSitemapDotxmlRouteImport.update({
+  id: '/api/sitemap.xml',
+  path: '/api/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRobotsDottxtRoute = ApiRobotsDottxtRouteImport.update({
+  id: '/api/robots.txt',
+  path: '/api/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedZenRoute = AuthenticatedZenRouteImport.update({
@@ -2895,6 +2907,8 @@ export interface FileRoutesByFullPath {
   '/workspace': typeof AuthenticatedWorkspaceRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
+  '/api/robots.txt': typeof ApiRobotsDottxtRoute
+  '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
   '/agents/execution': typeof AuthenticatedAgentsExecutionRoute
   '/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
@@ -3287,6 +3301,8 @@ export interface FileRoutesByTo {
   '/workspace': typeof AuthenticatedWorkspaceRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
+  '/api/robots.txt': typeof ApiRobotsDottxtRoute
+  '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
   '/agents/execution': typeof AuthenticatedAgentsExecutionRoute
   '/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
@@ -3693,6 +3709,8 @@ export interface FileRoutesById {
   '/_authenticated/workspace': typeof AuthenticatedWorkspaceRoute
   '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
   '/_authenticated/zen': typeof AuthenticatedZenRoute
+  '/api/robots.txt': typeof ApiRobotsDottxtRoute
+  '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/_authenticated/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
   '/_authenticated/agents/execution': typeof AuthenticatedAgentsExecutionRoute
   '/_authenticated/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
@@ -4099,6 +4117,8 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/workspaces'
     | '/zen'
+    | '/api/robots.txt'
+    | '/api/sitemap.xml'
     | '/agents/collaboration'
     | '/agents/execution'
     | '/agents/metrics'
@@ -4491,6 +4511,8 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/workspaces'
     | '/zen'
+    | '/api/robots.txt'
+    | '/api/sitemap.xml'
     | '/agents/collaboration'
     | '/agents/execution'
     | '/agents/metrics'
@@ -4896,6 +4918,8 @@ export interface FileRouteTypes {
     | '/_authenticated/workspace'
     | '/_authenticated/workspaces'
     | '/_authenticated/zen'
+    | '/api/robots.txt'
+    | '/api/sitemap.xml'
     | '/_authenticated/agents/collaboration'
     | '/_authenticated/agents/execution'
     | '/_authenticated/agents/metrics'
@@ -5111,6 +5135,8 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   StatusRoute: typeof StatusRoute
   TrustRoute: typeof TrustRoute
+  ApiRobotsDottxtRoute: typeof ApiRobotsDottxtRoute
+  ApiSitemapDotxmlRoute: typeof ApiSitemapDotxmlRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
   ApiPublicV1HealthRoute: typeof ApiPublicV1HealthRoute
   ApiPublicV1StatusRoute: typeof ApiPublicV1StatusRoute
@@ -5186,6 +5212,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sitemap.xml': {
+      id: '/api/sitemap.xml'
+      path: '/api/sitemap.xml'
+      fullPath: '/api/sitemap.xml'
+      preLoaderRoute: typeof ApiSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/robots.txt': {
+      id: '/api/robots.txt'
+      path: '/api/robots.txt'
+      fullPath: '/api/robots.txt'
+      preLoaderRoute: typeof ApiRobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/zen': {
@@ -9103,6 +9143,8 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   StatusRoute: StatusRoute,
   TrustRoute: TrustRoute,
+  ApiRobotsDottxtRoute: ApiRobotsDottxtRoute,
+  ApiSitemapDotxmlRoute: ApiSitemapDotxmlRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
   ApiPublicV1HealthRoute: ApiPublicV1HealthRoute,
   ApiPublicV1StatusRoute: ApiPublicV1StatusRoute,
