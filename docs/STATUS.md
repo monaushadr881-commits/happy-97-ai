@@ -1,6 +1,13 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** Identity Lock v1.0 (permanent HAPPY identity lock — see `docs/digital-human/identity-lock.md`). Prior working rounds R1–R6 and R4-CHAR unchanged.
+**Last updated:** FD-003 / FD-004 recorded + P0.2 Webhook security helper landed. Prior working rounds R1–R6, R4-CHAR, and Identity Lock v1.0 unchanged.
+
+## FD-003 + FD-004 + P0.2 — 2026-07-15
+
+- Founder Master Directive v2.0 and Phase-X Real Implementation Program preserved in `docs/FOUNDER_DECISIONS.md` (permanent, cumulative ledger).
+- **P0.2 — Webhook HMAC + replay-guard helper: Working.** `src/lib/webhook-security.ts` — WebCrypto HMAC-SHA256, constant-time compare, timestamp tolerance window, sliding replay cache. Provider-agnostic; provider adapters (Stripe/Paddle/Razorpay) will wrap it.
+- Prerequisite for P0.4 (payment provider adapters) and P0.5 (public webhook routes). No architecture, schema, or business-logic changes in this pass.
+
 
 ## Identity Lock v1.0 — 2026-07-15
 
