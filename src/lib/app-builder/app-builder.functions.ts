@@ -226,18 +226,22 @@ export const generateAppFromBrief = createServerFn({ method: "POST" })
     const ctx = context as Ctx;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    // Persist a generation attempt row up-front for observability.
-    const insertResp = await supabaseAdmin.from("creator_generations").insert({
+    // Log the generation attempt upfront so failures are auditable.
+    const { data: gen, error: genErr } = await supabaseAdmin.from("creator_generations").insert({
       user_id: ctx.userId,
       project_id: data.projectId ?? null,
-      kind: "app_tree",
-      status: "pending",
+      studio: "app_builder",
+      operation: "generate_app_tree",
+      status: "running",
+      model: data.model ?? null,
+      prompt: data.brief,
       input: {
-        brief: data.brief, appKind: data.kind, brand: data.brand ?? null,
+        appKind: data.kind, brand: data.brand ?? null,
         targets: data.targets ?? null, name: data.name ?? null,
       } as never,
     }).select("id").single();
-    const genId = (insertResp.data as { id: string } | null)?.id;
+    if (genErr) throw new Error(`generation_log_failed: ${genErr.message}`);
+    const generationId = gen.id as string;
 
     try {
       const result = await generateAppTree({
@@ -249,42 +253,40 @@ export const generateAppFromBrief = createServerFn({ method: "POST" })
         model: data.model,
       });
 
-      if (genId) {
-        await supabaseAdmin.from("creator_generations").update({
-          status: "completed",
-          model: result.model,
-          latency_ms: result.latencyMs,
-          output: { tree: result.tree } as never,
-          input_tokens: result.usage?.input_tokens ?? null,
-          output_tokens: result.usage?.output_tokens ?? null,
-        }).eq("id", genId);
-      }
-
-      // Save mode
-      if (data.saveAs === "replace" && data.projectId) {
-        await assertOwns(ctx, data.projectId);
+      let projectId = data.projectId;
+      if (data.saveAs === "replace" && projectId) {
+        await assertOwns(ctx, projectId);
         await updateAppTree(supabaseAdmin, {
-          projectId: data.projectId, tree: result.tree, actorId: ctx.userId, snapshotVersion: true,
+          projectId, tree: result.tree, actorId: ctx.userId, snapshotVersion: true,
         });
-        return { projectId: data.projectId, tree: result.tree, generationId: genId ?? null };
+      } else {
+        const project = await createAppProject(supabaseAdmin, {
+          userId: ctx.userId,
+          name: data.name ?? result.tree.displayName,
+          kind: data.kind,
+          initialTree: result.tree,
+          actorId: ctx.userId,
+        });
+        projectId = project.id;
       }
 
-      const project = await createAppProject(supabaseAdmin, {
-        userId: ctx.userId,
-        name: data.name ?? result.tree.displayName,
-        kind: data.kind,
-        initialTree: result.tree,
-        actorId: ctx.userId,
-      });
-      return { projectId: project.id, tree: result.tree, generationId: genId ?? null };
-    } catch (err) {
-      if (genId) {
-        await supabaseAdmin.from("creator_generations").update({
-          status: "failed",
-          error: (err as Error).message.slice(0, 500),
-        }).eq("id", genId);
-      }
-      throw err;
+      await supabaseAdmin.from("creator_generations").update({
+        status: "succeeded",
+        model: result.model,
+        project_id: projectId,
+        duration_ms: result.latencyMs,
+      }).eq("id", generationId);
+
+      return {
+        ok: true as const, projectId, generationId, tree: result.tree,
+        model: result.model, latencyMs: result.latencyMs, usage: result.usage,
+      };
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "unknown";
+      await supabaseAdmin.from("creator_generations").update({
+        status: "failed", error: message,
+      }).eq("id", generationId);
+      throw new Error(`ai_generation_failed: ${message}`);
     }
   });
 
