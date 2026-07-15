@@ -1,111 +1,129 @@
-## R61 — Universal Deployment Runtime (honest scope)
+# R64 — Release Engineering & Distribution Platform
 
-You've asked for two things in one turn:
-1. A backend runtime that tracks platforms, builds, artifacts, signing, store readiness.
-2. Actual multi-platform binaries (APK, AAB, IPA, Windows/macOS/Linux installers) + happy.ai deployment.
+Expansion-only pass. R61/R62/R63 stay immutable. No changes to architecture, RBAC, RLS, digital human, existing services, or existing APIs.
 
-I can deliver (1) end-to-end in this pass. I cannot honestly deliver (2) from this sandbox — and per your own "never fake" rules, I will not pretend otherwise. This plan makes that split explicit.
+## Scope split (honest)
 
----
+**WORKING after this pass** (real code, real data, real UI):
+- Release Center dashboard + 11 routes under `/releases/*`
+- Artifact metadata registry (SHA256, size, kind, checksum verify) — file storage is metadata-only; binary upload lands as PARTIAL until a storage bucket is provisioned
+- Build pipeline queue with states (queued / running / succeeded / failed / cancelled), priority, retry, cancel, logs pointer, estimated completion, metrics
+- Signing profile registry — metadata + env-var presence checks only, **never stores key material**
+- Store-submission validation reports per platform, per release
+- Rollout state machine (1/5/10/20/50/100%, pause, resume, cancel, rollback, emergency rollback)
+- Release status lifecycle (draft → ready → validated → signed → queued → publishing → published / paused / cancelled / failed / rolled_back / archived)
+- Release notes + changelog generation, semver auto-increment, version compare
+- Automation checklist runner (pre-build, artifact, signing, store, dependency, security, license validations)
+- Analytics: success rate, deploy time, failure rate, rollback rate, adoption, build duration, pipeline metrics
+- Founder Release Center UI with all listed actions wired to server functions
+- Cron: nightly build tick + rollout-tick under `/api/public/cron/*`
 
-### What I will build this pass (WORKING)
+**BLOCKED (honest, with explicit missing-dependency reason)**:
+- Every store submission (Google Play, App Store, Microsoft, Amazon, Samsung, Huawei) — no store API credentials configured; adapters return `{ blocked_reason, required_secrets[] }`
+- Native builds (APK/AAB/IPA/MSIX/DMG/PKG/AppImage/Snap/Flatpak) — no toolchain in the Worker runtime; pipeline records `blocked` with exact missing dep (Android SDK, Xcode, signtool, notarytool, etc.)
+- Real store monitoring (downloads, installs, ratings, crash, ANR, revenue) — no store API keys; tables + service exist, ingest is `blocked` until credentials
+- Real crash symbols upload — metadata table only; upload path BLOCKED until storage bucket
+- Certificate expiry / timestamp validation — validated from metadata only; no private-key material is ever read
 
-**A. Universal Deployment Runtime — database (single migration)**
+**NOT CHANGED**:
+- R61 `deploy_*` tables, R62 payments, R63 `release_*` tables — reused as-is
+- Existing RLS, `has_role`, `is_ops_admin`, admin auth flow
+- Existing routes, digital human, services
 
-Four RLS-secured tables, all immutable-audit where appropriate, `service_role` + `authenticated` GRANTs, `has_role('admin')` gating:
+## Deliverables
 
-- `deploy_platform_registry` — canonical list of 13 platforms (web, pwa, android_apk, android_aab, ios, ipados, macos, windows, linux, chromeos, android_tv, wearos, visionpro) with adapter, target_channel, required_dependencies (jsonb), enabled flag, readiness state.
-- `deploy_builds` — one row per build attempt: platform, channel (prod/staging/test/dev), version, git_sha, status (queued/running/succeeded/failed/blocked), started_at, finished_at, blocked_reason, logs_url.
-- `deploy_artifacts` — one row per produced artifact: build_id, kind (web_bundle/pwa/apk/aab/ipa/msi/dmg/appimage/deb), size_bytes, sha256, storage_url, signed (bool), signing_identity, metadata.
-- `deploy_store_readiness` — per-store gating: store (google_play/app_store/microsoft_store/web), status (ready/blocked/submitted/live), missing_dependencies (jsonb[]), last_checked_at.
+### 1. Database (single migration, expansion-only)
 
-Immutability triggers on `deploy_builds` (status transitions only, no field rewrites) and `deploy_artifacts` (append-only). Seeded 13 platform rows in the same migration.
+New tables (all with immutability triggers where appropriate, RLS admin-only, GRANTs to authenticated + service_role):
 
-**B. Runtime modules in `src/lib/deployment-runtime/`**
+- `release_artifact_registry` — kind (apk/aab/ipa/msix/dmg/pkg/appimage/snap/flatpak/docker/source/sourcemap/crash_symbol/debug_symbol), filename, sha256, size, storage_url (nullable), release_id, uploaded_by, validation_status, metadata
+- `build_pipeline_runs` — release_id, platform_code, status, priority, build_kind (incremental/clean/nightly/manual/scheduled), started_at, finished_at, duration_ms, logs_url, cache_hit, blocked_reason
+- `build_pipeline_events` — immutable log/event stream (append-only)
+- `release_rollouts` — release_id, store, current_percent, target_percent, state (planned/active/paused/cancelled/rolled_back), country_scope jsonb, updated_by
+- `release_rollout_events` — immutable transition history
+- `release_store_metrics` — release_id, store, downloads, installs, updates, rating_avg, rating_count, crash_free_rate, anr_rate, retention_d1/d7/d30, revenue_cents, snapshot_at
+- `release_automation_checks` — release_id, check_kind, status (pass/warn/fail/blocked), detail, checked_at
+- `release_pipeline_metrics_daily` — day, avg_build_ms, success_rate, failure_rate, rollback_rate, released_count
 
-- `contracts.ts` — types shared across engine, validator, adapters.
-- `platform-registry.ts` — reads registry, returns capability matrix.
-- `validator.ts` — pure validators: manifest present, icons present, splash config, permissions declared, deep-link scheme, env vars set. Runs against the checked-in project, returns structured `{ok, checks[]}`.
-- `build-engine.ts` — orchestrator: records `deploy_builds` row, invokes the adapter's `plan()` (never fakes an `execute()`), returns real status. Web/PWA adapters actually execute (they can run in-sandbox). Native adapters return `blocked` with the exact missing dependency.
-- `adapters/{web,pwa,capacitor-android,capacitor-ios,tauri-win,tauri-mac,tauri-linux}.ts` — each exposes `plan()`, `validate()`, `execute()`. Only web + pwa implement `execute()`. Native adapters implement `plan()` and `validate()`, and `execute()` returns `{status:'blocked', reason}`.
-- `signing.ts` — reads signing identity **names** from the runtime (never secret values). Actual key material must live in `add_secret` — codepath uses `process.env.*` inside handlers.
-- `deployment.functions.ts` — 8 `createServerFn` endpoints: `listPlatforms`, `getCompatibilityMatrix`, `startBuild`, `getBuild`, `listBuilds`, `listArtifacts`, `getStoreReadiness`, `refreshStoreReadiness`. All admin-gated via `has_role`.
+Reuses `release_records`, `release_signing_profiles`, `release_store_submissions`, `release_rollbacks`, `release_crash_symbols`, `release_changelog_entries`, `deploy_*` from R61/R63.
 
-**C. PWA activation (real, in-repo)**
+### 2. Runtime (`src/lib/release-r64/`)
 
-- Add `vite-plugin-pwa` with the guarded registration wrapper from the PWA skill (no dev/preview registration, `?sw=off` kill switch, `NetworkFirst` for HTML, `CacheFirst` for hashed assets, `/~oauth` excluded).
-- Existing `public/manifest.webmanifest` already present — extend with the required icons/splash/theme entries the validator checks for.
-- Registration wrapper mounted from `src/routes/__root.tsx` (client-only).
+- `contracts.ts` — TS types for artifacts, pipeline, rollout, store metrics
+- `artifact-registry.ts` — sha256 verify, kind→required-fields validation
+- `pipeline.ts` — queue transitions, priority scoring, retry/cancel guards
+- `rollout.ts` — percent state machine, pause/resume/cancel/rollback guards
+- `automation.ts` — 20 pre-flight checks (pure functions over release metadata)
+- `store-monitors.ts` — 6 store adapters returning `{ status: 'blocked', missing_secrets[] }` until real keys land
+- All server-function files use `const sb: any = context.supabase;` pattern to keep typecheck fast (learned from prior tsgo timeout)
 
-**D. Capacitor + Tauri scaffolding (planning artifacts, not binaries)**
+### 3. Server functions (all `requireSupabaseAuth` + admin gate)
 
-- `capacitor.config.ts` at repo root with appId `ai.happy.enterprise`, appName, webDir `dist`, splash/statusbar plugin config.
-- `src-tauri/tauri.conf.json` with product name, identifier, bundle targets per OS.
-- **No** `npx cap add android/ios` and **no** `cargo tauri build` run here — those require Android Studio / Xcode / Rust toolchain / signing keys and would produce fake or broken artifacts. The build engine records these as `blocked` with the exact missing dependency string.
+Nine `*.functions.ts` files as specified, each holding 3–8 admin-gated endpoints (list, get, create/mutate, analytics). Total ~50 endpoints. All return `{ blocked_reason, required: [...] }` for anything that needs external creds.
 
-**E. Docs**
+### 4. Routes (`src/routes/_authenticated/releases/`)
 
-Update `docs/STATUS.md`, `docs/MASTER_IMPLEMENTATION_STATUS.md`, `docs/MASTER_EXECUTION_REGISTER.md` with the R61 entry and the compatibility matrix below.
+11 routes as specified. All under `_authenticated/` so protected layout gates them. Data via `useServerFn` + `useQuery` (never in public loaders). Virtualized history table. Realtime dashboard via `queryClient.invalidateQueries()` on a 30s poller (no new realtime channels).
 
----
+### 5. Cron (`/api/public/cron/`)
 
-### Compatibility matrix this pass will register
+- `release-pipeline-tick.ts` — advances queued builds honestly (records blocked_reason when no toolchain)
+- `release-rollout-tick.ts` — advances active rollouts per schedule
+- `release-metrics-rollup.ts` — daily aggregate into `release_pipeline_metrics_daily`
+
+Scheduled via SQL insert (pg_cron) with `apikey` header.
+
+### 6. Docs
+
+`docs/architecture/r64-release-engineering.md` — full architecture, blocked-dependency matrix, RLS notes.
+Update `docs/STATUS.md`, `MASTER_IMPLEMENTATION_STATUS.md`, `MASTER_EXECUTION_REGISTER.md` with R64 rows.
+
+### 7. Verification
+
+- `supabase--linter` after migration
+- `tsgo` typecheck (target <60s; sub-10s is aspirational for a codebase this size)
+- Console clean check via preview JS
+- Playwright smoke: sign in → `/releases/dashboard` → verify widgets render → click Create Release → verify blocked-store report renders honestly
+
+## Technical notes
 
 ```text
-Platform          Adapter          execute()   Status this pass  Blocker (if any)
-─────────────────────────────────────────────────────────────────────────────────
-web               web              real        WORKING            —
-pwa               pwa              real        WORKING            —
-android_apk       cap-android      stub        BLOCKED            Android SDK + keystore
-android_aab       cap-android      stub        BLOCKED            Android SDK + Play upload key
-ios / ipados      cap-ios          stub        BLOCKED            macOS host + Xcode + Apple Dev account
-macos             tauri-mac        stub        BLOCKED            macOS host + Developer ID cert
-windows           tauri-win        stub        BLOCKED            Windows host + code-signing cert
-linux             tauri-linux      stub        PARTIAL (planned)  Rust toolchain not present in sandbox
-chromeos          web              real        WORKING (via web)  —
-android_tv        cap-android      stub        PLANNED            Same as android + leanback UI
-wearos            companion        stub        PLANNED            Separate wear module
-visionpro         cap-ios          stub        PLANNED            visionOS SDK
+Type-cost guard (learned from R63 timeout):
+- Every new .functions.ts uses `const sb: any = context.supabase`
+- No inline .select("a, b, c, ...") string literals against typed client
+- .returns<T>() where a caller needs a typed row
+
+Route structure:
+src/routes/_authenticated/releases/
+  index.tsx           -> /releases  (redirects to dashboard)
+  dashboard.tsx
+  artifacts.tsx
+  builds.tsx
+  signing.tsx
+  publish.tsx
+  rollout.tsx
+  history.tsx
+  logs.tsx
+  analytics.tsx
+  settings.tsx
 ```
 
-### happy.ai deployment
+## What I will NOT do
 
-BLOCKED. I don't have registrar access. The runtime will record the required records so you can hand them to your DNS provider:
+- Not touch `src/routes/__root.tsx`, digital human, kernel, brain, existing services
+- Not modify R61/R62/R63 tables or functions
+- Not fabricate store credentials, signing keys, or successful publications
+- Not add per-page realtime channels (poller only)
+- Not generate binaries; pipeline records honest `blocked` states
+- Not create storage buckets (artifact upload stays PARTIAL until user asks)
 
-```text
-A     @    → 185.158.133.1
-A     www  → 185.158.133.1
-TXT   _lovable → lovable_verify=<value shown in Project Settings → Domains>
-```
+## Order of execution
 
-After DNS resolves and Lovable verifies, SSL is auto-provisioned. I will not call `preview_ui--publish` in this pass unless you explicitly say "publish now" — you asked for a runtime build, not a live deploy.
+1. Migration (8 tables + triggers + RLS + GRANTs) — single call
+2. Runtime + 9 server-function files — parallel writes
+3. 11 route files + shared components — parallel writes
+4. 3 cron routes + pg_cron SQL
+5. Docs
+6. Verify (linter, tsgo, console, playwright smoke)
 
-### Store readiness
-
-All four store rows seed as `blocked` with the exact missing dependency list (Play Console service account, App Store Connect API key, Partner Center account). They flip to `ready` only when the corresponding secrets are present — no fake "submitted" states.
-
----
-
-### Explicitly out of scope (will NOT do in this pass)
-
-- Producing an actual `.apk`, `.aab`, `.ipa`, `.msi`, `.dmg`, `.AppImage` file.
-- Uploading to Google Play, App Store, Microsoft Store.
-- Connecting happy.ai DNS.
-- Running Playwright across native devices (sandbox has no emulators).
-- Duplicating any existing runtime (voice, emotion, presentation, business, founder — all reused, not touched).
-
-I'll run Playwright smoke on web + PWA install manifest only, which is what this sandbox can actually verify.
-
----
-
-### After you approve
-
-I'll ship in this order, in parallel where possible:
-1. Migration (single file, 4 tables + seeds + triggers + GRANTs).
-2. Runtime modules + server functions.
-3. `vite-plugin-pwa` install + guarded registration + manifest extension.
-4. `capacitor.config.ts` + `src-tauri/tauri.conf.json` scaffolds.
-5. Docs update.
-6. Web build check + PWA validation + report.
-
-Reply "go" to proceed, or tell me which pieces to drop/add.
+Reply **go** to run the migration first, or tell me which phases to drop / defer.
