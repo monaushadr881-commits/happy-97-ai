@@ -22,6 +22,10 @@ export type DeploymentState =
   | "queued" | "building" | "deploying" | "succeeded"
   | "failed" | "cancelled" | "rolled_back";
 
+/** Serializable JSON — safe to cross the server-fn RPC boundary. */
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [k: string]: JsonValue };
+export type JsonObject = { [k: string]: JsonValue };
+
 /** Targets we actually generate a real deployment artifact for. */
 export const REAL_TARGETS: DeploymentTarget[] = ["web", "pwa", "static_export"];
 /** Provider hooks that require external credentials — honestly PLANNED. */
@@ -39,8 +43,8 @@ export interface DeploymentRow {
   artifactPath: string | null;
   artifactBytes: number | null;
   deployedUrl: string | null;
-  buildProfile: Record<string, unknown>;
-  metadata: Record<string, unknown>;
+  buildProfile: JsonObject;
+  metadata: JsonObject;
   errorMessage: string | null;
   startedAt: string | null;
   finishedAt: string | null;
