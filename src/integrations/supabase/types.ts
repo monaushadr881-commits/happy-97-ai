@@ -6446,6 +6446,187 @@ export type Database = {
           },
         ]
       }
+      deploy_artifacts: {
+        Row: {
+          build_id: string
+          created_at: string
+          filename: string
+          id: string
+          kind: string
+          metadata: Json
+          sha256: string | null
+          signed: boolean
+          signing_identity: string | null
+          size_bytes: number
+          storage_url: string | null
+        }
+        Insert: {
+          build_id: string
+          created_at?: string
+          filename: string
+          id?: string
+          kind: string
+          metadata?: Json
+          sha256?: string | null
+          signed?: boolean
+          signing_identity?: string | null
+          size_bytes?: number
+          storage_url?: string | null
+        }
+        Update: {
+          build_id?: string
+          created_at?: string
+          filename?: string
+          id?: string
+          kind?: string
+          metadata?: Json
+          sha256?: string | null
+          signed?: boolean
+          signing_identity?: string | null
+          size_bytes?: number
+          storage_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deploy_artifacts_build_id_fkey"
+            columns: ["build_id"]
+            isOneToOne: false
+            referencedRelation: "deploy_builds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deploy_builds: {
+        Row: {
+          blocked_reason: string | null
+          channel: string
+          created_at: string
+          finished_at: string | null
+          git_sha: string | null
+          id: string
+          logs_url: string | null
+          metadata: Json
+          platform_code: string
+          started_at: string
+          started_by: string | null
+          status: string
+          version: string
+        }
+        Insert: {
+          blocked_reason?: string | null
+          channel: string
+          created_at?: string
+          finished_at?: string | null
+          git_sha?: string | null
+          id?: string
+          logs_url?: string | null
+          metadata?: Json
+          platform_code: string
+          started_at?: string
+          started_by?: string | null
+          status: string
+          version: string
+        }
+        Update: {
+          blocked_reason?: string | null
+          channel?: string
+          created_at?: string
+          finished_at?: string | null
+          git_sha?: string | null
+          id?: string
+          logs_url?: string | null
+          metadata?: Json
+          platform_code?: string
+          started_at?: string
+          started_by?: string | null
+          status?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deploy_builds_platform_code_fkey"
+            columns: ["platform_code"]
+            isOneToOne: false
+            referencedRelation: "deploy_platform_registry"
+            referencedColumns: ["platform_code"]
+          },
+        ]
+      }
+      deploy_platform_registry: {
+        Row: {
+          adapter: string
+          category: string
+          created_at: string
+          display_name: string
+          enabled: boolean
+          id: string
+          notes: string | null
+          platform_code: string
+          readiness_state: string
+          required_dependencies: Json
+          updated_at: string
+        }
+        Insert: {
+          adapter: string
+          category: string
+          created_at?: string
+          display_name: string
+          enabled?: boolean
+          id?: string
+          notes?: string | null
+          platform_code: string
+          readiness_state?: string
+          required_dependencies?: Json
+          updated_at?: string
+        }
+        Update: {
+          adapter?: string
+          category?: string
+          created_at?: string
+          display_name?: string
+          enabled?: boolean
+          id?: string
+          notes?: string | null
+          platform_code?: string
+          readiness_state?: string
+          required_dependencies?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      deploy_store_readiness: {
+        Row: {
+          created_at: string
+          id: string
+          last_checked_at: string
+          missing_dependencies: Json
+          notes: string | null
+          status: string
+          store: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_checked_at?: string
+          missing_dependencies?: Json
+          notes?: string | null
+          status?: string
+          store: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_checked_at?: string
+          missing_dependencies?: Json
+          notes?: string | null
+          status?: string
+          store?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       deployments: {
         Row: {
           channel: string
