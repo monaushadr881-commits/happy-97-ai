@@ -51,20 +51,24 @@ interface AuditRow {
   metadata: Record<string, unknown>;
 }
 
-async function record(row: AuditRow): Promise<void> {
+async function record(row: AuditRow): Promise<string | null> {
   try {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    // Best-effort upsert — provider retries on non-2xx and we must remain
-    // idempotent on provider_event_id. Ignore duplicate-key errors quietly.
-    const { error } = await supabaseAdmin
+    const { data, error } = await supabaseAdmin
       .from("payment_webhook_events")
-      // The typed schema may lag the migration; cast the row.
-      .insert(row as never);
-    if (error && !/duplicate key/i.test(error.message)) {
-      console.error("[webhook] audit insert failed", error.message);
+      .insert(row as never)
+      .select("id")
+      .single();
+    if (error) {
+      if (!/duplicate key/i.test(error.message)) {
+        console.error("[webhook] audit insert failed", error.message);
+      }
+      return null;
     }
+    return (data as { id: string } | null)?.id ?? null;
   } catch (e) {
     console.error("[webhook] audit exception", e instanceof Error ? e.message : e);
+    return null;
   }
 }
 
