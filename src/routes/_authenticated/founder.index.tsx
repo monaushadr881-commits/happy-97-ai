@@ -95,6 +95,15 @@ function FounderOverview() {
   const queue = useQuery({ queryKey: ["founder", "queue"], queryFn: () => opsQueueStats(), refetchInterval: 15_000 });
   const security = useQuery({ queryKey: ["founder", "security"], queryFn: () => opsSecuritySummary() });
   const audit = useQuery({ queryKey: ["founder", "audit"], queryFn: () => apiRecentAudit({ data: { limit: 12 } }) });
+  const revenue = useQuery({ queryKey: ["founder", "revenue"], queryFn: () => revOverview(), refetchInterval: 60_000 });
+
+  const rv = revenue.data;
+  const rvCur = rv?.currency ?? "USD";
+  const fmtMoney = (cents: number | null | undefined) => {
+    if (cents === null || cents === undefined) return NA;
+    try { return new Intl.NumberFormat(undefined, { style: "currency", currency: rvCur, maximumFractionDigits: 0 }).format(cents / 100); }
+    catch { return `${(cents / 100).toFixed(2)} ${rvCur}`; }
+  };
 
   const ov = (overview.data ?? {}) as {
     companies?: number | null; workspaces?: number | null; brands?: number | null; users?: number | null;
