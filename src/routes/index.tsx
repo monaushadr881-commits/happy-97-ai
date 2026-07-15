@@ -1171,10 +1171,11 @@ function PhoneMock() {
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
       <QrCard
-        title="Download HAPPY App"
-        subtitle="Scan · iOS & Android"
+        title="Download AAS PAAS App"
+        subtitle="Scan to download the official AAS PAAS App"
         src={appQrAsset.url}
-        alt="Scan the AAS PAAS app QR to download HAPPY"
+        alt="Scan the official AAS PAAS App QR"
+        footer={<span className="text-paper/70">Available on Android & iOS</span>}
       />
       <QrCard
         title={<>Follow HAPPY<br />on Instagram</>}
