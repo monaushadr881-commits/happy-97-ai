@@ -9686,6 +9686,168 @@ export type Database = {
           },
         ]
       }
+      obs_log_entries: {
+        Row: {
+          actor_id: string | null
+          attributes: Json
+          company_id: string | null
+          correlation_id: string | null
+          created_at: string
+          id: string
+          level: string
+          message: string
+          occurred_at: string
+          service: string
+          trace_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          attributes?: Json
+          company_id?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          message: string
+          occurred_at?: string
+          service: string
+          trace_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          attributes?: Json
+          company_id?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          message?: string
+          occurred_at?: string
+          service?: string
+          trace_id?: string | null
+        }
+        Relationships: []
+      }
+      obs_status_components: {
+        Row: {
+          created_at: string
+          description: string | null
+          group_name: string | null
+          id: string
+          is_public: boolean
+          key: string
+          name: string
+          sort_order: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          group_name?: string | null
+          id?: string
+          is_public?: boolean
+          key: string
+          name: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          group_name?: string | null
+          id?: string
+          is_public?: boolean
+          key?: string
+          name?: string
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      obs_status_updates: {
+        Row: {
+          actor_id: string | null
+          component_key: string
+          created_at: string
+          id: string
+          incident_id: string | null
+          message: string
+          occurred_at: string
+          status: string
+        }
+        Insert: {
+          actor_id?: string | null
+          component_key: string
+          created_at?: string
+          id?: string
+          incident_id?: string | null
+          message: string
+          occurred_at?: string
+          status: string
+        }
+        Update: {
+          actor_id?: string | null
+          component_key?: string
+          created_at?: string
+          id?: string
+          incident_id?: string | null
+          message?: string
+          occurred_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      obs_trace_spans: {
+        Row: {
+          actor_id: string | null
+          attributes: Json
+          company_id: string | null
+          created_at: string
+          duration_ms: number | null
+          id: string
+          operation: string
+          parent_span_id: string | null
+          service: string
+          span_id: string
+          started_at: string
+          status: string
+          trace_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          attributes?: Json
+          company_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          operation: string
+          parent_span_id?: string | null
+          service: string
+          span_id: string
+          started_at?: string
+          status?: string
+          trace_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          attributes?: Json
+          company_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          operation?: string
+          parent_span_id?: string | null
+          service?: string
+          span_id?: string
+          started_at?: string
+          status?: string
+          trace_id?: string
+        }
+        Relationships: []
+      }
       offices: {
         Row: {
           address: Json
