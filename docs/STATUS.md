@@ -425,3 +425,80 @@ pass that consumes this API.
 - `src/lib/website-builder/engine.ts`
 - `src/lib/website-builder/ai-generator.ts`
 - `src/lib/website-builder/builder.functions.ts`
+
+---
+
+## R13 — Universal App Builder Runtime
+
+### Summary
+Universal App Builder built on top of the Website Builder foundation. Reuses
+`creator_projects` (with `kind='app'`), `entity_versions`, `creator_generations`,
+`notifications`, and `audit_logs` — no duplicate business logic, no duplicate
+migrations.
+
+### App Builder Runtime — WORKING
+- `AppTree` schema: kind, theme, auth, dataModel, navigation, screens,
+  actions, apiCalls, assets, build (Zod-validated, versioned).
+- Project runtime: create / open / rename / duplicate / archive / restore /
+  delete / autosave / version history / rollback.
+- Starter templates for ecommerce, education, restaurant, marketplace,
+  social — honest starting points, not demo data.
+- Server functions: 14 auth-gated createServerFn endpoints via
+  `requireSupabaseAuth`. Ownership enforced at RLS AND re-checked in-code.
+  `is_ops_admin` gate on the founder overview.
+- All mutations audited via `write_audit`; owners notified via in-app
+  `notifications` (`app_builder.*` kinds).
+
+### AI Generation — WORKING
+- Real Lovable AI Gateway call (`google/gemini-3-flash-preview` default).
+- Strict `appTreeSchema.safeParse` on model output — malformed generations
+  fail loudly instead of persisting corrupt trees.
+- Every attempt logged to `creator_generations` (studio=`app_builder`,
+  operation=`generate_app_tree`) with status, model, duration, error.
+- Save modes: create-new-project or replace-existing (snapshotted).
+
+### Build Pipeline — PARTIAL
+- `web` and `pwa`: real deterministic manifest generation, recorded in
+  `metadata.buildHistory`, marks `lastBuildStatus=ready`.
+- `android`, `android_tv`, `wear_os`, `ios`, `ipados`, `windows`, `macos`,
+  `linux`: PLANNED — `runBuild` explicitly rejects with a build record
+  marked `failed` and a truthful message. No fake APK/IPA/EXE/DMG.
+- Publish gated on `lastBuildStatus === 'ready'` — cannot publish an app
+  that has never generated an artifact.
+
+### Visual Editor — PLANNED
+- Server-side runtime and schema are complete and ready to back an editor,
+  but no editor UI is shipped in this pass. Marked PLANNED honestly.
+
+### Founder Dashboard Integration — WORKING (data), PARTIAL (UI)
+- `getAppBuilderOverview` returns: totalProjects, drafts, published,
+  buildReady, buildFailed, generation count/success/failure, avg latency,
+  supported vs planned targets, 20 most-recent projects.
+- Consumable by an existing founder dashboard; no dedicated screen added.
+
+### Notifications — WORKING
+- `project_created`, `publish_completed`, `build_ready`, `build_failed`
+  written to `notifications` for the project owner.
+
+### Security
+- All server fns behind `requireSupabaseAuth`.
+- `assertOwns` re-verifies ownership per request; ops-admins bypass via
+  `is_ops_admin`.
+- `assertOpsAdmin` gates founder overview.
+- RLS on `creator_projects`, `entity_versions`, `creator_generations`,
+  `notifications` continues to apply.
+
+### Files added
+- `src/lib/app-builder/schema.ts`
+- `src/lib/app-builder/templates.ts`
+- `src/lib/app-builder/ai-generator.ts`
+- `src/lib/app-builder/engine.ts`
+- `src/lib/app-builder/app-builder.functions.ts`
+
+### Files edited
+- `docs/STATUS.md`
+
+### Verification
+- Typecheck: passing after schema-aligned fixes to `creator_generations`
+  columns (`studio`/`operation`/`duration_ms`, no `latency_ms`/`kind`).
+- No new migrations — Website Builder tables reused as designed.
