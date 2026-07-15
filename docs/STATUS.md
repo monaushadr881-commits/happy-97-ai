@@ -1067,3 +1067,42 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 ### Verification
 - `bunx tsgo --noEmit` — passes.
 - Linter warnings are pre-existing SECURITY DEFINER helpers (not introduced by R25).
+
+## R26 — Enterprise Analytics / BI Runtime
+
+### Files
+- `supabase/migrations/*_r26_analytics.sql` — 6 new tables (`bi_snapshots`, `bi_report_definitions`, `bi_report_runs`, `bi_forecasts`, `bi_insights`, `bi_alert_events`) with RLS + immutability triggers on runs/forecasts/insights.
+- `src/lib/bi/engine.ts` — real KPI engines: revenue, customers, finance, marketplace, builder, manufacturing, warehouse, system; founder command center; snapshots cache; report/forecast/insight/alert engines; cross-domain search.
+- `src/lib/bi/bi.functions.ts` — 25 auth-gated `createServerFn` endpoints; RLS via `context.supabase`.
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Revenue KPIs (gross, net, MRR, ARR, growth, per-customer, series) | WORKING |
+| Customer KPIs (leads, conversion, AOV, CLV, repeat rate, win rate) | WORKING |
+| Finance KPIs (revenue, expenses, profit, cash, AR, AP, overdue, health score) | WORKING |
+| Marketplace KPIs (listings, purchases, revenue, rating, top listings) | WORKING |
+| Builder / Deployment KPIs (success rate, avg build time, domains live) | WORKING |
+| Manufacturing KPIs (orders, output, rejected, quality pass rate, utilization) | WORKING |
+| Warehouse KPIs (stock value, near-expiry, expired, low-stock, movements) | WORKING |
+| System KPIs (metrics events, notifications, errors 24h, ai sessions 24h) | WORKING |
+| Founder Command Center (composite health 0-100 from real KPIs) | WORKING |
+| Snapshot cache (`bi_snapshots`, daily founder capture) | WORKING |
+| Report Engine (definitions, run, immutable history, CSV) | WORKING |
+| Forecast Engine (linear regression on historical revenue, confidence from MAE) | WORKING |
+| Insight Engine (facts vs recommendations, severity) | WORKING |
+| Alert Engine (evaluate alert_rules against live KPIs, immutable events, ack) | WORKING |
+| Cross-domain Search (invoices, customers, deals, listings, products, deployments, reports) | WORKING |
+| Scheduled report delivery (email/PDF/xlsx via cron) | PLANNED |
+| Realtime streaming dashboards (postgres_changes wiring) | PLANNED |
+
+### Guarantees
+- Every KPI resolves from real DB tables — no fabricated data, no mocked metrics.
+- AI insights persist `facts` and `recommendations` in separate columns, never mixed.
+- `bi_report_runs`, `bi_forecasts`, `bi_insights` are immutable after insert (DB triggers).
+- RLS: `is_company_member` for reads, `is_company_admin` for writes on definitions/snapshots.
+- Alert events reuse the existing `alert_rules` table — no duplication.
+
+### Verification
+- Migration applied cleanly (9 pre-existing linter warnings on SECURITY DEFINER helpers — not introduced by R26).
+- All 25 server functions type-check under `bunx tsgo --noEmit`.

@@ -1152,6 +1152,362 @@ export type Database = {
           },
         ]
       }
+      bi_alert_events: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          company_id: string
+          created_at: string
+          id: string
+          message: string
+          metric_key: string
+          observed_value: number | null
+          payload: Json
+          rule_id: string | null
+          scope: string
+          severity: string
+          threshold_value: number | null
+          triggered_at: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          message: string
+          metric_key: string
+          observed_value?: number | null
+          payload?: Json
+          rule_id?: string | null
+          scope: string
+          severity?: string
+          threshold_value?: number | null
+          triggered_at?: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          metric_key?: string
+          observed_value?: number | null
+          payload?: Json
+          rule_id?: string | null
+          scope?: string
+          severity?: string
+          threshold_value?: number | null
+          triggered_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_alert_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_alert_events_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "alert_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_forecasts: {
+        Row: {
+          company_id: string
+          confidence: number | null
+          created_at: string
+          forecast_points: Json
+          generated_by: string | null
+          history_from: string
+          history_points: Json
+          history_to: string
+          horizon_days: number
+          id: string
+          method: string
+          metric_key: string
+          scope: string
+        }
+        Insert: {
+          company_id: string
+          confidence?: number | null
+          created_at?: string
+          forecast_points?: Json
+          generated_by?: string | null
+          history_from: string
+          history_points?: Json
+          history_to: string
+          horizon_days: number
+          id?: string
+          method?: string
+          metric_key: string
+          scope: string
+        }
+        Update: {
+          company_id?: string
+          confidence?: number | null
+          created_at?: string
+          forecast_points?: Json
+          generated_by?: string | null
+          history_from?: string
+          history_points?: Json
+          history_to?: string
+          horizon_days?: number
+          id?: string
+          method?: string
+          metric_key?: string
+          scope?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_forecasts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_insights: {
+        Row: {
+          company_id: string
+          created_at: string
+          facts: Json
+          id: string
+          kind: string
+          period_end: string | null
+          period_start: string | null
+          recommendations: Json
+          scope: string
+          severity: string
+          source: string
+          title: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          facts?: Json
+          id?: string
+          kind?: string
+          period_end?: string | null
+          period_start?: string | null
+          recommendations?: Json
+          scope: string
+          severity?: string
+          source?: string
+          title: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          facts?: Json
+          id?: string
+          kind?: string
+          period_end?: string | null
+          period_start?: string | null
+          recommendations?: Json
+          scope?: string
+          severity?: string
+          source?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_insights_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_report_definitions: {
+        Row: {
+          category: string
+          code: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          delivery: Json
+          description: string | null
+          id: string
+          is_system: boolean
+          name: string
+          query_spec: Json
+          schedule: string | null
+          scope: string
+          updated_at: string
+          visualization: Json
+        }
+        Insert: {
+          category?: string
+          code: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          delivery?: Json
+          description?: string | null
+          id?: string
+          is_system?: boolean
+          name: string
+          query_spec?: Json
+          schedule?: string | null
+          scope?: string
+          updated_at?: string
+          visualization?: Json
+        }
+        Update: {
+          category?: string
+          code?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          delivery?: Json
+          description?: string | null
+          id?: string
+          is_system?: boolean
+          name?: string
+          query_spec?: Json
+          schedule?: string | null
+          scope?: string
+          updated_at?: string
+          visualization?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_report_definitions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_report_runs: {
+        Row: {
+          code: string
+          company_id: string
+          created_at: string
+          definition_id: string | null
+          duration_ms: number | null
+          error: string | null
+          format: string
+          id: string
+          output: Json
+          period_end: string | null
+          period_start: string | null
+          requested_by: string | null
+          status: string
+        }
+        Insert: {
+          code: string
+          company_id: string
+          created_at?: string
+          definition_id?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          format?: string
+          id?: string
+          output?: Json
+          period_end?: string | null
+          period_start?: string | null
+          requested_by?: string | null
+          status?: string
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          created_at?: string
+          definition_id?: string | null
+          duration_ms?: number | null
+          error?: string | null
+          format?: string
+          id?: string
+          output?: Json
+          period_end?: string | null
+          period_start?: string | null
+          requested_by?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_report_runs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_report_runs_definition_id_fkey"
+            columns: ["definition_id"]
+            isOneToOne: false
+            referencedRelation: "bi_report_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_snapshots: {
+        Row: {
+          company_id: string
+          computed_at: string
+          created_at: string
+          id: string
+          metric_key: string
+          period_end: string
+          period_grain: string
+          period_start: string
+          scope: string
+          source: string
+          updated_at: string
+          value_json: Json
+          value_numeric: number | null
+        }
+        Insert: {
+          company_id: string
+          computed_at?: string
+          created_at?: string
+          id?: string
+          metric_key: string
+          period_end: string
+          period_grain: string
+          period_start: string
+          scope: string
+          source?: string
+          updated_at?: string
+          value_json?: Json
+          value_numeric?: number | null
+        }
+        Update: {
+          company_id?: string
+          computed_at?: string
+          created_at?: string
+          id?: string
+          metric_key?: string
+          period_end?: string
+          period_grain?: string
+          period_start?: string
+          scope?: string
+          source?: string
+          updated_at?: string
+          value_json?: Json
+          value_numeric?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_snapshots_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bill_of_materials: {
         Row: {
           approved_at: string | null
