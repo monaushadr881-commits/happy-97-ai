@@ -13,7 +13,7 @@ export type TriggerKind =
 
 export type Runtime =
   | "revenue" | "crm" | "erp" | "finance" | "wms" | "mfg" | "builder"
-  | "deployment" | "notification" | "analytics" | "bi" | "brain" | "memory" | "kg" | "hrms";
+  | "deployment" | "notification" | "analytics" | "bi" | "brain" | "memory" | "kg" | "hrms" | "marketplace";
 
 export interface WorkflowStep {
   id?: string;
@@ -374,7 +374,7 @@ export async function queueProcess(sb: SB, userId: string, opts: { company_id?: 
 
     try {
       if (job.kind === "retry" || job.kind === "workflow") {
-        const wf = await workflowGet(sb, userId, job.workflow_id!);
+        const wf = await workflowGet(sb, userId, job.workflow_id as string);
         if (!wf) throw new Error("workflow missing");
         const payload = job.payload as any;
         await runExecute(sb, userId, wf, payload?.trigger_payload ?? {}, (payload?.trigger_kind as TriggerKind) ?? "schedule", payload?.attempt ?? 1);
