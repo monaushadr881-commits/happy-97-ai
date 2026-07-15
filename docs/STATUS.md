@@ -1716,3 +1716,52 @@ Status: **WORKING (asset contract + registry + validators). Renderer NOT include
 - Live2D/Live3D/XR/VR/AR renderers remain PLANNED (R40 explicitly forbids implementing them here).
 - MetaHuman / Audio2Face / Pixel Streaming remain future integrations.
 - No fake certification: `computeCompatibility` reports `READY` for a target only when ALL required roles are physically linked in the manifest.
+
+---
+
+## R41 — Voice Intelligence Runtime — WORKING (backend + streaming synthesis)
+
+| Component                       | Status  | Notes                                                                 |
+|---------------------------------|---------|-----------------------------------------------------------------------|
+| Voice Runtime                   | WORKING | `src/lib/voice-runtime/engine.ts`                                     |
+| Voice Session Runtime           | WORKING | start / pause / resume / end / timeout / reconnect                    |
+| Streaming Runtime               | WORKING | Provider-level SSE via Lovable/OpenAI/Gemini gateway; ElevenLabs mp3  |
+| Voice Router / Provider Registry| WORKING | `voice_provider_configs` DB-driven; no hardcoded provider             |
+| Realtime Conversation Runtime   | WORKING | `speak()` orchestrates provider fallback + timing timeline            |
+| Interruption Runtime            | WORKING | `voice_interruptions` (immutable) + `voice_turns.interrupted`         |
+| Language Runtime                | WORKING | Script-based detect (en/hi/ur/auto) + user/company preference merge   |
+| Voice Analytics Runtime         | WORKING | Sessions / duration / interruptions / avg latency / by provider+lang  |
+| Lip-sync timing (words/phonemes/visemes) | WORKING | Estimated timeline exposed; renderer consumes                  |
+| Founder dashboard data          | WORKING | `voiceAnalyticsFn` returns provider health + distribution             |
+| Renderer integration            | PLANNED | Explicitly out of scope; timing timelines are exposed for consumers   |
+| Realtime STT (mic streaming)    | PARTIAL | Runtime accepts `record_user_turn` from any client STT; no built-in mic |
+
+### Files
+- `supabase/migrations/*_voice*` — 6 tables (sessions, turns, interruptions, provider_configs, provider_health, analytics_snapshots)
+- `src/lib/voice-runtime/language.ts` — detection + preference resolver
+- `src/lib/voice-runtime/providers.ts` — DB registry + selection + synth fallback chain
+- `src/lib/voice-runtime/timeline.ts` — deterministic word/phoneme/viseme builder
+- `src/lib/voice-runtime/engine.ts` — session lifecycle, speak, interrupt, analytics, health probe
+- `src/lib/voice-runtime/voice.functions.ts` — 13 auth-gated server functions
+
+### Security
+- RLS: session owners + company admins + ops admins can read; only owners can write turns.
+- `voice_interruptions` append-only (no UPDATE/DELETE grant).
+- Provider configs writable only by `is_ops_admin`.
+- Analytics snapshots readable by company admins / ops only.
+
+### Reuse (no duplication)
+- Reuses `src/lib/happy-runtime/voice.ts` for provider synthesis (single source of truth).
+- Reuses `happy_sessions` linkage via `voice_sessions.happy_session_id`.
+- Does not duplicate Conversation Runtime — only records SPEECH↔TEXT turns.
+
+### Verification
+- `bunx tsgo --noEmit` — clean.
+- Provider fallback exercised: `synthesizeWithFallback` iterates ordered providers, records `attempts[]` with per-provider latency and error.
+- `probeProviders` writes real health rows only for providers whose secret is present.
+- Language routing verified deterministically: Devanagari→hi, Arabic→ur, else→en, preference override.
+
+### Honest gaps
+- No in-browser microphone capture / VAD (client-owned; not runtime).
+- No renderer — timing timelines are exposed but nothing is drawn.
+- Analytics snapshotting to `voice_analytics_snapshots` is on-demand via `computeAnalytics`; periodic cron is a future pass.
