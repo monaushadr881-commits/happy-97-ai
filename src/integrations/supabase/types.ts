@@ -6789,6 +6789,51 @@ export type Database = {
           },
         ]
       }
+      founder_business_health_snapshots: {
+        Row: {
+          company_id: string | null
+          computed_by: string
+          created_at: string
+          dimension: string
+          facts: Json
+          id: string
+          period_end: string
+          period_start: string
+          recommendations: Json
+          score: number
+          source_runtimes: string[]
+          status: string
+        }
+        Insert: {
+          company_id?: string | null
+          computed_by: string
+          created_at?: string
+          dimension: string
+          facts?: Json
+          id?: string
+          period_end: string
+          period_start: string
+          recommendations?: Json
+          score: number
+          source_runtimes?: string[]
+          status: string
+        }
+        Update: {
+          company_id?: string | null
+          computed_by?: string
+          created_at?: string
+          dimension?: string
+          facts?: Json
+          id?: string
+          period_end?: string
+          period_start?: string
+          recommendations?: Json
+          score?: number
+          source_runtimes?: string[]
+          status?: string
+        }
+        Relationships: []
+      }
       founder_command_history: {
         Row: {
           capability: string | null
@@ -6844,6 +6889,108 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      founder_decision_records: {
+        Row: {
+          alternatives: Json
+          category: string
+          company_id: string | null
+          confidence: number
+          created_at: string
+          decided_by: string
+          decision: string
+          facts: Json
+          id: string
+          outcome: string | null
+          outcome_recorded_at: string | null
+          rationale: string | null
+          recommendations_considered: Json
+          title: string
+        }
+        Insert: {
+          alternatives?: Json
+          category: string
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by: string
+          decision: string
+          facts?: Json
+          id?: string
+          outcome?: string | null
+          outcome_recorded_at?: string | null
+          rationale?: string | null
+          recommendations_considered?: Json
+          title: string
+        }
+        Update: {
+          alternatives?: Json
+          category?: string
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by?: string
+          decision?: string
+          facts?: Json
+          id?: string
+          outcome?: string | null
+          outcome_recorded_at?: string | null
+          rationale?: string | null
+          recommendations_considered?: Json
+          title?: string
+        }
+        Relationships: []
+      }
+      founder_executive_reports: {
+        Row: {
+          company_id: string | null
+          content: Json
+          created_at: string
+          facts_count: number
+          generated_by: string
+          id: string
+          period_end: string
+          period_start: string
+          recommendations_count: number
+          report_type: string
+          source_runtimes: string[]
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id?: string | null
+          content: Json
+          created_at?: string
+          facts_count?: number
+          generated_by: string
+          id?: string
+          period_end: string
+          period_start: string
+          recommendations_count?: number
+          report_type: string
+          source_runtimes?: string[]
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string | null
+          content?: Json
+          created_at?: string
+          facts_count?: number
+          generated_by?: string
+          id?: string
+          period_end?: string
+          period_start?: string
+          recommendations_count?: number
+          report_type?: string
+          source_runtimes?: string[]
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       founder_recommendations: {
         Row: {
@@ -11619,6 +11766,345 @@ export type Database = {
           },
         ]
       }
+      meeting_action_items: {
+        Row: {
+          agenda_item_id: string | null
+          assignee_email: string | null
+          assignee_id: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          due_at: string | null
+          id: string
+          linked_task_id: string | null
+          meeting_id: string
+          priority: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          agenda_item_id?: string | null
+          assignee_email?: string | null
+          assignee_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          linked_task_id?: string | null
+          meeting_id: string
+          priority?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          agenda_item_id?: string | null
+          assignee_email?: string | null
+          assignee_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          linked_task_id?: string | null
+          meeting_id?: string
+          priority?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_action_items_agenda_item_id_fkey"
+            columns: ["agenda_item_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_agenda_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meeting_action_items_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_agenda_items: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          duration_minutes: number | null
+          id: string
+          meeting_id: string
+          owner_user_id: string | null
+          seq: number
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          meeting_id: string
+          owner_user_id?: string | null
+          seq: number
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          meeting_id?: string
+          owner_user_id?: string | null
+          seq?: number
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_agenda_items_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_decisions: {
+        Row: {
+          agenda_item_id: string | null
+          confidence: number
+          created_at: string
+          decided_by: string
+          decision: string
+          evidence: Json
+          facts: Json
+          id: string
+          meeting_id: string
+          rationale: string | null
+          recommendations: Json
+          title: string
+        }
+        Insert: {
+          agenda_item_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by: string
+          decision: string
+          evidence?: Json
+          facts?: Json
+          id?: string
+          meeting_id: string
+          rationale?: string | null
+          recommendations?: Json
+          title: string
+        }
+        Update: {
+          agenda_item_id?: string | null
+          confidence?: number
+          created_at?: string
+          decided_by?: string
+          decision?: string
+          evidence?: Json
+          facts?: Json
+          id?: string
+          meeting_id?: string
+          rationale?: string | null
+          recommendations?: Json
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_decisions_agenda_item_id_fkey"
+            columns: ["agenda_item_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_agenda_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meeting_decisions_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_minutes: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          authored_by: string
+          content: Json
+          created_at: string
+          id: string
+          meeting_id: string
+          status: string
+          summary: string | null
+          version: number
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          authored_by: string
+          content: Json
+          created_at?: string
+          id?: string
+          meeting_id: string
+          status?: string
+          summary?: string | null
+          version: number
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          authored_by?: string
+          content?: Json
+          created_at?: string
+          id?: string
+          meeting_id?: string
+          status?: string
+          summary?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_minutes_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_participants: {
+        Row: {
+          attendance_status: string
+          created_at: string
+          display_name: string | null
+          external_email: string | null
+          id: string
+          joined_at: string | null
+          left_at: string | null
+          meeting_id: string
+          role: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          attendance_status?: string
+          created_at?: string
+          display_name?: string | null
+          external_email?: string | null
+          id?: string
+          joined_at?: string | null
+          left_at?: string | null
+          meeting_id: string
+          role?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          attendance_status?: string
+          created_at?: string
+          display_name?: string | null
+          external_email?: string | null
+          id?: string
+          joined_at?: string | null
+          left_at?: string | null
+          meeting_id?: string
+          role?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_participants_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meetings: {
+        Row: {
+          actual_end: string | null
+          actual_start: string | null
+          company_id: string | null
+          created_at: string
+          description: string | null
+          host_id: string
+          id: string
+          join_url: string | null
+          linked_presentation_session_id: string | null
+          location: string | null
+          meeting_type: string
+          metadata: Json
+          scheduled_end: string
+          scheduled_start: string
+          status: string
+          title: string
+          updated_at: string
+          workspace_id: string | null
+        }
+        Insert: {
+          actual_end?: string | null
+          actual_start?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          host_id: string
+          id?: string
+          join_url?: string | null
+          linked_presentation_session_id?: string | null
+          location?: string | null
+          meeting_type: string
+          metadata?: Json
+          scheduled_end: string
+          scheduled_start: string
+          status?: string
+          title: string
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Update: {
+          actual_end?: string | null
+          actual_start?: string | null
+          company_id?: string | null
+          created_at?: string
+          description?: string | null
+          host_id?: string
+          id?: string
+          join_url?: string | null
+          linked_presentation_session_id?: string | null
+          location?: string | null
+          meeting_type?: string
+          metadata?: Json
+          scheduled_end?: string
+          scheduled_start?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Relationships: []
+      }
       memory_access_log: {
         Row: {
           action: string
@@ -14593,6 +15079,182 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      receptionist_analytics_snapshots: {
+        Row: {
+          appointment_conversions: number
+          avg_confidence: number
+          avg_latency_ms: number
+          company_id: string | null
+          computed_by: string | null
+          created_at: string
+          domain_distribution: Json
+          id: string
+          languages: Json
+          lead_conversions: number
+          mode_distribution: Json
+          ticket_conversions: number
+          total_sessions: number
+          total_turns: number
+          window_end: string
+          window_start: string
+        }
+        Insert: {
+          appointment_conversions?: number
+          avg_confidence?: number
+          avg_latency_ms?: number
+          company_id?: string | null
+          computed_by?: string | null
+          created_at?: string
+          domain_distribution?: Json
+          id?: string
+          languages?: Json
+          lead_conversions?: number
+          mode_distribution?: Json
+          ticket_conversions?: number
+          total_sessions?: number
+          total_turns?: number
+          window_end: string
+          window_start: string
+        }
+        Update: {
+          appointment_conversions?: number
+          avg_confidence?: number
+          avg_latency_ms?: number
+          company_id?: string | null
+          computed_by?: string | null
+          created_at?: string
+          domain_distribution?: Json
+          id?: string
+          languages?: Json
+          lead_conversions?: number
+          mode_distribution?: Json
+          ticket_conversions?: number
+          total_sessions?: number
+          total_turns?: number
+          window_end?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      receptionist_sessions: {
+        Row: {
+          channel: string
+          company_id: string | null
+          created_at: string
+          ended_at: string | null
+          id: string
+          is_returning: boolean
+          language: string
+          last_activity_at: string
+          metadata: Json
+          mode: string
+          started_at: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          visitor_key: string
+        }
+        Insert: {
+          channel?: string
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_returning?: boolean
+          language?: string
+          last_activity_at?: string
+          metadata?: Json
+          mode?: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          visitor_key: string
+        }
+        Update: {
+          channel?: string
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          is_returning?: boolean
+          language?: string
+          last_activity_at?: string
+          metadata?: Json
+          mode?: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          visitor_key?: string
+        }
+        Relationships: []
+      }
+      receptionist_turns: {
+        Row: {
+          company_id: string | null
+          confidence: number
+          created_at: string
+          domain: string
+          facts: Json
+          id: string
+          input: Json
+          intent: string
+          latency_ms: number | null
+          mode: string
+          outcome: Json
+          recommendations: Json
+          routed_runtime: string
+          seq: number
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          domain: string
+          facts?: Json
+          id?: string
+          input?: Json
+          intent: string
+          latency_ms?: number | null
+          mode: string
+          outcome?: Json
+          recommendations?: Json
+          routed_runtime: string
+          seq: number
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          domain?: string
+          facts?: Json
+          id?: string
+          input?: Json
+          intent?: string
+          latency_ms?: number | null
+          mode?: string
+          outcome?: Json
+          recommendations?: Json
+          routed_runtime?: string
+          seq?: number
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "receptionist_turns_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "receptionist_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       remote_config: {
         Row: {
