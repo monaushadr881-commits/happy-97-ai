@@ -830,3 +830,33 @@ No admin UI is claimed — that ships in a later pass.
 - **Security**: RLS `is_company_member` on all CRM tables; audit_logs via `write_audit` RPC for every mutation; notifications on lead assignment, task assignment, deal won/lost.
 - **PARTIAL**: contact/company sub-entities alias to leads/customers; email/call log ingestion pending external providers.
 - **PLANNED**: recurring-task expander cron, meeting attendee scheduling, per-owner permission matrix beyond company membership.
+
+## R19 — Enterprise ERP Runtime — WORKING
+
+- **Schema** (`supabase/migrations/...r19_erp.sql`): new `approvals` table (RLS via `is_company_member`/`is_company_admin`); added `approval_status` column to `purchase_orders` and `sales_orders` with CHECK-constrained state machine (draft→pending→approved/rejected→completed/fulfilled/cancelled). Reuses existing companies, offices (branches), departments, business_units, suppliers (vendors), purchase_orders/_items, sales_orders/_items, workflows, workflow_runs, activity_events, notifications, audit_logs.
+- **Engine** (`src/lib/erp/engine.ts`): org (companies/branches/departments/units), vendors (CRUD + soft delete), approvals (request/approve/reject/cancel with entity sync + admin notifications), purchase (CRUD, submit→approval, receive, cancel), sales (CRUD, submit→approval, fulfill, cancel), workflows (list/runs/trigger reusing existing workflows table), search (unified across POs, SOs, vendors, departments, approvals), dashboards (company + founder aggregations).
+- **Server functions** (`src/lib/erp/erp.functions.ts`): 30 auth-gated `createServerFn` endpoints via `requireSupabaseAuth`; RLS is the primary guard, engine adds status-machine validation.
+- **Security**: RLS on `approvals` scoped to company members (view/create), admins or requester (update — requester only when still pending), admin-only delete. Every state transition writes an immutable audit log via `write_audit` and dispatches in-app notifications (approval requested → all company admins; decision → requester).
+- **Founder integration**: `erpFounderDashboard` aggregates companies × purchase/sales volume × pending approvals across the platform; `erpCompanyDashboard` provides per-company operations view.
+
+### PARTIAL
+- Workflow engine trigger only queues runs; actual step execution reuses the existing workflow-runtime service and is not re-implemented here.
+- Inventory adjustments on PO receive / SO fulfill are not yet wired to `inventory_items`.
+
+### PLANNED
+- Goods-received partial receipt, backorders, and multi-warehouse split-fulfillment.
+- Vendor performance analytics (on-time %, defect rate).
+- Approval routing rules (multi-step, amount thresholds) beyond single-admin approval.
+
+### Files Changed
+- `supabase/migrations/…_r19_erp.sql` — approvals table + approval_status columns.
+- `src/lib/erp/engine.ts` — ERP runtime (org, vendors, approvals, purchase, sales, workflows, search, dashboards).
+- `src/lib/erp/erp.functions.ts` — 30 `createServerFn` endpoints.
+- Regenerated `src/integrations/supabase/types.ts` via migration.
+
+### Final Rule
+ERP is marked WORKING because real CRUD, real approvals with state
+transitions, real audit logs, real notifications, and dashboard aggregation
+are all functioning against RLS-enforced tables. Multi-step workflow
+execution and inventory side-effects remain PARTIAL until wired to the
+existing workflow-runtime + inventory tables.
