@@ -152,7 +152,7 @@ export const gwConnectionHealth = createServerFn({ method: "POST" })
 export const gwOpenApiGenerate = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { api_id: string }) => d)
-  .handler(async ({ data, context }) => openApiGenerate(context.supabase, context.userId, data.api_id));
+  .handler(async ({ data, context }) => JSON.parse(JSON.stringify(await openApiGenerate(context.supabase, context.userId, data.api_id))) as { openapi: string });
 
 export const gwSdkSnippet = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
