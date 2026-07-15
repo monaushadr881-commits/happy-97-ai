@@ -234,7 +234,7 @@ export const planner = {
   },
 
   async persist(sb: SB, session_id: string, company_id: string, intent_id: string,
-    p: ReturnType<typeof planner.build>) {
+    p: BrainPlan) {
     const res = await sb.from("brain_plans").insert({
       session_id, intent_id, company_id,
       goal: p.goal, steps: p.steps, risks: p.risks,
