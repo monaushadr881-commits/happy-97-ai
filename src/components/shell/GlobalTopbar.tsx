@@ -49,7 +49,7 @@ export function GlobalTopbar() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const crumbs = useCrumbs();
-  const unread = notifications.filter((n) => !n.readAt).length;
+  const unread = notifications.length;
 
   const signOut = async () => {
     await qc.cancelQueries();
@@ -167,7 +167,7 @@ export function GlobalTopbar() {
             notifications.slice(0, 6).map((n) => (
               <DropdownMenuItem key={n.id} className="flex-col items-start gap-0.5 py-2">
                 <span className="text-xs font-medium text-paper">{n.title}</span>
-                {n.body && <span className="text-[11px] text-soft-gray line-clamp-2">{n.body}</span>}
+                {n.description && <span className="text-[11px] text-soft-gray line-clamp-2">{n.description}</span>}
               </DropdownMenuItem>
             ))
           )}
