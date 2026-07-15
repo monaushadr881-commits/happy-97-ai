@@ -217,9 +217,9 @@ export async function getCollectionWithItems(sb: SB, code: string, limit = 24) {
       const { data: ls, error: lErr } = await sb.from("listings")
         .select("*").in("id", topIds);
       if (lErr) throw lErr;
-      const byId = new Map<string, unknown>();
-      for (const l of (ls ?? []) as { id: string }[]) byId.set(l.id, l);
-      listings = topIds.map((id) => byId.get(id)).filter(Boolean);
+      const byId = new Map<string, Json>();
+      for (const l of (ls ?? []) as Array<{ id: string } & Record<string, Json>>) byId.set(l.id, l as unknown as Json);
+      listings = topIds.map((id) => byId.get(id)).filter((v): v is Json => Boolean(v));
     }
   }
 
