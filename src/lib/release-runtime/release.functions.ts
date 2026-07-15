@@ -251,6 +251,6 @@ export const getReleaseAnalytics = createServerFn({ method: "GET" })
       submissions_by_status: byStatus(subRows, "status"),
       submissions_by_store: byStatus(subRows, "store"),
       total_rollbacks: rlbRows.length,
-      emergency_rollbacks: rlbRows.filter((r) => r.severity === "emergency").length,
+      emergency_rollbacks: rlbRows.filter((r: any) => r.severity === "emergency").length,
     };
   });
