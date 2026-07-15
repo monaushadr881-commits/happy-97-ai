@@ -306,7 +306,6 @@ export async function generateBriefing(
   // Tables with company_id: expenses, invoices, deals, customers, production_orders, agent_tasks, auto_runs
   // Tables WITHOUT company_id: marketplace_transactions, incidents, project_deployments, bkp_jobs
   const co = companyId ?? null;
-  const scoped = <T>(p: Promise<T>) => p;
 
   const invoicesQ = co
     ? sb.from("invoices").select("id, total_cents, status", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
@@ -334,18 +333,19 @@ export async function generateBriefing(
     revenueRes, expensesRes, invoicesRes, dealsRes, customersRes,
     prodRes, incidentsRes, deploysRes, backupsRes, agentTasksRes, autoRunsRes,
   ] = await Promise.all([
-    scoped(sb.from("marketplace_transactions").select("amount_cents", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso)),
-    scoped(expensesQ),
-    scoped(invoicesQ),
-    scoped(dealsQ),
-    scoped(customersQ),
-    scoped(prodQ),
-    scoped(sb.from("incidents").select("id, severity", { count: "exact" }).gte("opened_at", startIso).lte("opened_at", endIso)),
-    scoped(sb.from("project_deployments").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso)),
-    scoped(sb.from("bkp_jobs").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso)),
-    scoped(agentQ),
-    scoped(autoQ),
+    sb.from("marketplace_transactions").select("amount_cents", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso).then(r => r),
+    expensesQ.then(r => r),
+    invoicesQ.then(r => r),
+    dealsQ.then(r => r),
+    customersQ.then(r => r),
+    prodQ.then(r => r),
+    sb.from("incidents").select("id, severity", { count: "exact" }).gte("opened_at", startIso).lte("opened_at", endIso).then(r => r),
+    sb.from("project_deployments").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso).then(r => r),
+    sb.from("bkp_jobs").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso).then(r => r),
+    agentQ.then(r => r),
+    autoQ.then(r => r),
   ]);
+
 
   const snapshot: Json = {
     revenue: {
