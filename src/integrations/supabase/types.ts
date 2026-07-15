@@ -14969,6 +14969,238 @@ export type Database = {
         }
         Relationships: []
       }
+      specialist_analytics_snapshots: {
+        Row: {
+          avg_confidence: number
+          avg_latency_ms: number
+          company_id: string | null
+          computed_by: string | null
+          created_at: string
+          domain_distribution: Json
+          evidence_coverage: number
+          id: string
+          mode_distribution: Json
+          recommendation_count: number
+          session_id: string | null
+          total_sessions: number
+          total_turns: number
+          window_end: string
+          window_start: string
+        }
+        Insert: {
+          avg_confidence?: number
+          avg_latency_ms?: number
+          company_id?: string | null
+          computed_by?: string | null
+          created_at?: string
+          domain_distribution?: Json
+          evidence_coverage?: number
+          id?: string
+          mode_distribution?: Json
+          recommendation_count?: number
+          session_id?: string | null
+          total_sessions?: number
+          total_turns?: number
+          window_end: string
+          window_start: string
+        }
+        Update: {
+          avg_confidence?: number
+          avg_latency_ms?: number
+          company_id?: string | null
+          computed_by?: string | null
+          created_at?: string
+          domain_distribution?: Json
+          evidence_coverage?: number
+          id?: string
+          mode_distribution?: Json
+          recommendation_count?: number
+          session_id?: string | null
+          total_sessions?: number
+          total_turns?: number
+          window_end?: string
+          window_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "specialist_analytics_snapshots_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "specialist_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      specialist_mode_registry: {
+        Row: {
+          capabilities: Json
+          code: string
+          created_at: string
+          description: string | null
+          domain: string
+          enabled: boolean
+          id: string
+          label: string
+          min_confidence: number
+          required_roles: string[]
+          runtime_routes: Json
+          updated_at: string
+        }
+        Insert: {
+          capabilities?: Json
+          code: string
+          created_at?: string
+          description?: string | null
+          domain: string
+          enabled?: boolean
+          id?: string
+          label: string
+          min_confidence?: number
+          required_roles?: string[]
+          runtime_routes?: Json
+          updated_at?: string
+        }
+        Update: {
+          capabilities?: Json
+          code?: string
+          created_at?: string
+          description?: string | null
+          domain?: string
+          enabled?: boolean
+          id?: string
+          label?: string
+          min_confidence?: number
+          required_roles?: string[]
+          runtime_routes?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      specialist_sessions: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          current_mode: string
+          ended_at: string | null
+          happy_session_id: string | null
+          id: string
+          language: string
+          last_activity_at: string
+          metadata: Json
+          mode_history: Json
+          previous_mode: string | null
+          started_at: string
+          status: string
+          updated_at: string
+          user_id: string
+          workspace_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          current_mode: string
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          language?: string
+          last_activity_at?: string
+          metadata?: Json
+          mode_history?: Json
+          previous_mode?: string | null
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          workspace_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          current_mode?: string
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          language?: string
+          last_activity_at?: string
+          metadata?: Json
+          mode_history?: Json
+          previous_mode?: string | null
+          started_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          workspace_id?: string | null
+        }
+        Relationships: []
+      }
+      specialist_turns: {
+        Row: {
+          capability: string | null
+          company_id: string | null
+          confidence: number
+          created_at: string
+          domain: string
+          error: string | null
+          facts: Json
+          id: string
+          input: Json
+          intent: string
+          latency_ms: number | null
+          mode: string
+          recommendations: Json
+          routed_runtime: string
+          seq: number
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          capability?: string | null
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          domain: string
+          error?: string | null
+          facts?: Json
+          id?: string
+          input?: Json
+          intent: string
+          latency_ms?: number | null
+          mode: string
+          recommendations?: Json
+          routed_runtime: string
+          seq: number
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          capability?: string | null
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          domain?: string
+          error?: string | null
+          facts?: Json
+          id?: string
+          input?: Json
+          intent?: string
+          latency_ms?: number | null
+          mode?: string
+          recommendations?: Json
+          routed_runtime?: string
+          seq?: number
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "specialist_turns_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "specialist_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stock_reservations: {
         Row: {
           actor_id: string | null
