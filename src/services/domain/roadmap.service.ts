@@ -760,3 +760,9 @@ export const deploymentBuilderService = defineService({ name: "deployment-builde
 export const templateService = defineService({ name: "template", version: "ub1" }, () => activated("template"));
 export const themeService = defineService({ name: "theme", version: "ub1" }, () => activated("theme"));
 export const marketplaceService = defineService({ name: "marketplace", version: "ub1" }, () => activated("marketplace"));
+
+
+// ---------- Dynamic Theme Engine v2.0 ----------
+export const themeEngineService = defineService({ name: "theme-engine", version: "dte2" }, () => activated("theme-engine"));
+export const appearanceService = defineService({ name: "appearance", version: "dte2" }, () => activated("appearance"));
+export const personalizationService = defineService({ name: "personalization", version: "dte2" }, () => activated("personalization"));
