@@ -150,6 +150,86 @@ function useMicroMotion(reduced: boolean, activity: AvatarActivity, expression: 
   }, [reduced, activity, expression, posture]);
   return offset;
 }
+/**
+ * Weighted expression overlay layer. Every supported expression maps to a
+ * blend of tint layers with per-layer opacity. Because opacity transitions
+ * smoothly, moving between expressions is a real crossfade, not a hard
+ * switch — even though the underlying portrait is a static photograph.
+ */
+type ExprWeights = {
+  smile?: number;      // golden cheek + jaw lift
+  brow?: number;       // subtle upper-face lift (thinking / concern)
+  warmth?: number;     // full-face warmth (empathy / support)
+  focus?: number;      // dim edges to bring attention forward (business)
+  gold?: number;       // extra crown highlight (celebrate / founder)
+};
+
+const EXPRESSION_MAP: Record<AvatarExpression, ExprWeights> = {
+  neutral:    {},
+  smile:      { smile: 0.9, warmth: 0.3 },
+  thinking:   { brow: 0.7, focus: 0.4 },
+  explain:    { smile: 0.4, gold: 0.3 },
+  concern:    { brow: 0.9, warmth: 0.2 },
+  celebrate:  { smile: 1, gold: 0.8, warmth: 0.5 },
+  listen:     { warmth: 0.4, focus: 0.3 },
+  confidence: { focus: 0.6, gold: 0.4 },
+  empathy:    { warmth: 0.8, smile: 0.5 },
+  teaching:   { smile: 0.5, focus: 0.4, gold: 0.3 },
+  business:   { focus: 0.7 },
+  founder:    { focus: 0.5, gold: 0.6, warmth: 0.2 },
+};
+
+const ExpressionLayer = memo(function ExpressionLayer({
+  expression,
+  reducedMotion,
+}: { expression: AvatarExpression; reducedMotion: boolean }) {
+  const w = EXPRESSION_MAP[expression] ?? {};
+  const dur = reducedMotion ? "0ms" : "700ms";
+  return (
+    <>
+      <div aria-hidden className="pointer-events-none absolute inset-0"
+        style={{
+          background: "radial-gradient(55% 26% at 50% 62%, rgba(232,201,106,0.32), transparent 72%)",
+          mixBlendMode: "screen",
+          opacity: w.smile ?? 0,
+          transition: `opacity ${dur} ease-out`,
+        }}
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0"
+        style={{
+          background: "radial-gradient(60% 20% at 50% 26%, rgba(200,220,235,0.16), transparent 75%)",
+          mixBlendMode: "screen",
+          opacity: w.brow ?? 0,
+          transition: `opacity ${dur} ease-out`,
+        }}
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0"
+        style={{
+          background: "radial-gradient(80% 60% at 50% 50%, rgba(232,180,120,0.22), transparent 78%)",
+          mixBlendMode: "screen",
+          opacity: w.warmth ?? 0,
+          transition: `opacity ${dur} ease-out`,
+        }}
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0"
+        style={{
+          background: "radial-gradient(60% 55% at 50% 45%, transparent 55%, rgba(0,0,0,0.45) 100%)",
+          opacity: w.focus ?? 0,
+          transition: `opacity ${dur} ease-out`,
+        }}
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0"
+        style={{
+          background: "radial-gradient(70% 40% at 50% 8%, rgba(232,201,106,0.4), transparent 65%)",
+          mixBlendMode: "screen",
+          opacity: w.gold ?? 0,
+          transition: `opacity ${dur} ease-out`,
+        }}
+      />
+    </>
+  );
+});
+
 
 
 export const HappyAvatar = memo(function HappyAvatar({
