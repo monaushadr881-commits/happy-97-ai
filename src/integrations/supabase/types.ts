@@ -5425,7 +5425,7 @@ export type Database = {
           ssl_serial: string | null
           ssl_state: string
           ssl_status: string
-          status: Database["public"]["Enums"]["project_domain_status"]
+          status: string
           updated_at: string
           user_id: string
           verification_token: string | null
@@ -5449,7 +5449,7 @@ export type Database = {
           ssl_serial?: string | null
           ssl_state?: string
           ssl_status?: string
-          status?: Database["public"]["Enums"]["project_domain_status"]
+          status?: string
           updated_at?: string
           user_id: string
           verification_token?: string | null
@@ -5473,7 +5473,7 @@ export type Database = {
           ssl_serial?: string | null
           ssl_state?: string
           ssl_status?: string
-          status?: Database["public"]["Enums"]["project_domain_status"]
+          status?: string
           updated_at?: string
           user_id?: string
           verification_token?: string | null
