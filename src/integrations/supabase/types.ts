@@ -6822,6 +6822,315 @@ export type Database = {
           },
         ]
       }
+      ha_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          kind: string
+          message: string | null
+          occurred_at: string
+          ref_id: string | null
+          ref_type: string | null
+          region_id: string | null
+          severity: Database["public"]["Enums"]["ha_event_severity"]
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          message?: string | null
+          occurred_at?: string
+          ref_id?: string | null
+          ref_type?: string | null
+          region_id?: string | null
+          severity?: Database["public"]["Enums"]["ha_event_severity"]
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          message?: string | null
+          occurred_at?: string
+          ref_id?: string | null
+          ref_type?: string | null
+          region_id?: string | null
+          severity?: Database["public"]["Enums"]["ha_event_severity"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ha_events_region_id_fkey"
+            columns: ["region_id"]
+            isOneToOne: false
+            referencedRelation: "ha_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ha_failover_runs: {
+        Row: {
+          created_at: string
+          finished_at: string | null
+          from_region_id: string | null
+          id: string
+          kind: Database["public"]["Enums"]["ha_failover_kind"]
+          message: string | null
+          reason: string
+          started_at: string
+          started_by: string | null
+          status: Database["public"]["Enums"]["ha_failover_status"]
+          to_region_id: string | null
+          traffic_switched: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          finished_at?: string | null
+          from_region_id?: string | null
+          id?: string
+          kind: Database["public"]["Enums"]["ha_failover_kind"]
+          message?: string | null
+          reason: string
+          started_at?: string
+          started_by?: string | null
+          status?: Database["public"]["Enums"]["ha_failover_status"]
+          to_region_id?: string | null
+          traffic_switched?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          finished_at?: string | null
+          from_region_id?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["ha_failover_kind"]
+          message?: string | null
+          reason?: string
+          started_at?: string
+          started_by?: string | null
+          status?: Database["public"]["Enums"]["ha_failover_status"]
+          to_region_id?: string | null
+          traffic_switched?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ha_failover_runs_from_region_id_fkey"
+            columns: ["from_region_id"]
+            isOneToOne: false
+            referencedRelation: "ha_regions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ha_failover_runs_to_region_id_fkey"
+            columns: ["to_region_id"]
+            isOneToOne: false
+            referencedRelation: "ha_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ha_regions: {
+        Row: {
+          code: string
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          endpoint_url: string | null
+          id: string
+          last_probed_at: string | null
+          latency_ms: number | null
+          location: string | null
+          name: string
+          priority: number
+          provider: string
+          role: Database["public"]["Enums"]["ha_region_role"]
+          status: Database["public"]["Enums"]["ha_region_status"]
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          endpoint_url?: string | null
+          id?: string
+          last_probed_at?: string | null
+          latency_ms?: number | null
+          location?: string | null
+          name: string
+          priority?: number
+          provider?: string
+          role?: Database["public"]["Enums"]["ha_region_role"]
+          status?: Database["public"]["Enums"]["ha_region_status"]
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          endpoint_url?: string | null
+          id?: string
+          last_probed_at?: string | null
+          latency_ms?: number | null
+          location?: string | null
+          name?: string
+          priority?: number
+          provider?: string
+          role?: Database["public"]["Enums"]["ha_region_role"]
+          status?: Database["public"]["Enums"]["ha_region_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ha_replication_checks: {
+        Row: {
+          created_at: string
+          id: string
+          lag_rows: number
+          scope: Database["public"]["Enums"]["ha_replication_scope"]
+          source_digest: string
+          source_region_id: string
+          source_total: number
+          status: Database["public"]["Enums"]["ha_replication_status"]
+          target_digest: string
+          target_region_id: string
+          target_total: number
+          verified_at: string
+          verified_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lag_rows?: number
+          scope: Database["public"]["Enums"]["ha_replication_scope"]
+          source_digest: string
+          source_region_id: string
+          source_total?: number
+          status: Database["public"]["Enums"]["ha_replication_status"]
+          target_digest?: string
+          target_region_id: string
+          target_total?: number
+          verified_at?: string
+          verified_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lag_rows?: number
+          scope?: Database["public"]["Enums"]["ha_replication_scope"]
+          source_digest?: string
+          source_region_id?: string
+          source_total?: number
+          status?: Database["public"]["Enums"]["ha_replication_status"]
+          target_digest?: string
+          target_region_id?: string
+          target_total?: number
+          verified_at?: string
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ha_replication_checks_source_region_id_fkey"
+            columns: ["source_region_id"]
+            isOneToOne: false
+            referencedRelation: "ha_regions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ha_replication_checks_target_region_id_fkey"
+            columns: ["target_region_id"]
+            isOneToOne: false
+            referencedRelation: "ha_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ha_replication_marks: {
+        Row: {
+          created_at: string
+          digest: string
+          id: string
+          marked_at: string
+          marked_by: string | null
+          region_id: string
+          scope: Database["public"]["Enums"]["ha_replication_scope"]
+          total_rows: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          digest: string
+          id?: string
+          marked_at?: string
+          marked_by?: string | null
+          region_id: string
+          scope: Database["public"]["Enums"]["ha_replication_scope"]
+          total_rows?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          digest?: string
+          id?: string
+          marked_at?: string
+          marked_by?: string | null
+          region_id?: string
+          scope?: Database["public"]["Enums"]["ha_replication_scope"]
+          total_rows?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ha_replication_marks_region_id_fkey"
+            columns: ["region_id"]
+            isOneToOne: false
+            referencedRelation: "ha_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ha_traffic_policies: {
+        Row: {
+          active_region_id: string | null
+          created_at: string
+          id: string
+          policy: Database["public"]["Enums"]["ha_traffic_policy"]
+          updated_at: string
+          updated_by: string | null
+          weights: Json
+        }
+        Insert: {
+          active_region_id?: string | null
+          created_at?: string
+          id?: string
+          policy: Database["public"]["Enums"]["ha_traffic_policy"]
+          updated_at?: string
+          updated_by?: string | null
+          weights?: Json
+        }
+        Update: {
+          active_region_id?: string | null
+          created_at?: string
+          id?: string
+          policy?: Database["public"]["Enums"]["ha_traffic_policy"]
+          updated_at?: string
+          updated_by?: string | null
+          weights?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ha_traffic_policies_active_region_id_fkey"
+            columns: ["active_region_id"]
+            isOneToOne: false
+            referencedRelation: "ha_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       health_checks: {
         Row: {
           checked_at: string
@@ -14187,6 +14496,36 @@ export type Database = {
       fin_journal_status: "draft" | "posted" | "reversed"
       fin_note_kind: "credit" | "debit"
       fin_recon_status: "open" | "in_progress" | "completed"
+      ha_event_severity: "info" | "warning" | "critical"
+      ha_failover_kind: "automatic" | "manual" | "graceful" | "rollback"
+      ha_failover_status:
+        | "planned"
+        | "running"
+        | "succeeded"
+        | "failed"
+        | "rolled_back"
+      ha_region_role: "primary" | "secondary" | "standby" | "edge"
+      ha_region_status: "healthy" | "degraded" | "offline" | "recovering"
+      ha_replication_scope:
+        | "database_metadata"
+        | "configuration"
+        | "builder_projects"
+        | "marketplace_metadata"
+        | "automation_definitions"
+        | "knowledge_graph"
+        | "memory_metadata"
+      ha_replication_status:
+        | "in_sync"
+        | "lagging"
+        | "diverged"
+        | "failed"
+        | "unknown"
+      ha_traffic_policy:
+        | "primary_only"
+        | "active_active"
+        | "weighted"
+        | "geo"
+        | "failover"
       health_status: "ok" | "degraded" | "down" | "unknown"
       incident_status:
         | "open"
@@ -14544,6 +14883,40 @@ export const Constants = {
       fin_journal_status: ["draft", "posted", "reversed"],
       fin_note_kind: ["credit", "debit"],
       fin_recon_status: ["open", "in_progress", "completed"],
+      ha_event_severity: ["info", "warning", "critical"],
+      ha_failover_kind: ["automatic", "manual", "graceful", "rollback"],
+      ha_failover_status: [
+        "planned",
+        "running",
+        "succeeded",
+        "failed",
+        "rolled_back",
+      ],
+      ha_region_role: ["primary", "secondary", "standby", "edge"],
+      ha_region_status: ["healthy", "degraded", "offline", "recovering"],
+      ha_replication_scope: [
+        "database_metadata",
+        "configuration",
+        "builder_projects",
+        "marketplace_metadata",
+        "automation_definitions",
+        "knowledge_graph",
+        "memory_metadata",
+      ],
+      ha_replication_status: [
+        "in_sync",
+        "lagging",
+        "diverged",
+        "failed",
+        "unknown",
+      ],
+      ha_traffic_policy: [
+        "primary_only",
+        "active_active",
+        "weighted",
+        "geo",
+        "failover",
+      ],
       health_status: ["ok", "degraded", "down", "unknown"],
       incident_status: [
         "open",

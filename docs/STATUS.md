@@ -1,6 +1,23 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** R8 — Payment Business Processor (Event → Business Runtime).
+**Last updated:** R35 — Multi-Region / High Availability Platform.
+
+## R35 — Multi-Region / High Availability — 2026-07-15
+
+- **Region runtime: Working.** `ha_regions` table + `haEngine.probeRegion` — probes each region by real HTTP HEAD against `endpoint_url` when set, or DB reachability + latency when not. Status enum: `healthy | degraded | offline | recovering`. Nothing is marked healthy without a probe run.
+- **Replication runtime: Working.** `ha_replication_marks` (per-region snapshot digest per scope) + `ha_replication_checks` (append-only verification history). Digests use WebCrypto SHA-256 over table row counts per scope; verification compares source digest to the target region's published mark and classifies `in_sync | lagging | diverged | failed | unknown`. Never "healthy" without a mark to compare against.
+- **Failover runtime: Working.** `ha_failover_runs` records every failover with kind (`automatic | manual | graceful | rollback`), preconditions probe on the target region, the actual role flip on `ha_regions`, traffic-policy update, and a re-read verification. `traffic_switched` is only `true` when the DB re-read confirms `role='primary'` on the target.
+- **Rollback: Working.** `haRollback(failover_id)` executes a reverse failover and only marks the original run `rolled_back` if traffic actually switched back.
+- **Recovery runtime: Working.** `haRecoverRegion({ region_id, samples })` runs N (1–10) real probes; region moves to `healthy` only when all samples pass, `degraded` if partial, `offline` if none.
+- **Traffic runtime: Working.** `ha_traffic_policies` (seeded with `primary_only | active_active | weighted | geo | failover`); `haUpsertTrafficPolicy` gates active region + weights.
+- **Founder dashboard: Working.** `haDashboard` returns `fact.*` (regions_total/healthy/offline, availability%, replication in-sync vs failed, failover success vs failed, recent events, recent failovers) separated from `recommendation.*` (heuristics only).
+- **Alerts: Working (append-only).** `ha_events` records `region.upserted`, `region.recovered`, `region.recovery_incomplete`, `replication.failed`, `failover.succeeded/failed`, `traffic.updated`. Trigger blocks any UPDATE/DELETE.
+- **Security:** Every table gated by `is_ops_admin(auth.uid())`. `ha_replication_checks` and `ha_events` are strictly immutable via triggers. GRANTs limited to `authenticated` (via RLS) + `service_role`.
+- **Verification:** `bunx tsgo --noEmit` — clean. New linter warnings on this pass: 0 (the 10 surfaced warnings are the pre-existing SECURITY DEFINER role helpers from earlier passes).
+- **Blocked / Planned:** Cross-region physical replication (platform layer — outside app scope); public status-page HA widget wiring; alert-channel delivery for `ha_events` (reuses Phase 5 notification connectors — not wired in this pass).
+- **Files changed:** created `src/lib/ha/engine.ts`, `src/lib/ha/ha.functions.ts`, `supabase/migrations/…_r35_multi_region_ha.sql`; edited `docs/STATUS.md`.
+
+
 
 ## R8 — Payment Business Processor — 2026-07-15
 
