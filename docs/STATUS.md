@@ -1,6 +1,6 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** Batch R3-CC (Founder Command Center + DH polish).
+**Last updated:** Batch R5 (Revenue Cloud + Founder integration).
 
 > This document supersedes every "Successfully Activated" / "Production
 > Certified" declaration in the `docs/architecture/*.md` and
