@@ -9,7 +9,7 @@ import { getAdapter } from "./adapters";
 import type { BuildChannel, PlatformCode } from "./contracts";
 
 async function assertAdmin(context: { supabase: any; userId: string }) {
-  const { data, error } = await context.supabase.rpc("has_role", {
+  const { data, error } = await (context.supabase as any).rpc("has_role", {
     _user_id: context.userId, _role: "admin",
   });
   if (error) throw new Error(`role check failed: ${error.message}`);
@@ -20,7 +20,7 @@ export const listPlatforms = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context);
-    const { data, error } = await context.supabase
+    const { data, error } = await (context.supabase as any)
       .from("deploy_platform_registry")
       .select("*")
       .order("category", { ascending: true })
@@ -33,7 +33,7 @@ export const getCompatibilityMatrix = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context);
-    const { data, error } = await context.supabase
+    const { data, error } = await (context.supabase as any)
       .from("deploy_platform_registry")
       .select("platform_code, display_name, adapter, category, readiness_state, required_dependencies, enabled");
     if (error) throw new Error(error.message);
@@ -65,7 +65,7 @@ export const startBuild = createServerFn({ method: "POST" })
     const plan = adapter.plan();
 
     // Insert build row
-    const { data: buildRow, error: insErr } = await context.supabase
+    const { data: buildRow, error: insErr } = await (context.supabase as any)
       .from("deploy_builds")
       .insert({
         platform_code: data.platform_code,
@@ -99,13 +99,13 @@ export const startBuild = createServerFn({ method: "POST" })
         signing_identity: a.signing_identity ?? null,
         metadata: JSON.parse(JSON.stringify(a.metadata ?? {})) as any,
       }));
-      const { error: artErr } = await context.supabase.from("deploy_artifacts").insert(rows as any);
+      const { error: artErr } = await (context.supabase as any).from("deploy_artifacts").insert(rows as any);
       if (artErr) throw new Error(artErr.message);
     }
 
 
     // Finalize build row
-    const { error: updErr } = await context.supabase
+    const { error: updErr } = await (context.supabase as any)
       .from("deploy_builds")
       .update({
         status: result.status,
@@ -124,10 +124,10 @@ export const getBuild = createServerFn({ method: "GET" })
   .inputValidator((raw) => z.object({ id: z.string().uuid() }).parse(raw))
   .handler(async ({ context, data }) => {
     await assertAdmin(context);
-    const { data: build, error } = await context.supabase
+    const { data: build, error } = await (context.supabase as any)
       .from("deploy_builds").select("*").eq("id", data.id).maybeSingle();
     if (error) throw new Error(error.message);
-    const { data: artifacts } = await context.supabase
+    const { data: artifacts } = await (context.supabase as any)
       .from("deploy_artifacts").select("*").eq("build_id", data.id);
     return { build, artifacts: artifacts ?? [] };
   });
@@ -140,7 +140,7 @@ export const listBuilds = createServerFn({ method: "GET" })
   }).parse(raw))
   .handler(async ({ context, data }) => {
     await assertAdmin(context);
-    let q = context.supabase
+    let q = (context.supabase as any)
       .from("deploy_builds").select("*")
       .order("started_at", { ascending: false })
       .limit(data.limit ?? 50);
@@ -154,7 +154,7 @@ export const getStoreReadiness = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context);
-    const { data, error } = await context.supabase
+    const { data, error } = await (context.supabase as any)
       .from("deploy_store_readiness").select("*").order("store", { ascending: true });
     if (error) throw new Error(error.message);
     return data ?? [];
@@ -175,13 +175,13 @@ export const refreshStoreReadiness = createServerFn({ method: "POST" })
     for (const c of checks) {
       const missing = c.required.filter((k) => !process.env[k]);
       const status = missing.length ? "blocked" : (c.store === "web" ? "ready" : "ready");
-      await context.supabase.from("deploy_store_readiness").update({
+      await (context.supabase as any).from("deploy_store_readiness").update({
         status,
         missing_dependencies: missing,
         last_checked_at: now,
       }).eq("store", c.store);
     }
-    const { data } = await context.supabase
+    const { data } = await (context.supabase as any)
       .from("deploy_store_readiness").select("*").order("store", { ascending: true });
     return data ?? [];
   });
