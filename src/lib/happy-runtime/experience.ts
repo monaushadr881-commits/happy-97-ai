@@ -55,7 +55,6 @@ export async function openExperience(
     sessionId: session.id,
     role: "happy",
     intent: "greeting",
-    capability: null ?? undefined,
     response: greeting.text,
     evidence: greeting.template_id
       ? [{ source_runtime: "happy-greetings", ref: greeting.template_id, timestamp: new Date().toISOString() }]
