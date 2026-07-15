@@ -78,12 +78,14 @@ function buildDnsRecords(hostname: string, token: string) {
   ];
 }
 
-async function loadDomain(sb: SB, id: string) {
+export type DomainRow = Database["public"]["Tables"]["project_domains"]["Row"];
+
+async function loadDomain(sb: SB, id: string): Promise<DomainRow> {
   const { data, error } = await sb.from("project_domains")
     .select("*").eq("id", id).maybeSingle();
   if (error) throw error;
   if (!data) throw new Error("domain_not_found");
-  return data as Record<string, unknown>;
+  return data as DomainRow;
 }
 
 /* ------------------------------ operations -------------------------- */
