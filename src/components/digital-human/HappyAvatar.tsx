@@ -159,6 +159,7 @@ export const HappyAvatar = memo(function HappyAvatar({
   trackCursor = false,
   posture = "normal",
   gazeTarget = null,
+  amplitude = 0,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
