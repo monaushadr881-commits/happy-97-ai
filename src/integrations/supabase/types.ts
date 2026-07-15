@@ -944,6 +944,367 @@ export type Database = {
           },
         ]
       }
+      auto_approvals: {
+        Row: {
+          approver_role: string
+          company_id: string
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          decision_note: string | null
+          expires_at: string | null
+          id: string
+          reason: string | null
+          requested_by: string | null
+          run_id: string
+          status: string
+          step_index: number | null
+          updated_at: string
+          workflow_id: string | null
+        }
+        Insert: {
+          approver_role: string
+          company_id: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          expires_at?: string | null
+          id?: string
+          reason?: string | null
+          requested_by?: string | null
+          run_id: string
+          status?: string
+          step_index?: number | null
+          updated_at?: string
+          workflow_id?: string | null
+        }
+        Update: {
+          approver_role?: string
+          company_id?: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          expires_at?: string | null
+          id?: string
+          reason?: string | null
+          requested_by?: string | null
+          run_id?: string
+          status?: string
+          step_index?: number | null
+          updated_at?: string
+          workflow_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auto_approvals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auto_approvals_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "auto_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auto_approvals_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "auto_workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auto_queue: {
+        Row: {
+          attempts: number
+          company_id: string
+          created_at: string
+          id: string
+          kind: string
+          last_error: string | null
+          locked_at: string | null
+          locked_by: string | null
+          max_attempts: number
+          payload: Json
+          priority: number
+          run_id: string | null
+          scheduled_for: string
+          status: string
+          updated_at: string
+          workflow_id: string | null
+        }
+        Insert: {
+          attempts?: number
+          company_id: string
+          created_at?: string
+          id?: string
+          kind: string
+          last_error?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          max_attempts?: number
+          payload?: Json
+          priority?: number
+          run_id?: string | null
+          scheduled_for?: string
+          status?: string
+          updated_at?: string
+          workflow_id?: string | null
+        }
+        Update: {
+          attempts?: number
+          company_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          last_error?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          max_attempts?: number
+          payload?: Json
+          priority?: number
+          run_id?: string | null
+          scheduled_for?: string
+          status?: string
+          updated_at?: string
+          workflow_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auto_queue_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auto_queue_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "auto_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auto_queue_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "auto_workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auto_runs: {
+        Row: {
+          attempt: number
+          company_id: string
+          completed_at: string | null
+          correlation_id: string | null
+          created_at: string
+          duration_ms: number | null
+          error: string | null
+          id: string
+          result: Json
+          started_at: string | null
+          status: string
+          trigger_kind: string
+          trigger_payload: Json
+          triggered_by: string | null
+          workflow_id: string
+        }
+        Insert: {
+          attempt?: number
+          company_id: string
+          completed_at?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          result?: Json
+          started_at?: string | null
+          status?: string
+          trigger_kind: string
+          trigger_payload?: Json
+          triggered_by?: string | null
+          workflow_id: string
+        }
+        Update: {
+          attempt?: number
+          company_id?: string
+          completed_at?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          result?: Json
+          started_at?: string | null
+          status?: string
+          trigger_kind?: string
+          trigger_payload?: Json
+          triggered_by?: string | null
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auto_runs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auto_runs_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "auto_workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auto_step_runs: {
+        Row: {
+          action: string | null
+          company_id: string
+          created_at: string
+          duration_ms: number | null
+          error: string | null
+          id: string
+          input: Json
+          kind: string
+          output: Json
+          run_id: string
+          runtime: string | null
+          status: string
+          step_id: string | null
+          step_index: number
+        }
+        Insert: {
+          action?: string | null
+          company_id: string
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          input?: Json
+          kind: string
+          output?: Json
+          run_id: string
+          runtime?: string | null
+          status: string
+          step_id?: string | null
+          step_index: number
+        }
+        Update: {
+          action?: string | null
+          company_id?: string
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          input?: Json
+          kind?: string
+          output?: Json
+          run_id?: string
+          runtime?: string | null
+          status?: string
+          step_id?: string | null
+          step_index?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auto_step_runs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auto_step_runs_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "auto_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auto_workflows: {
+        Row: {
+          active: boolean
+          approval_role: string | null
+          company_id: string
+          conditions: Json
+          created_at: string
+          created_by: string | null
+          cron_expr: string | null
+          description: string | null
+          id: string
+          name: string
+          requires_approval: boolean
+          retry_policy: Json
+          steps: Json
+          tags: string[]
+          timezone: string
+          trigger_config: Json
+          trigger_kind: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          approval_role?: string | null
+          company_id: string
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          cron_expr?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          requires_approval?: boolean
+          retry_policy?: Json
+          steps?: Json
+          tags?: string[]
+          timezone?: string
+          trigger_config?: Json
+          trigger_kind: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          approval_role?: string | null
+          company_id?: string
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          cron_expr?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          requires_approval?: boolean
+          retry_policy?: Json
+          steps?: Json
+          tags?: string[]
+          timezone?: string
+          trigger_config?: Json
+          trigger_kind?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auto_workflows_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bank_accounts: {
         Row: {
           account_id: string | null
