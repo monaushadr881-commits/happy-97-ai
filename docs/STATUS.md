@@ -2047,3 +2047,33 @@ A     @    → 185.158.133.1
 A     www  → 185.158.133.1
 TXT   _lovable → lovable_verify=<value from Project Settings → Domains>
 ```
+
+## R63 — Enterprise Release & Store Automation (2026-07-15)
+
+**WORKING**
+- Release orchestration (createRelease, listReleases)
+- Semantic version runtime (parse/format/bump/compare — pure functions)
+- Changelog runtime (categorized entries → markdown release notes generator)
+- Store validation runtime (8 stores; per-release readiness report persisted)
+- Rollback audit trail (immutable event, from/to release, severity, stores affected)
+- Signing profile registry (identity metadata + env-var presence check; NO key material stored)
+- Release analytics aggregator
+
+**PARTIAL**
+- Crash symbol registry — metadata table + RLS ready; upload UI deferred
+- Release-artifact registry — table + RLS ready; wired to R61 deploy_artifacts
+
+**BLOCKED (external credentials required — never faked)**
+- Google Play submission — needs `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON`, `ANDROID_KEYSTORE_ALIAS`, signed AAB
+- Apple App Store — needs Apple Developer account, macOS + Xcode host, distribution cert
+- Microsoft Store — needs Microsoft Partner Center creds, MSIX signing cert
+- Amazon Appstore — needs Amazon Developer creds
+- Samsung Galaxy Store — needs Samsung Seller Portal token
+- Huawei AppGallery — needs Huawei Developer creds
+
+**Files added**
+- `supabase/migrations/*_r63_release_runtime.sql` (6 tables + immutability triggers + seeded store gates)
+- `src/lib/release-runtime/contracts.ts`
+- `src/lib/release-runtime/semver.ts`
+- `src/lib/release-runtime/store-adapters.ts`
+- `src/lib/release-runtime/release.functions.ts`
