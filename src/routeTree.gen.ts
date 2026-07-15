@@ -401,6 +401,7 @@ import { Route as AuthenticatedAgentsExecutionRouteImport } from './routes/_auth
 import { Route as AuthenticatedAgentsCollaborationRouteImport } from './routes/_authenticated/agents.collaboration'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
+import { Route as ApiPublicCronSubscriptionsTickRouteImport } from './routes/api/public/cron/subscriptions-tick'
 import { Route as ApiPublicCronPaymentsRetryRouteImport } from './routes/api/public/cron/payments-retry'
 import { Route as AuthenticatedRuntimeWorkflowsLiveRouteImport } from './routes/_authenticated/runtime.workflows.live'
 import { Route as AuthenticatedRuntimeWorkflowsHistoryRouteImport } from './routes/_authenticated/runtime.workflows.history'
@@ -2629,6 +2630,12 @@ const ApiPublicV1HealthRoute = ApiPublicV1HealthRouteImport.update({
   path: '/api/public/v1/health',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCronSubscriptionsTickRoute =
+  ApiPublicCronSubscriptionsTickRouteImport.update({
+    id: '/api/public/cron/subscriptions-tick',
+    path: '/api/public/cron/subscriptions-tick',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicCronPaymentsRetryRoute =
   ApiPublicCronPaymentsRetryRouteImport.update({
     id: '/api/public/cron/payments-retry',
@@ -3124,6 +3131,7 @@ export interface FileRoutesByFullPath {
   '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
+  '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
   '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
@@ -3520,6 +3528,7 @@ export interface FileRoutesByTo {
   '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
+  '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
   '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
@@ -3930,6 +3939,7 @@ export interface FileRoutesById {
   '/_authenticated/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/_authenticated/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
+  '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
   '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
@@ -4340,6 +4350,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/history'
     | '/runtime/workflows/live'
     | '/api/public/cron/payments-retry'
+    | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
     | '/api/public/webhooks/payments/$provider'
@@ -4736,6 +4747,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/history'
     | '/runtime/workflows/live'
     | '/api/public/cron/payments-retry'
+    | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
     | '/api/public/webhooks/payments/$provider'
@@ -5145,6 +5157,7 @@ export interface FileRouteTypes {
     | '/_authenticated/runtime/workflows/history'
     | '/_authenticated/runtime/workflows/live'
     | '/api/public/cron/payments-retry'
+    | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
     | '/api/public/webhooks/payments/$provider'
@@ -5165,6 +5178,7 @@ export interface RootRouteChildren {
   ApiSitemapDotxmlRoute: typeof ApiSitemapDotxmlRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
   ApiPublicCronPaymentsRetryRoute: typeof ApiPublicCronPaymentsRetryRoute
+  ApiPublicCronSubscriptionsTickRoute: typeof ApiPublicCronSubscriptionsTickRoute
   ApiPublicV1HealthRoute: typeof ApiPublicV1HealthRoute
   ApiPublicV1StatusRoute: typeof ApiPublicV1StatusRoute
   ApiPublicWebhooksPaymentsProviderRoute: typeof ApiPublicWebhooksPaymentsProviderRoute
@@ -7916,6 +7930,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicV1HealthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cron/subscriptions-tick': {
+      id: '/api/public/cron/subscriptions-tick'
+      path: '/api/public/cron/subscriptions-tick'
+      fullPath: '/api/public/cron/subscriptions-tick'
+      preLoaderRoute: typeof ApiPublicCronSubscriptionsTickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/cron/payments-retry': {
       id: '/api/public/cron/payments-retry'
       path: '/api/public/cron/payments-retry'
@@ -9189,6 +9210,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiSitemapDotxmlRoute: ApiSitemapDotxmlRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
   ApiPublicCronPaymentsRetryRoute: ApiPublicCronPaymentsRetryRoute,
+  ApiPublicCronSubscriptionsTickRoute: ApiPublicCronSubscriptionsTickRoute,
   ApiPublicV1HealthRoute: ApiPublicV1HealthRoute,
   ApiPublicV1StatusRoute: ApiPublicV1StatusRoute,
   ApiPublicWebhooksPaymentsProviderRoute:
