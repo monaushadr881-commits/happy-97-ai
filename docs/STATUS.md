@@ -994,3 +994,40 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - created `src/lib/mfg/mfg.functions.ts`
 - edited `docs/STATUS.md`
 - migration `r23_manufacturing`
+
+## R24 — Enterprise Warehouse Management System (WMS)
+
+**Warehouse Runtime — WORKING.**
+
+### Files changed
+- `supabase/migrations/20260715132305_r24_wms.sql` — 9 new tables + 7 enums + immutable ledger trigger.
+- `src/lib/wms/engine.ts` — real inventory / receiving / dispatch / transfer / reservation / cycle-count / analytics engines. Every mutation goes through `movements.record()` which writes an immutable `inventory_transactions` row and updates the `inventory_items` aggregate.
+- `src/lib/wms/wms.functions.ts` — 33 auth-gated `createServerFn` endpoints, RLS via `context.supabase`.
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Warehouse Runtime (zones / bins) | WORKING |
+| Inventory Engine (aggregate + lots) | WORKING |
+| Immutable Transaction Ledger | WORKING |
+| Receiving Engine (lot creation + put-away) | WORKING |
+| Dispatch Engine (sales / transfer / production / return) | WORKING |
+| Transfer Engine (draft → ship → receive) | WORKING |
+| Reservation Engine (available = on_hand − reserved) | WORKING |
+| Cycle Count Engine (schedule → count → approve → adjust) | WORKING |
+| Threshold / Reorder Config (FIFO/FEFO/LIFO) | WORKING |
+| Analytics (near-expiry, fast/slow, low-stock, KPIs) | WORKING |
+| Founder Dashboard integration | PARTIAL — `wmsAnalyticsOverview` shipped; dashboard tile pending. |
+| Automatic low-stock / expiry notifications | PLANNED — data available; notification job pending. |
+
+### Guarantees
+- Every stock change is an append-only `inventory_transactions` row (trigger blocks UPDATE/DELETE).
+- No stock field is edited outside `movements.record()`.
+- RLS: `is_company_member` (read), `is_company_admin` (write) on all 9 tables.
+- Transfers refuse same-source/destination and enforce `draft → in_transit → received` state machine.
+- Reservations refuse to over-reserve; `available = quantity − reserved` maintained atomically.
+- Cycle counts pre-snapshot expected qty; only variances create ledger adjustments on approval.
+
+### Verification
+- `bunx tsgo --noEmit` — passes.
+- Migration linter: 9 warnings are all pre-existing SECURITY DEFINER helpers (not introduced by R24).
