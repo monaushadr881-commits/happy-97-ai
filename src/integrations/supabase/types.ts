@@ -2327,6 +2327,124 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_notes: {
+        Row: {
+          attachments: Json
+          author_id: string
+          body: string
+          company_id: string
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          pinned: boolean
+          updated_at: string
+        }
+        Insert: {
+          attachments?: Json
+          author_id?: string
+          body: string
+          company_id: string
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          pinned?: boolean
+          updated_at?: string
+        }
+        Update: {
+          attachments?: Json
+          author_id?: string
+          body?: string
+          company_id?: string
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          pinned?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_notes_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_tasks: {
+        Row: {
+          assignee_id: string | null
+          company_id: string
+          completed_at: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          due_at: string | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          kind: string
+          metadata: Json
+          priority: string
+          recurrence: string | null
+          reminder_at: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assignee_id?: string | null
+          company_id: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          priority?: string
+          recurrence?: string | null
+          reminder_at?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assignee_id?: string | null
+          company_id?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          priority?: string
+          recurrence?: string | null
+          reminder_at?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_tasks_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cron_runs: {
         Row: {
           created_at: string
