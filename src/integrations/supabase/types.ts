@@ -13050,6 +13050,373 @@ export type Database = {
           },
         ]
       }
+      presentation_analytics: {
+        Row: {
+          annotation_count: number
+          answer_count: number
+          company_id: string | null
+          completion_rate: number
+          created_at: string
+          duration_ms: number
+          id: string
+          interaction_rate: number
+          pointer_count: number
+          presenter_id: string
+          question_count: number
+          session_id: string
+          slides_shown: number
+          slides_total: number
+          teaching_effectiveness: number
+          whiteboard_command_count: number
+          window_end: string
+          window_start: string
+        }
+        Insert: {
+          annotation_count?: number
+          answer_count?: number
+          company_id?: string | null
+          completion_rate?: number
+          created_at?: string
+          duration_ms?: number
+          id?: string
+          interaction_rate?: number
+          pointer_count?: number
+          presenter_id: string
+          question_count?: number
+          session_id: string
+          slides_shown?: number
+          slides_total?: number
+          teaching_effectiveness?: number
+          whiteboard_command_count?: number
+          window_end: string
+          window_start: string
+        }
+        Update: {
+          annotation_count?: number
+          answer_count?: number
+          company_id?: string | null
+          completion_rate?: number
+          created_at?: string
+          duration_ms?: number
+          id?: string
+          interaction_rate?: number
+          pointer_count?: number
+          presenter_id?: string
+          question_count?: number
+          session_id?: string
+          slides_shown?: number
+          slides_total?: number
+          teaching_effectiveness?: number
+          whiteboard_command_count?: number
+          window_end?: string
+          window_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "presentation_analytics_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "presentation_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      presentation_annotation_versions: {
+        Row: {
+          annotation_id: string
+          body: string
+          change_reason: string | null
+          created_at: string
+          editor_id: string
+          id: string
+          kind: string
+          region: Json
+          resolved: boolean
+          version: number
+        }
+        Insert: {
+          annotation_id: string
+          body: string
+          change_reason?: string | null
+          created_at?: string
+          editor_id: string
+          id?: string
+          kind: string
+          region?: Json
+          resolved?: boolean
+          version: number
+        }
+        Update: {
+          annotation_id?: string
+          body?: string
+          change_reason?: string | null
+          created_at?: string
+          editor_id?: string
+          id?: string
+          kind?: string
+          region?: Json
+          resolved?: boolean
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "presentation_annotation_versions_annotation_id_fkey"
+            columns: ["annotation_id"]
+            isOneToOne: false
+            referencedRelation: "presentation_annotations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      presentation_annotations: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          region: Json
+          resolved: boolean
+          resolved_at: string | null
+          resolved_by: string | null
+          session_id: string
+          slide_id: string | null
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          id?: string
+          kind?: string
+          region?: Json
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          session_id: string
+          slide_id?: string | null
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          region?: Json
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          session_id?: string
+          slide_id?: string | null
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "presentation_annotations_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "presentation_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "presentation_annotations_slide_id_fkey"
+            columns: ["slide_id"]
+            isOneToOne: false
+            referencedRelation: "presentation_slides"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      presentation_commands: {
+        Row: {
+          channel: string
+          command: string
+          created_at: string
+          id: string
+          issuer_id: string
+          payload: Json
+          sequence: number
+          session_id: string
+          target_slide_id: string | null
+        }
+        Insert: {
+          channel: string
+          command: string
+          created_at?: string
+          id?: string
+          issuer_id: string
+          payload?: Json
+          sequence?: number
+          session_id: string
+          target_slide_id?: string | null
+        }
+        Update: {
+          channel?: string
+          command?: string
+          created_at?: string
+          id?: string
+          issuer_id?: string
+          payload?: Json
+          sequence?: number
+          session_id?: string
+          target_slide_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "presentation_commands_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "presentation_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      presentation_sessions: {
+        Row: {
+          archived_at: string | null
+          company_id: string | null
+          created_at: string
+          current_slide_id: string | null
+          description: string | null
+          ended_at: string | null
+          happy_session_id: string | null
+          id: string
+          meta: Json
+          mode: string
+          participants: Json
+          paused_at: string | null
+          presentation_type: string
+          presenter_id: string
+          resumed_at: string | null
+          scheduled_at: string | null
+          started_at: string | null
+          state: string
+          title: string
+          updated_at: string
+          voice_session_id: string | null
+        }
+        Insert: {
+          archived_at?: string | null
+          company_id?: string | null
+          created_at?: string
+          current_slide_id?: string | null
+          description?: string | null
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          meta?: Json
+          mode?: string
+          participants?: Json
+          paused_at?: string | null
+          presentation_type: string
+          presenter_id: string
+          resumed_at?: string | null
+          scheduled_at?: string | null
+          started_at?: string | null
+          state?: string
+          title: string
+          updated_at?: string
+          voice_session_id?: string | null
+        }
+        Update: {
+          archived_at?: string | null
+          company_id?: string | null
+          created_at?: string
+          current_slide_id?: string | null
+          description?: string | null
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          meta?: Json
+          mode?: string
+          participants?: Json
+          paused_at?: string | null
+          presentation_type?: string
+          presenter_id?: string
+          resumed_at?: string | null
+          scheduled_at?: string | null
+          started_at?: string | null
+          state?: string
+          title?: string
+          updated_at?: string
+          voice_session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_presentation_sessions_current_slide"
+            columns: ["current_slide_id"]
+            isOneToOne: false
+            referencedRelation: "presentation_slides"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      presentation_slides: {
+        Row: {
+          body: string | null
+          chapter: string | null
+          created_at: string
+          id: string
+          kind: string
+          meta: Json
+          narration: string | null
+          reference_id: string | null
+          reference_type: string | null
+          scene_index: number
+          session_id: string
+          slide_index: number
+          title: string
+          transition: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          chapter?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          meta?: Json
+          narration?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          scene_index?: number
+          session_id: string
+          slide_index: number
+          title: string
+          transition?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          chapter?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          meta?: Json
+          narration?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          scene_index?: number
+          session_id?: string
+          slide_index?: number
+          title?: string
+          transition?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "presentation_slides_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "presentation_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_categories: {
         Row: {
           company_id: string

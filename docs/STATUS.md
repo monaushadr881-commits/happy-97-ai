@@ -1,6 +1,29 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** R42 — Emotion & Expression Runtime.
+**Last updated:** R43 — Presentation & Whiteboard Runtime.
+
+## R43 — Presentation & Whiteboard Runtime — 2026-07-15
+
+- **Presentation session runtime: Working.** `presentation_sessions` — 15 presentation types × 7 modes × 8 lifecycle states (preparing → waiting → presenting/teaching → question_answer → paused → finished/cancelled + archive). Every state transition writes a `session` command row.
+- **Storyboard runtime: Working.** `presentation_slides` — scene + slide + chapter ordering, 7 slide kinds, 5 transitions, narration text, and reference-type/reference-id linkage into other runtimes. Upsert on `(session_id, slide_index)`.
+- **Command stream: Working.** `presentation_commands` — immutable, monotonically sequenced per session. Six channels: slide, whiteboard, pointer, annotation, teaching, session. Slide-channel commands with a `target_slide_id` also advance `current_slide_id` on the session row.
+- **Slide controller: Working.** next/previous/jump/focus/zoom/highlight/section/bookmark commands persisted through the stream; renderer consumes intents.
+- **Whiteboard controller: Working.** draw_line/rectangle/circle/arrow/text/erase/highlight/focus/clear/undo/redo commands persisted through the stream. No drawing engine, no rendering.
+- **Pointer runtime: Working.** laser/cursor/focus_target/attention_target/speaker_focus intents persisted per session.
+- **Annotation runtime: Working.** `presentation_annotations` (mutable head) + `presentation_annotation_versions` (immutable history). Every create/update/resolve writes a new version row and an annotation-channel command; author or presenter or ops admin may update.
+- **Teaching runtime: Working.** lesson/chapter/topic/step/example/exercise/summary/question/answer commands routed through the shared stream and slide kinds. Q&A pairs feed analytics.
+- **Analytics runtime: Working.** `computeAnalytics()` derives duration, slides_shown (unique `target_slide_id` count), questions/answers (both from teaching commands and question/answer annotations), pointer + whiteboard command counts, annotation count, interaction rate (interactions/minute), completion rate (slides_shown/slides_total), and teaching effectiveness = `0.5·completion + 0.3·answered + 0.2·min(1, interactionRate/5)`. Persistable to immutable `presentation_analytics`.
+- **Founder dashboard: Working.** `founderDashboard` returns `fact.sessions_total`, `fact.sessions_active`, `fact.recent_sessions`, `fact.recent_analytics` — never fabricated.
+- **API: Working.** 13 auth-gated server functions in `presentation.functions.ts` covering session create/transition/state, slide upsert/list, command append/list, annotation create/update/resolve/list, analytics, and dashboard.
+- **Security:** All 6 tables RLS-gated. Reads scoped to presenter + participants (via `participants @> jsonb_build_array(jsonb_build_object('user_id', auth.uid()::text))`) + company admin + ops admin. Commands, annotation versions, and analytics are append-only via `memory_events_immutable` trigger. No `service_role` escalation. Every command is auditable via the sequenced stream; every annotation is versioned.
+- **Reuse only — no duplicates:** consumes `happy_sessions` (happy_session_id), `voice_sessions` (voice_session_id), Emotion Runtime outputs, Universal Search, Brain/Memory/Knowledge/Automation/AI Agent runtimes via `reference_type`/`reference_id` on slides and payloads on commands. Never re-implements any of them.
+- **Digital Human Policy:** Zero rendering. Zero slide drawing. Zero whiteboard drawing. Portrait/Layered/Live2D/Live3D/XR/VR/AR renderers consume these commands later — **PLANNED**, never certified here.
+- **Verification:** `bunx tsgo --noEmit` — clean. Migration linter: 0 new warnings (the 10 surfaced warnings are pre-existing SECURITY DEFINER role helpers from earlier passes).
+- **Recoverability:** every session is fully replayable from `presentation_commands` ordered by `sequence`; `listCommands(sinceSequence)` supports incremental resume.
+- **Blocked / Planned:** Realtime broadcast fan-out to co-presenters/attendees (needs realtime channel + presence handshake — planned next pass); Playwright end-to-end verification deferred (no rendered surface to interact with yet — belongs with the first renderer pass); keyboard/screen-reader affordances are renderer-owned (this runtime already exposes `narration`, `body`, `title`, `transition`, and completion state renderers need).
+- **Files changed:** created `src/lib/presentation-runtime/{contracts,engine,presentation.functions}.ts`, `supabase/migrations/…_r43_presentation_runtime.sql`; edited `docs/STATUS.md`.
+
+
 
 ## R42 — Emotion & Expression Runtime — 2026-07-15
 
