@@ -34,6 +34,8 @@ type Props = {
   posture?: AvatarPosture;
   /** Pixel offset from avatar center to look toward. Overrides cursor when set. */
   gazeTarget?: { x: number; y: number } | null;
+  /** Live speech amplitude in 0..1 — drives the mouth region overlay. */
+  amplitude?: number;
 };
 
 
