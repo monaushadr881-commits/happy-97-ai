@@ -31,10 +31,12 @@ import type {
   ProviderCode,
 } from "./types";
 
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+
 export interface ProcessOutcome {
   status: "processed" | "ignored" | "failed" | "dead";
   reason?: string;
-  details?: Record<string, unknown>;
+  details?: { [key: string]: JsonValue };
 }
 
 const MAX_ATTEMPTS = 5;
