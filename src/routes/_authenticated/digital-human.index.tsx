@@ -237,6 +237,10 @@ function DhConversation() {
       setActivity("idle"); setExpression("neutral");
       setConvoState("finished");
       setTimeout(() => setConvoState((s) => (s === "finished" ? "idle" : s)), 1400);
+      if (navAction) {
+        // Give speech ~200ms of settle time so the final word isn't clipped by route change.
+        setTimeout(() => { navigate({ to: navAction.to }); }, 250);
+      }
     }
   };
 
