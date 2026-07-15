@@ -1,22 +1,12 @@
 /**
  * R38 — Founder Copilot Workspace Runtime (server-only, orchestration).
  *
- * REUSES (never duplicates):
- *   - audit_logs (executive timeline)
- *   - approvals, approval_delegations (approval center)
- *   - notifications (action center)
- *   - bi_report_runs, bi_insights, bi_alert_events (analytics center)
- *   - obs_status_components, obs_status_updates, incidents (observability)
- *   - bkp_jobs, ha_events (backup/HA health)
- *   - project_deployments, project_deployment_events (deployments)
- *   - marketplace_transactions, wallets, credit_ledger_entries (revenue/wallet)
- *   - invoices, expenses, journal_entries (finance)
- *   - customers, deals, leads (CRM)
- *   - production_orders, machines (manufacturing)
- *   - warehouses, inventory_lots (warehouse)
- *   - listings, plugins, project_deployments (marketplace/builder/deploy)
- *   - agent_registry, agent_tasks, agent_metrics_daily (AI)
- *   - auto_workflows, auto_runs (automation)
+ * REUSES (never duplicates): audit_logs, approvals, notifications,
+ * bi_*, obs_*, incidents, bkp_jobs, ha_*, project_deployments,
+ * marketplace_transactions, wallets, credit_ledger_entries, invoices,
+ * expenses, journal_entries, customers, deals, leads, production_orders,
+ * warehouses, inventory_lots, listings, plugins, agent_registry,
+ * agent_tasks, agent_metrics_daily, auto_workflows, auto_runs.
  *
  * Adds only workspace state:
  *   - founder_workspace_prefs   (personalization)
@@ -59,11 +49,9 @@ export type FactRecommendation = {
   expires_at?: string | null;
 };
 
-export type AiRecommendation = FactRecommendation & {
-  confidence: number; // 0..1
-};
+export type AiRecommendation = FactRecommendation & { confidence: number };
 
-/* ------------------------------ helpers ------------------------------ */
+/* ------------------------------ helpers ----------------------------- */
 
 async function ensureFounderOrAdmin(sb: SB, userId: string, companyId?: string | null) {
   const { data: isFounder } = await sb.rpc("is_platform_founder", { _user_id: userId });
@@ -77,6 +65,9 @@ async function ensureFounderOrAdmin(sb: SB, userId: string, companyId?: string |
   throw new Error("Forbidden: founder or company admin required");
 }
 
+const sumCents = (rows: ReadonlyArray<Record<string, unknown>> | null | undefined, key: string) =>
+  (rows ?? []).reduce((a, r) => a + Number(r[key] ?? 0), 0);
+
 /* ============================ Personalization ======================== */
 
 export async function getPrefs(sb: SB, userId: string) {
@@ -88,32 +79,31 @@ export async function getPrefs(sb: SB, userId: string) {
   if (error) throw error;
   return data ?? {
     user_id: userId,
-    pinned_modules: [],
-    favorite_dashboards: [],
-    recent_projects: [],
-    saved_views: [],
+    pinned_modules: [] as string[],
+    favorite_dashboards: [] as string[],
+    recent_projects: [] as string[],
+    saved_views: [] as Json,
     theme: "system",
     language: "en",
-    accessibility: {},
+    accessibility: {} as Json,
     updated_at: new Date().toISOString(),
   };
 }
 
 export async function upsertPrefs(sb: SB, userId: string, input: WorkspacePrefs) {
-  const row = {
-    user_id: userId,
-    pinned_modules: input.pinned_modules ?? [],
-    favorite_dashboards: input.favorite_dashboards ?? [],
-    recent_projects: (input.recent_projects ?? []) as unknown as string[],
-    saved_views: (input.saved_views ?? []) as Json,
-    theme: input.theme ?? "system",
-    language: input.language ?? "en",
-    accessibility: (input.accessibility ?? {}) as Json,
-    updated_at: new Date().toISOString(),
-  };
   const { data, error } = await sb
     .from("founder_workspace_prefs")
-    .upsert(row, { onConflict: "user_id" })
+    .upsert({
+      user_id: userId,
+      pinned_modules: input.pinned_modules ?? [],
+      favorite_dashboards: input.favorite_dashboards ?? [],
+      recent_projects: input.recent_projects ?? [],
+      saved_views: (input.saved_views ?? []) as Json,
+      theme: input.theme ?? "system",
+      language: input.language ?? "en",
+      accessibility: (input.accessibility ?? {}) as Json,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "user_id" })
     .select()
     .single();
   if (error) throw error;
@@ -122,11 +112,6 @@ export async function upsertPrefs(sb: SB, userId: string, input: WorkspacePrefs)
 
 /* ============================ Command Router ========================= */
 
-/**
- * Deterministic keyword-based intent classifier. Zero ML: this is a
- * dispatcher only. AI-based intent classification lives in the Brain
- * Runtime and is called through the response layer separately.
- */
 export function classifyIntent(command: string): {
   intent: string; capability: string; target_runtime: string;
 } {
@@ -153,16 +138,10 @@ export function classifyIntent(command: string): {
   return { intent: "ambiguous", capability: "unknown", target_runtime: "unresolved" };
 }
 
-export async function dispatchCommand(
-  sb: SB, userId: string, input: CommandInput,
-): Promise<{
-  id: string; intent: string; capability: string; target_runtime: string;
-  status: "dispatched" | "ambiguous"; suggestion?: string;
-}> {
+export async function dispatchCommand(sb: SB, userId: string, input: CommandInput) {
   const started = Date.now();
   const { intent, capability, target_runtime } = classifyIntent(input.command_text);
-  const status: "dispatched" | "ambiguous" =
-    intent === "ambiguous" ? "ambiguous" : "dispatched";
+  const status: "dispatched" | "ambiguous" = intent === "ambiguous" ? "ambiguous" : "dispatched";
 
   const { data, error } = await sb
     .from("founder_command_history")
@@ -201,38 +180,61 @@ export async function commandHistory(sb: SB, userId: string, limit = 50) {
 /* ============================ Executive Timeline ===================== */
 
 export async function timeline(
-  sb: SB, userId: string, opts: { company_id?: string | null; limit?: number; category?: string },
+  sb: SB, userId: string,
+  opts: { company_id?: string | null; limit?: number; category?: string },
 ) {
   await ensureFounderOrAdmin(sb, userId, opts.company_id ?? null);
-  let q = sb
-    .from("audit_logs")
+  const lim = Math.min(500, Math.max(1, opts.limit ?? 100));
+
+  if (opts.company_id && opts.category) {
+    const { data, error } = await sb.from("audit_logs")
+      .select("id, category, action, entity_type, entity_id, severity, actor_id, company_id, created_at, metadata")
+      .eq("company_id", opts.company_id).eq("category", opts.category)
+      .order("created_at", { ascending: false }).limit(lim);
+    if (error) throw error; return data ?? [];
+  }
+  if (opts.company_id) {
+    const { data, error } = await sb.from("audit_logs")
+      .select("id, category, action, entity_type, entity_id, severity, actor_id, company_id, created_at, metadata")
+      .eq("company_id", opts.company_id)
+      .order("created_at", { ascending: false }).limit(lim);
+    if (error) throw error; return data ?? [];
+  }
+  if (opts.category) {
+    const { data, error } = await sb.from("audit_logs")
+      .select("id, category, action, entity_type, entity_id, severity, actor_id, company_id, created_at, metadata")
+      .eq("category", opts.category)
+      .order("created_at", { ascending: false }).limit(lim);
+    if (error) throw error; return data ?? [];
+  }
+  const { data, error } = await sb.from("audit_logs")
     .select("id, category, action, entity_type, entity_id, severity, actor_id, company_id, created_at, metadata")
-    .order("created_at", { ascending: false })
-    .limit(Math.min(500, Math.max(1, opts.limit ?? 100)));
-  if (opts.company_id) q = q.eq("company_id", opts.company_id);
-  if (opts.category) q = q.eq("category", opts.category);
-  const { data, error } = await q;
-  if (error) throw error;
-  return data ?? [];
+    .order("created_at", { ascending: false }).limit(lim);
+  if (error) throw error; return data ?? [];
 }
 
 /* ============================ Action Center ========================== */
 
 export async function actionCenter(sb: SB, userId: string, companyId?: string | null) {
   await ensureFounderOrAdmin(sb, userId, companyId ?? null);
-  const scope = (q: ReturnType<typeof scopeIt>) => q;
-  function scopeIt<T extends { eq: (col: string, val: unknown) => T }>(builder: T): T {
-    return companyId ? builder.eq("company_id", companyId) : builder;
-  }
 
-  const [
-    approvalsRes, incidentsRes, deploysRes, backupsRes, notifsRes,
-  ] = await Promise.all([
-    scope(sb.from("approvals").select("id, subject, status, created_at, requester_id, company_id, severity").eq("status", "pending")).limit(50),
-    scope(sb.from("incidents").select("id, title, severity, status, created_at, company_id").in("status", ["open","investigating","identified"])).limit(50),
-    scope(sb.from("project_deployments").select("id, project_id, status, created_at, company_id").in("status", ["pending","in_progress","review"])).limit(50),
-    scope(sb.from("bkp_jobs").select("id, policy_id, status, started_at, company_id").in("status", ["failed","stalled"])).limit(50),
-    sb.from("notifications").select("id, title, kind, created_at, read_at").eq("user_id", userId).is("read_at", null).order("created_at", { ascending: false }).limit(50),
+  const approvalsQ = companyId
+    ? sb.from("approvals").select("id, title, status, created_at, requested_by, company_id, amount_cents")
+        .eq("status", "pending").eq("company_id", companyId).limit(50)
+    : sb.from("approvals").select("id, title, status, created_at, requested_by, company_id, amount_cents")
+        .eq("status", "pending").limit(50);
+
+  const [approvalsRes, incidentsRes, deploysRes, backupsRes, notifsRes] = await Promise.all([
+    approvalsQ,
+    sb.from("incidents").select("id, title, severity, status, opened_at")
+      .in("status", ["open", "investigating", "identified"]).limit(50),
+    sb.from("project_deployments").select("id, project_id, status, created_at")
+      .in("status", ["queued", "building", "deploying"]).limit(50),
+    sb.from("bkp_jobs").select("id, policy_id, status, started_at")
+      .in("status", ["failed", "stalled"]).limit(50),
+    sb.from("notifications").select("id, title, kind, created_at, read_at")
+      .eq("user_id", userId).is("read_at", null)
+      .order("created_at", { ascending: false }).limit(50),
   ]);
 
   return {
@@ -251,7 +253,6 @@ export async function approvalDecision(
   sb: SB, userId: string,
   args: { approval_id: string; decision: "approve" | "reject"; note?: string },
 ) {
-  // Reuses approvals runtime — this is a thin auditable wrapper only.
   const { data: appr, error: readErr } = await sb
     .from("approvals").select("id, status, company_id").eq("id", args.approval_id).single();
   if (readErr) throw readErr;
@@ -263,10 +264,9 @@ export async function approvalDecision(
     .from("approvals")
     .update({
       status: nextStatus,
-      decided_by: userId,
+      approver_id: userId,
       decided_at: new Date().toISOString(),
-      decision_note: args.note ?? null,
-    } as never)
+    })
     .eq("id", args.approval_id)
     .select()
     .single();
@@ -279,15 +279,14 @@ export async function approvalDecision(
     _entity_id: args.approval_id,
     _company_id: appr.company_id,
     _severity: "info",
-    _metadata: { via: "founder_workspace" } as Json,
-  } as never);
+    _metadata: { via: "founder_workspace", note: args.note ?? null } as Json,
+  });
 
   return data;
 }
 
 /* ============================ Founder Briefing ======================= */
 
-/** Assembles a fact briefing from existing runtime tables. No AI here. */
 export async function generateBriefing(
   sb: SB, userId: string, period: BriefingPeriod, companyId?: string | null,
 ) {
@@ -304,42 +303,63 @@ export async function generateBriefing(
   const startIso = start.toISOString();
   const endIso = now.toISOString();
 
-  const scoped = <T extends { gte: (c: string, v: string) => T; lte: (c: string, v: string) => T; eq: (c: string, v: string) => T }>(q: T) => {
-    let x = q.gte("created_at", startIso).lte("created_at", endIso);
-    if (companyId) x = x.eq("company_id", companyId);
-    return x;
-  };
+  // Tables with company_id: expenses, invoices, deals, customers, production_orders, agent_tasks, auto_runs
+  // Tables WITHOUT company_id: marketplace_transactions, incidents, project_deployments, bkp_jobs
+  const co = companyId ?? null;
+  const scoped = <T>(p: Promise<T>) => p;
+
+  const invoicesQ = co
+    ? sb.from("invoices").select("id, total_cents, status", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
+    : sb.from("invoices").select("id, total_cents, status", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso);
+  const expensesQ = co
+    ? sb.from("expenses").select("amount_cents", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
+    : sb.from("expenses").select("amount_cents", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso);
+  const dealsQ = co
+    ? sb.from("deals").select("id, stage, amount_cents", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
+    : sb.from("deals").select("id, stage, amount_cents", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso);
+  const customersQ = co
+    ? sb.from("customers").select("id", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
+    : sb.from("customers").select("id", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso);
+  const prodQ = co
+    ? sb.from("production_orders").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
+    : sb.from("production_orders").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso);
+  const agentQ = co
+    ? sb.from("agent_tasks").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
+    : sb.from("agent_tasks").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso);
+  const autoQ = co
+    ? sb.from("auto_runs").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso).eq("company_id", co)
+    : sb.from("auto_runs").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso);
 
   const [
     revenueRes, expensesRes, invoicesRes, dealsRes, customersRes,
     prodRes, incidentsRes, deploysRes, backupsRes, agentTasksRes, autoRunsRes,
   ] = await Promise.all([
-    scoped(sb.from("marketplace_transactions").select("amount_cents, currency", { count: "exact" })),
-    scoped(sb.from("expenses").select("amount_cents", { count: "exact" })),
-    scoped(sb.from("invoices").select("id, total_cents, status", { count: "exact" })),
-    scoped(sb.from("deals").select("id, stage, amount_cents", { count: "exact" })),
-    scoped(sb.from("customers").select("id", { count: "exact", head: true })),
-    scoped(sb.from("production_orders").select("id, status", { count: "exact" })),
-    scoped(sb.from("incidents").select("id, severity", { count: "exact" })),
-    scoped(sb.from("project_deployments").select("id, status", { count: "exact" })),
-    scoped(sb.from("bkp_jobs").select("id, status", { count: "exact" })),
-    scoped(sb.from("agent_tasks").select("id, status", { count: "exact" })),
-    scoped(sb.from("auto_runs").select("id, status", { count: "exact" })),
+    scoped(sb.from("marketplace_transactions").select("amount_cents", { count: "exact" }).gte("created_at", startIso).lte("created_at", endIso)),
+    scoped(expensesQ),
+    scoped(invoicesQ),
+    scoped(dealsQ),
+    scoped(customersQ),
+    scoped(prodQ),
+    scoped(sb.from("incidents").select("id, severity", { count: "exact" }).gte("opened_at", startIso).lte("opened_at", endIso)),
+    scoped(sb.from("project_deployments").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso)),
+    scoped(sb.from("bkp_jobs").select("id, status", { count: "exact", head: true }).gte("created_at", startIso).lte("created_at", endIso)),
+    scoped(agentQ),
+    scoped(autoQ),
   ]);
-
-  const sum = (rows: Array<{ amount_cents?: number | null; total_cents?: number | null }> | null | undefined, key: "amount_cents" | "total_cents") =>
-    (rows ?? []).reduce((a, r) => a + Number((r as Record<string, unknown>)[key] ?? 0), 0);
 
   const snapshot: Json = {
     revenue: {
       transaction_count: revenueRes.count ?? 0,
-      amount_cents: sum(revenueRes.data as never, "amount_cents"),
+      amount_cents: sumCents(revenueRes.data as never, "amount_cents"),
     },
     expenses: {
       count: expensesRes.count ?? 0,
-      amount_cents: sum(expensesRes.data as never, "amount_cents"),
+      amount_cents: sumCents(expensesRes.data as never, "amount_cents"),
     },
-    invoices: { count: invoicesRes.count ?? 0, total_cents: sum(invoicesRes.data as never, "total_cents") },
+    invoices: {
+      count: invoicesRes.count ?? 0,
+      total_cents: sumCents(invoicesRes.data as never, "total_cents"),
+    },
     crm: { deals: dealsRes.count ?? 0, customers: customersRes.count ?? 0 },
     manufacturing: { production_orders: prodRes.count ?? 0 },
     incidents: { count: incidentsRes.count ?? 0 },
@@ -358,8 +378,8 @@ export async function generateBriefing(
       period_end: endIso,
       snapshot,
       source_runtimes: [
-        "marketplace","finance","crm","manufacturing","observability",
-        "deployment","backup","ai","automation",
+        "marketplace", "finance", "crm", "manufacturing",
+        "observability", "deployment", "backup", "ai", "automation",
       ],
       generated_by: userId,
     }, { onConflict: "company_id,period,period_start" })
@@ -370,16 +390,33 @@ export async function generateBriefing(
 }
 
 export async function listBriefings(
-  sb: SB, userId: string, opts: { period?: BriefingPeriod; company_id?: string | null; limit?: number },
+  sb: SB, userId: string,
+  opts: { period?: BriefingPeriod; company_id?: string | null; limit?: number },
 ) {
   await ensureFounderOrAdmin(sb, userId, opts.company_id ?? null);
-  let q = sb.from("founder_briefings").select("*").order("generated_at", { ascending: false })
-    .limit(Math.min(50, Math.max(1, opts.limit ?? 10)));
-  if (opts.period) q = q.eq("period", opts.period);
-  if (opts.company_id) q = q.eq("company_id", opts.company_id);
-  const { data, error } = await q;
-  if (error) throw error;
-  return data ?? [];
+  const lim = Math.min(50, Math.max(1, opts.limit ?? 10));
+
+  if (opts.period && opts.company_id) {
+    const { data, error } = await sb.from("founder_briefings").select("*")
+      .eq("period", opts.period).eq("company_id", opts.company_id)
+      .order("generated_at", { ascending: false }).limit(lim);
+    if (error) throw error; return data ?? [];
+  }
+  if (opts.period) {
+    const { data, error } = await sb.from("founder_briefings").select("*")
+      .eq("period", opts.period)
+      .order("generated_at", { ascending: false }).limit(lim);
+    if (error) throw error; return data ?? [];
+  }
+  if (opts.company_id) {
+    const { data, error } = await sb.from("founder_briefings").select("*")
+      .eq("company_id", opts.company_id)
+      .order("generated_at", { ascending: false }).limit(lim);
+    if (error) throw error; return data ?? [];
+  }
+  const { data, error } = await sb.from("founder_briefings").select("*")
+    .order("generated_at", { ascending: false }).limit(lim);
+  if (error) throw error; return data ?? [];
 }
 
 /* ============================ Recommendations ======================== */
@@ -432,13 +469,15 @@ export async function listRecommendations(
   opts: { kind?: "fact" | "ai"; company_id?: string | null; status?: string; limit?: number },
 ) {
   await ensureFounderOrAdmin(sb, userId, opts.company_id ?? null);
-  let q = sb.from("founder_recommendations").select("*")
-    .order("created_at", { ascending: false })
-    .limit(Math.min(200, Math.max(1, opts.limit ?? 50)));
-  if (opts.kind) q = q.eq("kind", opts.kind);
-  if (opts.company_id) q = q.eq("company_id", opts.company_id);
-  if (opts.status) q = q.eq("status", opts.status);
-  const { data, error } = await q;
+  const lim = Math.min(200, Math.max(1, opts.limit ?? 50));
+  const base = sb.from("founder_recommendations").select("*")
+    .order("created_at", { ascending: false }).limit(lim);
+
+  // Compose filters via sequential narrowings.
+  const withKind = opts.kind ? base.eq("kind", opts.kind) : base;
+  const withCo = opts.company_id ? withKind.eq("company_id", opts.company_id) : withKind;
+  const withStatus = opts.status ? withCo.eq("status", opts.status) : withCo;
+  const { data, error } = await withStatus;
   if (error) throw error;
   return data ?? [];
 }
@@ -451,14 +490,18 @@ export async function updateRecommendationStatus(
     .from("founder_recommendations").select("id, company_id").eq("id", args.id).single();
   if (readErr) throw readErr;
   await ensureFounderOrAdmin(sb, userId, rec.company_id);
-  const patch: Record<string, unknown> = { status: args.status };
+  const patch: {
+    status: "acknowledged" | "dismissed" | "actioned" | "expired";
+    acknowledged_by?: string;
+    acknowledged_at?: string;
+  } = { status: args.status };
   if (args.status === "acknowledged") {
     patch.acknowledged_by = userId;
     patch.acknowledged_at = new Date().toISOString();
   }
   const { data, error } = await sb
     .from("founder_recommendations")
-    .update(patch as never)
+    .update(patch)
     .eq("id", args.id)
     .select()
     .single();
@@ -471,51 +514,46 @@ export async function updateRecommendationStatus(
 export async function founderHealth(sb: SB, userId: string, companyId?: string | null) {
   await ensureFounderOrAdmin(sb, userId, companyId ?? null);
 
-  const [
-    incidents, deploys, backups, replication, agents, autoRuns, obsComponents,
-  ] = await Promise.all([
-    sb.from("incidents").select("severity, status").in("status", ["open","investigating","identified"]).limit(200),
-    sb.from("project_deployments").select("status, created_at").order("created_at", { ascending: false }).limit(50),
-    sb.from("bkp_jobs").select("status, started_at").order("started_at", { ascending: false }).limit(50),
-    sb.from("ha_replication_checks").select("status, checked_at").order("checked_at", { ascending: false }).limit(50),
-    sb.from("agent_metrics_daily").select("success_count, failure_count, latency_p95_ms").order("day", { ascending: false }).limit(7),
-    sb.from("auto_runs").select("status, started_at").order("started_at", { ascending: false }).limit(50),
+  const [incidents, deploys, backups, replication, agents, autoRuns, obsComponents] = await Promise.all([
+    sb.from("incidents").select("severity, status")
+      .in("status", ["open", "investigating", "identified"]).limit(200),
+    sb.from("project_deployments").select("status, created_at")
+      .order("created_at", { ascending: false }).limit(50),
+    sb.from("bkp_jobs").select("status, started_at")
+      .order("started_at", { ascending: false }).limit(50),
+    sb.from("ha_replication_checks").select("status, created_at")
+      .order("created_at", { ascending: false }).limit(50),
+    sb.from("agent_metrics_daily")
+      .select("tasks_total, tasks_succeeded, tasks_failed, avg_duration_ms, day")
+      .order("day", { ascending: false }).limit(7),
+    sb.from("auto_runs").select("status, started_at")
+      .order("started_at", { ascending: false }).limit(50),
     sb.from("obs_status_components").select("name, status").limit(200),
   ]);
 
-  const okRatio = <T extends { status?: string | null }>(rows: T[] | null | undefined, okValues: string[]) => {
+  const okRatio = <T extends { status?: string | null }>(
+    rows: T[] | null | undefined, okValues: string[],
+  ) => {
     const list = rows ?? [];
     if (!list.length) return 1;
     const ok = list.filter(r => r.status && okValues.includes(r.status)).length;
     return ok / list.length;
   };
-
   const grade = (r: number) => (r >= 0.98 ? "green" : r >= 0.9 ? "yellow" : "red");
 
+  const deployR = okRatio(deploys.data, ["succeeded"]);
+  const backupR = okRatio(backups.data, ["succeeded", "completed"]);
+  const replR = okRatio(replication.data, ["healthy", "ok", "match"]);
+  const autoR = okRatio(autoRuns.data, ["succeeded", "completed"]);
+  const platR = okRatio(obsComponents.data, ["operational", "ok", "green"]);
+
   return {
-    platform: {
-      components: obsComponents.data ?? [],
-      ratio: okRatio(obsComponents.data, ["operational", "ok", "green"]),
-    },
-    deployment: {
-      ratio: okRatio(deploys.data, ["succeeded", "deployed", "success"]),
-      status: grade(okRatio(deploys.data, ["succeeded", "deployed", "success"])),
-    },
-    backup: {
-      ratio: okRatio(backups.data, ["succeeded", "completed", "ok"]),
-      status: grade(okRatio(backups.data, ["succeeded", "completed", "ok"])),
-    },
-    replication: {
-      ratio: okRatio(replication.data, ["healthy", "ok"]),
-      status: grade(okRatio(replication.data, ["healthy", "ok"])),
-    },
-    ai: {
-      samples: agents.data ?? [],
-    },
-    automation: {
-      ratio: okRatio(autoRuns.data, ["succeeded", "completed"]),
-      status: grade(okRatio(autoRuns.data, ["succeeded", "completed"])),
-    },
+    platform: { components: obsComponents.data ?? [], ratio: platR, status: grade(platR) },
+    deployment: { ratio: deployR, status: grade(deployR) },
+    backup: { ratio: backupR, status: grade(backupR) },
+    replication: { ratio: replR, status: grade(replR) },
+    ai: { samples: agents.data ?? [] },
+    automation: { ratio: autoR, status: grade(autoR) },
     incidents: {
       open_count: incidents.data?.length ?? 0,
       critical: (incidents.data ?? []).filter(i => i.severity === "critical").length,
@@ -526,17 +564,13 @@ export async function founderHealth(sb: SB, userId: string, companyId?: string |
 
 /* ============================ Executive Search ======================= */
 
-/**
- * Federated read across major entity types. Reuses each runtime's data,
- * never introduces a new search index — the universal search runtime
- * remains the authoritative full-text search.
- */
 export async function executiveSearch(
-  sb: SB, userId: string, query: string, opts: { limit?: number; company_id?: string | null } = {},
+  sb: SB, userId: string, query: string,
+  opts: { limit?: number; company_id?: string | null } = {},
 ) {
   await ensureFounderOrAdmin(sb, userId, opts.company_id ?? null);
   const q = query.trim();
-  if (!q) return { query: q, results: [] };
+  if (!q) return { query: q, results: null };
   const like = `%${q.replace(/[%_]/g, "")}%`;
   const cap = Math.min(20, Math.max(1, opts.limit ?? 10));
 
