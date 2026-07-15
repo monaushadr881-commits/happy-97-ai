@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { HappyAvatar, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { useDigitalHuman } from "@/components/digital-human/DigitalHumanContext";
-import { useHappySpeech } from "@/components/digital-human/useHappySpeech";
+import { useHappySpeech, useSpeechAmplitude } from "@/components/digital-human/useHappySpeech";
 import { useVoiceInput } from "@/components/digital-human/useVoiceInput";
 import {
   chunkForSpeech, classifyIntent, estimateSpeechMs, expressionFor,
