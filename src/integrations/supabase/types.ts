@@ -6745,6 +6745,201 @@ export type Database = {
         }
         Relationships: []
       }
+      founder_briefings: {
+        Row: {
+          company_id: string | null
+          generated_at: string
+          generated_by: string | null
+          id: string
+          period: string
+          period_end: string
+          period_start: string
+          snapshot: Json
+          source_runtimes: string[]
+        }
+        Insert: {
+          company_id?: string | null
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          period: string
+          period_end: string
+          period_start: string
+          snapshot?: Json
+          source_runtimes?: string[]
+        }
+        Update: {
+          company_id?: string | null
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          period?: string
+          period_end?: string
+          period_start?: string
+          snapshot?: Json
+          source_runtimes?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "founder_briefings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      founder_command_history: {
+        Row: {
+          capability: string | null
+          command_text: string
+          company_id: string | null
+          created_at: string
+          error: string | null
+          id: string
+          input_mode: string
+          intent: string | null
+          latency_ms: number | null
+          response: Json
+          status: string
+          target_runtime: string | null
+          user_id: string
+        }
+        Insert: {
+          capability?: string | null
+          command_text: string
+          company_id?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input_mode?: string
+          intent?: string | null
+          latency_ms?: number | null
+          response?: Json
+          status?: string
+          target_runtime?: string | null
+          user_id: string
+        }
+        Update: {
+          capability?: string | null
+          command_text?: string
+          company_id?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          input_mode?: string
+          intent?: string | null
+          latency_ms?: number | null
+          response?: Json
+          status?: string
+          target_runtime?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "founder_command_history_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      founder_recommendations: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          body: string | null
+          category: string
+          company_id: string | null
+          confidence: number | null
+          created_at: string
+          evidence: Json
+          expires_at: string | null
+          id: string
+          kind: string
+          source_runtime: string
+          status: string
+          title: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          body?: string | null
+          category: string
+          company_id?: string | null
+          confidence?: number | null
+          created_at?: string
+          evidence?: Json
+          expires_at?: string | null
+          id?: string
+          kind: string
+          source_runtime: string
+          status?: string
+          title: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          body?: string | null
+          category?: string
+          company_id?: string | null
+          confidence?: number | null
+          created_at?: string
+          evidence?: Json
+          expires_at?: string | null
+          id?: string
+          kind?: string
+          source_runtime?: string
+          status?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "founder_recommendations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      founder_workspace_prefs: {
+        Row: {
+          accessibility: Json
+          favorite_dashboards: string[]
+          language: string
+          pinned_modules: string[]
+          recent_projects: string[]
+          saved_views: Json
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accessibility?: Json
+          favorite_dashboards?: string[]
+          language?: string
+          pinned_modules?: string[]
+          recent_projects?: string[]
+          saved_views?: Json
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          accessibility?: Json
+          favorite_dashboards?: string[]
+          language?: string
+          pinned_modules?: string[]
+          recent_projects?: string[]
+          saved_views?: Json
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       goods_receipt_items: {
         Row: {
           created_at: string
