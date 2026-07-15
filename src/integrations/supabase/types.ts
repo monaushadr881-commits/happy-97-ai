@@ -15835,6 +15835,314 @@ export type Database = {
           },
         ]
       }
+      voice_analytics_snapshots: {
+        Row: {
+          avg_latency_ms: number | null
+          by_language: Json
+          by_provider: Json
+          company_id: string | null
+          created_at: string
+          failure_rate: number | null
+          id: string
+          interruptions: number
+          period_end: string
+          period_start: string
+          sessions: number
+          total_duration_ms: number
+        }
+        Insert: {
+          avg_latency_ms?: number | null
+          by_language?: Json
+          by_provider?: Json
+          company_id?: string | null
+          created_at?: string
+          failure_rate?: number | null
+          id?: string
+          interruptions?: number
+          period_end: string
+          period_start: string
+          sessions?: number
+          total_duration_ms?: number
+        }
+        Update: {
+          avg_latency_ms?: number | null
+          by_language?: Json
+          by_provider?: Json
+          company_id?: string | null
+          created_at?: string
+          failure_rate?: number | null
+          id?: string
+          interruptions?: number
+          period_end?: string
+          period_start?: string
+          sessions?: number
+          total_duration_ms?: number
+        }
+        Relationships: []
+      }
+      voice_interruptions: {
+        Row: {
+          cause: string
+          created_at: string
+          from_state: string | null
+          id: string
+          note: string | null
+          offset_ms: number | null
+          session_id: string
+          to_state: string | null
+          turn_id: string | null
+        }
+        Insert: {
+          cause: string
+          created_at?: string
+          from_state?: string | null
+          id?: string
+          note?: string | null
+          offset_ms?: number | null
+          session_id: string
+          to_state?: string | null
+          turn_id?: string | null
+        }
+        Update: {
+          cause?: string
+          created_at?: string
+          from_state?: string | null
+          id?: string
+          note?: string | null
+          offset_ms?: number | null
+          session_id?: string
+          to_state?: string | null
+          turn_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_interruptions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "voice_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voice_interruptions_turn_id_fkey"
+            columns: ["turn_id"]
+            isOneToOne: false
+            referencedRelation: "voice_turns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      voice_provider_configs: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          id: string
+          label: string | null
+          language: string
+          priority: number
+          provider: string
+          style_defaults: Json
+          updated_at: string
+          voice_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          label?: string | null
+          language?: string
+          priority?: number
+          provider: string
+          style_defaults?: Json
+          updated_at?: string
+          voice_id: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          label?: string | null
+          language?: string
+          priority?: number
+          provider?: string
+          style_defaults?: Json
+          updated_at?: string
+          voice_id?: string
+        }
+        Relationships: []
+      }
+      voice_provider_health: {
+        Row: {
+          checked_at: string
+          error: string | null
+          id: string
+          latency_ms: number | null
+          ok: boolean
+          provider: string
+        }
+        Insert: {
+          checked_at?: string
+          error?: string | null
+          id?: string
+          latency_ms?: number | null
+          ok: boolean
+          provider: string
+        }
+        Update: {
+          checked_at?: string
+          error?: string | null
+          id?: string
+          latency_ms?: number | null
+          ok?: boolean
+          provider?: string
+        }
+        Relationships: []
+      }
+      voice_sessions: {
+        Row: {
+          channel: string
+          company_id: string | null
+          created_at: string
+          ended_at: string | null
+          error: string | null
+          happy_session_id: string | null
+          id: string
+          language: string
+          last_activity_at: string
+          meta: Json
+          pitch: number | null
+          provider: string
+          rate: number | null
+          started_at: string
+          status: string
+          style: string
+          timeout_at: string | null
+          updated_at: string
+          user_id: string
+          voice_id: string
+          volume: number | null
+        }
+        Insert: {
+          channel: string
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          error?: string | null
+          happy_session_id?: string | null
+          id?: string
+          language?: string
+          last_activity_at?: string
+          meta?: Json
+          pitch?: number | null
+          provider: string
+          rate?: number | null
+          started_at?: string
+          status?: string
+          style?: string
+          timeout_at?: string | null
+          updated_at?: string
+          user_id: string
+          voice_id: string
+          volume?: number | null
+        }
+        Update: {
+          channel?: string
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          error?: string | null
+          happy_session_id?: string | null
+          id?: string
+          language?: string
+          last_activity_at?: string
+          meta?: Json
+          pitch?: number | null
+          provider?: string
+          rate?: number | null
+          started_at?: string
+          status?: string
+          style?: string
+          timeout_at?: string | null
+          updated_at?: string
+          user_id?: string
+          voice_id?: string
+          volume?: number | null
+        }
+        Relationships: []
+      }
+      voice_turns: {
+        Row: {
+          audio_bytes: number | null
+          audio_ref: string | null
+          created_at: string
+          duration_ms: number | null
+          ended_at: string | null
+          id: string
+          interrupted: boolean
+          kind: string
+          language: string | null
+          latency_ms: number | null
+          provider: string | null
+          role: string
+          session_id: string
+          started_at: string
+          text: string | null
+          timings: Json
+          voice_id: string | null
+        }
+        Insert: {
+          audio_bytes?: number | null
+          audio_ref?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          ended_at?: string | null
+          id?: string
+          interrupted?: boolean
+          kind: string
+          language?: string | null
+          latency_ms?: number | null
+          provider?: string | null
+          role: string
+          session_id: string
+          started_at?: string
+          text?: string | null
+          timings?: Json
+          voice_id?: string | null
+        }
+        Update: {
+          audio_bytes?: number | null
+          audio_ref?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          ended_at?: string | null
+          id?: string
+          interrupted?: boolean
+          kind?: string
+          language?: string | null
+          latency_ms?: number | null
+          provider?: string | null
+          role?: string
+          session_id?: string
+          started_at?: string
+          text?: string | null
+          timings?: Json
+          voice_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_turns_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "voice_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wallet_ledger_entries: {
         Row: {
           amount_cents: number
