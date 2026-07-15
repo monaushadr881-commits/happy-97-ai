@@ -43,6 +43,9 @@ import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedSmartCityRouteImport } from './routes/_authenticated/smart-city'
 import { Route as AuthenticatedSkillsRouteImport } from './routes/_authenticated/skills'
 import { Route as AuthenticatedSimulationRouteImport } from './routes/_authenticated/simulation'
+import { Route as AuthenticatedSettingsThemeRouteImport } from './routes/_authenticated/settings-theme'
+import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings-appearance'
+import { Route as AuthenticatedSettingsAccessibilityRouteImport } from './routes/_authenticated/settings-accessibility'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedServiceMeshRouteImport } from './routes/_authenticated/service-mesh'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated/security'
@@ -570,6 +573,24 @@ const AuthenticatedSimulationRoute = AuthenticatedSimulationRouteImport.update({
   path: '/simulation',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSettingsThemeRoute =
+  AuthenticatedSettingsThemeRouteImport.update({
+    id: '/settings-theme',
+    path: '/settings-theme',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSettingsAppearanceRoute =
+  AuthenticatedSettingsAppearanceRouteImport.update({
+    id: '/settings-appearance',
+    path: '/settings-appearance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSettingsAccessibilityRoute =
+  AuthenticatedSettingsAccessibilityRouteImport.update({
+    id: '/settings-accessibility',
+    path: '/settings-accessibility',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -2751,6 +2772,9 @@ export interface FileRoutesByFullPath {
   '/security': typeof AuthenticatedSecurityRoute
   '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
+  '/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/settings-theme': typeof AuthenticatedSettingsThemeRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
   '/smart-city': typeof AuthenticatedSmartCityRoute
@@ -3128,6 +3152,9 @@ export interface FileRoutesByTo {
   '/security': typeof AuthenticatedSecurityRoute
   '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
+  '/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/settings-theme': typeof AuthenticatedSettingsThemeRoute
   '/simulation': typeof AuthenticatedSimulationRoute
   '/skills': typeof AuthenticatedSkillsRouteWithChildren
   '/smart-city': typeof AuthenticatedSmartCityRoute
@@ -3517,6 +3544,9 @@ export interface FileRoutesById {
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
+  '/_authenticated/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
+  '/_authenticated/settings-theme': typeof AuthenticatedSettingsThemeRoute
   '/_authenticated/simulation': typeof AuthenticatedSimulationRoute
   '/_authenticated/skills': typeof AuthenticatedSkillsRouteWithChildren
   '/_authenticated/smart-city': typeof AuthenticatedSmartCityRoute
@@ -3907,6 +3937,9 @@ export interface FileRouteTypes {
     | '/security'
     | '/service-mesh'
     | '/settings'
+    | '/settings-accessibility'
+    | '/settings-appearance'
+    | '/settings-theme'
     | '/simulation'
     | '/skills'
     | '/smart-city'
@@ -4284,6 +4317,9 @@ export interface FileRouteTypes {
     | '/security'
     | '/service-mesh'
     | '/settings'
+    | '/settings-accessibility'
+    | '/settings-appearance'
+    | '/settings-theme'
     | '/simulation'
     | '/skills'
     | '/smart-city'
@@ -4672,6 +4708,9 @@ export interface FileRouteTypes {
     | '/_authenticated/security'
     | '/_authenticated/service-mesh'
     | '/_authenticated/settings'
+    | '/_authenticated/settings-accessibility'
+    | '/_authenticated/settings-appearance'
+    | '/_authenticated/settings-theme'
     | '/_authenticated/simulation'
     | '/_authenticated/skills'
     | '/_authenticated/smart-city'
@@ -5154,6 +5193,27 @@ declare module '@tanstack/react-router' {
       path: '/simulation'
       fullPath: '/simulation'
       preLoaderRoute: typeof AuthenticatedSimulationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings-theme': {
+      id: '/_authenticated/settings-theme'
+      path: '/settings-theme'
+      fullPath: '/settings-theme'
+      preLoaderRoute: typeof AuthenticatedSettingsThemeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings-appearance': {
+      id: '/_authenticated/settings-appearance'
+      path: '/settings-appearance'
+      fullPath: '/settings-appearance'
+      preLoaderRoute: typeof AuthenticatedSettingsAppearanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings-accessibility': {
+      id: '/_authenticated/settings-accessibility'
+      path: '/settings-accessibility'
+      fullPath: '/settings-accessibility'
+      preLoaderRoute: typeof AuthenticatedSettingsAccessibilityRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings': {
@@ -8524,6 +8584,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
   AuthenticatedServiceMeshRoute: typeof AuthenticatedServiceMeshRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedSettingsAccessibilityRoute: typeof AuthenticatedSettingsAccessibilityRoute
+  AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
+  AuthenticatedSettingsThemeRoute: typeof AuthenticatedSettingsThemeRoute
   AuthenticatedSimulationRoute: typeof AuthenticatedSimulationRoute
   AuthenticatedSkillsRoute: typeof AuthenticatedSkillsRouteWithChildren
   AuthenticatedSmartCityRoute: typeof AuthenticatedSmartCityRoute
@@ -8716,6 +8779,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
   AuthenticatedServiceMeshRoute: AuthenticatedServiceMeshRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedSettingsAccessibilityRoute:
+    AuthenticatedSettingsAccessibilityRoute,
+  AuthenticatedSettingsAppearanceRoute: AuthenticatedSettingsAppearanceRoute,
+  AuthenticatedSettingsThemeRoute: AuthenticatedSettingsThemeRoute,
   AuthenticatedSimulationRoute: AuthenticatedSimulationRoute,
   AuthenticatedSkillsRoute: AuthenticatedSkillsRouteWithChildren,
   AuthenticatedSmartCityRoute: AuthenticatedSmartCityRoute,
