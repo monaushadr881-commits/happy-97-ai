@@ -1538,3 +1538,58 @@ renderer are provisioned (see R39–R50 seams).
 - `bunx tsgo --noEmit` — clean
 - Migration applied; seed data verified via `store_categories`/`store_collections`
 - Public catalog paths accessible via `publicClient()` (anon)
+
+---
+
+## R38 — Founder Copilot Workspace (WORKING)
+
+**Scope:** Orchestration-only executive command center. No business logic
+duplicated — every action dispatches to an owning runtime.
+
+### Files
+- `supabase/migrations/…_r38_founder_workspace.sql` — 4 tables:
+  `founder_workspace_prefs`, `founder_command_history` (immutable trigger),
+  `founder_briefings`, `founder_recommendations` (fact vs ai kept separate).
+- `src/lib/founder-workspace/engine.ts` — command router, timeline, action
+  center, approval dispatch, briefing generator, recommendation store,
+  founder health, executive federated search.
+- `src/lib/founder-workspace/founder.functions.ts` — 14 auth-gated server
+  functions.
+
+### Server functions
+`founderGetPrefs`, `founderUpsertPrefs`, `founderClassifyIntent`,
+`founderDispatchCommand`, `founderCommandHistory`, `founderTimeline`,
+`founderActionCenter`, `founderApprovalDecision`, `founderGenerateBriefing`,
+`founderListBriefings`, `founderRecordFactRec`, `founderRecordAiRec`,
+`founderListRecommendations`, `founderUpdateRecommendationStatus`,
+`founderHealthOverview`, `founderExecutiveSearch`.
+
+### Reused runtimes (no duplication)
+audit_logs · approvals · notifications · bi_* · obs_* · incidents ·
+bkp_jobs · ha_replication_checks · project_deployments ·
+marketplace_transactions · wallets · credit_ledger_entries · invoices ·
+expenses · deals · customers · production_orders · listings · plugins ·
+agent_registry · agent_tasks · agent_metrics_daily · auto_runs.
+
+### Security
+- All mutations guarded by `requireSupabaseAuth` + `is_platform_founder`
+  or `is_company_admin` (checked in engine layer).
+- `founder_workspace_prefs` scoped to `auth.uid()`.
+- `founder_command_history` is append-only via immutable trigger.
+- `founder_recommendations` splits `fact` (evidence only) from `ai`
+  (requires numeric confidence 0..1) — never merged.
+
+### Command router
+Deterministic keyword classifier. AI-based intent lives in the Brain
+Runtime and is called separately — the workspace only dispatches and
+audits.
+
+### PLANNED / BLOCKED
+- UI surface (Executive Command Center, Command Bar UI, Timeline UI,
+  Briefing UI). Backend is complete; UI is a separate pass.
+- Voice-command input mode: schema supports it, but audio capture belongs
+  to the client shell and voice runtime.
+
+### Verification
+- `bunx tsgo --noEmit` — clean
+- Migration applied; types regenerated and referenced
