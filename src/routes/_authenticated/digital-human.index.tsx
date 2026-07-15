@@ -1,5 +1,6 @@
 /** /digital-human — Real-Time Human Conversation Engine (RT-HCE). */
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useMutation } from "@tanstack/react-query";
