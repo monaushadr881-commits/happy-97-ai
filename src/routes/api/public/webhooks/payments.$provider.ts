@@ -132,7 +132,7 @@ async function handle(provider: string, request: Request): Promise<Response> {
     return respond(500, "normalize failed");
   }
 
-  await record({
+  const eventId = await record({
     provider: adapter.code,
     provider_event_id: evt.providerEventId,
     event_type: evt.providerEventType,
@@ -152,8 +152,21 @@ async function handle(provider: string, request: Request): Promise<Response> {
       customer_ref: evt.customerRef ?? null,
       subscription_ref: evt.subscriptionRef ?? null,
       invoice_ref: evt.invoiceRef ?? null,
+      raw: evt.raw ?? null,
     },
   });
+
+  // R8: dispatch business processing inline. Failures are captured in
+  // process_status/last_error and re-tried by the retry endpoint — we
+  // still ACK 200 to the provider so it doesn't re-send the same event.
+  if (eventId && evt.canonicalType !== "unknown") {
+    try {
+      const { processWebhookEvent } = await import("@/lib/payments/business-processor");
+      await processWebhookEvent(eventId, evt);
+    } catch (e) {
+      console.error("[webhook] processor exception", e instanceof Error ? e.message : e);
+    }
+  }
 
   return respond(200, "ok");
 }
