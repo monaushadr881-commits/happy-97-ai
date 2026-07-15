@@ -1,97 +1,111 @@
+## R61 — Universal Deployment Runtime (honest scope)
 
-# HAPPY Enterprise Recovery — Honest Plan
+You've asked for two things in one turn:
+1. A backend runtime that tracks platforms, builds, artifacts, signing, store readiness.
+2. Actual multi-platform binaries (APK, AAB, IPA, Windows/macOS/Linux installers) + happy.ai deployment.
 
-## Reality check first
+I can deliver (1) end-to-end in this pass. I cannot honestly deliver (2) from this sandbox — and per your own "never fake" rules, I will not pretend otherwise. This plan makes that split explicit.
 
-You asked for 20 phases spanning: replacing 95+ placeholder pages, implementing 15+ NOT_IMPLEMENTED services, real lip-sync, full Revenue runtime, Website Builder, Marketplace, SEO+PWA, security headers, notifications, and a Founder dashboard.
+---
 
-**That is 150–250 engineering hours of real work.** I will not pretend it fits in one turn. If I try, you get another wave of stubs and another "Successfully Certified" lie — which is exactly what you told me to stop doing.
+### What I will build this pass (WORKING)
 
-Instead, I propose a series of **concrete, ship-in-one-turn batches**. Each batch delivers real, testable functionality. Nothing is declared done unless it is.
+**A. Universal Deployment Runtime — database (single migration)**
 
-## Batch structure (approve one at a time)
+Four RLS-secured tables, all immutable-audit where appropriate, `service_role` + `authenticated` GRANTs, `has_role('admin')` gating:
 
-### Batch R1 — Foundations & honesty (this turn if approved)
-Small, high-leverage, verifiable in minutes. No stubs.
+- `deploy_platform_registry` — canonical list of 13 platforms (web, pwa, android_apk, android_aab, ios, ipados, macos, windows, linux, chromeos, android_tv, wearos, visionpro) with adapter, target_channel, required_dependencies (jsonb), enabled flag, readiness state.
+- `deploy_builds` — one row per build attempt: platform, channel (prod/staging/test/dev), version, git_sha, status (queued/running/succeeded/failed/blocked), started_at, finished_at, blocked_reason, logs_url.
+- `deploy_artifacts` — one row per produced artifact: build_id, kind (web_bundle/pwa/apk/aab/ipa/msi/dmg/appimage/deb), size_bytes, sha256, storage_url, signed (bool), signing_identity, metadata.
+- `deploy_store_readiness` — per-store gating: store (google_play/app_store/microsoft_store/web), status (ready/blocked/submitted/live), missing_dependencies (jsonb[]), last_checked_at.
 
-1. **Fix the Pricing key warning** — `src/components/happyx/PricingExperience.tsx:1226` — wrap the fragment inside `.map` with `React.Fragment key={cat.id}`. Removes the only recurring runtime warning.
-2. **Real audio-reactive waveform + lip-sync signal**
-   - Add `AnalyserNode` to `useHappySpeech.ts` in the TTS PCM path; expose a live RMS via ref.
-   - Add an `amplitude?: number` prop to `HappyAvatar`; the existing "mouth glow" opacity and a new subtle vertical scale on a mouth-region overlay respond to RMS at 60 fps.
-   - Replace `LiveWaveform` (`digital-human.index.tsx:484`) with bars driven by that RMS during speaking and by `useVoiceInput`'s existing analyser during listening.
-   Result: real lip-sync signal + real waveform. Not a face rig, but honestly audio-driven.
-3. **Real security headers** on every response — add a `requestMiddleware` in `src/start.ts` that sets `Content-Security-Policy` (report-only initially), `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, `X-Frame-Options: DENY`. Real, verifiable via curl.
-4. **Real SEO minimum** — add `src/routes/api/robots[.]txt.ts` and `src/routes/api/sitemap[.]xml.ts` (server routes emitting real content from the route table + a small static list); add JSON-LD `Organization` + `WebSite` blocks to the `index.tsx` `head()`.
-5. **PWA manifest only** (no service worker — per the PWA skill, don't add SW unless the user explicitly asked for offline). Add `public/manifest.webmanifest`, icons metadata, and matching head tags. Home-screen install works; no cache-bust risk.
-6. **Delete dead scaffolding honestly** — remove the "Successfully Activated / Production Certified" claims from `docs/architecture/*.md` and `docs/release/HAPPY-INFINITY-v1.md`, replace with a truthful status matrix generated from what actually ships in this batch.
+Immutability triggers on `deploy_builds` (status transitions only, no field rewrites) and `deploy_artifacts` (append-only). Seeded 13 platform rows in the same migration.
 
-### Batch R2 — Roadmap service recovery (next turn)
-Replace `NOT_IMPLEMENTED` in `src/services/domain/roadmap.service.ts` for exactly these, backed by existing tables (no schema changes):
+**B. Runtime modules in `src/lib/deployment-runtime/`**
 
-- **Brain** — memory read/write against `ai_memories`; conversation continuity via `ai_sessions`; simple reasoning trace stored in `ai_missions`. Real Lovable AI Gateway call for `process/reason/plan` using `google/gemini-3-flash-preview`.
-- **Founder Dashboard** — aggregate reads over `companies`, `employees`, `deals`, `invoices`, `payments`, `deployments`, `activity_events`, `metrics_events`, `audit_logs`. Gated by `is_platform_founder`.
-- **Business Dashboard** — aggregate reads over `deals`, `leads`, `customers`, `invoices`, `expenses`, `inventory_items`, `sales_orders` — scoped by company via existing RLS.
-- **Analytics** — real reads from `metrics_events` + `activity_events` with time-bucket rollups (SQL-side, no schema change).
-- **Notifications runtime** — read/write `notifications` + `notification_preferences` + `webhook_deliveries` (server-side send stays out until R4).
+- `contracts.ts` — types shared across engine, validator, adapters.
+- `platform-registry.ts` — reads registry, returns capability matrix.
+- `validator.ts` — pure validators: manifest present, icons present, splash config, permissions declared, deep-link scheme, env vars set. Runs against the checked-in project, returns structured `{ok, checks[]}`.
+- `build-engine.ts` — orchestrator: records `deploy_builds` row, invokes the adapter's `plan()` (never fakes an `execute()`), returns real status. Web/PWA adapters actually execute (they can run in-sandbox). Native adapters return `blocked` with the exact missing dependency.
+- `adapters/{web,pwa,capacitor-android,capacitor-ios,tauri-win,tauri-mac,tauri-linux}.ts` — each exposes `plan()`, `validate()`, `execute()`. Only web + pwa implement `execute()`. Native adapters implement `plan()` and `validate()`, and `execute()` returns `{status:'blocked', reason}`.
+- `signing.ts` — reads signing identity **names** from the runtime (never secret values). Actual key material must live in `add_secret` — codepath uses `process.env.*` inside handlers.
+- `deployment.functions.ts` — 8 `createServerFn` endpoints: `listPlatforms`, `getCompatibilityMatrix`, `startBuild`, `getBuild`, `listBuilds`, `listArtifacts`, `getStoreReadiness`, `refreshStoreReadiness`. All admin-gated via `has_role`.
 
-### Batch R3 — Founder + Brain + Business real UIs
-Replace exactly these `V2TabBody` pages with real UIs backed by R2 services:
-- `founder.tsx`, `founder.*` (real cards + charts, loading/error/empty states)
-- `brain.index.tsx`, `brain.memory.tsx`, `brain.analytics.tsx`, `brain.health.tsx`
-- `business.index.tsx`, `business.crm.tsx`, `business.finance.tsx`, `business.inventory.tsx`, `business.sales.tsx`
-- `notifications.tsx` inbox with read/unread + preferences
+**C. PWA activation (real, in-repo)**
 
-Every page: `ensureQueryData` in loader + `useSuspenseQuery` + `errorComponent` + `notFoundComponent` + empty state.
+- Add `vite-plugin-pwa` with the guarded registration wrapper from the PWA skill (no dev/preview registration, `?sw=off` kill switch, `NetworkFirst` for HTML, `CacheFirst` for hashed assets, `/~oauth` excluded).
+- Existing `public/manifest.webmanifest` already present — extend with the required icons/splash/theme entries the validator checks for.
+- Registration wrapper mounted from `src/routes/__root.tsx` (client-only).
 
-### Batch R4 — Revenue runtime (Stripe seamless)
-- Run `payments--recommend_payment_provider`; if Stripe is recommended, call `payments--enable_stripe_payments`.
-- Wire subscriptions, one product/price seed, `/api/public/webhooks/stripe` with HMAC verification, customer portal link, invoice list, payment status UI, credit top-up flow.
-- Server-side write to `payments`, `invoices`, existing revenue tables.
-- Uses the platform's built-in Stripe (no user key requested).
+**D. Capacitor + Tauri scaffolding (planning artifacts, not binaries)**
 
-### Batch R5 — Notifications delivery
-- Email pipeline via existing `email_domain` tools (transactional templates for signup, invoice, invite).
-- In-app delivery via `notifications` (already exists in R2).
-- Push: only if user asks for it — otherwise honestly report "not implemented".
+- `capacitor.config.ts` at repo root with appId `ai.happy.enterprise`, appName, webDir `dist`, splash/statusbar plugin config.
+- `src-tauri/tauri.conf.json` with product name, identifier, bundle targets per OS.
+- **No** `npx cap add android/ios` and **no** `cargo tauri build` run here — those require Android Studio / Xcode / Rust toolchain / signing keys and would produce fake or broken artifacts. The build engine records these as `blocked` with the exact missing dependency string.
 
-### Batch R6 — Website Builder (real, minimal)
-- Real natural-language → structured page spec via Lovable AI Gateway.
-- Save spec to `creator_projects` + `creator_generations`.
-- Render preview from spec.
-- Publish to `deployments` row; expose `/p/{slug}` public route rendering the same spec.
-- Version history from `entity_versions`.
-- No native Android/iOS. Honestly labeled "web + install-to-home-screen only".
+**E. Docs**
 
-### Batch R7 — Marketplace real workflow
-- Seller submits `listings` → status `pending`.
-- Admin (via `is_platform_founder` or role) approves → status `published`.
-- Buyer install/download → `marketplace_transactions` row.
-- Ratings via `listing_reviews`. Search via SQL `ilike` + category filter.
-- No AI safety scanner, no artifact signing yet — labeled as such.
+Update `docs/STATUS.md`, `docs/MASTER_IMPLEMENTATION_STATUS.md`, `docs/MASTER_EXECUTION_REGISTER.md` with the R61 entry and the compatibility matrix below.
 
-### Batch R8 — Rate limiting + webhook hardening + Accessibility sweep
-- Per-IP + per-user token bucket in a `requestMiddleware`, backed by an in-memory Map on the Worker (best-effort; documented).
-- Webhook signature verification helper used by all `/api/public/*` handlers.
-- shadcn Button `aria-label` sweep on icon-only buttons; one `<main>` per route; `h-dvh` on full-height layouts.
+---
 
-### Batches deferred and honestly labeled "NOT IMPLEMENTED"
-- Android / iOS / Desktop native builders
-- Multi-region cloud, edge functions marketplace, MCP runtime
-- Offline service worker, background sync (unless you ask)
-- Full lip-sync with viseme mapping (would need a rigged avatar; current portrait cannot morph)
-- 95 - N remaining `V2TabBody` pages after R3 — will remain placeholders with a visible "Not yet implemented" badge, not fake dashboards
+### Compatibility matrix this pass will register
 
-## Rules I will follow across all batches
+```text
+Platform          Adapter          execute()   Status this pass  Blocker (if any)
+─────────────────────────────────────────────────────────────────────────────────
+web               web              real        WORKING            —
+pwa               pwa              real        WORKING            —
+android_apk       cap-android      stub        BLOCKED            Android SDK + keystore
+android_aab       cap-android      stub        BLOCKED            Android SDK + Play upload key
+ios / ipados      cap-ios          stub        BLOCKED            macOS host + Xcode + Apple Dev account
+macos             tauri-mac        stub        BLOCKED            macOS host + Developer ID cert
+windows           tauri-win        stub        BLOCKED            Windows host + code-signing cert
+linux             tauri-linux      stub        PARTIAL (planned)  Rust toolchain not present in sandbox
+chromeos          web              real        WORKING (via web)  —
+android_tv        cap-android      stub        PLANNED            Same as android + leanback UI
+wearos            companion        stub        PLANNED            Separate wear module
+visionpro         cap-ios          stub        PLANNED            visionOS SDK
+```
 
-- No new `V2TabBody` pages.
-- No new `NOT_IMPLEMENTED` service methods.
-- No "Successfully Certified" or "Production Ready" claims.
-- Every batch ends with a truthful matrix: what shipped, what is still stubbed, what is missing.
-- Every server function verified via `stack_modern--invoke-server-function` before I say it works.
-- Every UI page verified via Playwright screenshot before I say it renders correctly.
+### happy.ai deployment
 
-## What I need from you
+BLOCKED. I don't have registrar access. The runtime will record the required records so you can hand them to your DNS provider:
 
-**Approve Batch R1** (or edit its scope). It is the smallest ship-in-one-turn set that provides real, verifiable improvements — pricing warning fixed, real lip-sync signal, real security headers, real robots/sitemap/JSON-LD, real PWA manifest, and truthful docs.
+```text
+A     @    → 185.158.133.1
+A     www  → 185.158.133.1
+TXT   _lovable → lovable_verify=<value shown in Project Settings → Domains>
+```
 
-If you'd rather I start elsewhere (e.g. jump to Revenue R4 or Founder Dashboard R3), say so and I'll re-plan. But I will not accept a "do all 20 phases now" instruction — that path has produced the exact fake completion you asked me to end.
+After DNS resolves and Lovable verifies, SSL is auto-provisioned. I will not call `preview_ui--publish` in this pass unless you explicitly say "publish now" — you asked for a runtime build, not a live deploy.
+
+### Store readiness
+
+All four store rows seed as `blocked` with the exact missing dependency list (Play Console service account, App Store Connect API key, Partner Center account). They flip to `ready` only when the corresponding secrets are present — no fake "submitted" states.
+
+---
+
+### Explicitly out of scope (will NOT do in this pass)
+
+- Producing an actual `.apk`, `.aab`, `.ipa`, `.msi`, `.dmg`, `.AppImage` file.
+- Uploading to Google Play, App Store, Microsoft Store.
+- Connecting happy.ai DNS.
+- Running Playwright across native devices (sandbox has no emulators).
+- Duplicating any existing runtime (voice, emotion, presentation, business, founder — all reused, not touched).
+
+I'll run Playwright smoke on web + PWA install manifest only, which is what this sandbox can actually verify.
+
+---
+
+### After you approve
+
+I'll ship in this order, in parallel where possible:
+1. Migration (single file, 4 tables + seeds + triggers + GRANTs).
+2. Runtime modules + server functions.
+3. `vite-plugin-pwa` install + guarded registration + manifest extension.
+4. `capacitor.config.ts` + `src-tauri/tauri.conf.json` scaffolds.
+5. Docs update.
+6. Web build check + PWA validation + report.
+
+Reply "go" to proceed, or tell me which pieces to drop/add.
