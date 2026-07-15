@@ -1662,3 +1662,57 @@ Status: **WORKING (backend / orchestration)**
 - Playwright end-to-end verification requires the UI shell.
 - Digital Human rendering (R40–R50) still blocked on external assets
   and GPU render infrastructure.
+
+============================================================================
+R40 — HAPPY HYPER-REAL CHARACTER ASSET PIPELINE
+============================================================================
+Status: **WORKING (asset contract + registry + validators). Renderer NOT included by policy.**
+
+### Deliverables
+
+| Component                | Status  | Notes                                              |
+|--------------------------|---------|----------------------------------------------------|
+| Asset Registry           | WORKING | `happy_assets` + `happy_asset_versions`, versioned |
+| Asset Versioning         | WORKING | Unique `(asset_id, version)`, immutable insert     |
+| Asset Validation         | WORKING | Checksum sha256, size, mime, deps in `importAssetVersion` |
+| Character Manifest       | WORKING | `happy_character_manifests` — `character_key='HAPPY'` only |
+| Rig Contract             | WORKING | 27 required + 10 finger bones, humanoid + anim compat |
+| Skeleton Contract        | WORKING | `bone_count >= REQUIRED_BONES.length`, root bone   |
+| Blendshape Contract      | WORKING | Full ARKit 52 + required viseme subset             |
+| Animation Contract       | WORKING | 16 required clips (idle → thank_you → …)           |
+| Material Contract        | WORKING | Enforced via `RUNTIME_REQUIREMENTS[live3d]`        |
+| LOD Contract             | PARTIAL | Modeled in `meta.lods[]`; strict validator PLANNED |
+| Voice Contract           | WORKING | Provider-independent seam; presence flag only      |
+| Import Pipeline          | WORKING | Rejects bad checksum, size, missing deps           |
+| Compatibility Checker    | WORKING | 7 targets (portrait/layered/live2d/live3d/xr/vr/ar)|
+| Founder Panel snapshot   | WORKING | `founderAssetPanel` — no UI in this pass           |
+| Renderers (Live2D/3D/etc)| PLANNED | Explicitly out of scope per R40 policy             |
+
+### Files
+- `supabase/migrations/*_r40_*.sql` — 5 tables + FK backfill
+- `src/lib/happy-assets/contracts.ts` — REQUIRED_BONES, ARKIT52, animations, runtime requirements
+- `src/lib/happy-assets/validators.ts` — rig/skeleton/blendshape/animation/compat
+- `src/lib/happy-assets/engine.ts` — importAssetVersion, validateManifest, founderPanel
+- `src/lib/happy-assets/assets.functions.ts` — 7 server functions (register, import, manifest, link, validate, panel, contracts)
+
+### Security
+- RLS: reads public (assets are catalog-level); writes gated to `is_ops_admin`.
+- `happy_asset_versions` UNIQUE `(asset_id, version)` — versions never overwrite.
+- `happy_asset_validations` is append-only (INSERT policy, no UPDATE/DELETE grant to authenticated).
+- Immutable asset history preserved through version rows + validation rows.
+
+### Validator semantics
+- Every validator returns `{status, missing[], report}`.
+- `status ∈ {READY, PARTIAL, BLOCKED}`; rollup takes worst status across parts.
+- Missing items are always listed explicitly, prefixed by kind (`bone:jaw`, `viseme_required:jawOpen`, `animation:wave`, `live3d:material`).
+- Compatibility matrix reports per-target status independently.
+
+### Verification
+- `bunx tsgo --noEmit` — clean.
+- Migration applied; FK from `happy_assets.current_version_id` to `happy_asset_versions.id` added after both tables exist.
+- Contracts exported through `getAssetContracts` for external tooling.
+
+### Honest gaps (renderer policy)
+- Live2D/Live3D/XR/VR/AR renderers remain PLANNED (R40 explicitly forbids implementing them here).
+- MetaHuman / Audio2Face / Pixel Streaming remain future integrations.
+- No fake certification: `computeCompatibility` reports `READY` for a target only when ALL required roles are physically linked in the manifest.
