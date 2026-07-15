@@ -554,7 +554,8 @@ export async function refundPurchase(sb: SB, purchaseId: string, actorId: string
 /* ------------------------------ download ---------------------------- */
 
 export async function authorizeDownload(sb: SB, args: {
-  listingId: string; buyerId: string; ipHash?: string; userAgent?: string;
+  listingId: string; buyerId: string;
+  ipHash?: string | null; userAgent?: string | null;
 }) {
   const l = await loadListing(sb, args.listingId);
   if (l.review_status !== "published") throw new Error("listing_not_available");
