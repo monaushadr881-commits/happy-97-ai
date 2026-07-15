@@ -163,7 +163,7 @@ export interface CreditsOverview {
   lifetime_expired: number | null;
   lifetime_refunded: number | null;
   usage_breakdown: Array<{ entry_type: string; amount: number }> | null;
-  recent_entries: Array<Record<string, unknown>> | null;
+  recent_entries: unknown[] | null;
   generated_at: string;
 }
 
