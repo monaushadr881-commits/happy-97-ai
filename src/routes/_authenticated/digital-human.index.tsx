@@ -44,6 +44,7 @@ const STATE_LABEL: Record<ConvoState, string> = {
 function DhConversation() {
   const { prefs, updatePrefs, activity, setActivity, expression, setExpression } = useDigitalHuman();
   const { speak, stop } = useHappySpeech();
+  const speechAmp = useSpeechAmplitude();
   const [mode, setMode] = useState<DhMode>("assistant");
   const [message, setMessage] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
