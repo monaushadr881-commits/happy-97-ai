@@ -218,7 +218,7 @@ export const createVersion = createServerFn({ method: "POST" })
         identity_id: id,
         version: data.version,
         status: "draft",
-        snapshot: snapshot as unknown as Record<string, unknown>,
+        snapshot: snapshot as any,
         checksum,
         notes: data.notes ?? null,
         created_by: context.userId,
@@ -313,10 +313,7 @@ export const deployToChannel = createServerFn({ method: "POST" })
 
     const { data: dep, error } = await context.supabase
       .from("happy_deployments")
-      .upsert(
-        {
-          identity_id: id,
-          channel: data.channel,
+      .upsert({ identity_id: id, channel: data.channel,
           version_id: data.version_id,
           status: nextStatus,
           config: data.config,
