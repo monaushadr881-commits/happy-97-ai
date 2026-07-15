@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { HappyAvatar, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { useDigitalHuman } from "@/components/digital-human/DigitalHumanContext";
-import { useHappySpeech, useSpeechAmplitude } from "@/components/digital-human/useHappySpeech";
+import { useHappySpeech } from "@/components/digital-human/useHappySpeech";
+import { useSpeechSignal, useMicSignal } from "@/components/digital-human/audio-bus";
 import { useVoiceInput } from "@/components/digital-human/useVoiceInput";
 import {
   chunkForSpeech, classifyIntent, estimateSpeechMs, expressionFor,
@@ -44,7 +45,7 @@ const STATE_LABEL: Record<ConvoState, string> = {
 function DhConversation() {
   const { prefs, updatePrefs, activity, setActivity, expression, setExpression } = useDigitalHuman();
   const { speak, stop } = useHappySpeech();
-  const speechAmp = useSpeechAmplitude();
+  const speechSig = useSpeechSignal();
   const [mode, setMode] = useState<DhMode>("assistant");
   const [message, setMessage] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -266,7 +267,7 @@ function DhConversation() {
       <div className="grid gap-4 lg:grid-cols-[20rem_1fr]">
         <div className="space-y-4">
           <Panel className="p-6 flex flex-col items-center">
-            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} amplitude={speechAmp} />
+            <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={220} amplitude={speechSig.rms} centroid={speechSig.centroid} />
             <div className="mt-4 flex items-center gap-2 flex-wrap justify-center">
               <Chip tone="gold">HAPPY · {MODE_LABEL[mode]}</Chip>
               <Chip tone={stateChipTone}>{STATE_LABEL[convoState]}</Chip>
