@@ -10,7 +10,7 @@ import { ALL_STORES, getStoreAdapter } from "./store-adapters";
 import type { ChangelogCategory, ReleaseChannel, StoreCode } from "./contracts";
 
 async function assertOpsAdmin(context: { supabase: any; userId: string }) {
-  const { data, error } = await context.supabase.rpc("has_role", {
+  const { data, error } = await (context.supabase as any).rpc("has_role", {
     _user_id: context.userId, _role: "admin",
   });
   if (error) throw new Error(`role check failed: ${error.message}`);
@@ -44,7 +44,7 @@ export const createRelease = createServerFn({ method: "POST" })
   .handler(async ({ context, data }) => {
     await assertOpsAdmin(context);
     parseSemver(data.version); // validate
-    const { data: row, error } = await context.supabase
+    const { data: row, error } = await (context.supabase as any)
       .from("release_records")
       .insert({
         version: data.version,
@@ -64,7 +64,7 @@ export const listReleases = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertOpsAdmin(context);
-    const { data, error } = await context.supabase
+    const { data, error } = await (context.supabase as any)
       .from("release_records")
       .select("id, version, channel, status, released_at, created_at")
       .order("created_at", { ascending: false })
@@ -86,7 +86,7 @@ export const addChangelogEntry = createServerFn({ method: "POST" })
     }).parse(raw))
   .handler(async ({ context, data }) => {
     await assertOpsAdmin(context);
-    const { data: row, error } = await context.supabase
+    const { data: row, error } = await (context.supabase as any)
       .from("release_changelog_entries")
       .insert({
         release_id: data.release_id,
@@ -107,8 +107,8 @@ export const generateReleaseNotesMarkdown = createServerFn({ method: "GET" })
   .handler(async ({ context, data }) => {
     await assertOpsAdmin(context);
     const [rel, entries] = await Promise.all([
-      context.supabase.from("release_records").select("*").eq("id", data.release_id).single(),
-      context.supabase.from("release_changelog_entries").select("*")
+      (context.supabase as any).from("release_records").select("*").eq("id", data.release_id).single(),
+      (context.supabase as any).from("release_changelog_entries").select("*")
         .eq("release_id", data.release_id).order("created_at", { ascending: true }),
     ]);
     if (rel.error) throw new Error(rel.error.message);
@@ -147,7 +147,7 @@ export const validateReleaseForStores = createServerFn({ method: "POST" })
     }).parse(raw))
   .handler(async ({ context, data }) => {
     await assertOpsAdmin(context);
-    const { data: rel, error } = await context.supabase
+    const { data: rel, error } = await (context.supabase as any)
       .from("release_records").select("*").eq("id", data.release_id).single();
     if (error) throw new Error(error.message);
     const stores = (data.stores?.length ? data.stores : ALL_STORES) as StoreCode[];
@@ -157,7 +157,7 @@ export const validateReleaseForStores = createServerFn({ method: "POST" })
       const report = await adapter.validate({ version: rel.version, channel: rel.channel as ReleaseChannel });
       const plan = adapter.submissionPlan();
       const status = report.ok && plan.can_submit_here ? "ready" : "blocked";
-      const { error: upErr } = await context.supabase
+      const { error: upErr } = await (context.supabase as any)
         .from("release_store_submissions")
         .upsert({
           release_id: data.release_id,
@@ -177,7 +177,7 @@ export const listStoreSubmissions = createServerFn({ method: "GET" })
   .inputValidator((raw) => z.object({ release_id: z.string().uuid() }).parse(raw))
   .handler(async ({ context, data }) => {
     await assertOpsAdmin(context);
-    const { data: rows, error } = await context.supabase
+    const { data: rows, error } = await (context.supabase as any)
       .from("release_store_submissions").select("*")
       .eq("release_id", data.release_id).order("store");
     if (error) throw new Error(error.message);
@@ -200,7 +200,7 @@ export const initiateRollback = createServerFn({ method: "POST" })
     if (data.from_release_id === data.to_release_id) {
       throw new Error("from_release_id and to_release_id must differ");
     }
-    const { data: row, error } = await context.supabase
+    const { data: row, error } = await (context.supabase as any)
       .from("release_rollbacks")
       .insert({
         from_release_id: data.from_release_id,
@@ -221,7 +221,7 @@ export const listSigningProfiles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertOpsAdmin(context);
-    const { data, error } = await context.supabase
+    const { data, error } = await (context.supabase as any)
       .from("release_signing_profiles").select("*").order("platform_code");
     if (error) throw new Error(error.message);
     return (data ?? []).map((p: any) => ({
@@ -236,9 +236,9 @@ export const getReleaseAnalytics = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     await assertOpsAdmin(context);
     const [releases, subs, rollbacks] = await Promise.all([
-      context.supabase.from("release_records").select("id, status, created_at"),
-      context.supabase.from("release_store_submissions").select("status, store"),
-      context.supabase.from("release_rollbacks").select("id, severity, created_at"),
+      (context.supabase as any).from("release_records").select("id, status, created_at"),
+      (context.supabase as any).from("release_store_submissions").select("status, store"),
+      (context.supabase as any).from("release_rollbacks").select("id, severity, created_at"),
     ]);
     const relRows = releases.data ?? [];
     const subRows = subs.data ?? [];
@@ -251,6 +251,6 @@ export const getReleaseAnalytics = createServerFn({ method: "GET" })
       submissions_by_status: byStatus(subRows, "status"),
       submissions_by_store: byStatus(subRows, "store"),
       total_rollbacks: rlbRows.length,
-      emergency_rollbacks: rlbRows.filter((r) => r.severity === "emergency").length,
+      emergency_rollbacks: rlbRows.filter((r: any) => r.severity === "emergency").length,
     };
   });
