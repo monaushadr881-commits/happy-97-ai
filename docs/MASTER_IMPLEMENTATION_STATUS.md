@@ -106,3 +106,9 @@ Honest unavailable dependencies: rigged character, blendshapes, streaming render
 
 ## R51 HAPPY Studio — WORKING (backend)
 Single-identity guarantee (DB singleton). Immutable versioned snapshots. Founder-only writes via RLS. Deployment FSM. Change-request approval flow. 15 server fns. Files: `src/lib/happy-studio/{engine.ts,studio.functions.ts}` and migration. UI PLANNED.
+
+## R61 — Universal Deployment Runtime
+- WORKING: web, pwa, chromeos, orchestration (registry / builds / artifacts / store readiness).
+- BLOCKED: android_apk, android_aab, ios, ipados, macos, windows (missing native SDKs / signing).
+- PARTIAL: linux (Rust toolchain absent in sandbox).
+- PLANNED: android_tv, wearos, visionpro.

@@ -167,3 +167,10 @@ Every implementation pass MUST:
 | R38 | Founder Copilot | PLANNED | `docs/PLAN_R37_R38.md` |
 | R39-R50 | HAPPY Runtime Seams | SEAMS ONLY (NOT CERTIFIED) | `src/lib/happy-runtime/*` |
 | R51 | HAPPY AI Employee Studio (backend) | WORKING | `src/lib/happy-studio/*`, migration |
+
+## R61 — Universal Deployment Runtime (2026-07-15)
+Migration: 4 tables + immutability triggers + 13 platform seeds + 4 store rows.
+Files: src/lib/deployment-runtime/{contracts,adapters,deployment.functions}.ts, capacitor.config.ts, src-tauri/tauri.conf.json, src-tauri/README.md.
+Certified: web WORKING, pwa WORKING (manifest-only install), chromeos WORKING.
+Blocked with reasons: android_apk/aab, ios/ipados, macos, windows.
+Planned: android_tv, wearos, visionpro.
