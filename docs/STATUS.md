@@ -374,3 +374,54 @@ independent — no cross-posting, no shared balance.
 - Added `src/lib/credits/engine.ts`
 - Added `src/lib/credits/credits.functions.ts`
 - Added `src/routes/api/public/cron/credits-expire.ts`
+
+---
+
+## R12 — AI Website Builder Runtime (2026-07-15)
+
+Website Builder foundation. Server-side runtime only in this pass —
+visual editor UI is intentionally out of scope and follows in a later
+pass that consumes this API.
+
+### Runtime
+- `src/lib/website-builder/schema.ts` — Zod-validated `SiteTree` (theme,
+  seo, navigation, recursive sections, 11 project kinds, 19 section types)
+- `src/lib/website-builder/engine.ts` — CRUD on `creator_projects`
+  (kind=`website`), autosave, version snapshots into `entity_versions`,
+  rollback, archive/restore, publish state
+- `src/lib/website-builder/ai-generator.ts` — real Lovable AI Gateway
+  call (`google/gemini-3-flash-preview` by default), JSON-mode, salvage +
+  Zod validate; propagates 402/429 truthfully — no template fallback
+- `src/lib/website-builder/builder.functions.ts` — 14 auth-gated server
+  functions + founder overview
+
+### Status Matrix
+
+| Capability                       | Status  | Notes |
+|----------------------------------|---------|-------|
+| Project CRUD (create/open/rename/duplicate/archive/delete/restore) | WORKING | reuses `creator_projects` + RLS |
+| Autosave (persist tree)          | WORKING | tracks `autosavedAt`, no snapshot per keystroke |
+| Version history + rollback       | WORKING | `entity_versions`, append-only |
+| AI natural-language generation   | WORKING | real Lovable AI, strict Zod validation, generation audit trail in `creator_generations` |
+| Publish / unpublish              | PARTIAL | records state + audit + notification; no live hosting build pipeline yet |
+| Custom domain wiring             | BLOCKED | needs hosting integration |
+| Deployment history               | PARTIAL | audit trail exists; dedicated `deployments` link is future work |
+| Media library reuse              | REUSED  | via `creator_assets` (existing) |
+| Brand kit reuse                  | REUSED  | via `creator_brand_kits` (existing) |
+| Founder overview server fn       | WORKING | `getWebsiteBuilderOverview` (ops-admin) |
+| Notifications                    | WORKING | project_created, deployment_success on publish |
+| Visual editor UI (drag/drop, tree, props panel, preview) | PLANNED | dedicated UI pass consumes these fns |
+| App Builder                      | OUT_OF_SCOPE | must reuse this runtime in a later pass — do not build inside R12 |
+
+### Security
+- All server fns require auth (`requireSupabaseAuth`)
+- Ownership check on every mutation (RLS + explicit `assertOwns`)
+- Ops-admin bypass for founder tooling only
+- AI generation logged with prompt + status + error in `creator_generations`
+- Site trees validated with Zod before persist — malformed AI output rejected
+
+### Files added
+- `src/lib/website-builder/schema.ts`
+- `src/lib/website-builder/engine.ts`
+- `src/lib/website-builder/ai-generator.ts`
+- `src/lib/website-builder/builder.functions.ts`
