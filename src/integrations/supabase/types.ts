@@ -4057,6 +4057,87 @@ export type Database = {
           },
         ]
       }
+      capability_health_checks: {
+        Row: {
+          capability_code: string
+          checked_at: string
+          checked_by: string | null
+          evidence: Json
+          id: string
+          latency_ms: number | null
+          status: string
+          verification_method: string
+        }
+        Insert: {
+          capability_code: string
+          checked_at?: string
+          checked_by?: string | null
+          evidence?: Json
+          id?: string
+          latency_ms?: number | null
+          status: string
+          verification_method: string
+        }
+        Update: {
+          capability_code?: string
+          checked_at?: string
+          checked_by?: string | null
+          evidence?: Json
+          id?: string
+          latency_ms?: number | null
+          status?: string
+          verification_method?: string
+        }
+        Relationships: []
+      }
+      capability_registry: {
+        Row: {
+          code: string
+          created_at: string
+          dependencies: string[]
+          description: string | null
+          id: string
+          label: string
+          metadata: Json
+          owner: string | null
+          release_id: string
+          runtime: string
+          status: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          dependencies?: string[]
+          description?: string | null
+          id?: string
+          label: string
+          metadata?: Json
+          owner?: string | null
+          release_id: string
+          runtime: string
+          status?: string
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          dependencies?: string[]
+          description?: string | null
+          id?: string
+          label?: string
+          metadata?: Json
+          owner?: string | null
+          release_id?: string
+          runtime?: string
+          status?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           company_id: string | null
@@ -4107,6 +4188,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      certification_reports: {
+        Row: {
+          blocked_items: Json
+          capability_matrix: Json
+          created_at: string
+          dependency_matrix: Json
+          facts: Json
+          generated_by: string
+          health_matrix: Json
+          id: string
+          overall_status: string
+          performance_matrix: Json
+          readiness_score: number
+          recommendations: Json
+          release_id: string
+          risk_matrix: Json
+          security_matrix: Json
+          version: string
+        }
+        Insert: {
+          blocked_items?: Json
+          capability_matrix?: Json
+          created_at?: string
+          dependency_matrix?: Json
+          facts?: Json
+          generated_by: string
+          health_matrix?: Json
+          id?: string
+          overall_status: string
+          performance_matrix?: Json
+          readiness_score?: number
+          recommendations?: Json
+          release_id: string
+          risk_matrix?: Json
+          security_matrix?: Json
+          version: string
+        }
+        Update: {
+          blocked_items?: Json
+          capability_matrix?: Json
+          created_at?: string
+          dependency_matrix?: Json
+          facts?: Json
+          generated_by?: string
+          health_matrix?: Json
+          id?: string
+          overall_status?: string
+          performance_matrix?: Json
+          readiness_score?: number
+          recommendations?: Json
+          release_id?: string
+          risk_matrix?: Json
+          security_matrix?: Json
+          version?: string
+        }
+        Relationships: []
       }
       chart_of_accounts: {
         Row: {
@@ -6353,6 +6491,101 @@ export type Database = {
         }
         Relationships: []
       }
+      dh_integration_events: {
+        Row: {
+          channel: string
+          emitted_at: string
+          event_type: string
+          id: string
+          payload: Json
+          seq: number
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          emitted_at?: string
+          event_type: string
+          id?: string
+          payload?: Json
+          seq: number
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          emitted_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          seq?: number
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dh_integration_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "dh_integration_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dh_integration_sessions: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          ended_at: string | null
+          happy_session_id: string | null
+          id: string
+          identity_id: string | null
+          last_heartbeat_at: string | null
+          latency_ms: number | null
+          renderer_code: string
+          started_at: string
+          status: string
+          sync_state: Json
+          updated_at: string
+          user_id: string
+          voice_session_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          identity_id?: string | null
+          last_heartbeat_at?: string | null
+          latency_ms?: number | null
+          renderer_code: string
+          started_at?: string
+          status?: string
+          sync_state?: Json
+          updated_at?: string
+          user_id: string
+          voice_session_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          ended_at?: string | null
+          happy_session_id?: string | null
+          id?: string
+          identity_id?: string | null
+          last_heartbeat_at?: string | null
+          latency_ms?: number | null
+          renderer_code?: string
+          started_at?: string
+          status?: string
+          sync_state?: Json
+          updated_at?: string
+          user_id?: string
+          voice_session_id?: string | null
+        }
+        Relationships: []
+      }
       dh_preferences: {
         Row: {
           camera_consent: boolean
@@ -6447,6 +6680,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      dh_renderer_adapters: {
+        Row: {
+          capabilities: Json
+          code: string
+          created_at: string
+          enabled: boolean
+          id: string
+          kind: string
+          label: string
+          registered_by: string | null
+          required_assets: Json
+          updated_at: string
+        }
+        Insert: {
+          capabilities?: Json
+          code: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind: string
+          label: string
+          registered_by?: string | null
+          required_assets?: Json
+          updated_at?: string
+        }
+        Update: {
+          capabilities?: Json
+          code?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          kind?: string
+          label?: string
+          registered_by?: string | null
+          required_assets?: Json
+          updated_at?: string
+        }
+        Relationships: []
       }
       dh_sessions: {
         Row: {
@@ -10879,6 +11151,92 @@ export type Database = {
           },
         ]
       }
+      learning_path_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_ref: string
+          item_type: string
+          path_id: string
+          required: boolean
+          seq: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_ref: string
+          item_type: string
+          path_id: string
+          required?: boolean
+          seq: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_ref?: string
+          item_type?: string
+          path_id?: string
+          required?: boolean
+          seq?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_path_items_path_id_fkey"
+            columns: ["path_id"]
+            isOneToOne: false
+            referencedRelation: "learning_paths"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      learning_paths: {
+        Row: {
+          audience: string
+          category: string
+          code: string
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          metadata: Json
+          status: string
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          audience?: string
+          category: string
+          code: string
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          status?: string
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          audience?: string
+          category?: string
+          code?: string
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          status?: string
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
       ledger_entries: {
         Row: {
           account_id: string
@@ -15252,6 +15610,56 @@ export type Database = {
             columns: ["session_id"]
             isOneToOne: false
             referencedRelation: "receptionist_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_records: {
+        Row: {
+          certification_id: string | null
+          channel: string
+          compatibility: Json
+          created_at: string
+          id: string
+          release_notes: string | null
+          released_at: string | null
+          released_by: string
+          status: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          certification_id?: string | null
+          channel?: string
+          compatibility?: Json
+          created_at?: string
+          id?: string
+          release_notes?: string | null
+          released_at?: string | null
+          released_by: string
+          status?: string
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          certification_id?: string | null
+          channel?: string
+          compatibility?: Json
+          created_at?: string
+          id?: string
+          release_notes?: string | null
+          released_at?: string | null
+          released_by?: string
+          status?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_records_certification_id_fkey"
+            columns: ["certification_id"]
+            isOneToOne: false
+            referencedRelation: "certification_reports"
             referencedColumns: ["id"]
           },
         ]
