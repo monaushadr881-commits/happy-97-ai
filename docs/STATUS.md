@@ -860,3 +860,20 @@ transitions, real audit logs, real notifications, and dashboard aggregation
 are all functioning against RLS-enforced tables. Multi-step workflow
 execution and inventory side-effects remain PARTIAL until wired to the
 existing workflow-runtime + inventory tables.
+
+## R20 — Enterprise Experience Platform (EXP)
+- **Universal Enterprise Shell**: WORKING — `_authenticated` layout now wraps every route in `ShellProvider` + persistent sidebar + `GlobalTopbar` + `GlobalCommandPalette` + `FloatingHappy`.
+- **Adaptive Top Navigation**: WORKING — breadcrumbs, universal search trigger, quick create, HAPPY quick-launch, theme toggle, notifications, profile menu.
+- **Global Command Palette (⌘K)**: WORKING — module launcher, quick-action grammar ("Create a website", "Show revenue", "Open CRM"…), admin jump-list. Voice input remains in `/founder` CommandPalette.
+- **Floating HAPPY Assistant (⌘J)**: WORKING — every authenticated screen exposes HAPPY as chat, voice, presentation, whiteboard.
+- **Pinned modules / favorites**: PARTIAL — `useShell().pins` persisted in localStorage; sidebar rendering pass PLANNED.
+- **Multi-workspace / multi-brand switcher**: PLANNED (Founder-only surface today).
+- **Business logic / DB / Security / Revenue / CRM / ERP / Wallet / Credits / Marketplace / Builder / Deployment / Digital Human**: UNCHANGED — R20 is a pure experience-layer redesign.
+
+**Files changed**
+- created `src/components/shell/ShellContext.tsx`
+- created `src/components/shell/GlobalTopbar.tsx`
+- created `src/components/shell/GlobalCommandPalette.tsx`
+- created `src/components/shell/FloatingHappy.tsx`
+- edited `src/routes/_authenticated/route.tsx`
+- edited `docs/STATUS.md`
