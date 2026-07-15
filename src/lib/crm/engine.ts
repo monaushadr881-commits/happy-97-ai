@@ -181,7 +181,7 @@ export const customers = {
       sb.from("customers").select("*").eq("id", id).single(),
       sb.from("invoices").select("*").eq("customer_id", id).order("created_at", { ascending: false }).limit(50),
       sb.from("payments").select("*").eq("customer_id", id).order("created_at", { ascending: false }).limit(50),
-      sb.from("subscriptions").select("*").eq("company_id", (await sb.from("customers").select("company_id").eq("id", id).single()).data?.company_id ?? "").limit(50),
+      Promise.resolve({ data: [] as unknown[] }),
       sb.from("listing_purchases").select("*").eq("buyer_id", id).limit(50),
       sb.from("activity_events").select("*").eq("entity_id", id).order("occurred_at", { ascending: false }).limit(100),
     ]);
