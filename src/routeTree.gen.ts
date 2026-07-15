@@ -135,6 +135,7 @@ import { Route as AuthenticatedIconsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authenticated/hyperlocal'
 import { Route as AuthenticatedHostingRouteImport } from './routes/_authenticated/hosting'
 import { Route as AuthenticatedHospitalsRouteImport } from './routes/_authenticated/hospitals'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedHealthcareRouteImport } from './routes/_authenticated/healthcare'
 import { Route as AuthenticatedGovernmentRouteImport } from './routes/_authenticated/government'
 import { Route as AuthenticatedGovernanceV2RouteImport } from './routes/_authenticated/governance-v2'
@@ -1098,6 +1099,11 @@ const AuthenticatedHostingRoute = AuthenticatedHostingRouteImport.update({
 const AuthenticatedHospitalsRoute = AuthenticatedHospitalsRouteImport.update({
   id: '/hospitals',
   path: '/hospitals',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedHealthcareRoute = AuthenticatedHealthcareRouteImport.update({
@@ -2834,6 +2840,7 @@ export interface FileRoutesByFullPath {
   '/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/government': typeof AuthenticatedGovernmentRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/hospitals': typeof AuthenticatedHospitalsRoute
   '/hosting': typeof AuthenticatedHostingRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
@@ -3239,6 +3246,7 @@ export interface FileRoutesByTo {
   '/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/government': typeof AuthenticatedGovernmentRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/hospitals': typeof AuthenticatedHospitalsRoute
   '/hosting': typeof AuthenticatedHostingRoute
   '/icons': typeof AuthenticatedIconsRoute
@@ -3648,6 +3656,7 @@ export interface FileRoutesById {
   '/_authenticated/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/_authenticated/government': typeof AuthenticatedGovernmentRoute
   '/_authenticated/healthcare': typeof AuthenticatedHealthcareRoute
+  '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/hospitals': typeof AuthenticatedHospitalsRoute
   '/_authenticated/hosting': typeof AuthenticatedHostingRoute
   '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
@@ -4062,6 +4071,7 @@ export interface FileRouteTypes {
     | '/governance-v2'
     | '/government'
     | '/healthcare'
+    | '/home'
     | '/hospitals'
     | '/hosting'
     | '/hyperlocal'
@@ -4467,6 +4477,7 @@ export interface FileRouteTypes {
     | '/governance-v2'
     | '/government'
     | '/healthcare'
+    | '/home'
     | '/hospitals'
     | '/hosting'
     | '/icons'
@@ -4875,6 +4886,7 @@ export interface FileRouteTypes {
     | '/_authenticated/governance-v2'
     | '/_authenticated/government'
     | '/_authenticated/healthcare'
+    | '/_authenticated/home'
     | '/_authenticated/hospitals'
     | '/_authenticated/hosting'
     | '/_authenticated/hyperlocal'
@@ -6107,6 +6119,13 @@ declare module '@tanstack/react-router' {
       path: '/hospitals'
       fullPath: '/hospitals'
       preLoaderRoute: typeof AuthenticatedHospitalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/healthcare': {
@@ -8927,6 +8946,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGovernanceV2Route: typeof AuthenticatedGovernanceV2Route
   AuthenticatedGovernmentRoute: typeof AuthenticatedGovernmentRoute
   AuthenticatedHealthcareRoute: typeof AuthenticatedHealthcareRoute
+  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedHospitalsRoute: typeof AuthenticatedHospitalsRoute
   AuthenticatedHostingRoute: typeof AuthenticatedHostingRoute
   AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
@@ -9123,6 +9143,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGovernanceV2Route: AuthenticatedGovernanceV2Route,
   AuthenticatedGovernmentRoute: AuthenticatedGovernmentRoute,
   AuthenticatedHealthcareRoute: AuthenticatedHealthcareRoute,
+  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedHospitalsRoute: AuthenticatedHospitalsRoute,
   AuthenticatedHostingRoute: AuthenticatedHostingRoute,
   AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,

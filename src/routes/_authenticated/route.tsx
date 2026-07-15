@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppSidebar } from "@/components/happyx/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ShellProvider } from "@/components/shell/ShellContext";
+import { WorkspaceProvider } from "@/workspace";
 import { GlobalTopbar } from "@/components/shell/GlobalTopbar";
 import { GlobalCommandPalette } from "@/components/shell/GlobalCommandPalette";
 import { FloatingHappy } from "@/components/shell/FloatingHappy";
@@ -27,19 +28,21 @@ export const Route = createFileRoute("/_authenticated")({
 function AuthenticatedLayout() {
   return (
     <ShellProvider>
-      <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-obsidian text-paper">
-          <AppSidebar />
-          <div className="flex-1 flex flex-col min-w-0">
-            <GlobalTopbar />
-            <main className="flex-1 min-w-0">
-              <Outlet />
-            </main>
+      <WorkspaceProvider>
+        <SidebarProvider>
+          <div className="flex min-h-screen w-full bg-obsidian text-paper">
+            <AppSidebar />
+            <div className="flex-1 flex flex-col min-w-0">
+              <GlobalTopbar />
+              <main className="flex-1 min-w-0">
+                <Outlet />
+              </main>
+            </div>
           </div>
-        </div>
-        <GlobalCommandPalette />
-        <FloatingHappy />
-      </SidebarProvider>
+          <GlobalCommandPalette />
+          <FloatingHappy />
+        </SidebarProvider>
+      </WorkspaceProvider>
     </ShellProvider>
   );
 }
