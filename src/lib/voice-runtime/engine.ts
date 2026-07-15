@@ -8,7 +8,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { resolveLanguage, type SupportedLanguage } from "./language";
-import { selectVoice, synthesizeWithFallback, type SelectedVoice } from "./providers";
+import { selectVoice, synthesizeWithFallback, type JsonValue, type SelectedVoice } from "./providers";
 import { buildEstimatedTimeline, buildTimelineFromProvider, type SpeechTimeline } from "./timeline";
 import { availableVoiceProviders, type VoiceProvider } from "@/lib/happy-runtime/voice";
 
