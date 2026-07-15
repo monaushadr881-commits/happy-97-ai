@@ -325,7 +325,7 @@ export async function listTurns(
   supabase: SupabaseClient,
   sessionId: string,
   limit = 100,
-): Promise<Array<Record<string, unknown>>> {
+): Promise<Array<Record<string, JsonValue>>> {
   const { data, error } = await supabase
     .from("voice_turns")
     .select("*")
@@ -333,7 +333,7 @@ export async function listTurns(
     .order("started_at", { ascending: true })
     .limit(limit);
   if (error) throw new Error(`list_turns_failed: ${error.message}`);
-  return (data ?? []) as Array<Record<string, unknown>>;
+  return (data ?? []) as unknown as Array<Record<string, JsonValue>>;
 }
 
 export async function reconnectSession(
