@@ -5,7 +5,7 @@
  * Auth: Supabase anon apikey header (matches schedule-jobs pattern).
  *
  * Wire from pg_cron with:
- *   SELECT cron.schedule('happy-credits-expire','*/15 * * * *',$$
+ *   SELECT cron.schedule('happy-credits-expire','[*]/15 * * * *',$$
  *     SELECT net.http_post(
  *       url:='https://<host>/api/public/cron/credits-expire',
  *       headers:='{"Content-Type":"application/json","apikey":"<anon>"}'::jsonb,
