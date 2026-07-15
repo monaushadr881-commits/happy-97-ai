@@ -98,6 +98,8 @@ function FounderOverview() {
   const security = useQuery({ queryKey: ["founder", "security"], queryFn: () => opsSecuritySummary() });
   const audit = useQuery({ queryKey: ["founder", "audit"], queryFn: () => apiRecentAudit({ data: { limit: 12 } }) });
   const revenue = useQuery({ queryKey: ["founder", "revenue"], queryFn: () => revOverview(), refetchInterval: 60_000 });
+  const finances = useQuery({ queryKey: ["founder", "financial"], queryFn: () => finFounderOverview(), refetchInterval: 60_000 });
+
 
   const rv = revenue.data;
   const rvCur = rv?.currency ?? "USD";
