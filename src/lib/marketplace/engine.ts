@@ -680,7 +680,11 @@ export async function sellerAnalytics(sb: SB, sellerId: string) {
   const creditsEarned = p.filter((r) => r.status === "active")
     .reduce((a, b) => a + Number(b.price_credits ?? 0), 0);
   return {
-    listings: (listings ?? []) as Array<Record<string, unknown>>,
+    listings: (listings ?? []) as Array<{
+      id: string; title: string; download_count: number | null;
+      rating_avg: number | null; rating_count: number | null;
+      view_count: number | null; favorite_count: number | null;
+    }>,
     revenueCents,
     creditsEarned,
     purchaseCount: p.filter((r) => r.status === "active").length,
