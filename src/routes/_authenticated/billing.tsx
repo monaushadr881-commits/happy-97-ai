@@ -261,35 +261,234 @@ function RevenueCloud() {
         </Panel>
       )}
 
-      {tab === "subs" && (
-        <Panel role="tabpanel" id="rev-panel-subs" aria-labelledby="rev-tab-subs" className="mt-4 p-5">
-          <PanelHeader icon={<Repeat className="h-4 w-4 text-gold" aria-hidden="true" />} title="Subscriptions" />
-          <Hairline className="my-4" />
-          <p className="text-sm text-paper">{NA}</p>
-          <p className="mt-2 text-xs text-soft-gray">
-            A subscriptions / plans model is not present in the database. Add
-            <code className="mx-1 text-gold">subscriptions</code> and
-            <code className="mx-1 text-gold">plans</code> tables via a migration
-            to enable this surface. Renewals, trials, and proration will land here
-            once plans exist.
-          </p>
-        </Panel>
-      )}
-
-      {tab === "wallet" && (
-        <Panel role="tabpanel" id="rev-panel-wallet" aria-labelledby="rev-tab-wallet" className="mt-4 p-5">
-          <PanelHeader icon={<Wallet className="h-4 w-4 text-gold" aria-hidden="true" />} title="Wallet & Credits" />
-          <Hairline className="my-4" />
-          <p className="text-sm text-paper">{NA}</p>
-          <p className="mt-2 text-xs text-soft-gray">
-            No wallet or credit ledger table exists yet. Add
-            <code className="mx-1 text-gold">wallets</code> +
-            <code className="mx-1 text-gold">wallet_transactions</code> (or reuse
-            <code className="mx-1 text-gold">ledger_entries</code>) to power balance,
-            top-ups, and credit consumption.
-          </p>
-        </Panel>
-      )}
+      {tab === "subs" && <SubscriptionsPanel currency={cur} />}
+      {tab === "wallet" && <WalletCreditsPanel currency={cur} />}
     </>
   );
 }
+
+// ============================================================================
+// Subscriptions Panel
+// ============================================================================
+function SubscriptionsPanel({ currency }: { currency: string }) {
+  const subs = useQuery({ queryKey: ["fin", "subs"], queryFn: () => finListSubscriptions({ data: { limit: 100 } }) });
+  const ov = useQuery({ queryKey: ["fin", "subsOv"], queryFn: () => finSubscriptionOverview() });
+  const plans = useQuery({ queryKey: ["fin", "plans"], queryFn: () => finListPlans() });
+
+  return (
+    <Panel role="tabpanel" id="rev-panel-subs" aria-labelledby="rev-tab-subs" className="mt-4 p-5">
+      <PanelHeader
+        icon={<Repeat className="h-4 w-4 text-gold" aria-hidden="true" />}
+        title="Subscriptions"
+        right={<Button size="sm" variant="ghost" onClick={() => { subs.refetch(); ov.refetch(); plans.refetch(); }} aria-label="Refresh subscriptions"><RefreshCw className="h-3.5 w-3.5" aria-hidden="true" /></Button>}
+      />
+      <Hairline className="my-4" />
+
+      <section aria-label="Subscription metrics" className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <StatCard label="Total" value={fmtCount(ov.data?.total ?? null)} />
+        <StatCard label="Active" value={fmtCount(ov.data?.active ?? null)} />
+        <StatCard label="Trials" value={fmtCount(ov.data?.trial ?? null)} />
+        <StatCard label="Renewals (30d)" value={fmtCount(ov.data?.renewalsUpcoming30d ?? null)} />
+      </section>
+
+      <div className="mt-6">
+        <h3 className="text-xs uppercase tracking-[0.18em] text-soft-gray mb-2">Plans catalog</h3>
+        {plans.isLoading && <LoadingRow label="plans" />}
+        {plans.isError && <ErrorRow label="plans" error={plans.error} onRetry={() => plans.refetch()} />}
+        {!plans.isLoading && !plans.isError && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            {(plans.data ?? []).map((p) => (
+              <div key={p.id} className="rounded-md border border-white/5 bg-white/[0.02] p-3">
+                <div className="text-xs uppercase tracking-[0.15em] text-soft-gray">{p.tier}</div>
+                <div className="mt-1 text-sm text-paper">{p.name}</div>
+                <div className="mt-2 numeric text-paper">{fmtMoney(p.price_cents, p.currency)}<span className="text-soft-gray text-xs"> / {p.billing_interval}</span></div>
+                <div className="text-xs text-soft-gray mt-1">{p.credits_included.toLocaleString()} credits · {p.seats_included} seats</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6">
+        <h3 className="text-xs uppercase tracking-[0.18em] text-soft-gray mb-2">Your subscriptions</h3>
+        {subs.isLoading && <LoadingRow label="subscriptions" />}
+        {subs.isError && <ErrorRow label="subscriptions" error={subs.error} onRetry={() => subs.refetch()} />}
+        {!subs.isLoading && !subs.isError && (
+          (subs.data ?? []).length === 0
+            ? <p className="text-xs text-soft-gray">No subscriptions yet. Provision one against a company to see it here.</p>
+            : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <caption className="sr-only">Subscriptions</caption>
+                  <thead className="text-left text-[10px] uppercase tracking-[0.18em] text-soft-gray">
+                    <tr>
+                      <th scope="col" className="py-2">Plan</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Period Start</th>
+                      <th scope="col">Period End</th>
+                      <th scope="col">Renew</th>
+                      <th scope="col" className="text-right">Seats</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {(subs.data ?? []).map((s: Record<string, unknown>) => {
+                      const plan = s.plan as { name?: string; tier?: string } | null;
+                      return (
+                        <tr key={s.id as string}>
+                          <td className="py-2 text-paper">{plan?.name ?? "—"} <span className="text-soft-gray text-xs">({plan?.tier ?? "?"})</span></td>
+                          <td><Chip tone={s.status === "active" ? "success" : s.status === "trial" ? "warning" : s.status === "cancelled" || s.status === "expired" ? "danger" : "neutral"}>{String(s.status)}</Chip></td>
+                          <td className="numeric text-soft-gray">{fmtDate(s.current_period_start as string)}</td>
+                          <td className="numeric text-soft-gray">{fmtDate(s.current_period_end as string | null)}</td>
+                          <td className="text-soft-gray text-xs">{s.auto_renew ? "auto" : "manual"}</td>
+                          <td className="numeric text-right text-paper">{String(s.seats ?? "—")}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )
+        )}
+        <p className="mt-3 text-[11px] text-soft-gray">
+          <Sparkles className="inline h-3 w-3 mr-1" aria-hidden="true" />
+          Payment provider integration (Stripe / Razorpay / Paddle / Cashfree / PayPal) is abstracted but not wired — mark
+          subscriptions manually or provision via admin tools until a provider is connected. {currency}
+        </p>
+      </div>
+    </Panel>
+  );
+}
+
+// ============================================================================
+// Wallet + Credits Panel
+// ============================================================================
+function WalletCreditsPanel({ currency }: { currency: string }) {
+  const wallets = useQuery({ queryKey: ["fin", "wallets"], queryFn: () => finListWallets() });
+  const mine = useQuery({ queryKey: ["fin", "myWallet"], queryFn: () => finEnsureUserWallet({ data: { currency } }) });
+  const walletId = (mine.data as { id?: string } | undefined)?.id;
+  const ledger = useQuery({
+    queryKey: ["fin", "walletLedger", walletId],
+    queryFn: () => finWalletLedger({ data: { wallet_id: walletId! } }),
+    enabled: !!walletId,
+  });
+  const creditBal = useQuery({ queryKey: ["fin", "creditBal"], queryFn: () => finCreditBalance({ data: {} }) });
+  const creditLog = useQuery({ queryKey: ["fin", "creditLog"], queryFn: () => finCreditLedger({ data: { limit: 100 } }) });
+
+  return (
+    <Panel role="tabpanel" id="rev-panel-wallet" aria-labelledby="rev-tab-wallet" className="mt-4 p-5">
+      <PanelHeader
+        icon={<Wallet className="h-4 w-4 text-gold" aria-hidden="true" />}
+        title="Wallet & Credits"
+        right={<Button size="sm" variant="ghost" onClick={() => { wallets.refetch(); ledger.refetch(); creditBal.refetch(); creditLog.refetch(); }} aria-label="Refresh wallet"><RefreshCw className="h-3.5 w-3.5" aria-hidden="true" /></Button>}
+      />
+      <Hairline className="my-4" />
+
+      <section aria-label="Wallet metrics" className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <StatCard
+          label="Your wallet"
+          value={fmtMoney(
+            (wallets.data ?? []).find((w: Record<string, unknown>) => w.wallet_id === walletId)?.balance_cents ?? 0,
+            currency,
+          )}
+          icon={<Wallet className="h-4 w-4" aria-hidden="true" />}
+        />
+        <StatCard
+          label="Wallets visible"
+          value={fmtCount(wallets.data?.length ?? null)}
+          icon={<Wallet className="h-4 w-4" aria-hidden="true" />}
+        />
+        <StatCard
+          label="Your credits"
+          value={fmtCount((creditBal.data as { balance?: number } | undefined)?.balance ?? 0)}
+          icon={<Coins className="h-4 w-4" aria-hidden="true" />}
+        />
+        <StatCard
+          label="Credit entries"
+          value={fmtCount((creditBal.data as { entry_count?: number } | undefined)?.entry_count ?? 0)}
+          icon={<Coins className="h-4 w-4" aria-hidden="true" />}
+        />
+      </section>
+
+      <div className="mt-6">
+        <h3 className="text-xs uppercase tracking-[0.18em] text-soft-gray mb-2">Wallet ledger (last 200)</h3>
+        {(!walletId || ledger.isLoading) && <LoadingRow label="wallet ledger" />}
+        {ledger.isError && <ErrorRow label="wallet ledger" error={ledger.error} onRetry={() => ledger.refetch()} />}
+        {walletId && !ledger.isLoading && !ledger.isError && (
+          (ledger.data ?? []).length === 0
+            ? <p className="text-xs text-soft-gray">No wallet activity yet. Post a purchase, reward, or adjustment to see it here.</p>
+            : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <caption className="sr-only">Wallet ledger</caption>
+                  <thead className="text-left text-[10px] uppercase tracking-[0.18em] text-soft-gray">
+                    <tr>
+                      <th scope="col" className="py-2">When</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Direction</th>
+                      <th scope="col">Description</th>
+                      <th scope="col" className="text-right">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {(ledger.data ?? []).map((e: Record<string, unknown>) => (
+                      <tr key={e.id as string}>
+                        <td className="py-2 numeric text-soft-gray">{fmtDate(e.created_at as string)}</td>
+                        <td className="text-paper">{String(e.entry_type)}</td>
+                        <td><Chip tone={e.direction === "credit" ? "success" : "warning"}>{String(e.direction)}</Chip></td>
+                        <td className="text-soft-gray truncate max-w-[24rem]">{String(e.description ?? "—")}</td>
+                        <td className="numeric text-right text-paper">{fmtMoney(Number(e.amount_cents), String(e.currency ?? currency))}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )
+        )}
+      </div>
+
+      <div className="mt-6">
+        <h3 className="text-xs uppercase tracking-[0.18em] text-soft-gray mb-2">Credit ledger (last 100)</h3>
+        {creditLog.isLoading && <LoadingRow label="credit ledger" />}
+        {creditLog.isError && <ErrorRow label="credit ledger" error={creditLog.error} onRetry={() => creditLog.refetch()} />}
+        {!creditLog.isLoading && !creditLog.isError && (
+          (creditLog.data ?? []).length === 0
+            ? <p className="text-xs text-soft-gray">No credit movements yet. Grants, consumption, and referrals will appear here.</p>
+            : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <caption className="sr-only">Credit ledger</caption>
+                  <thead className="text-left text-[10px] uppercase tracking-[0.18em] text-soft-gray">
+                    <tr>
+                      <th scope="col" className="py-2">When</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Direction</th>
+                      <th scope="col">Description</th>
+                      <th scope="col" className="text-right">Credits</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {(creditLog.data ?? []).map((e: Record<string, unknown>) => (
+                      <tr key={e.id as string}>
+                        <td className="py-2 numeric text-soft-gray">{fmtDate(e.created_at as string)}</td>
+                        <td className="text-paper">{String(e.entry_type)}</td>
+                        <td><Chip tone={e.direction === "credit" ? "success" : "warning"}>{String(e.direction)}</Chip></td>
+                        <td className="text-soft-gray truncate max-w-[24rem]">{String(e.description ?? "—")}</td>
+                        <td className="numeric text-right text-paper">{Number(e.amount).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )
+        )}
+      </div>
+
+      <p className="mt-4 text-[11px] text-soft-gray">
+        Wallet balance and credit balance are always derived from the immutable ledger via
+        <code className="mx-1 text-gold">v_wallet_balances</code> /
+        <code className="mx-1 text-gold">v_credit_balances</code> — never stored directly. Every movement is auditable.
+      </p>
+    </Panel>
+  );
+}
+
