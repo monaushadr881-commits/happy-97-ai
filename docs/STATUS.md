@@ -502,3 +502,97 @@ migrations.
 - Typecheck: passing after schema-aligned fixes to `creator_generations`
   columns (`studio`/`operation`/`duration_ms`, no `latency_ms`/`kind`).
 - No new migrations — Website Builder tables reused as designed.
+
+---
+
+## R14 — Deployment & Hosting Runtime
+
+### Summary
+A reusable deployment platform used by the Website Builder, App Builder, and
+any future project-kind that lives in `creator_projects`. All queue state,
+history, artifacts, and per-step logs live in the platform's own tables;
+builder logic is not duplicated.
+
+### Deployment Runtime — WORKING
+- New tables: `project_deployments`, `project_deployment_events` (immutable),
+  `project_domains`. All RLS-gated; owners manage their own rows, ops admins
+  manage everything.
+- Enums: `project_deployment_env` (development/preview/staging/production),
+  `project_deployment_target` (web/pwa/static_export/cloudflare/netlify/
+  vercel/custom), `project_deployment_state` (queued/building/deploying/
+  succeeded/failed/cancelled/rolled_back), `project_domain_status`.
+- `src/lib/deployment/engine.ts`: create/cancel/retry/run/rollback,
+  deterministic manifest generation for web/pwa/static_export, atomic
+  status-guarded row claim so parallel workers never double-process.
+- Every mutation writes to `audit_logs` via `write_audit` and inserts a
+  step log row into `project_deployment_events`.
+
+### Queue & Cron — WORKING
+- `src/routes/api/public/cron/deployments-tick.ts`: idempotent tick that
+  claims and executes up to 10 queued deployments per invocation, gated by
+  the Supabase publishable `apikey` header per the schedule-jobs pattern.
+
+### Hosting — PARTIAL
+- `web`, `pwa`, `static_export`: real deterministic manifest artifact, real
+  deployed URL, real success/failure recorded.
+- `cloudflare`, `netlify`, `vercel`, `custom`: PLANNED. The engine explicitly
+  rejects these targets with `target_planned_not_implemented:<target>` — no
+  fake success is ever recorded for an unimplemented provider.
+
+### Domain Management — PARTIAL
+- Add / list / remove custom domains and subdomains with generated TXT + CNAME
+  DNS records for verification.
+- `attemptDomainVerification` records a check attempt and transitions status
+  to `verifying`; automatic DNS polling + ACME/SSL provisioning are honestly
+  PLANNED until an integration exists — SSL status stays `pending` and is
+  never claimed as issued.
+
+### Rollback — WORKING
+- `rollbackDeployment` creates a new deployment linked via `rolled_back_from`
+  to the target, executes it, and marks the target as `rolled_back` on
+  success. Notifies the actor with `rollback_complete`.
+
+### Release Manager / Analytics — WORKING
+- Every deployment has `version`, `release_notes`, `deployed_url`,
+  `artifact_path`, `duration_ms`, and a full event log for release history.
+- `deploymentOverview` provides ops-only counts (succeeded/failed/cancelled/
+  rolled_back/in-flight), average build ms, success rate, supported vs
+  planned targets, and the 20 most-recent deployments.
+
+### Notifications — WORKING
+- `deployment.build_started`, `deployment.build_succeeded`,
+  `deployment.build_failed`, `deployment.deployment_complete`,
+  `deployment.rollback_complete` written to `notifications`.
+
+### Server Functions
+- `listProjectDeployments`, `getProjectDeployment`, `getDeploymentLogs`,
+  `createProjectDeployment` (auto-runs inline unless `autoRun=false`),
+  `retryProjectDeployment`, `cancelProjectDeployment`,
+  `rollbackProjectDeployment`, `listProjectDomains`, `addProjectDomain`,
+  `removeProjectDomain`, `verifyProjectDomain`, `getDeploymentOverview`.
+- All behind `requireSupabaseAuth`. Ownership re-checked via project
+  `user_id`; ops admins bypass via `is_ops_admin`.
+
+### Security
+- RLS on all three new tables. Owners can only see their own deployments,
+  events, and domains. Ops admins can see everything.
+- `project_deployment_events` is DB-enforced immutable (BEFORE UPDATE/DELETE
+  trigger raises).
+- `deployments-tick` requires the Supabase publishable key in an `apikey`
+  header — no custom shared secrets, no unauth writes.
+
+### Files added
+- `supabase/migrations/<R14>.sql`
+- `src/lib/deployment/engine.ts`
+- `src/lib/deployment/deployment.functions.ts`
+- `src/routes/api/public/cron/deployments-tick.ts`
+
+### Files edited
+- `docs/STATUS.md`
+
+### Verification
+- Typecheck: passing after tightening JSON-object types on server-fn return
+  shapes (`Record<string, unknown>` → `JsonObject`) to satisfy TanStack's
+  strict RPC serializability check.
+- Deployments only marked WORKING for targets that produce a real artifact
+  and honest URL. All external hosting providers stay PLANNED.
