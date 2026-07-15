@@ -93,6 +93,26 @@ function DhConversation() {
 
   useEffect(() => () => cancelTurn(), []); // cleanup on unmount
 
+  // Greeting engine — first visit of the session only. Eye contact +
+  // smile + a short spoken greeting. Skipped when muted or reduced-motion.
+  const greetedRef = useRef(false);
+  useEffect(() => {
+    if (greetedRef.current) return;
+    greetedRef.current = true;
+    if (prefs.mute_audio || prefs.reduced_motion) return;
+    const t = setTimeout(() => {
+      setExpression("smile"); setActivity("speaking"); setConvoState("speaking");
+      speak("Hi, I'm HAPPY.", { voice: prefs.voice, speed: effectiveSpeed })
+        .catch(() => {})
+        .finally(() => {
+          setActivity("idle"); setExpression("neutral"); setConvoState("idle");
+        });
+    }, 650);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
   useEffect(() => {
     if (handsFree) { voice.start().catch((e: Error) => { toast.error(e.message); setHandsFree(false); }); }
     else { voice.stop(); setInterimHeard(""); }
