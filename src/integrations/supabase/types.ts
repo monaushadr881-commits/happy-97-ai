@@ -7787,6 +7787,54 @@ export type Database = {
           },
         ]
       }
+      happy_behavior_profiles: {
+        Row: {
+          code: string
+          created_at: string
+          created_by: string | null
+          default_emotion: string
+          default_mood: string
+          emotion_weight: number
+          gesture_weight: number
+          id: string
+          is_active: boolean
+          label: string
+          speech_style: string
+          updated_at: string
+          weights: Json
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          created_by?: string | null
+          default_emotion: string
+          default_mood: string
+          emotion_weight?: number
+          gesture_weight?: number
+          id?: string
+          is_active?: boolean
+          label: string
+          speech_style?: string
+          updated_at?: string
+          weights?: Json
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          default_emotion?: string
+          default_mood?: string
+          emotion_weight?: number
+          gesture_weight?: number
+          id?: string
+          is_active?: boolean
+          label?: string
+          speech_style?: string
+          updated_at?: string
+          weights?: Json
+        }
+        Relationships: []
+      }
       happy_change_requests: {
         Row: {
           applied_version_id: string | null
@@ -8013,6 +8061,265 @@ export type Database = {
             columns: ["version_id"]
             isOneToOne: false
             referencedRelation: "happy_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_emotion_analytics: {
+        Row: {
+          average_listening_time_ms: number
+          average_speaking_energy: number
+          company_id: string | null
+          conversation_quality: number
+          created_at: string
+          emotion_distribution: Json
+          expression_usage: Json
+          gesture_distribution: Json
+          happy_session_id: string | null
+          id: string
+          mode_distribution: Json
+          sample_count: number
+          user_id: string
+          window_end: string
+          window_start: string
+        }
+        Insert: {
+          average_listening_time_ms?: number
+          average_speaking_energy?: number
+          company_id?: string | null
+          conversation_quality?: number
+          created_at?: string
+          emotion_distribution?: Json
+          expression_usage?: Json
+          gesture_distribution?: Json
+          happy_session_id?: string | null
+          id?: string
+          mode_distribution?: Json
+          sample_count?: number
+          user_id: string
+          window_end: string
+          window_start: string
+        }
+        Update: {
+          average_listening_time_ms?: number
+          average_speaking_energy?: number
+          company_id?: string | null
+          conversation_quality?: number
+          created_at?: string
+          emotion_distribution?: Json
+          expression_usage?: Json
+          gesture_distribution?: Json
+          happy_session_id?: string | null
+          id?: string
+          mode_distribution?: Json
+          sample_count?: number
+          user_id?: string
+          window_end?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      happy_emotion_events: {
+        Row: {
+          behavior_mode: string
+          company_id: string | null
+          confidence: number
+          context: Json
+          conversation_turn_id: string | null
+          created_at: string
+          emotion: string
+          emotion_weight: number
+          evidence: Json
+          happy_session_id: string | null
+          id: string
+          mood: string
+          mood_weight: number
+          presence: string
+          source: string
+          user_id: string
+          voice_session_id: string | null
+        }
+        Insert: {
+          behavior_mode: string
+          company_id?: string | null
+          confidence: number
+          context?: Json
+          conversation_turn_id?: string | null
+          created_at?: string
+          emotion: string
+          emotion_weight?: number
+          evidence?: Json
+          happy_session_id?: string | null
+          id?: string
+          mood: string
+          mood_weight?: number
+          presence: string
+          source: string
+          user_id: string
+          voice_session_id?: string | null
+        }
+        Update: {
+          behavior_mode?: string
+          company_id?: string | null
+          confidence?: number
+          context?: Json
+          conversation_turn_id?: string | null
+          created_at?: string
+          emotion?: string
+          emotion_weight?: number
+          evidence?: Json
+          happy_session_id?: string | null
+          id?: string
+          mood?: string
+          mood_weight?: number
+          presence?: string
+          source?: string
+          user_id?: string
+          voice_session_id?: string | null
+        }
+        Relationships: []
+      }
+      happy_expression_frames: {
+        Row: {
+          attention_level: number
+          blink: boolean
+          body_pose: string
+          breathing_level: number
+          brow_intent: number
+          company_id: string | null
+          created_at: string
+          double_blink: boolean
+          duration_ms: number
+          emotion_event_id: string | null
+          eye_open: number
+          hand_gesture: string
+          happy_session_id: string | null
+          head_tilt: number
+          head_turn: number
+          id: string
+          interest_level: number
+          jaw_intent: number
+          meta: Json
+          shoulder_intent: number
+          smile_amount: number
+          speaking_energy: number
+          t_ms: number
+          user_id: string
+          viseme_sync_ref: string | null
+        }
+        Insert: {
+          attention_level?: number
+          blink?: boolean
+          body_pose?: string
+          breathing_level?: number
+          brow_intent?: number
+          company_id?: string | null
+          created_at?: string
+          double_blink?: boolean
+          duration_ms?: number
+          emotion_event_id?: string | null
+          eye_open?: number
+          hand_gesture?: string
+          happy_session_id?: string | null
+          head_tilt?: number
+          head_turn?: number
+          id?: string
+          interest_level?: number
+          jaw_intent?: number
+          meta?: Json
+          shoulder_intent?: number
+          smile_amount?: number
+          speaking_energy?: number
+          t_ms: number
+          user_id: string
+          viseme_sync_ref?: string | null
+        }
+        Update: {
+          attention_level?: number
+          blink?: boolean
+          body_pose?: string
+          breathing_level?: number
+          brow_intent?: number
+          company_id?: string | null
+          created_at?: string
+          double_blink?: boolean
+          duration_ms?: number
+          emotion_event_id?: string | null
+          eye_open?: number
+          hand_gesture?: string
+          happy_session_id?: string | null
+          head_tilt?: number
+          head_turn?: number
+          id?: string
+          interest_level?: number
+          jaw_intent?: number
+          meta?: Json
+          shoulder_intent?: number
+          smile_amount?: number
+          speaking_energy?: number
+          t_ms?: number
+          user_id?: string
+          viseme_sync_ref?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_expression_frames_emotion_event_id_fkey"
+            columns: ["emotion_event_id"]
+            isOneToOne: false
+            referencedRelation: "happy_emotion_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_gesture_intents: {
+        Row: {
+          company_id: string | null
+          confidence: number
+          created_at: string
+          duration_ms: number
+          emotion_event_id: string | null
+          happy_session_id: string | null
+          id: string
+          intensity: number
+          intent: string
+          reason: string | null
+          target: string | null
+          user_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          duration_ms?: number
+          emotion_event_id?: string | null
+          happy_session_id?: string | null
+          id?: string
+          intensity?: number
+          intent: string
+          reason?: string | null
+          target?: string | null
+          user_id: string
+        }
+        Update: {
+          company_id?: string | null
+          confidence?: number
+          created_at?: string
+          duration_ms?: number
+          emotion_event_id?: string | null
+          happy_session_id?: string | null
+          id?: string
+          intensity?: number
+          intent?: string
+          reason?: string | null
+          target?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_gesture_intents_emotion_event_id_fkey"
+            columns: ["emotion_event_id"]
+            isOneToOne: false
+            referencedRelation: "happy_emotion_events"
             referencedColumns: ["id"]
           },
         ]
@@ -8247,6 +8554,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      happy_mood_snapshots: {
+        Row: {
+          average_attention: number
+          average_energy: number
+          behavior_mode: string
+          company_id: string | null
+          created_at: string
+          happy_session_id: string | null
+          id: string
+          meta: Json
+          mood: string
+          sample_count: number
+          user_id: string
+          window_end: string
+          window_start: string
+        }
+        Insert: {
+          average_attention?: number
+          average_energy?: number
+          behavior_mode: string
+          company_id?: string | null
+          created_at?: string
+          happy_session_id?: string | null
+          id?: string
+          meta?: Json
+          mood: string
+          sample_count?: number
+          user_id: string
+          window_end: string
+          window_start: string
+        }
+        Update: {
+          average_attention?: number
+          average_energy?: number
+          behavior_mode?: string
+          company_id?: string | null
+          created_at?: string
+          happy_session_id?: string | null
+          id?: string
+          meta?: Json
+          mood?: string
+          sample_count?: number
+          user_id?: string
+          window_end?: string
+          window_start?: string
+        }
+        Relationships: []
       }
       happy_presence_events: {
         Row: {
