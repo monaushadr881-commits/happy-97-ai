@@ -85,7 +85,7 @@ const turnSchema = z.object({
   sessionId: z.string().uuid(),
   companyId: z.string().uuid().nullish(),
   intent: z.string().min(1).max(4000),
-  input: z.record(z.string(), z.unknown()).optional(),
+  input: z.record(z.string(), jsonValue).optional(),
   facts: z.array(factSchema).optional(),
   recommendations: z.array(recSchema).optional(),
 });
