@@ -168,6 +168,11 @@ function FounderOverview() {
           <ErrorRow label="platform overview" error={overview.error} onRetry={() => overview.refetch()} />
         </div>
       )}
+      {revenue.isError && (
+        <div className="mt-3">
+          <ErrorRow label="revenue overview" error={revenue.error} onRetry={() => revenue.refetch()} />
+        </div>
+      )}
 
       <div className="mt-8 grid gap-4 lg:grid-cols-3">
         {/* HEALTH ------------------------------------------------------- */}
