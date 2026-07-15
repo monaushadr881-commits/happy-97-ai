@@ -32,6 +32,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useTheme, useNotifications } from "@/kernel";
 import { useShell } from "./ShellContext";
+import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
 
 function useCrumbs() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -62,6 +63,7 @@ export function GlobalTopbar() {
     <header className="sticky top-0 z-30 h-14 flex items-center gap-2 border-b border-white/5 bg-obsidian/80 backdrop-blur px-3 md:px-4">
       <SidebarTrigger className="text-paper" />
       <div className="h-4 w-px bg-white/10" />
+      <WorkspaceSwitcher />
 
       {/* Breadcrumbs */}
       <nav aria-label="Breadcrumbs" className="hidden md:flex items-center gap-1 text-xs text-soft-gray min-w-0">

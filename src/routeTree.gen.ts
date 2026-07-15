@@ -135,6 +135,7 @@ import { Route as AuthenticatedIconsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authenticated/hyperlocal'
 import { Route as AuthenticatedHostingRouteImport } from './routes/_authenticated/hosting'
 import { Route as AuthenticatedHospitalsRouteImport } from './routes/_authenticated/hospitals'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedHealthcareRouteImport } from './routes/_authenticated/healthcare'
 import { Route as AuthenticatedGovernmentRouteImport } from './routes/_authenticated/government'
 import { Route as AuthenticatedGovernanceV2RouteImport } from './routes/_authenticated/governance-v2'
@@ -226,7 +227,6 @@ import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
 import { Route as AuthenticatedBrainIndexRouteImport } from './routes/_authenticated/brain.index'
 import { Route as ApiDhTtsRouteImport } from './routes/api/dh.tts'
-import { Route as AuthenticatedWorkspaceHomeRouteImport } from './routes/_authenticated/workspace.home'
 import { Route as AuthenticatedWorkflowsRuntimeRouteImport } from './routes/_authenticated/workflows.runtime'
 import { Route as AuthenticatedWorkflowsMonitorRouteImport } from './routes/_authenticated/workflows.monitor'
 import { Route as AuthenticatedWorkflowsHistoryRouteImport } from './routes/_authenticated/workflows.history'
@@ -1101,6 +1101,11 @@ const AuthenticatedHospitalsRoute = AuthenticatedHospitalsRouteImport.update({
   path: '/hospitals',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHealthcareRoute = AuthenticatedHealthcareRouteImport.update({
   id: '/healthcare',
   path: '/healthcare',
@@ -1591,12 +1596,6 @@ const ApiDhTtsRoute = ApiDhTtsRouteImport.update({
   path: '/api/dh/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedWorkspaceHomeRoute =
-  AuthenticatedWorkspaceHomeRouteImport.update({
-    id: '/home',
-    path: '/home',
-    getParentRoute: () => AuthenticatedWorkspaceRoute,
-  } as any)
 const AuthenticatedWorkflowsRuntimeRoute =
   AuthenticatedWorkflowsRuntimeRouteImport.update({
     id: '/runtime',
@@ -2841,6 +2840,7 @@ export interface FileRoutesByFullPath {
   '/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/government': typeof AuthenticatedGovernmentRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/hospitals': typeof AuthenticatedHospitalsRoute
   '/hosting': typeof AuthenticatedHostingRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
@@ -2952,7 +2952,7 @@ export interface FileRoutesByFullPath {
   '/widgets': typeof AuthenticatedWidgetsRoute
   '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/workforce': typeof AuthenticatedWorkforceRoute
-  '/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
+  '/workspace': typeof AuthenticatedWorkspaceRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
@@ -3130,7 +3130,6 @@ export interface FileRoutesByFullPath {
   '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
-  '/workspace/home': typeof AuthenticatedWorkspaceHomeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/brain/': typeof AuthenticatedBrainIndexRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
@@ -3247,6 +3246,7 @@ export interface FileRoutesByTo {
   '/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/government': typeof AuthenticatedGovernmentRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/hospitals': typeof AuthenticatedHospitalsRoute
   '/hosting': typeof AuthenticatedHostingRoute
   '/icons': typeof AuthenticatedIconsRoute
@@ -3353,7 +3353,7 @@ export interface FileRoutesByTo {
   '/widgets': typeof AuthenticatedWidgetsRoute
   '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/workforce': typeof AuthenticatedWorkforceRoute
-  '/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
+  '/workspace': typeof AuthenticatedWorkspaceRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
@@ -3531,7 +3531,6 @@ export interface FileRoutesByTo {
   '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
-  '/workspace/home': typeof AuthenticatedWorkspaceHomeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/brain': typeof AuthenticatedBrainIndexRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
@@ -3657,6 +3656,7 @@ export interface FileRoutesById {
   '/_authenticated/governance-v2': typeof AuthenticatedGovernanceV2Route
   '/_authenticated/government': typeof AuthenticatedGovernmentRoute
   '/_authenticated/healthcare': typeof AuthenticatedHealthcareRoute
+  '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/hospitals': typeof AuthenticatedHospitalsRoute
   '/_authenticated/hosting': typeof AuthenticatedHostingRoute
   '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
@@ -3768,7 +3768,7 @@ export interface FileRoutesById {
   '/_authenticated/widgets': typeof AuthenticatedWidgetsRoute
   '/_authenticated/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
   '/_authenticated/workforce': typeof AuthenticatedWorkforceRoute
-  '/_authenticated/workspace': typeof AuthenticatedWorkspaceRouteWithChildren
+  '/_authenticated/workspace': typeof AuthenticatedWorkspaceRoute
   '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
   '/_authenticated/zen': typeof AuthenticatedZenRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
@@ -3946,7 +3946,6 @@ export interface FileRoutesById {
   '/_authenticated/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
   '/_authenticated/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
   '/_authenticated/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
-  '/_authenticated/workspace/home': typeof AuthenticatedWorkspaceHomeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
   '/_authenticated/brain/': typeof AuthenticatedBrainIndexRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
@@ -4072,6 +4071,7 @@ export interface FileRouteTypes {
     | '/governance-v2'
     | '/government'
     | '/healthcare'
+    | '/home'
     | '/hospitals'
     | '/hosting'
     | '/hyperlocal'
@@ -4361,7 +4361,6 @@ export interface FileRouteTypes {
     | '/workflows/history'
     | '/workflows/monitor'
     | '/workflows/runtime'
-    | '/workspace/home'
     | '/api/dh/tts'
     | '/brain/'
     | '/business/'
@@ -4478,6 +4477,7 @@ export interface FileRouteTypes {
     | '/governance-v2'
     | '/government'
     | '/healthcare'
+    | '/home'
     | '/hospitals'
     | '/hosting'
     | '/icons'
@@ -4762,7 +4762,6 @@ export interface FileRouteTypes {
     | '/workflows/history'
     | '/workflows/monitor'
     | '/workflows/runtime'
-    | '/workspace/home'
     | '/api/dh/tts'
     | '/brain'
     | '/business'
@@ -4887,6 +4886,7 @@ export interface FileRouteTypes {
     | '/_authenticated/governance-v2'
     | '/_authenticated/government'
     | '/_authenticated/healthcare'
+    | '/_authenticated/home'
     | '/_authenticated/hospitals'
     | '/_authenticated/hosting'
     | '/_authenticated/hyperlocal'
@@ -5176,7 +5176,6 @@ export interface FileRouteTypes {
     | '/_authenticated/workflows/history'
     | '/_authenticated/workflows/monitor'
     | '/_authenticated/workflows/runtime'
-    | '/_authenticated/workspace/home'
     | '/api/dh/tts'
     | '/_authenticated/brain/'
     | '/_authenticated/business/'
@@ -6122,6 +6121,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHospitalsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/healthcare': {
       id: '/_authenticated/healthcare'
       path: '/healthcare'
@@ -6758,13 +6764,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/dh/tts'
       preLoaderRoute: typeof ApiDhTtsRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/workspace/home': {
-      id: '/_authenticated/workspace/home'
-      path: '/home'
-      fullPath: '/workspace/home'
-      preLoaderRoute: typeof AuthenticatedWorkspaceHomeRouteImport
-      parentRoute: typeof AuthenticatedWorkspaceRoute
     }
     '/_authenticated/workflows/runtime': {
       id: '/_authenticated/workflows/runtime'
@@ -8869,20 +8868,6 @@ const AuthenticatedWorkflowsRouteWithChildren =
     AuthenticatedWorkflowsRouteChildren,
   )
 
-interface AuthenticatedWorkspaceRouteChildren {
-  AuthenticatedWorkspaceHomeRoute: typeof AuthenticatedWorkspaceHomeRoute
-}
-
-const AuthenticatedWorkspaceRouteChildren: AuthenticatedWorkspaceRouteChildren =
-  {
-    AuthenticatedWorkspaceHomeRoute: AuthenticatedWorkspaceHomeRoute,
-  }
-
-const AuthenticatedWorkspaceRouteWithChildren =
-  AuthenticatedWorkspaceRoute._addFileChildren(
-    AuthenticatedWorkspaceRouteChildren,
-  )
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
@@ -8961,6 +8946,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGovernanceV2Route: typeof AuthenticatedGovernanceV2Route
   AuthenticatedGovernmentRoute: typeof AuthenticatedGovernmentRoute
   AuthenticatedHealthcareRoute: typeof AuthenticatedHealthcareRoute
+  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedHospitalsRoute: typeof AuthenticatedHospitalsRoute
   AuthenticatedHostingRoute: typeof AuthenticatedHostingRoute
   AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
@@ -9072,7 +9058,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedWidgetsRoute: typeof AuthenticatedWidgetsRoute
   AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRouteWithChildren
   AuthenticatedWorkforceRoute: typeof AuthenticatedWorkforceRoute
-  AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRouteWithChildren
+  AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRoute
   AuthenticatedWorkspacesRoute: typeof AuthenticatedWorkspacesRoute
   AuthenticatedZenRoute: typeof AuthenticatedZenRoute
   AuthenticatedEnterpriseAiIndexRoute: typeof AuthenticatedEnterpriseAiIndexRoute
@@ -9157,6 +9143,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGovernanceV2Route: AuthenticatedGovernanceV2Route,
   AuthenticatedGovernmentRoute: AuthenticatedGovernmentRoute,
   AuthenticatedHealthcareRoute: AuthenticatedHealthcareRoute,
+  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedHospitalsRoute: AuthenticatedHospitalsRoute,
   AuthenticatedHostingRoute: AuthenticatedHostingRoute,
   AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,
@@ -9282,7 +9269,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedWidgetsRoute: AuthenticatedWidgetsRoute,
   AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRouteWithChildren,
   AuthenticatedWorkforceRoute: AuthenticatedWorkforceRoute,
-  AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRouteWithChildren,
+  AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRoute,
   AuthenticatedWorkspacesRoute: AuthenticatedWorkspacesRoute,
   AuthenticatedZenRoute: AuthenticatedZenRoute,
   AuthenticatedEnterpriseAiIndexRoute: AuthenticatedEnterpriseAiIndexRoute,

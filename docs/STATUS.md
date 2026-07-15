@@ -877,3 +877,25 @@ existing workflow-runtime + inventory tables.
 - created `src/components/shell/FloatingHappy.tsx`
 - edited `src/routes/_authenticated/route.tsx`
 - edited `docs/STATUS.md`
+
+## R21 — HAPPY Operating System (HOS) · Unified Workspace Runtime
+- **Workspace Runtime**: WORKING — `src/workspace/{registry,memory,context}.ts(x)` provides a single `WorkspaceProvider` wrapping every authenticated route.
+- **Workspace Registry**: WORKING — 17 declarative workspaces (Founder, Admin, Developer, Business, Finance, CRM, ERP, Manufacturing, Library, Education, Marketplace, Builder, Deployment, HAPPY AI, Studio, Digital Human, Hyperlocal) with icon/group/accent metadata.
+- **Workspace Memory**: WORKING — localStorage-persisted active workspace, active business, recents (12), favorites, search history (30), layout prefs. Namespace `happyx.ws.*`.
+- **Workspace Switcher**: WORKING — dropdown in topbar switches business (H.P PRIVATE LIMITED · H.P SHUDDH MASALE · AAS PAAS · H.P LIBRARY · Razvi Academy) and workspace.
+- **Workspace Home (`/home`)**: WORKING — Favorites, Recents, universal launcher grid with star-to-favorite affordance; auto-tracks recents from route changes.
+- **Universal Commands / Search**: WORKING via R20 palette (⌘K); WorkspaceProvider now feeds recents/history hooks for future palette enrichment (PARTIAL).
+- **AI Context**: PARTIAL — `useWorkspace()` exposes current workspace + business for HAPPY assistant surfaces to consume (wire-up per surface PLANNED).
+- **Multi-business support**: WORKING (UX identity switch); backend company scoping remains enforced by RLS/`is_company_member` — unchanged.
+- **Permissions / RLS / RBAC / Audit / Business logic**: UNCHANGED — R21 is a pure UX runtime layer.
+
+**Files changed**
+- created `src/workspace/registry.ts`
+- created `src/workspace/memory.ts`
+- created `src/workspace/context.tsx`
+- created `src/workspace/index.ts`
+- created `src/components/shell/WorkspaceSwitcher.tsx`
+- created `src/routes/_authenticated/home.tsx`
+- edited `src/components/shell/GlobalTopbar.tsx`
+- edited `src/routes/_authenticated/route.tsx`
+- edited `docs/STATUS.md`
