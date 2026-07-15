@@ -774,7 +774,7 @@ export const themeMarketplaceService = defineService({ name: "theme-marketplace"
 
 
 // ---------- Ultimate User Experience v5.0 ----------
-export const workspacePlatformService = defineService({ name: "workspace-platform", version: "uue5" }, () => activated("workspace-platform"));
+export const workspaceUxService = defineService({ name: "workspace-ux", version: "uue5" }, () => activated("workspace-ux"));
 export const coachService = defineService({ name: "coach", version: "uue5" }, () => activated("coach"));
 export const achievementService = defineService({ name: "achievement", version: "uue5" }, () => activated("achievement"));
 export const streakService = defineService({ name: "streak", version: "uue5" }, () => activated("streak"));
