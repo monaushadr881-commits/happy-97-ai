@@ -162,7 +162,7 @@ export async function updateContent(sb: SB, userId: string, id: string, patch: U
   if (patch.tags !== undefined) upd.tags = patch.tags;
   if (patch.seo !== undefined) upd.seo = patch.seo;
   if (patch.metadata !== undefined) upd.metadata = patch.metadata;
-  const { data, error } = await sb.from("cms_contents").update(upd).eq("id", id).select("*").single();
+  const { data, error } = await sb.from("cms_contents").update(upd as never).eq("id", id).select("*").single();
   if (error) throw error;
   await audit(sb, "content.updated", id, { version: nextVersion });
   await notify(sb, userId, "cms.content_updated", "Content updated", `${data.title} was edited (v${nextVersion}).`, { content_id: id, version: nextVersion });
