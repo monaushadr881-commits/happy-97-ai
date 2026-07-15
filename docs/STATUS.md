@@ -239,3 +239,44 @@
 The rest (native mobile builders, multi-region cloud, MCP runtime,
 offline SW, full face rig) stays honestly labeled Missing until scoped
 and built.
+
+## R9 — Subscription Lifecycle Engine (WORKING)
+
+Real state machine over `public.subscriptions` + `subscription_events`,
+reusing the existing R7/R8 webhook + business processor runtime.
+
+**Supported states**: trial, active, past_due, paused, cancelled, expired.
+
+**Supported actions**: create, activate, renew, pause, resume, cancel,
+cancel_at_period_end, expire, change_plan (upgrade/downgrade),
+trial_start, trial_end, payment_failed, payment_recovered.
+
+**Guarantees**
+- Idempotent — repeat calls in the target state are a no-op.
+- Every accepted transition writes `subscription_events` + `audit_logs`
+  + in-app notification.
+- Company-admin gated (`is_company_admin`) for every mutation.
+- Time-driven transitions (trial end, grace expiry, cancel_at,
+  non-renew period end) advanced by
+  `POST /api/public/cron/subscriptions-tick`.
+- Webhook `payment.failed` (with `subscription_id`) → `past_due`.
+  Webhook `payment.succeeded` (with `subscription_id`) → recovers to
+  `active`. Webhook `subscription.*` routed through the same engine.
+
+**Files**
+- `src/lib/subscriptions/lifecycle.ts` — engine + `createSubscription`
+  + `transitionSubscription`.
+- `src/lib/subscriptions/lifecycle.functions.ts` — server fns
+  (create / renew / cancel / pause / resume / changePlan /
+  applySubscriptionTransition / getLifecycleOverview).
+- `src/routes/api/public/cron/subscriptions-tick.ts` — grace / expiry
+  poller.
+- `src/lib/payments/business-processor.ts` — subscription/payment
+  handlers now delegate to the lifecycle engine.
+
+**Not in this pass (honest labels)**
+- Founder Dashboard UI wiring of `getLifecycleOverview` — server surface
+  ready, panel not rendered yet. `PARTIAL`.
+- Real provider renewal charges — still `BLOCKED` on provider SDK keys
+  (R7 note stands). Renewals executed here are the ledger/state side
+  only.

@@ -207,8 +207,20 @@ async function handlePaymentSucceeded(
     "Payment received", `A payment of ${(evt.amountMinor ?? 0) / 100} ${evt.currency ?? ""} was received.`,
     { payment_id: paymentId, provider: evt.provider });
 
+  // If this payment is correlated with a subscription in past_due, recover it.
+  if (cor.subscription_id) {
+    const { transitionSubscription } = await import("@/lib/subscriptions/lifecycle");
+    await transitionSubscription(admin, {
+      subscriptionId: cor.subscription_id, action: "payment_recovered",
+      provider: evt.provider, providerRef: evt.providerEventId,
+      notifyUserId: cor.user_id ?? null,
+      metadata: { source: "webhook", canonical: evt.canonicalType, payment_id: paymentId },
+    });
+  }
+
   return { status: "processed", details: { payment_id: paymentId } };
 }
+
 
 async function handlePaymentFailed(
   admin: Admin, evt: CanonicalWebhookEvent, cor: Correlation,
@@ -239,8 +251,20 @@ async function handlePaymentFailed(
   await notify(admin, cor.user_id ?? null, cor.company_id, "payment_failed",
     "Payment failed", `A payment attempt failed. Please review your billing details.`,
     { payment_id: paymentId, provider: evt.provider });
+
+  if (cor.subscription_id) {
+    const { transitionSubscription } = await import("@/lib/subscriptions/lifecycle");
+    await transitionSubscription(admin, {
+      subscriptionId: cor.subscription_id, action: "payment_failed",
+      provider: evt.provider, providerRef: evt.providerEventId,
+      notifyUserId: cor.user_id ?? null,
+      metadata: { source: "webhook", canonical: evt.canonicalType, payment_id: paymentId },
+    });
+  }
+
   return { status: "processed", details: { payment_id: paymentId } };
 }
+
 
 async function handleRefund(
   admin: Admin, evt: CanonicalWebhookEvent, cor: Correlation, completed: boolean,
@@ -283,64 +307,37 @@ async function handleSubscriptionEvent(
 ): Promise<ProcessOutcome> {
   if (!cor.subscription_id) return { status: "failed", reason: "unmapped_subscription_id" };
 
-  const { data: sub, error: subErr } = await admin
-    .from("subscriptions")
-    .select("id, company_id, status")
-    .eq("id", cor.subscription_id)
-    .maybeSingle();
-  if (subErr) return { status: "failed", reason: "db_read_failed", details: { error: subErr.message } };
-  if (!sub) return { status: "failed", reason: "subscription_not_found" };
-
-  const subRow = sub as { id: string; company_id: string; status: string };
-  const update: Record<string, unknown> = {
-    provider: evt.provider,
-    provider_ref: evt.providerEventId ?? undefined,
-  };
   const raw = (evt.raw ?? {}) as Record<string, unknown>;
   const dataObj = (raw.data as Record<string, unknown> | undefined)?.object as Record<string, unknown> | undefined;
   const periodEnd = (dataObj?.current_period_end ?? dataObj?.next_billed_at) as number | string | undefined;
   const nextPeriodEndIso =
     typeof periodEnd === "number" ? new Date(periodEnd * 1000).toISOString() :
-    typeof periodEnd === "string" ? periodEnd : undefined;
+    typeof periodEnd === "string" ? periodEnd : null;
 
-  let evtType: "created" | "renewed" | "cancelled" | "expired" = "created";
+  const { transitionSubscription } = await import("@/lib/subscriptions/lifecycle");
+
+  let action: "activate" | "renew" | "cancel" | "expire";
   switch (evt.canonicalType) {
-    case "subscription.created":
-      update.status = "active"; evtType = "created";
-      if (nextPeriodEndIso) update.current_period_end = nextPeriodEndIso;
-      break;
-    case "subscription.renewed":
-      update.status = "active"; evtType = "renewed";
-      if (nextPeriodEndIso) update.current_period_end = nextPeriodEndIso;
-      break;
-    case "subscription.cancelled":
-      update.status = "cancelled"; update.cancelled_at = evt.occurredAt; evtType = "cancelled";
-      break;
-    case "subscription.expired":
-      update.status = "expired"; evtType = "expired";
-      break;
-    default:
-      return { status: "ignored", reason: "non_subscription_event" };
+    case "subscription.created":   action = "activate"; break;
+    case "subscription.renewed":   action = "renew";    break;
+    case "subscription.cancelled": action = "cancel";   break;
+    case "subscription.expired":   action = "expire";   break;
+    default: return { status: "ignored", reason: "non_subscription_event" };
   }
 
-  const { error: updErr } = await admin.from("subscriptions").update(update).eq("id", subRow.id);
-  if (updErr) return { status: "failed", reason: "db_update_failed", details: { error: updErr.message } };
-
-  await admin.from("subscription_events").insert({
-    subscription_id: subRow.id,
-    event_type: evtType,
-    metadata: { provider: evt.provider, provider_event_id: evt.providerEventId },
+  const result = await transitionSubscription(admin, {
+    subscriptionId: cor.subscription_id,
+    action,
+    nextPeriodEnd: nextPeriodEndIso,
+    provider: evt.provider,
+    providerRef: evt.providerEventId,
+    notifyUserId: cor.user_id ?? null,
+    metadata: { source: "webhook", canonical: evt.canonicalType },
   });
-
-  await writeAudit(admin, "subscription", `subscription.${evtType}`, "subscriptions", subRow.id, subRow.company_id,
-    { provider: evt.provider, next_period_end: nextPeriodEndIso ?? null });
-
-  await notify(admin, cor.user_id ?? null, subRow.company_id, `subscription_${evtType}`,
-    `Subscription ${evtType}`, `Your subscription has been ${evtType}.`,
-    { subscription_id: subRow.id, provider: evt.provider });
-
-  return { status: "processed", details: { subscription_id: subRow.id, event: evtType } };
+  if (!result.ok) return { status: "failed", reason: result.reason ?? "transition_failed" };
+  return { status: "processed", details: { subscription_id: cor.subscription_id, event: action, noop: !!result.noop } };
 }
+
 
 async function handleInvoicePaid(
   admin: Admin, evt: CanonicalWebhookEvent, cor: Correlation,
