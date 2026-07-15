@@ -1044,6 +1044,856 @@ export type Database = {
           },
         ]
       }
+      apigw_api_registry: {
+        Row: {
+          auth_methods: string[]
+          base_path: string
+          company_id: string | null
+          created_at: string
+          created_by: string | null
+          default_rate_limit_per_min: number
+          deprecated_at: string | null
+          description: string | null
+          id: string
+          kind: string
+          metadata: Json
+          name: string
+          requires_auth: boolean
+          scopes: string[]
+          slug: string
+          status: string
+          successor_id: string | null
+          tags: string[]
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          auth_methods?: string[]
+          base_path: string
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_rate_limit_per_min?: number
+          deprecated_at?: string | null
+          description?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          name: string
+          requires_auth?: boolean
+          scopes?: string[]
+          slug: string
+          status?: string
+          successor_id?: string | null
+          tags?: string[]
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          auth_methods?: string[]
+          base_path?: string
+          company_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_rate_limit_per_min?: number
+          deprecated_at?: string | null
+          description?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          name?: string
+          requires_auth?: boolean
+          scopes?: string[]
+          slug?: string
+          status?: string
+          successor_id?: string | null
+          tags?: string[]
+          updated_at?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_api_registry_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_api_registry_successor_id_fkey"
+            columns: ["successor_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_api_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_api_routes: {
+        Row: {
+          active: boolean
+          api_id: string
+          cacheable: boolean
+          created_at: string
+          deprecated: boolean
+          description: string | null
+          example_request: Json
+          example_response: Json
+          id: string
+          method: string
+          path: string
+          rate_limit_per_min: number | null
+          request_schema: Json
+          required_scopes: string[]
+          response_schema: Json
+          runtime: string | null
+          runtime_action: string | null
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          api_id: string
+          cacheable?: boolean
+          created_at?: string
+          deprecated?: boolean
+          description?: string | null
+          example_request?: Json
+          example_response?: Json
+          id?: string
+          method: string
+          path: string
+          rate_limit_per_min?: number | null
+          request_schema?: Json
+          required_scopes?: string[]
+          response_schema?: Json
+          runtime?: string | null
+          runtime_action?: string | null
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          api_id?: string
+          cacheable?: boolean
+          created_at?: string
+          deprecated?: boolean
+          description?: string | null
+          example_request?: Json
+          example_response?: Json
+          id?: string
+          method?: string
+          path?: string
+          rate_limit_per_min?: number | null
+          request_schema?: Json
+          required_scopes?: string[]
+          response_schema?: Json
+          runtime?: string | null
+          runtime_action?: string | null
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_api_routes_api_id_fkey"
+            columns: ["api_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_api_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_connections: {
+        Row: {
+          company_id: string
+          config: Json
+          connector_id: string
+          created_at: string
+          created_by: string | null
+          credentials_ref: string | null
+          enabled: boolean
+          failure_streak: number
+          id: string
+          last_health_at: string | null
+          last_health_message: string | null
+          last_used_at: string | null
+          name: string
+          scopes: string[]
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          config?: Json
+          connector_id: string
+          created_at?: string
+          created_by?: string | null
+          credentials_ref?: string | null
+          enabled?: boolean
+          failure_streak?: number
+          id?: string
+          last_health_at?: string | null
+          last_health_message?: string | null
+          last_used_at?: string | null
+          name: string
+          scopes?: string[]
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          config?: Json
+          connector_id?: string
+          created_at?: string
+          created_by?: string | null
+          credentials_ref?: string | null
+          enabled?: boolean
+          failure_streak?: number
+          id?: string
+          last_health_at?: string | null
+          last_health_message?: string | null
+          last_used_at?: string | null
+          name?: string
+          scopes?: string[]
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_connections_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_connections_connector_id_fkey"
+            columns: ["connector_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_connectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_connectors: {
+        Row: {
+          auth_kind: string
+          category: string
+          code: string
+          config_schema: Json
+          created_at: string
+          description: string | null
+          documentation_url: string | null
+          icon_url: string | null
+          id: string
+          name: string
+          scopes: string[]
+          status: string
+          updated_at: string
+          webhook_events: string[]
+        }
+        Insert: {
+          auth_kind: string
+          category: string
+          code: string
+          config_schema?: Json
+          created_at?: string
+          description?: string | null
+          documentation_url?: string | null
+          icon_url?: string | null
+          id?: string
+          name: string
+          scopes?: string[]
+          status?: string
+          updated_at?: string
+          webhook_events?: string[]
+        }
+        Update: {
+          auth_kind?: string
+          category?: string
+          code?: string
+          config_schema?: Json
+          created_at?: string
+          description?: string | null
+          documentation_url?: string | null
+          icon_url?: string | null
+          id?: string
+          name?: string
+          scopes?: string[]
+          status?: string
+          updated_at?: string
+          webhook_events?: string[]
+        }
+        Relationships: []
+      }
+      apigw_keys: {
+        Row: {
+          allowed_apis: string[]
+          company_id: string
+          created_at: string
+          environment: string
+          expires_at: string | null
+          id: string
+          key_hash: string
+          key_last4: string
+          key_prefix: string
+          last_used_at: string | null
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          rate_limit_per_min: number
+          revoked_at: string | null
+          revoked_reason: string | null
+          rotated_from: string | null
+          scopes: string[]
+          updated_at: string
+        }
+        Insert: {
+          allowed_apis?: string[]
+          company_id: string
+          created_at?: string
+          environment?: string
+          expires_at?: string | null
+          id?: string
+          key_hash: string
+          key_last4: string
+          key_prefix: string
+          last_used_at?: string | null
+          metadata?: Json
+          name: string
+          owner_user_id?: string | null
+          rate_limit_per_min?: number
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          rotated_from?: string | null
+          scopes?: string[]
+          updated_at?: string
+        }
+        Update: {
+          allowed_apis?: string[]
+          company_id?: string
+          created_at?: string
+          environment?: string
+          expires_at?: string | null
+          id?: string
+          key_hash?: string
+          key_last4?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          metadata?: Json
+          name?: string
+          owner_user_id?: string | null
+          rate_limit_per_min?: number
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          rotated_from?: string | null
+          scopes?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_keys_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_keys_rotated_from_fkey"
+            columns: ["rotated_from"]
+            isOneToOne: false
+            referencedRelation: "apigw_keys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_oauth_clients: {
+        Row: {
+          active: boolean
+          allowed_scopes: string[]
+          client_id: string
+          client_secret_hash: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          grant_types: string[]
+          id: string
+          name: string
+          redirect_uris: string[]
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          allowed_scopes?: string[]
+          client_id: string
+          client_secret_hash: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          grant_types?: string[]
+          id?: string
+          name: string
+          redirect_uris?: string[]
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          allowed_scopes?: string[]
+          client_id?: string
+          client_secret_hash?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          grant_types?: string[]
+          id?: string
+          name?: string
+          redirect_uris?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_oauth_clients_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_oauth_tokens: {
+        Row: {
+          access_token_hash: string
+          client_id: string
+          company_id: string
+          created_at: string
+          expires_at: string
+          id: string
+          refresh_token_hash: string | null
+          revoked_at: string | null
+          scopes: string[]
+          user_id: string | null
+        }
+        Insert: {
+          access_token_hash: string
+          client_id: string
+          company_id: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          refresh_token_hash?: string | null
+          revoked_at?: string | null
+          scopes?: string[]
+          user_id?: string | null
+        }
+        Update: {
+          access_token_hash?: string
+          client_id?: string
+          company_id?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          refresh_token_hash?: string | null
+          revoked_at?: string | null
+          scopes?: string[]
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_oauth_tokens_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_oauth_clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_oauth_tokens_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_rate_counters: {
+        Row: {
+          count: number
+          id: string
+          limit_per_min: number
+          scope_key: string
+          updated_at: string
+          window_start: string
+        }
+        Insert: {
+          count?: number
+          id?: string
+          limit_per_min: number
+          scope_key: string
+          updated_at?: string
+          window_start: string
+        }
+        Update: {
+          count?: number
+          id?: string
+          limit_per_min?: number
+          scope_key?: string
+          updated_at?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      apigw_service_accounts: {
+        Row: {
+          active: boolean
+          api_key_id: string | null
+          company_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          scopes: string[]
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          api_key_id?: string | null
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          scopes?: string[]
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          api_key_id?: string | null
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          scopes?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_service_accounts_api_key_id_fkey"
+            columns: ["api_key_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_keys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_service_accounts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_usage_log: {
+        Row: {
+          api_id: string | null
+          api_key_id: string | null
+          auth_method: string | null
+          company_id: string | null
+          created_at: string
+          error_code: string | null
+          id: string
+          ip: unknown
+          latency_ms: number
+          metadata: Json
+          method: string
+          path: string
+          request_bytes: number
+          response_bytes: number
+          route_id: string | null
+          status_code: number
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          api_id?: string | null
+          api_key_id?: string | null
+          auth_method?: string | null
+          company_id?: string | null
+          created_at?: string
+          error_code?: string | null
+          id?: string
+          ip?: unknown
+          latency_ms?: number
+          metadata?: Json
+          method: string
+          path: string
+          request_bytes?: number
+          response_bytes?: number
+          route_id?: string | null
+          status_code: number
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          api_id?: string | null
+          api_key_id?: string | null
+          auth_method?: string | null
+          company_id?: string | null
+          created_at?: string
+          error_code?: string | null
+          id?: string
+          ip?: unknown
+          latency_ms?: number
+          metadata?: Json
+          method?: string
+          path?: string
+          request_bytes?: number
+          response_bytes?: number
+          route_id?: string | null
+          status_code?: number
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_usage_log_api_id_fkey"
+            columns: ["api_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_api_registry"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_usage_log_api_key_id_fkey"
+            columns: ["api_key_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_keys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_usage_log_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_usage_log_route_id_fkey"
+            columns: ["route_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_api_routes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_webhook_deliveries: {
+        Row: {
+          attempt: number
+          company_id: string
+          created_at: string
+          delivered_at: string | null
+          endpoint_id: string
+          event_id: string
+          event_type: string
+          id: string
+          last_error: string | null
+          last_response: string | null
+          last_status_code: number | null
+          max_attempts: number
+          next_attempt_at: string
+          payload: Json
+          signature: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempt?: number
+          company_id: string
+          created_at?: string
+          delivered_at?: string | null
+          endpoint_id: string
+          event_id: string
+          event_type: string
+          id?: string
+          last_error?: string | null
+          last_response?: string | null
+          last_status_code?: number | null
+          max_attempts?: number
+          next_attempt_at?: string
+          payload: Json
+          signature: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempt?: number
+          company_id?: string
+          created_at?: string
+          delivered_at?: string | null
+          endpoint_id?: string
+          event_id?: string
+          event_type?: string
+          id?: string
+          last_error?: string | null
+          last_response?: string | null
+          last_status_code?: number | null
+          max_attempts?: number
+          next_attempt_at?: string
+          payload?: Json
+          signature?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_webhook_deliveries_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "apigw_webhook_deliveries_endpoint_id_fkey"
+            columns: ["endpoint_id"]
+            isOneToOne: false
+            referencedRelation: "apigw_webhook_endpoints"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_webhook_endpoints: {
+        Row: {
+          active: boolean
+          backoff: string
+          company_id: string
+          created_at: string
+          created_by: string | null
+          disabled_reason: string | null
+          event_types: string[]
+          failure_streak: number
+          id: string
+          last_failure_at: string | null
+          last_success_at: string | null
+          max_retries: number
+          metadata: Json
+          name: string
+          secret_hash: string
+          secret_last4: string
+          timeout_ms: number
+          updated_at: string
+          url: string
+          version: string
+        }
+        Insert: {
+          active?: boolean
+          backoff?: string
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          disabled_reason?: string | null
+          event_types?: string[]
+          failure_streak?: number
+          id?: string
+          last_failure_at?: string | null
+          last_success_at?: string | null
+          max_retries?: number
+          metadata?: Json
+          name: string
+          secret_hash: string
+          secret_last4: string
+          timeout_ms?: number
+          updated_at?: string
+          url: string
+          version?: string
+        }
+        Update: {
+          active?: boolean
+          backoff?: string
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          disabled_reason?: string | null
+          event_types?: string[]
+          failure_streak?: number
+          id?: string
+          last_failure_at?: string | null
+          last_success_at?: string | null
+          max_retries?: number
+          metadata?: Json
+          name?: string
+          secret_hash?: string
+          secret_last4?: string
+          timeout_ms?: number
+          updated_at?: string
+          url?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_webhook_endpoints_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      apigw_webhook_inbound: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          error: string | null
+          event_id: string
+          event_type: string | null
+          headers: Json
+          id: string
+          payload: Json
+          processed_at: string | null
+          signature: string | null
+          source: string
+          status: string
+          verified: boolean
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          error?: string | null
+          event_id: string
+          event_type?: string | null
+          headers?: Json
+          id?: string
+          payload: Json
+          processed_at?: string | null
+          signature?: string | null
+          source: string
+          status?: string
+          verified?: boolean
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          error?: string | null
+          event_id?: string
+          event_type?: string | null
+          headers?: Json
+          id?: string
+          payload?: Json
+          processed_at?: string | null
+          signature?: string | null
+          source?: string
+          status?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "apigw_webhook_inbound_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       approval_delegations: {
         Row: {
           company_id: string
