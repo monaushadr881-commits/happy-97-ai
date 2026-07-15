@@ -486,17 +486,18 @@ const CaptionRender = memo(function CaptionRender({
  *  speaking. Falls back to a gentle idle shimmer when not speaking. */
 function LiveWaveform({ state, reducedMotion }: { state: ConvoState; reducedMotion?: boolean }) {
   const bars = 42;
-  const amplitude = useSpeechAmplitude();
+  const speech = useSpeechSignal();
+  const mic = useMicSignal();
   const speaking = state === "speaking";
   const listening = state === "listening";
   const thinking = state === "thinking";
   const active = speaking || listening || thinking;
 
-  // Build a per-frame per-bar height. During speaking, drive it from the live
-  // amplitude with a stable per-bar phase so bars pulse in a natural pattern.
-  // During listening/thinking, use a low ambient shimmer.
-  const ampRef = useRef(amplitude);
-  ampRef.current = amplitude;
+  // During speaking → TTS analyser. During listening → mic analyser.
+  // During thinking → gentle idle shimmer. No fake data.
+  const liveAmp = speaking ? speech.rms : listening ? mic.rms : 0;
+  const ampRef = useRef(liveAmp);
+  ampRef.current = liveAmp;
   const rafRef = useRef<number | null>(null);
   const [tick, setTick] = useState(0);
   useEffect(() => {
