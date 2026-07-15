@@ -21,9 +21,11 @@ import {
 import {
   opsHealthAll, opsDeploymentAnalytics, opsQueueStats, opsSecuritySummary,
 } from "@/lib/ops-v1.functions";
+import { revOverview } from "@/lib/revenue-v1.functions";
 import {
   Building2, Users, Sparkles, Activity, ShieldCheck, Rocket,
   ListChecks, AlertTriangle, MessageSquare, Bell, RefreshCw,
+  TrendingUp, CreditCard, Receipt, Wallet,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/founder/")({
@@ -93,6 +95,15 @@ function FounderOverview() {
   const queue = useQuery({ queryKey: ["founder", "queue"], queryFn: () => opsQueueStats(), refetchInterval: 15_000 });
   const security = useQuery({ queryKey: ["founder", "security"], queryFn: () => opsSecuritySummary() });
   const audit = useQuery({ queryKey: ["founder", "audit"], queryFn: () => apiRecentAudit({ data: { limit: 12 } }) });
+  const revenue = useQuery({ queryKey: ["founder", "revenue"], queryFn: () => revOverview(), refetchInterval: 60_000 });
+
+  const rv = revenue.data;
+  const rvCur = rv?.currency ?? "USD";
+  const fmtMoney = (cents: number | null | undefined) => {
+    if (cents === null || cents === undefined) return NA;
+    try { return new Intl.NumberFormat(undefined, { style: "currency", currency: rvCur, maximumFractionDigits: 0 }).format(cents / 100); }
+    catch { return `${(cents / 100).toFixed(2)} ${rvCur}`; }
+  };
 
   const ov = (overview.data ?? {}) as {
     companies?: number | null; workspaces?: number | null; brands?: number | null; users?: number | null;
@@ -142,14 +153,24 @@ function FounderOverview() {
         <StatCard label="Deployments" value={fmtCount(deploysTotal)} icon={<Rocket className="h-4 w-4" aria-hidden="true" />} />
         <StatCard label="Queue Backlog" value={fmtCount(queueBacklog)} icon={<ListChecks className="h-4 w-4" aria-hidden="true" />} />
         <StatCard label="Notifications" value={fmtCount(ov.notifications)} icon={<Bell className="h-4 w-4" aria-hidden="true" />} />
-        <StatCard label="Revenue (MRR)" value={NA} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
-        <StatCard label="Credits Consumed" value={NA} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
-        <StatCard label="Wallet Balance" value={NA} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="MRR (30d)" value={fmtMoney(rv?.mrrCents)} icon={<TrendingUp className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="ARR (est.)" value={fmtMoney(rv?.arrCents)} icon={<TrendingUp className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Payments (30d)" value={fmtMoney(rv?.payments30dCents)} icon={<CreditCard className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Refunds (30d)" value={fmtMoney(rv?.refunds30dCents)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Open Invoices" value={fmtCount(rv?.invoicesOpen ?? null)} icon={<Receipt className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Overdue" value={fmtCount(rv?.invoicesOverdue ?? null)} icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Wallet Balance" value={fmtMoney(rv?.walletBalanceCents)} icon={<Wallet className="h-4 w-4" aria-hidden="true" />} />
+        <StatCard label="Credits" value={fmtCount(rv?.creditsBalance)} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} />
       </section>
 
       {overview.isError && (
         <div className="mt-3">
           <ErrorRow label="platform overview" error={overview.error} onRetry={() => overview.refetch()} />
+        </div>
+      )}
+      {revenue.isError && (
+        <div className="mt-3">
+          <ErrorRow label="revenue overview" error={revenue.error} onRetry={() => revenue.refetch()} />
         </div>
       )}
 

@@ -1,6 +1,6 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** Batch R3-CC (Founder Command Center + DH polish).
+**Last updated:** Batch R5 (Revenue Cloud + Founder integration).
 
 > This document supersedes every "Successfully Activated" / "Production
 > Certified" declaration in the `docs/architecture/*.md` and
@@ -47,12 +47,19 @@
 | PWA — manifest (home-screen install) | Working (Batch R1) | `public/manifest.webmanifest` + link + apple-touch-icon |
 | PWA — service worker / offline | Not implemented | Intentional per PWA skill (user has not asked for offline) |
 | Brain runtime | Stub | `brain-v3.functions.ts` → `roadmap.service.ts` returns `NOT_IMPLEMENTED` |
-| Founder Command Center (`/founder`) | Working (R3-CC) | Real Supabase counts (companies, users, workspaces, brands, ai_sessions, conversations, deployments, notifications), live ops health probes, queue stats, deployment analytics, security snapshot, audit feed — with Loading/Error/Empty/Retry per panel. Metrics without a backend render as "Not Available Yet" (Revenue MRR, Credits Consumed, Wallet Balance). `analytics.service.ts` platformOverview expanded; health/queue field-name bugs fixed. |
+| Founder Command Center (`/founder`) | Working (R3-CC → R5) | Real Supabase counts + live ops (health/queue/deploys/security/audit). Revenue KPIs wired to `revenueService.overview` (MRR 30d, ARR est., Payments 30d, Refunds 30d, Open/Overdue invoices). Wallet / Credits still render "Not Available Yet" — no wallet or credit ledger table exists. |
 | Founder sub-pages (Users, Companies, Ops, Security, Analytics, AI, System) | Partial | Legacy routes, not audited this pass |
 | Digital Human — OS `prefers-reduced-motion` respected | Working (R3-CC) | `DigitalHumanContext.usePrefersReducedMotion` merges into `prefs.reduced_motion` |
 | Digital Human — SR live-region status announcer | Working (R3-CC) | `role=status aria-live=polite` in `digital-human.index.tsx` announces state transitions |
 | Business modules (CRM, ERP, HRMS, Manufacturing, Finance, Inventory) | Stub | Tables exist; UI routes are `V2TabBody` |
-| Revenue Cloud (subscriptions, invoices, webhooks, customer portal) | Missing | No Stripe/Paddle enabled; only scaffold functions |
+| Revenue Cloud — invoices | Working (R5) | `revenueService.listInvoices` + `/billing` invoices table over `public.invoices` (RLS-scoped). |
+| Revenue Cloud — payments / transactions | Working (R5) | `revenueService.listPayments` + `/billing` transactions table over `public.payments`. |
+| Revenue Cloud — revenue analytics (MRR/ARR, 30d/365d, refunds, timeseries) | Working (R5) | `revenueService.overview` + `revenueTimeseries` derived from `invoices.paid_at` and `payments.status`. Sparkline in `/billing`. |
+| Revenue Cloud — GST / tax invoices | Partial (R5) | Per-invoice `tax_cents` displayed; no jurisdictional tax engine. |
+| Revenue Cloud — subscriptions / plans / renewals / proration | Missing | No `subscriptions` or `plans` table. `/billing` "Subscriptions" tab shows "Not Available Yet" with the required tables named. |
+| Revenue Cloud — wallet / credits ledger | Missing | No wallet table; `/billing` "Wallet & Credits" tab shows "Not Available Yet" with a migration path noted. |
+| Revenue Cloud — payment provider webhooks (Stripe/Paddle) | Missing | No provider enabled. |
+| Revenue Cloud — customer billing portal | Missing | Requires provider portal or bespoke customer-scoped surface. |
 | Notification Center (`/notifications`) | Working (R4) | Real inbox on `public.notifications`: filter all/unread/read, category sidebar with per-kind unread counts, mark read / mark unread / mark all read / delete, unread badge, realtime via `postgres_changes` on `user_id`, ARIA live region, keyboard-operable buttons. Preferences panel toggles per-kind × per-channel (`in_app`/`email`/`push`) upserts into `public.notification_preferences`. Dev-only sample seeder. Server fns in `src/lib/notification-center.functions.ts`, all `.middleware([requireSupabaseAuth])`. |
 | Notifications delivery runtime (email + push out-of-app) | Missing | In-app delivery works; no email/SMS/push transport wired yet. |
 | HAPPY ↔ Platform tool-calling (R4) | Working | `dhSpeak` now runs an OpenAI-compatible tool loop over `HAPPY_TOOLS` (`src/lib/happy-tools.server.ts`). Tools call real services under the caller's RLS: `platform_overview`, `platform_health`, `queue_stats`, `deployment_stats`, `security_summary`, `unread_notifications_count`, `list_notifications`, `mark_all_notifications_read`, `open_route`. Tools return `client_actions` (navigate/invalidate/toast) which the DH page executes via `useNavigate`, `queryClient.invalidateQueries`, and `sonner`. |
