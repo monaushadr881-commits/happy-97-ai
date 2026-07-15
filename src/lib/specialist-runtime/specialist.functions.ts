@@ -11,7 +11,18 @@ import {
   processTurn,
   computeAnalytics,
 } from './engine';
-import type { Fact, Recommendation, SpecialistModeCode } from './contracts';
+import type { Fact, JsonValue, Recommendation, SpecialistModeCode } from './contracts';
+
+const jsonValue: z.ZodType<JsonValue> = z.lazy(() =>
+  z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+    z.array(jsonValue),
+    z.record(z.string(), jsonValue),
+  ]),
+);
 
 const modeSchema = z.string().min(2).max(64);
 
