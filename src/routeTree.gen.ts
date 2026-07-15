@@ -405,6 +405,7 @@ import { Route as ApiPublicCronSubscriptionsTickRouteImport } from './routes/api
 import { Route as ApiPublicCronPaymentsRetryRouteImport } from './routes/api/public/cron/payments-retry'
 import { Route as ApiPublicCronDeploymentsTickRouteImport } from './routes/api/public/cron/deployments-tick'
 import { Route as ApiPublicCronCreditsExpireRouteImport } from './routes/api/public/cron/credits-expire'
+import { Route as ApiPublicCronCmsPublishRouteImport } from './routes/api/public/cron/cms-publish'
 import { Route as AuthenticatedRuntimeWorkflowsLiveRouteImport } from './routes/_authenticated/runtime.workflows.live'
 import { Route as AuthenticatedRuntimeWorkflowsHistoryRouteImport } from './routes/_authenticated/runtime.workflows.history'
 import { Route as AuthenticatedRuntimeWorkflowsAnalyticsRouteImport } from './routes/_authenticated/runtime.workflows.analytics'
@@ -2656,6 +2657,11 @@ const ApiPublicCronCreditsExpireRoute =
     path: '/api/public/cron/credits-expire',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicCronCmsPublishRoute = ApiPublicCronCmsPublishRouteImport.update({
+  id: '/api/public/cron/cms-publish',
+  path: '/api/public/cron/cms-publish',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedRuntimeWorkflowsLiveRoute =
   AuthenticatedRuntimeWorkflowsLiveRouteImport.update({
     id: '/live',
@@ -3144,6 +3150,7 @@ export interface FileRoutesByFullPath {
   '/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
   '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
+  '/api/public/cron/cms-publish': typeof ApiPublicCronCmsPublishRoute
   '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
@@ -3543,6 +3550,7 @@ export interface FileRoutesByTo {
   '/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
   '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
+  '/api/public/cron/cms-publish': typeof ApiPublicCronCmsPublishRoute
   '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
@@ -3956,6 +3964,7 @@ export interface FileRoutesById {
   '/_authenticated/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
   '/_authenticated/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
   '/_authenticated/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
+  '/api/public/cron/cms-publish': typeof ApiPublicCronCmsPublishRoute
   '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
@@ -4369,6 +4378,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/analytics'
     | '/runtime/workflows/history'
     | '/runtime/workflows/live'
+    | '/api/public/cron/cms-publish'
     | '/api/public/cron/credits-expire'
     | '/api/public/cron/deployments-tick'
     | '/api/public/cron/payments-retry'
@@ -4768,6 +4778,7 @@ export interface FileRouteTypes {
     | '/runtime/workflows/analytics'
     | '/runtime/workflows/history'
     | '/runtime/workflows/live'
+    | '/api/public/cron/cms-publish'
     | '/api/public/cron/credits-expire'
     | '/api/public/cron/deployments-tick'
     | '/api/public/cron/payments-retry'
@@ -5180,6 +5191,7 @@ export interface FileRouteTypes {
     | '/_authenticated/runtime/workflows/analytics'
     | '/_authenticated/runtime/workflows/history'
     | '/_authenticated/runtime/workflows/live'
+    | '/api/public/cron/cms-publish'
     | '/api/public/cron/credits-expire'
     | '/api/public/cron/deployments-tick'
     | '/api/public/cron/payments-retry'
@@ -5203,6 +5215,7 @@ export interface RootRouteChildren {
   ApiRobotsDottxtRoute: typeof ApiRobotsDottxtRoute
   ApiSitemapDotxmlRoute: typeof ApiSitemapDotxmlRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
+  ApiPublicCronCmsPublishRoute: typeof ApiPublicCronCmsPublishRoute
   ApiPublicCronCreditsExpireRoute: typeof ApiPublicCronCreditsExpireRoute
   ApiPublicCronDeploymentsTickRoute: typeof ApiPublicCronDeploymentsTickRoute
   ApiPublicCronPaymentsRetryRoute: typeof ApiPublicCronPaymentsRetryRoute
@@ -7986,6 +7999,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicCronCreditsExpireRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cron/cms-publish': {
+      id: '/api/public/cron/cms-publish'
+      path: '/api/public/cron/cms-publish'
+      fullPath: '/api/public/cron/cms-publish'
+      preLoaderRoute: typeof ApiPublicCronCmsPublishRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/runtime/workflows/live': {
       id: '/_authenticated/runtime/workflows/live'
       path: '/live'
@@ -9251,6 +9271,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiRobotsDottxtRoute: ApiRobotsDottxtRoute,
   ApiSitemapDotxmlRoute: ApiSitemapDotxmlRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
+  ApiPublicCronCmsPublishRoute: ApiPublicCronCmsPublishRoute,
   ApiPublicCronCreditsExpireRoute: ApiPublicCronCreditsExpireRoute,
   ApiPublicCronDeploymentsTickRoute: ApiPublicCronDeploymentsTickRoute,
   ApiPublicCronPaymentsRetryRoute: ApiPublicCronPaymentsRetryRoute,
