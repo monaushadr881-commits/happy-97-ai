@@ -171,7 +171,7 @@ export const computeBusinessHealthFn = createServerFn({ method: 'POST' })
         source_runtimes,
       };
       const { data: inserted, error } = await context.supabase
-        .from('founder_business_health_snapshots').insert(row).select('*').single();
+        .from('founder_business_health_snapshots').insert(row as any).select('*').single();
       if (error) throw error;
       results.push(inserted);
     }
@@ -214,7 +214,7 @@ export const recordFounderDecisionFn = createServerFn({ method: 'POST' })
   .handler(async ({ data, context }) => {
     const { data: row, error } = await context.supabase
       .from('founder_decision_records')
-      .insert({ ...data, company_id: data.companyId ?? null, decided_by: context.userId })
+      .insert({ title: data.title, category: data.category, decision: data.decision, rationale: data.rationale ?? null, facts: data.facts as any, recommendations_considered: data.recommendations_considered as any, alternatives: data.alternatives as any, confidence: data.confidence, company_id: data.companyId ?? null, decided_by: context.userId } as any)
       .select('*').single();
     if (error) throw error;
     return row;
@@ -287,7 +287,8 @@ export const generateExecutiveReportFn = createServerFn({ method: 'POST' })
       period_start: data.from,
       period_end: data.to,
       title: data.title,
-      content,
+      content: content as any,
+
       facts_count: allFacts.length,
       recommendations_count: recommendations.length,
       source_runtimes: Array.from(sources),
