@@ -648,6 +648,50 @@ export type Database = {
           },
         ]
       }
+      approval_delegations: {
+        Row: {
+          company_id: string
+          created_at: string
+          delegatee_id: string
+          delegator_id: string
+          ends_at: string | null
+          entity_type: string | null
+          id: string
+          reason: string | null
+          starts_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          delegatee_id: string
+          delegator_id: string
+          ends_at?: string | null
+          entity_type?: string | null
+          id?: string
+          reason?: string | null
+          starts_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          delegatee_id?: string
+          delegator_id?: string
+          ends_at?: string | null
+          entity_type?: string | null
+          id?: string
+          reason?: string | null
+          starts_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "approval_delegations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       approvals: {
         Row: {
           amount_cents: number | null
@@ -3269,6 +3313,108 @@ export type Database = {
           id?: string
         }
         Relationships: []
+      }
+      goods_receipt_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          po_item_id: string | null
+          quantity_received: number
+          quantity_rejected: number
+          receipt_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          po_item_id?: string | null
+          quantity_received?: number
+          quantity_rejected?: number
+          receipt_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          po_item_id?: string | null
+          quantity_received?: number
+          quantity_rejected?: number
+          receipt_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goods_receipt_items_po_item_id_fkey"
+            columns: ["po_item_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_order_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "goods_receipt_items_receipt_id_fkey"
+            columns: ["receipt_id"]
+            isOneToOne: false
+            referencedRelation: "goods_receipts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      goods_receipts: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          metadata: Json
+          notes: string | null
+          number: string
+          purchase_order_id: string
+          received_at: string
+          received_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          number: string
+          purchase_order_id: string
+          received_at?: string
+          received_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          number?: string
+          purchase_order_id?: string
+          received_at?: string
+          received_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goods_receipts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "goods_receipts_purchase_order_id_fkey"
+            columns: ["purchase_order_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       group_memberships: {
         Row: {
@@ -6423,6 +6569,120 @@ export type Database = {
           },
         ]
       }
+      purchase_request_items: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          quantity: number
+          request_id: string
+          total_cents: number
+          unit_cost_cents: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          quantity?: number
+          request_id: string
+          total_cents?: number
+          unit_cost_cents?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          quantity?: number
+          request_id?: string
+          total_cents?: number
+          unit_cost_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_request_items_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      purchase_requests: {
+        Row: {
+          branch_id: string | null
+          company_id: string
+          created_at: string
+          currency: string
+          department_id: string | null
+          id: string
+          justification: string | null
+          metadata: Json
+          needed_by: string | null
+          number: string
+          requested_by: string | null
+          status: string
+          title: string
+          total_cents: number
+          updated_at: string
+        }
+        Insert: {
+          branch_id?: string | null
+          company_id: string
+          created_at?: string
+          currency?: string
+          department_id?: string | null
+          id?: string
+          justification?: string | null
+          metadata?: Json
+          needed_by?: string | null
+          number: string
+          requested_by?: string | null
+          status?: string
+          title: string
+          total_cents?: number
+          updated_at?: string
+        }
+        Update: {
+          branch_id?: string | null
+          company_id?: string
+          created_at?: string
+          currency?: string
+          department_id?: string | null
+          id?: string
+          justification?: string | null
+          metadata?: Json
+          needed_by?: string | null
+          number?: string
+          requested_by?: string | null
+          status?: string
+          title?: string
+          total_cents?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_requests_branch_id_fkey"
+            columns: ["branch_id"]
+            isOneToOne: false
+            referencedRelation: "offices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_requests_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quiz_attempts: {
         Row: {
           answers: Json
@@ -7590,6 +7850,303 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      vendor_categories: {
+        Row: {
+          company_id: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_categories_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_category_map: {
+        Row: {
+          category_id: string
+          supplier_id: string
+        }
+        Insert: {
+          category_id: string
+          supplier_id: string
+        }
+        Update: {
+          category_id?: string
+          supplier_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_category_map_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "vendor_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_category_map_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_contracts: {
+        Row: {
+          attachments: Json
+          company_id: string
+          created_at: string
+          currency: string
+          ends_on: string | null
+          id: string
+          starts_on: string | null
+          status: string
+          supplier_id: string
+          terms: string | null
+          title: string
+          updated_at: string
+          value_cents: number
+        }
+        Insert: {
+          attachments?: Json
+          company_id: string
+          created_at?: string
+          currency?: string
+          ends_on?: string | null
+          id?: string
+          starts_on?: string | null
+          status?: string
+          supplier_id: string
+          terms?: string | null
+          title: string
+          updated_at?: string
+          value_cents?: number
+        }
+        Update: {
+          attachments?: Json
+          company_id?: string
+          created_at?: string
+          currency?: string
+          ends_on?: string | null
+          id?: string
+          starts_on?: string | null
+          status?: string
+          supplier_id?: string
+          terms?: string | null
+          title?: string
+          updated_at?: string
+          value_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_contracts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_contracts_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_documents: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          supplier_id: string
+          uploaded_by: string | null
+          url: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          kind?: string
+          name: string
+          supplier_id: string
+          uploaded_by?: string | null
+          url: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          supplier_id?: string
+          uploaded_by?: string | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_documents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_documents_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_quotations: {
+        Row: {
+          attachments: Json
+          company_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          id: string
+          notes: string | null
+          reference: string | null
+          request_id: string | null
+          status: string
+          supplier_id: string
+          total_cents: number
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          attachments?: Json
+          company_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          notes?: string | null
+          reference?: string | null
+          request_id?: string | null
+          status?: string
+          supplier_id: string
+          total_cents?: number
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          attachments?: Json
+          company_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          notes?: string | null
+          reference?: string | null
+          request_id?: string | null
+          status?: string
+          supplier_id?: string
+          total_cents?: number
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_quotations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_quotations_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_quotations_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_ratings: {
+        Row: {
+          comment: string | null
+          company_id: string
+          created_at: string
+          id: string
+          rater_id: string | null
+          rating: number
+          supplier_id: string
+        }
+        Insert: {
+          comment?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          rater_id?: string | null
+          rating: number
+          supplier_id: string
+        }
+        Update: {
+          comment?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          rater_id?: string | null
+          rating?: number
+          supplier_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_ratings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_ratings_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       wallet_ledger_entries: {
         Row: {
