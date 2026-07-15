@@ -156,7 +156,7 @@ async function insertEntry(
       reference_id: row.reference_id ?? null,
       description: row.description ?? null,
       expires_at: row.expires_at ?? null,
-      metadata: row.metadata ?? {},
+      metadata: (row.metadata ?? {}) as never,
       created_by: row.created_by ?? null,
     })
     .select("id")
@@ -195,11 +195,11 @@ async function notify(
   try {
     await sb.from("notifications").insert({
       user_id: ownerId,
-      type: `credits.${event}`,
+      kind: `credits.${event}`,
       title: `Credits ${event}`,
       body: JSON.stringify(payload),
       channel: "in_app",
-      metadata: payload as never,
+      payload: payload as never,
     });
   } catch {
     // best-effort
