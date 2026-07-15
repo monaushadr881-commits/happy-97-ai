@@ -5183,6 +5183,187 @@ export type Database = {
         }
         Relationships: []
       }
+      project_deployment_events: {
+        Row: {
+          created_at: string
+          deployment_id: string
+          id: string
+          level: string
+          message: string
+          metadata: Json
+          step: string
+        }
+        Insert: {
+          created_at?: string
+          deployment_id: string
+          id?: string
+          level?: string
+          message: string
+          metadata?: Json
+          step: string
+        }
+        Update: {
+          created_at?: string
+          deployment_id?: string
+          id?: string
+          level?: string
+          message?: string
+          metadata?: Json
+          step?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_deployment_events_deployment_id_fkey"
+            columns: ["deployment_id"]
+            isOneToOne: false
+            referencedRelation: "project_deployments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_deployments: {
+        Row: {
+          artifact_bytes: number | null
+          artifact_path: string | null
+          build_profile: Json
+          cancelled_at: string | null
+          created_at: string
+          deployed_url: string | null
+          duration_ms: number | null
+          environment: Database["public"]["Enums"]["project_deployment_env"]
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          metadata: Json
+          project_id: string
+          release_notes: string | null
+          rolled_back_from: string | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["project_deployment_state"]
+          target: Database["public"]["Enums"]["project_deployment_target"]
+          updated_at: string
+          user_id: string
+          version: string
+        }
+        Insert: {
+          artifact_bytes?: number | null
+          artifact_path?: string | null
+          build_profile?: Json
+          cancelled_at?: string | null
+          created_at?: string
+          deployed_url?: string | null
+          duration_ms?: number | null
+          environment?: Database["public"]["Enums"]["project_deployment_env"]
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          metadata?: Json
+          project_id: string
+          release_notes?: string | null
+          rolled_back_from?: string | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["project_deployment_state"]
+          target?: Database["public"]["Enums"]["project_deployment_target"]
+          updated_at?: string
+          user_id: string
+          version?: string
+        }
+        Update: {
+          artifact_bytes?: number | null
+          artifact_path?: string | null
+          build_profile?: Json
+          cancelled_at?: string | null
+          created_at?: string
+          deployed_url?: string | null
+          duration_ms?: number | null
+          environment?: Database["public"]["Enums"]["project_deployment_env"]
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          metadata?: Json
+          project_id?: string
+          release_notes?: string | null
+          rolled_back_from?: string | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["project_deployment_state"]
+          target?: Database["public"]["Enums"]["project_deployment_target"]
+          updated_at?: string
+          user_id?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_deployments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "creator_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_deployments_rolled_back_from_fkey"
+            columns: ["rolled_back_from"]
+            isOneToOne: false
+            referencedRelation: "project_deployments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_domains: {
+        Row: {
+          created_at: string
+          dns_records: Json
+          hostname: string
+          id: string
+          is_primary: boolean
+          last_checked_at: string | null
+          metadata: Json
+          project_id: string
+          ssl_status: string
+          status: Database["public"]["Enums"]["project_domain_status"]
+          updated_at: string
+          user_id: string
+          verification_token: string | null
+        }
+        Insert: {
+          created_at?: string
+          dns_records?: Json
+          hostname: string
+          id?: string
+          is_primary?: boolean
+          last_checked_at?: string | null
+          metadata?: Json
+          project_id: string
+          ssl_status?: string
+          status?: Database["public"]["Enums"]["project_domain_status"]
+          updated_at?: string
+          user_id: string
+          verification_token?: string | null
+        }
+        Update: {
+          created_at?: string
+          dns_records?: Json
+          hostname?: string
+          id?: string
+          is_primary?: boolean
+          last_checked_at?: string | null
+          metadata?: Json
+          project_id?: string
+          ssl_status?: string
+          status?: Database["public"]["Enums"]["project_domain_status"]
+          updated_at?: string
+          user_id?: string
+          verification_token?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_domains_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "creator_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       purchase_order_items: {
         Row: {
           created_at: string
@@ -7105,6 +7286,33 @@ export type Database = {
         | "business"
         | "enterprise"
         | "custom"
+      project_deployment_env:
+        | "development"
+        | "preview"
+        | "staging"
+        | "production"
+      project_deployment_state:
+        | "queued"
+        | "building"
+        | "deploying"
+        | "succeeded"
+        | "failed"
+        | "cancelled"
+        | "rolled_back"
+      project_deployment_target:
+        | "web"
+        | "pwa"
+        | "static_export"
+        | "cloudflare"
+        | "netlify"
+        | "vercel"
+        | "custom"
+      project_domain_status:
+        | "pending"
+        | "verifying"
+        | "verified"
+        | "failed"
+        | "removed"
       record_status:
         | "draft"
         | "active"
@@ -7365,6 +7573,37 @@ export const Constants = {
         "business",
         "enterprise",
         "custom",
+      ],
+      project_deployment_env: [
+        "development",
+        "preview",
+        "staging",
+        "production",
+      ],
+      project_deployment_state: [
+        "queued",
+        "building",
+        "deploying",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "rolled_back",
+      ],
+      project_deployment_target: [
+        "web",
+        "pwa",
+        "static_export",
+        "cloudflare",
+        "netlify",
+        "vercel",
+        "custom",
+      ],
+      project_domain_status: [
+        "pending",
+        "verifying",
+        "verified",
+        "failed",
+        "removed",
       ],
       record_status: [
         "draft",
