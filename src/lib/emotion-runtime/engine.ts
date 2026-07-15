@@ -8,7 +8,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { classifyEmotion, inferGesture, type EmotionInputs } from "./mapping";
 import { synthesizeFrames } from "./expression";
-import type { BehaviorMode, Emotion, EmotionState, ExpressionFrame, GestureIntent, Mood } from "./contracts";
+import type { BehaviorMode, Emotion, EmotionState, ExpressionFrame, GestureIntent, JsonValue, Mood } from "./contracts";
 
 type Ctx = { userId: string };
 
