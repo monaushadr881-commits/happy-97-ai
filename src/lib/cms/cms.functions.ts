@@ -357,8 +357,9 @@ export const cmsPublicGet = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const sb = publicClient();
-    const { data: row, error } = await sb.from("cms_contents").select("*")
-      .select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at").eq("type", data.type).eq("slug", data.slug).eq("locale", data.locale)
+    const { data: row, error } = await sb.from("cms_contents")
+      .select("id, company_id, type, slug, locale, title, excerpt, body, cover_url, status, visibility, author_id, editor_id, reviewer_id, publisher_id, parent_id, categories, tags, seo, metadata, version, scheduled_at, published_at, archived_at, review_note, created_at, updated_at")
+      .eq("type", data.type).eq("slug", data.slug).eq("locale", data.locale)
       .eq("status", "published").eq("visibility", "public").maybeSingle();
     if (error) throw error;
     return row;
