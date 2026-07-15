@@ -331,3 +331,46 @@ from the view — no stored balance is ever written.
   processor still writes into `payments` only. `PARTIAL`.
 - Multi-currency FX conversion on transfer — engine refuses
   cross-currency transfers. `PLANNED`.
+
+---
+
+## R11 — Enterprise Credits Engine (2026-07-15)
+
+Credits are **platform usage units**, not money. Wallet and Credits remain
+independent — no cross-posting, no shared balance.
+
+### Runtime
+- `src/lib/credits/engine.ts` — grant / consume / refund / transfer / expire
+  - Immutable ledger (existing `credit_ledger_immutable` trigger)
+  - Derived balance from `v_credit_balances` (excludes expired grants)
+  - Idempotent via unique `(reference_type, reference_id, entry_type)` index
+  - Overdraft protection on `consume` and `transfer`
+  - Compensating reversal on failed transfer half
+  - Low-balance notification when remaining < 100 units
+- `src/lib/credits/credits.functions.ts` — auth-gated server functions
+  - Ownership: user owns / company admin / ops admin
+  - `admin_grant` / `bonus` / `referral` / `refund` require ops-admin
+- `src/routes/api/public/cron/credits-expire.ts` — sweep expired grants
+- Analytics view `v_credit_totals` (issued / consumed / expired / refunded)
+
+### Status Matrix
+
+| Capability              | Status  | Notes |
+|-------------------------|---------|-------|
+| Grant credits           | WORKING | purchase / bonus / referral / admin_grant |
+| Consume credits         | WORKING | ai / builder / marketplace / automation / generic |
+| Refund credits          | WORKING | ops-admin, idempotent by reference |
+| Transfer credits        | WORKING | paired ledger entries, reversal on failure |
+| Expire credits          | WORKING | cron sweep, idempotent per source entry |
+| Duplicate protection    | WORKING | unique index on reference triple |
+| Founder overview        | WORKING | `getCreditsOverview` server fn |
+| Low-balance alerts      | WORKING | in_app notification |
+| Payment → credits auto  | BLOCKED | no product-to-credits mapping table yet |
+| Founder dashboard UI    | PLANNED | server fn ready, UI to consume it |
+| Multi-currency FX       | N/A     | credits are unitless usage points |
+
+### Files changed
+- Migration `20260715_credits_engine_r11` — idempotency + expiry index, `v_credit_totals`
+- Added `src/lib/credits/engine.ts`
+- Added `src/lib/credits/credits.functions.ts`
+- Added `src/routes/api/public/cron/credits-expire.ts`
