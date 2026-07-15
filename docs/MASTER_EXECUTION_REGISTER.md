@@ -159,3 +159,11 @@ Every implementation pass MUST:
 2. Append the round to `MASTER_AUDITS.md`.
 3. Reflect the transition in `MASTER_STATUS.md` and `MASTER_IMPLEMENTATION_STATUS.md`.
 4. Only ONE or TWO modules per pass (per `MASTER_CONSTITUTION.md`).
+
+| Pass | Scope | Status | Files |
+|---|---|---|---|
+| R36 | Plugin Framework | WORKING | `src/lib/plugins/*`, migration |
+| R37 | Enterprise Ecosystem | PLANNED | `docs/PLAN_R37_R38.md` |
+| R38 | Founder Copilot | PLANNED | `docs/PLAN_R37_R38.md` |
+| R39-R50 | HAPPY Runtime Seams | SEAMS ONLY (NOT CERTIFIED) | `src/lib/happy-runtime/*` |
+| R51 | HAPPY AI Employee Studio (backend) | WORKING | `src/lib/happy-studio/*`, migration |

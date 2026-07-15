@@ -1400,3 +1400,94 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - Per-artifact checksums allow partial verification without recomputing the full manifest.
 - Indexes on `bkp_jobs(target, started_at DESC)`, `bkp_jobs(status, started_at DESC)`, `bkp_artifacts(job_id)`, `bkp_restore_jobs(status, started_at DESC)`, `bkp_recovery_drills(plan_id, started_at DESC)`, and `bkp_audit_events(ref_type, ref_id, occurred_at DESC)`.
 - Deduplication flag + compression algorithm captured per policy for downstream storage tiers.
+
+---
+
+## R36 — Plugin Framework (WORKING)
+
+Real backend implementation. No mocks.
+
+**Files**
+- `supabase/migrations/*_r36_plugin_framework.sql` — 7 tables: `plugins`, `plugin_versions`, `plugin_permissions`, `plugin_grants`, `plugin_installations`, `plugin_events` (immutable), `plugin_analytics_daily`. RLS + GRANTs on every table. Baseline permission catalog seeded (14 permissions).
+- `src/lib/plugins/engine.ts` — Zod manifest schema, SHA-256 checksum, semver compare, permission grant evaluator, sandbox capability assertion, immutable event emitter.
+- `src/lib/plugins/plugins.functions.ts` — 12 server fns: `listPlugins`, `getPlugin`, `publishPluginVersion`, `installPlugin`, `enablePlugin`, `disablePlugin`, `upgradePlugin`, `rollbackPlugin`, `uninstallPlugin`, `listCompanyInstallations`, `recordPluginAnalytics`, `pluginOverview`.
+
+**Security**
+- Ops-admin gate on registry writes (RLS).
+- Company-admin gate on install / enable / disable / upgrade / rollback (RLS).
+- Permission grant check on install & upgrade (missing-required blocks the call).
+- `plugin_events` immutable via trigger.
+
+**Verification**
+- Migration applied cleanly.
+- Manifest validation is real Zod; checksum is real Web Crypto SHA-256.
+
+**Status:** WORKING (lifecycle + audit + analytics + overview). PARTIAL (in-worker sandbox execution — routes currently accept `runtime: 'serverfn'|'webhook'|'iframe'|'worker'` but only serverfn/webhook are reachable via the existing runtime; iframe/worker are seams). PLANNED (paid plugins via ecosystem R37).
+
+---
+
+## R37 & R38 — PLANNED
+
+See `docs/PLAN_R37_R38.md` for the full engineering execution plan (DB, server fns, runtime, UI, security, verification, dependencies, order).
+
+---
+
+## R39–R50 — Integration Readiness (SEAMS ONLY, NOT CERTIFIED)
+
+Real, callable integration seams that reuse existing runtimes. No fake certifications.
+
+**Files**
+- `src/lib/happy-runtime/personas.ts` — Persona registry + audience/channel → persona resolver.
+- `src/lib/happy-runtime/capability-router.ts` — Adapter registry that routes capability codes to existing runtimes via `happy_skills.runtime_route`. Refuses to fake success when no adapter is registered.
+- `src/lib/happy-runtime/voice.ts` — Real TTS integrations: Lovable AI Gateway (`openai/gpt-4o-mini-tts`, `google/gemini-2.5-flash-tts`) and ElevenLabs (when `ELEVENLABS_API_KEY` set). Honest provider availability probe.
+- `src/lib/happy-runtime/presentation.ts` — Pure state machines for presentation & whiteboard control. No fake rendering.
+- `src/lib/happy-runtime/digital-human.ts` — Contract-only integration boundary. Default stub throws `DigitalHumanNotProvisionedError`. Explicitly lists the external dependencies required (rigged character, blendshapes, streaming renderer, GPU runtime, voice provider, realtime transport).
+- `src/lib/happy-runtime/runtime.functions.ts` — Server fns: `invokeCapability`, `synthesizeVoice`, `runtimeReadiness`, `selectPersona`.
+
+**Honest gaps (NOT certified)**
+- Rigged HAPPY character (MetaHuman / Character Creator) — not provisioned.
+- Facial blendshapes (ARKit / Faceware) — not provisioned.
+- Streaming renderer (Unreal Pixel Streaming or Omniverse ACE) — not provisioned.
+- GPU runtime for real-time rendering — not provisioned.
+- Realtime transport (WebRTC / WebSocket) for pixel + audio + viseme streams — not provisioned.
+- Photoreal lip sync (Audio2Face equivalent) — not provisioned.
+
+The runtime is READY to receive these; nothing pretends they exist.
+
+---
+
+## R51 — HAPPY AI Employee Studio (WORKING backend)
+
+Real backend implementation. Single-identity guarantee enforced by DB constraint.
+
+**Files**
+- `supabase/migrations/*_r51_happy_studio.sql` — 10 tables: `happy_identity` (singleton), `happy_appearance`, `happy_voice`, `happy_behavior`, `happy_skills`, `happy_knowledge_refs`, `happy_animations`, `happy_versions` (immutable), `happy_deployments`, `happy_change_requests`. RLS + GRANTs on every table. Seed data: 1 identity, 11 behavior modes, 12 skills, 3 voices (en/hi/ur), 11 animation clips.
+- `src/lib/happy-studio/engine.ts` — Deterministic snapshot builder, SHA-256 snapshot checksum, version status FSM, deployment status FSM.
+- `src/lib/happy-studio/studio.functions.ts` — 15 server fns: `getHappyIdentity`, `updateIdentity`, `updateAppearance`, `upsertVoice`, `upsertBehavior`, `upsertSkill`, `addKnowledgeRef`, `upsertAnimation`, `createVersion`, `transitionVersion`, `deployToChannel`, `rollbackDeployment`, `proposeChange`, `reviewChange`, `listChangeRequests`, `studioOverview`.
+
+**Security**
+- Singleton constraint (`singleton BOOLEAN UNIQUE`) — only ONE official HAPPY.
+- All writes gated to ops admins (founders) via RLS.
+- `happy_versions` immutable via trigger (snapshot + checksum cannot change; only status transitions allowed).
+- Change requests: any staff can propose; only founders can approve.
+
+**Status matrix**
+| Manager | Status |
+|---|---|
+| Identity Manager | WORKING |
+| Appearance Manager | WORKING (backend; UI PLANNED) |
+| Voice Manager | WORKING |
+| Behavior Manager | WORKING |
+| Knowledge Manager | WORKING (refs into existing knowledge/KG/courses) |
+| Skill Manager | WORKING |
+| Animation Manager | WORKING (metadata; asset streaming depends on R39–R50 seams) |
+| Version Manager | WORKING (immutable, checksummed) |
+| Deployment Manager | WORKING (channel FSM enforced) |
+| Founder Approval Flow | WORKING |
+| Studio UI | PLANNED |
+
+**Verification**
+- Migration applied cleanly. Version immutability enforced by trigger.
+- Only published/approved versions can deploy (server-side check).
+- Deployment FSM prevents invalid transitions.
+

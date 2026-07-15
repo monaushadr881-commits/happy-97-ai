@@ -7131,6 +7131,556 @@ export type Database = {
           },
         ]
       }
+      happy_animations: {
+        Row: {
+          asset_manifest: Json
+          asset_url: string | null
+          category: string
+          clip_code: string
+          created_at: string
+          duration_ms: number | null
+          id: string
+          identity_id: string
+          label: string
+          loops: boolean
+          updated_at: string
+        }
+        Insert: {
+          asset_manifest?: Json
+          asset_url?: string | null
+          category: string
+          clip_code: string
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          identity_id: string
+          label: string
+          loops?: boolean
+          updated_at?: string
+        }
+        Update: {
+          asset_manifest?: Json
+          asset_url?: string | null
+          category?: string
+          clip_code?: string
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          identity_id?: string
+          label?: string
+          loops?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_animations_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_appearance: {
+        Row: {
+          accessories: Json
+          asset_refs: Json
+          beard: Json
+          body: Json
+          clothing: Json
+          created_at: string
+          environment: Json
+          eyes: Json
+          face: Json
+          hair: Json
+          id: string
+          identity_id: string
+          lighting: Json
+          skin: Json
+          updated_at: string
+        }
+        Insert: {
+          accessories?: Json
+          asset_refs?: Json
+          beard?: Json
+          body?: Json
+          clothing?: Json
+          created_at?: string
+          environment?: Json
+          eyes?: Json
+          face?: Json
+          hair?: Json
+          id?: string
+          identity_id: string
+          lighting?: Json
+          skin?: Json
+          updated_at?: string
+        }
+        Update: {
+          accessories?: Json
+          asset_refs?: Json
+          beard?: Json
+          body?: Json
+          clothing?: Json
+          created_at?: string
+          environment?: Json
+          eyes?: Json
+          face?: Json
+          hair?: Json
+          id?: string
+          identity_id?: string
+          lighting?: Json
+          skin?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_appearance_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: true
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_behavior: {
+        Row: {
+          boundaries: string[]
+          created_at: string
+          default_persona: boolean
+          id: string
+          identity_id: string
+          mode: string
+          system_prompt: string
+          temperament: Json
+          updated_at: string
+        }
+        Insert: {
+          boundaries?: string[]
+          created_at?: string
+          default_persona?: boolean
+          id?: string
+          identity_id: string
+          mode: string
+          system_prompt: string
+          temperament?: Json
+          updated_at?: string
+        }
+        Update: {
+          boundaries?: string[]
+          created_at?: string
+          default_persona?: boolean
+          id?: string
+          identity_id?: string
+          mode?: string
+          system_prompt?: string
+          temperament?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_behavior_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_change_requests: {
+        Row: {
+          applied_version_id: string | null
+          created_at: string
+          id: string
+          identity_id: string
+          proposed_changes: Json
+          rationale: string | null
+          request_type: string
+          requested_by: string | null
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          applied_version_id?: string | null
+          created_at?: string
+          id?: string
+          identity_id: string
+          proposed_changes: Json
+          rationale?: string | null
+          request_type: string
+          requested_by?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          applied_version_id?: string | null
+          created_at?: string
+          id?: string
+          identity_id?: string
+          proposed_changes?: Json
+          rationale?: string | null
+          request_type?: string
+          requested_by?: string | null
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_change_requests_applied_version_id_fkey"
+            columns: ["applied_version_id"]
+            isOneToOne: false
+            referencedRelation: "happy_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "happy_change_requests_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_deployments: {
+        Row: {
+          channel: string
+          config: Json
+          created_at: string
+          deployed_at: string | null
+          deployed_by: string | null
+          id: string
+          identity_id: string
+          status: string
+          updated_at: string
+          version_id: string | null
+        }
+        Insert: {
+          channel: string
+          config?: Json
+          created_at?: string
+          deployed_at?: string | null
+          deployed_by?: string | null
+          id?: string
+          identity_id: string
+          status?: string
+          updated_at?: string
+          version_id?: string | null
+        }
+        Update: {
+          channel?: string
+          config?: Json
+          created_at?: string
+          deployed_at?: string | null
+          deployed_by?: string | null
+          id?: string
+          identity_id?: string
+          status?: string
+          updated_at?: string
+          version_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_deployments_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "happy_deployments_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "happy_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_identity: {
+        Row: {
+          active_version_id: string | null
+          biography: string | null
+          brand: string
+          company: string
+          created_at: string
+          id: string
+          languages: string[]
+          mission: string | null
+          official_name: string
+          primary_language: string
+          role_title: string
+          singleton: boolean
+          status: string
+          updated_at: string
+          updated_by: string | null
+          vision: string | null
+        }
+        Insert: {
+          active_version_id?: string | null
+          biography?: string | null
+          brand?: string
+          company?: string
+          created_at?: string
+          id?: string
+          languages?: string[]
+          mission?: string | null
+          official_name?: string
+          primary_language?: string
+          role_title?: string
+          singleton?: boolean
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          vision?: string | null
+        }
+        Update: {
+          active_version_id?: string | null
+          biography?: string | null
+          brand?: string
+          company?: string
+          created_at?: string
+          id?: string
+          languages?: string[]
+          mission?: string | null
+          official_name?: string
+          primary_language?: string
+          role_title?: string
+          singleton?: boolean
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          vision?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_identity_active_version_fk"
+            columns: ["active_version_id"]
+            isOneToOne: false
+            referencedRelation: "happy_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_knowledge_refs: {
+        Row: {
+          created_at: string
+          id: string
+          identity_id: string
+          label: string
+          priority: number
+          ref_id: string | null
+          ref_key: string | null
+          ref_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          identity_id: string
+          label: string
+          priority?: number
+          ref_id?: string | null
+          ref_key?: string | null
+          ref_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          identity_id?: string
+          label?: string
+          priority?: number
+          ref_id?: string | null
+          ref_key?: string | null
+          ref_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_knowledge_refs_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_skills: {
+        Row: {
+          category: string
+          config: Json
+          created_at: string
+          enabled: boolean
+          id: string
+          identity_id: string
+          label: string
+          required_permissions: string[]
+          runtime_route: string
+          skill_code: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          identity_id: string
+          label: string
+          required_permissions?: string[]
+          runtime_route: string
+          skill_code: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          identity_id?: string
+          label?: string
+          required_permissions?: string[]
+          runtime_route?: string
+          skill_code?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_skills_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_versions: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          checksum: string
+          created_at: string
+          created_by: string | null
+          id: string
+          identity_id: string
+          notes: string | null
+          published_at: string | null
+          rolled_back_at: string | null
+          snapshot: Json
+          status: string
+          version: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          checksum: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          identity_id: string
+          notes?: string | null
+          published_at?: string | null
+          rolled_back_at?: string | null
+          snapshot: Json
+          status?: string
+          version: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          checksum?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          identity_id?: string
+          notes?: string | null
+          published_at?: string | null
+          rolled_back_at?: string | null
+          snapshot?: Json
+          status?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_versions_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      happy_voice: {
+        Row: {
+          business_tone: Json
+          created_at: string
+          emotion: string | null
+          founder_tone: Json
+          greeting_sample: string | null
+          id: string
+          identity_id: string
+          is_primary: boolean
+          language: string
+          pause_style: string | null
+          pitch: number
+          provider: string
+          speed: number
+          teaching_tone: Json
+          updated_at: string
+          voice_id: string
+        }
+        Insert: {
+          business_tone?: Json
+          created_at?: string
+          emotion?: string | null
+          founder_tone?: Json
+          greeting_sample?: string | null
+          id?: string
+          identity_id: string
+          is_primary?: boolean
+          language: string
+          pause_style?: string | null
+          pitch?: number
+          provider?: string
+          speed?: number
+          teaching_tone?: Json
+          updated_at?: string
+          voice_id: string
+        }
+        Update: {
+          business_tone?: Json
+          created_at?: string
+          emotion?: string | null
+          founder_tone?: Json
+          greeting_sample?: string | null
+          id?: string
+          identity_id?: string
+          is_primary?: boolean
+          language?: string
+          pause_style?: string | null
+          pitch?: number
+          provider?: string
+          speed?: number
+          teaching_tone?: Json
+          updated_at?: string
+          voice_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "happy_voice_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "happy_identity"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       health_checks: {
         Row: {
           checked_at: string
@@ -10841,6 +11391,410 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      plugin_analytics_daily: {
+        Row: {
+          avg_latency_ms: number
+          company_id: string
+          created_at: string
+          day: string
+          errors: number
+          id: string
+          installation_id: string
+          invocations: number
+          metadata: Json
+          p95_latency_ms: number
+          plugin_id: string
+          unique_users: number
+          updated_at: string
+        }
+        Insert: {
+          avg_latency_ms?: number
+          company_id: string
+          created_at?: string
+          day: string
+          errors?: number
+          id?: string
+          installation_id: string
+          invocations?: number
+          metadata?: Json
+          p95_latency_ms?: number
+          plugin_id: string
+          unique_users?: number
+          updated_at?: string
+        }
+        Update: {
+          avg_latency_ms?: number
+          company_id?: string
+          created_at?: string
+          day?: string
+          errors?: number
+          id?: string
+          installation_id?: string
+          invocations?: number
+          metadata?: Json
+          p95_latency_ms?: number
+          plugin_id?: string
+          unique_users?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plugin_analytics_daily_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_analytics_daily_installation_id_fkey"
+            columns: ["installation_id"]
+            isOneToOne: false
+            referencedRelation: "plugin_installations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_analytics_daily_plugin_id_fkey"
+            columns: ["plugin_id"]
+            isOneToOne: false
+            referencedRelation: "plugins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plugin_events: {
+        Row: {
+          actor_id: string | null
+          company_id: string | null
+          created_at: string
+          event_type: string
+          id: string
+          installation_id: string | null
+          message: string | null
+          metadata: Json
+          plugin_id: string | null
+          plugin_version_id: string | null
+          severity: string
+        }
+        Insert: {
+          actor_id?: string | null
+          company_id?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          installation_id?: string | null
+          message?: string | null
+          metadata?: Json
+          plugin_id?: string | null
+          plugin_version_id?: string | null
+          severity?: string
+        }
+        Update: {
+          actor_id?: string | null
+          company_id?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          installation_id?: string | null
+          message?: string | null
+          metadata?: Json
+          plugin_id?: string | null
+          plugin_version_id?: string | null
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plugin_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_events_installation_id_fkey"
+            columns: ["installation_id"]
+            isOneToOne: false
+            referencedRelation: "plugin_installations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_events_plugin_id_fkey"
+            columns: ["plugin_id"]
+            isOneToOne: false
+            referencedRelation: "plugins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_events_plugin_version_id_fkey"
+            columns: ["plugin_version_id"]
+            isOneToOne: false
+            referencedRelation: "plugin_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plugin_grants: {
+        Row: {
+          created_at: string
+          id: string
+          optional: boolean
+          permission_code: string
+          plugin_version_id: string
+          reason: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          optional?: boolean
+          permission_code: string
+          plugin_version_id: string
+          reason?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          optional?: boolean
+          permission_code?: string
+          plugin_version_id?: string
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plugin_grants_plugin_version_id_fkey"
+            columns: ["plugin_version_id"]
+            isOneToOne: false
+            referencedRelation: "plugin_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plugin_installations: {
+        Row: {
+          company_id: string
+          config: Json
+          enabled: boolean
+          granted_permissions: string[]
+          id: string
+          installed_at: string
+          installed_by: string | null
+          plugin_id: string
+          plugin_version_id: string
+          previous_version_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          config?: Json
+          enabled?: boolean
+          granted_permissions?: string[]
+          id?: string
+          installed_at?: string
+          installed_by?: string | null
+          plugin_id: string
+          plugin_version_id: string
+          previous_version_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          config?: Json
+          enabled?: boolean
+          granted_permissions?: string[]
+          id?: string
+          installed_at?: string
+          installed_by?: string | null
+          plugin_id?: string
+          plugin_version_id?: string
+          previous_version_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plugin_installations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_installations_plugin_id_fkey"
+            columns: ["plugin_id"]
+            isOneToOne: false
+            referencedRelation: "plugins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_installations_plugin_version_id_fkey"
+            columns: ["plugin_version_id"]
+            isOneToOne: false
+            referencedRelation: "plugin_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plugin_installations_previous_version_id_fkey"
+            columns: ["previous_version_id"]
+            isOneToOne: false
+            referencedRelation: "plugin_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plugin_permissions: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          label: string
+          requires_founder_approval: boolean
+          risk_level: string
+          scope: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          label: string
+          requires_founder_approval?: boolean
+          risk_level?: string
+          scope?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          label?: string
+          requires_founder_approval?: boolean
+          risk_level?: string
+          scope?: string
+        }
+        Relationships: []
+      }
+      plugin_versions: {
+        Row: {
+          changelog: string | null
+          checksum: string
+          created_at: string
+          deprecated: boolean
+          entry_point: string | null
+          id: string
+          manifest: Json
+          min_platform_version: string | null
+          plugin_id: string
+          published_at: string | null
+          published_by: string | null
+          runtime: string
+          version: string
+        }
+        Insert: {
+          changelog?: string | null
+          checksum: string
+          created_at?: string
+          deprecated?: boolean
+          entry_point?: string | null
+          id?: string
+          manifest: Json
+          min_platform_version?: string | null
+          plugin_id: string
+          published_at?: string | null
+          published_by?: string | null
+          runtime?: string
+          version: string
+        }
+        Update: {
+          changelog?: string | null
+          checksum?: string
+          created_at?: string
+          deprecated?: boolean
+          entry_point?: string | null
+          id?: string
+          manifest?: Json
+          min_platform_version?: string | null
+          plugin_id?: string
+          published_at?: string | null
+          published_by?: string | null
+          runtime?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plugin_versions_plugin_id_fkey"
+            columns: ["plugin_id"]
+            isOneToOne: false
+            referencedRelation: "plugins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plugins: {
+        Row: {
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          homepage_url: string | null
+          icon_url: string | null
+          id: string
+          latest_version_id: string | null
+          name: string
+          publisher: string
+          publisher_url: string | null
+          slug: string
+          status: string
+          tags: string[]
+          updated_at: string
+          verified: boolean
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          homepage_url?: string | null
+          icon_url?: string | null
+          id?: string
+          latest_version_id?: string | null
+          name: string
+          publisher: string
+          publisher_url?: string | null
+          slug: string
+          status?: string
+          tags?: string[]
+          updated_at?: string
+          verified?: boolean
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          homepage_url?: string | null
+          icon_url?: string | null
+          id?: string
+          latest_version_id?: string | null
+          name?: string
+          publisher?: string
+          publisher_url?: string | null
+          slug?: string
+          status?: string
+          tags?: string[]
+          updated_at?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plugins_latest_version_fk"
+            columns: ["latest_version_id"]
+            isOneToOne: false
+            referencedRelation: "plugin_versions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       posts: {
         Row: {
