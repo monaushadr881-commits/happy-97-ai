@@ -400,7 +400,7 @@ export const orchestrator = {
 
     // 3. intent classification
     const guess = intent.classify(params.input, { module: params.module, founder_mode: params.founder_mode });
-    const intentRow = unwrap(await sb.from("brain_intents").insert({
+    const intentRow: any = unwrap(await sb.from("brain_intents").insert({
       session_id: session.id, company_id: params.company_id,
       intent: guess.intent, action: guess.action, entity_type: guess.entity_type,
       confidence: guess.confidence, alternatives: guess.alternatives,
