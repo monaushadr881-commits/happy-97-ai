@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "profile": {
+    "quality": "Professional, natural, executive",
+    "warmth": 0.7,
+    "formality": 0.75,
+    "pace_wpm": 165
+  },
+  "languages": [
+    { "code": "en-IN", "label": "English (India)", "primary": true },
+    { "code": "hi-IN", "label": "Hindi (India)", "primary": true }
+  ],
+  "provider": {
+    "tts_endpoint": "/api/dh.tts",
+    "streaming": true,
+    "interruptible": true,
+    "hands_free": true,
+    "context_aware": true
+  },
+  "audio_pipeline": {
+    "shared_bus": "src/components/digital-human/audio-bus.ts",
+    "amplitude_source": "AnalyserNode RMS @ 60Hz",
+    "publishes": ["speech", "mic"]
+  },
+  "locked": true
+}

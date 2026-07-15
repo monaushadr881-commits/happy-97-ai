@@ -1,0 +1,39 @@
+{
+  "archetype": "Professional Executive",
+  "presentation": "Corporate Premium",
+  "gender_presentation": "Male",
+  "apparent_age_range": "28-35",
+  "ethnicity_presentation": "South Asian (Indian)",
+  "build": "Athletic, medium build",
+  "posture": "Confident, natural standing pose",
+  "eye_contact": "Direct, warm, confident",
+  "expression_default": "Professional smile",
+  "face": {
+    "hair": "Dark, medium length, styled back with natural volume",
+    "facial_hair": "Well-groomed short beard and moustache",
+    "skin_tone": "Warm medium",
+    "eye_color": "Dark brown"
+  },
+  "outfit": {
+    "suit": "Luxury tailored black suit (single-breasted, two-button)",
+    "shirt": "Crisp white dress shirt, top button open",
+    "pocket_square": "Deep burgundy / red",
+    "belt": "Black leather",
+    "shoes": "White premium leather sneakers",
+    "accessories": "Classic wristwatch (right wrist)"
+  },
+  "palette": {
+    "primary": "#0A0A0A",
+    "shirt": "#FFFFFF",
+    "accent": "#8B1F2A",
+    "skin": "#B98A66",
+    "hair": "#141114"
+  },
+  "environment": {
+    "default_backdrop": "Executive office with warm sunset skyline",
+    "lighting": "Warm rim + soft key, cinematic",
+    "mood": "Premium, calm, aspirational"
+  },
+  "reference_image": "./happy-reference-r4.png.asset.json",
+  "locked": true
+}

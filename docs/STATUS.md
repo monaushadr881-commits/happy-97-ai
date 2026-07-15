@@ -1,6 +1,15 @@
 # HAPPY Platform — Honest Status Matrix
 
-**Last updated:** Batch R6 (Enterprise Financial Foundation — Subscriptions + Wallet + Credits).
+**Last updated:** Batch R4-CHAR (Official HAPPY Character Identity locked — see `src/assets/digital-human/character/`). Prior working rounds R1–R6 unchanged.
+
+## R4-CHAR — Character Identity Lock
+
+- Registered official HAPPY character (professional executive, luxury black suit, white shirt, dark formal look — H.P PRIVATE LIMITED).
+- Locked reference image at `src/assets/digital-human/character/happy-reference-r4.png.asset.json`.
+- Created character manifest: `character.json`, `identity.json`, `appearance.json`, `expressions.json` (17 tokens), `animations.json`, `runtime.json`, `voice.json`, `personality.json`.
+- Portrait runtime remains **Working** and continues to render `HappyAvatar.tsx`. No runtime code was changed in this pass (per Freeze rule).
+- Live2D and Live3D remain **Blocked (asset)** — the character lock does not enable them.
+- Created `docs/MASTER_EXECUTION_REGISTER.md` — permanent implementation register.
 
 > This document supersedes every "Successfully Activated" / "Production
 > Certified" declaration in the `docs/architecture/*.md` and

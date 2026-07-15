@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "default": "neutral",
+  "tokens": [
+    { "id": "neutral", "label": "Neutral", "weight": 1.0, "notes": "Baseline calm executive presence." },
+    { "id": "smile", "label": "Smile", "notes": "Warm closed-lip smile." },
+    { "id": "greeting", "label": "Greeting", "notes": "Namaste / welcome cue, brows lifted." },
+    { "id": "thinking", "label": "Thinking", "notes": "Slight brow furrow, gaze up-right." },
+    { "id": "listening", "label": "Listening", "notes": "Head tilt, attentive eyes." },
+    { "id": "speaking", "label": "Speaking", "notes": "Mouth active, breath live." },
+    { "id": "teaching", "label": "Teaching", "notes": "Open palm, patient." },
+    { "id": "presentation", "label": "Presentation", "notes": "Formal, forward gaze." },
+    { "id": "founder", "label": "Founder", "notes": "Confident, decisive." },
+    { "id": "business", "label": "Business", "notes": "Focused, neutral-positive." },
+    { "id": "research", "label": "Research", "notes": "Analytical, focused." },
+    { "id": "approval", "label": "Approval", "notes": "Nod, subtle smile." },
+    { "id": "celebration", "label": "Celebration", "notes": "Wide smile, brows raised." },
+    { "id": "concern", "label": "Concern", "notes": "Brows drawn, soft frown." },
+    { "id": "empathy", "label": "Empathy", "notes": "Soft eyes, gentle smile." },
+    { "id": "confidence", "label": "Confidence", "notes": "Chin level, steady gaze." },
+    { "id": "curiosity", "label": "Curiosity", "notes": "One brow raised, head tilt." }
+  ],
+  "blend": {
+    "mode": "weighted_opacity_crossfade",
+    "max_active": 2,
+    "fade_ms": 250
+  },
+  "locked": true
+}

@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "loops": [
+    { "id": "idle", "label": "Idle", "duration_ms": 6000, "loop": true },
+    { "id": "blink", "label": "Blink", "duration_ms": 140, "cadence_ms": [3000, 6000] },
+    { "id": "double_blink", "label": "Double Blink", "duration_ms": 320, "cadence_ms": [15000, 30000] },
+    { "id": "breathing", "label": "Breathing", "duration_ms": 4200, "loop": true },
+    { "id": "head_drift", "label": "Head Drift", "duration_ms": 8000, "loop": true, "amplitude_deg": 1.5 },
+    { "id": "weight_shift", "label": "Weight Shift", "duration_ms": 9000, "loop": true }
+  ],
+  "gestures": [
+    { "id": "greeting", "label": "Greeting" },
+    { "id": "wave", "label": "Wave" },
+    { "id": "point", "label": "Point" },
+    { "id": "explain", "label": "Explain" },
+    { "id": "presentation", "label": "Presentation" },
+    { "id": "teaching", "label": "Teaching" },
+    { "id": "whiteboard", "label": "Whiteboard" },
+    { "id": "thank_you", "label": "Thank You" },
+    { "id": "goodbye", "label": "Goodbye" },
+    { "id": "celebrate", "label": "Celebrate" }
+  ],
+  "reduced_motion": {
+    "disable": ["head_drift", "weight_shift", "double_blink"],
+    "attenuate_amplitude": 0.3
+  },
+  "locked": true
+}

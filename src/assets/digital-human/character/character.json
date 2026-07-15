@@ -1,0 +1,20 @@
+{
+  "$schema": "./character.schema.json",
+  "version": "1.0.0",
+  "id": "happy",
+  "name": "HAPPY",
+  "role": "Enterprise AI Operating System",
+  "owner": "H.P PRIVATE LIMITED",
+  "identity_ref": "./identity.json",
+  "appearance_ref": "./appearance.json",
+  "expressions_ref": "./expressions.json",
+  "animations_ref": "./animations.json",
+  "runtime_ref": "./runtime.json",
+  "voice_ref": "./voice.json",
+  "personality_ref": "./personality.json",
+  "reference_asset": "./happy-reference-r4.png.asset.json",
+  "locked": true,
+  "lock_reason": "R4 Character Identity — Founder-approved. Do not redesign face, hair, body, or outfit without Founder approval.",
+  "created_at": "2026-07-15",
+  "audit_round": "R4"
+}
