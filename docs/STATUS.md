@@ -821,3 +821,12 @@ helpers (`is_company_member`, `is_company_admin`, `is_platform_founder`).
 ### Final Rule
 CMS is marked WORKING only for the surfaces actually built end-to-end above.
 No admin UI is claimed — that ships in a later pass.
+
+## R18 — Enterprise CRM Runtime — WORKING
+
+- **Tables**: crm_tasks, crm_notes (RLS company-scoped); reuses existing customers, leads, deals, companies, activity_events, notifications, audit_logs.
+- **Engine** (`src/lib/crm/engine.ts`): leads (CRUD, convert→customer), customers (CRUD, unified profile with invoices/payments/marketplace), deals (CRUD, pipeline aggregation, stage transitions with probability + close semantics), tasks (CRUD, complete, reschedule, assignment notifications), notes (pin/attachments), activity timeline per entity + company, cross-entity search, founder dashboard (counts, pipeline value, conversion rate, open tasks, recent activity).
+- **Server functions** (`src/lib/crm/crm.functions.ts`): 25 auth-gated `createServerFn` endpoints via `requireSupabaseAuth`.
+- **Security**: RLS `is_company_member` on all CRM tables; audit_logs via `write_audit` RPC for every mutation; notifications on lead assignment, task assignment, deal won/lost.
+- **PARTIAL**: contact/company sub-entities alias to leads/customers; email/call log ingestion pending external providers.
+- **PLANNED**: recurring-task expander cron, meeting attendee scheduling, per-owner permission matrix beyond company membership.
