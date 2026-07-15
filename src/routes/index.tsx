@@ -230,8 +230,16 @@ function Hero() {
   };
   const onLeave = () => setTilt({ x: 0, y: 0 });
 
-  const particles = useMemo(
-    () =>
+  // Generate randomized particles on the client only. Using Math.random() in
+  // a useState/useMemo initializer runs on both the server and the client with
+  // different values, which triggers React hydration mismatches (visible in
+  // the console as long "server rendered HTML didn't match the client" logs).
+  // SSR renders zero particles; the client fills them in after mount.
+  const [particles, setParticles] = useState<
+    { id: number; left: number; top: number; size: number; delay: number; dur: number; opacity: number }[]
+  >([]);
+  useEffect(() => {
+    setParticles(
       Array.from({ length: 22 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
@@ -241,8 +249,9 @@ function Hero() {
         dur: 9 + Math.random() * 12,
         opacity: 0.15 + Math.random() * 0.35,
       })),
-    [],
-  );
+    );
+  }, []);
+
 
   return (
     <section id="top" className="relative min-h-[92vh] pt-28 pb-24 md:pt-36 md:pb-32 overflow-hidden">
