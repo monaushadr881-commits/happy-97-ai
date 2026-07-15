@@ -58,7 +58,7 @@ export const addLearningPathItemFn = createServerFn({ method: 'POST' })
       library: 'ai_knowledge_documents', academy: 'courses', presentation: 'presentation_sessions',
     };
     const table = tableMap[data.itemType];
-    const { data: exists } = await context.supabase.from(table).select('id').eq('id', data.itemRef).maybeSingle();
+    const { data: exists } = await (context.supabase as any).from(table).select('id').eq('id', data.itemRef).maybeSingle();
     if (!exists) throw new Error(`Referenced ${data.itemType} does not exist or is not accessible`);
     const { data: row, error } = await context.supabase.from('learning_path_items').insert({
       path_id: data.pathId, seq: data.seq, item_type: data.itemType,
@@ -120,17 +120,17 @@ export const computeLearningPathProgressFn = createServerFn({ method: 'GET' })
         done = /complet/i.test(String(e?.status ?? ''));
       } else if (item.item_type === 'lesson') {
         const { data: p } = await context.supabase.from('lesson_progress')
-          .select('status').eq('lesson_id', item.item_ref).eq('user_id', targetUser).maybeSingle();
-        done = /complet/i.test(String(p?.status ?? ''));
+          .select('completed').eq('lesson_id', item.item_ref).eq('user_id', targetUser).maybeSingle();
+        done = Boolean((p as any)?.completed);
       } else if (item.item_type === 'quiz') {
         const { data: a } = await context.supabase.from('quiz_attempts')
           .select('score,passed').eq('quiz_id', item.item_ref).eq('user_id', targetUser)
           .order('created_at', { ascending: false }).limit(1).maybeSingle();
-        done = Boolean(a?.passed);
+        done = Boolean((a as any)?.passed);
       } else if (item.item_type === 'assignment') {
         const { data: s } = await context.supabase.from('assignment_submissions')
-          .select('status').eq('assignment_id', item.item_ref).eq('user_id', targetUser).maybeSingle();
-        done = /submit|complet|grade/i.test(String(s?.status ?? ''));
+          .select('submitted_at,graded_at').eq('assignment_id', item.item_ref).eq('user_id', targetUser).maybeSingle();
+        done = Boolean((s as any)?.submitted_at);
       }
       results.push({ item_id: item.id, seq: item.seq, type: item.item_type, done, required: item.required });
     }

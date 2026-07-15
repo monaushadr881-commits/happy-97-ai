@@ -117,9 +117,9 @@ export const processReceptionistTurnFn = createServerFn({ method: 'POST' })
         email: data.createLead.email ?? null,
         phone: data.createLead.phone ?? null,
         source: data.createLead.source,
-        status: 'new',
-        company_id: session.company_id ?? null,
-      }).select('id').single();
+        status: 'active',
+        company_id: session.company_id ?? '',
+      } as any).select('id').single();
       if (!error && lead) outcome.lead_id = lead.id as JsonValue;
     }
 
