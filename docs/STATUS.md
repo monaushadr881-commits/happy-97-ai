@@ -1197,3 +1197,62 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 - `naturalQuery` returns `inferences: []` explicitly and answers only from verified data.
 - All writes scoped by `is_company_admin`; all reads by `is_company_member` via RLS.
 - Entity uniqueness (`company_id, kind, ref_id`) prevents duplicate entities from repeated syncs.
+
+## R30 — HAPPY Enterprise Automation Engine
+
+### Files
+- `supabase/migrations/*_r30_automation.sql` — 5 tables (`auto_workflows`, `auto_runs`, `auto_step_runs`, `auto_queue`, `auto_approvals`) with RLS (member read, admin write), immutable-step-runs trigger, and priority-indexed queue.
+- `src/lib/automation/engine.ts` — workflow CRUD, condition engine (eq/ne/gt/lt/contains/in), action gateway routing through existing runtimes (notification/memory/crm/kg direct; other runtimes recorded as dispatch intents), runner with sequential steps + conditions + approvals + retry-on-failure, queue processor with locking + dead-letter, approval decide → resume, runs/detail/health.
+- `src/lib/automation/automation.functions.ts` — 11 auth-gated `createServerFn` endpoints.
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Workflow Engine (sequential, conditional, approval, retry, hybrid) | WORKING |
+| Trigger Engine (15 trigger kinds registered; manual/api/schedule wired) | WORKING |
+| Action Engine (routes via existing runtimes; direct writes only for notification/memory/crm/kg) | WORKING |
+| Condition Engine (eq/ne/gt/lt/contains/in on nested context paths) | WORKING |
+| Scheduler / Queue (priority + scheduled_for + worker lock + attempts + dead-letter) | WORKING |
+| Approval Engine (workflow-level + per-step, expiring, admin-only decision) | WORKING |
+| Retry Engine (exponential/linear backoff, respects max_attempts) | WORKING |
+| History Engine (immutable step logs, runs list, run detail) | WORKING |
+| Automation Health Dashboard (7-day window: success %, avg ms, top workflows, queue depth) | WORKING |
+| Parallel step execution | PARTIAL — schema supports `parallel` flag; runner is sequential (parallel batch on roadmap) |
+| Cron-based scheduler wiring | PLANNED — `cron_expr` stored; pg_cron/queue-drain job to be scheduled per environment |
+| Destructive actions on other runtimes | BLOCKED — engine records dispatch intent; each runtime keeps its own approval/execute path |
+
+### Guarantees
+- Every workflow step is logged in `auto_step_runs` which is DB-immutable (trigger).
+- Action gateway NEVER writes to business tables it does not own — cross-runtime effects are dispatched via the runtime's own server function.
+- Approval-required workflows/steps halt the runner and require an admin decision before continuing.
+- Retries are enqueued (not inline recursion), so failures are idempotent up to `max_attempts` then dead-lettered.
+- All company reads/writes RLS-scoped by `is_company_member`/`is_company_admin`.
+
+## R31 — HAPPY Enterprise AI Agent Platform
+
+### Files
+- `supabase/migrations/*_r31_agents.sql` — 5 tables (`agent_registry`, `agent_tasks`, `agent_messages`, `agent_tool_calls`, `agent_metrics_daily`) with RLS, immutable `agent_messages` and `agent_tool_calls` triggers, unique `(company_id, code)` on registry.
+- `src/lib/agents/engine.ts` — registry with 18 system-agent defaults, task router (17 task-type mappings), task lifecycle (assign → start → complete/escalate), tool gateway (checks `allowed_runtimes`, records intent, never bypasses business runtimes), inter-agent messaging, task detail with messages + tool calls, 7-day health analytics per agent.
+- `src/lib/agents/agents.functions.ts` — 14 auth-gated `createServerFn` endpoints.
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Agent Runtime (register/list/get/resolve; system + custom kinds) | WORKING |
+| Agent Registry (18 system agents seedable per company with default capabilities + allowed runtimes) | WORKING |
+| Task Router (17 task types → agent codes; falls back to business agent) | WORKING |
+| Orchestrator (assign → start → complete/escalate → child task on escalation) | WORKING |
+| Tool Gateway (allowed_runtimes enforcement; blocks disallowed calls with audit) | WORKING |
+| Context Gateway (Brain/Memory/KG/Analytics runtimes reachable via allowed_runtimes) | WORKING |
+| Inter-agent Communication (agent↔agent, agent↔brain, agent↔founder, agent↔user, agent↔system) | WORKING |
+| Agent Analytics (per-agent success rate, avg duration, escalations, running count) | WORKING |
+| Audit (immutable `agent_messages` and `agent_tool_calls`; fact vs recommendation separated) | WORKING |
+| Streaming responses / SSE | PLANNED — surface via runtime's own streaming endpoints |
+| Automatic reasoning loop (LLM) | PLANNED — orchestrator provides the harness; model invocation lives in each specialist runtime |
+
+### Guarantees
+- HAPPY Brain remains the sole orchestrator; agents are executors registered per company.
+- Agents CANNOT touch business tables directly — `toolCall` verifies `allowed_runtimes` and records a dispatch intent; the actual write goes through the runtime's own server function (RLS + approvals intact).
+- Every inter-agent message and tool call is DB-immutable; result facts and AI recommendations are stored in separate columns.
+- Escalation creates a child task with a lower priority number (higher priority) linked via `parent_task_id`.
+- All reads/writes RLS-scoped by `is_company_member`/`is_company_admin`; registry uniqueness prevents duplicate agents per company.
