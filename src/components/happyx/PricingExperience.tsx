@@ -1223,8 +1223,8 @@ export function PricingExperience() {
                 {filtered.map((cat) => {
                   const isOpen = openCats[cat.id] !== false;
                   return (
-                    <>
-                      <tr key={`h-${cat.id}`} className="bg-obsidian/80 backdrop-blur">
+                    <Fragment key={cat.id}>
+                      <tr className="bg-obsidian/80 backdrop-blur">
                         <th scope="colgroup" colSpan={6} className="px-3 py-2">
                           <button type="button" onClick={() => toggleCat(cat.id)} aria-expanded={isOpen} aria-controls={`cat-${cat.id}`}
                             className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-[12px] font-semibold uppercase tracking-widest text-gold transition-colors hover:bg-gold/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/40">
@@ -1241,7 +1241,7 @@ export function PricingExperience() {
                           ))}
                         </tr>
                       ))}
-                    </>
+                    </Fragment>
                   );
                 })}
               </tbody>
