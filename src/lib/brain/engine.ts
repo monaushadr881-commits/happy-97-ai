@@ -157,11 +157,13 @@ export interface PlanStep {
   description: string;
 }
 
+export interface BrainPlan {
+  goal: string; steps: PlanStep[]; risks: string[]; dependencies: string[];
+  alternatives: string[]; requires_confirmation: boolean;
+}
+
 export const planner = {
-  build(intent: IntentGuess, company_id: string): {
-    goal: string; steps: PlanStep[]; risks: string[]; dependencies: string[];
-    alternatives: string[]; requires_confirmation: boolean;
-  } {
+  build(intent: IntentGuess, company_id: string): BrainPlan {
     const steps: PlanStep[] = [];
     const risks: string[] = [];
     const deps: string[] = [];
