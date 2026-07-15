@@ -1031,3 +1031,39 @@ Production backbone for H.P SHUDDH MASALE and future manufacturing businesses. R
 ### Verification
 - `bunx tsgo --noEmit` — passes.
 - Migration linter: 9 warnings are all pre-existing SECURITY DEFINER helpers (not introduced by R24).
+
+## R25 — Enterprise Finance & Accounting Runtime
+
+**Finance Runtime — WORKING.**
+
+### Files changed
+- `supabase/migrations/20260715133024_r25_finance.sql` — 9 new tables + 6 enums + posted-journal immutability trigger.
+- `src/lib/finance/engine.ts` — real GL / journal / AP / AR / bank / GST / reports engines. Every ledger change flows through balanced double-entry journals; posted journals are locked by DB trigger.
+- `src/lib/finance/finance.functions.ts` — 38 auth-gated `createServerFn` endpoints, RLS via `context.supabase`.
+
+### Engine status
+| Engine | Status |
+| --- | --- |
+| Chart of Accounts (+ seed for Indian standard) | WORKING |
+| Journal Engine (create → post → reverse, immutable) | WORKING |
+| Auto-post: Invoice / Vendor Bill / Payment → Ledger | WORKING |
+| Accounts Payable (vendor bills, approve, mark paid, outstanding) | WORKING |
+| Accounts Receivable (outstanding, aging, statements) | WORKING |
+| Credit / Debit Notes | WORKING |
+| Cashbook / Bank Accounts / Transactions | WORKING |
+| Bank Reconciliation (statement vs book) | WORKING |
+| GST Engine (period compute, return draft, filing) | WORKING |
+| Reports (Trial Balance, Balance Sheet, P&L, Cash Flow, Account Ledger) | WORKING |
+| Founder Finance Dashboard (revenue/expense/profit/cash/AR/AP/GST) | WORKING |
+| Notification wiring (invoice due, low cash, GST due) | PLANNED — data available; scheduled jobs pending. |
+
+### Guarantees
+- Every posted `journal_entries` row and its `journal_lines` are immutable (trigger blocks UPDATE/DELETE of financial fields and lines).
+- Journals must balance (debit = credit) before they can be created; `post()` rejects unbalanced entries.
+- Reversals are new posted entries with flipped debits/credits and a `reversal_of` pointer; the original is marked `reversed` and never deleted.
+- Ledger writes only happen via `journal.post()` and reflect real business documents.
+- RLS: `is_company_member` (read), `is_company_admin` (write) on all 9 tables.
+
+### Verification
+- `bunx tsgo --noEmit` — passes.
+- Linter warnings are pre-existing SECURITY DEFINER helpers (not introduced by R25).
