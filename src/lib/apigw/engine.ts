@@ -525,7 +525,7 @@ export async function webhookDispatchDue(sb: SB, opts: { limit?: number } = {}) 
         next_attempt_at: new Date(Date.now() + backoff).toISOString(),
         last_status_code: code || null, last_response: responseText, last_error: error_text,
       } as never).eq("id", d.id);
-      await sb.from("apigw_webhook_endpoints" as never).rpc; // no-op placeholder to keep tree shakers happy
+      // no side effect on endpoint on retry
       results.push({ id: d.id, status: "retrying", code, error: error_text ?? undefined });
     }
   }
