@@ -342,7 +342,7 @@ export async function approvalDecide(sb: SB, userId: string, opts: { approval_id
     status: opts.decision, decided_by: userId, decided_at: new Date().toISOString(), decision_note: opts.note ?? null,
   } as never).eq("id", opts.approval_id).select("*").single();
   if (error) throw error;
-  if (opts.decision === "approved") {
+  if (opts.decision === "approved" && appr.workflow_id) {
     const wf = await workflowGet(sb, userId, appr.workflow_id);
     if (wf) {
       const { data: run } = await sb.from("auto_runs").select("*").eq("id", appr.run_id).single();
