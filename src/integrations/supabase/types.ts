@@ -15795,6 +15795,160 @@ export type Database = {
           },
         ]
       }
+      release_artifacts: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          created_by: string
+          filename: string
+          id: string
+          kind: string
+          metadata: Json
+          release_id: string
+          sbom: Json
+          sha256: string | null
+          signed: boolean
+          signing_identity: string | null
+          size_bytes: number
+          storage_url: string | null
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          created_by?: string
+          filename: string
+          id?: string
+          kind: string
+          metadata?: Json
+          release_id: string
+          sbom?: Json
+          sha256?: string | null
+          signed?: boolean
+          signing_identity?: string | null
+          size_bytes?: number
+          storage_url?: string | null
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          created_by?: string
+          filename?: string
+          id?: string
+          kind?: string
+          metadata?: Json
+          release_id?: string
+          sbom?: Json
+          sha256?: string | null
+          signed?: boolean
+          signing_identity?: string | null
+          size_bytes?: number
+          storage_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_artifacts_artifact_id_fkey"
+            columns: ["artifact_id"]
+            isOneToOne: false
+            referencedRelation: "deploy_artifacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "release_artifacts_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_changelog_entries: {
+        Row: {
+          authored_by: string
+          category: string
+          created_at: string
+          detail: string | null
+          id: string
+          reference_url: string | null
+          release_id: string
+          summary: string
+        }
+        Insert: {
+          authored_by?: string
+          category: string
+          created_at?: string
+          detail?: string | null
+          id?: string
+          reference_url?: string | null
+          release_id: string
+          summary: string
+        }
+        Update: {
+          authored_by?: string
+          category?: string
+          created_at?: string
+          detail?: string | null
+          id?: string
+          reference_url?: string | null
+          release_id?: string
+          summary?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_changelog_entries_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_crash_symbols: {
+        Row: {
+          external_url: string | null
+          filename: string
+          id: string
+          platform_code: string
+          release_id: string
+          sha256: string
+          size_bytes: number
+          symbol_type: string
+          uploaded_at: string
+          uploaded_by: string
+        }
+        Insert: {
+          external_url?: string | null
+          filename: string
+          id?: string
+          platform_code: string
+          release_id: string
+          sha256: string
+          size_bytes?: number
+          symbol_type: string
+          uploaded_at?: string
+          uploaded_by?: string
+        }
+        Update: {
+          external_url?: string | null
+          filename?: string
+          id?: string
+          platform_code?: string
+          release_id?: string
+          sha256?: string
+          size_bytes?: number
+          symbol_type?: string
+          uploaded_at?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_crash_symbols_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       release_records: {
         Row: {
           certification_id: string | null
@@ -15841,6 +15995,164 @@ export type Database = {
             columns: ["certification_id"]
             isOneToOne: false
             referencedRelation: "certification_reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_rollbacks: {
+        Row: {
+          approved_by: string | null
+          completed_at: string | null
+          created_at: string
+          from_release_id: string
+          id: string
+          initiated_by: string
+          metadata: Json
+          reason: string
+          severity: string
+          status: string
+          stores_affected: Json
+          to_release_id: string
+        }
+        Insert: {
+          approved_by?: string | null
+          completed_at?: string | null
+          created_at?: string
+          from_release_id: string
+          id?: string
+          initiated_by?: string
+          metadata?: Json
+          reason: string
+          severity?: string
+          status?: string
+          stores_affected?: Json
+          to_release_id: string
+        }
+        Update: {
+          approved_by?: string | null
+          completed_at?: string | null
+          created_at?: string
+          from_release_id?: string
+          id?: string
+          initiated_by?: string
+          metadata?: Json
+          reason?: string
+          severity?: string
+          status?: string
+          stores_affected?: Json
+          to_release_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_rollbacks_from_release_id_fkey"
+            columns: ["from_release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "release_rollbacks_to_release_id_fkey"
+            columns: ["to_release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_signing_profiles: {
+        Row: {
+          created_at: string
+          env_var_name: string | null
+          fingerprint: string | null
+          id: string
+          identity_hint: string | null
+          is_active: boolean
+          key_source: string
+          platform_code: string
+          profile_name: string
+          rotated_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          env_var_name?: string | null
+          fingerprint?: string | null
+          id?: string
+          identity_hint?: string | null
+          is_active?: boolean
+          key_source?: string
+          platform_code: string
+          profile_name: string
+          rotated_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          env_var_name?: string | null
+          fingerprint?: string | null
+          id?: string
+          identity_hint?: string | null
+          is_active?: boolean
+          key_source?: string
+          platform_code?: string
+          profile_name?: string
+          rotated_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      release_store_submissions: {
+        Row: {
+          created_at: string
+          external_submission_id: string | null
+          id: string
+          missing_requirements: Json
+          release_id: string
+          reviewed_at: string | null
+          reviewer_notes: string | null
+          status: string
+          store: string
+          submitted_at: string | null
+          submitted_by: string | null
+          updated_at: string
+          validation_report: Json
+        }
+        Insert: {
+          created_at?: string
+          external_submission_id?: string | null
+          id?: string
+          missing_requirements?: Json
+          release_id: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          store: string
+          submitted_at?: string | null
+          submitted_by?: string | null
+          updated_at?: string
+          validation_report?: Json
+        }
+        Update: {
+          created_at?: string
+          external_submission_id?: string | null
+          id?: string
+          missing_requirements?: Json
+          release_id?: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          store?: string
+          submitted_at?: string | null
+          submitted_by?: string | null
+          updated_at?: string
+          validation_report?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_store_submissions_release_id_fkey"
+            columns: ["release_id"]
+            isOneToOne: false
+            referencedRelation: "release_records"
             referencedColumns: ["id"]
           },
         ]
