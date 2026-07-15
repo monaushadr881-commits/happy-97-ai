@@ -1622,6 +1622,338 @@ export type Database = {
           },
         ]
       }
+      brain_decisions: {
+        Row: {
+          candidates: Json
+          chosen: string
+          company_id: string
+          created_at: string
+          decision_type: string
+          facts: Json
+          id: string
+          rationale: string
+          recommendation: Json
+          session_id: string
+        }
+        Insert: {
+          candidates?: Json
+          chosen: string
+          company_id: string
+          created_at?: string
+          decision_type: string
+          facts?: Json
+          id?: string
+          rationale: string
+          recommendation?: Json
+          session_id: string
+        }
+        Update: {
+          candidates?: Json
+          chosen?: string
+          company_id?: string
+          created_at?: string
+          decision_type?: string
+          facts?: Json
+          id?: string
+          rationale?: string
+          recommendation?: Json
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brain_decisions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brain_decisions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "brain_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      brain_intents: {
+        Row: {
+          action: string | null
+          alternatives: Json
+          chosen_runtime: string | null
+          company_id: string
+          confidence: number
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          intent: string
+          reasoning: string | null
+          session_id: string
+        }
+        Insert: {
+          action?: string | null
+          alternatives?: Json
+          chosen_runtime?: string | null
+          company_id: string
+          confidence?: number
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          intent: string
+          reasoning?: string | null
+          session_id: string
+        }
+        Update: {
+          action?: string | null
+          alternatives?: Json
+          chosen_runtime?: string | null
+          company_id?: string
+          confidence?: number
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          intent?: string
+          reasoning?: string | null
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brain_intents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brain_intents_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "brain_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      brain_plans: {
+        Row: {
+          alternatives: Json
+          company_id: string
+          created_at: string
+          dependencies: Json
+          goal: string
+          id: string
+          intent_id: string | null
+          requires_confirmation: boolean
+          risks: Json
+          session_id: string
+          status: string
+          steps: Json
+          updated_at: string
+        }
+        Insert: {
+          alternatives?: Json
+          company_id: string
+          created_at?: string
+          dependencies?: Json
+          goal: string
+          id?: string
+          intent_id?: string | null
+          requires_confirmation?: boolean
+          risks?: Json
+          session_id: string
+          status?: string
+          steps?: Json
+          updated_at?: string
+        }
+        Update: {
+          alternatives?: Json
+          company_id?: string
+          created_at?: string
+          dependencies?: Json
+          goal?: string
+          id?: string
+          intent_id?: string | null
+          requires_confirmation?: boolean
+          risks?: Json
+          session_id?: string
+          status?: string
+          steps?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brain_plans_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brain_plans_intent_id_fkey"
+            columns: ["intent_id"]
+            isOneToOne: false
+            referencedRelation: "brain_intents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brain_plans_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "brain_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      brain_sessions: {
+        Row: {
+          channel: string | null
+          company_id: string
+          completed_at: string | null
+          context: Json
+          created_at: string
+          founder_mode: boolean
+          id: string
+          input: string | null
+          source: string
+          started_at: string
+          status: string
+          summary: string | null
+          updated_at: string
+          user_id: string | null
+          workspace_id: string | null
+        }
+        Insert: {
+          channel?: string | null
+          company_id: string
+          completed_at?: string | null
+          context?: Json
+          created_at?: string
+          founder_mode?: boolean
+          id?: string
+          input?: string | null
+          source: string
+          started_at?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Update: {
+          channel?: string | null
+          company_id?: string
+          completed_at?: string | null
+          context?: Json
+          created_at?: string
+          founder_mode?: boolean
+          id?: string
+          input?: string | null
+          source?: string
+          started_at?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brain_sessions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brain_sessions_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      brain_tool_calls: {
+        Row: {
+          ai_recommendation: Json
+          args: Json
+          company_id: string
+          confirmed_by: string | null
+          created_at: string
+          duration_ms: number | null
+          error: string | null
+          id: string
+          plan_id: string | null
+          requires_confirmation: boolean
+          result_facts: Json
+          runtime: string
+          session_id: string
+          status: string
+          tool: string
+          user_id: string | null
+        }
+        Insert: {
+          ai_recommendation?: Json
+          args?: Json
+          company_id: string
+          confirmed_by?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          plan_id?: string | null
+          requires_confirmation?: boolean
+          result_facts?: Json
+          runtime: string
+          session_id: string
+          status?: string
+          tool: string
+          user_id?: string | null
+        }
+        Update: {
+          ai_recommendation?: Json
+          args?: Json
+          company_id?: string
+          confirmed_by?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          plan_id?: string | null
+          requires_confirmation?: boolean
+          result_facts?: Json
+          runtime?: string
+          session_id?: string
+          status?: string
+          tool?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brain_tool_calls_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brain_tool_calls_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "brain_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "brain_tool_calls_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "brain_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       brands: {
         Row: {
           company_id: string
