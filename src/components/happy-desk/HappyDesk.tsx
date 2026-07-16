@@ -28,6 +28,24 @@ import { decideDelivery, initialGateState, type Notification as HappyNotif, type
 import { saveSession, loadSession } from "@/lib/happy-r86/session-restore";
 import { loadDaily, saveDaily, recordDaily, type DailyEventKind } from "@/lib/happy-r88/daily-memory";
 import { publishContext, type ContextSubsystem, type SubsystemStatus } from "@/lib/happy-r88/context-bus";
+import { anchorFor, type Anchor, type PresenceMode } from "@/lib/happy-r89/route-anchors";
+import { decidePersona } from "@/lib/happy-r89/persona";
+
+/** Map R89 anchors (which include center-*) to the desk's cardinal corners. */
+function anchorToCorner(a: Anchor): DeskCorner {
+  switch (a) {
+    case "br": case "center-bottom": return "br";
+    case "bl": return "bl";
+    case "tr": case "center-right": return "tr";
+    case "tl": return "tl";
+  }
+}
+function presenceModeFor(input: { delivery: boolean; open: boolean; listening: boolean; pathname: string }): PresenceMode {
+  if (input.pathname.startsWith("/_authenticated/happy/presentation")) return "presentation";
+  if (input.delivery) return "notification";
+  if (input.open || input.listening) return "conversation";
+  return "idle";
+}
 
 
 /**
