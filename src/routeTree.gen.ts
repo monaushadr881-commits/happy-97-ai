@@ -215,12 +215,14 @@ import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
 import { Route as AuthenticatedUabrRouteRouteImport } from './routes/_authenticated/uabr/route'
 import { Route as AuthenticatedReleasesRouteRouteImport } from './routes/_authenticated/releases/route'
+import { Route as AuthenticatedProductionRouteRouteImport } from './routes/_authenticated/production/route'
 import { Route as AuthenticatedLiveRouteRouteImport } from './routes/_authenticated/live/route'
 import { Route as AuthenticatedHappyRouteRouteImport } from './routes/_authenticated/happy/route'
 import { Route as AuthenticatedFounderAiRouteRouteImport } from './routes/_authenticated/founder-ai/route'
 import { Route as AuthenticatedUabrIndexRouteImport } from './routes/_authenticated/uabr/index'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedReleasesIndexRouteImport } from './routes/_authenticated/releases/index'
+import { Route as AuthenticatedProductionIndexRouteImport } from './routes/_authenticated/production/index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
 import { Route as AuthenticatedLiveIndexRouteImport } from './routes/_authenticated/live/index'
@@ -308,6 +310,12 @@ import { Route as AuthenticatedReleasesDashboardRouteImport } from './routes/_au
 import { Route as AuthenticatedReleasesBuildsRouteImport } from './routes/_authenticated/releases/builds'
 import { Route as AuthenticatedReleasesArtifactsRouteImport } from './routes/_authenticated/releases/artifacts'
 import { Route as AuthenticatedReleasesAnalyticsRouteImport } from './routes/_authenticated/releases/analytics'
+import { Route as AuthenticatedProductionTestingRouteImport } from './routes/_authenticated/production/testing'
+import { Route as AuthenticatedProductionSecurityRouteImport } from './routes/_authenticated/production/security'
+import { Route as AuthenticatedProductionQualityRouteImport } from './routes/_authenticated/production/quality'
+import { Route as AuthenticatedProductionPerformanceRouteImport } from './routes/_authenticated/production/performance'
+import { Route as AuthenticatedProductionDeploymentRouteImport } from './routes/_authenticated/production/deployment'
+import { Route as AuthenticatedProductionDashboardRouteImport } from './routes/_authenticated/production/dashboard'
 import { Route as AuthenticatedPluginsStoreRouteImport } from './routes/_authenticated/plugins.store'
 import { Route as AuthenticatedPluginsSettingsRouteImport } from './routes/_authenticated/plugins.settings'
 import { Route as AuthenticatedPluginsReviewsRouteImport } from './routes/_authenticated/plugins.reviews'
@@ -1588,6 +1596,12 @@ const AuthenticatedReleasesRouteRoute =
     path: '/releases',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProductionRouteRoute =
+  AuthenticatedProductionRouteRouteImport.update({
+    id: '/production',
+    path: '/production',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedLiveRouteRoute = AuthenticatedLiveRouteRouteImport.update({
   id: '/live',
   path: '/live',
@@ -1620,6 +1634,12 @@ const AuthenticatedReleasesIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedProductionIndexRoute =
+  AuthenticatedProductionIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedProductionRouteRoute,
   } as any)
 const AuthenticatedMessagesIndexRoute =
   AuthenticatedMessagesIndexRouteImport.update({
@@ -2135,6 +2155,42 @@ const AuthenticatedReleasesAnalyticsRoute =
     id: '/analytics',
     path: '/analytics',
     getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedProductionTestingRoute =
+  AuthenticatedProductionTestingRouteImport.update({
+    id: '/testing',
+    path: '/testing',
+    getParentRoute: () => AuthenticatedProductionRouteRoute,
+  } as any)
+const AuthenticatedProductionSecurityRoute =
+  AuthenticatedProductionSecurityRouteImport.update({
+    id: '/security',
+    path: '/security',
+    getParentRoute: () => AuthenticatedProductionRouteRoute,
+  } as any)
+const AuthenticatedProductionQualityRoute =
+  AuthenticatedProductionQualityRouteImport.update({
+    id: '/quality',
+    path: '/quality',
+    getParentRoute: () => AuthenticatedProductionRouteRoute,
+  } as any)
+const AuthenticatedProductionPerformanceRoute =
+  AuthenticatedProductionPerformanceRouteImport.update({
+    id: '/performance',
+    path: '/performance',
+    getParentRoute: () => AuthenticatedProductionRouteRoute,
+  } as any)
+const AuthenticatedProductionDeploymentRoute =
+  AuthenticatedProductionDeploymentRouteImport.update({
+    id: '/deployment',
+    path: '/deployment',
+    getParentRoute: () => AuthenticatedProductionRouteRoute,
+  } as any)
+const AuthenticatedProductionDashboardRoute =
+  AuthenticatedProductionDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedProductionRouteRoute,
   } as any)
 const AuthenticatedPluginsStoreRoute =
   AuthenticatedPluginsStoreRouteImport.update({
@@ -3194,6 +3250,7 @@ export interface FileRoutesByFullPath {
   '/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
   '/happy': typeof AuthenticatedHappyRouteRouteWithChildren
   '/live': typeof AuthenticatedLiveRouteRouteWithChildren
+  '/production': typeof AuthenticatedProductionRouteRouteWithChildren
   '/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
@@ -3542,6 +3599,12 @@ export interface FileRoutesByFullPath {
   '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
+  '/production/dashboard': typeof AuthenticatedProductionDashboardRoute
+  '/production/deployment': typeof AuthenticatedProductionDeploymentRoute
+  '/production/performance': typeof AuthenticatedProductionPerformanceRoute
+  '/production/quality': typeof AuthenticatedProductionQualityRoute
+  '/production/security': typeof AuthenticatedProductionSecurityRoute
+  '/production/testing': typeof AuthenticatedProductionTestingRoute
   '/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
   '/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
   '/releases/builds': typeof AuthenticatedReleasesBuildsRoute
@@ -3629,6 +3692,7 @@ export interface FileRoutesByFullPath {
   '/live/': typeof AuthenticatedLiveIndexRoute
   '/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/production/': typeof AuthenticatedProductionIndexRoute
   '/releases/': typeof AuthenticatedReleasesIndexRoute
   '/studio/': typeof AuthenticatedStudioIndexRoute
   '/uabr/': typeof AuthenticatedUabrIndexRoute
@@ -4001,6 +4065,12 @@ export interface FileRoutesByTo {
   '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
+  '/production/dashboard': typeof AuthenticatedProductionDashboardRoute
+  '/production/deployment': typeof AuthenticatedProductionDeploymentRoute
+  '/production/performance': typeof AuthenticatedProductionPerformanceRoute
+  '/production/quality': typeof AuthenticatedProductionQualityRoute
+  '/production/security': typeof AuthenticatedProductionSecurityRoute
+  '/production/testing': typeof AuthenticatedProductionTestingRoute
   '/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
   '/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
   '/releases/builds': typeof AuthenticatedReleasesBuildsRoute
@@ -4088,6 +4158,7 @@ export interface FileRoutesByTo {
   '/live': typeof AuthenticatedLiveIndexRoute
   '/marketplace': typeof AuthenticatedMarketplaceIndexRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
+  '/production': typeof AuthenticatedProductionIndexRoute
   '/releases': typeof AuthenticatedReleasesIndexRoute
   '/studio': typeof AuthenticatedStudioIndexRoute
   '/uabr': typeof AuthenticatedUabrIndexRoute
@@ -4131,6 +4202,7 @@ export interface FileRoutesById {
   '/_authenticated/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
   '/_authenticated/happy': typeof AuthenticatedHappyRouteRouteWithChildren
   '/_authenticated/live': typeof AuthenticatedLiveRouteRouteWithChildren
+  '/_authenticated/production': typeof AuthenticatedProductionRouteRouteWithChildren
   '/_authenticated/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/_authenticated/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
@@ -4479,6 +4551,12 @@ export interface FileRoutesById {
   '/_authenticated/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
+  '/_authenticated/production/dashboard': typeof AuthenticatedProductionDashboardRoute
+  '/_authenticated/production/deployment': typeof AuthenticatedProductionDeploymentRoute
+  '/_authenticated/production/performance': typeof AuthenticatedProductionPerformanceRoute
+  '/_authenticated/production/quality': typeof AuthenticatedProductionQualityRoute
+  '/_authenticated/production/security': typeof AuthenticatedProductionSecurityRoute
+  '/_authenticated/production/testing': typeof AuthenticatedProductionTestingRoute
   '/_authenticated/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
   '/_authenticated/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
   '/_authenticated/releases/builds': typeof AuthenticatedReleasesBuildsRoute
@@ -4566,6 +4644,7 @@ export interface FileRoutesById {
   '/_authenticated/live/': typeof AuthenticatedLiveIndexRoute
   '/_authenticated/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/_authenticated/production/': typeof AuthenticatedProductionIndexRoute
   '/_authenticated/releases/': typeof AuthenticatedReleasesIndexRoute
   '/_authenticated/studio/': typeof AuthenticatedStudioIndexRoute
   '/_authenticated/uabr/': typeof AuthenticatedUabrIndexRoute
@@ -4609,6 +4688,7 @@ export interface FileRouteTypes {
     | '/founder-ai'
     | '/happy'
     | '/live'
+    | '/production'
     | '/releases'
     | '/uabr'
     | '/achievements'
@@ -4957,6 +5037,12 @@ export interface FileRouteTypes {
     | '/plugins/reviews'
     | '/plugins/settings'
     | '/plugins/store'
+    | '/production/dashboard'
+    | '/production/deployment'
+    | '/production/performance'
+    | '/production/quality'
+    | '/production/security'
+    | '/production/testing'
     | '/releases/analytics'
     | '/releases/artifacts'
     | '/releases/builds'
@@ -5044,6 +5130,7 @@ export interface FileRouteTypes {
     | '/live/'
     | '/marketplace/'
     | '/messages/'
+    | '/production/'
     | '/releases/'
     | '/studio/'
     | '/uabr/'
@@ -5416,6 +5503,12 @@ export interface FileRouteTypes {
     | '/plugins/reviews'
     | '/plugins/settings'
     | '/plugins/store'
+    | '/production/dashboard'
+    | '/production/deployment'
+    | '/production/performance'
+    | '/production/quality'
+    | '/production/security'
+    | '/production/testing'
     | '/releases/analytics'
     | '/releases/artifacts'
     | '/releases/builds'
@@ -5503,6 +5596,7 @@ export interface FileRouteTypes {
     | '/live'
     | '/marketplace'
     | '/messages'
+    | '/production'
     | '/releases'
     | '/studio'
     | '/uabr'
@@ -5545,6 +5639,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder-ai'
     | '/_authenticated/happy'
     | '/_authenticated/live'
+    | '/_authenticated/production'
     | '/_authenticated/releases'
     | '/_authenticated/uabr'
     | '/_authenticated/achievements'
@@ -5893,6 +5988,12 @@ export interface FileRouteTypes {
     | '/_authenticated/plugins/reviews'
     | '/_authenticated/plugins/settings'
     | '/_authenticated/plugins/store'
+    | '/_authenticated/production/dashboard'
+    | '/_authenticated/production/deployment'
+    | '/_authenticated/production/performance'
+    | '/_authenticated/production/quality'
+    | '/_authenticated/production/security'
+    | '/_authenticated/production/testing'
     | '/_authenticated/releases/analytics'
     | '/_authenticated/releases/artifacts'
     | '/_authenticated/releases/builds'
@@ -5980,6 +6081,7 @@ export interface FileRouteTypes {
     | '/_authenticated/live/'
     | '/_authenticated/marketplace/'
     | '/_authenticated/messages/'
+    | '/_authenticated/production/'
     | '/_authenticated/releases/'
     | '/_authenticated/studio/'
     | '/_authenticated/uabr/'
@@ -7480,6 +7582,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReleasesRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/production': {
+      id: '/_authenticated/production'
+      path: '/production'
+      fullPath: '/production'
+      preLoaderRoute: typeof AuthenticatedProductionRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/live': {
       id: '/_authenticated/live'
       path: '/live'
@@ -7521,6 +7630,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/releases/'
       preLoaderRoute: typeof AuthenticatedReleasesIndexRouteImport
       parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/production/': {
+      id: '/_authenticated/production/'
+      path: '/'
+      fullPath: '/production/'
+      preLoaderRoute: typeof AuthenticatedProductionIndexRouteImport
+      parentRoute: typeof AuthenticatedProductionRouteRoute
     }
     '/_authenticated/messages/': {
       id: '/_authenticated/messages/'
@@ -8130,6 +8246,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/releases/analytics'
       preLoaderRoute: typeof AuthenticatedReleasesAnalyticsRouteImport
       parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/production/testing': {
+      id: '/_authenticated/production/testing'
+      path: '/testing'
+      fullPath: '/production/testing'
+      preLoaderRoute: typeof AuthenticatedProductionTestingRouteImport
+      parentRoute: typeof AuthenticatedProductionRouteRoute
+    }
+    '/_authenticated/production/security': {
+      id: '/_authenticated/production/security'
+      path: '/security'
+      fullPath: '/production/security'
+      preLoaderRoute: typeof AuthenticatedProductionSecurityRouteImport
+      parentRoute: typeof AuthenticatedProductionRouteRoute
+    }
+    '/_authenticated/production/quality': {
+      id: '/_authenticated/production/quality'
+      path: '/quality'
+      fullPath: '/production/quality'
+      preLoaderRoute: typeof AuthenticatedProductionQualityRouteImport
+      parentRoute: typeof AuthenticatedProductionRouteRoute
+    }
+    '/_authenticated/production/performance': {
+      id: '/_authenticated/production/performance'
+      path: '/performance'
+      fullPath: '/production/performance'
+      preLoaderRoute: typeof AuthenticatedProductionPerformanceRouteImport
+      parentRoute: typeof AuthenticatedProductionRouteRoute
+    }
+    '/_authenticated/production/deployment': {
+      id: '/_authenticated/production/deployment'
+      path: '/deployment'
+      fullPath: '/production/deployment'
+      preLoaderRoute: typeof AuthenticatedProductionDeploymentRouteImport
+      parentRoute: typeof AuthenticatedProductionRouteRoute
+    }
+    '/_authenticated/production/dashboard': {
+      id: '/_authenticated/production/dashboard'
+      path: '/dashboard'
+      fullPath: '/production/dashboard'
+      preLoaderRoute: typeof AuthenticatedProductionDashboardRouteImport
+      parentRoute: typeof AuthenticatedProductionRouteRoute
     }
     '/_authenticated/plugins/store': {
       id: '/_authenticated/plugins/store'
@@ -9468,6 +9626,35 @@ const AuthenticatedLiveRouteRouteWithChildren =
     AuthenticatedLiveRouteRouteChildren,
   )
 
+interface AuthenticatedProductionRouteRouteChildren {
+  AuthenticatedProductionDashboardRoute: typeof AuthenticatedProductionDashboardRoute
+  AuthenticatedProductionDeploymentRoute: typeof AuthenticatedProductionDeploymentRoute
+  AuthenticatedProductionPerformanceRoute: typeof AuthenticatedProductionPerformanceRoute
+  AuthenticatedProductionQualityRoute: typeof AuthenticatedProductionQualityRoute
+  AuthenticatedProductionSecurityRoute: typeof AuthenticatedProductionSecurityRoute
+  AuthenticatedProductionTestingRoute: typeof AuthenticatedProductionTestingRoute
+  AuthenticatedProductionIndexRoute: typeof AuthenticatedProductionIndexRoute
+}
+
+const AuthenticatedProductionRouteRouteChildren: AuthenticatedProductionRouteRouteChildren =
+  {
+    AuthenticatedProductionDashboardRoute:
+      AuthenticatedProductionDashboardRoute,
+    AuthenticatedProductionDeploymentRoute:
+      AuthenticatedProductionDeploymentRoute,
+    AuthenticatedProductionPerformanceRoute:
+      AuthenticatedProductionPerformanceRoute,
+    AuthenticatedProductionQualityRoute: AuthenticatedProductionQualityRoute,
+    AuthenticatedProductionSecurityRoute: AuthenticatedProductionSecurityRoute,
+    AuthenticatedProductionTestingRoute: AuthenticatedProductionTestingRoute,
+    AuthenticatedProductionIndexRoute: AuthenticatedProductionIndexRoute,
+  }
+
+const AuthenticatedProductionRouteRouteWithChildren =
+  AuthenticatedProductionRouteRoute._addFileChildren(
+    AuthenticatedProductionRouteRouteChildren,
+  )
+
 interface AuthenticatedReleasesRouteRouteChildren {
   AuthenticatedReleasesAnalyticsRoute: typeof AuthenticatedReleasesAnalyticsRoute
   AuthenticatedReleasesArtifactsRoute: typeof AuthenticatedReleasesArtifactsRoute
@@ -10282,6 +10469,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFounderAiRouteRoute: typeof AuthenticatedFounderAiRouteRouteWithChildren
   AuthenticatedHappyRouteRoute: typeof AuthenticatedHappyRouteRouteWithChildren
   AuthenticatedLiveRouteRoute: typeof AuthenticatedLiveRouteRouteWithChildren
+  AuthenticatedProductionRouteRoute: typeof AuthenticatedProductionRouteRouteWithChildren
   AuthenticatedReleasesRouteRoute: typeof AuthenticatedReleasesRouteRouteWithChildren
   AuthenticatedUabrRouteRoute: typeof AuthenticatedUabrRouteRouteWithChildren
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
@@ -10484,6 +10672,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedFounderAiRouteRouteWithChildren,
   AuthenticatedHappyRouteRoute: AuthenticatedHappyRouteRouteWithChildren,
   AuthenticatedLiveRouteRoute: AuthenticatedLiveRouteRouteWithChildren,
+  AuthenticatedProductionRouteRoute:
+    AuthenticatedProductionRouteRouteWithChildren,
   AuthenticatedReleasesRouteRoute: AuthenticatedReleasesRouteRouteWithChildren,
   AuthenticatedUabrRouteRoute: AuthenticatedUabrRouteRouteWithChildren,
   AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
