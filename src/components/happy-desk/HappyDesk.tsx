@@ -314,7 +314,7 @@ export function HappyDesk() {
     const check = () => {
       const vp = { w: window.innerWidth, h: window.innerHeight };
       const obstacles = readObstacleRects(document);
-      const preferred = deskCornerFor(pathname);
+      const preferred = anchorToCorner(anchorFor(pathname, presenceModeFor({ delivery: !!delivery, open, listening, pathname })));
       const safe = pickSafeCorner(preferred, vp, obstacles);
       setObstacleCorner(safe === preferred ? null : safe);
     };
