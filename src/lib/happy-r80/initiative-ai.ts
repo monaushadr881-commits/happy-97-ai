@@ -25,6 +25,8 @@ export type InitiativeInput = {
   nowMs: number;
   reducedMotion: boolean;
   userBusy: boolean; // typing/dragging
+  cooldownMs?: number; // R85 — personalization override
+  dismissedKinds?: string[]; // R85 — session-remembered dismissals
 };
 
 export type InitiativeSuggestion = {
@@ -62,8 +64,10 @@ const URGENCY: Record<InitiativeSignal["kind"], InitiativeSuggestion["urgency"]>
 
 export function pickInitiative(inp: InitiativeInput): InitiativeSuggestion | null {
   if (inp.userBusy) return null;
-  if (inp.lastSuggestionAt !== null && inp.nowMs - inp.lastSuggestionAt < COOLDOWN_MS) return null;
-  const relevant = inp.signals.filter((s) => s.relevance >= RELEVANCE_MIN);
+  const cooldown = inp.cooldownMs ?? COOLDOWN_MS;
+  if (inp.lastSuggestionAt !== null && inp.nowMs - inp.lastSuggestionAt < cooldown) return null;
+  const dismissed = new Set(inp.dismissedKinds ?? []);
+  const relevant = inp.signals.filter((s) => s.relevance >= RELEVANCE_MIN && !dismissed.has(s.kind));
   if (relevant.length === 0) return null;
   const best = [...relevant].sort((a, b) => b.relevance - a.relevance)[0];
   return { kind: best.kind, message: MESSAGE[best.kind], urgency: URGENCY[best.kind] };

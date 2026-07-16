@@ -19,6 +19,9 @@ import { HAPPY_TASK_EVENT, type TaskEvent } from "./task-bus";
 import { initialSession, reduce as reduceSession, noteAskedTopic, resumeLine, type SessionEvent } from "@/lib/happy-r84/session-memory";
 import { decideMode, tutorLevelFor, adaptExplanation } from "@/lib/happy-r84/work-mode";
 import { pickSuggestion, type SuggestionKind } from "@/lib/happy-r84/smart-suggestions";
+import { loadPreferences, savePreferences, mergePreferences, suggestionCooldownMs, type HappyPreferences } from "@/lib/happy-r85/preferences";
+import { readObstacleRects, pickSafeCorner } from "@/lib/happy-r85/collision";
+import { pickIndicator, indicatorLabel } from "@/lib/happy-r85/indicators";
 
 
 /**
@@ -159,6 +162,18 @@ export function HappyDesk() {
   const [suggestionsShown, setSuggestionsShown] = useState<Set<SuggestionKind>>(() => new Set());
   const [lastInterruptionAt, setLastInterruptionAt] = useState<number | null>(null);
 
+  // R85 — personalization + adaptive corner + last-keystroke timestamp for indicator.
+  const [prefs, setPrefs] = useState<HappyPreferences>(() => loadPreferences());
+  const [obstacleCorner, setObstacleCorner] = useState<ReturnType<typeof deskCornerFor> | null>(null);
+  const [lastKeyAt, setLastKeyAt] = useState<number>(0);
+  const updatePrefs = (patch: Partial<HappyPreferences>) => {
+    setPrefs((p) => {
+      const next = mergePreferences(p, patch);
+      savePreferences(next);
+      return next;
+    });
+  };
+
 
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
@@ -186,6 +201,7 @@ export function HappyDesk() {
     const onKey = () => {
       bump();
       track("edit");
+      setLastKeyAt(Date.now());
       setKeystrokes((prev) => [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]);
     };
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -233,6 +249,22 @@ export function HappyDesk() {
     const id = window.setTimeout(() => setCelebration(null), 6000);
     return () => window.clearTimeout(id);
   }, [celebration]);
+
+  // R85 — adaptive positioning: re-check obstacles every 600ms and on resize.
+  useEffect(() => {
+    if (prefs.workspace !== "adaptive") { setObstacleCorner(null); return; }
+    const check = () => {
+      const vp = { w: window.innerWidth, h: window.innerHeight };
+      const obstacles = readObstacleRects(document);
+      const preferred = deskCornerFor(pathname);
+      const safe = pickSafeCorner(preferred, vp, obstacles);
+      setObstacleCorner(safe === preferred ? null : safe);
+    };
+    check();
+    const id = window.setInterval(check, 600);
+    window.addEventListener("resize", check, { passive: true });
+    return () => { window.clearInterval(id); window.removeEventListener("resize", check); };
+  }, [pathname, prefs.workspace, open, delivery]);
 
 
   // Delivery bus: HAPPY walks out, speaks, walks back.
@@ -339,7 +371,8 @@ export function HappyDesk() {
   if (!hydrated) return null;
   if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 
-  const corner = deskCornerFor(pathname);
+  const preferredCorner = deskCornerFor(pathname);
+  const corner = prefs.workspace === "adaptive" ? (obstacleCorner ?? preferredCorner) : preferredCorner;
   const idleMs = now - lastActivity;
   const ctx = contextFor(pathname, { hasError: !!delivery && delivery.tone === "critical" });
   const state = composeCompanion({
@@ -376,7 +409,13 @@ export function HappyDesk() {
   const signals: InitiativeSignal[] = [];
   if (ctx.surface === "builder") signals.push({ kind: "optimization", relevance: 0.7, detectedAt: now });
   if (ctx.surface === "analytics") signals.push({ kind: "workflow-simplification", relevance: 0.6, detectedAt: now });
-  const initiative = pickInitiative({ signals, lastSuggestionAt, nowMs: now, reducedMotion, userBusy: listening || workMode.mode === "focus" });
+  const cooldownMs = suggestionCooldownMs(prefs.frequency);
+  const initiative = pickInitiative({
+    signals, lastSuggestionAt, nowMs: now, reducedMotion,
+    userBusy: listening || workMode.mode === "focus",
+    cooldownMs,
+    dismissedKinds: prefs.dismissedSuggestions,
+  });
   const smart = workMode.allowSuggestions
     ? pickSuggestion(
         {
@@ -391,7 +430,16 @@ export function HappyDesk() {
       )
     : null;
   const smartVisible = smart && !delivery && !hesitationOffer && !activeTask && !celebration ? smart : null;
-  const visibleSuggestion = !smartVisible && workMode.allowSuggestions && initiative && initiative.kind !== dismissedKind && !delivery && !hesitationOffer && !activeTask && !celebration ? initiative : null;
+  const visibleSuggestion = !smartVisible && workMode.allowSuggestions && initiative && initiative.kind !== dismissedKind && !prefs.dismissedSuggestions.includes(initiative.kind) && !delivery && !hesitationOffer && !activeTask && !celebration ? initiative : null;
+
+  // R85 — single, calm indicator (listening / thinking / typing / speaking / idle).
+  const indicator = pickIndicator({
+    listening,
+    delivering: !!delivery,
+    activeTask: !!activeTask,
+    panelOpen: open,
+    userTypingWithinMs: now - lastKeyAt,
+  });
 
   const expression: AvatarExpression =
     celebration ? "celebrate" :
@@ -583,7 +631,11 @@ export function HappyDesk() {
             </button>
             <button
               type="button"
-              onClick={() => setDismissedKind(visibleSuggestion.kind)}
+              onClick={() => {
+                setDismissedKind(visibleSuggestion.kind);
+                updatePrefs({ dismissedSuggestions: Array.from(new Set([...prefs.dismissedSuggestions, visibleSuggestion.kind])) });
+                setLastInterruptionAt(Date.now());
+              }}
               className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-soft-gray hover:text-paper"
             >
               Not now
@@ -601,7 +653,8 @@ export function HappyDesk() {
 
       <div
         className={cn(
-          "relative transition-all duration-700 ease-out",
+          "relative transition-all duration-500 will-change-transform",
+          "[transition-timing-function:cubic-bezier(0.22,0.61,0.36,1)]",
           !entered && !reducedMotion && CORNER_ENTRANCE[corner],
           walkOut && "-translate-y-1 scale-[1.04]",
         )}
@@ -663,6 +716,24 @@ export function HappyDesk() {
         >
           {posture} · {teamRole.role.replace("-", " ")}
         </span>
+        {indicator !== "idle" && (
+          <span
+            role="status"
+            aria-live="polite"
+            className={cn(
+              "pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap",
+              "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest",
+              indicator === "speaking" ? "border-gold/40 bg-gold/10 text-gold" :
+              indicator === "listening" ? "border-emerald-300/50 bg-emerald-500/15 text-emerald-100" :
+              indicator === "thinking" ? "border-sky-300/40 bg-sky-500/10 text-sky-100" :
+              "border-white/15 bg-obsidian/80 text-soft-gray",
+              !reducedMotion && (indicator === "thinking" || indicator === "listening") && "animate-pulse",
+            )}
+          >
+            {indicatorLabel(indicator)}
+            {!reducedMotion && (indicator === "thinking" || indicator === "typing") && "…"}
+          </span>
+        )}
         {voiceError && (
           <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-red-950/80 px-2 py-0.5 text-[10px] text-red-200">
             {voiceError}
