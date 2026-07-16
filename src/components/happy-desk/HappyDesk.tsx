@@ -290,7 +290,10 @@ export function HappyDesk() {
     }
     if (intent.kind === "help" || intent.kind === "explain") {
       setOpen(true);
-      const line = focus.guidance || "Tell me what section you'd like me to explain.";
+      const topic = focus.region || "general";
+      setSession((s) => noteAskedTopic(s, topic));
+      const askCount = (session.askedTopics[topic] ?? 0) + 1;
+      const line = adaptExplanation(focus.guidance || "Tell me what section you'd like me to explain.", tutorLevelFor(askCount));
       speak(line, { lang: language });
     }
     if (intent.kind === "navigate" && intent.target) {
