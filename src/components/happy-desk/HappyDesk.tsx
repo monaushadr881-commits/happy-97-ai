@@ -627,6 +627,13 @@ export function HappyDesk() {
     });
   };
 
+  // R92 — real Lovable AI Gateway conversation, wired through the ONE HAPPY panel.
+  const chatFn = useServerFn(chatWithHappy);
+  const sendToHappy = async (text: string): Promise<string> => {
+    const res = await chatFn({ data: { message: text, route: pathname, persona: persona.persona, role: teamRole.role } });
+    return res.reply;
+  };
+
   const containerAlign = CORNER_CLASS[corner];
   const walkOut = !!delivery && !reducedMotion;
 
