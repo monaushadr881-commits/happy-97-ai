@@ -240,14 +240,17 @@ export function HappyDesk() {
       setSession((s) => reduceSession(s, { kind: "task", label: t.label, at: t.at ?? Date.now(), meta: { status: t.status } }));
       if (t.status === "started" || t.status === "progress") {
         setActiveTask(t);
+        recordDailyEvent("pending", t.label);
       } else if (t.status === "completed" || t.status === "milestone") {
         setActiveTask(null);
         setCelebration(t.milestone ? `🎉 ${t.milestone}` : `Nice — ${t.label} done.`);
         setLastInterruptionAt(Date.now());
+        recordDailyEvent("completed", t.label);
       } else if (t.status === "failed") {
         setActiveTask(null);
         setCelebration(`${t.label} failed${t.detail ? ` — ${t.detail}` : ""}. I can help debug.`);
         setLastInterruptionAt(Date.now());
+        recordDailyEvent("interrupted", t.label);
       }
     };
     window.addEventListener(HAPPY_TASK_EVENT, on);
