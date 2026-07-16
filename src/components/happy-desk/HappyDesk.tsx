@@ -19,6 +19,9 @@ import { HAPPY_TASK_EVENT, type TaskEvent } from "./task-bus";
 import { initialSession, reduce as reduceSession, noteAskedTopic, resumeLine, type SessionEvent } from "@/lib/happy-r84/session-memory";
 import { decideMode, tutorLevelFor, adaptExplanation } from "@/lib/happy-r84/work-mode";
 import { pickSuggestion, type SuggestionKind } from "@/lib/happy-r84/smart-suggestions";
+import { loadPreferences, savePreferences, mergePreferences, suggestionCooldownMs, type HappyPreferences } from "@/lib/happy-r85/preferences";
+import { readObstacleRects, pickSafeCorner } from "@/lib/happy-r85/collision";
+import { pickIndicator, indicatorLabel } from "@/lib/happy-r85/indicators";
 
 
 /**
