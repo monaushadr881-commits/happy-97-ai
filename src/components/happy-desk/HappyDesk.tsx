@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useRouterState, useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { chatWithHappy } from "@/lib/happy-chat.functions";
 import { HappyAvatar, type AvatarActivity, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { composeCompanion, type CompanionRole } from "@/lib/happy-r80/living-companion";
 import { contextFor, summarize } from "@/lib/happy-r80/workspace-intelligence";
