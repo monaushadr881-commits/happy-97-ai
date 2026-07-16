@@ -214,10 +214,12 @@ import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
 import { Route as AuthenticatedReleasesRouteRouteImport } from './routes/_authenticated/releases/route'
+import { Route as AuthenticatedLiveRouteRouteImport } from './routes/_authenticated/live/route'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedReleasesIndexRouteImport } from './routes/_authenticated/releases/index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
+import { Route as AuthenticatedLiveIndexRouteImport } from './routes/_authenticated/live/index'
 import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authenticated/knowledge.index'
 import { Route as AuthenticatedHyperlocalIndexRouteImport } from './routes/_authenticated/hyperlocal.index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
@@ -303,6 +305,15 @@ import { Route as AuthenticatedMemoryDashboardRouteImport } from './routes/_auth
 import { Route as AuthenticatedMarketplaceSellerRouteImport } from './routes/_authenticated/marketplace.seller'
 import { Route as AuthenticatedMarketplaceSalesRouteImport } from './routes/_authenticated/marketplace.sales'
 import { Route as AuthenticatedMarketplaceOrdersRouteImport } from './routes/_authenticated/marketplace.orders'
+import { Route as AuthenticatedLiveSettingsRouteImport } from './routes/_authenticated/live/settings'
+import { Route as AuthenticatedLiveRelationshipRouteImport } from './routes/_authenticated/live/relationship'
+import { Route as AuthenticatedLivePresenceRouteImport } from './routes/_authenticated/live/presence'
+import { Route as AuthenticatedLiveLanguageRouteImport } from './routes/_authenticated/live/language'
+import { Route as AuthenticatedLiveHomeRouteImport } from './routes/_authenticated/live/home'
+import { Route as AuthenticatedLiveFounderRouteImport } from './routes/_authenticated/live/founder'
+import { Route as AuthenticatedLiveDashboardRouteImport } from './routes/_authenticated/live/dashboard'
+import { Route as AuthenticatedLiveContextRouteImport } from './routes/_authenticated/live/context'
+import { Route as AuthenticatedLiveActivityRouteImport } from './routes/_authenticated/live/activity'
 import { Route as AuthenticatedKnowledgeSourcesRouteImport } from './routes/_authenticated/knowledge.sources'
 import { Route as AuthenticatedKnowledgeSearchRouteImport } from './routes/_authenticated/knowledge.search'
 import { Route as AuthenticatedKnowledgeReligionCultureRouteImport } from './routes/_authenticated/knowledge.religion-culture'
@@ -1535,6 +1546,11 @@ const AuthenticatedReleasesRouteRoute =
     path: '/releases',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedLiveRouteRoute = AuthenticatedLiveRouteRouteImport.update({
+  id: '/live',
+  path: '/live',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedStudioIndexRoute =
   AuthenticatedStudioIndexRouteImport.update({
     id: '/',
@@ -1559,6 +1575,11 @@ const AuthenticatedMarketplaceIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedMarketplaceRoute,
   } as any)
+const AuthenticatedLiveIndexRoute = AuthenticatedLiveIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedLiveRouteRoute,
+} as any)
 const AuthenticatedKnowledgeIndexRoute =
   AuthenticatedKnowledgeIndexRouteImport.update({
     id: '/',
@@ -2065,6 +2086,59 @@ const AuthenticatedMarketplaceOrdersRoute =
     id: '/orders',
     path: '/orders',
     getParentRoute: () => AuthenticatedMarketplaceRoute,
+  } as any)
+const AuthenticatedLiveSettingsRoute =
+  AuthenticatedLiveSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
+  } as any)
+const AuthenticatedLiveRelationshipRoute =
+  AuthenticatedLiveRelationshipRouteImport.update({
+    id: '/relationship',
+    path: '/relationship',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
+  } as any)
+const AuthenticatedLivePresenceRoute =
+  AuthenticatedLivePresenceRouteImport.update({
+    id: '/presence',
+    path: '/presence',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
+  } as any)
+const AuthenticatedLiveLanguageRoute =
+  AuthenticatedLiveLanguageRouteImport.update({
+    id: '/language',
+    path: '/language',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
+  } as any)
+const AuthenticatedLiveHomeRoute = AuthenticatedLiveHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedLiveRouteRoute,
+} as any)
+const AuthenticatedLiveFounderRoute =
+  AuthenticatedLiveFounderRouteImport.update({
+    id: '/founder',
+    path: '/founder',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
+  } as any)
+const AuthenticatedLiveDashboardRoute =
+  AuthenticatedLiveDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
+  } as any)
+const AuthenticatedLiveContextRoute =
+  AuthenticatedLiveContextRouteImport.update({
+    id: '/context',
+    path: '/context',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
+  } as any)
+const AuthenticatedLiveActivityRoute =
+  AuthenticatedLiveActivityRouteImport.update({
+    id: '/activity',
+    path: '/activity',
+    getParentRoute: () => AuthenticatedLiveRouteRoute,
   } as any)
 const AuthenticatedKnowledgeSourcesRoute =
   AuthenticatedKnowledgeSourcesRouteImport.update({
@@ -2868,6 +2942,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
+  '/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
@@ -3172,6 +3247,15 @@ export interface FileRoutesByFullPath {
   '/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
   '/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
   '/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
+  '/live/activity': typeof AuthenticatedLiveActivityRoute
+  '/live/context': typeof AuthenticatedLiveContextRoute
+  '/live/dashboard': typeof AuthenticatedLiveDashboardRoute
+  '/live/founder': typeof AuthenticatedLiveFounderRoute
+  '/live/home': typeof AuthenticatedLiveHomeRoute
+  '/live/language': typeof AuthenticatedLiveLanguageRoute
+  '/live/presence': typeof AuthenticatedLivePresenceRoute
+  '/live/relationship': typeof AuthenticatedLiveRelationshipRoute
+  '/live/settings': typeof AuthenticatedLiveSettingsRoute
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
@@ -3257,6 +3341,7 @@ export interface FileRoutesByFullPath {
   '/founder/': typeof AuthenticatedFounderIndexRoute
   '/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
+  '/live/': typeof AuthenticatedLiveIndexRoute
   '/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
   '/releases/': typeof AuthenticatedReleasesIndexRoute
@@ -3587,6 +3672,15 @@ export interface FileRoutesByTo {
   '/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
   '/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
   '/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
+  '/live/activity': typeof AuthenticatedLiveActivityRoute
+  '/live/context': typeof AuthenticatedLiveContextRoute
+  '/live/dashboard': typeof AuthenticatedLiveDashboardRoute
+  '/live/founder': typeof AuthenticatedLiveFounderRoute
+  '/live/home': typeof AuthenticatedLiveHomeRoute
+  '/live/language': typeof AuthenticatedLiveLanguageRoute
+  '/live/presence': typeof AuthenticatedLivePresenceRoute
+  '/live/relationship': typeof AuthenticatedLiveRelationshipRoute
+  '/live/settings': typeof AuthenticatedLiveSettingsRoute
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
@@ -3672,6 +3766,7 @@ export interface FileRoutesByTo {
   '/founder': typeof AuthenticatedFounderIndexRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge': typeof AuthenticatedKnowledgeIndexRoute
+  '/live': typeof AuthenticatedLiveIndexRoute
   '/marketplace': typeof AuthenticatedMarketplaceIndexRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
   '/releases': typeof AuthenticatedReleasesIndexRoute
@@ -3713,6 +3808,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
+  '/_authenticated/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/_authenticated/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
@@ -4017,6 +4113,15 @@ export interface FileRoutesById {
   '/_authenticated/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
   '/_authenticated/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
   '/_authenticated/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
+  '/_authenticated/live/activity': typeof AuthenticatedLiveActivityRoute
+  '/_authenticated/live/context': typeof AuthenticatedLiveContextRoute
+  '/_authenticated/live/dashboard': typeof AuthenticatedLiveDashboardRoute
+  '/_authenticated/live/founder': typeof AuthenticatedLiveFounderRoute
+  '/_authenticated/live/home': typeof AuthenticatedLiveHomeRoute
+  '/_authenticated/live/language': typeof AuthenticatedLiveLanguageRoute
+  '/_authenticated/live/presence': typeof AuthenticatedLivePresenceRoute
+  '/_authenticated/live/relationship': typeof AuthenticatedLiveRelationshipRoute
+  '/_authenticated/live/settings': typeof AuthenticatedLiveSettingsRoute
   '/_authenticated/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/_authenticated/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/_authenticated/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
@@ -4102,6 +4207,7 @@ export interface FileRoutesById {
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
   '/_authenticated/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/_authenticated/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
+  '/_authenticated/live/': typeof AuthenticatedLiveIndexRoute
   '/_authenticated/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
   '/_authenticated/releases/': typeof AuthenticatedReleasesIndexRoute
@@ -4143,6 +4249,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/status'
     | '/trust'
+    | '/live'
     | '/releases'
     | '/achievements'
     | '/agent-os'
@@ -4447,6 +4554,15 @@ export interface FileRouteTypes {
     | '/knowledge/religion-culture'
     | '/knowledge/search'
     | '/knowledge/sources'
+    | '/live/activity'
+    | '/live/context'
+    | '/live/dashboard'
+    | '/live/founder'
+    | '/live/home'
+    | '/live/language'
+    | '/live/presence'
+    | '/live/relationship'
+    | '/live/settings'
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
@@ -4532,6 +4648,7 @@ export interface FileRouteTypes {
     | '/founder/'
     | '/hyperlocal/'
     | '/knowledge/'
+    | '/live/'
     | '/marketplace/'
     | '/messages/'
     | '/releases/'
@@ -4862,6 +4979,15 @@ export interface FileRouteTypes {
     | '/knowledge/religion-culture'
     | '/knowledge/search'
     | '/knowledge/sources'
+    | '/live/activity'
+    | '/live/context'
+    | '/live/dashboard'
+    | '/live/founder'
+    | '/live/home'
+    | '/live/language'
+    | '/live/presence'
+    | '/live/relationship'
+    | '/live/settings'
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
@@ -4947,6 +5073,7 @@ export interface FileRouteTypes {
     | '/founder'
     | '/hyperlocal'
     | '/knowledge'
+    | '/live'
     | '/marketplace'
     | '/messages'
     | '/releases'
@@ -4987,6 +5114,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/status'
     | '/trust'
+    | '/_authenticated/live'
     | '/_authenticated/releases'
     | '/_authenticated/achievements'
     | '/_authenticated/agent-os'
@@ -5291,6 +5419,15 @@ export interface FileRouteTypes {
     | '/_authenticated/knowledge/religion-culture'
     | '/_authenticated/knowledge/search'
     | '/_authenticated/knowledge/sources'
+    | '/_authenticated/live/activity'
+    | '/_authenticated/live/context'
+    | '/_authenticated/live/dashboard'
+    | '/_authenticated/live/founder'
+    | '/_authenticated/live/home'
+    | '/_authenticated/live/language'
+    | '/_authenticated/live/presence'
+    | '/_authenticated/live/relationship'
+    | '/_authenticated/live/settings'
     | '/_authenticated/marketplace/orders'
     | '/_authenticated/marketplace/sales'
     | '/_authenticated/marketplace/seller'
@@ -5376,6 +5513,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/'
     | '/_authenticated/hyperlocal/'
     | '/_authenticated/knowledge/'
+    | '/_authenticated/live/'
     | '/_authenticated/marketplace/'
     | '/_authenticated/messages/'
     | '/_authenticated/releases/'
@@ -6870,6 +7008,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReleasesRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/live': {
+      id: '/_authenticated/live'
+      path: '/live'
+      fullPath: '/live'
+      preLoaderRoute: typeof AuthenticatedLiveRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/studio/': {
       id: '/_authenticated/studio/'
       path: '/'
@@ -6897,6 +7042,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/marketplace/'
       preLoaderRoute: typeof AuthenticatedMarketplaceIndexRouteImport
       parentRoute: typeof AuthenticatedMarketplaceRoute
+    }
+    '/_authenticated/live/': {
+      id: '/_authenticated/live/'
+      path: '/'
+      fullPath: '/live/'
+      preLoaderRoute: typeof AuthenticatedLiveIndexRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
     }
     '/_authenticated/knowledge/': {
       id: '/_authenticated/knowledge/'
@@ -7492,6 +7644,69 @@ declare module '@tanstack/react-router' {
       fullPath: '/marketplace/orders'
       preLoaderRoute: typeof AuthenticatedMarketplaceOrdersRouteImport
       parentRoute: typeof AuthenticatedMarketplaceRoute
+    }
+    '/_authenticated/live/settings': {
+      id: '/_authenticated/live/settings'
+      path: '/settings'
+      fullPath: '/live/settings'
+      preLoaderRoute: typeof AuthenticatedLiveSettingsRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/relationship': {
+      id: '/_authenticated/live/relationship'
+      path: '/relationship'
+      fullPath: '/live/relationship'
+      preLoaderRoute: typeof AuthenticatedLiveRelationshipRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/presence': {
+      id: '/_authenticated/live/presence'
+      path: '/presence'
+      fullPath: '/live/presence'
+      preLoaderRoute: typeof AuthenticatedLivePresenceRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/language': {
+      id: '/_authenticated/live/language'
+      path: '/language'
+      fullPath: '/live/language'
+      preLoaderRoute: typeof AuthenticatedLiveLanguageRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/home': {
+      id: '/_authenticated/live/home'
+      path: '/home'
+      fullPath: '/live/home'
+      preLoaderRoute: typeof AuthenticatedLiveHomeRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/founder': {
+      id: '/_authenticated/live/founder'
+      path: '/founder'
+      fullPath: '/live/founder'
+      preLoaderRoute: typeof AuthenticatedLiveFounderRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/dashboard': {
+      id: '/_authenticated/live/dashboard'
+      path: '/dashboard'
+      fullPath: '/live/dashboard'
+      preLoaderRoute: typeof AuthenticatedLiveDashboardRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/context': {
+      id: '/_authenticated/live/context'
+      path: '/context'
+      fullPath: '/live/context'
+      preLoaderRoute: typeof AuthenticatedLiveContextRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
+    }
+    '/_authenticated/live/activity': {
+      id: '/_authenticated/live/activity'
+      path: '/activity'
+      fullPath: '/live/activity'
+      preLoaderRoute: typeof AuthenticatedLiveActivityRouteImport
+      parentRoute: typeof AuthenticatedLiveRouteRoute
     }
     '/_authenticated/knowledge/sources': {
       id: '/_authenticated/knowledge/sources'
@@ -8427,6 +8642,38 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedLiveRouteRouteChildren {
+  AuthenticatedLiveActivityRoute: typeof AuthenticatedLiveActivityRoute
+  AuthenticatedLiveContextRoute: typeof AuthenticatedLiveContextRoute
+  AuthenticatedLiveDashboardRoute: typeof AuthenticatedLiveDashboardRoute
+  AuthenticatedLiveFounderRoute: typeof AuthenticatedLiveFounderRoute
+  AuthenticatedLiveHomeRoute: typeof AuthenticatedLiveHomeRoute
+  AuthenticatedLiveLanguageRoute: typeof AuthenticatedLiveLanguageRoute
+  AuthenticatedLivePresenceRoute: typeof AuthenticatedLivePresenceRoute
+  AuthenticatedLiveRelationshipRoute: typeof AuthenticatedLiveRelationshipRoute
+  AuthenticatedLiveSettingsRoute: typeof AuthenticatedLiveSettingsRoute
+  AuthenticatedLiveIndexRoute: typeof AuthenticatedLiveIndexRoute
+}
+
+const AuthenticatedLiveRouteRouteChildren: AuthenticatedLiveRouteRouteChildren =
+  {
+    AuthenticatedLiveActivityRoute: AuthenticatedLiveActivityRoute,
+    AuthenticatedLiveContextRoute: AuthenticatedLiveContextRoute,
+    AuthenticatedLiveDashboardRoute: AuthenticatedLiveDashboardRoute,
+    AuthenticatedLiveFounderRoute: AuthenticatedLiveFounderRoute,
+    AuthenticatedLiveHomeRoute: AuthenticatedLiveHomeRoute,
+    AuthenticatedLiveLanguageRoute: AuthenticatedLiveLanguageRoute,
+    AuthenticatedLivePresenceRoute: AuthenticatedLivePresenceRoute,
+    AuthenticatedLiveRelationshipRoute: AuthenticatedLiveRelationshipRoute,
+    AuthenticatedLiveSettingsRoute: AuthenticatedLiveSettingsRoute,
+    AuthenticatedLiveIndexRoute: AuthenticatedLiveIndexRoute,
+  }
+
+const AuthenticatedLiveRouteRouteWithChildren =
+  AuthenticatedLiveRouteRoute._addFileChildren(
+    AuthenticatedLiveRouteRouteChildren,
+  )
+
 interface AuthenticatedReleasesRouteRouteChildren {
   AuthenticatedReleasesAnalyticsRoute: typeof AuthenticatedReleasesAnalyticsRoute
   AuthenticatedReleasesArtifactsRoute: typeof AuthenticatedReleasesArtifactsRoute
@@ -9204,6 +9451,7 @@ const AuthenticatedWorkflowsRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedLiveRouteRoute: typeof AuthenticatedLiveRouteRouteWithChildren
   AuthenticatedReleasesRouteRoute: typeof AuthenticatedReleasesRouteRouteWithChildren
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
@@ -9401,6 +9649,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedLiveRouteRoute: AuthenticatedLiveRouteRouteWithChildren,
   AuthenticatedReleasesRouteRoute: AuthenticatedReleasesRouteRouteWithChildren,
   AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
