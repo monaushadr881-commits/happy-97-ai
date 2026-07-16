@@ -69,7 +69,9 @@ const LIVE3D_OPTIONAL = [
 ];
 
 const VRM_REQUIRED = [
-  "src/assets/digital-human/vrm/happy.vrm",
+  // The .vrm binary is served from the Lovable asset CDN — the pointer file
+  // living next to it in the repo is what the manifest globber picks up.
+  "src/assets/digital-human/vrm/happy.vrm.asset.json",
 ];
 const VRM_OPTIONAL = [
   "src/assets/digital-human/vrm/animations/idle.vrma",
