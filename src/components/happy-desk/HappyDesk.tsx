@@ -924,7 +924,7 @@ function HappyDeskPanel({
   greeting, summary, surface, route, posture, focusLabel, focusGuidance,
   teamRoleGreeting, teamRoleHint, teamRoleName,
   listening, voiceSupported, transcript, voiceError, language, lastIntent,
-  onToggleVoice, onClose,
+  onToggleVoice, onClose, onSend,
   workMode, workModeReason, tutorLevel, taskLog, activeTask, resume,
 }: {
   greeting: string;
@@ -945,6 +945,7 @@ function HappyDeskPanel({
   lastIntent: VoiceIntent | null;
   onToggleVoice: () => void;
   onClose: () => void;
+  onSend?: (text: string) => Promise<string>;
   workMode: "focus" | "meeting" | "learning" | "normal";
   workModeReason: string;
   tutorLevel: "beginner" | "intermediate" | "advanced";
@@ -954,6 +955,7 @@ function HappyDeskPanel({
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [note, setNote] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => { inputRef.current?.focus(); }, []);
 
