@@ -740,6 +740,59 @@ function HappyDeskPanel({
       <div className="space-y-3 px-4 py-3">
         <p className="text-sm leading-snug text-paper">{summary}</p>
 
+        <div className="flex flex-wrap items-center gap-2">
+          <span
+            className={cn(
+              "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest",
+              workMode === "focus" ? "border-sky-400/40 bg-sky-500/10 text-sky-200" :
+              workMode === "meeting" ? "border-fuchsia-400/40 bg-fuchsia-500/10 text-fuchsia-200" :
+              workMode === "learning" ? "border-amber-400/40 bg-amber-500/10 text-amber-200" :
+              "border-white/10 bg-white/[0.03] text-soft-gray",
+            )}
+            title={workModeReason}
+          >
+            {workMode}
+          </span>
+          <span className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] uppercase tracking-widest text-soft-gray">
+            tutor · {tutorLevel}
+          </span>
+          {activeTask && (
+            <span className="rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] uppercase tracking-widest text-gold">
+              on: {activeTask.label}
+            </span>
+          )}
+        </div>
+
+        {resume && (
+          <p className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2 text-[12px] leading-snug text-paper/80">
+            {resume}
+          </p>
+        )}
+
+        {taskLog.length > 0 && (
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+            <p className="text-[11px] uppercase tracking-wide text-soft-gray">Recent tasks</p>
+            <ul className="mt-1 space-y-0.5 text-[11px]">
+              {taskLog.slice(0, 4).map((t, i) => (
+                <li key={`${t.id}-${i}`} className="flex items-center gap-2">
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "inline-block h-1.5 w-1.5 rounded-full",
+                      t.status === "completed" || t.status === "milestone" ? "bg-emerald-400" :
+                      t.status === "failed" ? "bg-red-400" :
+                      t.status === "progress" ? "bg-gold" : "bg-white/40",
+                    )}
+                  />
+                  <span className="truncate text-paper/90">{t.label}</span>
+                  <span className="ml-auto text-[10px] uppercase tracking-widest text-soft-gray">{t.status}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+
         <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
           <p className="text-[11px] uppercase tracking-wide text-soft-gray">You are on</p>
           <p className="mt-0.5 text-sm text-paper">
