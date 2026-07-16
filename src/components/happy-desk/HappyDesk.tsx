@@ -653,7 +653,8 @@ export function HappyDesk() {
 
       <div
         className={cn(
-          "relative transition-all duration-700 ease-out",
+          "relative transition-all duration-500 will-change-transform",
+          "[transition-timing-function:cubic-bezier(0.22,0.61,0.36,1)]",
           !entered && !reducedMotion && CORNER_ENTRANCE[corner],
           walkOut && "-translate-y-1 scale-[1.04]",
         )}
@@ -715,6 +716,24 @@ export function HappyDesk() {
         >
           {posture} · {teamRole.role.replace("-", " ")}
         </span>
+        {indicator !== "idle" && (
+          <span
+            role="status"
+            aria-live="polite"
+            className={cn(
+              "pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap",
+              "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest",
+              indicator === "speaking" ? "border-gold/40 bg-gold/10 text-gold" :
+              indicator === "listening" ? "border-emerald-300/50 bg-emerald-500/15 text-emerald-100" :
+              indicator === "thinking" ? "border-sky-300/40 bg-sky-500/10 text-sky-100" :
+              "border-white/15 bg-obsidian/80 text-soft-gray",
+              !reducedMotion && (indicator === "thinking" || indicator === "listening") && "animate-pulse",
+            )}
+          >
+            {indicatorLabel(indicator)}
+            {!reducedMotion && (indicator === "thinking" || indicator === "typing") && "…"}
+          </span>
+        )}
         {voiceError && (
           <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-red-950/80 px-2 py-0.5 text-[10px] text-red-200">
             {voiceError}
