@@ -30,6 +30,7 @@ import { loadDaily, saveDaily, recordDaily, type DailyEventKind } from "@/lib/ha
 import { publishContext, type ContextSubsystem, type SubsystemStatus } from "@/lib/happy-r88/context-bus";
 import { anchorFor, type Anchor, type PresenceMode } from "@/lib/happy-r89/route-anchors";
 import { decidePersona } from "@/lib/happy-r89/persona";
+import { planDelivery, type ChoreoStage } from "@/lib/happy-r89/delivery-choreo";
 
 /** Map R89 anchors (which include center-*) to the desk's cardinal corners. */
 function anchorToCorner(a: Anchor): DeskCorner {
@@ -161,6 +162,7 @@ export function HappyDesk() {
   const [dismissedKind, setDismissedKind] = useState<string | null>(null);
   const [entered, setEntered] = useState(false);
   const [delivery, setDelivery] = useState<DeliveryEvent | null>(null);
+  const [deliveryStage, setDeliveryStage] = useState<ChoreoStage | null>(null);
 
   // R83 — voice + hesitation + language + recent-actions history.
   const [listening, setListening] = useState(false);
@@ -409,11 +411,22 @@ export function HappyDesk() {
   }, []);
 
   useEffect(() => {
-    if (!delivery) return;
+    if (!delivery) { setDeliveryStage(null); return; }
     const dwell = delivery.tone === "critical" ? 12_000 : 7_000;
     const id = window.setTimeout(() => setDelivery(null), dwell);
     return () => window.clearTimeout(id);
   }, [delivery]);
+
+  // R89 — visibly stage the walk→deliver→return choreography.
+  useEffect(() => {
+    if (!delivery) return;
+    const steps = planDelivery({ tone: delivery.tone, reducedMotion });
+    const timers: number[] = [];
+    for (const s of steps) {
+      timers.push(window.setTimeout(() => setDeliveryStage(s.stage), s.at_ms));
+    }
+    return () => { for (const t of timers) window.clearTimeout(t); };
+  }, [delivery, reducedMotion]);
 
   // Hesitation nudge: if the user has been on the same focused region long
   // enough, HAPPY offers a hand.
@@ -686,7 +699,10 @@ export function HappyDesk() {
             "border-gold/30 bg-obsidian/90 text-paper",
           )}
         >
-          <p className="text-[10px] uppercase tracking-widest opacity-70">HAPPY · {delivery.kind}</p>
+          <p className="text-[10px] uppercase tracking-widest opacity-70">
+            HAPPY · {delivery.kind}
+            {deliveryStage && <span className="ml-1 opacity-60">· {deliveryStage.replace("-", " ")}</span>}
+          </p>
           <p className="mt-0.5 leading-snug">{delivery.message}</p>
         </div>
       )}
