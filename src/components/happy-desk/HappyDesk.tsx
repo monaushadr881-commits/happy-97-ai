@@ -30,6 +30,7 @@ import { loadDaily, saveDaily, recordDaily, type DailyEventKind } from "@/lib/ha
 import { publishContext, type ContextSubsystem, type SubsystemStatus } from "@/lib/happy-r88/context-bus";
 import { anchorFor, type Anchor, type PresenceMode } from "@/lib/happy-r89/route-anchors";
 import { decidePersona } from "@/lib/happy-r89/persona";
+import { planDelivery, type ChoreoStage } from "@/lib/happy-r89/delivery-choreo";
 
 /** Map R89 anchors (which include center-*) to the desk's cardinal corners. */
 function anchorToCorner(a: Anchor): DeskCorner {
