@@ -120,13 +120,13 @@ describe("uabr planner — output shape & derivations", () => {
   });
 
   it("timeline_days & credits both scale with complexity", () => {
+    // portfolio (4 modules) + 1 mode → score 6 → medium
     const small = planFromPrompt("portfolio", { modes: ["website"] });
-    const enterprise = planFromPrompt("hospital patient portal system", { modes: ["complete"] });
-    expect(enterprise.timeline_days).toBeGreaterThanOrEqual(small.timeline_days);
-    expect(enterprise.estimated_credits).toBeGreaterThanOrEqual(small.estimated_credits);
-    // At least one of the two must strictly increase for a bigger project
-    expect(enterprise.timeline_days + enterprise.estimated_credits)
-      .toBeGreaterThan(small.timeline_days + small.estimated_credits);
+    // hospital (7 modules) + 2 modes → score 11 → large
+    const large = planFromPrompt("hospital patient portal", { modes: ["android", "ios"] });
+    expect(large.complexity).toBe("large");
+    expect(large.timeline_days).toBeGreaterThan(small.timeline_days);
+    expect(large.estimated_credits).toBeGreaterThan(small.estimated_credits);
   });
 
   it("external_dependencies collect from every blocked mode without duplicates", () => {
