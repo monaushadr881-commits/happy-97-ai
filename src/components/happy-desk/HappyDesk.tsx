@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useRouterState, useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { chatWithHappy } from "@/lib/happy-chat.functions";
 import { HappyAvatar, type AvatarActivity, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { composeCompanion, type CompanionRole } from "@/lib/happy-r80/living-companion";
 import { contextFor, summarize } from "@/lib/happy-r80/workspace-intelligence";
@@ -625,6 +627,13 @@ export function HappyDesk() {
     });
   };
 
+  // R92 — real Lovable AI Gateway conversation, wired through the ONE HAPPY panel.
+  const chatFn = useServerFn(chatWithHappy);
+  const sendToHappy = async (text: string): Promise<string> => {
+    const res = await chatFn({ data: { message: text, route: pathname, persona: persona.persona, role: teamRole.role } });
+    return res.reply;
+  };
+
   const containerAlign = CORNER_CLASS[corner];
   const walkOut = !!delivery && !reducedMotion;
 
@@ -657,6 +666,7 @@ export function HappyDesk() {
           lastIntent={lastIntent}
           onToggleVoice={() => (listening ? stopListening() : startListening())}
           onClose={() => setOpen(false)}
+          onSend={sendToHappy}
           workMode={workMode.mode}
           workModeReason={workMode.reason}
           tutorLevel={tutorLevel}
@@ -924,7 +934,7 @@ function HappyDeskPanel({
   greeting, summary, surface, route, posture, focusLabel, focusGuidance,
   teamRoleGreeting, teamRoleHint, teamRoleName,
   listening, voiceSupported, transcript, voiceError, language, lastIntent,
-  onToggleVoice, onClose,
+  onToggleVoice, onClose, onSend,
   workMode, workModeReason, tutorLevel, taskLog, activeTask, resume,
 }: {
   greeting: string;
@@ -945,6 +955,7 @@ function HappyDeskPanel({
   lastIntent: VoiceIntent | null;
   onToggleVoice: () => void;
   onClose: () => void;
+  onSend?: (text: string) => Promise<string>;
   workMode: "focus" | "meeting" | "learning" | "normal";
   workModeReason: string;
   tutorLevel: "beginner" | "intermediate" | "advanced";
@@ -954,6 +965,7 @@ function HappyDeskPanel({
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [note, setNote] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => { inputRef.current?.focus(); }, []);
 
@@ -1110,29 +1122,43 @@ function HappyDeskPanel({
 
         <form
           className="flex items-center gap-2"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const v = inputRef.current?.value.trim();
-            if (!v) return;
-            setNote(`Noted — I'll surface "${v}" as an initiative signal.`);
+            if (!v || sending) return;
             if (inputRef.current) inputRef.current.value = "";
+            if (!onSend) { setNote(`Noted — I'll surface "${v}" as an initiative signal.`); return; }
+            setSending(true);
+            setNote("HAPPY is thinking…");
+            try {
+              const reply = await onSend(v);
+              setNote(reply);
+            } catch {
+              setNote("Sorry — I couldn't reach my voice channel just now.");
+            } finally {
+              setSending(false);
+              inputRef.current?.focus();
+            }
           }}
         >
           <input
             ref={inputRef}
             type="text"
-            placeholder="Tell HAPPY what's on your mind…"
+            disabled={sending}
+            placeholder={sending ? "HAPPY is thinking…" : "Tell HAPPY what's on your mind…"}
             aria-label="Message HAPPY"
-            className="flex-1 min-w-0 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-paper placeholder:text-soft-gray/70 focus:border-gold/40 focus:outline-none"
+            className="flex-1 min-w-0 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-paper placeholder:text-soft-gray/70 focus:border-gold/40 focus:outline-none disabled:opacity-60"
           />
           <button
             type="submit"
-            className="rounded-full bg-gold px-3 py-1.5 text-xs font-semibold text-obsidian hover:brightness-110"
+            disabled={sending}
+            aria-busy={sending}
+            className="rounded-full bg-gold px-3 py-1.5 text-xs font-semibold text-obsidian hover:brightness-110 disabled:opacity-60"
           >
-            Send
+            {sending ? "…" : "Send"}
           </button>
         </form>
-        {note && <p className="text-[11px] text-soft-gray">{note}</p>}
+        {note && <p className="text-[11px] text-soft-gray" role="status" aria-live="polite">{note}</p>}
       </div>
     </section>
   );
