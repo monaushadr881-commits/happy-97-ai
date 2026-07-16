@@ -95,9 +95,9 @@ const MODE_MAP: { keywords: string[]; modes: UabrMode[] }[] = [
   { keywords: ["complete", "end to end"], modes: ["complete"] },
 ];
 
-function match<T>(text: string, table: { keywords: string[]; }[] & T[]): T | undefined {
+function match<T extends { keywords: string[] }>(text: string, table: T[]): T | undefined {
   const t = text.toLowerCase();
-  return table.find((row: any) => row.keywords.some((k: string) => t.includes(k)));
+  return table.find((row) => row.keywords.some((k) => t.includes(k)));
 }
 
 export function planFromPrompt(rawPrompt: string, opts?: { projectName?: string; modes?: UabrMode[] }): UabrProjectPlan {
