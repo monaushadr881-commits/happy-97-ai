@@ -535,6 +535,11 @@ export function HappyDesk() {
     [pathname, focus.region, recentActions],
   );
 
+  // R97 — hook must sit above every early return so the hook order stays
+  // stable across renders (fixes "Rendered more hooks than during the
+  // previous render" when `hydrated` flipped or a HIDDEN_PREFIX matched).
+  const chatFn = useServerFn(chatWithHappy);
+
   if (!hydrated) return null;
   if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 
@@ -644,10 +649,8 @@ export function HappyDesk() {
     });
   };
 
-  // R92 — real Lovable AI Gateway conversation, wired through the ONE HAPPY panel.
-  // R93 — multi-turn history + abort passed through; the panel owns the transcript.
-  // R94 — same runtime, now also exposed as a token-by-token streaming callable.
-  const chatFn = useServerFn(chatWithHappy);
+  // R92/R93/R94 — real Lovable AI Gateway conversation wired through the
+  // ONE HAPPY panel. `chatFn` is hoisted above the early returns above.
   const sendToHappy = async (
     text: string,
     history: Array<{ role: "user" | "assistant"; content: string }>,
