@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { KernelProvider } from "../kernel";
+import { HappyDesk } from "../components/happy-desk/HappyDesk";
 
 function NotFoundComponent() {
   return (
@@ -159,6 +160,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <KernelProvider>
         <Outlet />
+        <HappyDesk />
       </KernelProvider>
     </QueryClientProvider>
   );
