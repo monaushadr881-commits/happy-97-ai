@@ -241,8 +241,16 @@ import { Route as AuthenticatedWorkflowsHistoryRouteImport } from './routes/_aut
 import { Route as AuthenticatedWorkflowsExecutionsRouteImport } from './routes/_authenticated/workflows.executions'
 import { Route as AuthenticatedWorkflowsDesignerRouteImport } from './routes/_authenticated/workflows.designer'
 import { Route as AuthenticatedWorkflowsAnalyticsRouteImport } from './routes/_authenticated/workflows.analytics'
+import { Route as AuthenticatedUabrTestsRouteImport } from './routes/_authenticated/uabr/tests'
 import { Route as AuthenticatedUabrPlannerRouteImport } from './routes/_authenticated/uabr/planner'
+import { Route as AuthenticatedUabrHistoryRouteImport } from './routes/_authenticated/uabr/history'
+import { Route as AuthenticatedUabrFrontendRouteImport } from './routes/_authenticated/uabr/frontend'
+import { Route as AuthenticatedUabrDocumentationRouteImport } from './routes/_authenticated/uabr/documentation'
+import { Route as AuthenticatedUabrDesignRouteImport } from './routes/_authenticated/uabr/design'
+import { Route as AuthenticatedUabrDeploymentRouteImport } from './routes/_authenticated/uabr/deployment'
+import { Route as AuthenticatedUabrDatabaseRouteImport } from './routes/_authenticated/uabr/database'
 import { Route as AuthenticatedUabrDashboardRouteImport } from './routes/_authenticated/uabr/dashboard'
+import { Route as AuthenticatedUabrBackendRouteImport } from './routes/_authenticated/uabr/backend'
 import { Route as AuthenticatedToolsSettingsRouteImport } from './routes/_authenticated/tools.settings'
 import { Route as AuthenticatedToolsRuntimeRouteImport } from './routes/_authenticated/tools.runtime'
 import { Route as AuthenticatedToolsAnalyticsRouteImport } from './routes/_authenticated/tools.analytics'
@@ -1718,16 +1726,62 @@ const AuthenticatedWorkflowsAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedWorkflowsRoute,
   } as any)
+const AuthenticatedUabrTestsRoute = AuthenticatedUabrTestsRouteImport.update({
+  id: '/tests',
+  path: '/tests',
+  getParentRoute: () => AuthenticatedUabrRouteRoute,
+} as any)
 const AuthenticatedUabrPlannerRoute =
   AuthenticatedUabrPlannerRouteImport.update({
     id: '/planner',
     path: '/planner',
     getParentRoute: () => AuthenticatedUabrRouteRoute,
   } as any)
+const AuthenticatedUabrHistoryRoute =
+  AuthenticatedUabrHistoryRouteImport.update({
+    id: '/history',
+    path: '/history',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
+  } as any)
+const AuthenticatedUabrFrontendRoute =
+  AuthenticatedUabrFrontendRouteImport.update({
+    id: '/frontend',
+    path: '/frontend',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
+  } as any)
+const AuthenticatedUabrDocumentationRoute =
+  AuthenticatedUabrDocumentationRouteImport.update({
+    id: '/documentation',
+    path: '/documentation',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
+  } as any)
+const AuthenticatedUabrDesignRoute = AuthenticatedUabrDesignRouteImport.update({
+  id: '/design',
+  path: '/design',
+  getParentRoute: () => AuthenticatedUabrRouteRoute,
+} as any)
+const AuthenticatedUabrDeploymentRoute =
+  AuthenticatedUabrDeploymentRouteImport.update({
+    id: '/deployment',
+    path: '/deployment',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
+  } as any)
+const AuthenticatedUabrDatabaseRoute =
+  AuthenticatedUabrDatabaseRouteImport.update({
+    id: '/database',
+    path: '/database',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
+  } as any)
 const AuthenticatedUabrDashboardRoute =
   AuthenticatedUabrDashboardRouteImport.update({
     id: '/dashboard',
     path: '/dashboard',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
+  } as any)
+const AuthenticatedUabrBackendRoute =
+  AuthenticatedUabrBackendRouteImport.update({
+    id: '/backend',
+    path: '/backend',
     getParentRoute: () => AuthenticatedUabrRouteRoute,
   } as any)
 const AuthenticatedToolsSettingsRoute =
@@ -3446,8 +3500,16 @@ export interface FileRoutesByFullPath {
   '/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
   '/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
   '/tools/settings': typeof AuthenticatedToolsSettingsRoute
+  '/uabr/backend': typeof AuthenticatedUabrBackendRoute
   '/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
+  '/uabr/database': typeof AuthenticatedUabrDatabaseRoute
+  '/uabr/deployment': typeof AuthenticatedUabrDeploymentRoute
+  '/uabr/design': typeof AuthenticatedUabrDesignRoute
+  '/uabr/documentation': typeof AuthenticatedUabrDocumentationRoute
+  '/uabr/frontend': typeof AuthenticatedUabrFrontendRoute
+  '/uabr/history': typeof AuthenticatedUabrHistoryRoute
   '/uabr/planner': typeof AuthenticatedUabrPlannerRoute
+  '/uabr/tests': typeof AuthenticatedUabrTestsRoute
   '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
   '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
   '/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
@@ -3885,8 +3947,16 @@ export interface FileRoutesByTo {
   '/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
   '/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
   '/tools/settings': typeof AuthenticatedToolsSettingsRoute
+  '/uabr/backend': typeof AuthenticatedUabrBackendRoute
   '/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
+  '/uabr/database': typeof AuthenticatedUabrDatabaseRoute
+  '/uabr/deployment': typeof AuthenticatedUabrDeploymentRoute
+  '/uabr/design': typeof AuthenticatedUabrDesignRoute
+  '/uabr/documentation': typeof AuthenticatedUabrDocumentationRoute
+  '/uabr/frontend': typeof AuthenticatedUabrFrontendRoute
+  '/uabr/history': typeof AuthenticatedUabrHistoryRoute
   '/uabr/planner': typeof AuthenticatedUabrPlannerRoute
+  '/uabr/tests': typeof AuthenticatedUabrTestsRoute
   '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
   '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
   '/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
@@ -4342,8 +4412,16 @@ export interface FileRoutesById {
   '/_authenticated/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
   '/_authenticated/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
   '/_authenticated/tools/settings': typeof AuthenticatedToolsSettingsRoute
+  '/_authenticated/uabr/backend': typeof AuthenticatedUabrBackendRoute
   '/_authenticated/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
+  '/_authenticated/uabr/database': typeof AuthenticatedUabrDatabaseRoute
+  '/_authenticated/uabr/deployment': typeof AuthenticatedUabrDeploymentRoute
+  '/_authenticated/uabr/design': typeof AuthenticatedUabrDesignRoute
+  '/_authenticated/uabr/documentation': typeof AuthenticatedUabrDocumentationRoute
+  '/_authenticated/uabr/frontend': typeof AuthenticatedUabrFrontendRoute
+  '/_authenticated/uabr/history': typeof AuthenticatedUabrHistoryRoute
   '/_authenticated/uabr/planner': typeof AuthenticatedUabrPlannerRoute
+  '/_authenticated/uabr/tests': typeof AuthenticatedUabrTestsRoute
   '/_authenticated/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
   '/_authenticated/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
   '/_authenticated/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
@@ -4799,8 +4877,16 @@ export interface FileRouteTypes {
     | '/tools/analytics'
     | '/tools/runtime'
     | '/tools/settings'
+    | '/uabr/backend'
     | '/uabr/dashboard'
+    | '/uabr/database'
+    | '/uabr/deployment'
+    | '/uabr/design'
+    | '/uabr/documentation'
+    | '/uabr/frontend'
+    | '/uabr/history'
     | '/uabr/planner'
+    | '/uabr/tests'
     | '/workflows/analytics'
     | '/workflows/designer'
     | '/workflows/executions'
@@ -5238,8 +5324,16 @@ export interface FileRouteTypes {
     | '/tools/analytics'
     | '/tools/runtime'
     | '/tools/settings'
+    | '/uabr/backend'
     | '/uabr/dashboard'
+    | '/uabr/database'
+    | '/uabr/deployment'
+    | '/uabr/design'
+    | '/uabr/documentation'
+    | '/uabr/frontend'
+    | '/uabr/history'
     | '/uabr/planner'
+    | '/uabr/tests'
     | '/workflows/analytics'
     | '/workflows/designer'
     | '/workflows/executions'
@@ -5694,8 +5788,16 @@ export interface FileRouteTypes {
     | '/_authenticated/tools/analytics'
     | '/_authenticated/tools/runtime'
     | '/_authenticated/tools/settings'
+    | '/_authenticated/uabr/backend'
     | '/_authenticated/uabr/dashboard'
+    | '/_authenticated/uabr/database'
+    | '/_authenticated/uabr/deployment'
+    | '/_authenticated/uabr/design'
+    | '/_authenticated/uabr/documentation'
+    | '/_authenticated/uabr/frontend'
+    | '/_authenticated/uabr/history'
     | '/_authenticated/uabr/planner'
+    | '/_authenticated/uabr/tests'
     | '/_authenticated/workflows/analytics'
     | '/_authenticated/workflows/designer'
     | '/_authenticated/workflows/executions'
@@ -7399,6 +7501,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWorkflowsAnalyticsRouteImport
       parentRoute: typeof AuthenticatedWorkflowsRoute
     }
+    '/_authenticated/uabr/tests': {
+      id: '/_authenticated/uabr/tests'
+      path: '/tests'
+      fullPath: '/uabr/tests'
+      preLoaderRoute: typeof AuthenticatedUabrTestsRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
     '/_authenticated/uabr/planner': {
       id: '/_authenticated/uabr/planner'
       path: '/planner'
@@ -7406,11 +7515,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUabrPlannerRouteImport
       parentRoute: typeof AuthenticatedUabrRouteRoute
     }
+    '/_authenticated/uabr/history': {
+      id: '/_authenticated/uabr/history'
+      path: '/history'
+      fullPath: '/uabr/history'
+      preLoaderRoute: typeof AuthenticatedUabrHistoryRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
+    '/_authenticated/uabr/frontend': {
+      id: '/_authenticated/uabr/frontend'
+      path: '/frontend'
+      fullPath: '/uabr/frontend'
+      preLoaderRoute: typeof AuthenticatedUabrFrontendRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
+    '/_authenticated/uabr/documentation': {
+      id: '/_authenticated/uabr/documentation'
+      path: '/documentation'
+      fullPath: '/uabr/documentation'
+      preLoaderRoute: typeof AuthenticatedUabrDocumentationRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
+    '/_authenticated/uabr/design': {
+      id: '/_authenticated/uabr/design'
+      path: '/design'
+      fullPath: '/uabr/design'
+      preLoaderRoute: typeof AuthenticatedUabrDesignRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
+    '/_authenticated/uabr/deployment': {
+      id: '/_authenticated/uabr/deployment'
+      path: '/deployment'
+      fullPath: '/uabr/deployment'
+      preLoaderRoute: typeof AuthenticatedUabrDeploymentRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
+    '/_authenticated/uabr/database': {
+      id: '/_authenticated/uabr/database'
+      path: '/database'
+      fullPath: '/uabr/database'
+      preLoaderRoute: typeof AuthenticatedUabrDatabaseRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
     '/_authenticated/uabr/dashboard': {
       id: '/_authenticated/uabr/dashboard'
       path: '/dashboard'
       fullPath: '/uabr/dashboard'
       preLoaderRoute: typeof AuthenticatedUabrDashboardRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
+    '/_authenticated/uabr/backend': {
+      id: '/_authenticated/uabr/backend'
+      path: '/backend'
+      fullPath: '/uabr/backend'
+      preLoaderRoute: typeof AuthenticatedUabrBackendRouteImport
       parentRoute: typeof AuthenticatedUabrRouteRoute
     }
     '/_authenticated/tools/settings': {
@@ -9057,15 +9215,31 @@ const AuthenticatedReleasesRouteRouteWithChildren =
   )
 
 interface AuthenticatedUabrRouteRouteChildren {
+  AuthenticatedUabrBackendRoute: typeof AuthenticatedUabrBackendRoute
   AuthenticatedUabrDashboardRoute: typeof AuthenticatedUabrDashboardRoute
+  AuthenticatedUabrDatabaseRoute: typeof AuthenticatedUabrDatabaseRoute
+  AuthenticatedUabrDeploymentRoute: typeof AuthenticatedUabrDeploymentRoute
+  AuthenticatedUabrDesignRoute: typeof AuthenticatedUabrDesignRoute
+  AuthenticatedUabrDocumentationRoute: typeof AuthenticatedUabrDocumentationRoute
+  AuthenticatedUabrFrontendRoute: typeof AuthenticatedUabrFrontendRoute
+  AuthenticatedUabrHistoryRoute: typeof AuthenticatedUabrHistoryRoute
   AuthenticatedUabrPlannerRoute: typeof AuthenticatedUabrPlannerRoute
+  AuthenticatedUabrTestsRoute: typeof AuthenticatedUabrTestsRoute
   AuthenticatedUabrIndexRoute: typeof AuthenticatedUabrIndexRoute
 }
 
 const AuthenticatedUabrRouteRouteChildren: AuthenticatedUabrRouteRouteChildren =
   {
+    AuthenticatedUabrBackendRoute: AuthenticatedUabrBackendRoute,
     AuthenticatedUabrDashboardRoute: AuthenticatedUabrDashboardRoute,
+    AuthenticatedUabrDatabaseRoute: AuthenticatedUabrDatabaseRoute,
+    AuthenticatedUabrDeploymentRoute: AuthenticatedUabrDeploymentRoute,
+    AuthenticatedUabrDesignRoute: AuthenticatedUabrDesignRoute,
+    AuthenticatedUabrDocumentationRoute: AuthenticatedUabrDocumentationRoute,
+    AuthenticatedUabrFrontendRoute: AuthenticatedUabrFrontendRoute,
+    AuthenticatedUabrHistoryRoute: AuthenticatedUabrHistoryRoute,
     AuthenticatedUabrPlannerRoute: AuthenticatedUabrPlannerRoute,
+    AuthenticatedUabrTestsRoute: AuthenticatedUabrTestsRoute,
     AuthenticatedUabrIndexRoute: AuthenticatedUabrIndexRoute,
   }
 
