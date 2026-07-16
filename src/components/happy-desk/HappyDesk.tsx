@@ -550,7 +550,8 @@ export function HappyDesk() {
     open ? "listening" :
     activeTask ? "attentive" :
     idleMs > 30_000 ? "waiting" :
-    focus.label ? "attentive" : "standing";
+    focus.label ? "attentive" :
+    ambientPosture === "still" ? "standing" : ambientPosture;
 
   const toggleOpen = () => {
     setOpen((prev) => {
