@@ -874,7 +874,7 @@ export function HappyDesk() {
             "rounded-full border border-white/10 bg-obsidian/80 px-2 py-0.5 text-[10px] uppercase tracking-widest text-soft-gray",
           )}
         >
-          {posture} · {teamRole.role.replace("-", " ")}
+          {posture} · {teamRole.role.replace("-", " ")} · {persona.persona}
         </span>
         {indicator !== "idle" && (
           <span
