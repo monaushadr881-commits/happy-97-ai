@@ -420,9 +420,6 @@ export function HappyDesk() {
   // R89 — visibly stage the walk→deliver→return choreography.
   useEffect(() => {
     if (!delivery) return;
-    // Lazy require avoids circular type imports.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { planDelivery } = require("@/lib/happy-r89/delivery-choreo") as typeof import("@/lib/happy-r89/delivery-choreo");
     const steps = planDelivery({ tone: delivery.tone, reducedMotion });
     const timers: number[] = [];
     for (const s of steps) {
