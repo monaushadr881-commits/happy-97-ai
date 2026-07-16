@@ -8,7 +8,7 @@
  *   4. Cron route handlers reject requests without the shared secret.
  *   5. /api/dh/tts requires a Supabase bearer token.
  */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { AppError, dbError } from "@/services/core/errors";
 import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
