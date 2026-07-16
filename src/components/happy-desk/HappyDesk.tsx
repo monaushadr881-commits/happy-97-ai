@@ -410,11 +410,25 @@ export function HappyDesk() {
   }, []);
 
   useEffect(() => {
-    if (!delivery) return;
+    if (!delivery) { setDeliveryStage(null); return; }
     const dwell = delivery.tone === "critical" ? 12_000 : 7_000;
     const id = window.setTimeout(() => setDelivery(null), dwell);
     return () => window.clearTimeout(id);
   }, [delivery]);
+
+  // R89 — visibly stage the walk→deliver→return choreography.
+  useEffect(() => {
+    if (!delivery) return;
+    // Lazy require avoids circular type imports.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { planDelivery } = require("@/lib/happy-r89/delivery-choreo") as typeof import("@/lib/happy-r89/delivery-choreo");
+    const steps = planDelivery({ tone: delivery.tone, reducedMotion });
+    const timers: number[] = [];
+    for (const s of steps) {
+      timers.push(window.setTimeout(() => setDeliveryStage(s.stage), s.at_ms));
+    }
+    return () => { for (const t of timers) window.clearTimeout(t); };
+  }, [delivery, reducedMotion]);
 
   // Hesitation nudge: if the user has been on the same focused region long
   // enough, HAPPY offers a hand.
