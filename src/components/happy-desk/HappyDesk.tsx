@@ -48,18 +48,35 @@ function usePrefersReducedMotion() {
   return r;
 }
 
-/** Track the currently focused interactive element so HAPPY can glance at it. */
-function useFocusLabel() {
-  const [label, setLabel] = useState<string | null>(null);
+/** Track the currently focused element and describe its UI region. */
+function useFocusVisual() {
+  const [state, setState] = useState<{ label: string | null; region: UiRegion; guidance: string; changedAt: number }>(
+    { label: null, region: "unknown", guidance: "", changedAt: Date.now() },
+  );
   useEffect(() => {
     const on = () => {
       const el = document.activeElement as HTMLElement | null;
-      if (!el || el === document.body) { setLabel(null); return; }
-      const tag = el.tagName.toLowerCase();
-      const role = el.getAttribute("role");
-      const aria = el.getAttribute("aria-label");
-      const text = (el.textContent || "").trim().slice(0, 40);
-      setLabel(aria || (role ? `${role}` : tag) + (text ? ` · ${text}` : ""));
+      if (!el || el === document.body) {
+        setState({ label: null, region: "unknown", guidance: "", changedAt: Date.now() });
+        return;
+      }
+      const closest: string[] = [];
+      let cur: HTMLElement | null = el;
+      let depth = 0;
+      while (cur && depth < 6) {
+        closest.push(cur.tagName.toLowerCase() + (cur.id ? `#${cur.id}` : "") + (cur.className && typeof cur.className === "string" ? "." + cur.className.split(/\s+/).slice(0, 2).join(".") : ""));
+        cur = cur.parentElement;
+        depth++;
+      }
+      const v = describeUi({
+        tag: el.tagName,
+        role: el.getAttribute("role"),
+        ariaLabel: el.getAttribute("aria-label"),
+        text: (el.textContent || "").trim().slice(0, 60),
+        dataset: (el.dataset as unknown) as Record<string, string>,
+        closestSelectors: closest,
+      });
+      setState({ label: v.label, region: v.region, guidance: v.guidance, changedAt: Date.now() });
     };
     document.addEventListener("focusin", on);
     document.addEventListener("focusout", on);
@@ -68,7 +85,7 @@ function useFocusLabel() {
       document.removeEventListener("focusout", on);
     };
   }, []);
-  return label;
+  return state;
 }
 
 function useNowTick(ms: number) {
