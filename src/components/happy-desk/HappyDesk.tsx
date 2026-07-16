@@ -628,9 +628,17 @@ export function HappyDesk() {
   };
 
   // R92 — real Lovable AI Gateway conversation, wired through the ONE HAPPY panel.
+  // R93 — multi-turn history + abort passed through; the panel owns the transcript.
   const chatFn = useServerFn(chatWithHappy);
-  const sendToHappy = async (text: string): Promise<string> => {
-    const res = await chatFn({ data: { message: text, route: pathname, persona: persona.persona, role: teamRole.role } });
+  const sendToHappy = async (
+    text: string,
+    history: Array<{ role: "user" | "assistant"; content: string }>,
+    signal?: AbortSignal,
+  ): Promise<string> => {
+    const res = await chatFn({
+      data: { message: text, route: pathname, persona: persona.persona, role: teamRole.role, history },
+      signal,
+    });
     return res.reply;
   };
 
