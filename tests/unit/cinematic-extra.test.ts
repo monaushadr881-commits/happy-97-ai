@@ -97,8 +97,8 @@ describe("choreography", () => {
 });
 
 describe("confusion detector", () => {
-  it("no signals -> long-idle", () => {
-    const r = detectConfusion(100_000, []);
+  it("long-idle when last activity > 45s ago", () => {
+    const r = detectConfusion(100_000, [{ tMs: 10_000, kind: "click", target: "a" }]);
     expect(r.confused).toBe(true);
     expect(r.reason).toBe("long-idle");
   });
