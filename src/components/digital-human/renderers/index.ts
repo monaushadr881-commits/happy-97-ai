@@ -20,7 +20,7 @@
  *                          project. Selecting this runtime throws.
  */
 
-export type RuntimeId = "portrait" | "layered-portrait" | "live2d" | "live3d";
+export type RuntimeId = "portrait" | "layered-portrait" | "live2d" | "live3d" | "vrm";
 
 export type RuntimeCapability = {
   id: RuntimeId;
