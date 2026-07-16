@@ -21,6 +21,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSitemapDotxmlRouteImport } from './routes/api/sitemap[.]xml'
 import { Route as ApiRobotsDottxtRouteImport } from './routes/api/robots[.]txt'
+import { Route as ApiHappyChatRouteImport } from './routes/api/happy-chat'
 import { Route as AuthenticatedZenRouteImport } from './routes/_authenticated/zen'
 import { Route as AuthenticatedWorkspacesRouteImport } from './routes/_authenticated/workspaces'
 import { Route as AuthenticatedWorkspaceRouteImport } from './routes/_authenticated/workspace'
@@ -553,6 +554,11 @@ const ApiSitemapDotxmlRoute = ApiSitemapDotxmlRouteImport.update({
 const ApiRobotsDottxtRoute = ApiRobotsDottxtRouteImport.update({
   id: '/api/robots.txt',
   path: '/api/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHappyChatRoute = ApiHappyChatRouteImport.update({
+  id: '/api/happy-chat',
+  path: '/api/happy-chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedZenRoute = AuthenticatedZenRouteImport.update({
@@ -3466,6 +3472,7 @@ export interface FileRoutesByFullPath {
   '/workspace': typeof AuthenticatedWorkspaceRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
+  '/api/happy-chat': typeof ApiHappyChatRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
   '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -3935,6 +3942,7 @@ export interface FileRoutesByTo {
   '/workspace': typeof AuthenticatedWorkspaceRoute
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
+  '/api/happy-chat': typeof ApiHappyChatRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
   '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -4424,6 +4432,7 @@ export interface FileRoutesById {
   '/_authenticated/workspace': typeof AuthenticatedWorkspaceRoute
   '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
   '/_authenticated/zen': typeof AuthenticatedZenRoute
+  '/api/happy-chat': typeof ApiHappyChatRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
   '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/_authenticated/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -4913,6 +4922,7 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/workspaces'
     | '/zen'
+    | '/api/happy-chat'
     | '/api/robots.txt'
     | '/api/sitemap.xml'
     | '/agents/collaboration'
@@ -5382,6 +5392,7 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/workspaces'
     | '/zen'
+    | '/api/happy-chat'
     | '/api/robots.txt'
     | '/api/sitemap.xml'
     | '/agents/collaboration'
@@ -5870,6 +5881,7 @@ export interface FileRouteTypes {
     | '/_authenticated/workspace'
     | '/_authenticated/workspaces'
     | '/_authenticated/zen'
+    | '/api/happy-chat'
     | '/api/robots.txt'
     | '/api/sitemap.xml'
     | '/_authenticated/agents/collaboration'
@@ -6161,6 +6173,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   StatusRoute: typeof StatusRoute
   TrustRoute: typeof TrustRoute
+  ApiHappyChatRoute: typeof ApiHappyChatRoute
   ApiRobotsDottxtRoute: typeof ApiRobotsDottxtRoute
   ApiSitemapDotxmlRoute: typeof ApiSitemapDotxmlRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
@@ -6261,6 +6274,13 @@ declare module '@tanstack/react-router' {
       path: '/api/robots.txt'
       fullPath: '/api/robots.txt'
       preLoaderRoute: typeof ApiRobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/happy-chat': {
+      id: '/api/happy-chat'
+      path: '/api/happy-chat'
+      fullPath: '/api/happy-chat'
+      preLoaderRoute: typeof ApiHappyChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/zen': {
@@ -10966,6 +10986,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   StatusRoute: StatusRoute,
   TrustRoute: TrustRoute,
+  ApiHappyChatRoute: ApiHappyChatRoute,
   ApiRobotsDottxtRoute: ApiRobotsDottxtRoute,
   ApiSitemapDotxmlRoute: ApiSitemapDotxmlRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
