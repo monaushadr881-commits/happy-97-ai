@@ -487,6 +487,15 @@ export function HappyDesk() {
       setOpen(true);
       speak("Picking up where we left off.", { lang: language });
     }
+    // R94 — voice → chat bridge: an unrecognised spoken utterance flows
+    // into the ONE HAPPY transcript and comes back through the same
+    // streaming runtime. Reply is spoken via the existing `speak()` path.
+    if (intent.kind === "unknown" && intent.transcript && intent.transcript.trim().length > 2) {
+      setOpen(true);
+      window.dispatchEvent(new CustomEvent<HappyVoiceSubmit>(HAPPY_VOICE_SUBMIT_EVENT, {
+        detail: { text: intent.transcript.trim(), speakReply: true, lang: language },
+      }));
+    }
   }
 
   function startListening() {
