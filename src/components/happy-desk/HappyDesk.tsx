@@ -1112,29 +1112,43 @@ function HappyDeskPanel({
 
         <form
           className="flex items-center gap-2"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const v = inputRef.current?.value.trim();
-            if (!v) return;
-            setNote(`Noted — I'll surface "${v}" as an initiative signal.`);
+            if (!v || sending) return;
             if (inputRef.current) inputRef.current.value = "";
+            if (!onSend) { setNote(`Noted — I'll surface "${v}" as an initiative signal.`); return; }
+            setSending(true);
+            setNote("HAPPY is thinking…");
+            try {
+              const reply = await onSend(v);
+              setNote(reply);
+            } catch {
+              setNote("Sorry — I couldn't reach my voice channel just now.");
+            } finally {
+              setSending(false);
+              inputRef.current?.focus();
+            }
           }}
         >
           <input
             ref={inputRef}
             type="text"
-            placeholder="Tell HAPPY what's on your mind…"
+            disabled={sending}
+            placeholder={sending ? "HAPPY is thinking…" : "Tell HAPPY what's on your mind…"}
             aria-label="Message HAPPY"
-            className="flex-1 min-w-0 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-paper placeholder:text-soft-gray/70 focus:border-gold/40 focus:outline-none"
+            className="flex-1 min-w-0 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-paper placeholder:text-soft-gray/70 focus:border-gold/40 focus:outline-none disabled:opacity-60"
           />
           <button
             type="submit"
-            className="rounded-full bg-gold px-3 py-1.5 text-xs font-semibold text-obsidian hover:brightness-110"
+            disabled={sending}
+            aria-busy={sending}
+            className="rounded-full bg-gold px-3 py-1.5 text-xs font-semibold text-obsidian hover:brightness-110 disabled:opacity-60"
           >
-            Send
+            {sending ? "…" : "Send"}
           </button>
         </form>
-        {note && <p className="text-[11px] text-soft-gray">{note}</p>}
+        {note && <p className="text-[11px] text-soft-gray" role="status" aria-live="polite">{note}</p>}
       </div>
     </section>
   );
