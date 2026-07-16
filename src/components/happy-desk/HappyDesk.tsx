@@ -504,7 +504,7 @@ export function HappyDesk() {
     setVoiceError(null);
     const handlers = {
       onTranscript: (t: string) => setTranscript(t),
-      onIntent: (i: ReturnType<typeof classifyIntent>) => handleIntent(i),
+      onIntent: (i: VoiceIntent) => handleIntent(i),
       onError: (msg: string) => setVoiceError(msg),
       onEnd: () => setListening(false),
     };
