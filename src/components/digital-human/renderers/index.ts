@@ -62,13 +62,10 @@ export const RUNTIME_CATALOG: Record<RuntimeId, RuntimeCapability> = {
   vrm: {
     id: "vrm",
     label: "VRM (three-vrm)",
-    status: "blocked_asset_required",
+    status: "ready",
     requires: [
-      "npm: three, @react-three/fiber, @react-three/drei, @pixiv/three-vrm",
-      "src/assets/digital-human/vrm/happy.vrm (Founder-selected VRM avatar, licensed)",
-      "VRM 1.0 humanoid bone map + expression presets (happy, sad, angry, surprised, aa/ih/ou/ee/oh)",
-      "Optional: src/assets/digital-human/vrm/animations/*.vrma (idle, walk, wave, sit, presentation, thinking)",
-      "Optional: src/assets/digital-human/vrm/environment/*.hdr (lighting IBL)",
+      "npm: three, @react-three/fiber, @react-three/drei, @pixiv/three-vrm, @pixiv/three-vrm-animation",
+      "src/assets/digital-human/vrm/happy.vrm (Founder-supplied, CDN-hosted)",
     ],
   },
 };
