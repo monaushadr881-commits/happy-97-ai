@@ -26,6 +26,8 @@ import { composeGreeting, composeFarewell, shouldGreetOnce, trackAndDeriveRelati
 import { nextPostureMs, antiRepeat } from "@/lib/happy-r86/ambient";
 import { decideDelivery, initialGateState, type Notification as HappyNotif, type GateState, type NotificationKind, type NotificationTone } from "@/lib/happy-r86/notifications";
 import { saveSession, loadSession } from "@/lib/happy-r86/session-restore";
+import { loadDaily, saveDaily, recordDaily, type DailyEventKind } from "@/lib/happy-r88/daily-memory";
+import { publishContext, type ContextSubsystem, type SubsystemStatus } from "@/lib/happy-r88/context-bus";
 
 
 /**
