@@ -20,7 +20,7 @@
  *                          project. Selecting this runtime throws.
  */
 
-export type RuntimeId = "portrait" | "layered-portrait" | "live2d" | "live3d";
+export type RuntimeId = "portrait" | "layered-portrait" | "live2d" | "live3d" | "vrm";
 
 export type RuntimeCapability = {
   id: RuntimeId;
@@ -57,6 +57,18 @@ export const RUNTIME_CATALOG: Record<RuntimeId, RuntimeCapability> = {
       "public/happy-live3d/animations/*.glb (idle, gesture, greet)",
       "Hand rig with finger bones",
       "Lighting IBL: public/happy-live3d/env.hdr",
+    ],
+  },
+  vrm: {
+    id: "vrm",
+    label: "VRM (three-vrm)",
+    status: "blocked_asset_required",
+    requires: [
+      "npm: three, @react-three/fiber, @react-three/drei, @pixiv/three-vrm",
+      "src/assets/digital-human/vrm/happy.vrm (Founder-selected VRM avatar, licensed)",
+      "VRM 1.0 humanoid bone map + expression presets (happy, sad, angry, surprised, aa/ih/ou/ee/oh)",
+      "Optional: src/assets/digital-human/vrm/animations/*.vrma (idle, walk, wave, sit, presentation, thinking)",
+      "Optional: src/assets/digital-human/vrm/environment/*.hdr (lighting IBL)",
     ],
   },
 };

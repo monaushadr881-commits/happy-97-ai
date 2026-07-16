@@ -68,11 +68,25 @@ const LIVE3D_OPTIONAL = [
   "src/assets/digital-human/live3d/environment/boardroom.hdr",
 ];
 
+const VRM_REQUIRED = [
+  "src/assets/digital-human/vrm/happy.vrm",
+];
+const VRM_OPTIONAL = [
+  "src/assets/digital-human/vrm/animations/idle.vrma",
+  "src/assets/digital-human/vrm/animations/walk.vrma",
+  "src/assets/digital-human/vrm/animations/wave.vrma",
+  "src/assets/digital-human/vrm/animations/sit.vrma",
+  "src/assets/digital-human/vrm/animations/presentation.vrma",
+  "src/assets/digital-human/vrm/animations/thinking.vrma",
+  "src/assets/digital-human/vrm/environment/studio.hdr",
+];
+
 export const ASSET_CONTRACTS = {
   portrait: { required: PORTRAIT_REQUIRED, optional: [] as string[] },
   "layered-portrait": { required: LAYERED_REQUIRED, optional: LAYERED_OPTIONAL },
   live2d: { required: LIVE2D_REQUIRED, optional: LIVE2D_OPTIONAL },
   live3d: { required: LIVE3D_REQUIRED, optional: LIVE3D_OPTIONAL },
+  vrm: { required: VRM_REQUIRED, optional: VRM_OPTIONAL },
 } as const satisfies Record<RuntimeId, { required: readonly string[]; optional: readonly string[] }>;
 
 function has(manifest: AssetManifest, path: string): boolean {
@@ -99,5 +113,6 @@ export function validateAll(manifest: AssetManifest): Record<RuntimeId, Validati
     "layered-portrait": validateRuntime("layered-portrait", manifest),
     live2d: validateRuntime("live2d", manifest),
     live3d: validateRuntime("live3d", manifest),
+    vrm: validateRuntime("vrm", manifest),
   };
 }
