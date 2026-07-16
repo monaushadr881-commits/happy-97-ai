@@ -8980,6 +8980,30 @@ export type Database = {
           },
         ]
       }
+      happy_founder_briefs: {
+        Row: {
+          brief_type: string
+          content: Json
+          generated_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          brief_type: string
+          content?: Json
+          generated_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          brief_type?: string
+          content?: Json
+          generated_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       happy_gesture_intents: {
         Row: {
           company_id: string | null
@@ -9181,6 +9205,57 @@ export type Database = {
           },
         ]
       }
+      happy_language_profile: {
+        Row: {
+          confidence: number
+          detected_lang: string
+          recent_samples: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          confidence?: number
+          detected_lang?: string
+          recent_samples?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          confidence?: number
+          detected_lang?: string
+          recent_samples?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      happy_live_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          payload: Json
+          source: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          payload?: Json
+          source?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          source?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       happy_manifest_assets: {
         Row: {
           asset_version_id: string
@@ -9343,6 +9418,114 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      happy_presence_sessions: {
+        Row: {
+          context: Json
+          created_at: string
+          device: Json
+          id: string
+          last_heartbeat: string
+          network: Json
+          session_key: string
+          state: string
+          updated_at: string
+          user_id: string
+          workspace_id: string | null
+        }
+        Insert: {
+          context?: Json
+          created_at?: string
+          device?: Json
+          id?: string
+          last_heartbeat?: string
+          network?: Json
+          session_key: string
+          state?: string
+          updated_at?: string
+          user_id: string
+          workspace_id?: string | null
+        }
+        Update: {
+          context?: Json
+          created_at?: string
+          device?: Json
+          id?: string
+          last_heartbeat?: string
+          network?: Json
+          session_key?: string
+          state?: string
+          updated_at?: string
+          user_id?: string
+          workspace_id?: string | null
+        }
+        Relationships: []
+      }
+      happy_proactive_messages: {
+        Row: {
+          created_at: string
+          dispatched_at: string | null
+          id: string
+          kind: string
+          language: string
+          message: string
+          metadata: Json
+          scheduled_for: string | null
+          seen_at: string | null
+          tone: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dispatched_at?: string | null
+          id?: string
+          kind: string
+          language?: string
+          message: string
+          metadata?: Json
+          scheduled_for?: string | null
+          seen_at?: string | null
+          tone?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dispatched_at?: string | null
+          id?: string
+          kind?: string
+          language?: string
+          message?: string
+          metadata?: Json
+          scheduled_for?: string | null
+          seen_at?: string | null
+          tone?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      happy_relationship_prefs: {
+        Row: {
+          created_at: string
+          personalization_enabled: boolean
+          prefs: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          personalization_enabled?: boolean
+          prefs?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          personalization_enabled?: boolean
+          prefs?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       happy_sessions: {
         Row: {
