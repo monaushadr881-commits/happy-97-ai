@@ -22,6 +22,10 @@ import { pickSuggestion, type SuggestionKind } from "@/lib/happy-r84/smart-sugge
 import { loadPreferences, savePreferences, mergePreferences, suggestionCooldownMs, type HappyPreferences } from "@/lib/happy-r85/preferences";
 import { readObstacleRects, pickSafeCorner } from "@/lib/happy-r85/collision";
 import { pickIndicator, indicatorLabel } from "@/lib/happy-r85/indicators";
+import { composeGreeting, composeFarewell, shouldGreetOnce, trackAndDeriveRelationship } from "@/lib/happy-r86/greeting";
+import { nextPostureMs, antiRepeat } from "@/lib/happy-r86/ambient";
+import { decideDelivery, initialGateState, type Notification as HappyNotif, type GateState, type NotificationKind, type NotificationTone } from "@/lib/happy-r86/notifications";
+import { saveSession, loadSession } from "@/lib/happy-r86/session-restore";
 
 
 /**
