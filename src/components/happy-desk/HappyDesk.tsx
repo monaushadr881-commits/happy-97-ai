@@ -659,6 +659,7 @@ export function HappyDesk() {
           lastIntent={lastIntent}
           onToggleVoice={() => (listening ? stopListening() : startListening())}
           onClose={() => setOpen(false)}
+          onSend={sendToHappy}
           workMode={workMode.mode}
           workModeReason={workMode.reason}
           tutorLevel={tutorLevel}
