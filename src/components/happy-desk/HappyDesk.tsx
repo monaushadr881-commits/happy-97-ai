@@ -477,6 +477,65 @@ export function HappyDesk() {
         </div>
       )}
 
+      {activeTask && !delivery && (
+        <div className="pointer-events-auto max-w-xs rounded-2xl border border-white/10 bg-obsidian/85 px-3 py-2 text-xs text-paper shadow-2xl backdrop-blur">
+          <p className="text-[10px] uppercase tracking-widest opacity-70">Task · {activeTask.status}</p>
+          <p className="mt-0.5 leading-snug">{activeTask.label}</p>
+          {typeof activeTask.progress === "number" && (
+            <div className="mt-1 h-1 rounded-full bg-white/10 overflow-hidden">
+              <div
+                className="h-full bg-gold transition-all"
+                style={{ width: `${Math.round(Math.max(0, Math.min(1, activeTask.progress)) * 100)}%` }}
+              />
+            </div>
+          )}
+          {activeTask.detail && <p className="mt-1 text-[11px] text-soft-gray">{activeTask.detail}</p>}
+        </div>
+      )}
+
+      {celebration && !delivery && (
+        <div
+          role="status"
+          className="pointer-events-auto max-w-xs rounded-2xl border border-emerald-400/40 bg-emerald-950/80 px-3 py-2 text-sm text-emerald-50 shadow-2xl backdrop-blur"
+        >
+          {celebration}
+        </div>
+      )}
+
+      {!open && !delivery && !hesitationOffer && !activeTask && !celebration && smartVisible && (
+        <div
+          role="status"
+          className="pointer-events-auto max-w-xs rounded-2xl border border-gold/25 bg-obsidian/85 px-3 py-2 text-xs text-paper shadow-2xl backdrop-blur"
+        >
+          <p className="text-[10px] uppercase tracking-widest opacity-70">HAPPY noticed</p>
+          <p className="mt-0.5 leading-snug">{smartVisible.message}</p>
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setSuggestionsShown((prev) => new Set(prev).add(smartVisible.kind));
+                setLastInterruptionAt(Date.now());
+                toggleOpen();
+              }}
+              className="rounded-full bg-gold/90 px-2.5 py-1 text-[11px] font-semibold text-obsidian hover:bg-gold"
+            >
+              Tell me more
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSuggestionsShown((prev) => new Set(prev).add(smartVisible.kind));
+                setLastInterruptionAt(Date.now());
+              }}
+              className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-soft-gray hover:text-paper"
+            >
+              Not now
+            </button>
+          </div>
+        </div>
+      )}
+
+
       {!open && !delivery && hesitationOffer && (
         <div
           role="status"
