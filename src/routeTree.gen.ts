@@ -415,6 +415,9 @@ import { Route as AuthenticatedAgentsCollaborationRouteImport } from './routes/_
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 import { Route as ApiPublicCronSubscriptionsTickRouteImport } from './routes/api/public/cron/subscriptions-tick'
+import { Route as ApiPublicCronReleaseStoreStatusRouteImport } from './routes/api/public/cron/release-store-status'
+import { Route as ApiPublicCronReleasePipelineTickRouteImport } from './routes/api/public/cron/release-pipeline-tick'
+import { Route as ApiPublicCronReleaseMetricsRollupRouteImport } from './routes/api/public/cron/release-metrics-rollup'
 import { Route as ApiPublicCronPaymentsRetryRouteImport } from './routes/api/public/cron/payments-retry'
 import { Route as ApiPublicCronDeploymentsTickRouteImport } from './routes/api/public/cron/deployments-tick'
 import { Route as ApiPublicCronCreditsExpireRouteImport } from './routes/api/public/cron/credits-expire'
@@ -2729,6 +2732,24 @@ const ApiPublicCronSubscriptionsTickRoute =
     path: '/api/public/cron/subscriptions-tick',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicCronReleaseStoreStatusRoute =
+  ApiPublicCronReleaseStoreStatusRouteImport.update({
+    id: '/api/public/cron/release-store-status',
+    path: '/api/public/cron/release-store-status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicCronReleasePipelineTickRoute =
+  ApiPublicCronReleasePipelineTickRouteImport.update({
+    id: '/api/public/cron/release-pipeline-tick',
+    path: '/api/public/cron/release-pipeline-tick',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicCronReleaseMetricsRollupRoute =
+  ApiPublicCronReleaseMetricsRollupRouteImport.update({
+    id: '/api/public/cron/release-metrics-rollup',
+    path: '/api/public/cron/release-metrics-rollup',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicCronPaymentsRetryRoute =
   ApiPublicCronPaymentsRetryRouteImport.update({
     id: '/api/public/cron/payments-retry',
@@ -3257,6 +3278,9 @@ export interface FileRoutesByFullPath {
   '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
+  '/api/public/cron/release-metrics-rollup': typeof ApiPublicCronReleaseMetricsRollupRoute
+  '/api/public/cron/release-pipeline-tick': typeof ApiPublicCronReleasePipelineTickRoute
+  '/api/public/cron/release-store-status': typeof ApiPublicCronReleaseStoreStatusRoute
   '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -3669,6 +3693,9 @@ export interface FileRoutesByTo {
   '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
+  '/api/public/cron/release-metrics-rollup': typeof ApiPublicCronReleaseMetricsRollupRoute
+  '/api/public/cron/release-pipeline-tick': typeof ApiPublicCronReleasePipelineTickRoute
+  '/api/public/cron/release-store-status': typeof ApiPublicCronReleaseStoreStatusRoute
   '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -4096,6 +4123,9 @@ export interface FileRoutesById {
   '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
   '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
   '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
+  '/api/public/cron/release-metrics-rollup': typeof ApiPublicCronReleaseMetricsRollupRoute
+  '/api/public/cron/release-pipeline-tick': typeof ApiPublicCronReleasePipelineTickRoute
+  '/api/public/cron/release-store-status': typeof ApiPublicCronReleaseStoreStatusRoute
   '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
@@ -4523,6 +4553,9 @@ export interface FileRouteTypes {
     | '/api/public/cron/credits-expire'
     | '/api/public/cron/deployments-tick'
     | '/api/public/cron/payments-retry'
+    | '/api/public/cron/release-metrics-rollup'
+    | '/api/public/cron/release-pipeline-tick'
+    | '/api/public/cron/release-store-status'
     | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -4935,6 +4968,9 @@ export interface FileRouteTypes {
     | '/api/public/cron/credits-expire'
     | '/api/public/cron/deployments-tick'
     | '/api/public/cron/payments-retry'
+    | '/api/public/cron/release-metrics-rollup'
+    | '/api/public/cron/release-pipeline-tick'
+    | '/api/public/cron/release-store-status'
     | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -5361,6 +5397,9 @@ export interface FileRouteTypes {
     | '/api/public/cron/credits-expire'
     | '/api/public/cron/deployments-tick'
     | '/api/public/cron/payments-retry'
+    | '/api/public/cron/release-metrics-rollup'
+    | '/api/public/cron/release-pipeline-tick'
+    | '/api/public/cron/release-store-status'
     | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
@@ -5385,6 +5424,9 @@ export interface RootRouteChildren {
   ApiPublicCronCreditsExpireRoute: typeof ApiPublicCronCreditsExpireRoute
   ApiPublicCronDeploymentsTickRoute: typeof ApiPublicCronDeploymentsTickRoute
   ApiPublicCronPaymentsRetryRoute: typeof ApiPublicCronPaymentsRetryRoute
+  ApiPublicCronReleaseMetricsRollupRoute: typeof ApiPublicCronReleaseMetricsRollupRoute
+  ApiPublicCronReleasePipelineTickRoute: typeof ApiPublicCronReleasePipelineTickRoute
+  ApiPublicCronReleaseStoreStatusRoute: typeof ApiPublicCronReleaseStoreStatusRoute
   ApiPublicCronSubscriptionsTickRoute: typeof ApiPublicCronSubscriptionsTickRoute
   ApiPublicV1HealthRoute: typeof ApiPublicV1HealthRoute
   ApiPublicV1StatusRoute: typeof ApiPublicV1StatusRoute
@@ -8235,6 +8277,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicCronSubscriptionsTickRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cron/release-store-status': {
+      id: '/api/public/cron/release-store-status'
+      path: '/api/public/cron/release-store-status'
+      fullPath: '/api/public/cron/release-store-status'
+      preLoaderRoute: typeof ApiPublicCronReleaseStoreStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/cron/release-pipeline-tick': {
+      id: '/api/public/cron/release-pipeline-tick'
+      path: '/api/public/cron/release-pipeline-tick'
+      fullPath: '/api/public/cron/release-pipeline-tick'
+      preLoaderRoute: typeof ApiPublicCronReleasePipelineTickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/cron/release-metrics-rollup': {
+      id: '/api/public/cron/release-metrics-rollup'
+      path: '/api/public/cron/release-metrics-rollup'
+      fullPath: '/api/public/cron/release-metrics-rollup'
+      preLoaderRoute: typeof ApiPublicCronReleaseMetricsRollupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/cron/payments-retry': {
       id: '/api/public/cron/payments-retry'
       path: '/api/public/cron/payments-retry'
@@ -9570,6 +9633,10 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicCronCreditsExpireRoute: ApiPublicCronCreditsExpireRoute,
   ApiPublicCronDeploymentsTickRoute: ApiPublicCronDeploymentsTickRoute,
   ApiPublicCronPaymentsRetryRoute: ApiPublicCronPaymentsRetryRoute,
+  ApiPublicCronReleaseMetricsRollupRoute:
+    ApiPublicCronReleaseMetricsRollupRoute,
+  ApiPublicCronReleasePipelineTickRoute: ApiPublicCronReleasePipelineTickRoute,
+  ApiPublicCronReleaseStoreStatusRoute: ApiPublicCronReleaseStoreStatusRoute,
   ApiPublicCronSubscriptionsTickRoute: ApiPublicCronSubscriptionsTickRoute,
   ApiPublicV1HealthRoute: ApiPublicV1HealthRoute,
   ApiPublicV1StatusRoute: ApiPublicV1StatusRoute,
