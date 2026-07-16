@@ -479,7 +479,7 @@ function HeroStage({ tilt }: { tilt: { x: number; y: number } }) {
 
 /* ─────────────────────  ECOSYSTEM DIAGRAM  ───────────────────── */
 function Ecosystem() {
-  const nodes: { id: string; label: string; icon: React.ElementType; ring: number; angle: number }[] = [
+  const nodes: { id: string; label: string; icon: React.ComponentType<{ className?: string }>; ring: number; angle: number }[] = [
     { id: "digital", label: "Digital Human", icon: Sparkle, ring: 1, angle: -90 },
     { id: "biz", label: "Business OS", icon: Building2, ring: 2, angle: -50 },
     { id: "edu", label: "Education OS", icon: GraduationCap, ring: 2, angle: -10 },
@@ -741,7 +741,7 @@ function RichCard({
   tag: string;
   title: string;
   meta: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
     <div className="group rounded-xl border border-gold/15 bg-obsidian/60 p-3 transition-colors hover:border-gold/40">
@@ -824,7 +824,7 @@ function ModuleShowcase({
   eyebrow: string;
   title: string;
   copy: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
   stats: { value: string; label: string }[];
   reverse?: boolean;
 }) {
@@ -872,7 +872,7 @@ function ModuleShowcase({
   );
 }
 
-function ModuleCanvas({ icon: Icon }: { icon: React.ElementType }) {
+function ModuleCanvas({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
   return (
     <div className="relative">
       <div className="absolute -inset-6 rounded-[2rem] bg-gold/[0.05] blur-2xl" />
