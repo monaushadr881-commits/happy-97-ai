@@ -372,10 +372,13 @@ import { Route as AuthenticatedHappySettingsRouteImport } from './routes/_authen
 import { Route as AuthenticatedHappyPresentationRouteImport } from './routes/_authenticated/happy/presentation'
 import { Route as AuthenticatedHappyPresenceRouteImport } from './routes/_authenticated/happy/presence'
 import { Route as AuthenticatedHappyOfficeRouteImport } from './routes/_authenticated/happy/office'
+import { Route as AuthenticatedHappyMemoryRouteImport } from './routes/_authenticated/happy/memory'
 import { Route as AuthenticatedHappyLiveRouteImport } from './routes/_authenticated/happy/live'
+import { Route as AuthenticatedHappyInitiativeRouteImport } from './routes/_authenticated/happy/initiative'
 import { Route as AuthenticatedHappyComfortRouteImport } from './routes/_authenticated/happy/comfort'
 import { Route as AuthenticatedHappyCinematicRouteImport } from './routes/_authenticated/happy/cinematic'
 import { Route as AuthenticatedHappyCallRouteImport } from './routes/_authenticated/happy/call'
+import { Route as AuthenticatedHappyBusinessRouteImport } from './routes/_authenticated/happy/business'
 import { Route as AuthenticatedHappyBehaviourRouteImport } from './routes/_authenticated/happy/behaviour'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
@@ -2525,11 +2528,23 @@ const AuthenticatedHappyOfficeRoute =
     path: '/office',
     getParentRoute: () => AuthenticatedHappyRouteRoute,
   } as any)
+const AuthenticatedHappyMemoryRoute =
+  AuthenticatedHappyMemoryRouteImport.update({
+    id: '/memory',
+    path: '/memory',
+    getParentRoute: () => AuthenticatedHappyRouteRoute,
+  } as any)
 const AuthenticatedHappyLiveRoute = AuthenticatedHappyLiveRouteImport.update({
   id: '/live',
   path: '/live',
   getParentRoute: () => AuthenticatedHappyRouteRoute,
 } as any)
+const AuthenticatedHappyInitiativeRoute =
+  AuthenticatedHappyInitiativeRouteImport.update({
+    id: '/initiative',
+    path: '/initiative',
+    getParentRoute: () => AuthenticatedHappyRouteRoute,
+  } as any)
 const AuthenticatedHappyComfortRoute =
   AuthenticatedHappyComfortRouteImport.update({
     id: '/comfort',
@@ -2547,6 +2562,12 @@ const AuthenticatedHappyCallRoute = AuthenticatedHappyCallRouteImport.update({
   path: '/call',
   getParentRoute: () => AuthenticatedHappyRouteRoute,
 } as any)
+const AuthenticatedHappyBusinessRoute =
+  AuthenticatedHappyBusinessRouteImport.update({
+    id: '/business',
+    path: '/business',
+    getParentRoute: () => AuthenticatedHappyRouteRoute,
+  } as any)
 const AuthenticatedHappyBehaviourRoute =
   AuthenticatedHappyBehaviourRouteImport.update({
     id: '/behaviour',
@@ -3539,10 +3560,13 @@ export interface FileRoutesByFullPath {
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
   '/happy/behaviour': typeof AuthenticatedHappyBehaviourRoute
+  '/happy/business': typeof AuthenticatedHappyBusinessRoute
   '/happy/call': typeof AuthenticatedHappyCallRoute
   '/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
   '/happy/comfort': typeof AuthenticatedHappyComfortRoute
+  '/happy/initiative': typeof AuthenticatedHappyInitiativeRoute
   '/happy/live': typeof AuthenticatedHappyLiveRoute
+  '/happy/memory': typeof AuthenticatedHappyMemoryRoute
   '/happy/office': typeof AuthenticatedHappyOfficeRoute
   '/happy/presence': typeof AuthenticatedHappyPresenceRoute
   '/happy/presentation': typeof AuthenticatedHappyPresentationRoute
@@ -4005,10 +4029,13 @@ export interface FileRoutesByTo {
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
   '/happy/behaviour': typeof AuthenticatedHappyBehaviourRoute
+  '/happy/business': typeof AuthenticatedHappyBusinessRoute
   '/happy/call': typeof AuthenticatedHappyCallRoute
   '/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
   '/happy/comfort': typeof AuthenticatedHappyComfortRoute
+  '/happy/initiative': typeof AuthenticatedHappyInitiativeRoute
   '/happy/live': typeof AuthenticatedHappyLiveRoute
+  '/happy/memory': typeof AuthenticatedHappyMemoryRoute
   '/happy/office': typeof AuthenticatedHappyOfficeRoute
   '/happy/presence': typeof AuthenticatedHappyPresenceRoute
   '/happy/presentation': typeof AuthenticatedHappyPresentationRoute
@@ -4491,10 +4518,13 @@ export interface FileRoutesById {
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
   '/_authenticated/happy/behaviour': typeof AuthenticatedHappyBehaviourRoute
+  '/_authenticated/happy/business': typeof AuthenticatedHappyBusinessRoute
   '/_authenticated/happy/call': typeof AuthenticatedHappyCallRoute
   '/_authenticated/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
   '/_authenticated/happy/comfort': typeof AuthenticatedHappyComfortRoute
+  '/_authenticated/happy/initiative': typeof AuthenticatedHappyInitiativeRoute
   '/_authenticated/happy/live': typeof AuthenticatedHappyLiveRoute
+  '/_authenticated/happy/memory': typeof AuthenticatedHappyMemoryRoute
   '/_authenticated/happy/office': typeof AuthenticatedHappyOfficeRoute
   '/_authenticated/happy/presence': typeof AuthenticatedHappyPresenceRoute
   '/_authenticated/happy/presentation': typeof AuthenticatedHappyPresentationRoute
@@ -4977,10 +5007,13 @@ export interface FileRouteTypes {
     | '/founder/system'
     | '/founder/users'
     | '/happy/behaviour'
+    | '/happy/business'
     | '/happy/call'
     | '/happy/cinematic'
     | '/happy/comfort'
+    | '/happy/initiative'
     | '/happy/live'
+    | '/happy/memory'
     | '/happy/office'
     | '/happy/presence'
     | '/happy/presentation'
@@ -5443,10 +5476,13 @@ export interface FileRouteTypes {
     | '/founder/system'
     | '/founder/users'
     | '/happy/behaviour'
+    | '/happy/business'
     | '/happy/call'
     | '/happy/cinematic'
     | '/happy/comfort'
+    | '/happy/initiative'
     | '/happy/live'
+    | '/happy/memory'
     | '/happy/office'
     | '/happy/presence'
     | '/happy/presentation'
@@ -5928,10 +5964,13 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
     | '/_authenticated/happy/behaviour'
+    | '/_authenticated/happy/business'
     | '/_authenticated/happy/call'
     | '/_authenticated/happy/cinematic'
     | '/_authenticated/happy/comfort'
+    | '/_authenticated/happy/initiative'
     | '/_authenticated/happy/live'
+    | '/_authenticated/happy/memory'
     | '/_authenticated/happy/office'
     | '/_authenticated/happy/presence'
     | '/_authenticated/happy/presentation'
@@ -8681,11 +8720,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHappyOfficeRouteImport
       parentRoute: typeof AuthenticatedHappyRouteRoute
     }
+    '/_authenticated/happy/memory': {
+      id: '/_authenticated/happy/memory'
+      path: '/memory'
+      fullPath: '/happy/memory'
+      preLoaderRoute: typeof AuthenticatedHappyMemoryRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
     '/_authenticated/happy/live': {
       id: '/_authenticated/happy/live'
       path: '/live'
       fullPath: '/happy/live'
       preLoaderRoute: typeof AuthenticatedHappyLiveRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/initiative': {
+      id: '/_authenticated/happy/initiative'
+      path: '/initiative'
+      fullPath: '/happy/initiative'
+      preLoaderRoute: typeof AuthenticatedHappyInitiativeRouteImport
       parentRoute: typeof AuthenticatedHappyRouteRoute
     }
     '/_authenticated/happy/comfort': {
@@ -8707,6 +8760,13 @@ declare module '@tanstack/react-router' {
       path: '/call'
       fullPath: '/happy/call'
       preLoaderRoute: typeof AuthenticatedHappyCallRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/business': {
+      id: '/_authenticated/happy/business'
+      path: '/business'
+      fullPath: '/happy/business'
+      preLoaderRoute: typeof AuthenticatedHappyBusinessRouteImport
       parentRoute: typeof AuthenticatedHappyRouteRoute
     }
     '/_authenticated/happy/behaviour': {
@@ -9560,10 +9620,13 @@ const AuthenticatedFounderAiRouteRouteWithChildren =
 
 interface AuthenticatedHappyRouteRouteChildren {
   AuthenticatedHappyBehaviourRoute: typeof AuthenticatedHappyBehaviourRoute
+  AuthenticatedHappyBusinessRoute: typeof AuthenticatedHappyBusinessRoute
   AuthenticatedHappyCallRoute: typeof AuthenticatedHappyCallRoute
   AuthenticatedHappyCinematicRoute: typeof AuthenticatedHappyCinematicRoute
   AuthenticatedHappyComfortRoute: typeof AuthenticatedHappyComfortRoute
+  AuthenticatedHappyInitiativeRoute: typeof AuthenticatedHappyInitiativeRoute
   AuthenticatedHappyLiveRoute: typeof AuthenticatedHappyLiveRoute
+  AuthenticatedHappyMemoryRoute: typeof AuthenticatedHappyMemoryRoute
   AuthenticatedHappyOfficeRoute: typeof AuthenticatedHappyOfficeRoute
   AuthenticatedHappyPresenceRoute: typeof AuthenticatedHappyPresenceRoute
   AuthenticatedHappyPresentationRoute: typeof AuthenticatedHappyPresentationRoute
@@ -9576,10 +9639,13 @@ interface AuthenticatedHappyRouteRouteChildren {
 const AuthenticatedHappyRouteRouteChildren: AuthenticatedHappyRouteRouteChildren =
   {
     AuthenticatedHappyBehaviourRoute: AuthenticatedHappyBehaviourRoute,
+    AuthenticatedHappyBusinessRoute: AuthenticatedHappyBusinessRoute,
     AuthenticatedHappyCallRoute: AuthenticatedHappyCallRoute,
     AuthenticatedHappyCinematicRoute: AuthenticatedHappyCinematicRoute,
     AuthenticatedHappyComfortRoute: AuthenticatedHappyComfortRoute,
+    AuthenticatedHappyInitiativeRoute: AuthenticatedHappyInitiativeRoute,
     AuthenticatedHappyLiveRoute: AuthenticatedHappyLiveRoute,
+    AuthenticatedHappyMemoryRoute: AuthenticatedHappyMemoryRoute,
     AuthenticatedHappyOfficeRoute: AuthenticatedHappyOfficeRoute,
     AuthenticatedHappyPresenceRoute: AuthenticatedHappyPresenceRoute,
     AuthenticatedHappyPresentationRoute: AuthenticatedHappyPresentationRoute,
