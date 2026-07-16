@@ -699,7 +699,10 @@ export function HappyDesk() {
             "border-gold/30 bg-obsidian/90 text-paper",
           )}
         >
-          <p className="text-[10px] uppercase tracking-widest opacity-70">HAPPY · {delivery.kind}</p>
+          <p className="text-[10px] uppercase tracking-widest opacity-70">
+            HAPPY · {delivery.kind}
+            {deliveryStage && <span className="ml-1 opacity-60">· {deliveryStage.replace("-", " ")}</span>}
+          </p>
           <p className="mt-0.5 leading-snug">{delivery.message}</p>
         </div>
       )}
