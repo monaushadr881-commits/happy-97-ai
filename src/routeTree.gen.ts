@@ -215,6 +215,7 @@ import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
 import { Route as AuthenticatedReleasesRouteRouteImport } from './routes/_authenticated/releases/route'
 import { Route as AuthenticatedLiveRouteRouteImport } from './routes/_authenticated/live/route'
+import { Route as AuthenticatedFounderAiRouteRouteImport } from './routes/_authenticated/founder-ai/route'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedReleasesIndexRouteImport } from './routes/_authenticated/releases/index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
@@ -223,6 +224,7 @@ import { Route as AuthenticatedLiveIndexRouteImport } from './routes/_authentica
 import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authenticated/knowledge.index'
 import { Route as AuthenticatedHyperlocalIndexRouteImport } from './routes/_authenticated/hyperlocal.index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
+import { Route as AuthenticatedFounderAiIndexRouteImport } from './routes/_authenticated/founder-ai/index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
 import { Route as AuthenticatedEnterpriseAiIndexRouteImport } from './routes/_authenticated/enterprise-ai/index'
 import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
@@ -349,6 +351,16 @@ import { Route as AuthenticatedFounderOpsRouteImport } from './routes/_authentic
 import { Route as AuthenticatedFounderCompaniesRouteImport } from './routes/_authenticated/founder.companies'
 import { Route as AuthenticatedFounderAnalyticsRouteImport } from './routes/_authenticated/founder.analytics'
 import { Route as AuthenticatedFounderAiRouteImport } from './routes/_authenticated/founder.ai'
+import { Route as AuthenticatedFounderAiWorkspaceRouteImport } from './routes/_authenticated/founder-ai/workspace'
+import { Route as AuthenticatedFounderAiVoiceRouteImport } from './routes/_authenticated/founder-ai/voice'
+import { Route as AuthenticatedFounderAiTerminalRouteImport } from './routes/_authenticated/founder-ai/terminal'
+import { Route as AuthenticatedFounderAiTasksRouteImport } from './routes/_authenticated/founder-ai/tasks'
+import { Route as AuthenticatedFounderAiSettingsRouteImport } from './routes/_authenticated/founder-ai/settings'
+import { Route as AuthenticatedFounderAiMemoryRouteImport } from './routes/_authenticated/founder-ai/memory'
+import { Route as AuthenticatedFounderAiHistoryRouteImport } from './routes/_authenticated/founder-ai/history'
+import { Route as AuthenticatedFounderAiDashboardRouteImport } from './routes/_authenticated/founder-ai/dashboard'
+import { Route as AuthenticatedFounderAiChatRouteImport } from './routes/_authenticated/founder-ai/chat'
+import { Route as AuthenticatedFounderAiActivityRouteImport } from './routes/_authenticated/founder-ai/activity'
 import { Route as AuthenticatedExecutionTasksRouteImport } from './routes/_authenticated/execution.tasks'
 import { Route as AuthenticatedExecutionHistoryRouteImport } from './routes/_authenticated/execution.history'
 import { Route as AuthenticatedExecutionAnalyticsRouteImport } from './routes/_authenticated/execution.analytics'
@@ -1551,6 +1563,12 @@ const AuthenticatedLiveRouteRoute = AuthenticatedLiveRouteRouteImport.update({
   path: '/live',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFounderAiRouteRoute =
+  AuthenticatedFounderAiRouteRouteImport.update({
+    id: '/founder-ai',
+    path: '/founder-ai',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedStudioIndexRoute =
   AuthenticatedStudioIndexRouteImport.update({
     id: '/',
@@ -1597,6 +1615,12 @@ const AuthenticatedFounderIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
+const AuthenticatedFounderAiIndexRoute =
+  AuthenticatedFounderAiIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
   } as any)
 const AuthenticatedEnterpriseIndexRoute =
   AuthenticatedEnterpriseIndexRouteImport.update({
@@ -2348,6 +2372,66 @@ const AuthenticatedFounderAiRoute = AuthenticatedFounderAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AuthenticatedFounderRoute,
 } as any)
+const AuthenticatedFounderAiWorkspaceRoute =
+  AuthenticatedFounderAiWorkspaceRouteImport.update({
+    id: '/workspace',
+    path: '/workspace',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiVoiceRoute =
+  AuthenticatedFounderAiVoiceRouteImport.update({
+    id: '/voice',
+    path: '/voice',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiTerminalRoute =
+  AuthenticatedFounderAiTerminalRouteImport.update({
+    id: '/terminal',
+    path: '/terminal',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiTasksRoute =
+  AuthenticatedFounderAiTasksRouteImport.update({
+    id: '/tasks',
+    path: '/tasks',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiSettingsRoute =
+  AuthenticatedFounderAiSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiMemoryRoute =
+  AuthenticatedFounderAiMemoryRouteImport.update({
+    id: '/memory',
+    path: '/memory',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiHistoryRoute =
+  AuthenticatedFounderAiHistoryRouteImport.update({
+    id: '/history',
+    path: '/history',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiDashboardRoute =
+  AuthenticatedFounderAiDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiChatRoute =
+  AuthenticatedFounderAiChatRouteImport.update({
+    id: '/chat',
+    path: '/chat',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
+const AuthenticatedFounderAiActivityRoute =
+  AuthenticatedFounderAiActivityRouteImport.update({
+    id: '/activity',
+    path: '/activity',
+    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
+  } as any)
 const AuthenticatedExecutionTasksRoute =
   AuthenticatedExecutionTasksRouteImport.update({
     id: '/tasks',
@@ -2942,6 +3026,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
+  '/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
   '/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
@@ -3212,6 +3297,16 @@ export interface FileRoutesByFullPath {
   '/execution/analytics': typeof AuthenticatedExecutionAnalyticsRoute
   '/execution/history': typeof AuthenticatedExecutionHistoryRoute
   '/execution/tasks': typeof AuthenticatedExecutionTasksRoute
+  '/founder-ai/activity': typeof AuthenticatedFounderAiActivityRoute
+  '/founder-ai/chat': typeof AuthenticatedFounderAiChatRoute
+  '/founder-ai/dashboard': typeof AuthenticatedFounderAiDashboardRoute
+  '/founder-ai/history': typeof AuthenticatedFounderAiHistoryRoute
+  '/founder-ai/memory': typeof AuthenticatedFounderAiMemoryRoute
+  '/founder-ai/settings': typeof AuthenticatedFounderAiSettingsRoute
+  '/founder-ai/tasks': typeof AuthenticatedFounderAiTasksRoute
+  '/founder-ai/terminal': typeof AuthenticatedFounderAiTerminalRoute
+  '/founder-ai/voice': typeof AuthenticatedFounderAiVoiceRoute
+  '/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
@@ -3338,6 +3433,7 @@ export interface FileRoutesByFullPath {
   '/education/': typeof AuthenticatedEducationIndexRoute
   '/enterprise-ai/': typeof AuthenticatedEnterpriseAiIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
+  '/founder-ai/': typeof AuthenticatedFounderAiIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
   '/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
@@ -3637,6 +3733,16 @@ export interface FileRoutesByTo {
   '/execution/analytics': typeof AuthenticatedExecutionAnalyticsRoute
   '/execution/history': typeof AuthenticatedExecutionHistoryRoute
   '/execution/tasks': typeof AuthenticatedExecutionTasksRoute
+  '/founder-ai/activity': typeof AuthenticatedFounderAiActivityRoute
+  '/founder-ai/chat': typeof AuthenticatedFounderAiChatRoute
+  '/founder-ai/dashboard': typeof AuthenticatedFounderAiDashboardRoute
+  '/founder-ai/history': typeof AuthenticatedFounderAiHistoryRoute
+  '/founder-ai/memory': typeof AuthenticatedFounderAiMemoryRoute
+  '/founder-ai/settings': typeof AuthenticatedFounderAiSettingsRoute
+  '/founder-ai/tasks': typeof AuthenticatedFounderAiTasksRoute
+  '/founder-ai/terminal': typeof AuthenticatedFounderAiTerminalRoute
+  '/founder-ai/voice': typeof AuthenticatedFounderAiVoiceRoute
+  '/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
@@ -3763,6 +3869,7 @@ export interface FileRoutesByTo {
   '/education': typeof AuthenticatedEducationIndexRoute
   '/enterprise-ai': typeof AuthenticatedEnterpriseAiIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
+  '/founder-ai': typeof AuthenticatedFounderAiIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge': typeof AuthenticatedKnowledgeIndexRoute
@@ -3808,6 +3915,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
+  '/_authenticated/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
   '/_authenticated/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/_authenticated/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
@@ -4078,6 +4186,16 @@ export interface FileRoutesById {
   '/_authenticated/execution/analytics': typeof AuthenticatedExecutionAnalyticsRoute
   '/_authenticated/execution/history': typeof AuthenticatedExecutionHistoryRoute
   '/_authenticated/execution/tasks': typeof AuthenticatedExecutionTasksRoute
+  '/_authenticated/founder-ai/activity': typeof AuthenticatedFounderAiActivityRoute
+  '/_authenticated/founder-ai/chat': typeof AuthenticatedFounderAiChatRoute
+  '/_authenticated/founder-ai/dashboard': typeof AuthenticatedFounderAiDashboardRoute
+  '/_authenticated/founder-ai/history': typeof AuthenticatedFounderAiHistoryRoute
+  '/_authenticated/founder-ai/memory': typeof AuthenticatedFounderAiMemoryRoute
+  '/_authenticated/founder-ai/settings': typeof AuthenticatedFounderAiSettingsRoute
+  '/_authenticated/founder-ai/tasks': typeof AuthenticatedFounderAiTasksRoute
+  '/_authenticated/founder-ai/terminal': typeof AuthenticatedFounderAiTerminalRoute
+  '/_authenticated/founder-ai/voice': typeof AuthenticatedFounderAiVoiceRoute
+  '/_authenticated/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/_authenticated/founder/ai': typeof AuthenticatedFounderAiRoute
   '/_authenticated/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/_authenticated/founder/companies': typeof AuthenticatedFounderCompaniesRoute
@@ -4204,6 +4322,7 @@ export interface FileRoutesById {
   '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
   '/_authenticated/enterprise-ai/': typeof AuthenticatedEnterpriseAiIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
+  '/_authenticated/founder-ai/': typeof AuthenticatedFounderAiIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
   '/_authenticated/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/_authenticated/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
@@ -4249,6 +4368,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/status'
     | '/trust'
+    | '/founder-ai'
     | '/live'
     | '/releases'
     | '/achievements'
@@ -4519,6 +4639,16 @@ export interface FileRouteTypes {
     | '/execution/analytics'
     | '/execution/history'
     | '/execution/tasks'
+    | '/founder-ai/activity'
+    | '/founder-ai/chat'
+    | '/founder-ai/dashboard'
+    | '/founder-ai/history'
+    | '/founder-ai/memory'
+    | '/founder-ai/settings'
+    | '/founder-ai/tasks'
+    | '/founder-ai/terminal'
+    | '/founder-ai/voice'
+    | '/founder-ai/workspace'
     | '/founder/ai'
     | '/founder/analytics'
     | '/founder/companies'
@@ -4645,6 +4775,7 @@ export interface FileRouteTypes {
     | '/education/'
     | '/enterprise-ai/'
     | '/enterprise/'
+    | '/founder-ai/'
     | '/founder/'
     | '/hyperlocal/'
     | '/knowledge/'
@@ -4944,6 +5075,16 @@ export interface FileRouteTypes {
     | '/execution/analytics'
     | '/execution/history'
     | '/execution/tasks'
+    | '/founder-ai/activity'
+    | '/founder-ai/chat'
+    | '/founder-ai/dashboard'
+    | '/founder-ai/history'
+    | '/founder-ai/memory'
+    | '/founder-ai/settings'
+    | '/founder-ai/tasks'
+    | '/founder-ai/terminal'
+    | '/founder-ai/voice'
+    | '/founder-ai/workspace'
     | '/founder/ai'
     | '/founder/analytics'
     | '/founder/companies'
@@ -5070,6 +5211,7 @@ export interface FileRouteTypes {
     | '/education'
     | '/enterprise-ai'
     | '/enterprise'
+    | '/founder-ai'
     | '/founder'
     | '/hyperlocal'
     | '/knowledge'
@@ -5114,6 +5256,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/status'
     | '/trust'
+    | '/_authenticated/founder-ai'
     | '/_authenticated/live'
     | '/_authenticated/releases'
     | '/_authenticated/achievements'
@@ -5384,6 +5527,16 @@ export interface FileRouteTypes {
     | '/_authenticated/execution/analytics'
     | '/_authenticated/execution/history'
     | '/_authenticated/execution/tasks'
+    | '/_authenticated/founder-ai/activity'
+    | '/_authenticated/founder-ai/chat'
+    | '/_authenticated/founder-ai/dashboard'
+    | '/_authenticated/founder-ai/history'
+    | '/_authenticated/founder-ai/memory'
+    | '/_authenticated/founder-ai/settings'
+    | '/_authenticated/founder-ai/tasks'
+    | '/_authenticated/founder-ai/terminal'
+    | '/_authenticated/founder-ai/voice'
+    | '/_authenticated/founder-ai/workspace'
     | '/_authenticated/founder/ai'
     | '/_authenticated/founder/analytics'
     | '/_authenticated/founder/companies'
@@ -5510,6 +5663,7 @@ export interface FileRouteTypes {
     | '/_authenticated/education/'
     | '/_authenticated/enterprise-ai/'
     | '/_authenticated/enterprise/'
+    | '/_authenticated/founder-ai/'
     | '/_authenticated/founder/'
     | '/_authenticated/hyperlocal/'
     | '/_authenticated/knowledge/'
@@ -7015,6 +7169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLiveRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/founder-ai': {
+      id: '/_authenticated/founder-ai'
+      path: '/founder-ai'
+      fullPath: '/founder-ai'
+      preLoaderRoute: typeof AuthenticatedFounderAiRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/studio/': {
       id: '/_authenticated/studio/'
       path: '/'
@@ -7070,6 +7231,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/founder/'
       preLoaderRoute: typeof AuthenticatedFounderIndexRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder-ai/': {
+      id: '/_authenticated/founder-ai/'
+      path: '/'
+      fullPath: '/founder-ai/'
+      preLoaderRoute: typeof AuthenticatedFounderAiIndexRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
     }
     '/_authenticated/enterprise/': {
       id: '/_authenticated/enterprise/'
@@ -7953,6 +8121,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderAiRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
+    '/_authenticated/founder-ai/workspace': {
+      id: '/_authenticated/founder-ai/workspace'
+      path: '/workspace'
+      fullPath: '/founder-ai/workspace'
+      preLoaderRoute: typeof AuthenticatedFounderAiWorkspaceRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/voice': {
+      id: '/_authenticated/founder-ai/voice'
+      path: '/voice'
+      fullPath: '/founder-ai/voice'
+      preLoaderRoute: typeof AuthenticatedFounderAiVoiceRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/terminal': {
+      id: '/_authenticated/founder-ai/terminal'
+      path: '/terminal'
+      fullPath: '/founder-ai/terminal'
+      preLoaderRoute: typeof AuthenticatedFounderAiTerminalRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/tasks': {
+      id: '/_authenticated/founder-ai/tasks'
+      path: '/tasks'
+      fullPath: '/founder-ai/tasks'
+      preLoaderRoute: typeof AuthenticatedFounderAiTasksRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/settings': {
+      id: '/_authenticated/founder-ai/settings'
+      path: '/settings'
+      fullPath: '/founder-ai/settings'
+      preLoaderRoute: typeof AuthenticatedFounderAiSettingsRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/memory': {
+      id: '/_authenticated/founder-ai/memory'
+      path: '/memory'
+      fullPath: '/founder-ai/memory'
+      preLoaderRoute: typeof AuthenticatedFounderAiMemoryRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/history': {
+      id: '/_authenticated/founder-ai/history'
+      path: '/history'
+      fullPath: '/founder-ai/history'
+      preLoaderRoute: typeof AuthenticatedFounderAiHistoryRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/dashboard': {
+      id: '/_authenticated/founder-ai/dashboard'
+      path: '/dashboard'
+      fullPath: '/founder-ai/dashboard'
+      preLoaderRoute: typeof AuthenticatedFounderAiDashboardRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/chat': {
+      id: '/_authenticated/founder-ai/chat'
+      path: '/chat'
+      fullPath: '/founder-ai/chat'
+      preLoaderRoute: typeof AuthenticatedFounderAiChatRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
+    '/_authenticated/founder-ai/activity': {
+      id: '/_authenticated/founder-ai/activity'
+      path: '/activity'
+      fullPath: '/founder-ai/activity'
+      preLoaderRoute: typeof AuthenticatedFounderAiActivityRouteImport
+      parentRoute: typeof AuthenticatedFounderAiRouteRoute
+    }
     '/_authenticated/execution/tasks': {
       id: '/_authenticated/execution/tasks'
       path: '/tasks'
@@ -8641,6 +8879,40 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedFounderAiRouteRouteChildren {
+  AuthenticatedFounderAiActivityRoute: typeof AuthenticatedFounderAiActivityRoute
+  AuthenticatedFounderAiChatRoute: typeof AuthenticatedFounderAiChatRoute
+  AuthenticatedFounderAiDashboardRoute: typeof AuthenticatedFounderAiDashboardRoute
+  AuthenticatedFounderAiHistoryRoute: typeof AuthenticatedFounderAiHistoryRoute
+  AuthenticatedFounderAiMemoryRoute: typeof AuthenticatedFounderAiMemoryRoute
+  AuthenticatedFounderAiSettingsRoute: typeof AuthenticatedFounderAiSettingsRoute
+  AuthenticatedFounderAiTasksRoute: typeof AuthenticatedFounderAiTasksRoute
+  AuthenticatedFounderAiTerminalRoute: typeof AuthenticatedFounderAiTerminalRoute
+  AuthenticatedFounderAiVoiceRoute: typeof AuthenticatedFounderAiVoiceRoute
+  AuthenticatedFounderAiWorkspaceRoute: typeof AuthenticatedFounderAiWorkspaceRoute
+  AuthenticatedFounderAiIndexRoute: typeof AuthenticatedFounderAiIndexRoute
+}
+
+const AuthenticatedFounderAiRouteRouteChildren: AuthenticatedFounderAiRouteRouteChildren =
+  {
+    AuthenticatedFounderAiActivityRoute: AuthenticatedFounderAiActivityRoute,
+    AuthenticatedFounderAiChatRoute: AuthenticatedFounderAiChatRoute,
+    AuthenticatedFounderAiDashboardRoute: AuthenticatedFounderAiDashboardRoute,
+    AuthenticatedFounderAiHistoryRoute: AuthenticatedFounderAiHistoryRoute,
+    AuthenticatedFounderAiMemoryRoute: AuthenticatedFounderAiMemoryRoute,
+    AuthenticatedFounderAiSettingsRoute: AuthenticatedFounderAiSettingsRoute,
+    AuthenticatedFounderAiTasksRoute: AuthenticatedFounderAiTasksRoute,
+    AuthenticatedFounderAiTerminalRoute: AuthenticatedFounderAiTerminalRoute,
+    AuthenticatedFounderAiVoiceRoute: AuthenticatedFounderAiVoiceRoute,
+    AuthenticatedFounderAiWorkspaceRoute: AuthenticatedFounderAiWorkspaceRoute,
+    AuthenticatedFounderAiIndexRoute: AuthenticatedFounderAiIndexRoute,
+  }
+
+const AuthenticatedFounderAiRouteRouteWithChildren =
+  AuthenticatedFounderAiRouteRoute._addFileChildren(
+    AuthenticatedFounderAiRouteRouteChildren,
+  )
 
 interface AuthenticatedLiveRouteRouteChildren {
   AuthenticatedLiveActivityRoute: typeof AuthenticatedLiveActivityRoute
@@ -9451,6 +9723,7 @@ const AuthenticatedWorkflowsRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedFounderAiRouteRoute: typeof AuthenticatedFounderAiRouteRouteWithChildren
   AuthenticatedLiveRouteRoute: typeof AuthenticatedLiveRouteRouteWithChildren
   AuthenticatedReleasesRouteRoute: typeof AuthenticatedReleasesRouteRouteWithChildren
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
@@ -9649,6 +9922,8 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedFounderAiRouteRoute:
+    AuthenticatedFounderAiRouteRouteWithChildren,
   AuthenticatedLiveRouteRoute: AuthenticatedLiveRouteRouteWithChildren,
   AuthenticatedReleasesRouteRoute: AuthenticatedReleasesRouteRouteWithChildren,
   AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,

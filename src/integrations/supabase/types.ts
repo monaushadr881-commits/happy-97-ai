@@ -7242,6 +7242,252 @@ export type Database = {
           },
         ]
       }
+      faios_activity: {
+        Row: {
+          command_id: string | null
+          created_at: string
+          detail: Json | null
+          founder_id: string
+          id: string
+          stage: string
+          status: string
+        }
+        Insert: {
+          command_id?: string | null
+          created_at?: string
+          detail?: Json | null
+          founder_id: string
+          id?: string
+          stage: string
+          status: string
+        }
+        Update: {
+          command_id?: string | null
+          created_at?: string
+          detail?: Json | null
+          founder_id?: string
+          id?: string
+          stage?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faios_activity_command_id_fkey"
+            columns: ["command_id"]
+            isOneToOne: false
+            referencedRelation: "faios_commands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faios_approvals: {
+        Row: {
+          command_id: string
+          decided_at: string
+          decision: string
+          founder_id: string
+          id: string
+          note: string | null
+        }
+        Insert: {
+          command_id: string
+          decided_at?: string
+          decision: string
+          founder_id: string
+          id?: string
+          note?: string | null
+        }
+        Update: {
+          command_id?: string
+          decided_at?: string
+          decision?: string
+          founder_id?: string
+          id?: string
+          note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faios_approvals_command_id_fkey"
+            columns: ["command_id"]
+            isOneToOne: false
+            referencedRelation: "faios_commands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faios_commands: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          category: string | null
+          created_at: string
+          error: string | null
+          executed_at: string | null
+          founder_id: string
+          id: string
+          impact: Json | null
+          intent: string | null
+          mode: string
+          plan: Json | null
+          raw_text: string
+          requires_approval: boolean
+          result: Json | null
+          risk_level: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string | null
+          created_at?: string
+          error?: string | null
+          executed_at?: string | null
+          founder_id: string
+          id?: string
+          impact?: Json | null
+          intent?: string | null
+          mode?: string
+          plan?: Json | null
+          raw_text: string
+          requires_approval?: boolean
+          result?: Json | null
+          risk_level?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string | null
+          created_at?: string
+          error?: string | null
+          executed_at?: string | null
+          founder_id?: string
+          id?: string
+          impact?: Json | null
+          intent?: string | null
+          mode?: string
+          plan?: Json | null
+          raw_text?: string
+          requires_approval?: boolean
+          result?: Json | null
+          risk_level?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      faios_memory: {
+        Row: {
+          created_at: string
+          founder_id: string
+          id: string
+          key: string
+          scope: string
+          updated_at: string
+          value: Json
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          founder_id: string
+          id?: string
+          key: string
+          scope: string
+          updated_at?: string
+          value?: Json
+          weight?: number
+        }
+        Update: {
+          created_at?: string
+          founder_id?: string
+          id?: string
+          key?: string
+          scope?: string
+          updated_at?: string
+          value?: Json
+          weight?: number
+        }
+        Relationships: []
+      }
+      faios_terminal_lines: {
+        Row: {
+          channel: string
+          command_id: string | null
+          created_at: string
+          founder_id: string
+          id: string
+          level: string
+          message: string
+          metadata: Json | null
+        }
+        Insert: {
+          channel?: string
+          command_id?: string | null
+          created_at?: string
+          founder_id: string
+          id?: string
+          level?: string
+          message: string
+          metadata?: Json | null
+        }
+        Update: {
+          channel?: string
+          command_id?: string | null
+          created_at?: string
+          founder_id?: string
+          id?: string
+          level?: string
+          message?: string
+          metadata?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faios_terminal_lines_command_id_fkey"
+            columns: ["command_id"]
+            isOneToOne: false
+            referencedRelation: "faios_commands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faios_workspace_items: {
+        Row: {
+          body: Json
+          created_at: string
+          founder_id: string
+          id: string
+          kind: string
+          pinned: boolean
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: Json
+          created_at?: string
+          founder_id: string
+          id?: string
+          kind: string
+          pinned?: boolean
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: Json
+          created_at?: string
+          founder_id?: string
+          id?: string
+          kind?: string
+          pinned?: boolean
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       feature_flags: {
         Row: {
           company_id: string | null
