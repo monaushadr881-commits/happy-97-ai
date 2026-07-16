@@ -236,7 +236,7 @@ export function HappyDesk() {
 
 
 
-  useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
+  useEffect(() => { setVoiceSupported(isVoiceSupported() || isMediaRecorderSupported()); }, []);
 
   // Entrance animation retriggers on route change.
   useEffect(() => {
@@ -502,12 +502,18 @@ export function HappyDesk() {
   function startListening() {
     if (listening) return;
     setVoiceError(null);
-    const listener = createVoiceListener({
-      onTranscript: (t) => setTranscript(t),
-      onIntent: (i) => handleIntent(i),
-      onError: (msg) => setVoiceError(msg),
+    const handlers = {
+      onTranscript: (t: string) => setTranscript(t),
+      onIntent: (i: ReturnType<typeof classifyIntent>) => handleIntent(i),
+      onError: (msg: string) => setVoiceError(msg),
       onEnd: () => setListening(false),
-    });
+    };
+    // Prefer the native browser SpeechRecognition path when available; fall
+    // back to MediaRecorder → /api/happy-stt (shared Lovable AI Gateway
+    // runtime) on browsers without Web Speech API. Never a second runtime.
+    const listener = isVoiceSupported()
+      ? createVoiceListener(handlers)
+      : createServerSttVoiceListener(handlers);
     listener.setLanguage(language);
     const ok = listener.start();
     if (ok) {
