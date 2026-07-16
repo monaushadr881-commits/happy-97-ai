@@ -28,6 +28,24 @@ import { decideDelivery, initialGateState, type Notification as HappyNotif, type
 import { saveSession, loadSession } from "@/lib/happy-r86/session-restore";
 import { loadDaily, saveDaily, recordDaily, type DailyEventKind } from "@/lib/happy-r88/daily-memory";
 import { publishContext, type ContextSubsystem, type SubsystemStatus } from "@/lib/happy-r88/context-bus";
+import { anchorFor, type Anchor, type PresenceMode } from "@/lib/happy-r89/route-anchors";
+import { decidePersona } from "@/lib/happy-r89/persona";
+
+/** Map R89 anchors (which include center-*) to the desk's cardinal corners. */
+function anchorToCorner(a: Anchor): DeskCorner {
+  switch (a) {
+    case "br": case "center-bottom": return "br";
+    case "bl": return "bl";
+    case "tr": case "center-right": return "tr";
+    case "tl": return "tl";
+  }
+}
+function presenceModeFor(input: { delivery: boolean; open: boolean; listening: boolean; pathname: string }): PresenceMode {
+  if (input.pathname.startsWith("/_authenticated/happy/presentation")) return "presentation";
+  if (input.delivery) return "notification";
+  if (input.open || input.listening) return "conversation";
+  return "idle";
+}
 
 
 /**
@@ -296,7 +314,7 @@ export function HappyDesk() {
     const check = () => {
       const vp = { w: window.innerWidth, h: window.innerHeight };
       const obstacles = readObstacleRects(document);
-      const preferred = deskCornerFor(pathname);
+      const preferred = anchorToCorner(anchorFor(pathname, presenceModeFor({ delivery: !!delivery, open, listening, pathname })));
       const safe = pickSafeCorner(preferred, vp, obstacles);
       setObstacleCorner(safe === preferred ? null : safe);
     };
@@ -488,7 +506,9 @@ export function HappyDesk() {
   if (!hydrated) return null;
   if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 
-  const preferredCorner = deskCornerFor(pathname);
+  const presenceMode = presenceModeFor({ delivery: !!delivery, open, listening, pathname });
+  const preferredCorner = anchorToCorner(anchorFor(pathname, presenceMode));
+  const persona = decidePersona({ pathname, isAuthenticated: pathname.startsWith("/_authenticated") });
   const corner = prefs.workspace === "adaptive" ? (obstacleCorner ?? preferredCorner) : preferredCorner;
   const idleMs = now - lastActivity;
   const ctx = contextFor(pathname, { hasError: !!delivery && delivery.tone === "critical" });
@@ -854,7 +874,7 @@ export function HappyDesk() {
             "rounded-full border border-white/10 bg-obsidian/80 px-2 py-0.5 text-[10px] uppercase tracking-widest text-soft-gray",
           )}
         >
-          {posture} · {teamRole.role.replace("-", " ")}
+          {posture} · {teamRole.role.replace("-", " ")} · {persona.persona}
         </span>
         {indicator !== "idle" && (
           <span
