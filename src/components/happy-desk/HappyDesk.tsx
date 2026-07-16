@@ -938,6 +938,8 @@ export function HappyDesk() {
   );
 }
 
+type ChatMsg = { id: string; role: "user" | "assistant"; content: string; at: number; error?: boolean };
+
 function HappyDeskPanel({
   greeting, summary, surface, route, posture, focusLabel, focusGuidance,
   teamRoleGreeting, teamRoleHint, teamRoleName,
@@ -963,7 +965,11 @@ function HappyDeskPanel({
   lastIntent: VoiceIntent | null;
   onToggleVoice: () => void;
   onClose: () => void;
-  onSend?: (text: string) => Promise<string>;
+  onSend?: (
+    text: string,
+    history: Array<{ role: "user" | "assistant"; content: string }>,
+    signal?: AbortSignal,
+  ) => Promise<string>;
   workMode: "focus" | "meeting" | "learning" | "normal";
   workModeReason: string;
   tutorLevel: "beginner" | "intermediate" | "advanced";
@@ -972,18 +978,84 @@ function HappyDeskPanel({
   resume: string | null;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [note, setNote] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [sending, setSending] = useState(false);
+  const [note, setNote] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => { inputRef.current?.focus(); }, []);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages, sending]);
+
+  const runChat = async (userText: string, base: ChatMsg[]) => {
+    if (!onSend) { setNote(`Noted — I'll surface "${userText}" as an initiative signal.`); return; }
+    const controller = new AbortController();
+    abortRef.current = controller;
+    setSending(true);
+    setNote(null);
+    try {
+      const history = base.map((m) => ({ role: m.role, content: m.content }));
+      const reply = await onSend(userText, history, controller.signal);
+      setMessages((prev) => [...prev, {
+        id: `a-${Date.now()}`, role: "assistant", content: reply, at: Date.now(),
+        error: /^Stopped\.$|couldn't reach|rate-limited|credits are exhausted|Network hiccup|voice channel is offline/.test(reply),
+      }]);
+    } catch {
+      setMessages((prev) => [...prev, { id: `a-${Date.now()}`, role: "assistant", content: "Sorry — something interrupted me.", at: Date.now(), error: true }]);
+    } finally {
+      setSending(false);
+      abortRef.current = null;
+      inputRef.current?.focus();
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const v = inputRef.current?.value.trim();
+    if (!v || sending) return;
+    if (inputRef.current) inputRef.current.value = "";
+    const userMsg: ChatMsg = { id: `u-${Date.now()}`, role: "user", content: v, at: Date.now() };
+    const base = [...messages, userMsg];
+    setMessages(base);
+    await runChat(v, messages);
+  };
+
+  const handleStop = () => {
+    abortRef.current?.abort();
+  };
+
+  const handleRetry = async () => {
+    // Retry last user turn (drop last assistant if present)
+    let idx = messages.length - 1;
+    while (idx >= 0 && messages[idx].role !== "user") idx--;
+    if (idx < 0) return;
+    const userMsg = messages[idx];
+    const base = messages.slice(0, idx);
+    setMessages([...base, userMsg]);
+    await runChat(userMsg.content, base);
+  };
+
+  const handleRegenerate = handleRetry;
+
+  const handleCopy = (text: string) => {
+    try { void navigator.clipboard?.writeText(text); } catch { /* clipboard blocked */ }
+  };
+
+  const handleClear = () => setMessages([]);
+
+  const lastIsAssistant = messages.length > 0 && messages[messages.length - 1].role === "assistant";
 
   return (
     <section
       role="dialog"
       aria-label="HAPPY companion"
       className={cn(
-        "pointer-events-auto w-[min(360px,calc(100vw-2rem))] rounded-2xl border border-white/10",
-        "bg-obsidian/95 backdrop-blur-xl shadow-2xl overflow-hidden",
+        "pointer-events-auto w-[min(380px,calc(100vw-2rem))] rounded-2xl border border-white/10",
+        "bg-obsidian/95 backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col",
+        "max-h-[min(640px,calc(100vh-2rem))]",
       )}
     >
       <header className="flex items-center justify-between gap-3 border-b border-white/5 px-4 py-3">
@@ -994,180 +1066,257 @@ function HappyDeskPanel({
           <h2 className="truncate text-sm font-semibold text-paper">{greeting}</h2>
           <p className="mt-0.5 truncate text-[11px] text-soft-gray">{teamRoleGreeting}</p>
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="rounded-full p-1.5 text-soft-gray hover:bg-white/5 hover:text-paper"
-        >
-          <span aria-hidden>✕</span>
-        </button>
-      </header>
-
-      <div className="space-y-3 px-4 py-3">
-        <p className="text-sm leading-snug text-paper">{summary}</p>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <span
-            className={cn(
-              "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest",
-              workMode === "focus" ? "border-sky-400/40 bg-sky-500/10 text-sky-200" :
-              workMode === "meeting" ? "border-fuchsia-400/40 bg-fuchsia-500/10 text-fuchsia-200" :
-              workMode === "learning" ? "border-amber-400/40 bg-amber-500/10 text-amber-200" :
-              "border-white/10 bg-white/[0.03] text-soft-gray",
-            )}
-            title={workModeReason}
-          >
-            {workMode}
-          </span>
-          <span className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] uppercase tracking-widest text-soft-gray">
-            tutor · {tutorLevel}
-          </span>
-          {activeTask && (
-            <span className="rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] uppercase tracking-widest text-gold">
-              on: {activeTask.label}
-            </span>
-          )}
-        </div>
-
-        {resume && (
-          <p className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2 text-[12px] leading-snug text-paper/80">
-            {resume}
-          </p>
-        )}
-
-        {taskLog.length > 0 && (
-          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
-            <p className="text-[11px] uppercase tracking-wide text-soft-gray">Recent tasks</p>
-            <ul className="mt-1 space-y-0.5 text-[11px]">
-              {taskLog.slice(0, 4).map((t, i) => (
-                <li key={`${t.id}-${i}`} className="flex items-center gap-2">
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "inline-block h-1.5 w-1.5 rounded-full",
-                      t.status === "completed" || t.status === "milestone" ? "bg-emerald-400" :
-                      t.status === "failed" ? "bg-red-400" :
-                      t.status === "progress" ? "bg-gold" : "bg-white/40",
-                    )}
-                  />
-                  <span className="truncate text-paper/90">{t.label}</span>
-                  <span className="ml-auto text-[10px] uppercase tracking-widest text-soft-gray">{t.status}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-
-        <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
-          <p className="text-[11px] uppercase tracking-wide text-soft-gray">You are on</p>
-          <p className="mt-0.5 text-sm text-paper">
-            <span className="text-gold capitalize">{surface}</span>{" "}
-            <span className="text-soft-gray">· {route}</span>
-          </p>
-          {focusLabel && (
-            <p className="mt-1 text-[11px] text-soft-gray">
-              Looking at <span className="text-paper">{focusLabel}</span>
-            </p>
-          )}
-          {focusGuidance && (
-            <p className="mt-1 text-[11px] leading-snug text-paper/80">{focusGuidance}</p>
-          )}
-        </div>
-
-        <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
-          <p className="text-[11px] uppercase tracking-wide text-soft-gray">Voice</p>
-          <div className="mt-1 flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          {messages.length > 0 && (
             <button
               type="button"
-              onClick={onToggleVoice}
-              disabled={!voiceSupported}
-              aria-pressed={listening}
-              className={cn(
-                "rounded-full border px-3 py-1 text-xs font-semibold transition",
-                listening
-                  ? "border-emerald-300/60 bg-emerald-500/20 text-emerald-100"
-                  : voiceSupported
-                    ? "border-gold/40 bg-gold/10 text-gold hover:bg-gold/20"
-                    : "border-white/10 text-soft-gray/60",
-              )}
+              onClick={handleClear}
+              aria-label="Clear conversation"
+              className="rounded-full px-2 py-1 text-[10px] uppercase tracking-widest text-soft-gray hover:bg-white/5 hover:text-paper"
             >
-              {listening ? "● Stop listening" : voiceSupported ? "◌ Start voice" : "Voice unavailable"}
+              Clear
             </button>
-            <span className="text-[10px] uppercase tracking-widest text-soft-gray">{language}</span>
-          </div>
-          <p className="mt-2 text-[11px] text-soft-gray">
-            Say <span className="text-paper">"Hi HAPPY"</span> then ask for help, an explanation, or to open a section.
-          </p>
-          {transcript && (
-            <p className="mt-1 text-[11px] italic text-paper/80">"{transcript}"</p>
           )}
-          {lastIntent && lastIntent.kind !== "unknown" && (
-            <p className="mt-1 text-[10px] uppercase tracking-widest text-emerald-300/80">
-              intent: {lastIntent.kind}{lastIntent.target ? ` → ${lastIntent.target}` : ""}
-            </p>
-          )}
-          {voiceError && <p className="mt-1 text-[11px] text-red-300">{voiceError}</p>}
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="rounded-full p-1.5 text-soft-gray hover:bg-white/5 hover:text-paper"
+          >
+            <span aria-hidden>✕</span>
+          </button>
         </div>
+      </header>
 
-        <p className="text-[11px] text-soft-gray">{teamRoleHint}</p>
+      <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-3 px-4 py-3">
+        {messages.length === 0 && (
+          <>
+            <p className="text-sm leading-snug text-paper">{summary}</p>
 
-        <div className="flex flex-wrap gap-2">
-          <Link to="/_authenticated/happy/live" className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs text-gold hover:bg-gold/20">
-            Open live
-          </Link>
-          <Link to="/_authenticated/happy/initiative" className="rounded-full border border-white/10 px-3 py-1 text-xs text-paper hover:bg-white/5">
-            Initiative
-          </Link>
-          <Link to="/_authenticated/happy/memory" className="rounded-full border border-white/10 px-3 py-1 text-xs text-paper hover:bg-white/5">
-            Memory
-          </Link>
-          <Link to="/_authenticated/happy/business" className="rounded-full border border-white/10 px-3 py-1 text-xs text-paper hover:bg-white/5">
-            Advisor
-          </Link>
-        </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className={cn(
+                  "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest",
+                  workMode === "focus" ? "border-sky-400/40 bg-sky-500/10 text-sky-200" :
+                  workMode === "meeting" ? "border-fuchsia-400/40 bg-fuchsia-500/10 text-fuchsia-200" :
+                  workMode === "learning" ? "border-amber-400/40 bg-amber-500/10 text-amber-200" :
+                  "border-white/10 bg-white/[0.03] text-soft-gray",
+                )}
+                title={workModeReason}
+              >
+                {workMode}
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] uppercase tracking-widest text-soft-gray">
+                tutor · {tutorLevel}
+              </span>
+              {activeTask && (
+                <span className="rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] uppercase tracking-widest text-gold">
+                  on: {activeTask.label}
+                </span>
+              )}
+            </div>
 
-        <form
-          className="flex items-center gap-2"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const v = inputRef.current?.value.trim();
-            if (!v || sending) return;
-            if (inputRef.current) inputRef.current.value = "";
-            if (!onSend) { setNote(`Noted — I'll surface "${v}" as an initiative signal.`); return; }
-            setSending(true);
-            setNote("HAPPY is thinking…");
-            try {
-              const reply = await onSend(v);
-              setNote(reply);
-            } catch {
-              setNote("Sorry — I couldn't reach my voice channel just now.");
-            } finally {
-              setSending(false);
-              inputRef.current?.focus();
-            }
-          }}
-        >
-          <input
-            ref={inputRef}
-            type="text"
-            disabled={sending}
-            placeholder={sending ? "HAPPY is thinking…" : "Tell HAPPY what's on your mind…"}
-            aria-label="Message HAPPY"
-            className="flex-1 min-w-0 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-paper placeholder:text-soft-gray/70 focus:border-gold/40 focus:outline-none disabled:opacity-60"
-          />
+            {resume && (
+              <p className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2 text-[12px] leading-snug text-paper/80">
+                {resume}
+              </p>
+            )}
+
+            {taskLog.length > 0 && (
+              <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+                <p className="text-[11px] uppercase tracking-wide text-soft-gray">Recent tasks</p>
+                <ul className="mt-1 space-y-0.5 text-[11px]">
+                  {taskLog.slice(0, 4).map((t, i) => (
+                    <li key={`${t.id}-${i}`} className="flex items-center gap-2">
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "inline-block h-1.5 w-1.5 rounded-full",
+                          t.status === "completed" || t.status === "milestone" ? "bg-emerald-400" :
+                          t.status === "failed" ? "bg-red-400" :
+                          t.status === "progress" ? "bg-gold" : "bg-white/40",
+                        )}
+                      />
+                      <span className="truncate text-paper/90">{t.label}</span>
+                      <span className="ml-auto text-[10px] uppercase tracking-widest text-soft-gray">{t.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+              <p className="text-[11px] uppercase tracking-wide text-soft-gray">You are on</p>
+              <p className="mt-0.5 text-sm text-paper">
+                <span className="text-gold capitalize">{surface}</span>{" "}
+                <span className="text-soft-gray">· {route}</span>
+              </p>
+              {focusLabel && (
+                <p className="mt-1 text-[11px] text-soft-gray">
+                  Looking at <span className="text-paper">{focusLabel}</span>
+                </p>
+              )}
+              {focusGuidance && (
+                <p className="mt-1 text-[11px] leading-snug text-paper/80">{focusGuidance}</p>
+              )}
+            </div>
+
+            <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+              <p className="text-[11px] uppercase tracking-wide text-soft-gray">Voice</p>
+              <div className="mt-1 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={onToggleVoice}
+                  disabled={!voiceSupported}
+                  aria-pressed={listening}
+                  className={cn(
+                    "rounded-full border px-3 py-1 text-xs font-semibold transition",
+                    listening
+                      ? "border-emerald-300/60 bg-emerald-500/20 text-emerald-100"
+                      : voiceSupported
+                        ? "border-gold/40 bg-gold/10 text-gold hover:bg-gold/20"
+                        : "border-white/10 text-soft-gray/60",
+                  )}
+                >
+                  {listening ? "● Stop listening" : voiceSupported ? "◌ Start voice" : "Voice unavailable"}
+                </button>
+                <span className="text-[10px] uppercase tracking-widest text-soft-gray">{language}</span>
+              </div>
+              <p className="mt-2 text-[11px] text-soft-gray">
+                Say <span className="text-paper">"Hi HAPPY"</span> then ask for help, an explanation, or to open a section.
+              </p>
+              {transcript && <p className="mt-1 text-[11px] italic text-paper/80">"{transcript}"</p>}
+              {lastIntent && lastIntent.kind !== "unknown" && (
+                <p className="mt-1 text-[10px] uppercase tracking-widest text-emerald-300/80">
+                  intent: {lastIntent.kind}{lastIntent.target ? ` → ${lastIntent.target}` : ""}
+                </p>
+              )}
+              {voiceError && <p className="mt-1 text-[11px] text-red-300">{voiceError}</p>}
+            </div>
+
+            <p className="text-[11px] text-soft-gray">{teamRoleHint}</p>
+
+            <div className="flex flex-wrap gap-2">
+              <Link to="/_authenticated/happy/live" className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs text-gold hover:bg-gold/20">
+                Open live
+              </Link>
+              <Link to="/_authenticated/happy/initiative" className="rounded-full border border-white/10 px-3 py-1 text-xs text-paper hover:bg-white/5">
+                Initiative
+              </Link>
+              <Link to="/_authenticated/happy/memory" className="rounded-full border border-white/10 px-3 py-1 text-xs text-paper hover:bg-white/5">
+                Memory
+              </Link>
+              <Link to="/_authenticated/happy/business" className="rounded-full border border-white/10 px-3 py-1 text-xs text-paper hover:bg-white/5">
+                Advisor
+              </Link>
+            </div>
+          </>
+        )}
+
+        {messages.length > 0 && (
+          <ul className="space-y-2" data-testid="happy-transcript">
+            {messages.map((m) => (
+              <li
+                key={m.id}
+                className={cn(
+                  "group flex flex-col gap-1",
+                  m.role === "user" ? "items-end" : "items-start",
+                )}
+              >
+                <div
+                  className={cn(
+                    "max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-snug whitespace-pre-wrap break-words",
+                    m.role === "user"
+                      ? "bg-gold text-obsidian"
+                      : m.error
+                        ? "border border-red-400/40 bg-red-950/60 text-red-100"
+                        : "border border-white/10 bg-white/[0.03] text-paper",
+                  )}
+                >
+                  {m.content}
+                </div>
+                <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-soft-gray opacity-0 transition group-hover:opacity-100">
+                  <span>{new Date(m.at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(m.content)}
+                    className="hover:text-paper"
+                    aria-label="Copy message"
+                  >
+                    copy
+                  </button>
+                  {m.role === "assistant" && lastIsAssistant && m === messages[messages.length - 1] && !sending && (
+                    <button
+                      type="button"
+                      onClick={handleRegenerate}
+                      className="hover:text-paper"
+                      aria-label="Regenerate"
+                    >
+                      regenerate
+                    </button>
+                  )}
+                </div>
+              </li>
+            ))}
+            {sending && (
+              <li className="items-start flex flex-col gap-1" aria-live="polite">
+                <div className="max-w-[85%] rounded-2xl border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-soft-gray">
+                  <span className="inline-flex gap-1">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold [animation-delay:120ms]" />
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold [animation-delay:240ms]" />
+                  </span>
+                  <span className="ml-2 text-[11px] uppercase tracking-widest">HAPPY is thinking</span>
+                </div>
+              </li>
+            )}
+            {!sending && lastIsAssistant && messages[messages.length - 1].error && (
+              <li className="items-start">
+                <button
+                  type="button"
+                  onClick={handleRetry}
+                  className="rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-[11px] uppercase tracking-widest text-gold hover:bg-gold/20"
+                >
+                  Retry
+                </button>
+              </li>
+            )}
+          </ul>
+        )}
+      </div>
+
+      <form
+        className="flex items-center gap-2 border-t border-white/5 px-4 py-3"
+        onSubmit={handleSubmit}
+      >
+        <input
+          ref={inputRef}
+          type="text"
+          disabled={sending}
+          placeholder={sending ? "HAPPY is thinking…" : "Tell HAPPY what's on your mind…"}
+          aria-label="Message HAPPY"
+          className="flex-1 min-w-0 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-paper placeholder:text-soft-gray/70 focus:border-gold/40 focus:outline-none disabled:opacity-60"
+        />
+        {sending ? (
+          <button
+            type="button"
+            onClick={handleStop}
+            aria-label="Stop"
+            className="rounded-full border border-red-400/40 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-200 hover:bg-red-500/20"
+          >
+            Stop
+          </button>
+        ) : (
           <button
             type="submit"
-            disabled={sending}
-            aria-busy={sending}
-            className="rounded-full bg-gold px-3 py-1.5 text-xs font-semibold text-obsidian hover:brightness-110 disabled:opacity-60"
+            className="rounded-full bg-gold px-3 py-1.5 text-xs font-semibold text-obsidian hover:brightness-110"
           >
-            {sending ? "…" : "Send"}
+            Send
           </button>
-        </form>
-        {note && <p className="text-[11px] text-soft-gray" role="status" aria-live="polite">{note}</p>}
-      </div>
+        )}
+      </form>
+      {note && <p className="px-4 pb-2 text-[11px] text-soft-gray" role="status" aria-live="polite">{note}</p>}
     </section>
   );
 }
+
