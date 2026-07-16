@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, useRouterState, useRouter } from "@tanstack/react-router";
 import { HappyAvatar, type AvatarActivity, type AvatarExpression } from "@/components/digital-human/HappyAvatar";
 import { composeCompanion, type CompanionRole } from "@/lib/happy-r80/living-companion";
 import { contextFor, summarize } from "@/lib/happy-r80/workspace-intelligence";
@@ -11,6 +11,10 @@ import {
   type DeliveryEvent,
   type DeskCorner,
 } from "./delivery-bus";
+import { classifyIntent, type VoiceIntent } from "@/lib/happy-r83/voice-intent";
+import { createVoiceListener, isVoiceSupported, speak } from "@/lib/happy-r83/voice-listener";
+import { describe as describeUi, shouldOfferHelp, type UiRegion } from "@/lib/happy-r83/visual-context";
+import { decideRole } from "@/lib/happy-r83/team-role";
 
 /**
  * R81 + R82 — HAPPY Desk.
