@@ -178,6 +178,11 @@ export function HappyDesk() {
     });
   };
 
+  // R86 — greeting/farewell bubbles, ambient posture scheduler, notification gate, session restore.
+  const [greetingBubble, setGreetingBubble] = useState<string | null>(null);
+  const [farewellBubble, setFarewellBubble] = useState<string | null>(null);
+  const [ambientPosture, setAmbientPosture] = useState<"still" | "breathing" | "looking" | "shifting">("still");
+  const gateRef = useRef<GateState>(initialGateState());
 
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
