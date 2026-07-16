@@ -216,6 +216,7 @@ import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authent
 import { Route as AuthenticatedUabrRouteRouteImport } from './routes/_authenticated/uabr/route'
 import { Route as AuthenticatedReleasesRouteRouteImport } from './routes/_authenticated/releases/route'
 import { Route as AuthenticatedLiveRouteRouteImport } from './routes/_authenticated/live/route'
+import { Route as AuthenticatedHappyRouteRouteImport } from './routes/_authenticated/happy/route'
 import { Route as AuthenticatedFounderAiRouteRouteImport } from './routes/_authenticated/founder-ai/route'
 import { Route as AuthenticatedUabrIndexRouteImport } from './routes/_authenticated/uabr/index'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
@@ -225,6 +226,7 @@ import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_aut
 import { Route as AuthenticatedLiveIndexRouteImport } from './routes/_authenticated/live/index'
 import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authenticated/knowledge.index'
 import { Route as AuthenticatedHyperlocalIndexRouteImport } from './routes/_authenticated/hyperlocal.index'
+import { Route as AuthenticatedHappyIndexRouteImport } from './routes/_authenticated/happy/index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
 import { Route as AuthenticatedFounderAiIndexRouteImport } from './routes/_authenticated/founder-ai/index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
@@ -356,6 +358,13 @@ import { Route as AuthenticatedHyperlocalDiscoverRouteImport } from './routes/_a
 import { Route as AuthenticatedHyperlocalBusinessesRouteImport } from './routes/_authenticated/hyperlocal.businesses'
 import { Route as AuthenticatedHyperlocalAskRouteImport } from './routes/_authenticated/hyperlocal.ask'
 import { Route as AuthenticatedHyperlocalAlertsRouteImport } from './routes/_authenticated/hyperlocal.alerts'
+import { Route as AuthenticatedHappyWalkRouteImport } from './routes/_authenticated/happy/walk'
+import { Route as AuthenticatedHappyVideoRouteImport } from './routes/_authenticated/happy/video'
+import { Route as AuthenticatedHappySettingsRouteImport } from './routes/_authenticated/happy/settings'
+import { Route as AuthenticatedHappyPresentationRouteImport } from './routes/_authenticated/happy/presentation'
+import { Route as AuthenticatedHappyLiveRouteImport } from './routes/_authenticated/happy/live'
+import { Route as AuthenticatedHappyCinematicRouteImport } from './routes/_authenticated/happy/cinematic'
+import { Route as AuthenticatedHappyCallRouteImport } from './routes/_authenticated/happy/call'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
@@ -1580,6 +1589,11 @@ const AuthenticatedLiveRouteRoute = AuthenticatedLiveRouteRouteImport.update({
   path: '/live',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedHappyRouteRoute = AuthenticatedHappyRouteRouteImport.update({
+  id: '/happy',
+  path: '/happy',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedFounderAiRouteRoute =
   AuthenticatedFounderAiRouteRouteImport.update({
     id: '/founder-ai',
@@ -1632,6 +1646,11 @@ const AuthenticatedHyperlocalIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedHyperlocalRoute,
   } as any)
+const AuthenticatedHappyIndexRoute = AuthenticatedHappyIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedHappyRouteRoute,
+} as any)
 const AuthenticatedFounderIndexRoute =
   AuthenticatedFounderIndexRouteImport.update({
     id: '/',
@@ -2412,6 +2431,44 @@ const AuthenticatedHyperlocalAlertsRoute =
     path: '/alerts',
     getParentRoute: () => AuthenticatedHyperlocalRoute,
   } as any)
+const AuthenticatedHappyWalkRoute = AuthenticatedHappyWalkRouteImport.update({
+  id: '/walk',
+  path: '/walk',
+  getParentRoute: () => AuthenticatedHappyRouteRoute,
+} as any)
+const AuthenticatedHappyVideoRoute = AuthenticatedHappyVideoRouteImport.update({
+  id: '/video',
+  path: '/video',
+  getParentRoute: () => AuthenticatedHappyRouteRoute,
+} as any)
+const AuthenticatedHappySettingsRoute =
+  AuthenticatedHappySettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedHappyRouteRoute,
+  } as any)
+const AuthenticatedHappyPresentationRoute =
+  AuthenticatedHappyPresentationRouteImport.update({
+    id: '/presentation',
+    path: '/presentation',
+    getParentRoute: () => AuthenticatedHappyRouteRoute,
+  } as any)
+const AuthenticatedHappyLiveRoute = AuthenticatedHappyLiveRouteImport.update({
+  id: '/live',
+  path: '/live',
+  getParentRoute: () => AuthenticatedHappyRouteRoute,
+} as any)
+const AuthenticatedHappyCinematicRoute =
+  AuthenticatedHappyCinematicRouteImport.update({
+    id: '/cinematic',
+    path: '/cinematic',
+    getParentRoute: () => AuthenticatedHappyRouteRoute,
+  } as any)
+const AuthenticatedHappyCallRoute = AuthenticatedHappyCallRouteImport.update({
+  id: '/call',
+  path: '/call',
+  getParentRoute: () => AuthenticatedHappyRouteRoute,
+} as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
     id: '/users',
@@ -3107,6 +3164,7 @@ export interface FileRoutesByFullPath {
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
+  '/happy': typeof AuthenticatedHappyRouteRouteWithChildren
   '/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
@@ -3395,6 +3453,13 @@ export interface FileRoutesByFullPath {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/happy/call': typeof AuthenticatedHappyCallRoute
+  '/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
+  '/happy/live': typeof AuthenticatedHappyLiveRoute
+  '/happy/presentation': typeof AuthenticatedHappyPresentationRoute
+  '/happy/settings': typeof AuthenticatedHappySettingsRoute
+  '/happy/video': typeof AuthenticatedHappyVideoRoute
+  '/happy/walk': typeof AuthenticatedHappyWalkRoute
   '/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
   '/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
   '/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
@@ -3526,6 +3591,7 @@ export interface FileRoutesByFullPath {
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/founder-ai/': typeof AuthenticatedFounderAiIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
+  '/happy/': typeof AuthenticatedHappyIndexRoute
   '/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/live/': typeof AuthenticatedLiveIndexRoute
@@ -3842,6 +3908,13 @@ export interface FileRoutesByTo {
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/happy/call': typeof AuthenticatedHappyCallRoute
+  '/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
+  '/happy/live': typeof AuthenticatedHappyLiveRoute
+  '/happy/presentation': typeof AuthenticatedHappyPresentationRoute
+  '/happy/settings': typeof AuthenticatedHappySettingsRoute
+  '/happy/video': typeof AuthenticatedHappyVideoRoute
+  '/happy/walk': typeof AuthenticatedHappyWalkRoute
   '/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
   '/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
   '/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
@@ -3973,6 +4046,7 @@ export interface FileRoutesByTo {
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
   '/founder-ai': typeof AuthenticatedFounderAiIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
+  '/happy': typeof AuthenticatedHappyIndexRoute
   '/hyperlocal': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge': typeof AuthenticatedKnowledgeIndexRoute
   '/live': typeof AuthenticatedLiveIndexRoute
@@ -4019,6 +4093,7 @@ export interface FileRoutesById {
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
   '/_authenticated/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
+  '/_authenticated/happy': typeof AuthenticatedHappyRouteRouteWithChildren
   '/_authenticated/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/_authenticated/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/_authenticated/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
@@ -4307,6 +4382,13 @@ export interface FileRoutesById {
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
+  '/_authenticated/happy/call': typeof AuthenticatedHappyCallRoute
+  '/_authenticated/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
+  '/_authenticated/happy/live': typeof AuthenticatedHappyLiveRoute
+  '/_authenticated/happy/presentation': typeof AuthenticatedHappyPresentationRoute
+  '/_authenticated/happy/settings': typeof AuthenticatedHappySettingsRoute
+  '/_authenticated/happy/video': typeof AuthenticatedHappyVideoRoute
+  '/_authenticated/happy/walk': typeof AuthenticatedHappyWalkRoute
   '/_authenticated/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
   '/_authenticated/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
   '/_authenticated/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
@@ -4438,6 +4520,7 @@ export interface FileRoutesById {
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
   '/_authenticated/founder-ai/': typeof AuthenticatedFounderAiIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
+  '/_authenticated/happy/': typeof AuthenticatedHappyIndexRoute
   '/_authenticated/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/_authenticated/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/_authenticated/live/': typeof AuthenticatedLiveIndexRoute
@@ -4484,6 +4567,7 @@ export interface FileRouteTypes {
     | '/status'
     | '/trust'
     | '/founder-ai'
+    | '/happy'
     | '/live'
     | '/releases'
     | '/uabr'
@@ -4772,6 +4856,13 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/happy/call'
+    | '/happy/cinematic'
+    | '/happy/live'
+    | '/happy/presentation'
+    | '/happy/settings'
+    | '/happy/video'
+    | '/happy/walk'
     | '/hyperlocal/alerts'
     | '/hyperlocal/ask'
     | '/hyperlocal/businesses'
@@ -4903,6 +4994,7 @@ export interface FileRouteTypes {
     | '/enterprise/'
     | '/founder-ai/'
     | '/founder/'
+    | '/happy/'
     | '/hyperlocal/'
     | '/knowledge/'
     | '/live/'
@@ -5219,6 +5311,13 @@ export interface FileRouteTypes {
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
+    | '/happy/call'
+    | '/happy/cinematic'
+    | '/happy/live'
+    | '/happy/presentation'
+    | '/happy/settings'
+    | '/happy/video'
+    | '/happy/walk'
     | '/hyperlocal/alerts'
     | '/hyperlocal/ask'
     | '/hyperlocal/businesses'
@@ -5350,6 +5449,7 @@ export interface FileRouteTypes {
     | '/enterprise'
     | '/founder-ai'
     | '/founder'
+    | '/happy'
     | '/hyperlocal'
     | '/knowledge'
     | '/live'
@@ -5395,6 +5495,7 @@ export interface FileRouteTypes {
     | '/status'
     | '/trust'
     | '/_authenticated/founder-ai'
+    | '/_authenticated/happy'
     | '/_authenticated/live'
     | '/_authenticated/releases'
     | '/_authenticated/uabr'
@@ -5683,6 +5784,13 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
+    | '/_authenticated/happy/call'
+    | '/_authenticated/happy/cinematic'
+    | '/_authenticated/happy/live'
+    | '/_authenticated/happy/presentation'
+    | '/_authenticated/happy/settings'
+    | '/_authenticated/happy/video'
+    | '/_authenticated/happy/walk'
     | '/_authenticated/hyperlocal/alerts'
     | '/_authenticated/hyperlocal/ask'
     | '/_authenticated/hyperlocal/businesses'
@@ -5814,6 +5922,7 @@ export interface FileRouteTypes {
     | '/_authenticated/enterprise/'
     | '/_authenticated/founder-ai/'
     | '/_authenticated/founder/'
+    | '/_authenticated/happy/'
     | '/_authenticated/hyperlocal/'
     | '/_authenticated/knowledge/'
     | '/_authenticated/live/'
@@ -7326,6 +7435,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLiveRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/happy': {
+      id: '/_authenticated/happy'
+      path: '/happy'
+      fullPath: '/happy'
+      preLoaderRoute: typeof AuthenticatedHappyRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/founder-ai': {
       id: '/_authenticated/founder-ai'
       path: '/founder-ai'
@@ -7388,6 +7504,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/hyperlocal/'
       preLoaderRoute: typeof AuthenticatedHyperlocalIndexRouteImport
       parentRoute: typeof AuthenticatedHyperlocalRoute
+    }
+    '/_authenticated/happy/': {
+      id: '/_authenticated/happy/'
+      path: '/'
+      fullPath: '/happy/'
+      preLoaderRoute: typeof AuthenticatedHappyIndexRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
     }
     '/_authenticated/founder/': {
       id: '/_authenticated/founder/'
@@ -8306,6 +8429,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHyperlocalAlertsRouteImport
       parentRoute: typeof AuthenticatedHyperlocalRoute
     }
+    '/_authenticated/happy/walk': {
+      id: '/_authenticated/happy/walk'
+      path: '/walk'
+      fullPath: '/happy/walk'
+      preLoaderRoute: typeof AuthenticatedHappyWalkRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/video': {
+      id: '/_authenticated/happy/video'
+      path: '/video'
+      fullPath: '/happy/video'
+      preLoaderRoute: typeof AuthenticatedHappyVideoRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/settings': {
+      id: '/_authenticated/happy/settings'
+      path: '/settings'
+      fullPath: '/happy/settings'
+      preLoaderRoute: typeof AuthenticatedHappySettingsRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/presentation': {
+      id: '/_authenticated/happy/presentation'
+      path: '/presentation'
+      fullPath: '/happy/presentation'
+      preLoaderRoute: typeof AuthenticatedHappyPresentationRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/live': {
+      id: '/_authenticated/happy/live'
+      path: '/live'
+      fullPath: '/happy/live'
+      preLoaderRoute: typeof AuthenticatedHappyLiveRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/cinematic': {
+      id: '/_authenticated/happy/cinematic'
+      path: '/cinematic'
+      fullPath: '/happy/cinematic'
+      preLoaderRoute: typeof AuthenticatedHappyCinematicRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
+    '/_authenticated/happy/call': {
+      id: '/_authenticated/happy/call'
+      path: '/call'
+      fullPath: '/happy/call'
+      preLoaderRoute: typeof AuthenticatedHappyCallRouteImport
+      parentRoute: typeof AuthenticatedHappyRouteRoute
+    }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
       path: '/users'
@@ -9146,6 +9318,34 @@ const AuthenticatedFounderAiRouteRouteChildren: AuthenticatedFounderAiRouteRoute
 const AuthenticatedFounderAiRouteRouteWithChildren =
   AuthenticatedFounderAiRouteRoute._addFileChildren(
     AuthenticatedFounderAiRouteRouteChildren,
+  )
+
+interface AuthenticatedHappyRouteRouteChildren {
+  AuthenticatedHappyCallRoute: typeof AuthenticatedHappyCallRoute
+  AuthenticatedHappyCinematicRoute: typeof AuthenticatedHappyCinematicRoute
+  AuthenticatedHappyLiveRoute: typeof AuthenticatedHappyLiveRoute
+  AuthenticatedHappyPresentationRoute: typeof AuthenticatedHappyPresentationRoute
+  AuthenticatedHappySettingsRoute: typeof AuthenticatedHappySettingsRoute
+  AuthenticatedHappyVideoRoute: typeof AuthenticatedHappyVideoRoute
+  AuthenticatedHappyWalkRoute: typeof AuthenticatedHappyWalkRoute
+  AuthenticatedHappyIndexRoute: typeof AuthenticatedHappyIndexRoute
+}
+
+const AuthenticatedHappyRouteRouteChildren: AuthenticatedHappyRouteRouteChildren =
+  {
+    AuthenticatedHappyCallRoute: AuthenticatedHappyCallRoute,
+    AuthenticatedHappyCinematicRoute: AuthenticatedHappyCinematicRoute,
+    AuthenticatedHappyLiveRoute: AuthenticatedHappyLiveRoute,
+    AuthenticatedHappyPresentationRoute: AuthenticatedHappyPresentationRoute,
+    AuthenticatedHappySettingsRoute: AuthenticatedHappySettingsRoute,
+    AuthenticatedHappyVideoRoute: AuthenticatedHappyVideoRoute,
+    AuthenticatedHappyWalkRoute: AuthenticatedHappyWalkRoute,
+    AuthenticatedHappyIndexRoute: AuthenticatedHappyIndexRoute,
+  }
+
+const AuthenticatedHappyRouteRouteWithChildren =
+  AuthenticatedHappyRouteRoute._addFileChildren(
+    AuthenticatedHappyRouteRouteChildren,
   )
 
 interface AuthenticatedLiveRouteRouteChildren {
@@ -9992,6 +10192,7 @@ const AuthenticatedWorkflowsRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedFounderAiRouteRoute: typeof AuthenticatedFounderAiRouteRouteWithChildren
+  AuthenticatedHappyRouteRoute: typeof AuthenticatedHappyRouteRouteWithChildren
   AuthenticatedLiveRouteRoute: typeof AuthenticatedLiveRouteRouteWithChildren
   AuthenticatedReleasesRouteRoute: typeof AuthenticatedReleasesRouteRouteWithChildren
   AuthenticatedUabrRouteRoute: typeof AuthenticatedUabrRouteRouteWithChildren
@@ -10193,6 +10394,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFounderAiRouteRoute:
     AuthenticatedFounderAiRouteRouteWithChildren,
+  AuthenticatedHappyRouteRoute: AuthenticatedHappyRouteRouteWithChildren,
   AuthenticatedLiveRouteRoute: AuthenticatedLiveRouteRouteWithChildren,
   AuthenticatedReleasesRouteRoute: AuthenticatedReleasesRouteRouteWithChildren,
   AuthenticatedUabrRouteRoute: AuthenticatedUabrRouteRouteWithChildren,
@@ -10440,3 +10642,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
