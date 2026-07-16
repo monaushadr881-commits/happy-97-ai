@@ -957,13 +957,27 @@ export function HappyDesk() {
   );
 }
 
-type ChatMsg = { id: string; role: "user" | "assistant"; content: string; at: number; error?: boolean };
+type ChatMsg = { id: string; role: "user" | "assistant"; content: string; at: number; error?: boolean; streaming?: boolean };
+
+/** Per-persona opener line for the transcript. Extends the persona runtime; does not replace it. */
+const PERSONA_OPENERS: Record<string, string> = {
+  founder: "Welcome back, founder. What are we moving today — a decision, a plan, or a signal to the team?",
+  admin: "Admin console is open. Ask me to audit access, review roles, or summarise activity.",
+  employee: "I'm on your desk. Ask me to draft, explain, review, or hand a task off.",
+  customer: "Hi — I'm HAPPY. Ask me anything about your account, orders, or support.",
+  guest: "Hi — I'm HAPPY. Ask anything and I'll help you find your way around.",
+};
+
+// R94 — voice bridge event: any code path can push a spoken utterance
+// into the ONE HAPPY conversation without instantiating a second runtime.
+export const HAPPY_VOICE_SUBMIT_EVENT = "happy:voice-submit";
+export type HappyVoiceSubmit = { text: string; speakReply?: boolean; lang?: string };
 
 function HappyDeskPanel({
   greeting, summary, surface, route, posture, focusLabel, focusGuidance,
   teamRoleGreeting, teamRoleHint, teamRoleName,
   listening, voiceSupported, transcript, voiceError, language, lastIntent,
-  onToggleVoice, onClose, onSend,
+  onToggleVoice, onClose, onSend, onStream, personaKey,
   workMode, workModeReason, tutorLevel, taskLog, activeTask, resume,
 }: {
   greeting: string;
@@ -989,6 +1003,13 @@ function HappyDeskPanel({
     history: Array<{ role: "user" | "assistant"; content: string }>,
     signal?: AbortSignal,
   ) => Promise<string>;
+  onStream?: (
+    text: string,
+    history: Array<{ role: "user" | "assistant"; content: string }>,
+    onDelta: (delta: string, acc: string) => void,
+    signal?: AbortSignal,
+  ) => Promise<HappyStreamResult>;
+  personaKey?: string;
   workMode: "focus" | "meeting" | "learning" | "normal";
   workModeReason: string;
   tutorLevel: "beginner" | "intermediate" | "advanced";
@@ -1002,6 +1023,7 @@ function HappyDeskPanel({
   const [sending, setSending] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const speakReplyRef = useRef<{ lang?: string } | null>(null);
 
   useEffect(() => { inputRef.current?.focus(); }, []);
   useEffect(() => {
@@ -1010,26 +1032,81 @@ function HappyDeskPanel({
   }, [messages, sending]);
 
   const runChat = async (userText: string, base: ChatMsg[]) => {
-    if (!onSend) { setNote(`Noted — I'll surface "${userText}" as an initiative signal.`); return; }
+    if (!onSend && !onStream) { setNote(`Noted — I'll surface "${userText}" as an initiative signal.`); return; }
     const controller = new AbortController();
     abortRef.current = controller;
     setSending(true);
     setNote(null);
+    const history = base.map((m) => ({ role: m.role, content: m.content }));
+    const assistantId = `a-${Date.now()}`;
+
     try {
-      const history = base.map((m) => ({ role: m.role, content: m.content }));
-      const reply = await onSend(userText, history, controller.signal);
-      setMessages((prev) => [...prev, {
-        id: `a-${Date.now()}`, role: "assistant", content: reply, at: Date.now(),
-        error: /^Stopped\.$|couldn't reach|rate-limited|credits are exhausted|Network hiccup|voice channel is offline/.test(reply),
-      }]);
+      if (onStream) {
+        // Insert an empty streaming bubble and update it as tokens arrive.
+        setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content: "", at: Date.now(), streaming: true }]);
+        const result = await onStream(userText, history, (_delta, acc) => {
+          setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, content: acc } : m)));
+        }, controller.signal);
+        setMessages((prev) => prev.map((m) => (m.id === assistantId
+          ? { ...m, content: result.text || m.content || "…", streaming: false, error: !result.ok && result.errorKind !== "aborted" }
+          : m)));
+        if (speakReplyRef.current && result.ok && result.text) {
+          try { speak(result.text, { lang: speakReplyRef.current.lang }); } catch { /* ignore */ }
+        }
+        speakReplyRef.current = null;
+      } else if (onSend) {
+        const reply = await onSend(userText, history, controller.signal);
+        setMessages((prev) => [...prev, {
+          id: assistantId, role: "assistant", content: reply, at: Date.now(),
+          error: /^Stopped\.$|couldn't reach|rate-limited|credits are exhausted|Network hiccup|voice channel is offline/.test(reply),
+        }]);
+        if (speakReplyRef.current) {
+          try { speak(reply, { lang: speakReplyRef.current.lang }); } catch { /* ignore */ }
+          speakReplyRef.current = null;
+        }
+      }
     } catch {
-      setMessages((prev) => [...prev, { id: `a-${Date.now()}`, role: "assistant", content: "Sorry — something interrupted me.", at: Date.now(), error: true }]);
+      setMessages((prev) => {
+        const has = prev.some((m) => m.id === assistantId);
+        if (has) return prev.map((m) => (m.id === assistantId ? { ...m, content: m.content || "Sorry — something interrupted me.", streaming: false, error: true } : m));
+        return [...prev, { id: assistantId, role: "assistant", content: "Sorry — something interrupted me.", at: Date.now(), error: true }];
+      });
     } finally {
       setSending(false);
       abortRef.current = null;
       inputRef.current?.focus();
     }
   };
+
+  // R94 — persona-aware opener seeded once per open.
+  useEffect(() => {
+    if (messages.length > 0) return;
+    const opener = personaKey && PERSONA_OPENERS[personaKey];
+    if (opener) {
+      setMessages([{ id: `a-opener-${Date.now()}`, role: "assistant", content: opener, at: Date.now() }]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [personaKey]);
+
+  // R94 — voice → chat bridge (reuses the ONE HAPPY conversation).
+  useEffect(() => {
+    const on = (e: Event) => {
+      const detail = (e as CustomEvent<HappyVoiceSubmit>).detail;
+      const t = detail?.text?.trim();
+      if (!t || sending) return;
+      if (detail?.speakReply) speakReplyRef.current = { lang: detail.lang };
+      const userMsg: ChatMsg = { id: `u-${Date.now()}`, role: "user", content: t, at: Date.now() };
+      setMessages((prev) => {
+        const base = [...prev, userMsg];
+        // fire and forget; runChat reads messages via closure at call time via setState
+        void runChat(t, prev);
+        return base;
+      });
+    };
+    window.addEventListener(HAPPY_VOICE_SUBMIT_EVENT, on);
+    return () => window.removeEventListener(HAPPY_VOICE_SUBMIT_EVENT, on);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sending]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1045,6 +1122,7 @@ function HappyDeskPanel({
   const handleStop = () => {
     abortRef.current?.abort();
   };
+
 
   const handleRetry = async () => {
     // Retry last user turn (drop last assistant if present)
