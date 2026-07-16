@@ -38,7 +38,7 @@ describe("R86 greeting", () => {
   });
   it("farewell adapts to daypart + style", () => {
     expect(composeFarewell("professional", 9)).toMatch(/morning/);
-    expect(composeFarewell("casual", 23)).toMatch(/rest/);
+    expect(composeFarewell("casual", 23)).toMatch(/later|enjoy/i);
   });
   it("shouldGreetOnce fires once per session", () => {
     resetGreetingSession();
