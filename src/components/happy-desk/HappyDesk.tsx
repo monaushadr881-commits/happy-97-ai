@@ -15,6 +15,11 @@ import { type VoiceIntent } from "@/lib/happy-r83/voice-intent";
 import { createVoiceListener, isVoiceSupported, speak } from "@/lib/happy-r83/voice-listener";
 import { describe as describeUi, shouldOfferHelp, type UiRegion } from "@/lib/happy-r83/visual-context";
 import { decideRole } from "@/lib/happy-r83/team-role";
+import { HAPPY_TASK_EVENT, type TaskEvent } from "./task-bus";
+import { initialSession, reduce as reduceSession, noteAskedTopic, resumeLine, type SessionEvent } from "@/lib/happy-r84/session-memory";
+import { decideMode, tutorLevelFor, adaptExplanation } from "@/lib/happy-r84/work-mode";
+import { pickSuggestion, type SuggestionKind } from "@/lib/happy-r84/smart-suggestions";
+
 
 /**
  * R81 + R82 + R83 — HAPPY Desk.
@@ -143,6 +148,18 @@ export function HappyDesk() {
   const [recentActions, setRecentActions] = useState<string[]>([]);
   const listenerRef = useRef<ReturnType<typeof createVoiceListener> | null>(null);
 
+  // R84 — session memory, work-mode signals, task strip, smart-suggestion dedupe.
+  const [session, setSession] = useState(() => initialSession());
+  const [activeTask, setActiveTask] = useState<TaskEvent | null>(null);
+  const [taskLog, setTaskLog] = useState<TaskEvent[]>([]);
+  const [celebration, setCelebration] = useState<string | null>(null);
+  const [keystrokes, setKeystrokes] = useState<number[]>([]); // timestamps in last minute
+  const [mouseMoves, setMouseMoves] = useState<number[]>([]);
+  const [builderTouches, setBuilderTouches] = useState(0);
+  const [suggestionsShown, setSuggestionsShown] = useState<Set<SuggestionKind>>(() => new Set());
+  const [lastInterruptionAt, setLastInterruptionAt] = useState<number | null>(null);
+
+
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
   // Entrance animation retriggers on route change.
@@ -156,17 +173,67 @@ export function HappyDesk() {
   useEffect(() => {
     const bump = () => setLastActivity(Date.now());
     const track = (label: string) => setRecentActions((prev) => [label, ...prev].slice(0, 8));
-    const onClick = () => track("click");
-    const onKey = () => { bump(); track("edit"); };
-    window.addEventListener("mousemove", bump, { passive: true });
+    const onClick = () => {
+      track("click");
+      setMouseMoves((prev) => [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]);
+    };
+    const onMove = () => {
+      bump();
+      setMouseMoves((prev) => (prev.length && Date.now() - prev[prev.length - 1] < 200
+        ? prev
+        : [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]));
+    };
+    const onKey = () => {
+      bump();
+      track("edit");
+      setKeystrokes((prev) => [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("keydown", onKey);
     window.addEventListener("click", onClick, { passive: true });
     return () => {
-      window.removeEventListener("mousemove", bump);
+      window.removeEventListener("mousemove", onMove);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("click", onClick);
     };
   }, []);
+
+  // R84 — record route visits in session memory + count builder touches.
+  useEffect(() => {
+    setSession((s) => reduceSession(s, { kind: "opened", label: pathname, at: Date.now() }));
+    if (pathname.toLowerCase().includes("/builder")) {
+      setBuilderTouches((n) => n + 1);
+    }
+  }, [pathname]);
+
+  // R84 — task companion bus. Announce, follow progress, celebrate/explain.
+  useEffect(() => {
+    const on = (e: Event) => {
+      const t = (e as CustomEvent<TaskEvent>).detail;
+      if (!t) return;
+      setTaskLog((prev) => [t, ...prev].slice(0, 12));
+      setSession((s) => reduceSession(s, { kind: "task", label: t.label, at: t.at ?? Date.now(), meta: { status: t.status } }));
+      if (t.status === "started" || t.status === "progress") {
+        setActiveTask(t);
+      } else if (t.status === "completed" || t.status === "milestone") {
+        setActiveTask(null);
+        setCelebration(t.milestone ? `🎉 ${t.milestone}` : `Nice — ${t.label} done.`);
+        setLastInterruptionAt(Date.now());
+      } else if (t.status === "failed") {
+        setActiveTask(null);
+        setCelebration(`${t.label} failed${t.detail ? ` — ${t.detail}` : ""}. I can help debug.`);
+        setLastInterruptionAt(Date.now());
+      }
+    };
+    window.addEventListener(HAPPY_TASK_EVENT, on);
+    return () => window.removeEventListener(HAPPY_TASK_EVENT, on);
+  }, []);
+  useEffect(() => {
+    if (!celebration) return;
+    const id = window.setTimeout(() => setCelebration(null), 6000);
+    return () => window.clearTimeout(id);
+  }, [celebration]);
+
 
   // Delivery bus: HAPPY walks out, speaks, walks back.
   useEffect(() => {
@@ -223,7 +290,10 @@ export function HappyDesk() {
     }
     if (intent.kind === "help" || intent.kind === "explain") {
       setOpen(true);
-      const line = focus.guidance || "Tell me what section you'd like me to explain.";
+      const topic = focus.region || "general";
+      setSession((s) => noteAskedTopic(s, topic));
+      const askCount = (session.askedTopics[topic] ?? 0) + 1;
+      const line = adaptExplanation(focus.guidance || "Tell me what section you'd like me to explain.", tutorLevelFor(askCount));
       speak(line, { lang: language });
     }
     if (intent.kind === "navigate" && intent.target) {
@@ -286,26 +356,65 @@ export function HappyDesk() {
     languageCode: language.slice(0, 2),
   });
 
+  // R84 — work mode gates suggestions and posture.
+  const askedSameTopicCount = Math.max(
+    0,
+    ...Object.values(session.askedTopics),
+    ...(lastIntent?.kind === "explain" || lastIntent?.kind === "help" ? [session.askedTopics[focus.region] ?? 0] : [0]),
+  );
+  const workMode = decideMode({
+    route: pathname,
+    keystrokesLastMinute: keystrokes.length,
+    mouseMovesLastMinute: mouseMoves.length,
+    hasOpenPanel: open,
+    askedSameTopicCount,
+    now,
+    lastInterruptionAt,
+  });
+  const tutorLevel = tutorLevelFor(askedSameTopicCount);
+
   const signals: InitiativeSignal[] = [];
   if (ctx.surface === "builder") signals.push({ kind: "optimization", relevance: 0.7, detectedAt: now });
   if (ctx.surface === "analytics") signals.push({ kind: "workflow-simplification", relevance: 0.6, detectedAt: now });
-  const suggestion = pickInitiative({ signals, lastSuggestionAt, nowMs: now, reducedMotion, userBusy: listening });
-  const visibleSuggestion = suggestion && suggestion.kind !== dismissedKind && !delivery && !hesitationOffer ? suggestion : null;
+  const initiative = pickInitiative({ signals, lastSuggestionAt, nowMs: now, reducedMotion, userBusy: listening || workMode.mode === "focus" });
+  const smart = workMode.allowSuggestions
+    ? pickSuggestion(
+        {
+          surface: ctx.surface,
+          region: focus.region,
+          route: pathname,
+          idleMs,
+          errorsSeenInSession: taskLog.filter((t) => t.status === "failed").length,
+          builderTouches,
+        },
+        suggestionsShown,
+      )
+    : null;
+  const smartVisible = smart && !delivery && !hesitationOffer && !activeTask && !celebration ? smart : null;
+  const visibleSuggestion = !smartVisible && workMode.allowSuggestions && initiative && initiative.kind !== dismissedKind && !delivery && !hesitationOffer && !activeTask && !celebration ? initiative : null;
 
   const expression: AvatarExpression =
+    celebration ? "celebrate" :
     delivery ? (delivery.tone === "critical" ? "concern" : delivery.tone === "success" ? "celebrate" : "explain") :
     state.concerned ? "concern" :
     listening ? "explain" :
+    activeTask ? "explain" :
+    workMode.mode === "meeting" ? "explain" :
     state.mode === "engaged" ? "smile" :
     state.mode === "attentive" ? "explain" : "neutral";
-  const activity: AvatarActivity = delivery ? "speaking" : (open || listening) ? "listening" : "idle";
+  const activity: AvatarActivity = delivery || celebration ? "speaking" : (open || listening) ? "listening" : "idle";
 
   const posture: string =
+    celebration ? "celebration" :
     delivery?.tone === "critical" ? "concern" :
     delivery?.tone === "success" ? "celebration" :
     delivery ? "presentation" :
+    workMode.mode === "meeting" ? "presentation" :
+    workMode.mode === "focus" ? "focused" :
+    workMode.mode === "learning" ? "coaching" :
     listening ? "listening" :
     open ? "listening" :
+    activeTask ? "attentive" :
     idleMs > 30_000 ? "waiting" :
     focus.label ? "attentive" : "standing";
 
@@ -349,6 +458,12 @@ export function HappyDesk() {
           lastIntent={lastIntent}
           onToggleVoice={() => (listening ? stopListening() : startListening())}
           onClose={() => setOpen(false)}
+          workMode={workMode.mode}
+          workModeReason={workMode.reason}
+          tutorLevel={tutorLevel}
+          taskLog={taskLog}
+          activeTask={activeTask}
+          resume={resumeLine(session)}
         />
       )}
 
@@ -367,6 +482,65 @@ export function HappyDesk() {
           <p className="mt-0.5 leading-snug">{delivery.message}</p>
         </div>
       )}
+
+      {activeTask && !delivery && (
+        <div className="pointer-events-auto max-w-xs rounded-2xl border border-white/10 bg-obsidian/85 px-3 py-2 text-xs text-paper shadow-2xl backdrop-blur">
+          <p className="text-[10px] uppercase tracking-widest opacity-70">Task · {activeTask.status}</p>
+          <p className="mt-0.5 leading-snug">{activeTask.label}</p>
+          {typeof activeTask.progress === "number" && (
+            <div className="mt-1 h-1 rounded-full bg-white/10 overflow-hidden">
+              <div
+                className="h-full bg-gold transition-all"
+                style={{ width: `${Math.round(Math.max(0, Math.min(1, activeTask.progress)) * 100)}%` }}
+              />
+            </div>
+          )}
+          {activeTask.detail && <p className="mt-1 text-[11px] text-soft-gray">{activeTask.detail}</p>}
+        </div>
+      )}
+
+      {celebration && !delivery && (
+        <div
+          role="status"
+          className="pointer-events-auto max-w-xs rounded-2xl border border-emerald-400/40 bg-emerald-950/80 px-3 py-2 text-sm text-emerald-50 shadow-2xl backdrop-blur"
+        >
+          {celebration}
+        </div>
+      )}
+
+      {!open && !delivery && !hesitationOffer && !activeTask && !celebration && smartVisible && (
+        <div
+          role="status"
+          className="pointer-events-auto max-w-xs rounded-2xl border border-gold/25 bg-obsidian/85 px-3 py-2 text-xs text-paper shadow-2xl backdrop-blur"
+        >
+          <p className="text-[10px] uppercase tracking-widest opacity-70">HAPPY noticed</p>
+          <p className="mt-0.5 leading-snug">{smartVisible.message}</p>
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setSuggestionsShown((prev) => new Set(prev).add(smartVisible.kind));
+                setLastInterruptionAt(Date.now());
+                toggleOpen();
+              }}
+              className="rounded-full bg-gold/90 px-2.5 py-1 text-[11px] font-semibold text-obsidian hover:bg-gold"
+            >
+              Tell me more
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSuggestionsShown((prev) => new Set(prev).add(smartVisible.kind));
+                setLastInterruptionAt(Date.now());
+              }}
+              className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-soft-gray hover:text-paper"
+            >
+              Not now
+            </button>
+          </div>
+        </div>
+      )}
+
 
       {!open && !delivery && hesitationOffer && (
         <div
@@ -504,6 +678,7 @@ function HappyDeskPanel({
   teamRoleGreeting, teamRoleHint, teamRoleName,
   listening, voiceSupported, transcript, voiceError, language, lastIntent,
   onToggleVoice, onClose,
+  workMode, workModeReason, tutorLevel, taskLog, activeTask, resume,
 }: {
   greeting: string;
   summary: string;
@@ -523,6 +698,12 @@ function HappyDeskPanel({
   lastIntent: VoiceIntent | null;
   onToggleVoice: () => void;
   onClose: () => void;
+  workMode: "focus" | "meeting" | "learning" | "normal";
+  workModeReason: string;
+  tutorLevel: "beginner" | "intermediate" | "advanced";
+  taskLog: TaskEvent[];
+  activeTask: TaskEvent | null;
+  resume: string | null;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [note, setNote] = useState<string | null>(null);
@@ -558,6 +739,59 @@ function HappyDeskPanel({
 
       <div className="space-y-3 px-4 py-3">
         <p className="text-sm leading-snug text-paper">{summary}</p>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span
+            className={cn(
+              "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest",
+              workMode === "focus" ? "border-sky-400/40 bg-sky-500/10 text-sky-200" :
+              workMode === "meeting" ? "border-fuchsia-400/40 bg-fuchsia-500/10 text-fuchsia-200" :
+              workMode === "learning" ? "border-amber-400/40 bg-amber-500/10 text-amber-200" :
+              "border-white/10 bg-white/[0.03] text-soft-gray",
+            )}
+            title={workModeReason}
+          >
+            {workMode}
+          </span>
+          <span className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10px] uppercase tracking-widest text-soft-gray">
+            tutor · {tutorLevel}
+          </span>
+          {activeTask && (
+            <span className="rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 text-[10px] uppercase tracking-widest text-gold">
+              on: {activeTask.label}
+            </span>
+          )}
+        </div>
+
+        {resume && (
+          <p className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2 text-[12px] leading-snug text-paper/80">
+            {resume}
+          </p>
+        )}
+
+        {taskLog.length > 0 && (
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+            <p className="text-[11px] uppercase tracking-wide text-soft-gray">Recent tasks</p>
+            <ul className="mt-1 space-y-0.5 text-[11px]">
+              {taskLog.slice(0, 4).map((t, i) => (
+                <li key={`${t.id}-${i}`} className="flex items-center gap-2">
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "inline-block h-1.5 w-1.5 rounded-full",
+                      t.status === "completed" || t.status === "milestone" ? "bg-emerald-400" :
+                      t.status === "failed" ? "bg-red-400" :
+                      t.status === "progress" ? "bg-gold" : "bg-white/40",
+                    )}
+                  />
+                  <span className="truncate text-paper/90">{t.label}</span>
+                  <span className="ml-auto text-[10px] uppercase tracking-widest text-soft-gray">{t.status}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
 
         <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
           <p className="text-[11px] uppercase tracking-wide text-soft-gray">You are on</p>
