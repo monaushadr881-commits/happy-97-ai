@@ -692,6 +692,8 @@ export function HappyDesk() {
           onToggleVoice={() => (listening ? stopListening() : startListening())}
           onClose={() => setOpen(false)}
           onSend={sendToHappy}
+          onStream={streamToHappy}
+          personaKey={persona.persona}
           workMode={workMode.mode}
           workModeReason={workMode.reason}
           tutorLevel={tutorLevel}
