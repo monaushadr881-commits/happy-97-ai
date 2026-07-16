@@ -1,32 +1,36 @@
 /**
- * R92 — HAPPY conversation server function.
+ * R92 / R93 — HAPPY conversation server function.
  *
  * Extends the existing HAPPY runtime (single conversation engine, ONE
- * HAPPY) with a real Lovable AI Gateway backed reply. Reuses the same
- * `LOVABLE_API_KEY` + gateway URL pattern already used by other
- * server-side callers in this repo (no new SDK, no duplicate engine).
+ * HAPPY) with a real Lovable AI Gateway backed reply. R93 adds
+ * multi-turn conversation history and abort support so the ONE HAPPY
+ * panel can offer cancel / retry / regenerate on top of the same
+ * runtime — no second assistant, no duplicate engine.
  */
 
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
 
 const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const DEFAULT_MODEL = "google/gemini-3-flash-preview";
+
+const HistoryTurn = z.object({
+  role: z.enum(["user", "assistant"]),
+  content: z.string().min(1),
+});
 
 const ChatInput = z.object({
   message: z.string().min(1),
   route: z.string().optional(),
   persona: z.string().optional(),
   role: z.string().optional(),
+  history: z.array(HistoryTurn).max(40).optional(),
 });
 
 export type HappyChatInput = z.infer<typeof ChatInput>;
+export type HappyHistoryTurn = z.infer<typeof HistoryTurn>;
 
-/**
- * Compose the HAPPY system prompt from workspace context. Kept short so
- * it fits every model window and mirrors the persona/role hats the
- * runtime already surfaces on the posture chip.
- */
 export function buildHappySystemPrompt(input: {
   route?: string;
   persona?: string;
@@ -52,6 +56,14 @@ export const chatWithHappy = createServerFn({ method: "POST" })
       return { ok: false as const, reply: "I'm here, but my voice channel is offline. Please try again shortly." };
     }
     const system = buildHappySystemPrompt(data);
+    const history = (data.history ?? []).slice(-20);
+    const messages = [
+      { role: "system", content: system },
+      ...history.map((h) => ({ role: h.role, content: h.content })),
+      { role: "user", content: data.message },
+    ];
+    let signal: AbortSignal | undefined;
+    try { signal = getRequest()?.signal; } catch { signal = undefined; }
     try {
       const res = await fetch(GATEWAY_URL, {
         method: "POST",
@@ -59,14 +71,8 @@ export const chatWithHappy = createServerFn({ method: "POST" })
           "Content-Type": "application/json",
           "Lovable-API-Key": apiKey,
         },
-        body: JSON.stringify({
-          model: DEFAULT_MODEL,
-          messages: [
-            { role: "system", content: system },
-            { role: "user", content: data.message },
-          ],
-          temperature: 0.4,
-        }),
+        body: JSON.stringify({ model: DEFAULT_MODEL, messages, temperature: 0.4 }),
+        signal,
       });
       if (res.status === 429) return { ok: false as const, reply: "I'm briefly rate-limited — try that again in a moment." };
       if (res.status === 402) return { ok: false as const, reply: "AI credits are exhausted on this workspace. Please add credits to continue." };
@@ -74,7 +80,10 @@ export const chatWithHappy = createServerFn({ method: "POST" })
       const json = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
       const reply = json.choices?.[0]?.message?.content?.trim();
       return { ok: true as const, reply: reply || "I'm here — could you say that another way?" };
-    } catch {
+    } catch (err) {
+      if ((err as { name?: string } | null)?.name === "AbortError") {
+        return { ok: false as const, reply: "Stopped." };
+      }
       return { ok: false as const, reply: "Network hiccup on my end. Give me one more try." };
     }
   });
