@@ -26,6 +26,8 @@ import { composeGreeting, composeFarewell, shouldGreetOnce, trackAndDeriveRelati
 import { nextPostureMs, antiRepeat } from "@/lib/happy-r86/ambient";
 import { decideDelivery, initialGateState, type Notification as HappyNotif, type GateState, type NotificationKind, type NotificationTone } from "@/lib/happy-r86/notifications";
 import { saveSession, loadSession } from "@/lib/happy-r86/session-restore";
+import { loadDaily, saveDaily, recordDaily, type DailyEventKind } from "@/lib/happy-r88/daily-memory";
+import { publishContext, type ContextSubsystem, type SubsystemStatus } from "@/lib/happy-r88/context-bus";
 
 
 /**
@@ -184,6 +186,32 @@ export function HappyDesk() {
   const [ambientPosture, setAmbientPosture] = useState<"still" | "breathing" | "looking" | "shifting">("still");
   const gateRef = useRef<GateState>(initialGateState());
 
+  // R88 — smart daily memory + global context publisher.
+  const recordDailyEvent = (kind: DailyEventKind, label: string) => {
+    try { saveDaily(recordDaily(loadDaily(), kind, label)); } catch { /* storage full — ignore */ }
+  };
+  const publishSubsystem = (subsystem: ContextSubsystem, status: SubsystemStatus, label?: string) => {
+    publishContext({ subsystem, status, label, at: Date.now() });
+  };
+
+  // R88 — broadcast a unified core context snapshot whenever the desk state moves.
+  useEffect(() => {
+    publishContext({
+      route: pathname,
+      workspaceMode: prefs.workspace,
+      activeTaskLabel: activeTask?.label,
+    });
+    publishSubsystem("digital-human",
+      delivery ? (delivery.tone === "critical" ? "error" : "active")
+      : listening || open ? "active"
+      : "idle",
+      open ? "panel-open" : listening ? "listening" : undefined,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, prefs.workspace, activeTask, delivery, listening, open]);
+
+
+
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
   // Entrance animation retriggers on route change.
@@ -240,14 +268,17 @@ export function HappyDesk() {
       setSession((s) => reduceSession(s, { kind: "task", label: t.label, at: t.at ?? Date.now(), meta: { status: t.status } }));
       if (t.status === "started" || t.status === "progress") {
         setActiveTask(t);
+        recordDailyEvent("pending", t.label);
       } else if (t.status === "completed" || t.status === "milestone") {
         setActiveTask(null);
         setCelebration(t.milestone ? `🎉 ${t.milestone}` : `Nice — ${t.label} done.`);
         setLastInterruptionAt(Date.now());
+        recordDailyEvent("completed", t.label);
       } else if (t.status === "failed") {
         setActiveTask(null);
         setCelebration(`${t.label} failed${t.detail ? ` — ${t.detail}` : ""}. I can help debug.`);
         setLastInterruptionAt(Date.now());
+        recordDailyEvent("interrupted", t.label);
       }
     };
     window.addEventListener(HAPPY_TASK_EVENT, on);
