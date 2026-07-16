@@ -11,8 +11,22 @@ import {
 } from "@/lib/happy-r86/notifications";
 import { saveSession, loadSession, clearSession } from "@/lib/happy-r86/session-restore";
 
+function makeStore(): Storage {
+  const m = new Map<string, string>();
+  return {
+    get length() { return m.size; },
+    clear: () => m.clear(),
+    getItem: (k: string) => (m.has(k) ? (m.get(k) as string) : null),
+    key: (i: number) => Array.from(m.keys())[i] ?? null,
+    removeItem: (k: string) => { m.delete(k); },
+    setItem: (k: string, v: string) => { m.set(k, String(v)); },
+  } as Storage;
+}
 beforeEach(() => {
-  try { window.localStorage.clear(); window.sessionStorage.clear(); } catch { /* ignore */ }
+  (globalThis as unknown as { window: unknown }).window = {
+    localStorage: makeStore(),
+    sessionStorage: makeStore(),
+  };
 });
 
 describe("R86 greeting", () => {
