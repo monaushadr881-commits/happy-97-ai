@@ -21,6 +21,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSitemapDotxmlRouteImport } from './routes/api/sitemap[.]xml'
 import { Route as ApiRobotsDottxtRouteImport } from './routes/api/robots[.]txt'
+import { Route as ApiHappySttRouteImport } from './routes/api/happy-stt'
 import { Route as ApiHappyChatRouteImport } from './routes/api/happy-chat'
 import { Route as AuthenticatedZenRouteImport } from './routes/_authenticated/zen'
 import { Route as AuthenticatedWorkspacesRouteImport } from './routes/_authenticated/workspaces'
@@ -554,6 +555,11 @@ const ApiSitemapDotxmlRoute = ApiSitemapDotxmlRouteImport.update({
 const ApiRobotsDottxtRoute = ApiRobotsDottxtRouteImport.update({
   id: '/api/robots.txt',
   path: '/api/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHappySttRoute = ApiHappySttRouteImport.update({
+  id: '/api/happy-stt',
+  path: '/api/happy-stt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiHappyChatRoute = ApiHappyChatRouteImport.update({
@@ -3473,6 +3479,7 @@ export interface FileRoutesByFullPath {
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
   '/api/happy-chat': typeof ApiHappyChatRoute
+  '/api/happy-stt': typeof ApiHappySttRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
   '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -3943,6 +3950,7 @@ export interface FileRoutesByTo {
   '/workspaces': typeof AuthenticatedWorkspacesRoute
   '/zen': typeof AuthenticatedZenRoute
   '/api/happy-chat': typeof ApiHappyChatRoute
+  '/api/happy-stt': typeof ApiHappySttRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
   '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -4433,6 +4441,7 @@ export interface FileRoutesById {
   '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
   '/_authenticated/zen': typeof AuthenticatedZenRoute
   '/api/happy-chat': typeof ApiHappyChatRoute
+  '/api/happy-stt': typeof ApiHappySttRoute
   '/api/robots.txt': typeof ApiRobotsDottxtRoute
   '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
   '/_authenticated/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
@@ -4923,6 +4932,7 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/zen'
     | '/api/happy-chat'
+    | '/api/happy-stt'
     | '/api/robots.txt'
     | '/api/sitemap.xml'
     | '/agents/collaboration'
@@ -5393,6 +5403,7 @@ export interface FileRouteTypes {
     | '/workspaces'
     | '/zen'
     | '/api/happy-chat'
+    | '/api/happy-stt'
     | '/api/robots.txt'
     | '/api/sitemap.xml'
     | '/agents/collaboration'
@@ -5882,6 +5893,7 @@ export interface FileRouteTypes {
     | '/_authenticated/workspaces'
     | '/_authenticated/zen'
     | '/api/happy-chat'
+    | '/api/happy-stt'
     | '/api/robots.txt'
     | '/api/sitemap.xml'
     | '/_authenticated/agents/collaboration'
@@ -6174,6 +6186,7 @@ export interface RootRouteChildren {
   StatusRoute: typeof StatusRoute
   TrustRoute: typeof TrustRoute
   ApiHappyChatRoute: typeof ApiHappyChatRoute
+  ApiHappySttRoute: typeof ApiHappySttRoute
   ApiRobotsDottxtRoute: typeof ApiRobotsDottxtRoute
   ApiSitemapDotxmlRoute: typeof ApiSitemapDotxmlRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
@@ -6274,6 +6287,13 @@ declare module '@tanstack/react-router' {
       path: '/api/robots.txt'
       fullPath: '/api/robots.txt'
       preLoaderRoute: typeof ApiRobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/happy-stt': {
+      id: '/api/happy-stt'
+      path: '/api/happy-stt'
+      fullPath: '/api/happy-stt'
+      preLoaderRoute: typeof ApiHappySttRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/happy-chat': {
@@ -10987,6 +11007,7 @@ const rootRouteChildren: RootRouteChildren = {
   StatusRoute: StatusRoute,
   TrustRoute: TrustRoute,
   ApiHappyChatRoute: ApiHappyChatRoute,
+  ApiHappySttRoute: ApiHappySttRoute,
   ApiRobotsDottxtRoute: ApiRobotsDottxtRoute,
   ApiSitemapDotxmlRoute: ApiSitemapDotxmlRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
