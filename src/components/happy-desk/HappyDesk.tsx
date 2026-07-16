@@ -629,6 +629,7 @@ export function HappyDesk() {
 
   // R92 — real Lovable AI Gateway conversation, wired through the ONE HAPPY panel.
   // R93 — multi-turn history + abort passed through; the panel owns the transcript.
+  // R94 — same runtime, now also exposed as a token-by-token streaming callable.
   const chatFn = useServerFn(chatWithHappy);
   const sendToHappy = async (
     text: string,
@@ -641,6 +642,21 @@ export function HappyDesk() {
     });
     return res.reply;
   };
+  const streamToHappy = (
+    text: string,
+    history: Array<{ role: "user" | "assistant"; content: string }>,
+    onDelta: (delta: string, acc: string) => void,
+    signal?: AbortSignal,
+  ) =>
+    streamHappy({
+      message: text,
+      route: pathname,
+      persona: persona.persona,
+      role: teamRole.role,
+      history,
+      onDelta,
+      signal,
+    });
 
   const containerAlign = CORNER_CLASS[corner];
   const walkOut = !!delivery && !reducedMotion;
