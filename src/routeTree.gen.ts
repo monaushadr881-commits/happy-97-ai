@@ -213,9 +213,11 @@ import { Route as AuthenticatedAiDesignRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated/agents'
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
+import { Route as AuthenticatedUabrRouteRouteImport } from './routes/_authenticated/uabr/route'
 import { Route as AuthenticatedReleasesRouteRouteImport } from './routes/_authenticated/releases/route'
 import { Route as AuthenticatedLiveRouteRouteImport } from './routes/_authenticated/live/route'
 import { Route as AuthenticatedFounderAiRouteRouteImport } from './routes/_authenticated/founder-ai/route'
+import { Route as AuthenticatedUabrIndexRouteImport } from './routes/_authenticated/uabr/index'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedReleasesIndexRouteImport } from './routes/_authenticated/releases/index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
@@ -239,6 +241,8 @@ import { Route as AuthenticatedWorkflowsHistoryRouteImport } from './routes/_aut
 import { Route as AuthenticatedWorkflowsExecutionsRouteImport } from './routes/_authenticated/workflows.executions'
 import { Route as AuthenticatedWorkflowsDesignerRouteImport } from './routes/_authenticated/workflows.designer'
 import { Route as AuthenticatedWorkflowsAnalyticsRouteImport } from './routes/_authenticated/workflows.analytics'
+import { Route as AuthenticatedUabrPlannerRouteImport } from './routes/_authenticated/uabr/planner'
+import { Route as AuthenticatedUabrDashboardRouteImport } from './routes/_authenticated/uabr/dashboard'
 import { Route as AuthenticatedToolsSettingsRouteImport } from './routes/_authenticated/tools.settings'
 import { Route as AuthenticatedToolsRuntimeRouteImport } from './routes/_authenticated/tools.runtime'
 import { Route as AuthenticatedToolsAnalyticsRouteImport } from './routes/_authenticated/tools.analytics'
@@ -1552,6 +1556,11 @@ const AuthenticatedAchievementsRoute =
     path: '/achievements',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedUabrRouteRoute = AuthenticatedUabrRouteRouteImport.update({
+  id: '/uabr',
+  path: '/uabr',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedReleasesRouteRoute =
   AuthenticatedReleasesRouteRouteImport.update({
     id: '/releases',
@@ -1569,6 +1578,11 @@ const AuthenticatedFounderAiRouteRoute =
     path: '/founder-ai',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedUabrIndexRoute = AuthenticatedUabrIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedUabrRouteRoute,
+} as any)
 const AuthenticatedStudioIndexRoute =
   AuthenticatedStudioIndexRouteImport.update({
     id: '/',
@@ -1703,6 +1717,18 @@ const AuthenticatedWorkflowsAnalyticsRoute =
     id: '/analytics',
     path: '/analytics',
     getParentRoute: () => AuthenticatedWorkflowsRoute,
+  } as any)
+const AuthenticatedUabrPlannerRoute =
+  AuthenticatedUabrPlannerRouteImport.update({
+    id: '/planner',
+    path: '/planner',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
+  } as any)
+const AuthenticatedUabrDashboardRoute =
+  AuthenticatedUabrDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedUabrRouteRoute,
   } as any)
 const AuthenticatedToolsSettingsRoute =
   AuthenticatedToolsSettingsRouteImport.update({
@@ -3029,6 +3055,7 @@ export interface FileRoutesByFullPath {
   '/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
   '/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
+  '/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
@@ -3419,6 +3446,8 @@ export interface FileRoutesByFullPath {
   '/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
   '/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
   '/tools/settings': typeof AuthenticatedToolsSettingsRoute
+  '/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
+  '/uabr/planner': typeof AuthenticatedUabrPlannerRoute
   '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
   '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
   '/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
@@ -3442,6 +3471,7 @@ export interface FileRoutesByFullPath {
   '/messages/': typeof AuthenticatedMessagesIndexRoute
   '/releases/': typeof AuthenticatedReleasesIndexRoute
   '/studio/': typeof AuthenticatedStudioIndexRoute
+  '/uabr/': typeof AuthenticatedUabrIndexRoute
   '/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   '/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
   '/agents/collaboration/live': typeof AuthenticatedAgentsCollaborationLiveRoute
@@ -3855,6 +3885,8 @@ export interface FileRoutesByTo {
   '/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
   '/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
   '/tools/settings': typeof AuthenticatedToolsSettingsRoute
+  '/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
+  '/uabr/planner': typeof AuthenticatedUabrPlannerRoute
   '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
   '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
   '/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
@@ -3878,6 +3910,7 @@ export interface FileRoutesByTo {
   '/messages': typeof AuthenticatedMessagesIndexRoute
   '/releases': typeof AuthenticatedReleasesIndexRoute
   '/studio': typeof AuthenticatedStudioIndexRoute
+  '/uabr': typeof AuthenticatedUabrIndexRoute
   '/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   '/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
   '/agents/collaboration/live': typeof AuthenticatedAgentsCollaborationLiveRoute
@@ -3918,6 +3951,7 @@ export interface FileRoutesById {
   '/_authenticated/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
   '/_authenticated/live': typeof AuthenticatedLiveRouteRouteWithChildren
   '/_authenticated/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
+  '/_authenticated/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
@@ -4308,6 +4342,8 @@ export interface FileRoutesById {
   '/_authenticated/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
   '/_authenticated/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
   '/_authenticated/tools/settings': typeof AuthenticatedToolsSettingsRoute
+  '/_authenticated/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
+  '/_authenticated/uabr/planner': typeof AuthenticatedUabrPlannerRoute
   '/_authenticated/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
   '/_authenticated/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
   '/_authenticated/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
@@ -4331,6 +4367,7 @@ export interface FileRoutesById {
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
   '/_authenticated/releases/': typeof AuthenticatedReleasesIndexRoute
   '/_authenticated/studio/': typeof AuthenticatedStudioIndexRoute
+  '/_authenticated/uabr/': typeof AuthenticatedUabrIndexRoute
   '/_authenticated/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   '/_authenticated/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
   '/_authenticated/agents/collaboration/live': typeof AuthenticatedAgentsCollaborationLiveRoute
@@ -4371,6 +4408,7 @@ export interface FileRouteTypes {
     | '/founder-ai'
     | '/live'
     | '/releases'
+    | '/uabr'
     | '/achievements'
     | '/agent-os'
     | '/agents'
@@ -4761,6 +4799,8 @@ export interface FileRouteTypes {
     | '/tools/analytics'
     | '/tools/runtime'
     | '/tools/settings'
+    | '/uabr/dashboard'
+    | '/uabr/planner'
     | '/workflows/analytics'
     | '/workflows/designer'
     | '/workflows/executions'
@@ -4784,6 +4824,7 @@ export interface FileRouteTypes {
     | '/messages/'
     | '/releases/'
     | '/studio/'
+    | '/uabr/'
     | '/agents/collaboration/analytics'
     | '/agents/collaboration/history'
     | '/agents/collaboration/live'
@@ -5197,6 +5238,8 @@ export interface FileRouteTypes {
     | '/tools/analytics'
     | '/tools/runtime'
     | '/tools/settings'
+    | '/uabr/dashboard'
+    | '/uabr/planner'
     | '/workflows/analytics'
     | '/workflows/designer'
     | '/workflows/executions'
@@ -5220,6 +5263,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/releases'
     | '/studio'
+    | '/uabr'
     | '/agents/collaboration/analytics'
     | '/agents/collaboration/history'
     | '/agents/collaboration/live'
@@ -5259,6 +5303,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder-ai'
     | '/_authenticated/live'
     | '/_authenticated/releases'
+    | '/_authenticated/uabr'
     | '/_authenticated/achievements'
     | '/_authenticated/agent-os'
     | '/_authenticated/agents'
@@ -5649,6 +5694,8 @@ export interface FileRouteTypes {
     | '/_authenticated/tools/analytics'
     | '/_authenticated/tools/runtime'
     | '/_authenticated/tools/settings'
+    | '/_authenticated/uabr/dashboard'
+    | '/_authenticated/uabr/planner'
     | '/_authenticated/workflows/analytics'
     | '/_authenticated/workflows/designer'
     | '/_authenticated/workflows/executions'
@@ -5672,6 +5719,7 @@ export interface FileRouteTypes {
     | '/_authenticated/messages/'
     | '/_authenticated/releases/'
     | '/_authenticated/studio/'
+    | '/_authenticated/uabr/'
     | '/_authenticated/agents/collaboration/analytics'
     | '/_authenticated/agents/collaboration/history'
     | '/_authenticated/agents/collaboration/live'
@@ -7155,6 +7203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/uabr': {
+      id: '/_authenticated/uabr'
+      path: '/uabr'
+      fullPath: '/uabr'
+      preLoaderRoute: typeof AuthenticatedUabrRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/releases': {
       id: '/_authenticated/releases'
       path: '/releases'
@@ -7175,6 +7230,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/founder-ai'
       preLoaderRoute: typeof AuthenticatedFounderAiRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/uabr/': {
+      id: '/_authenticated/uabr/'
+      path: '/'
+      fullPath: '/uabr/'
+      preLoaderRoute: typeof AuthenticatedUabrIndexRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
     }
     '/_authenticated/studio/': {
       id: '/_authenticated/studio/'
@@ -7336,6 +7398,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/workflows/analytics'
       preLoaderRoute: typeof AuthenticatedWorkflowsAnalyticsRouteImport
       parentRoute: typeof AuthenticatedWorkflowsRoute
+    }
+    '/_authenticated/uabr/planner': {
+      id: '/_authenticated/uabr/planner'
+      path: '/planner'
+      fullPath: '/uabr/planner'
+      preLoaderRoute: typeof AuthenticatedUabrPlannerRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
+    }
+    '/_authenticated/uabr/dashboard': {
+      id: '/_authenticated/uabr/dashboard'
+      path: '/dashboard'
+      fullPath: '/uabr/dashboard'
+      preLoaderRoute: typeof AuthenticatedUabrDashboardRouteImport
+      parentRoute: typeof AuthenticatedUabrRouteRoute
     }
     '/_authenticated/tools/settings': {
       id: '/_authenticated/tools/settings'
@@ -8980,6 +9056,24 @@ const AuthenticatedReleasesRouteRouteWithChildren =
     AuthenticatedReleasesRouteRouteChildren,
   )
 
+interface AuthenticatedUabrRouteRouteChildren {
+  AuthenticatedUabrDashboardRoute: typeof AuthenticatedUabrDashboardRoute
+  AuthenticatedUabrPlannerRoute: typeof AuthenticatedUabrPlannerRoute
+  AuthenticatedUabrIndexRoute: typeof AuthenticatedUabrIndexRoute
+}
+
+const AuthenticatedUabrRouteRouteChildren: AuthenticatedUabrRouteRouteChildren =
+  {
+    AuthenticatedUabrDashboardRoute: AuthenticatedUabrDashboardRoute,
+    AuthenticatedUabrPlannerRoute: AuthenticatedUabrPlannerRoute,
+    AuthenticatedUabrIndexRoute: AuthenticatedUabrIndexRoute,
+  }
+
+const AuthenticatedUabrRouteRouteWithChildren =
+  AuthenticatedUabrRouteRoute._addFileChildren(
+    AuthenticatedUabrRouteRouteChildren,
+  )
+
 interface AuthenticatedAgentsCollaborationRouteChildren {
   AuthenticatedAgentsCollaborationAnalyticsRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   AuthenticatedAgentsCollaborationHistoryRoute: typeof AuthenticatedAgentsCollaborationHistoryRoute
@@ -9726,6 +9820,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFounderAiRouteRoute: typeof AuthenticatedFounderAiRouteRouteWithChildren
   AuthenticatedLiveRouteRoute: typeof AuthenticatedLiveRouteRouteWithChildren
   AuthenticatedReleasesRouteRoute: typeof AuthenticatedReleasesRouteRouteWithChildren
+  AuthenticatedUabrRouteRoute: typeof AuthenticatedUabrRouteRouteWithChildren
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
@@ -9926,6 +10021,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedFounderAiRouteRouteWithChildren,
   AuthenticatedLiveRouteRoute: AuthenticatedLiveRouteRouteWithChildren,
   AuthenticatedReleasesRouteRoute: AuthenticatedReleasesRouteRouteWithChildren,
+  AuthenticatedUabrRouteRoute: AuthenticatedUabrRouteRouteWithChildren,
   AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
   AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
