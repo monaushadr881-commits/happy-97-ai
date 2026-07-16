@@ -386,6 +386,11 @@ export function HappyDesk() {
   function handleIntent(intent: VoiceIntent) {
     setLastIntent(intent);
     if (intent.kind === "cancel") {
+      if (open || listening) {
+        const bye = composeFarewell(prefs.greeting, new Date().getHours());
+        setFarewellBubble(bye);
+        window.setTimeout(() => setFarewellBubble(null), 5000);
+      }
       setOpen(false);
       setDelivery(null);
       if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
