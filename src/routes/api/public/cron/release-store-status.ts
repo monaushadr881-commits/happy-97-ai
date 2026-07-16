@@ -1,15 +1,14 @@
-/** R64 — refresh store status snapshot. Records blocked_reason honestly. */
+/** R64 — refresh store status snapshot. Authenticated via CRON_SHARED_SECRET (R106). */
 import { createFileRoute } from "@tanstack/react-router";
 import { monitorAllStores } from "@/lib/release-r64/store-monitors";
+import { assertCronAuth } from "@/lib/security/cron-auth";
 
 export const Route = createFileRoute("/api/public/cron/release-store-status")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apikey = request.headers.get("apikey") ?? "";
-        if (!process.env.SUPABASE_PUBLISHABLE_KEY || apikey !== process.env.SUPABASE_PUBLISHABLE_KEY) {
-          return new Response("Unauthorized", { status: 401 });
-        }
+        const denied = assertCronAuth(request);
+        if (denied) return denied;
         return Response.json({
           ok: true,
           generated_at: new Date().toISOString(),

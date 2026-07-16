@@ -23,6 +23,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { processWebhookEvent } from "@/lib/payments/business-processor";
 import { getAdapter } from "@/lib/payments/registry";
 import type { CanonicalWebhookEvent, ProviderCode } from "@/lib/payments/types";
+import { assertCronAuth } from "@/lib/security/cron-auth";
 
 const BATCH = 25;
 
@@ -74,8 +75,8 @@ async function pollAndReprocess(): Promise<Response> {
 export const Route = createFileRoute("/api/public/cron/payments-retry")({
   server: {
     handlers: {
-      GET: async () => pollAndReprocess(),
-      POST: async () => pollAndReprocess(),
+      GET: async ({ request }) => assertCronAuth(request) ?? pollAndReprocess(),
+      POST: async ({ request }) => assertCronAuth(request) ?? pollAndReprocess(),
     },
   },
 });

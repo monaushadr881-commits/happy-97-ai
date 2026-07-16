@@ -17,6 +17,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
 import { z } from "zod";
+import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -518,7 +519,9 @@ export const eduSearch = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ q: z.string().min(1).max(120), limit: z.number().int().min(1).max(30).optional() }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
-    const like = `%${data.q.replace(/[%_]/g, "")}%`;
+    const safe = sanitizePgRestLike(data.q);
+    if (!safe) return { courses: [], lessons: [], notes: [], flashcards: [], uploads: [] };
+    const like = `%${safe}%`;
     const s = context.supabase;
     const lim = data.limit ?? 8;
     const [courses, lessons, notes, cards, uploads] = await Promise.all([

@@ -10,6 +10,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
+import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 import { z } from "zod";
 
 const uuid = z.string().uuid();
@@ -270,7 +271,11 @@ export const bizUniversalSearch = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SearchInput.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
-    const q = `%${data.q.replace(/[%_]/g, "")}%`;
+    const safe = sanitizePgRestLike(data.q);
+    if (!safe) {
+      return { customers: [], products: [], invoices: [], orders: [], suppliers: [], employees: [] };
+    }
+    const q = `%${safe}%`;
     const s = context.supabase;
     const lim = data.limit ?? 8;
     const cid = data.company_id;

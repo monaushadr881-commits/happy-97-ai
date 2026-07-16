@@ -1,14 +1,13 @@
-/** R64 — daily pipeline metrics rollup cron. */
+/** R64 — daily pipeline metrics rollup cron. Authenticated via CRON_SHARED_SECRET (R106). */
 import { createFileRoute } from "@tanstack/react-router";
+import { assertCronAuth } from "@/lib/security/cron-auth";
 
 export const Route = createFileRoute("/api/public/cron/release-metrics-rollup")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apikey = request.headers.get("apikey") ?? "";
-        if (!process.env.SUPABASE_PUBLISHABLE_KEY || apikey !== process.env.SUPABASE_PUBLISHABLE_KEY) {
-          return new Response("Unauthorized", { status: 401 });
-        }
+        const denied = assertCronAuth(request);
+        if (denied) return denied;
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const sb: any = supabaseAdmin;
         const today = new Date().toISOString().slice(0, 10);
