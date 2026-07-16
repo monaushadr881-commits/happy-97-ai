@@ -506,7 +506,9 @@ export function HappyDesk() {
   if (!hydrated) return null;
   if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 
-  const preferredCorner = deskCornerFor(pathname);
+  const presenceMode = presenceModeFor({ delivery: !!delivery, open, listening, pathname });
+  const preferredCorner = anchorToCorner(anchorFor(pathname, presenceMode));
+  const persona = decidePersona({ pathname, isAuthenticated: pathname.startsWith("/_authenticated") });
   const corner = prefs.workspace === "adaptive" ? (obstacleCorner ?? preferredCorner) : preferredCorner;
   const idleMs = now - lastActivity;
   const ctx = contextFor(pathname, { hasError: !!delivery && delivery.tone === "critical" });
