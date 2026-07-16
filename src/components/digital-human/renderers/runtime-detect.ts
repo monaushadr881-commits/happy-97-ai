@@ -60,7 +60,7 @@ export function currentManifest(): AssetManifest {
 /** For tests. */
 export function _resetManifestCache() { _cached = null; }
 
-const PREFERENCE: RuntimeId[] = ["live3d", "live2d", "layered-portrait", "portrait"];
+const PREFERENCE: RuntimeId[] = ["vrm", "live3d", "live2d", "layered-portrait", "portrait"];
 
 export type Detection = {
   chosen: RuntimeId;
