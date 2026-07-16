@@ -173,17 +173,67 @@ export function HappyDesk() {
   useEffect(() => {
     const bump = () => setLastActivity(Date.now());
     const track = (label: string) => setRecentActions((prev) => [label, ...prev].slice(0, 8));
-    const onClick = () => track("click");
-    const onKey = () => { bump(); track("edit"); };
-    window.addEventListener("mousemove", bump, { passive: true });
+    const onClick = () => {
+      track("click");
+      setMouseMoves((prev) => [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]);
+    };
+    const onMove = () => {
+      bump();
+      setMouseMoves((prev) => (prev.length && Date.now() - prev[prev.length - 1] < 200
+        ? prev
+        : [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]));
+    };
+    const onKey = () => {
+      bump();
+      track("edit");
+      setKeystrokes((prev) => [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("keydown", onKey);
     window.addEventListener("click", onClick, { passive: true });
     return () => {
-      window.removeEventListener("mousemove", bump);
+      window.removeEventListener("mousemove", onMove);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("click", onClick);
     };
   }, []);
+
+  // R84 — record route visits in session memory + count builder touches.
+  useEffect(() => {
+    setSession((s) => reduceSession(s, { kind: "opened", label: pathname, at: Date.now() }));
+    if (pathname.toLowerCase().includes("/builder")) {
+      setBuilderTouches((n) => n + 1);
+    }
+  }, [pathname]);
+
+  // R84 — task companion bus. Announce, follow progress, celebrate/explain.
+  useEffect(() => {
+    const on = (e: Event) => {
+      const t = (e as CustomEvent<TaskEvent>).detail;
+      if (!t) return;
+      setTaskLog((prev) => [t, ...prev].slice(0, 12));
+      setSession((s) => reduceSession(s, { kind: "task", label: t.label, at: t.at ?? Date.now(), meta: { status: t.status } }));
+      if (t.status === "started" || t.status === "progress") {
+        setActiveTask(t);
+      } else if (t.status === "completed" || t.status === "milestone") {
+        setActiveTask(null);
+        setCelebration(t.milestone ? `🎉 ${t.milestone}` : `Nice — ${t.label} done.`);
+        setLastInterruptionAt(Date.now());
+      } else if (t.status === "failed") {
+        setActiveTask(null);
+        setCelebration(`${t.label} failed${t.detail ? ` — ${t.detail}` : ""}. I can help debug.`);
+        setLastInterruptionAt(Date.now());
+      }
+    };
+    window.addEventListener(HAPPY_TASK_EVENT, on);
+    return () => window.removeEventListener(HAPPY_TASK_EVENT, on);
+  }, []);
+  useEffect(() => {
+    if (!celebration) return;
+    const id = window.setTimeout(() => setCelebration(null), 6000);
+    return () => window.clearTimeout(id);
+  }, [celebration]);
+
 
   // Delivery bus: HAPPY walks out, speaks, walks back.
   useEffect(() => {
