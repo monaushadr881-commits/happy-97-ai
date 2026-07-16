@@ -678,6 +678,7 @@ function HappyDeskPanel({
   teamRoleGreeting, teamRoleHint, teamRoleName,
   listening, voiceSupported, transcript, voiceError, language, lastIntent,
   onToggleVoice, onClose,
+  workMode, workModeReason, tutorLevel, taskLog, activeTask, resume,
 }: {
   greeting: string;
   summary: string;
@@ -697,6 +698,12 @@ function HappyDeskPanel({
   lastIntent: VoiceIntent | null;
   onToggleVoice: () => void;
   onClose: () => void;
+  workMode: "focus" | "meeting" | "learning" | "normal";
+  workModeReason: string;
+  tutorLevel: "beginner" | "intermediate" | "advanced";
+  taskLog: TaskEvent[];
+  activeTask: TaskEvent | null;
+  resume: string | null;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [note, setNote] = useState<string | null>(null);
