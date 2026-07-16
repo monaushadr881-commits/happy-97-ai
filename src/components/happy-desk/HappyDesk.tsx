@@ -22,6 +22,10 @@ import { pickSuggestion, type SuggestionKind } from "@/lib/happy-r84/smart-sugge
 import { loadPreferences, savePreferences, mergePreferences, suggestionCooldownMs, type HappyPreferences } from "@/lib/happy-r85/preferences";
 import { readObstacleRects, pickSafeCorner } from "@/lib/happy-r85/collision";
 import { pickIndicator, indicatorLabel } from "@/lib/happy-r85/indicators";
+import { composeGreeting, composeFarewell, shouldGreetOnce, trackAndDeriveRelationship } from "@/lib/happy-r86/greeting";
+import { nextPostureMs, antiRepeat } from "@/lib/happy-r86/ambient";
+import { decideDelivery, initialGateState, type Notification as HappyNotif, type GateState, type NotificationKind, type NotificationTone } from "@/lib/happy-r86/notifications";
+import { saveSession, loadSession } from "@/lib/happy-r86/session-restore";
 
 
 /**
@@ -174,6 +178,11 @@ export function HappyDesk() {
     });
   };
 
+  // R86 — greeting/farewell bubbles, ambient posture scheduler, notification gate, session restore.
+  const [greetingBubble, setGreetingBubble] = useState<string | null>(null);
+  const [farewellBubble, setFarewellBubble] = useState<string | null>(null);
+  const [ambientPosture, setAmbientPosture] = useState<"still" | "breathing" | "looking" | "shifting">("still");
+  const gateRef = useRef<GateState>(initialGateState());
 
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
@@ -267,17 +276,89 @@ export function HappyDesk() {
   }, [pathname, prefs.workspace, open, delivery]);
 
 
-  // Delivery bus: HAPPY walks out, speaks, walks back.
+  // R86 — delivery bus gated through unified notification gate.
   useEffect(() => {
     const on = (e: Event) => {
       const detail = (e as CustomEvent<DeliveryEvent>).detail;
       if (!detail) return;
+      const notif: HappyNotif = {
+        id: `${detail.kind}-${Date.now()}`,
+        kind: (detail.kind as NotificationKind) ?? "info",
+        tone: (detail.tone === "critical" ? "critical" :
+               detail.tone === "warn" ? "warning" :
+               detail.tone === "success" ? "success" : "info") as NotificationTone,
+        message: detail.message,
+        at: Date.now(),
+      };
+      const decision = decideDelivery(gateRef.current, notif, { conversationActive: open || listening });
+      gateRef.current = decision.nextState;
+      if (!decision.deliver) return;
       setDelivery(detail);
       speak(detail.message, { lang: language });
     };
     window.addEventListener(HAPPY_DELIVER_EVENT, on);
     return () => window.removeEventListener(HAPPY_DELIVER_EVENT, on);
-  }, [language]);
+  }, [language, open, listening]);
+
+  // R86 — signature greeting: once per browser session, adapts to daypart, style, relationship, route.
+  useEffect(() => {
+    if (!shouldGreetOnce()) return;
+    const rel = trackAndDeriveRelationship();
+    const surface = contextFor(pathname).surface;
+    const line = composeGreeting({
+      hourOfDay: new Date().getHours(),
+      style: prefs.greeting,
+      relationship: rel,
+      workspace: surface !== "unknown" ? `the ${surface}` : undefined,
+    });
+    setGreetingBubble(line);
+    const id = window.setTimeout(() => setGreetingBubble(null), 8000);
+    return () => window.clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // R86 — ambient posture scheduler with anti-repeat cadence.
+  useEffect(() => {
+    if (reducedMotion) return;
+    let cancelled = false;
+    let timer: number | null = null;
+    const recent: number[] = [];
+    const stages: Array<typeof ambientPosture> = ["breathing", "looking", "shifting", "still"];
+    let idx = 0;
+    const tick = () => {
+      const wait = antiRepeat(nextPostureMs(), recent);
+      recent.push(wait); if (recent.length > 3) recent.shift();
+      timer = window.setTimeout(() => {
+        if (cancelled) return;
+        idx = (idx + 1) % stages.length;
+        setAmbientPosture(stages[idx]);
+        tick();
+      }, wait);
+    };
+    tick();
+    return () => { cancelled = true; if (timer !== null) window.clearTimeout(timer); };
+  }, [reducedMotion]);
+
+  // R86 — persist a small slice of state so refresh restores continuity.
+  useEffect(() => {
+    saveSession({
+      lastRoute: pathname,
+      lastTaskLabel: activeTask?.label,
+      workspaceMode: prefs.workspace,
+      dismissedSuggestions: prefs.dismissedSuggestions,
+    });
+  }, [pathname, activeTask, prefs.workspace, prefs.dismissedSuggestions]);
+
+  // R86 — on mount, merge previously-dismissed suggestions back into prefs.
+  useEffect(() => {
+    const restored = loadSession();
+    if (restored?.dismissedSuggestions?.length) {
+      const merged = Array.from(new Set([...prefs.dismissedSuggestions, ...restored.dismissedSuggestions]));
+      if (merged.length !== prefs.dismissedSuggestions.length) updatePrefs({ dismissedSuggestions: merged });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!delivery) return;
     const dwell = delivery.tone === "critical" ? 12_000 : 7_000;
@@ -305,6 +386,11 @@ export function HappyDesk() {
   function handleIntent(intent: VoiceIntent) {
     setLastIntent(intent);
     if (intent.kind === "cancel") {
+      if (open || listening) {
+        const bye = composeFarewell(prefs.greeting, new Date().getHours());
+        setFarewellBubble(bye);
+        window.setTimeout(() => setFarewellBubble(null), 5000);
+      }
       setOpen(false);
       setDelivery(null);
       if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
@@ -464,7 +550,8 @@ export function HappyDesk() {
     open ? "listening" :
     activeTask ? "attentive" :
     idleMs > 30_000 ? "waiting" :
-    focus.label ? "attentive" : "standing";
+    focus.label ? "attentive" :
+    ambientPosture === "still" ? "standing" : ambientPosture;
 
   const toggleOpen = () => {
     setOpen((prev) => {
@@ -514,6 +601,28 @@ export function HappyDesk() {
           resume={resumeLine(session)}
         />
       )}
+
+      {greetingBubble && !delivery && (
+        <div
+          role="status"
+          data-testid="happy-greeting"
+          className="pointer-events-auto max-w-sm rounded-2xl border border-gold/30 bg-obsidian/90 px-3 py-2 text-sm text-paper shadow-2xl backdrop-blur animate-fade-in"
+        >
+          <p className="text-[10px] uppercase tracking-widest opacity-70">HAPPY</p>
+          <p className="mt-0.5 leading-snug">{greetingBubble}</p>
+        </div>
+      )}
+
+      {farewellBubble && !delivery && (
+        <div
+          role="status"
+          data-testid="happy-farewell"
+          className="pointer-events-auto max-w-sm rounded-2xl border border-white/10 bg-obsidian/85 px-3 py-2 text-sm text-soft-gray shadow-2xl backdrop-blur animate-fade-in"
+        >
+          <p className="leading-snug">{farewellBubble}</p>
+        </div>
+      )}
+
 
       {delivery && (
         <div
