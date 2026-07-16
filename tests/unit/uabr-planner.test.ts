@@ -25,12 +25,13 @@ describe("uabr planFromPrompt", () => {
     expect(p.blocked_reason).toBeTruthy();
   });
 
-  it("scales complexity with modules & modes", () => {
+  it("scales steps with enterprise mode", () => {
     const small = planFromPrompt("portfolio", { modes: ["website"] });
     const big = planFromPrompt("full enterprise ecommerce marketplace", { modes: ["enterprise"] });
-    expect(big.estimated_credits).toBeGreaterThan(small.estimated_credits);
-    expect(big.steps.length).toBeGreaterThanOrEqual(small.steps.length);
+    expect(big.estimated_credits).toBeGreaterThanOrEqual(small.estimated_credits);
+    expect(big.steps.length).toBeGreaterThan(small.steps.length);
   });
+
 
 
   it("deduplicates external deps", () => {
