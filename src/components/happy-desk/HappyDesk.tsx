@@ -353,26 +353,65 @@ export function HappyDesk() {
     languageCode: language.slice(0, 2),
   });
 
+  // R84 — work mode gates suggestions and posture.
+  const askedSameTopicCount = Math.max(
+    0,
+    ...Object.values(session.askedTopics),
+    ...(lastIntent?.kind === "explain" || lastIntent?.kind === "help" ? [session.askedTopics[focus.region] ?? 0] : [0]),
+  );
+  const workMode = decideMode({
+    route: pathname,
+    keystrokesLastMinute: keystrokes.length,
+    mouseMovesLastMinute: mouseMoves.length,
+    hasOpenPanel: open,
+    askedSameTopicCount,
+    now,
+    lastInterruptionAt,
+  });
+  const tutorLevel = tutorLevelFor(askedSameTopicCount);
+
   const signals: InitiativeSignal[] = [];
   if (ctx.surface === "builder") signals.push({ kind: "optimization", relevance: 0.7, detectedAt: now });
   if (ctx.surface === "analytics") signals.push({ kind: "workflow-simplification", relevance: 0.6, detectedAt: now });
-  const suggestion = pickInitiative({ signals, lastSuggestionAt, nowMs: now, reducedMotion, userBusy: listening });
-  const visibleSuggestion = suggestion && suggestion.kind !== dismissedKind && !delivery && !hesitationOffer ? suggestion : null;
+  const initiative = pickInitiative({ signals, lastSuggestionAt, nowMs: now, reducedMotion, userBusy: listening || workMode.mode === "focus" });
+  const smart = workMode.allowSuggestions
+    ? pickSuggestion(
+        {
+          surface: ctx.surface,
+          region: focus.region,
+          route: pathname,
+          idleMs,
+          errorsSeenInSession: taskLog.filter((t) => t.status === "failed").length,
+          builderTouches,
+        },
+        suggestionsShown,
+      )
+    : null;
+  const smartVisible = smart && !delivery && !hesitationOffer && !activeTask && !celebration ? smart : null;
+  const visibleSuggestion = !smartVisible && workMode.allowSuggestions && initiative && initiative.kind !== dismissedKind && !delivery && !hesitationOffer && !activeTask && !celebration ? initiative : null;
 
   const expression: AvatarExpression =
+    celebration ? "celebrate" :
     delivery ? (delivery.tone === "critical" ? "concern" : delivery.tone === "success" ? "celebrate" : "explain") :
     state.concerned ? "concern" :
     listening ? "explain" :
+    activeTask ? "explain" :
+    workMode.mode === "meeting" ? "explain" :
     state.mode === "engaged" ? "smile" :
     state.mode === "attentive" ? "explain" : "neutral";
-  const activity: AvatarActivity = delivery ? "speaking" : (open || listening) ? "listening" : "idle";
+  const activity: AvatarActivity = delivery || celebration ? "speaking" : (open || listening) ? "listening" : "idle";
 
   const posture: string =
+    celebration ? "celebration" :
     delivery?.tone === "critical" ? "concern" :
     delivery?.tone === "success" ? "celebration" :
     delivery ? "presentation" :
+    workMode.mode === "meeting" ? "presentation" :
+    workMode.mode === "focus" ? "focused" :
+    workMode.mode === "learning" ? "coaching" :
     listening ? "listening" :
     open ? "listening" :
+    activeTask ? "attentive" :
     idleMs > 30_000 ? "waiting" :
     focus.label ? "attentive" : "standing";
 
