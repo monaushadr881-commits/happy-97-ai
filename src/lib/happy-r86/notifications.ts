@@ -57,7 +57,7 @@ export function decideDelivery(state: GateState, n: Notification, ctx: GateConte
   if (ctx.conversationActive && n.tone !== "critical") {
     return { deliver: false, defer: true, reason: "conversation", nextState: state };
   }
-  if (now - lastKind < cooldown && n.tone !== "critical") {
+  if (lastKind > 0 && now - lastKind < cooldown && n.tone !== "critical") {
     return { deliver: false, defer: true, reason: "cooldown", nextState: state };
   }
 
