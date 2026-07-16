@@ -602,6 +602,28 @@ export function HappyDesk() {
         />
       )}
 
+      {greetingBubble && !delivery && (
+        <div
+          role="status"
+          data-testid="happy-greeting"
+          className="pointer-events-auto max-w-sm rounded-2xl border border-gold/30 bg-obsidian/90 px-3 py-2 text-sm text-paper shadow-2xl backdrop-blur animate-fade-in"
+        >
+          <p className="text-[10px] uppercase tracking-widest opacity-70">HAPPY</p>
+          <p className="mt-0.5 leading-snug">{greetingBubble}</p>
+        </div>
+      )}
+
+      {farewellBubble && !delivery && (
+        <div
+          role="status"
+          data-testid="happy-farewell"
+          className="pointer-events-auto max-w-sm rounded-2xl border border-white/10 bg-obsidian/85 px-3 py-2 text-sm text-soft-gray shadow-2xl backdrop-blur animate-fade-in"
+        >
+          <p className="leading-snug">{farewellBubble}</p>
+        </div>
+      )}
+
+
       {delivery && (
         <div
           role="status"
