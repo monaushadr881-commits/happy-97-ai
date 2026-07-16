@@ -213,7 +213,9 @@ import { Route as AuthenticatedAiDesignRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated/agents'
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
+import { Route as AuthenticatedReleasesRouteRouteImport } from './routes/_authenticated/releases/route'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
+import { Route as AuthenticatedReleasesIndexRouteImport } from './routes/_authenticated/releases/index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
 import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authenticated/knowledge.index'
@@ -278,6 +280,16 @@ import { Route as AuthenticatedRuntimeCollaborationRouteImport } from './routes/
 import { Route as AuthenticatedRuntimeCapabilitiesRouteImport } from './routes/_authenticated/runtime.capabilities'
 import { Route as AuthenticatedRuntimeAutomationRouteImport } from './routes/_authenticated/runtime.automation'
 import { Route as AuthenticatedRuntimeAnalyticsRouteImport } from './routes/_authenticated/runtime.analytics'
+import { Route as AuthenticatedReleasesSigningRouteImport } from './routes/_authenticated/releases/signing'
+import { Route as AuthenticatedReleasesSettingsRouteImport } from './routes/_authenticated/releases/settings'
+import { Route as AuthenticatedReleasesRolloutRouteImport } from './routes/_authenticated/releases/rollout'
+import { Route as AuthenticatedReleasesPublishRouteImport } from './routes/_authenticated/releases/publish'
+import { Route as AuthenticatedReleasesLogsRouteImport } from './routes/_authenticated/releases/logs'
+import { Route as AuthenticatedReleasesHistoryRouteImport } from './routes/_authenticated/releases/history'
+import { Route as AuthenticatedReleasesDashboardRouteImport } from './routes/_authenticated/releases/dashboard'
+import { Route as AuthenticatedReleasesBuildsRouteImport } from './routes/_authenticated/releases/builds'
+import { Route as AuthenticatedReleasesArtifactsRouteImport } from './routes/_authenticated/releases/artifacts'
+import { Route as AuthenticatedReleasesAnalyticsRouteImport } from './routes/_authenticated/releases/analytics'
 import { Route as AuthenticatedPluginsStoreRouteImport } from './routes/_authenticated/plugins.store'
 import { Route as AuthenticatedPluginsSettingsRouteImport } from './routes/_authenticated/plugins.settings'
 import { Route as AuthenticatedPluginsReviewsRouteImport } from './routes/_authenticated/plugins.reviews'
@@ -1514,11 +1526,23 @@ const AuthenticatedAchievementsRoute =
     path: '/achievements',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReleasesRouteRoute =
+  AuthenticatedReleasesRouteRouteImport.update({
+    id: '/releases',
+    path: '/releases',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedStudioIndexRoute =
   AuthenticatedStudioIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedReleasesIndexRoute =
+  AuthenticatedReleasesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
   } as any)
 const AuthenticatedMessagesIndexRoute =
   AuthenticatedMessagesIndexRouteImport.update({
@@ -1900,6 +1924,66 @@ const AuthenticatedRuntimeAnalyticsRoute =
     id: '/analytics',
     path: '/analytics',
     getParentRoute: () => AuthenticatedRuntimeRoute,
+  } as any)
+const AuthenticatedReleasesSigningRoute =
+  AuthenticatedReleasesSigningRouteImport.update({
+    id: '/signing',
+    path: '/signing',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesSettingsRoute =
+  AuthenticatedReleasesSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesRolloutRoute =
+  AuthenticatedReleasesRolloutRouteImport.update({
+    id: '/rollout',
+    path: '/rollout',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesPublishRoute =
+  AuthenticatedReleasesPublishRouteImport.update({
+    id: '/publish',
+    path: '/publish',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesLogsRoute =
+  AuthenticatedReleasesLogsRouteImport.update({
+    id: '/logs',
+    path: '/logs',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesHistoryRoute =
+  AuthenticatedReleasesHistoryRouteImport.update({
+    id: '/history',
+    path: '/history',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesDashboardRoute =
+  AuthenticatedReleasesDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesBuildsRoute =
+  AuthenticatedReleasesBuildsRouteImport.update({
+    id: '/builds',
+    path: '/builds',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesArtifactsRoute =
+  AuthenticatedReleasesArtifactsRouteImport.update({
+    id: '/artifacts',
+    path: '/artifacts',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
+  } as any)
+const AuthenticatedReleasesAnalyticsRoute =
+  AuthenticatedReleasesAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
+    getParentRoute: () => AuthenticatedReleasesRouteRoute,
   } as any)
 const AuthenticatedPluginsStoreRoute =
   AuthenticatedPluginsStoreRouteImport.update({
@@ -2763,6 +2847,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
+  '/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
@@ -3079,6 +3164,16 @@ export interface FileRoutesByFullPath {
   '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
+  '/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
+  '/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
+  '/releases/builds': typeof AuthenticatedReleasesBuildsRoute
+  '/releases/dashboard': typeof AuthenticatedReleasesDashboardRoute
+  '/releases/history': typeof AuthenticatedReleasesHistoryRoute
+  '/releases/logs': typeof AuthenticatedReleasesLogsRoute
+  '/releases/publish': typeof AuthenticatedReleasesPublishRoute
+  '/releases/rollout': typeof AuthenticatedReleasesRolloutRoute
+  '/releases/settings': typeof AuthenticatedReleasesSettingsRoute
+  '/releases/signing': typeof AuthenticatedReleasesSigningRoute
   '/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
   '/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
   '/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
@@ -3143,6 +3238,7 @@ export interface FileRoutesByFullPath {
   '/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/releases/': typeof AuthenticatedReleasesIndexRoute
   '/studio/': typeof AuthenticatedStudioIndexRoute
   '/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   '/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
@@ -3480,6 +3576,16 @@ export interface FileRoutesByTo {
   '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/plugins/store': typeof AuthenticatedPluginsStoreRoute
+  '/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
+  '/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
+  '/releases/builds': typeof AuthenticatedReleasesBuildsRoute
+  '/releases/dashboard': typeof AuthenticatedReleasesDashboardRoute
+  '/releases/history': typeof AuthenticatedReleasesHistoryRoute
+  '/releases/logs': typeof AuthenticatedReleasesLogsRoute
+  '/releases/publish': typeof AuthenticatedReleasesPublishRoute
+  '/releases/rollout': typeof AuthenticatedReleasesRolloutRoute
+  '/releases/settings': typeof AuthenticatedReleasesSettingsRoute
+  '/releases/signing': typeof AuthenticatedReleasesSigningRoute
   '/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
   '/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
   '/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
@@ -3544,6 +3650,7 @@ export interface FileRoutesByTo {
   '/knowledge': typeof AuthenticatedKnowledgeIndexRoute
   '/marketplace': typeof AuthenticatedMarketplaceIndexRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
+  '/releases': typeof AuthenticatedReleasesIndexRoute
   '/studio': typeof AuthenticatedStudioIndexRoute
   '/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   '/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
@@ -3579,6 +3686,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/status': typeof StatusRoute
   '/trust': typeof TrustRoute
+  '/_authenticated/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
@@ -3895,6 +4003,16 @@ export interface FileRoutesById {
   '/_authenticated/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
   '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
   '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
+  '/_authenticated/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
+  '/_authenticated/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
+  '/_authenticated/releases/builds': typeof AuthenticatedReleasesBuildsRoute
+  '/_authenticated/releases/dashboard': typeof AuthenticatedReleasesDashboardRoute
+  '/_authenticated/releases/history': typeof AuthenticatedReleasesHistoryRoute
+  '/_authenticated/releases/logs': typeof AuthenticatedReleasesLogsRoute
+  '/_authenticated/releases/publish': typeof AuthenticatedReleasesPublishRoute
+  '/_authenticated/releases/rollout': typeof AuthenticatedReleasesRolloutRoute
+  '/_authenticated/releases/settings': typeof AuthenticatedReleasesSettingsRoute
+  '/_authenticated/releases/signing': typeof AuthenticatedReleasesSigningRoute
   '/_authenticated/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
   '/_authenticated/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
   '/_authenticated/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
@@ -3959,6 +4077,7 @@ export interface FileRoutesById {
   '/_authenticated/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
   '/_authenticated/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/_authenticated/releases/': typeof AuthenticatedReleasesIndexRoute
   '/_authenticated/studio/': typeof AuthenticatedStudioIndexRoute
   '/_authenticated/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   '/_authenticated/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
@@ -3994,6 +4113,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/status'
     | '/trust'
+    | '/releases'
     | '/achievements'
     | '/agent-os'
     | '/agents'
@@ -4310,6 +4430,16 @@ export interface FileRouteTypes {
     | '/plugins/reviews'
     | '/plugins/settings'
     | '/plugins/store'
+    | '/releases/analytics'
+    | '/releases/artifacts'
+    | '/releases/builds'
+    | '/releases/dashboard'
+    | '/releases/history'
+    | '/releases/logs'
+    | '/releases/publish'
+    | '/releases/rollout'
+    | '/releases/settings'
+    | '/releases/signing'
     | '/runtime/analytics'
     | '/runtime/automation'
     | '/runtime/capabilities'
@@ -4374,6 +4504,7 @@ export interface FileRouteTypes {
     | '/knowledge/'
     | '/marketplace/'
     | '/messages/'
+    | '/releases/'
     | '/studio/'
     | '/agents/collaboration/analytics'
     | '/agents/collaboration/history'
@@ -4711,6 +4842,16 @@ export interface FileRouteTypes {
     | '/plugins/reviews'
     | '/plugins/settings'
     | '/plugins/store'
+    | '/releases/analytics'
+    | '/releases/artifacts'
+    | '/releases/builds'
+    | '/releases/dashboard'
+    | '/releases/history'
+    | '/releases/logs'
+    | '/releases/publish'
+    | '/releases/rollout'
+    | '/releases/settings'
+    | '/releases/signing'
     | '/runtime/analytics'
     | '/runtime/automation'
     | '/runtime/capabilities'
@@ -4775,6 +4916,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/marketplace'
     | '/messages'
+    | '/releases'
     | '/studio'
     | '/agents/collaboration/analytics'
     | '/agents/collaboration/history'
@@ -4809,6 +4951,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/status'
     | '/trust'
+    | '/_authenticated/releases'
     | '/_authenticated/achievements'
     | '/_authenticated/agent-os'
     | '/_authenticated/agents'
@@ -5125,6 +5268,16 @@ export interface FileRouteTypes {
     | '/_authenticated/plugins/reviews'
     | '/_authenticated/plugins/settings'
     | '/_authenticated/plugins/store'
+    | '/_authenticated/releases/analytics'
+    | '/_authenticated/releases/artifacts'
+    | '/_authenticated/releases/builds'
+    | '/_authenticated/releases/dashboard'
+    | '/_authenticated/releases/history'
+    | '/_authenticated/releases/logs'
+    | '/_authenticated/releases/publish'
+    | '/_authenticated/releases/rollout'
+    | '/_authenticated/releases/settings'
+    | '/_authenticated/releases/signing'
     | '/_authenticated/runtime/analytics'
     | '/_authenticated/runtime/automation'
     | '/_authenticated/runtime/capabilities'
@@ -5189,6 +5342,7 @@ export interface FileRouteTypes {
     | '/_authenticated/knowledge/'
     | '/_authenticated/marketplace/'
     | '/_authenticated/messages/'
+    | '/_authenticated/releases/'
     | '/_authenticated/studio/'
     | '/_authenticated/agents/collaboration/analytics'
     | '/_authenticated/agents/collaboration/history'
@@ -6667,12 +6821,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/releases': {
+      id: '/_authenticated/releases'
+      path: '/releases'
+      fullPath: '/releases'
+      preLoaderRoute: typeof AuthenticatedReleasesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/studio/': {
       id: '/_authenticated/studio/'
       path: '/'
       fullPath: '/studio/'
       preLoaderRoute: typeof AuthenticatedStudioIndexRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/releases/': {
+      id: '/_authenticated/releases/'
+      path: '/'
+      fullPath: '/releases/'
+      preLoaderRoute: typeof AuthenticatedReleasesIndexRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
     }
     '/_authenticated/messages/': {
       id: '/_authenticated/messages/'
@@ -7121,6 +7289,76 @@ declare module '@tanstack/react-router' {
       fullPath: '/runtime/analytics'
       preLoaderRoute: typeof AuthenticatedRuntimeAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRuntimeRoute
+    }
+    '/_authenticated/releases/signing': {
+      id: '/_authenticated/releases/signing'
+      path: '/signing'
+      fullPath: '/releases/signing'
+      preLoaderRoute: typeof AuthenticatedReleasesSigningRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/settings': {
+      id: '/_authenticated/releases/settings'
+      path: '/settings'
+      fullPath: '/releases/settings'
+      preLoaderRoute: typeof AuthenticatedReleasesSettingsRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/rollout': {
+      id: '/_authenticated/releases/rollout'
+      path: '/rollout'
+      fullPath: '/releases/rollout'
+      preLoaderRoute: typeof AuthenticatedReleasesRolloutRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/publish': {
+      id: '/_authenticated/releases/publish'
+      path: '/publish'
+      fullPath: '/releases/publish'
+      preLoaderRoute: typeof AuthenticatedReleasesPublishRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/logs': {
+      id: '/_authenticated/releases/logs'
+      path: '/logs'
+      fullPath: '/releases/logs'
+      preLoaderRoute: typeof AuthenticatedReleasesLogsRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/history': {
+      id: '/_authenticated/releases/history'
+      path: '/history'
+      fullPath: '/releases/history'
+      preLoaderRoute: typeof AuthenticatedReleasesHistoryRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/dashboard': {
+      id: '/_authenticated/releases/dashboard'
+      path: '/dashboard'
+      fullPath: '/releases/dashboard'
+      preLoaderRoute: typeof AuthenticatedReleasesDashboardRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/builds': {
+      id: '/_authenticated/releases/builds'
+      path: '/builds'
+      fullPath: '/releases/builds'
+      preLoaderRoute: typeof AuthenticatedReleasesBuildsRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/artifacts': {
+      id: '/_authenticated/releases/artifacts'
+      path: '/artifacts'
+      fullPath: '/releases/artifacts'
+      preLoaderRoute: typeof AuthenticatedReleasesArtifactsRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
+    }
+    '/_authenticated/releases/analytics': {
+      id: '/_authenticated/releases/analytics'
+      path: '/analytics'
+      fullPath: '/releases/analytics'
+      preLoaderRoute: typeof AuthenticatedReleasesAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedReleasesRouteRoute
     }
     '/_authenticated/plugins/store': {
       id: '/_authenticated/plugins/store'
@@ -8126,6 +8364,40 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedReleasesRouteRouteChildren {
+  AuthenticatedReleasesAnalyticsRoute: typeof AuthenticatedReleasesAnalyticsRoute
+  AuthenticatedReleasesArtifactsRoute: typeof AuthenticatedReleasesArtifactsRoute
+  AuthenticatedReleasesBuildsRoute: typeof AuthenticatedReleasesBuildsRoute
+  AuthenticatedReleasesDashboardRoute: typeof AuthenticatedReleasesDashboardRoute
+  AuthenticatedReleasesHistoryRoute: typeof AuthenticatedReleasesHistoryRoute
+  AuthenticatedReleasesLogsRoute: typeof AuthenticatedReleasesLogsRoute
+  AuthenticatedReleasesPublishRoute: typeof AuthenticatedReleasesPublishRoute
+  AuthenticatedReleasesRolloutRoute: typeof AuthenticatedReleasesRolloutRoute
+  AuthenticatedReleasesSettingsRoute: typeof AuthenticatedReleasesSettingsRoute
+  AuthenticatedReleasesSigningRoute: typeof AuthenticatedReleasesSigningRoute
+  AuthenticatedReleasesIndexRoute: typeof AuthenticatedReleasesIndexRoute
+}
+
+const AuthenticatedReleasesRouteRouteChildren: AuthenticatedReleasesRouteRouteChildren =
+  {
+    AuthenticatedReleasesAnalyticsRoute: AuthenticatedReleasesAnalyticsRoute,
+    AuthenticatedReleasesArtifactsRoute: AuthenticatedReleasesArtifactsRoute,
+    AuthenticatedReleasesBuildsRoute: AuthenticatedReleasesBuildsRoute,
+    AuthenticatedReleasesDashboardRoute: AuthenticatedReleasesDashboardRoute,
+    AuthenticatedReleasesHistoryRoute: AuthenticatedReleasesHistoryRoute,
+    AuthenticatedReleasesLogsRoute: AuthenticatedReleasesLogsRoute,
+    AuthenticatedReleasesPublishRoute: AuthenticatedReleasesPublishRoute,
+    AuthenticatedReleasesRolloutRoute: AuthenticatedReleasesRolloutRoute,
+    AuthenticatedReleasesSettingsRoute: AuthenticatedReleasesSettingsRoute,
+    AuthenticatedReleasesSigningRoute: AuthenticatedReleasesSigningRoute,
+    AuthenticatedReleasesIndexRoute: AuthenticatedReleasesIndexRoute,
+  }
+
+const AuthenticatedReleasesRouteRouteWithChildren =
+  AuthenticatedReleasesRouteRoute._addFileChildren(
+    AuthenticatedReleasesRouteRouteChildren,
+  )
+
 interface AuthenticatedAgentsCollaborationRouteChildren {
   AuthenticatedAgentsCollaborationAnalyticsRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRoute
   AuthenticatedAgentsCollaborationHistoryRoute: typeof AuthenticatedAgentsCollaborationHistoryRoute
@@ -8869,6 +9141,7 @@ const AuthenticatedWorkflowsRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedReleasesRouteRoute: typeof AuthenticatedReleasesRouteRouteWithChildren
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
@@ -9065,6 +9338,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedReleasesRouteRoute: AuthenticatedReleasesRouteRouteWithChildren,
   AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
   AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
