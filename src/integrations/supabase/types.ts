@@ -15322,6 +15322,8 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          phone_primary: string | null
+          phone_secondary: string | null
           updated_at: string
         }
         Insert: {
@@ -15329,6 +15331,8 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          phone_primary?: string | null
+          phone_secondary?: string | null
           updated_at?: string
         }
         Update: {
@@ -15336,6 +15340,8 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          phone_primary?: string | null
+          phone_secondary?: string | null
           updated_at?: string
         }
         Relationships: []
