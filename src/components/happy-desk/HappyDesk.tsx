@@ -15,6 +15,11 @@ import { type VoiceIntent } from "@/lib/happy-r83/voice-intent";
 import { createVoiceListener, isVoiceSupported, speak } from "@/lib/happy-r83/voice-listener";
 import { describe as describeUi, shouldOfferHelp, type UiRegion } from "@/lib/happy-r83/visual-context";
 import { decideRole } from "@/lib/happy-r83/team-role";
+import { HAPPY_TASK_EVENT, type TaskEvent } from "./task-bus";
+import { initialSession, reduce as reduceSession, noteAskedTopic, resumeLine, type SessionEvent } from "@/lib/happy-r84/session-memory";
+import { decideMode, tutorLevelFor, adaptExplanation } from "@/lib/happy-r84/work-mode";
+import { pickSuggestion, type SuggestionKind } from "@/lib/happy-r84/smart-suggestions";
+
 
 /**
  * R81 + R82 + R83 — HAPPY Desk.
