@@ -90,11 +90,16 @@ export class AppError extends Error implements ServiceError {
     this.status = HTTP_STATUS[code];
   }
 
+  /**
+   * Wire format returned to API clients. Intentionally omits
+   * `developerMessage` and `cause` — those are populated from raw sources
+   * (upstream response bodies, DB error text, missing-env details) and MUST
+   * stay in server-side logs only. R106.
+   */
   toJSON(): ServiceError & { status: number } {
     return {
       code: this.code,
       message: this.message,
-      developerMessage: this.developerMessage,
       meta: this.meta,
       status: this.status,
     };

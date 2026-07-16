@@ -16,6 +16,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { transitionSubscription } from "@/lib/subscriptions/lifecycle";
+import { assertCronAuth } from "@/lib/security/cron-auth";
 
 const GRACE_DAYS = 7;
 const BATCH = 100;
@@ -83,8 +84,8 @@ async function tick(): Promise<Response> {
 export const Route = createFileRoute("/api/public/cron/subscriptions-tick")({
   server: {
     handlers: {
-      GET: async () => tick(),
-      POST: async () => tick(),
+      GET: async ({ request }) => assertCronAuth(request) ?? tick(),
+      POST: async ({ request }) => assertCronAuth(request) ?? tick(),
     },
   },
 });

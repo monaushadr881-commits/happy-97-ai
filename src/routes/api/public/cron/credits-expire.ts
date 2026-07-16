@@ -14,6 +14,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { expireDueGrants } from "@/lib/credits/engine";
+import { assertCronAuth } from "@/lib/security/cron-auth";
 
 async function run(): Promise<Response> {
   try {
@@ -32,8 +33,8 @@ async function run(): Promise<Response> {
 export const Route = createFileRoute("/api/public/cron/credits-expire")({
   server: {
     handlers: {
-      GET: async () => run(),
-      POST: async () => run(),
+      GET: async ({ request }) => assertCronAuth(request) ?? run(),
+      POST: async ({ request }) => assertCronAuth(request) ?? run(),
     },
   },
 });

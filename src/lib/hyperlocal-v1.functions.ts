@@ -15,6 +15,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError, AppError } from "@/services/core/errors";
 import { z } from "zod";
+import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -157,7 +158,7 @@ export const hlSearchBusinesses = createServerFn({ method: "GET" })
     if (data.city) q = q.ilike("city", `%${data.city}%`);
     if (data.pincode) q = q.eq("pincode", data.pincode);
     if (data.verified_only) q = q.eq("verified", true);
-    if (data.q) q = q.or(`name.ilike.%${data.q}%,description.ilike.%${data.q}%`);
+    if (data.q) { const s = sanitizePgRestLike(data.q); if (s) q = q.or(`name.ilike.%${s}%,description.ilike.%${s}%`); }
     if (data.min_rating != null) q = q.gte("rating_avg", data.min_rating);
     const r = await q;
     if (r.error) throw r.error;
@@ -240,7 +241,7 @@ export const hlSearchJobs = createServerFn({ method: "GET" })
     if (data.category) q = q.eq("category", data.category);
     if (data.city) q = q.ilike("city", `%${data.city}%`);
     if (data.pincode) q = q.eq("pincode", data.pincode);
-    if (data.q) q = q.or(`title.ilike.%${data.q}%,description.ilike.%${data.q}%`);
+    if (data.q) { const s = sanitizePgRestLike(data.q); if (s) q = q.or(`title.ilike.%${s}%,description.ilike.%${s}%`); }
     const r = await q;
     if (r.error) throw r.error;
     return filterNearby(r.data ?? [], data.latitude, data.longitude, data.radius_km).slice(0, data.limit);
@@ -293,7 +294,7 @@ export const hlSearchEvents = createServerFn({ method: "GET" })
     if (data.category) q = q.eq("category", data.category);
     if (data.city) q = q.ilike("city", `%${data.city}%`);
     if (data.pincode) q = q.eq("pincode", data.pincode);
-    if (data.q) q = q.or(`title.ilike.%${data.q}%,description.ilike.%${data.q}%`);
+    if (data.q) { const s = sanitizePgRestLike(data.q); if (s) q = q.or(`title.ilike.%${s}%,description.ilike.%${s}%`); }
     const r = await q;
     if (r.error) throw r.error;
     return filterNearby(r.data ?? [], data.latitude, data.longitude, data.radius_km).slice(0, data.limit);

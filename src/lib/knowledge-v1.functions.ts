@@ -19,6 +19,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
 import { z } from "zod";
+import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -61,7 +62,7 @@ export const kbSearchArticles = createServerFn({ method: "GET" })
     else if (data.scope === "company" && data.company_id) q = q.eq("company_id", data.company_id);
     if (data.category_id) q = q.eq("category_id", data.category_id);
     if (data.language) q = q.eq("language", data.language);
-    if (data.q) q = q.or(`title.ilike.%${data.q}%,summary.ilike.%${data.q}%`);
+    if (data.q) { const s = sanitizePgRestLike(data.q); if (s) q = q.or(`title.ilike.%${s}%,summary.ilike.%${s}%`); }
     const r = await q;
     if (r.error) throw r.error;
     return r.data ?? [];
@@ -244,7 +245,7 @@ export const kbAskHappy = createServerFn({ method: "POST" })
     let q = context.supabase.from("knowledge_articles")
       .select("id, slug, title, summary, is_public, company_id")
       .eq("status", "active")
-      .or(`title.ilike.%${data.question.slice(0, 60)}%,summary.ilike.%${data.question.slice(0, 60)}%`)
+      .or(((): string => { const s = sanitizePgRestLike(data.question, 60) || "x"; return `title.ilike.%${s}%,summary.ilike.%${s}%`; })())
       .limit(data.top_k);
     if (data.scope === "public") q = q.eq("is_public", true);
     else if (data.scope === "company" && data.company_id) q = q.eq("company_id", data.company_id);

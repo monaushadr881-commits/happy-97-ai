@@ -2,25 +2,19 @@
  * R14 — Deployment queue tick (external cron).
  *
  * Picks up any queued deployments and runs them. Idempotent: `runDeployment`
- * only claims rows still in 'queued' state, so parallel ticks won't
- * double-process. Authenticate with the Supabase anon `apikey` header per
- * schedule-jobs pattern (no custom shared secret needed — `/api/public/*`
- * bypasses edge auth).
+ * only claims rows still in 'queued' state. Authenticated via
+ * CRON_SHARED_SECRET (server-only) — R106.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { runDeployment } from "@/lib/deployment/engine";
+import { assertCronAuth } from "@/lib/security/cron-auth";
 
 export const Route = createFileRoute("/api/public/cron/deployments-tick")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apiKey = request.headers.get("apikey");
-        const expected = process.env.SUPABASE_PUBLISHABLE_KEY;
-        if (!expected || apiKey !== expected) {
-          return new Response(JSON.stringify({ error: "unauthorized" }), {
-            status: 401, headers: { "Content-Type": "application/json" },
-          });
-        }
+        const denied = assertCronAuth(request);
+        if (denied) return denied;
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { data, error } = await supabaseAdmin.from("project_deployments")
           .select("id")
