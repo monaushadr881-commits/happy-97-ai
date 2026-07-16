@@ -16,6 +16,7 @@ import {
 } from "./delivery-bus";
 import { type VoiceIntent } from "@/lib/happy-r83/voice-intent";
 import { createVoiceListener, isVoiceSupported, speak } from "@/lib/happy-r83/voice-listener";
+import { createServerSttVoiceListener, isMediaRecorderSupported } from "@/lib/happy-r83/voice-fallback";
 import { describe as describeUi, shouldOfferHelp, type UiRegion } from "@/lib/happy-r83/visual-context";
 import { decideRole } from "@/lib/happy-r83/team-role";
 import { HAPPY_TASK_EVENT, type TaskEvent } from "./task-bus";
