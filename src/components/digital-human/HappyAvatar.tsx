@@ -9,8 +9,16 @@
  *
  * Public API is unchanged so every callsite keeps working.
  */
-import { memo, useEffect, useRef, useState } from "react";
+import { lazy, memo, Suspense, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { detectRuntime } from "./renderers/runtime-detect";
+
+// Lazy-load the VRM renderer so three.js only enters the bundle when the
+// Founder's VRM asset is actually present + selected.
+const HappyVRM = lazy(() => import("./HappyVRM").then((m) => ({ default: m.HappyVRM })));
+
+// Detect once at module load — the manifest is a build-time glob.
+const RUNTIME_CHOICE = detectRuntime().chosen;
 
 // Full-body executive portrait — served from /public so no upload roundtrip.
 const happyPortraitUrl = "/happy-portrait-v2.png";
