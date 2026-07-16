@@ -148,6 +148,18 @@ export function HappyDesk() {
   const [recentActions, setRecentActions] = useState<string[]>([]);
   const listenerRef = useRef<ReturnType<typeof createVoiceListener> | null>(null);
 
+  // R84 — session memory, work-mode signals, task strip, smart-suggestion dedupe.
+  const [session, setSession] = useState(() => initialSession());
+  const [activeTask, setActiveTask] = useState<TaskEvent | null>(null);
+  const [taskLog, setTaskLog] = useState<TaskEvent[]>([]);
+  const [celebration, setCelebration] = useState<string | null>(null);
+  const [keystrokes, setKeystrokes] = useState<number[]>([]); // timestamps in last minute
+  const [mouseMoves, setMouseMoves] = useState<number[]>([]);
+  const [builderTouches, setBuilderTouches] = useState(0);
+  const [suggestionsShown, setSuggestionsShown] = useState<Set<SuggestionKind>>(() => new Set());
+  const [lastInterruptionAt, setLastInterruptionAt] = useState<number | null>(null);
+
+
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
   // Entrance animation retriggers on route change.
