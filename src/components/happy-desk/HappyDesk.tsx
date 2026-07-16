@@ -161,6 +161,7 @@ export function HappyDesk() {
   const [dismissedKind, setDismissedKind] = useState<string | null>(null);
   const [entered, setEntered] = useState(false);
   const [delivery, setDelivery] = useState<DeliveryEvent | null>(null);
+  const [deliveryStage, setDeliveryStage] = useState<import("@/lib/happy-r89/delivery-choreo").ChoreoStage | null>(null);
 
   // R83 — voice + hesitation + language + recent-actions history.
   const [listening, setListening] = useState(false);
