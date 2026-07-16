@@ -250,6 +250,22 @@ export function HappyDesk() {
     return () => window.clearTimeout(id);
   }, [celebration]);
 
+  // R85 — adaptive positioning: re-check obstacles every 600ms and on resize.
+  useEffect(() => {
+    if (prefs.workspace !== "adaptive") { setObstacleCorner(null); return; }
+    const check = () => {
+      const vp = { w: window.innerWidth, h: window.innerHeight };
+      const obstacles = readObstacleRects(document);
+      const preferred = deskCornerFor(pathname);
+      const safe = pickSafeCorner(preferred, vp, obstacles);
+      setObstacleCorner(safe === preferred ? null : safe);
+    };
+    check();
+    const id = window.setInterval(check, 600);
+    window.addEventListener("resize", check, { passive: true });
+    return () => { window.clearInterval(id); window.removeEventListener("resize", check); };
+  }, [pathname, prefs.workspace, open, delivery]);
+
 
   // Delivery bus: HAPPY walks out, speaks, walks back.
   useEffect(() => {
@@ -393,7 +409,13 @@ export function HappyDesk() {
   const signals: InitiativeSignal[] = [];
   if (ctx.surface === "builder") signals.push({ kind: "optimization", relevance: 0.7, detectedAt: now });
   if (ctx.surface === "analytics") signals.push({ kind: "workflow-simplification", relevance: 0.6, detectedAt: now });
-  const initiative = pickInitiative({ signals, lastSuggestionAt, nowMs: now, reducedMotion, userBusy: listening || workMode.mode === "focus" });
+  const cooldownMs = suggestionCooldownMs(prefs.frequency);
+  const initiative = pickInitiative({
+    signals, lastSuggestionAt, nowMs: now, reducedMotion,
+    userBusy: listening || workMode.mode === "focus",
+    cooldownMs,
+    dismissedKinds: prefs.dismissedSuggestions,
+  });
   const smart = workMode.allowSuggestions
     ? pickSuggestion(
         {
@@ -408,7 +430,16 @@ export function HappyDesk() {
       )
     : null;
   const smartVisible = smart && !delivery && !hesitationOffer && !activeTask && !celebration ? smart : null;
-  const visibleSuggestion = !smartVisible && workMode.allowSuggestions && initiative && initiative.kind !== dismissedKind && !delivery && !hesitationOffer && !activeTask && !celebration ? initiative : null;
+  const visibleSuggestion = !smartVisible && workMode.allowSuggestions && initiative && initiative.kind !== dismissedKind && !prefs.dismissedSuggestions.includes(initiative.kind) && !delivery && !hesitationOffer && !activeTask && !celebration ? initiative : null;
+
+  // R85 — single, calm indicator (listening / thinking / typing / speaking / idle).
+  const indicator = pickIndicator({
+    listening,
+    delivering: !!delivery,
+    activeTask: !!activeTask,
+    panelOpen: open,
+    userTypingWithinMs: now - lastKeyAt,
+  });
 
   const expression: AvatarExpression =
     celebration ? "celebrate" :
@@ -600,7 +631,11 @@ export function HappyDesk() {
             </button>
             <button
               type="button"
-              onClick={() => setDismissedKind(visibleSuggestion.kind)}
+              onClick={() => {
+                setDismissedKind(visibleSuggestion.kind);
+                updatePrefs({ dismissedSuggestions: Array.from(new Set([...prefs.dismissedSuggestions, visibleSuggestion.kind])) });
+                setLastInterruptionAt(Date.now());
+              }}
               className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-soft-gray hover:text-paper"
             >
               Not now
