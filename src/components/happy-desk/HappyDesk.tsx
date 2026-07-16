@@ -162,6 +162,18 @@ export function HappyDesk() {
   const [suggestionsShown, setSuggestionsShown] = useState<Set<SuggestionKind>>(() => new Set());
   const [lastInterruptionAt, setLastInterruptionAt] = useState<number | null>(null);
 
+  // R85 — personalization + adaptive corner + last-keystroke timestamp for indicator.
+  const [prefs, setPrefs] = useState<HappyPreferences>(() => loadPreferences());
+  const [obstacleCorner, setObstacleCorner] = useState<ReturnType<typeof deskCornerFor> | null>(null);
+  const [lastKeyAt, setLastKeyAt] = useState<number>(0);
+  const updatePrefs = (patch: Partial<HappyPreferences>) => {
+    setPrefs((p) => {
+      const next = mergePreferences(p, patch);
+      savePreferences(next);
+      return next;
+    });
+  };
+
 
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
@@ -189,6 +201,7 @@ export function HappyDesk() {
     const onKey = () => {
       bump();
       track("edit");
+      setLastKeyAt(Date.now());
       setKeystrokes((prev) => [...prev.filter((t) => Date.now() - t < 60_000), Date.now()]);
     };
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -342,7 +355,8 @@ export function HappyDesk() {
   if (!hydrated) return null;
   if (HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 
-  const corner = deskCornerFor(pathname);
+  const preferredCorner = deskCornerFor(pathname);
+  const corner = prefs.workspace === "adaptive" ? (obstacleCorner ?? preferredCorner) : preferredCorner;
   const idleMs = now - lastActivity;
   const ctx = contextFor(pathname, { hasError: !!delivery && delivery.tone === "critical" });
   const state = composeCompanion({
