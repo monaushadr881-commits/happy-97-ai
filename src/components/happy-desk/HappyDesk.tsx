@@ -194,6 +194,23 @@ export function HappyDesk() {
     publishContext({ subsystem, status, label, at: Date.now() });
   };
 
+  // R88 — broadcast a unified core context snapshot whenever the desk state moves.
+  useEffect(() => {
+    publishContext({
+      route: pathname,
+      workspaceMode: prefs.workspace,
+      activeTaskLabel: activeTask?.label,
+    });
+    publishSubsystem("digital-human",
+      delivery ? (delivery.tone === "critical" ? "error" : "active")
+      : listening || open ? "active"
+      : "idle",
+      open ? "panel-open" : listening ? "listening" : undefined,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, prefs.workspace, activeTask, delivery, listening, open]);
+
+
 
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
