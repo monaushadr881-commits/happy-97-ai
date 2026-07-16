@@ -186,6 +186,15 @@ export function HappyDesk() {
   const [ambientPosture, setAmbientPosture] = useState<"still" | "breathing" | "looking" | "shifting">("still");
   const gateRef = useRef<GateState>(initialGateState());
 
+  // R88 — smart daily memory + global context publisher.
+  const recordDailyEvent = (kind: DailyEventKind, label: string) => {
+    try { saveDaily(recordDaily(loadDaily(), kind, label)); } catch { /* storage full — ignore */ }
+  };
+  const publishSubsystem = (subsystem: ContextSubsystem, status: SubsystemStatus, label?: string) => {
+    publishContext({ subsystem, status, label, at: Date.now() });
+  };
+
+
   useEffect(() => { setVoiceSupported(isVoiceSupported()); }, []);
 
   // Entrance animation retriggers on route change.
