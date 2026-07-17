@@ -156,10 +156,10 @@ export type ConvoState =
 
 /** Context-aware voice delivery profile — identity stays HAPPY, delivery adapts. */
 export type VoiceProfile = {
-  speed: number;                 // playback multiplier
-  sentencePauseScale: number;    // scales PACING.sentencePauseMs
-  ackChance: number;             // 0..1 — cadence of openers
-  expression: AvatarExpression;  // default while speaking
+  speed: number;
+  sentencePauseScale: number;
+  ackChance: number;
+  expression: AvatarExpression;
   label: string;
 };
 
@@ -191,4 +191,80 @@ export function voiceProfileFor(mode: string): VoiceProfile {
     default:
       return { speed: 1, sentencePauseScale: 1, ackChance: 0.35, expression: "explain", label: "Balanced" };
   }
+}
+
+/**
+ * R110 P1 — Gesture cue engine. Runtime-agnostic gesture tokens the VRM /
+ * portrait renderers can consume without a new subsystem. Ids align with
+ * `src/assets/digital-human/character/animations.json` so no new taxonomy
+ * is introduced.
+ */
+export type GestureCue =
+  | "none" | "greeting" | "wave" | "point" | "explain" | "presentation"
+  | "teaching" | "whiteboard" | "thank_you" | "goodbye" | "celebrate";
+
+export function gestureFor(intent: Intent): GestureCue {
+  switch (intent) {
+    case "greeting": return "greeting";
+    case "farewell": return "goodbye";
+    case "congrats": return "celebrate";
+    case "teaching": return "teaching";
+    case "creative": return "explain";
+    case "math":
+    case "code":
+    case "complex": return "explain";
+    case "warning": return "point";
+    case "short":
+    case "general":
+    default: return "none";
+  }
+}
+
+/** R110 P1 — Posture cue derived from convo state + intent. Pure map. */
+export type PostureCue = "idle" | "listening" | "thinking" | "speaking" | "greeting";
+
+export function postureFor(state: ConvoState, intent?: Intent): PostureCue {
+  if (state === "listening") return "listening";
+  if (state === "thinking") return "thinking";
+  if (state === "speaking") return intent === "greeting" ? "greeting" : "speaking";
+  return "idle";
+}
+
+/**
+ * R110 P1 — TTS-failure fallback surface. When streaming voice fails or
+ * the browser blocks audio, callers switch the UI into `subtitles` mode
+ * so HAPPY still communicates. Exponential backoff, capped at 30s.
+ */
+export type VoiceFallbackMode = "voice" | "subtitles" | "muted";
+
+export type VoiceFallbackState = {
+  mode: VoiceFallbackMode;
+  reason: string | null;
+  attempt: number;
+  retryAfterMs: number;
+};
+
+export const INITIAL_VOICE_FALLBACK: VoiceFallbackState = {
+  mode: "voice", reason: null, attempt: 0, retryAfterMs: 0,
+};
+
+export function voiceFallbackOnError(prev: VoiceFallbackState, err: unknown): VoiceFallbackState {
+  const attempt = prev.attempt + 1;
+  const retryAfterMs = Math.min(30_000, 1_000 * 2 ** Math.min(attempt, 5));
+  const reason = err instanceof Error ? err.message : "voice unavailable";
+  return { mode: "subtitles", reason, attempt, retryAfterMs };
+}
+
+export function voiceFallbackOnRecovery(): VoiceFallbackState {
+  return { ...INITIAL_VOICE_FALLBACK };
+}
+
+/**
+ * R110 P1 — Interruption helper. Returns the next ConvoState when the
+ * user speaks/types while HAPPY is mid-turn. Callers still call
+ * useHappySpeech.stop() to abort the TTS stream.
+ */
+export function nextStateOnInterrupt(current: ConvoState): ConvoState {
+  if (current === "speaking" || current === "thinking") return "interrupted";
+  return current;
 }
