@@ -10,7 +10,7 @@ import {
   Factory, Hospital, Landmark, Code2, Palette, Users, Stethoscope, Bot,
   Mic, Presentation, PenTool, Rocket, TrendingUp, Globe, Cpu, Database,
   Layers, Sparkles, ArrowRightLeft, PlayCircle, UtensilsCrossed, Briefcase,
-  Trophy, LineChart, Puzzle, Volume2, Radio,
+  Trophy, LineChart, Puzzle, Volume2, Radio, type LucideIcon,
 } from "lucide-react";
 
 /* ─────────────────────────── Tiers ─────────────────────────── */
@@ -613,7 +613,7 @@ const COUNTER = [
   { value: "20,000+", label: "Capabilities" },
 ];
 
-const MODULES: Array<{ icon: React.ElementType; name: string; copy: string }> = [
+const MODULES: Array<{ icon: LucideIcon; name: string; copy: string }> = [
   { icon: Building2,   name: "Business OS",         copy: "CRM · ERP · HRMS · Finance · Projects." },
   { icon: GraduationCap,name:"Education OS",         copy: "Teachers, tutors, courses, classrooms." },
   { icon: Palette,     name: "Creator OS",          copy: "Image · Video · Voice · Marketing." },
@@ -664,7 +664,7 @@ const VS_COLS: Array<{ key: keyof (typeof HAPPY_VS)[number]; label: string }> = 
   { key: "hrms",    label: "Traditional HRMS" },
 ];
 
-const USE_CASES: Array<{ icon: React.ElementType; name: string; copy: string; plan: string }> = [
+const USE_CASES: Array<{ icon: LucideIcon; name: string; copy: string; plan: string }> = [
   { icon: GraduationCap, name: "Students",     copy: "AI Tutor, notes, flashcards, study plans, exam prep.",   plan: "Starter" },
   { icon: PenTool,       name: "Teachers",     copy: "AI Professor, classrooms, assessments, courses.",        plan: "Pro" },
   { icon: Building2,     name: "Businesses",   copy: "CRM, ERP, HRMS, Automation, Founder Dashboard.",         plan: "Business" },
@@ -682,7 +682,7 @@ const USE_CASES: Array<{ icon: React.ElementType; name: string; copy: string; pl
   { icon: Landmark,      name: "Enterprise",   copy: "Dedicated Digital Human, dedicated runtime.",             plan: "Enterprise" },
 ];
 
-const AUDIENCES: Array<{ id: string; label: string; icon: React.ElementType; plan: TierId; reason: string; saves: string }> = [
+const AUDIENCES: Array<{ id: string; label: string; icon: LucideIcon; plan: TierId; reason: string; saves: string }> = [
   { id: "student",    label: "Student",     icon: GraduationCap, plan: "starter",    reason: "AI Tutor + notes + study plans keep you learning faster.",           saves: "₹8,000 / mo in coaching" },
   { id: "teacher",    label: "Teacher",     icon: PenTool,       plan: "pro",        reason: "AI Professor + assessments + lesson planner in one place.",           saves: "₹15,000 / mo in prep time" },
   { id: "business",   label: "Business",    icon: Building2,     plan: "business",   reason: "Unified CRM · ERP · HRMS with an AI advisor.",                        saves: "₹1,20,000 / mo in tools" },
@@ -780,7 +780,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   { q: "Is HAPPY safe for regulated industries?", a: "Enterprise is designed for regulated deployments with residency and audit controls." },
 ];
 
-const CONTACT: Array<{ title: string; copy: string; cta: string; icon: React.ElementType }> = [
+const CONTACT: Array<{ title: string; copy: string; cta: string; icon: LucideIcon }> = [
   { title: "Talk To HAPPY",       copy: "Chat with the live Digital Human right now.",  cta: "Start Chat",     icon: Bot },
   { title: "Book Demo",           copy: "See the full platform in 30 minutes.",          cta: "Book Demo",      icon: Calendar },
   { title: "Schedule Call",       copy: "Pick a time that works for your team.",         cta: "Schedule",       icon: MessageSquare },
