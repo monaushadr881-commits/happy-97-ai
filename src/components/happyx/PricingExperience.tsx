@@ -10,7 +10,7 @@ import {
   Factory, Hospital, Landmark, Code2, Palette, Users, Stethoscope, Bot,
   Mic, Presentation, PenTool, Rocket, TrendingUp, Globe, Cpu, Database,
   Layers, Sparkles, ArrowRightLeft, PlayCircle, UtensilsCrossed, Briefcase,
-  Trophy, LineChart, Puzzle, Volume2, Radio,
+  Trophy, LineChart, Puzzle, Volume2, Radio, type LucideIcon,
 } from "lucide-react";
 
 /* ─────────────────────────── Tiers ─────────────────────────── */
