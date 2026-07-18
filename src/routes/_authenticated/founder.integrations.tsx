@@ -23,7 +23,7 @@ function FounderIntegrations() {
     <div className="p-6 space-y-6">
       <PageHeader
         title="External Integrations"
-        subtitle={`${configured} / ${rows.length} providers configured across ${families.length} families (R142)`}
+        description={`${configured} / ${rows.length} providers configured across ${families.length} families (R142)`}
       />
       <div className="grid gap-4">
         {families.map((family) => {
