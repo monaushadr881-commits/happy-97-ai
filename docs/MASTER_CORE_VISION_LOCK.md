@@ -98,6 +98,7 @@ Integration of any of the above must not alter the Core Foundation.
 - **≤ R90** and the R91 Founder conversation → permanent Core Foundation.
 - **R91** → Core Vision Lock (this document).
 - **R92+** → future expansion under §5.
+- **R151** → Future Platform Expansion added as permanent Vision items (PENDING, architecture only): Platforms {Windows, macOS, Linux, Apple Vision Pro}; Digital Human Engines {VRM (Primary), MetaHuman, Live2D, NVIDIA ACE}; XR {AR, VR, MR}. All future renderers plug into the canonical Digital Human runtime; all future platforms reuse the universal runtime shell. See `docs/founder/R151_FUTURE_PLATFORM_EXPANSION.md`.
 
 ## 9. Reporting Discipline
 
