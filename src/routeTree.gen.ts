@@ -62,6 +62,7 @@ import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_a
 import { Route as AuthenticatedSettingsAccessibilityRouteImport } from './routes/_authenticated/settings-accessibility'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedServiceMeshRouteImport } from './routes/_authenticated/service-mesh'
+import { Route as AuthenticatedSecuritySessionsRouteImport } from './routes/_authenticated/security-sessions'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated/security'
 import { Route as AuthenticatedSearchV2RouteImport } from './routes/_authenticated/search-v2'
 import { Route as AuthenticatedSearchHubRouteImport } from './routes/_authenticated/search-hub'
@@ -783,6 +784,12 @@ const AuthenticatedServiceMeshRoute =
   AuthenticatedServiceMeshRouteImport.update({
     id: '/service-mesh',
     path: '/service-mesh',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSecuritySessionsRoute =
+  AuthenticatedSecuritySessionsRouteImport.update({
+    id: '/security-sessions',
+    path: '/security-sessions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSecurityRoute = AuthenticatedSecurityRouteImport.update({
@@ -3516,6 +3523,7 @@ export interface FileRoutesByFullPath {
   '/search-hub': typeof AuthenticatedSearchHubRoute
   '/search-v2': typeof AuthenticatedSearchV2Route
   '/security': typeof AuthenticatedSecurityRoute
+  '/security-sessions': typeof AuthenticatedSecuritySessionsRoute
   '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
@@ -3999,6 +4007,7 @@ export interface FileRoutesByTo {
   '/search-hub': typeof AuthenticatedSearchHubRoute
   '/search-v2': typeof AuthenticatedSearchV2Route
   '/security': typeof AuthenticatedSecurityRoute
+  '/security-sessions': typeof AuthenticatedSecuritySessionsRoute
   '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
@@ -4500,6 +4509,7 @@ export interface FileRoutesById {
   '/_authenticated/search-hub': typeof AuthenticatedSearchHubRoute
   '/_authenticated/search-v2': typeof AuthenticatedSearchV2Route
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
+  '/_authenticated/security-sessions': typeof AuthenticatedSecuritySessionsRoute
   '/_authenticated/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
@@ -5002,6 +5012,7 @@ export interface FileRouteTypes {
     | '/search-hub'
     | '/search-v2'
     | '/security'
+    | '/security-sessions'
     | '/service-mesh'
     | '/settings'
     | '/settings-accessibility'
@@ -5485,6 +5496,7 @@ export interface FileRouteTypes {
     | '/search-hub'
     | '/search-v2'
     | '/security'
+    | '/security-sessions'
     | '/service-mesh'
     | '/settings'
     | '/settings-accessibility'
@@ -5985,6 +5997,7 @@ export interface FileRouteTypes {
     | '/_authenticated/search-hub'
     | '/_authenticated/search-v2'
     | '/_authenticated/security'
+    | '/_authenticated/security-sessions'
     | '/_authenticated/service-mesh'
     | '/_authenticated/settings'
     | '/_authenticated/settings-accessibility'
@@ -6706,6 +6719,13 @@ declare module '@tanstack/react-router' {
       path: '/service-mesh'
       fullPath: '/service-mesh'
       preLoaderRoute: typeof AuthenticatedServiceMeshRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/security-sessions': {
+      id: '/_authenticated/security-sessions'
+      path: '/security-sessions'
+      fullPath: '/security-sessions'
+      preLoaderRoute: typeof AuthenticatedSecuritySessionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/security': {
@@ -10951,6 +10971,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSearchHubRoute: typeof AuthenticatedSearchHubRoute
   AuthenticatedSearchV2Route: typeof AuthenticatedSearchV2Route
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
+  AuthenticatedSecuritySessionsRoute: typeof AuthenticatedSecuritySessionsRoute
   AuthenticatedServiceMeshRoute: typeof AuthenticatedServiceMeshRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedSettingsAccessibilityRoute: typeof AuthenticatedSettingsAccessibilityRoute
@@ -11179,6 +11200,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSearchHubRoute: AuthenticatedSearchHubRoute,
   AuthenticatedSearchV2Route: AuthenticatedSearchV2Route,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
+  AuthenticatedSecuritySessionsRoute: AuthenticatedSecuritySessionsRoute,
   AuthenticatedServiceMeshRoute: AuthenticatedServiceMeshRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSettingsAccessibilityRoute:

@@ -2190,6 +2190,252 @@ export type Database = {
           },
         ]
       }
+      auth_devices: {
+        Row: {
+          browser: string | null
+          created_at: string
+          device_fingerprint: string
+          device_name: string | null
+          device_type: string | null
+          first_seen_at: string
+          id: string
+          ip_hash: string | null
+          last_seen_at: string
+          location_country: string | null
+          location_region: string | null
+          os: string | null
+          revoked_at: string | null
+          trusted: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          browser?: string | null
+          created_at?: string
+          device_fingerprint: string
+          device_name?: string | null
+          device_type?: string | null
+          first_seen_at?: string
+          id?: string
+          ip_hash?: string | null
+          last_seen_at?: string
+          location_country?: string | null
+          location_region?: string | null
+          os?: string | null
+          revoked_at?: string | null
+          trusted?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          browser?: string | null
+          created_at?: string
+          device_fingerprint?: string
+          device_name?: string | null
+          device_type?: string | null
+          first_seen_at?: string
+          id?: string
+          ip_hash?: string | null
+          last_seen_at?: string
+          location_country?: string | null
+          location_region?: string | null
+          os?: string | null
+          revoked_at?: string | null
+          trusted?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      auth_login_history: {
+        Row: {
+          created_at: string
+          device_id: string | null
+          event_type: string
+          id: string
+          ip_hash: string | null
+          metadata: Json
+          provider: string | null
+          success: boolean
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id?: string | null
+          event_type: string
+          id?: string
+          ip_hash?: string | null
+          metadata?: Json
+          provider?: string | null
+          success?: boolean
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string | null
+          event_type?: string
+          id?: string
+          ip_hash?: string | null
+          metadata?: Json
+          provider?: string | null
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auth_login_history_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "auth_devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auth_security_alerts: {
+        Row: {
+          acknowledged_at: string | null
+          alert_type: string
+          created_at: string
+          device_id: string | null
+          id: string
+          message: string
+          metadata: Json
+          severity: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          alert_type: string
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          message: string
+          metadata?: Json
+          severity?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          alert_type?: string
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          message?: string
+          metadata?: Json
+          severity?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auth_security_alerts_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "auth_devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auth_session_policies: {
+        Row: {
+          absolute_timeout_hours: number
+          allowed_providers: string[]
+          created_at: string
+          id: string
+          idle_timeout_minutes: number
+          max_active_sessions: number
+          require_mfa: boolean
+          require_trusted_device: boolean
+          scope_id: string | null
+          scope_type: string
+          updated_at: string
+        }
+        Insert: {
+          absolute_timeout_hours?: number
+          allowed_providers?: string[]
+          created_at?: string
+          id?: string
+          idle_timeout_minutes?: number
+          max_active_sessions?: number
+          require_mfa?: boolean
+          require_trusted_device?: boolean
+          scope_id?: string | null
+          scope_type: string
+          updated_at?: string
+        }
+        Update: {
+          absolute_timeout_hours?: number
+          allowed_providers?: string[]
+          created_at?: string
+          id?: string
+          idle_timeout_minutes?: number
+          max_active_sessions?: number
+          require_mfa?: boolean
+          require_trusted_device?: boolean
+          scope_id?: string | null
+          scope_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      auth_sessions_meta: {
+        Row: {
+          created_at: string
+          device_id: string | null
+          end_reason: string | null
+          ended_at: string | null
+          id: string
+          ip_hash: string | null
+          last_active_at: string
+          session_key: string
+          started_at: string
+          updated_at: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id?: string | null
+          end_reason?: string | null
+          ended_at?: string | null
+          id?: string
+          ip_hash?: string | null
+          last_active_at?: string
+          session_key: string
+          started_at?: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string | null
+          end_reason?: string | null
+          ended_at?: string | null
+          id?: string
+          ip_hash?: string | null
+          last_active_at?: string
+          session_key?: string
+          started_at?: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auth_sessions_meta_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "auth_devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       auto_approvals: {
         Row: {
           approver_role: string
