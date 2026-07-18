@@ -419,7 +419,7 @@ export const sales = {
     let q = sb.from("sales_orders").select("*").eq("company_id", companyId).is("deleted_at", null);
     if (opts.status) q = q.eq("approval_status", opts.status);
     if (opts.customer) q = q.eq("customer_id", opts.customer);
-    if (opts.q) q = q.or(`number.ilike.%${opts.q}%,notes.ilike.%${opts.q}%`);
+    if (opts.q) { const s = sanitizePgRestLike(opts.q); if (s) q = q.or(`number.ilike.%${s}%,notes.ilike.%${s}%`); }
     const { data, error } = await q.order("created_at", { ascending: false }).limit(opts.limit ?? 100);
     if (error) throw error;
     return data ?? [];
