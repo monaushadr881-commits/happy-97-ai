@@ -41,7 +41,7 @@ export function TabBar({ tabs, ariaLabel = "Section navigation" }: { tabs: Tab[]
           <Link
             key={t.slug}
             to="."
-            search={(prev) => ({ ...(prev as object), tab: t.slug })}
+            search={(prev: Record<string, unknown>) => ({ ...prev, tab: t.slug })}
             className={cn(
               "inline-flex items-center gap-1.5 whitespace-nowrap rounded-md px-3 py-1.5 text-[11px] uppercase tracking-[0.15em] transition-colors",
               isActive ? "bg-gold/10 text-gold" : "text-soft-gray hover:bg-white/5 hover:text-paper",
