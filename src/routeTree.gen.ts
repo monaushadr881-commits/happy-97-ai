@@ -279,6 +279,7 @@ import { Route as AuthenticatedStudioProjectsRouteImport } from './routes/_authe
 import { Route as AuthenticatedStudioPresentationRouteImport } from './routes/_authenticated/studio.presentation'
 import { Route as AuthenticatedStudioMarketingRouteImport } from './routes/_authenticated/studio.marketing'
 import { Route as AuthenticatedStudioImageRouteImport } from './routes/_authenticated/studio.image'
+import { Route as AuthenticatedStudioHubRouteImport } from './routes/_authenticated/studio.hub'
 import { Route as AuthenticatedStudioExportsRouteImport } from './routes/_authenticated/studio.exports'
 import { Route as AuthenticatedStudioCopyRouteImport } from './routes/_authenticated/studio.copy'
 import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenticated/studio.brand'
@@ -1977,6 +1978,11 @@ const AuthenticatedStudioImageRoute =
     path: '/image',
     getParentRoute: () => AuthenticatedStudioRoute,
   } as any)
+const AuthenticatedStudioHubRoute = AuthenticatedStudioHubRouteImport.update({
+  id: '/hub',
+  path: '/hub',
+  getParentRoute: () => AuthenticatedStudioRoute,
+} as any)
 const AuthenticatedStudioExportsRoute =
   AuthenticatedStudioExportsRouteImport.update({
     id: '/exports',
@@ -3798,6 +3804,7 @@ export interface FileRoutesByFullPath {
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/studio/hub': typeof AuthenticatedStudioHubRoute
   '/studio/image': typeof AuthenticatedStudioImageRoute
   '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
@@ -4284,6 +4291,7 @@ export interface FileRoutesByTo {
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/studio/hub': typeof AuthenticatedStudioHubRoute
   '/studio/image': typeof AuthenticatedStudioImageRoute
   '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
@@ -4790,6 +4798,7 @@ export interface FileRoutesById {
   '/_authenticated/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/_authenticated/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/_authenticated/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/_authenticated/studio/hub': typeof AuthenticatedStudioHubRoute
   '/_authenticated/studio/image': typeof AuthenticatedStudioImageRoute
   '/_authenticated/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/_authenticated/studio/presentation': typeof AuthenticatedStudioPresentationRoute
@@ -5296,6 +5305,7 @@ export interface FileRouteTypes {
     | '/studio/brand'
     | '/studio/copy'
     | '/studio/exports'
+    | '/studio/hub'
     | '/studio/image'
     | '/studio/marketing'
     | '/studio/presentation'
@@ -5782,6 +5792,7 @@ export interface FileRouteTypes {
     | '/studio/brand'
     | '/studio/copy'
     | '/studio/exports'
+    | '/studio/hub'
     | '/studio/image'
     | '/studio/marketing'
     | '/studio/presentation'
@@ -6287,6 +6298,7 @@ export interface FileRouteTypes {
     | '/_authenticated/studio/brand'
     | '/_authenticated/studio/copy'
     | '/_authenticated/studio/exports'
+    | '/_authenticated/studio/hub'
     | '/_authenticated/studio/image'
     | '/_authenticated/studio/marketing'
     | '/_authenticated/studio/presentation'
@@ -8276,6 +8288,13 @@ declare module '@tanstack/react-router' {
       path: '/image'
       fullPath: '/studio/image'
       preLoaderRoute: typeof AuthenticatedStudioImageRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/hub': {
+      id: '/_authenticated/studio/hub'
+      path: '/hub'
+      fullPath: '/studio/hub'
+      preLoaderRoute: typeof AuthenticatedStudioHubRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
     }
     '/_authenticated/studio/exports': {
@@ -10797,6 +10816,7 @@ interface AuthenticatedStudioRouteChildren {
   AuthenticatedStudioBrandRoute: typeof AuthenticatedStudioBrandRoute
   AuthenticatedStudioCopyRoute: typeof AuthenticatedStudioCopyRoute
   AuthenticatedStudioExportsRoute: typeof AuthenticatedStudioExportsRoute
+  AuthenticatedStudioHubRoute: typeof AuthenticatedStudioHubRoute
   AuthenticatedStudioImageRoute: typeof AuthenticatedStudioImageRoute
   AuthenticatedStudioMarketingRoute: typeof AuthenticatedStudioMarketingRoute
   AuthenticatedStudioPresentationRoute: typeof AuthenticatedStudioPresentationRoute
@@ -10810,6 +10830,7 @@ const AuthenticatedStudioRouteChildren: AuthenticatedStudioRouteChildren = {
   AuthenticatedStudioBrandRoute: AuthenticatedStudioBrandRoute,
   AuthenticatedStudioCopyRoute: AuthenticatedStudioCopyRoute,
   AuthenticatedStudioExportsRoute: AuthenticatedStudioExportsRoute,
+  AuthenticatedStudioHubRoute: AuthenticatedStudioHubRoute,
   AuthenticatedStudioImageRoute: AuthenticatedStudioImageRoute,
   AuthenticatedStudioMarketingRoute: AuthenticatedStudioMarketingRoute,
   AuthenticatedStudioPresentationRoute: AuthenticatedStudioPresentationRoute,
