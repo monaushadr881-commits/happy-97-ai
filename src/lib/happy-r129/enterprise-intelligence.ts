@@ -455,7 +455,7 @@ export type EnterpriseIntent =
 /** Map a natural-language query to an enterprise intent for Brain routing. */
 export function resolveForBrain(text: string): EnterpriseIntent | null {
   const q = text.toLowerCase();
-  if (/(audit|log|trail|who did|when did)/.test(q)) return 'audit.investigate';
+  if (/(audit|log|trail|who (did|deleted|changed|revoked|granted)|when did)/.test(q)) return 'audit.investigate';
   if (/(compliance|soc2|iso|gdpr|hipaa|pci|dpdp)/.test(q)) return 'compliance.report';
   if (/(policy|policies|rule|allow|deny)/.test(q)) return 'policy.review';
   if (/(role|permission|rbac|grant|revoke)/.test(q)) return 'role.manage';
