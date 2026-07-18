@@ -162,6 +162,7 @@ function RootComponent() {
       <KernelProvider>
         <Outlet />
         <HappyDesk />
+        <AuthSessionBinder />
       </KernelProvider>
     </QueryClientProvider>
   );
