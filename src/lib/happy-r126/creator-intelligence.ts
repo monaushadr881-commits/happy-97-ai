@@ -564,7 +564,7 @@ export type CreatorDhMode =
 
 export function pickDhCreatorMode(studio: CreatorStudio | CreatorIntent): CreatorDhMode {
   switch (studio) {
-    case "document": case "presentation": return "presentation";
+    case "document":                       return "presentation";
     case "brand":                          return "brand";
     case "publishing": case "publish":
     case "calendar":  case "schedule":     return "marketing";
