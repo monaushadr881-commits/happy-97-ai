@@ -192,6 +192,7 @@ import { Route as AuthenticatedDeveloperRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDeployRouteImport } from './routes/_authenticated/deploy'
 import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticated/decision'
 import { Route as AuthenticatedDealerRouteImport } from './routes/_authenticated/dealer'
+import { Route as AuthenticatedDatabaseBuilderRouteImport } from './routes/_authenticated/database-builder'
 import { Route as AuthenticatedDataFabricRouteImport } from './routes/_authenticated/data-fabric'
 import { Route as AuthenticatedDataExchangeRouteImport } from './routes/_authenticated/data-exchange'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -222,9 +223,11 @@ import { Route as AuthenticatedAssistantRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAssetsRouteImport } from './routes/_authenticated/assets'
 import { Route as AuthenticatedAppsRouteImport } from './routes/_authenticated/apps'
 import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as AuthenticatedAppBuilderRouteImport } from './routes/_authenticated/app-builder'
 import { Route as AuthenticatedApiFabricRouteImport } from './routes/_authenticated/api-fabric'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedAiDesignRouteImport } from './routes/_authenticated/ai-design'
+import { Route as AuthenticatedAiBuilderRouteImport } from './routes/_authenticated/ai-builder'
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated/agents'
 import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -279,6 +282,7 @@ import { Route as AuthenticatedStudioProjectsRouteImport } from './routes/_authe
 import { Route as AuthenticatedStudioPresentationRouteImport } from './routes/_authenticated/studio.presentation'
 import { Route as AuthenticatedStudioMarketingRouteImport } from './routes/_authenticated/studio.marketing'
 import { Route as AuthenticatedStudioImageRouteImport } from './routes/_authenticated/studio.image'
+import { Route as AuthenticatedStudioHubRouteImport } from './routes/_authenticated/studio.hub'
 import { Route as AuthenticatedStudioExportsRouteImport } from './routes/_authenticated/studio.exports'
 import { Route as AuthenticatedStudioCopyRouteImport } from './routes/_authenticated/studio.copy'
 import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenticated/studio.brand'
@@ -1494,6 +1498,12 @@ const AuthenticatedDealerRoute = AuthenticatedDealerRouteImport.update({
   path: '/dealer',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDatabaseBuilderRoute =
+  AuthenticatedDatabaseBuilderRouteImport.update({
+    id: '/database-builder',
+    path: '/database-builder',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDataFabricRoute = AuthenticatedDataFabricRouteImport.update({
   id: '/data-fabric',
   path: '/data-fabric',
@@ -1651,6 +1661,11 @@ const AuthenticatedAppointmentsRoute =
     path: '/appointments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppBuilderRoute = AuthenticatedAppBuilderRouteImport.update({
+  id: '/app-builder',
+  path: '/app-builder',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedApiFabricRoute = AuthenticatedApiFabricRouteImport.update({
   id: '/api-fabric',
   path: '/api-fabric',
@@ -1664,6 +1679,11 @@ const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
 const AuthenticatedAiDesignRoute = AuthenticatedAiDesignRouteImport.update({
   id: '/ai-design',
   path: '/ai-design',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAiBuilderRoute = AuthenticatedAiBuilderRouteImport.update({
+  id: '/ai-builder',
+  path: '/ai-builder',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
@@ -1977,6 +1997,11 @@ const AuthenticatedStudioImageRoute =
     path: '/image',
     getParentRoute: () => AuthenticatedStudioRoute,
   } as any)
+const AuthenticatedStudioHubRoute = AuthenticatedStudioHubRouteImport.update({
+  id: '/hub',
+  path: '/hub',
+  getParentRoute: () => AuthenticatedStudioRoute,
+} as any)
 const AuthenticatedStudioExportsRoute =
   AuthenticatedStudioExportsRouteImport.update({
     id: '/exports',
@@ -3383,9 +3408,11 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/ai-builder': typeof AuthenticatedAiBuilderRoute
   '/ai-design': typeof AuthenticatedAiDesignRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/api-fabric': typeof AuthenticatedApiFabricRoute
+  '/app-builder': typeof AuthenticatedAppBuilderRoute
   '/appointments': typeof AuthenticatedAppointmentsRoute
   '/apps': typeof AuthenticatedAppsRoute
   '/assets': typeof AuthenticatedAssetsRoute
@@ -3416,6 +3443,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/data-fabric': typeof AuthenticatedDataFabricRoute
+  '/database-builder': typeof AuthenticatedDatabaseBuilderRoute
   '/dealer': typeof AuthenticatedDealerRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/deploy': typeof AuthenticatedDeployRoute
@@ -3798,6 +3826,7 @@ export interface FileRoutesByFullPath {
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/studio/hub': typeof AuthenticatedStudioHubRoute
   '/studio/image': typeof AuthenticatedStudioImageRoute
   '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
@@ -3881,9 +3910,11 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/agent-os': typeof AuthenticatedAgentOsRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/ai-builder': typeof AuthenticatedAiBuilderRoute
   '/ai-design': typeof AuthenticatedAiDesignRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/api-fabric': typeof AuthenticatedApiFabricRoute
+  '/app-builder': typeof AuthenticatedAppBuilderRoute
   '/appointments': typeof AuthenticatedAppointmentsRoute
   '/apps': typeof AuthenticatedAppsRoute
   '/assets': typeof AuthenticatedAssetsRoute
@@ -3911,6 +3942,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/data-fabric': typeof AuthenticatedDataFabricRoute
+  '/database-builder': typeof AuthenticatedDatabaseBuilderRoute
   '/dealer': typeof AuthenticatedDealerRoute
   '/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/deploy': typeof AuthenticatedDeployRoute
@@ -4284,6 +4316,7 @@ export interface FileRoutesByTo {
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/studio/hub': typeof AuthenticatedStudioHubRoute
   '/studio/image': typeof AuthenticatedStudioImageRoute
   '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
@@ -4375,9 +4408,11 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
+  '/_authenticated/ai-builder': typeof AuthenticatedAiBuilderRoute
   '/_authenticated/ai-design': typeof AuthenticatedAiDesignRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/api-fabric': typeof AuthenticatedApiFabricRoute
+  '/_authenticated/app-builder': typeof AuthenticatedAppBuilderRoute
   '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
   '/_authenticated/apps': typeof AuthenticatedAppsRoute
   '/_authenticated/assets': typeof AuthenticatedAssetsRoute
@@ -4408,6 +4443,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/data-exchange': typeof AuthenticatedDataExchangeRoute
   '/_authenticated/data-fabric': typeof AuthenticatedDataFabricRoute
+  '/_authenticated/database-builder': typeof AuthenticatedDatabaseBuilderRoute
   '/_authenticated/dealer': typeof AuthenticatedDealerRoute
   '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
   '/_authenticated/deploy': typeof AuthenticatedDeployRoute
@@ -4790,6 +4826,7 @@ export interface FileRoutesById {
   '/_authenticated/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/_authenticated/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/_authenticated/studio/exports': typeof AuthenticatedStudioExportsRoute
+  '/_authenticated/studio/hub': typeof AuthenticatedStudioHubRoute
   '/_authenticated/studio/image': typeof AuthenticatedStudioImageRoute
   '/_authenticated/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/_authenticated/studio/presentation': typeof AuthenticatedStudioPresentationRoute
@@ -4881,9 +4918,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/agent-os'
     | '/agents'
+    | '/ai-builder'
     | '/ai-design'
     | '/analytics'
     | '/api-fabric'
+    | '/app-builder'
     | '/appointments'
     | '/apps'
     | '/assets'
@@ -4914,6 +4953,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/data-exchange'
     | '/data-fabric'
+    | '/database-builder'
     | '/dealer'
     | '/decision'
     | '/deploy'
@@ -5296,6 +5336,7 @@ export interface FileRouteTypes {
     | '/studio/brand'
     | '/studio/copy'
     | '/studio/exports'
+    | '/studio/hub'
     | '/studio/image'
     | '/studio/marketing'
     | '/studio/presentation'
@@ -5379,9 +5420,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/agent-os'
     | '/agents'
+    | '/ai-builder'
     | '/ai-design'
     | '/analytics'
     | '/api-fabric'
+    | '/app-builder'
     | '/appointments'
     | '/apps'
     | '/assets'
@@ -5409,6 +5452,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/data-exchange'
     | '/data-fabric'
+    | '/database-builder'
     | '/dealer'
     | '/decision'
     | '/deploy'
@@ -5782,6 +5826,7 @@ export interface FileRouteTypes {
     | '/studio/brand'
     | '/studio/copy'
     | '/studio/exports'
+    | '/studio/hub'
     | '/studio/image'
     | '/studio/marketing'
     | '/studio/presentation'
@@ -5872,9 +5917,11 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/agent-os'
     | '/_authenticated/agents'
+    | '/_authenticated/ai-builder'
     | '/_authenticated/ai-design'
     | '/_authenticated/analytics'
     | '/_authenticated/api-fabric'
+    | '/_authenticated/app-builder'
     | '/_authenticated/appointments'
     | '/_authenticated/apps'
     | '/_authenticated/assets'
@@ -5905,6 +5952,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/data-exchange'
     | '/_authenticated/data-fabric'
+    | '/_authenticated/database-builder'
     | '/_authenticated/dealer'
     | '/_authenticated/decision'
     | '/_authenticated/deploy'
@@ -6287,6 +6335,7 @@ export interface FileRouteTypes {
     | '/_authenticated/studio/brand'
     | '/_authenticated/studio/copy'
     | '/_authenticated/studio/exports'
+    | '/_authenticated/studio/hub'
     | '/_authenticated/studio/image'
     | '/_authenticated/studio/marketing'
     | '/_authenticated/studio/presentation'
@@ -7669,6 +7718,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDealerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/database-builder': {
+      id: '/_authenticated/database-builder'
+      path: '/database-builder'
+      fullPath: '/database-builder'
+      preLoaderRoute: typeof AuthenticatedDatabaseBuilderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/data-fabric': {
       id: '/_authenticated/data-fabric'
       path: '/data-fabric'
@@ -7879,6 +7935,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app-builder': {
+      id: '/_authenticated/app-builder'
+      path: '/app-builder'
+      fullPath: '/app-builder'
+      preLoaderRoute: typeof AuthenticatedAppBuilderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/api-fabric': {
       id: '/_authenticated/api-fabric'
       path: '/api-fabric'
@@ -7898,6 +7961,13 @@ declare module '@tanstack/react-router' {
       path: '/ai-design'
       fullPath: '/ai-design'
       preLoaderRoute: typeof AuthenticatedAiDesignRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ai-builder': {
+      id: '/_authenticated/ai-builder'
+      path: '/ai-builder'
+      fullPath: '/ai-builder'
+      preLoaderRoute: typeof AuthenticatedAiBuilderRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/agents': {
@@ -8276,6 +8346,13 @@ declare module '@tanstack/react-router' {
       path: '/image'
       fullPath: '/studio/image'
       preLoaderRoute: typeof AuthenticatedStudioImageRouteImport
+      parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/studio/hub': {
+      id: '/_authenticated/studio/hub'
+      path: '/hub'
+      fullPath: '/studio/hub'
+      preLoaderRoute: typeof AuthenticatedStudioHubRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
     }
     '/_authenticated/studio/exports': {
@@ -10797,6 +10874,7 @@ interface AuthenticatedStudioRouteChildren {
   AuthenticatedStudioBrandRoute: typeof AuthenticatedStudioBrandRoute
   AuthenticatedStudioCopyRoute: typeof AuthenticatedStudioCopyRoute
   AuthenticatedStudioExportsRoute: typeof AuthenticatedStudioExportsRoute
+  AuthenticatedStudioHubRoute: typeof AuthenticatedStudioHubRoute
   AuthenticatedStudioImageRoute: typeof AuthenticatedStudioImageRoute
   AuthenticatedStudioMarketingRoute: typeof AuthenticatedStudioMarketingRoute
   AuthenticatedStudioPresentationRoute: typeof AuthenticatedStudioPresentationRoute
@@ -10810,6 +10888,7 @@ const AuthenticatedStudioRouteChildren: AuthenticatedStudioRouteChildren = {
   AuthenticatedStudioBrandRoute: AuthenticatedStudioBrandRoute,
   AuthenticatedStudioCopyRoute: AuthenticatedStudioCopyRoute,
   AuthenticatedStudioExportsRoute: AuthenticatedStudioExportsRoute,
+  AuthenticatedStudioHubRoute: AuthenticatedStudioHubRoute,
   AuthenticatedStudioImageRoute: AuthenticatedStudioImageRoute,
   AuthenticatedStudioMarketingRoute: AuthenticatedStudioMarketingRoute,
   AuthenticatedStudioPresentationRoute: AuthenticatedStudioPresentationRoute,
@@ -10872,9 +10951,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
   AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
+  AuthenticatedAiBuilderRoute: typeof AuthenticatedAiBuilderRoute
   AuthenticatedAiDesignRoute: typeof AuthenticatedAiDesignRoute
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedApiFabricRoute: typeof AuthenticatedApiFabricRoute
+  AuthenticatedAppBuilderRoute: typeof AuthenticatedAppBuilderRoute
   AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
   AuthenticatedAppsRoute: typeof AuthenticatedAppsRoute
   AuthenticatedAssetsRoute: typeof AuthenticatedAssetsRoute
@@ -10905,6 +10986,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDataExchangeRoute: typeof AuthenticatedDataExchangeRoute
   AuthenticatedDataFabricRoute: typeof AuthenticatedDataFabricRoute
+  AuthenticatedDatabaseBuilderRoute: typeof AuthenticatedDatabaseBuilderRoute
   AuthenticatedDealerRoute: typeof AuthenticatedDealerRoute
   AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
   AuthenticatedDeployRoute: typeof AuthenticatedDeployRoute
@@ -11090,9 +11172,11 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
   AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
+  AuthenticatedAiBuilderRoute: AuthenticatedAiBuilderRoute,
   AuthenticatedAiDesignRoute: AuthenticatedAiDesignRoute,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedApiFabricRoute: AuthenticatedApiFabricRoute,
+  AuthenticatedAppBuilderRoute: AuthenticatedAppBuilderRoute,
   AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
   AuthenticatedAppsRoute: AuthenticatedAppsRoute,
   AuthenticatedAssetsRoute: AuthenticatedAssetsRoute,
@@ -11123,6 +11207,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDataExchangeRoute: AuthenticatedDataExchangeRoute,
   AuthenticatedDataFabricRoute: AuthenticatedDataFabricRoute,
+  AuthenticatedDatabaseBuilderRoute: AuthenticatedDatabaseBuilderRoute,
   AuthenticatedDealerRoute: AuthenticatedDealerRoute,
   AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
   AuthenticatedDeployRoute: AuthenticatedDeployRoute,
