@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
+ * Canonical owner: src/lib/happy-r130/founder-dashboard.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — Community, Marketplace & Commerce OS (CMOS) API v1
  *
  * Governance:

@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
+ * Canonical owner: src/lib/happy-r119/file-intelligence.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * @deprecated R115.b Consolidation — this is a compatibility shim.
  * Canonical owner: src/lib/kg/kg.functions.ts (canonical Knowledge Graph)
  * Do NOT add new logic here. All handlers already delegate through

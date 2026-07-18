@@ -1,3 +1,10 @@
+/**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: SHIM (R145 reclass)
+ * Canonical owner: src/lib/brain/engine.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
 /** HAPPY v4.0 — agents-v4 server functions (internal capability agents). */
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: SHIM
+ * Canonical owner: src/lib/happy-r121/builder-intelligence.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * @deprecated R115.b Consolidation — this is a compatibility shim.
  * Canonical owner: src/lib/happy-builder (canonical Builder)
  * Do NOT add new logic here. All handlers already delegate through

@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
+ * Canonical owner: src/lib/happy-r123/erp-intelligence.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — Education OS API v1 (server functions)
  *
  * The complete server surface for the AI-native Education Operating

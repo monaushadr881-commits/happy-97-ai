@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: SHIM (R145 reclass)
+ * Canonical owner: src/lib/happy-r121/builder-intelligence.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — Workflow Engine v3 (Phase 3.9).
  */
 import { createServerFn } from "@tanstack/react-start";

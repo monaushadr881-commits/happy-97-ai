@@ -1,3 +1,10 @@
+/**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: SHIM
+ * Canonical owner: src/lib/happy-r128/revenue-intelligence.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
 /** HAPPY v5.0 — billing-v5 server functions (Enterprise Billing Platform). */
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

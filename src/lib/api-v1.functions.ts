@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
+ * Canonical owner: src/routes/api/*
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — API v1 (Server Functions)
  *
  * All server functions the UI can invoke. This is the ONLY layer client
