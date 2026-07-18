@@ -546,3 +546,21 @@
 ## Per-module fields (22 total)
 
 Founder Module ID, Founder Module Name, Parent Module, Description, Business Purpose, User Types, Priority, Dependencies, Credits, Subscription, AI Engine, Digital Human, Memory, Workspace, Builder, Marketplace, Communication, Analytics, Security, Database Entities, API Groups, Permissions, Owner, Development Phase, Implementation Status, Future Expansion, Founder Decision, Related Features, Related Technical Modules, Business Goal, Business Value, Technical Mapping, Primary Screens, Secondary Screens, Primary APIs, Primary Database Tables, AI Behaviour, Digital Human Behaviour, Memory Behaviour, Credits Usage, Subscription Requirement, Audit Logging, Complexity, Estimated Effort, Risk, Enterprise, Testing
+
+## Future Platform Expansion (R151 — PENDING, Permanent)
+
+Architecture-only entries. Do not implement. Reuse canonical Digital Human runtime, Brain, Memory, Workspace, Conversation. Never remove. See `docs/founder/R151_FUTURE_PLATFORM_EXPANSION.md`.
+
+| ID | Name | Category | Priority | Status | Canonical Owner (reuse) |
+|---|---|---|---|---|---|
+| FM503 | Windows Platform | Future Platform Expansion | P2 | 🟠 PENDING | Universal Runtime shell (`docs/architecture/universal-runtime.md`) |
+| FM504 | macOS Platform | Future Platform Expansion | P2 | 🟠 PENDING | Universal Runtime shell |
+| FM505 | Linux Platform | Future Platform Expansion | P2 | 🟠 PENDING | Universal Runtime shell |
+| FM506 | Apple Vision Pro Platform | Future Platform Expansion | P2 | 🟠 PENDING | Universal Runtime shell + DH XR adapter |
+| FM507 | VRM Renderer (Primary) | Future Platform Expansion / DH Engines | P0 | ✅ ACTIVE | `src/components/digital-human/HappyVRM.tsx` |
+| FM508 | MetaHuman Renderer | Future Platform Expansion / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-adapters/digital-human/` (adapter into `happy-runtime/digital-human.ts`) |
+| FM509 | Live2D Renderer | Future Platform Expansion / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-adapters/digital-human/` |
+| FM510 | NVIDIA ACE Renderer | Future Platform Expansion / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-adapters/digital-human/` |
+| FM511 | XR — Augmented Reality (AR) | Future Platform Expansion / XR | P2 | 🟠 PENDING | Canonical DH runtime + XR adapter |
+| FM512 | XR — Virtual Reality (VR) | Future Platform Expansion / XR | P2 | 🟠 PENDING | Canonical DH runtime + XR adapter |
+| FM513 | XR — Mixed Reality (MR) | Future Platform Expansion / XR | P2 | 🟠 PENDING | Canonical DH runtime + XR adapter |
