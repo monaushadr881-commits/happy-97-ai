@@ -481,7 +481,33 @@ export type DigitalHumanEnvelope = {
   emotion: "neutral" | "warm" | "focused" | "concerned" | "celebratory";
   gesture: "idle" | "point" | "wave" | "nod" | "explain" | "celebrate";
   eyeContact: boolean;
+  voice?: { rate: number; pitch: number };
+  expression?: "smile" | "serious" | "curious" | "empathetic";
+  mode?: DigitalHumanMode;
   whiteboard?: { op: "clear" | "write" | "highlight"; content?: string }[];
+  roadmap?: { title: string; steps: string[] };
+  presentation?: { slides: string[] };
+};
+
+export type ReasoningMode =
+  | "fast" | "deep" | "founder" | "business" | "developer" | "research" | "education" | "creative";
+
+export type PlannerTier = "none" | "small" | "large" | "multi_agent";
+
+export type MemoryScope =
+  | "conversation" | "workspace" | "company" | "founder" | "project" | "brand" | "learning";
+
+export type KnowledgeScope = "internal" | "workspace" | "founder" | "company" | "internet";
+
+export type DigitalHumanMode =
+  | "answer" | "confirm" | "warn" | "celebrate"
+  | "friend" | "consultant" | "presentation" | "roadmap" | "whiteboard";
+
+export type MirrorResult = {
+  text: string;
+  confidence: number;
+  needsClarification: boolean;
+  clarification?: string;
 };
 
 export interface RunBrainInput {
@@ -496,14 +522,65 @@ export interface RunBrainInput {
 }
 
 export const brainPipeline = {
-  /** Stage 3 — MIRROR: reflect back the user's framing in one sentence. */
-  mirror(input: string, persona: RunBrainInput["persona"] = "guest") {
+  /** Stage 3 — MIRROR: reflect back the user's framing + confidence gate. */
+  mirror(input: string, persona: RunBrainInput["persona"] = "guest", confidence = 0.5): MirrorResult {
     const trimmed = input.trim().replace(/\s+/g, " ");
     const opener =
       persona === "founder" ? "Founder — hearing you say:"
       : persona === "customer" ? "Got it:"
       : "Understood:";
-    return `${opener} "${trimmed.slice(0, 240)}${trimmed.length > 240 ? "…" : ""}"`;
+    const text = `${opener} "${trimmed.slice(0, 240)}${trimmed.length > 240 ? "…" : ""}"`;
+    const tooShort = trimmed.length > 0 && trimmed.split(/\s+/).length < 2;
+    const lowConf = confidence < 0.45;
+    const needsClarification = !trimmed || tooShort || lowConf;
+    return {
+      text, confidence, needsClarification,
+      clarification: needsClarification
+        ? "I want to be sure I understood — could you add a little more detail on what you'd like me to do?"
+        : undefined,
+    };
+  },
+
+  /** R115.c — pick reasoning mode from intent + persona + module. */
+  pickReasoningMode(guess: IntentGuess, input: RunBrainInput): ReasoningMode {
+    if (input.founder_mode || input.persona === "founder") return "founder";
+    const mod = (input.module ?? "").toLowerCase();
+    if (mod.includes("builder") || guess.runtime === "builder" || guess.runtime === "deployment") return "developer";
+    if (mod.includes("education")) return "education";
+    if (mod.includes("research")) return "research";
+    if (mod.includes("creative") || mod.includes("brand")) return "creative";
+    if (guess.intent === "analytics" || guess.intent === "finance" || guess.intent === "business") return "business";
+    if (guess.confidence >= 0.85) return "fast";
+    return "deep";
+  },
+
+  /** R115.c — planner tier selection based on step count + intent. */
+  pickPlannerTier(guess: IntentGuess, steps: number): PlannerTier {
+    if (guess.intent === "conversation" || guess.intent === "unknown") return "none";
+    if (steps <= 1) return "small";
+    if (steps <= 3) return "large";
+    return "multi_agent";
+  },
+
+  /** R115.c — memory scopes to load for this turn. */
+  pickMemoryScopes(guess: IntentGuess, input: RunBrainInput): MemoryScope[] {
+    const scopes = new Set<MemoryScope>(["conversation"]);
+    if (input.workspace_id) scopes.add("workspace");
+    if (input.company_id) scopes.add("company");
+    if (input.founder_mode || input.persona === "founder") scopes.add("founder");
+    if (guess.runtime === "builder" || guess.runtime === "deployment") scopes.add("project");
+    if ((input.module ?? "").toLowerCase().includes("brand")) scopes.add("brand");
+    scopes.add("learning");
+    return [...scopes];
+  },
+
+  /** R115.c — knowledge scopes for this turn. */
+  pickKnowledgeScopes(guess: IntentGuess, input: RunBrainInput): KnowledgeScope[] {
+    const scopes: KnowledgeScope[] = ["internal"];
+    if (input.workspace_id) scopes.push("workspace");
+    if (input.company_id) scopes.push("company");
+    if (input.founder_mode || input.persona === "founder") scopes.push("founder");
+    return scopes;
   },
 
   /** Stage 9 — SELECT AGENTS from the intent's chosen runtime. */
@@ -527,15 +604,52 @@ export const brainPipeline = {
     return map[guess.runtime] ?? ["router"];
   },
 
+  /** R115.c — decide Digital Human mode from persona + intent + result. */
+  pickDigitalHumanMode(guess: IntentGuess, input: RunBrainInput, denied: boolean): DigitalHumanMode {
+    if (denied) return "warn";
+    if (input.source === "digital_human" && input.persona === "customer") return "friend";
+    if (input.persona === "founder" || input.founder_mode) return "consultant";
+    if (guess.action === "founder_overview" || guess.action === "forecast") return "presentation";
+    if (guess.runtime === "builder" || guess.runtime === "deployment") return "roadmap";
+    if (guess.intent === "analytics") return "whiteboard";
+    return "answer";
+  },
+
   /** Stage 11 — DIGITAL HUMAN envelope shaping. */
-  toDigitalHuman(reply: string, kind: "answer" | "confirm" | "warn" | "celebrate" = "answer"): DigitalHumanEnvelope {
-    const preset: Record<string, Pick<DigitalHumanEnvelope, "emotion" | "gesture">> = {
-      answer: { emotion: "warm", gesture: "explain" },
-      confirm: { emotion: "focused", gesture: "nod" },
-      warn: { emotion: "concerned", gesture: "point" },
-      celebrate: { emotion: "celebratory", gesture: "celebrate" },
+  toDigitalHuman(reply: string, kind: DigitalHumanMode = "answer"): DigitalHumanEnvelope {
+    const preset: Record<DigitalHumanMode, Pick<DigitalHumanEnvelope, "emotion" | "gesture" | "expression" | "voice">> = {
+      answer:       { emotion: "warm",        gesture: "explain",   expression: "smile",   voice: { rate: 1.0, pitch: 1.0 } },
+      confirm:      { emotion: "focused",     gesture: "nod",       expression: "serious", voice: { rate: 1.0, pitch: 1.0 } },
+      warn:         { emotion: "concerned",   gesture: "point",     expression: "serious", voice: { rate: 0.95, pitch: 0.95 } },
+      celebrate:    { emotion: "celebratory", gesture: "celebrate", expression: "smile",   voice: { rate: 1.05, pitch: 1.1 } },
+      friend:       { emotion: "warm",        gesture: "wave",      expression: "smile",   voice: { rate: 1.0, pitch: 1.05 } },
+      consultant:   { emotion: "focused",     gesture: "explain",   expression: "serious", voice: { rate: 0.98, pitch: 0.98 } },
+      presentation: { emotion: "focused",     gesture: "point",     expression: "serious", voice: { rate: 0.95, pitch: 1.0 } },
+      roadmap:      { emotion: "focused",     gesture: "explain",   expression: "curious", voice: { rate: 1.0, pitch: 1.0 } },
+      whiteboard:   { emotion: "focused",     gesture: "point",     expression: "curious", voice: { rate: 1.0, pitch: 1.0 } },
     };
-    return { text: reply, eyeContact: true, ...preset[kind] };
+    const env: DigitalHumanEnvelope = { text: reply, eyeContact: true, mode: kind, ...preset[kind] };
+    if (kind === "roadmap") env.roadmap = { title: "Plan", steps: [] };
+    if (kind === "presentation") env.presentation = { slides: [reply] };
+    if (kind === "whiteboard") env.whiteboard = [{ op: "write", content: reply }];
+    return env;
+  },
+
+  /** R115.c — LEARN artifacts extracted post-turn. */
+  learn(input: string, guess: IntentGuess, executed: any[], recommendations: any[]) {
+    const failures = (executed ?? []).filter((e: any) => e?.status === "failed" || e?.denied);
+    const lessons: string[] = [];
+    const gaps: string[] = [];
+    const candidates: string[] = [];
+    const suggestions: string[] = [];
+    if (guess.confidence < 0.6) gaps.push(`Low intent confidence (${guess.confidence.toFixed(2)}) for input: "${input.slice(0, 80)}"`);
+    if (failures.length) lessons.push(`${failures.length} step(s) failed or denied — inspect safety rules and runtime health.`);
+    if (guess.intent === "unknown") gaps.push("No rule matched — consider a new intent rule.");
+    for (const r of recommendations ?? []) {
+      if (r?.priority === "high") suggestions.push(r.title);
+    }
+    if (guess.action) candidates.push(`Prefer runtime ${guess.runtime} for action ${guess.action}`);
+    return { lessons, knowledgeGaps: gaps, memoryCandidates: candidates, suggestions };
   },
 };
 
