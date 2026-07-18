@@ -221,14 +221,19 @@ export function gestureFor(intent: Intent): GestureCue {
 }
 
 /** R110 P1 — Posture cue derived from convo state + intent. Pure map. */
-export type PostureCue = "idle" | "listening" | "thinking" | "speaking" | "greeting";
+export type PostureCue =
+  | "idle" | "listening" | "thinking" | "speaking" | "greeting"
+  | "interrupted" | "recovery";
 
 export function postureFor(state: ConvoState, intent?: Intent): PostureCue {
   if (state === "listening") return "listening";
   if (state === "thinking") return "thinking";
+  if (state === "interrupted") return "interrupted";
+  if (state === "finished") return "recovery";
   if (state === "speaking") return intent === "greeting" ? "greeting" : "speaking";
   return "idle";
 }
+
 
 /**
  * R110 P1 — TTS-failure fallback surface. When streaming voice fails or

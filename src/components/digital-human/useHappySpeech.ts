@@ -12,10 +12,26 @@
  *   - This is the real signal driving the avatar mouth overlay and the
  *     live waveform. Not fake timers.
  */
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { clearSpeech, publishSpeech, useSpeechSignal } from "./audio-bus";
+import {
+  INITIAL_VOICE_FALLBACK,
+  voiceFallbackOnError,
+  voiceFallbackOnRecovery,
+  type VoiceFallbackState,
+} from "./conversation-engine";
 
-type Options = { voice?: string; speed?: number; onStart?: () => void; onEnd?: () => void };
+type Options = {
+  voice?: string;
+  speed?: number;
+  onStart?: () => void;
+  onEnd?: () => void;
+  /** R110 P1 — TTS unavailable: caller should show subtitles / retry banner. */
+  onFallback?: (state: VoiceFallbackState) => void;
+  /** R110 P1 — TTS recovered: caller may hide subtitles banner. */
+  onRecovery?: () => void;
+};
+
 
 // Minimal SSE parser (no dependency)
 function parseSse(chunk: string, onEvent: (data: string) => void, carry: { buf: string }) {
@@ -42,6 +58,10 @@ export function useHappySpeech() {
   const abortRef = useRef<AbortController | null>(null);
   const rafRef = useRef<number | null>(null);
   const speakingRef = useRef(false);
+  // R110 P1 — Track TTS availability; caller flips subtitles/retry banner UI.
+  const fallbackRef = useRef<VoiceFallbackState>(INITIAL_VOICE_FALLBACK);
+  const [fallback, setFallback] = useState<VoiceFallbackState>(INITIAL_VOICE_FALLBACK);
+
 
   const stopMeter = useCallback(() => {
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
@@ -144,6 +164,12 @@ export function useHappySpeech() {
           signal: ac.signal,
         });
         if (!res.ok || !res.body) throw new Error(`TTS failed: ${res.status}`);
+        // Success — clear any prior fallback state.
+        if (fallbackRef.current.mode !== "voice") {
+          fallbackRef.current = voiceFallbackOnRecovery();
+          setFallback(fallbackRef.current);
+          opts.onRecovery?.();
+        }
         const carry = { buf: "" };
         const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
         while (true) {
@@ -171,7 +197,12 @@ export function useHappySpeech() {
         const tail = Math.max(0, playhead - ctx!.currentTime + 0.2);
         if (tail > 0) await new Promise((r) => setTimeout(r, tail * 1000));
       } catch (e) {
-        if ((e as Error).name !== "AbortError") console.warn("HAPPY speech failed:", e);
+        if ((e as Error).name !== "AbortError") {
+          console.warn("HAPPY speech failed:", e);
+          fallbackRef.current = voiceFallbackOnError(fallbackRef.current, e);
+          setFallback(fallbackRef.current);
+          opts.onFallback?.(fallbackRef.current);
+        }
       } finally {
         speakingRef.current = false;
         stopMeter();
@@ -181,5 +212,6 @@ export function useHappySpeech() {
     [stop, stopMeter],
   );
 
-  return { speak, stop };
+  return { speak, stop, fallback };
+
 }

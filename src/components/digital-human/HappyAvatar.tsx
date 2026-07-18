@@ -12,6 +12,8 @@
 import { lazy, memo, Suspense, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { detectRuntime } from "./renderers/runtime-detect";
+import type { GestureCue, PostureCue } from "./conversation-engine";
+
 
 // Lazy-load the VRM renderer so three.js only enters the bundle when the
 // Founder's VRM asset is actually present + selected.
@@ -47,7 +49,12 @@ type Props = {
   amplitude?: number;
   /** Spectral centroid 0..1 — biases mouth shape (closed/O ↔ E/AI). */
   centroid?: number;
+  /** R110 P1 — One-shot gesture cue (wave/point/celebrate/…). Retriggers on change. */
+  gesture?: GestureCue;
+  /** R110 P1 — Posture cue derived from convo state; biases stance + halo intensity. */
+  postureCue?: PostureCue;
 };
+
 
 
 /**
@@ -252,10 +259,13 @@ export const HappyAvatar = memo(function HappyAvatar({
   gazeTarget = null,
   amplitude = 0,
   centroid = 0,
+  gesture = "none",
+  postureCue,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
   const drift = useMicroMotion(reducedMotion, activity, expression, posture);
+
   const [gaze, setGaze] = useState({ x: 0, y: 0 });
   // Explicit gaze target (e.g. whiteboard region) overrides cursor tracking.
   useEffect(() => {
@@ -309,14 +319,31 @@ export const HappyAvatar = memo(function HappyAvatar({
   const radius = variant === "portrait" ? "1.75rem" : "9999px";
 
 
+  // R110 P1 — Retrigger a one-shot CSS animation whenever `gesture` changes.
+  const gestureNonceRef = useRef(0);
+  gestureNonceRef.current += 1;
+  const gestureKey = gesture !== "none" ? `${gesture}-${gestureNonceRef.current}` : undefined;
+
   return (
     <div
       ref={rootRef}
       role="img"
       aria-label="HAPPY, the digital human"
       className={cn("relative select-none isolate", className)}
+      data-gesture={gesture}
+      data-posture-cue={postureCue ?? "idle"}
       style={{ width: size, height: variant === "portrait" ? Math.round(size * 1.25) : size }}
     >
+      {gesture !== "none" && !reducedMotion && (
+        <span
+          key={gestureKey}
+          aria-hidden
+          className={cn("pointer-events-none absolute inset-0 rounded-[inherit]", `dh-gesture-${gesture}`)}
+          style={{ borderRadius: radius }}
+        />
+      )}
+
+
 
       {/* soft gold halo */}
       <div
@@ -555,9 +582,20 @@ export const HappyAvatar = memo(function HappyAvatar({
         .dh-thinking-halo { animation: dh-thinking-halo 6s linear infinite; }
         @keyframes dh-mouth-glow { 0%,100% { opacity: 0.55 } 50% { opacity: 1 } }
         .dh-mouth-glow { animation: dh-mouth-glow 320ms ease-in-out infinite; mix-blend-mode: screen; }
+        /* R110 P1 — One-shot gesture overlays. Retriggered via React key. */
+        @keyframes dh-gest-wave { 0%{transform:translateX(-6%) rotate(-2deg);opacity:.55} 40%{transform:translateX(4%) rotate(2deg);opacity:.7} 100%{transform:translateX(0) rotate(0);opacity:0} }
+        @keyframes dh-gest-point { 0%{transform:translateX(0);opacity:.55} 45%{transform:translateX(6%);opacity:.75} 100%{transform:translateX(0);opacity:0} }
+        @keyframes dh-gest-nod { 0%{transform:translateY(0);opacity:.5} 50%{transform:translateY(3%);opacity:.7} 100%{transform:translateY(0);opacity:0} }
+        @keyframes dh-gest-pulse { 0%{transform:scale(1);opacity:.6} 60%{transform:scale(1.04);opacity:.85} 100%{transform:scale(1);opacity:0} }
+        .dh-gesture-greeting, .dh-gesture-wave { background: radial-gradient(50% 40% at 50% 40%, rgba(232,201,106,0.35), transparent 70%); mix-blend-mode: screen; animation: dh-gest-wave 900ms ease-out 1 both; }
+        .dh-gesture-point, .dh-gesture-explain, .dh-gesture-presentation, .dh-gesture-teaching, .dh-gesture-whiteboard { background: radial-gradient(45% 35% at 65% 50%, rgba(232,201,106,0.28), transparent 72%); mix-blend-mode: screen; animation: dh-gest-point 850ms ease-out 1 both; }
+        .dh-gesture-celebrate, .dh-gesture-thank_you { background: radial-gradient(70% 55% at 50% 45%, rgba(232,201,106,0.4), transparent 70%); mix-blend-mode: screen; animation: dh-gest-pulse 950ms ease-out 1 both; }
+        .dh-gesture-goodbye { background: radial-gradient(50% 40% at 50% 40%, rgba(180,200,220,0.28), transparent 70%); mix-blend-mode: screen; animation: dh-gest-nod 900ms ease-out 1 both; }
         @media (prefers-reduced-motion: reduce) {
-          .dh-breathe, .dh-sway, .dh-ring-1, .dh-ring-2, .dh-ring-slow, .dh-thinking-halo, .dh-mouth-glow { animation: none !important; }
+          .dh-breathe, .dh-sway, .dh-ring-1, .dh-ring-2, .dh-ring-slow, .dh-thinking-halo, .dh-mouth-glow,
+          [class*="dh-gesture-"] { animation: none !important; }
         }
+
       `}</style>
     </div>
   );
