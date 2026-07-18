@@ -8,6 +8,7 @@
  * bridge in HappyDesk.
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { requireSupabaseUser, enforceRateLimit } from "@/lib/security/api-auth";
 
 const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/audio/transcriptions";
 const MODEL = "openai/gpt-4o-mini-transcribe";
