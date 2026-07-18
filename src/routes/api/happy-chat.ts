@@ -39,6 +39,11 @@ export const Route = createFileRoute("/api/happy-chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const auth = await requireSupabaseUser(request);
+        if (auth instanceof Response) return auth;
+        const rl = enforceRateLimit(`happy_chat:${auth.userId}`, { capacity: 8, refillPerSec: 30 / 60 });
+        if (rl) return rl;
+
         const key = process.env.LOVABLE_API_KEY;
         if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
 
