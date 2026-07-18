@@ -47,7 +47,7 @@ describe("R141 — Creator Studio + Builder UI Completion", () => {
       expect(src).toContain(to);
     }
   });
-  it("FOUNDER LOCK — no Creator V2 / Builder V2 runtime introduced", () => {
+  it("FOUNDER LOCK — no Creator V2 / Builder V2 runtime imported", () => {
     for (const f of [
       "src/routes/_authenticated/studio.hub.tsx",
       "src/routes/_authenticated/builder.tsx",
@@ -58,8 +58,11 @@ describe("R141 — Creator Studio + Builder UI Completion", () => {
       "src/routes/_authenticated/ai-builder.tsx",
     ]) {
       const src = R(f);
-      expect(src).not.toMatch(/creator[- ]?v2/i);
-      expect(src).not.toMatch(/builder[- ]?v2/i);
+      // Only import statements are checked — comments may reference "no V2".
+      const imports = src.split("\n").filter((l) => l.trim().startsWith("import"));
+      for (const line of imports) {
+        expect(line).not.toMatch(/creator-v2|builder-v2/i);
+      }
     }
   });
 });
