@@ -1,5 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { streamHappy } from "@/lib/happy-stream";
+
+// R134: stub the supabase client so streamHappy sees an authed session.
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: {
+    auth: {
+      getSession: async () => ({ data: { session: { access_token: "test-token" } } }),
+    },
+  },
+}));
+
+const { streamHappy } = await import("@/lib/happy-stream");
 
 function makeSse(chunks: string[]): ReadableStream<Uint8Array> {
   const enc = new TextEncoder();
@@ -45,19 +55,21 @@ describe("R94 — HAPPY streaming client", () => {
   it("returns aborted with partial text when the signal fires", async () => {
     // Fetch that rejects like a real aborted fetch.
     vi.stubGlobal("fetch", vi.fn(async (_u, init?: RequestInit) => {
-      await new Promise((_, rej) => {
-        const s = init?.signal;
-        s?.addEventListener("abort", () => {
+      const s = init?.signal;
+      return await new Promise((_, rej) => {
+        const fire = () => {
           const e = new Error("aborted");
           e.name = "AbortError";
           rej(e);
-        });
+        };
+        if (s?.aborted) return fire();
+        s?.addEventListener("abort", fire);
       });
-      return new Response();
     }));
     const c = new AbortController();
     const p = streamHappy({ message: "x", onDelta: () => {}, signal: c.signal });
-    c.abort();
+    // Defer abort so the fetch mock has attached its listener first.
+    setTimeout(() => c.abort(), 10);
     const r = await p;
     expect(r.ok).toBe(false);
     expect(r.errorKind).toBe("aborted");

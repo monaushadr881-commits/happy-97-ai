@@ -3,8 +3,18 @@
  * Verifies the MediaRecorder → /api/happy-stt path routes transcripts
  * through the shared `classifyIntent` pipeline (no second runtime).
  */
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { transcribeBlob, isMediaRecorderSupported } from "@/lib/happy-r83/voice-fallback";
+import { describe, it, expect, vi, afterEach } from "vitest";
+
+// R134: stub the supabase client so transcribeBlob sees an authed session.
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: {
+    auth: {
+      getSession: async () => ({ data: { session: { access_token: "test-token" } } }),
+    },
+  },
+}));
+
+const { transcribeBlob, isMediaRecorderSupported } = await import("@/lib/happy-r83/voice-fallback");
 
 describe("R96 voice-fallback", () => {
   afterEach(() => { vi.restoreAllMocks(); });

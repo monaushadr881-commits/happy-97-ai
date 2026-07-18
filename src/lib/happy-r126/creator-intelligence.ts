@@ -500,8 +500,8 @@ export function classifyCreatorIntent(query: string): CreatorIntent | null {
   if (/\b(audio|voice[- ]?over|podcast|music|bgm|tts|narrate)\b/.test(q)) return "audio";
   if (/\b(pdf|deck|slide|presentation|proposal|brochure|invoice|resume|report|certificate)\b/.test(q)) return "document";
   if (/\b(brand|logo kit|palette|typography|guidelines)\b/.test(q)) return "brand";
+  if (/\b(schedule|calendar|plan|when to post|when should i post|best time)\b/.test(q)) return "schedule";
   if (/\b(publish|post|share|upload)\b/.test(q)) return "publish";
-  if (/\b(schedule|calendar|plan|when to post)\b/.test(q)) return "schedule";
   if (/\b(analytics|views|reach|engagement|watch time|performance)\b/.test(q)) return "analytics";
   if (/\b(idea|topic|angle|hook|script)\b/.test(q)) return "ideas";
   return null;
