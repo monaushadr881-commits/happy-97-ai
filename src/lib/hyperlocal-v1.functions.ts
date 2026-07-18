@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
+ * Canonical owner: src/lib/happy-r129/enterprise-intelligence.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — Hyperlocal Intelligence OS (HIOS) API v1
  *
  * Central hyperlocal engine backing AAS PAAS. Everything routes through

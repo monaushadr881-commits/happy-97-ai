@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: SHIM
+ * Canonical owner: src/routes/api/*
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — API v2 (Reserved Server Functions)
  *
  * Roadmap contracts for v2.0 – v6.0. Every function is an authenticated

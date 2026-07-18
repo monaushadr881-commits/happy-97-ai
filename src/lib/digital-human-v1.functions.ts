@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
+ * Canonical owner: src/components/digital-human/HappyVRM.tsx
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — Digital Human OS API v1 (server functions)
  *
  * The complete backend surface for HDHOS. HAPPY is the single digital-human

@@ -1,4 +1,11 @@
 /**
+ * ⚠️ R145 CONSOLIDATION MARKER — class: SHIM
+ * Canonical owner: src/lib/happy-r121/builder-intelligence.ts
+ * All future work MUST extend the canonical owner, not this file.
+ * This file's exports are preserved for backward compatibility only.
+ * @deprecated Extend the canonical owner listed above.
+ */
+/**
  * HAPPY X — Plugin Ecosystem API v2 (Reserved Server Functions)
  *
  * Phase 2.5 of the v2.0 roadmap. All handlers are authenticated and delegate
