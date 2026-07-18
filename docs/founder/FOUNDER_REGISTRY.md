@@ -579,3 +579,4 @@ Extends R151. Non-duplicating. Reuse canonical owners. Runtime guards enforce "e
 | FM519 | NVIDIA ACE Bridge (Speech · Emotion · Face · Conversation · Streaming · LipSync) | Future Platform / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-r152/bridges/nvidia-ace.ts` |
 | FM520 | Live2D Bridge (Motion · Expression · Physics · LipSync · Animation) | Future Platform / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-r152/bridges/live2d.ts` |
 | FM521 | Unified Asset Registry | Future Platform / Assets | P1 | ✅ ARCHITECTURE READY | `src/lib/happy-r152/asset-registry.ts` |
+| FM522 | Founder Unlimited Policy (Credits · Subscription · Wallet · Quotas · AI · Builder · Storage · API · Brain · Memory · Search · DH) | Governance / Revenue | P0 | ✅ SHIPPED | `src/lib/founder/unlimited-policy.ts` |
