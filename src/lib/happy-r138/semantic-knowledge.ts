@@ -59,7 +59,7 @@ export interface HybridSearchPlan {
   q: string;
   mode: QueryMode;
   domains: SearchDomain[];
-  time?: { since: Date; label: string };
+  time?: TimeWindow;
   keyword: { enabled: true; op: "websearch" | "ilike" };
   vector: { enabled: boolean; topK: number; minScore: number };
   fuse: { keywordWeight: number; vectorWeight: number };
