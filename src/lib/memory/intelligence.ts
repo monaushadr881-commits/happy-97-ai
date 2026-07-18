@@ -143,9 +143,9 @@ export function autoTag(text: string, hint: ClassifyInput["hint"] = {}, extra?: 
 export function prioritize(text: string, kind: MemoryKind, founder: boolean): 1 | 2 | 3 | 4 | 5 {
   let score = 2;
   if (founder || kind === "founder") score += 2;
-  if (/\b(critical|urgent|blocker|deadline|revenue|churn|outage)\b/i.test(text)) score += 1;
+  if (/\b(critical|urgent|blocker|deadline|revenue|churn|outage)\b/i.test(text)) score += 2;
   if (text.length > 400) score += 1;
-  if (text.length < 40) score -= 1;
+  if (text.length < 20) score -= 1;
   return Math.max(1, Math.min(5, score)) as 1 | 2 | 3 | 4 | 5;
 }
 
@@ -217,8 +217,12 @@ export type PermissionActor = {
 export function assertMemoryPermission(actor: PermissionActor, action: "read" | "write" | "forget", target: {
   scope: MemoryScope; kind: MemoryKind; workspace_id?: string | null; company_id?: string | null;
 }): void {
-  if (actor.isFounder) return; // founders bypass
-  if (target.kind === "founder" && !actor.isFounder) {
+  // Forget guard applies to EVERYONE, including founders (never delete Founder knowledge).
+  if (action === "forget" && target.kind === "founder") {
+    throw new Error("memory.permission: founder knowledge cannot be forgotten");
+  }
+  if (actor.isFounder) return; // founders bypass other checks
+  if (target.kind === "founder") {
     throw new Error("memory.permission: founder-scope requires platform founder role");
   }
   if (target.scope === "workspace" && !actor.isWorkspaceMember) {
@@ -226,9 +230,6 @@ export function assertMemoryPermission(actor: PermissionActor, action: "read" | 
   }
   if (target.scope === "company" && !actor.isCompanyMember) {
     throw new Error("memory.permission: company-scope requires company membership");
-  }
-  if (action === "forget" && target.kind === "founder") {
-    throw new Error("memory.permission: founder knowledge cannot be forgotten");
   }
 }
 
