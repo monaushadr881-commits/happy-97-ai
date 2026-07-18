@@ -371,7 +371,8 @@ export function resolveForBrain(prompt: string): BrainErpHint {
   const wantsErp = /(erp|inventor|warehouse|stock|purchase|procur|supplier|vendor|po|grn|bom|production|manufact|machine|batch|quality|qc|invoice|payment|ledger|gst|tax|asset|depreciation|reorder|shipment)/.test(p);
   if (!wantsErp) return { wantsErp: false, reason: "no erp keywords" };
   let domain: BrainErpHint["domain"];
-  if (/(purchase|procur|supplier|vendor|po|grn|rfq)/.test(p)) domain = "procurement";
+  if (/(invoice|payment|ledger|gst|tax|cash|receivable|payable)/.test(p)) domain = "finance";
+  else if (/(purchase|procur|supplier|vendor|\bpo\b|grn|rfq)/.test(p)) domain = "procurement";
   else if (/(bom|production|manufact|machine|batch|work order)/.test(p)) domain = "manufacturing";
   else if (/(inventor|stock|reorder|expiry|serial)/.test(p)) domain = "inventory";
   else if (/(warehouse|pick|pack|dispatch|bin|zone)/.test(p)) domain = "warehouse";
