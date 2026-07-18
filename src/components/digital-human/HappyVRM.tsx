@@ -27,6 +27,8 @@ import { VRM, VRMLoaderPlugin, VRMUtils, VRMExpressionPresetName } from "@pixiv/
 import vrmAsset from "@/assets/digital-human/vrm/happy.vrm.asset.json";
 import type { AvatarActivity, AvatarExpression } from "./HappyAvatar";
 
+import type { GestureCue, PostureCue } from "./conversation-engine";
+
 type Props = {
   expression: AvatarExpression;
   activity: AvatarActivity;
@@ -35,7 +37,12 @@ type Props = {
   amplitude: number;
   centroid: number;
   gazeTarget: { x: number; y: number } | null;
+  /** R110 P1 — one-shot gesture cue; drives a short bone animation. */
+  gesture?: GestureCue;
+  /** R110 P1 — posture cue derived from convo state. */
+  postureCue?: PostureCue;
 };
+
 
 /** Map our internal expression tokens onto VRM expression presets. */
 const EXPRESSION_TO_VRM: Record<AvatarExpression, VRMExpressionPresetName> = {
