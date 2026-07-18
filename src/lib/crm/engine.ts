@@ -63,7 +63,7 @@ export const leads = {
     let q = sb.from("leads").select("*").eq("company_id", companyId).is("deleted_at", null);
     if (opts.stage) q = q.eq("stage", opts.stage as never);
     if (opts.owner) q = q.eq("owner_id", opts.owner);
-    if (opts.q) q = q.or(`name.ilike.%${opts.q}%,email.ilike.%${opts.q}%,phone.ilike.%${opts.q}%`);
+    if (opts.q) { const s = sanitizePgRestLike(opts.q); if (s) q = q.or(`name.ilike.%${s}%,email.ilike.%${s}%,phone.ilike.%${s}%`); }
     const { data, error } = await q.order("created_at", { ascending: false }).limit(opts.limit ?? 100);
     if (error) throw error;
     return data ?? [];
