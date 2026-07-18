@@ -13,10 +13,12 @@ import {
   Shield,
   BarChart3,
   Settings2,
+  Newspaper,
 } from "lucide-react";
 
 const TABS = [
   { to: "/founder", label: "Overview", icon: LayoutDashboard, exact: true },
+  { to: "/founder/brief", label: "Brief", icon: Newspaper, exact: false },
   { to: "/founder/companies", label: "Companies", icon: Building2, exact: false },
   { to: "/founder/users", label: "Users", icon: Users, exact: false },
   { to: "/founder/ai", label: "AI", icon: Sparkles, exact: false },
