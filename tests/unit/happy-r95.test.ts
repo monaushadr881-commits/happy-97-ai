@@ -4,7 +4,15 @@
  * and forwards to the Lovable AI Gateway using the shared runtime key.
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { Route } from "@/routes/api/happy-stt";
+
+// R134: stub the shared auth/rate-limit guard so tests exercise the STT
+// handler logic itself, not the bearer verification (covered elsewhere).
+vi.mock("@/lib/security/api-auth", () => ({
+  requireSupabaseUser: async () => ({ userId: "test-user" }),
+  enforceRateLimit: () => null,
+}));
+
+const { Route } = await import("@/routes/api/happy-stt");
 
 const handler = (Route.options as { server: { handlers: { POST: (ctx: { request: Request }) => Promise<Response> } } }).server.handlers.POST;
 
