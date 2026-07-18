@@ -10,7 +10,8 @@ import type { MemoryStoreInput, MemoryKind, MemoryScope } from "./engine";
 
 export type MemoryCategory =
   | "personal" | "conversation" | "workspace" | "company" | "brand"
-  | "project" | "learning" | "founder" | "shared" | "temporary" | "archived";
+  | "project" | "learning" | "founder" | "knowledge" | "digital_human"
+  | "shared" | "temporary" | "archived";
 
 export type MemoryConfidence =
   | "verified" | "user_confirmed" | "ai_inferred" | "expired" | "archived";
