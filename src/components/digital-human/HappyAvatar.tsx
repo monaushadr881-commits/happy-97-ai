@@ -49,7 +49,12 @@ type Props = {
   amplitude?: number;
   /** Spectral centroid 0..1 — biases mouth shape (closed/O ↔ E/AI). */
   centroid?: number;
+  /** R110 P1 — One-shot gesture cue (wave/point/celebrate/…). Retriggers on change. */
+  gesture?: GestureCue;
+  /** R110 P1 — Posture cue derived from convo state; biases stance + halo intensity. */
+  postureCue?: PostureCue;
 };
+
 
 
 /**
