@@ -7,6 +7,9 @@ import type { Database } from "@/integrations/supabase/types";
 
 type SB = SupabaseClient<Database>;
 
+// R116 perf: mask long select strings from type-level parsing.
+const sel = (s: string): string => s;
+
 export type MemoryKind =
   | "conversation" | "workspace" | "project" | "company" | "customer"
   | "builder" | "marketplace" | "crm" | "erp" | "finance"
@@ -100,7 +103,7 @@ export async function memoryStore(sb: SB, userId: string, input: MemoryStoreInpu
     pinned: !!input.pinned,
   };
 
-  const { data, error } = await sb.from("memory_items").insert(row as never).select("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at").single();
+  const { data, error } = await sb.from("memory_items").insert(row as never).select(sel("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at")).single();
   if (error) throw error;
   await audit(sb, userId, "store", { memory_id: data.id, company_id: data.company_id, runtime: input.source ?? "app" });
   return data;
@@ -108,7 +111,7 @@ export async function memoryStore(sb: SB, userId: string, input: MemoryStoreInpu
 
 // ---------- retrieve ----------
 export async function memoryGet(sb: SB, userId: string, id: string) {
-  const { data, error } = await sb.from("memory_items").select("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at").eq("id", id).maybeSingle();
+  const { data, error } = await sb.from("memory_items").select(sel("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at")).eq("id", id).maybeSingle();
   if (error) throw error;
   if (!data) return null;
   // touch stats (best effort; RLS may block update on non-owner rows)
@@ -120,7 +123,7 @@ export async function memoryGet(sb: SB, userId: string, id: string) {
 }
 
 export async function memoryList(sb: SB, userId: string, q: MemoryQuery = {}) {
-  let query = sb.from("memory_items").select("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at");
+  let query = sb.from("memory_items").select(sel("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at"));
   if (!q.include_archived) query = query.eq("archived", false);
   if (q.scope) query = query.eq("scope", q.scope);
   if (q.kind) query = Array.isArray(q.kind) ? query.in("kind", q.kind) : query.eq("kind", q.kind);
@@ -149,7 +152,7 @@ export async function memorySearch(sb: SB, userId: string, q: MemoryQuery) {
   if (!term) return memoryList(sb, userId, q);
 
   // Keyword search using full-text index (title/summary/body/tags)
-  let query = sb.from("memory_items").select("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at").textSearch("search_tsv", term, { type: "websearch" });
+  let query = sb.from("memory_items").select(sel("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at")).textSearch("search_tsv", term, { type: "websearch" });
   if (!q.include_archived) query = query.eq("archived", false);
   if (q.scope) query = query.eq("scope", q.scope);
   if (q.kind) query = Array.isArray(q.kind) ? query.in("kind", q.kind) : query.eq("kind", q.kind);
@@ -181,7 +184,7 @@ export async function memoryUpdate(sb: SB, userId: string, id: string, patch: Pa
   const clean: Record<string, unknown> = {};
   const allowed = ["title", "body", "summary", "tags", "importance", "sensitivity", "pinned", "expires_at", "metadata"] as const;
   for (const k of allowed) if (patch[k] !== undefined) clean[k] = patch[k];
-  const { data, error } = await sb.from("memory_items").update(clean as never).eq("id", id).select("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at").single();
+  const { data, error } = await sb.from("memory_items").update(clean as never).eq("id", id).select(sel("id, company_id, workspace_id, user_id, kind, scope, title, body, summary, tags, entity_type, entity_id, source, importance, sensitivity, metadata, embedding, pinned, archived, expires_at, last_accessed_at, access_count, created_at, updated_at")).single();
   if (error) throw error;
   await audit(sb, userId, "update", { memory_id: id, company_id: data.company_id });
   return data;
