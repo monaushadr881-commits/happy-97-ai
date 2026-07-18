@@ -46,20 +46,20 @@ export function classifyQuery(q: string): QueryMode {
 
 // ---------- Intent → domains ----------
 const DOMAIN_HINTS: Array<[RegExp, SearchDomain[]]> = [
-  [/\b(invoice|payment|revenue|order|billing)\b/i, ["analytics", "files", "companies"]],
-  [/\b(agent|ai agent|bot|copilot)\b/i, ["agents", "automation"]],
-  [/\b(roadmap|milestone|okr|goal)\b/i, ["projects", "knowledge"]],
-  [/\b(presentation|deck|slide|pitch|investor)\b/i, ["files", "knowledge"]],
-  [/\b(task|todo|ticket|issue)\b/i, ["tasks", "projects"]],
-  [/\b(meeting|call|event|calendar)\b/i, ["calendar", "chats"]],
-  [/\b(course|lesson|training|learn)\b/i, ["courses", "knowledge"]],
-  [/\b(builder|template|component|block)\b/i, ["builders", "marketplace"]],
-  [/\b(user|member|people|contact|customer)\b/i, ["users", "companies"]],
-  [/\b(chat|conversation|message|thread)\b/i, ["chats", "memory"]],
-  [/\b(file|doc|document|pdf|image|video)\b/i, ["files", "folders"]],
-  [/\b(brand|logo|identity)\b/i, ["brands", "companies"]],
+  [/\b(invoices?|payments?|revenue|orders?|billing)\b/i, ["analytics", "files", "companies"]],
+  [/\b(agents?|bots?|copilots?)\b/i, ["agents", "automation"]],
+  [/\b(roadmaps?|milestones?|okr|goals?)\b/i, ["projects", "knowledge"]],
+  [/\b(presentations?|decks?|slides?|pitch|investor)\b/i, ["files", "knowledge"]],
+  [/\b(tasks?|todos?|tickets?|issues?)\b/i, ["tasks", "projects"]],
+  [/\b(meetings?|calls?|events?|calendar)\b/i, ["calendar", "chats"]],
+  [/\b(courses?|lessons?|training|learn)\b/i, ["courses", "knowledge"]],
+  [/\b(builders?|templates?|components?|blocks?)\b/i, ["builders", "marketplace"]],
+  [/\b(users?|members?|people|contacts?|customers?)\b/i, ["users", "companies"]],
+  [/\b(chats?|conversations?|messages?|threads?)\b/i, ["chats", "memory"]],
+  [/\b(files?|docs?|documents?|pdfs?|images?|videos?)\b/i, ["files", "folders"]],
+  [/\b(brands?|logos?|identity)\b/i, ["brands", "companies"]],
   [/\b(memory|remember|recall)\b/i, ["memory"]],
-  [/\b(company|organization|org)\b/i, ["companies", "brands"]],
+  [/\b(compan(y|ies)|organizations?|orgs?)\b/i, ["companies", "brands"]],
 ];
 
 export function pickDomains(q: string): SearchDomain[] {
