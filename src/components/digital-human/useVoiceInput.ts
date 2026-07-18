@@ -119,9 +119,16 @@ export function useVoiceInput(opts: Options = {}) {
         if (isVoice && !speakingRef.current) {
           speakingRef.current = true;
           optsRef.current.onSpeechStart?.();
+          // R110 P1 — interrupt HAPPY if the user speaks mid-turn.
+          const cur = optsRef.current.getConvoState?.();
+          if (cur) {
+            const next = nextStateOnInterrupt(cur);
+            if (next !== cur) optsRef.current.onInterrupt?.(next);
+          }
         } else if (!isVoice && speakingRef.current && rms < threshold * 0.6) {
           speakingRef.current = false;
         }
+
         rafRef.current = requestAnimationFrame(tick);
       };
       rafRef.current = requestAnimationFrame(tick);
