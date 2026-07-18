@@ -205,7 +205,7 @@ export const deals = {
     let q = sb.from("deals").select("*").eq("company_id", companyId).is("deleted_at", null);
     if (opts.stage) q = q.eq("stage", opts.stage as never);
     if (opts.owner) q = q.eq("owner_id", opts.owner);
-    if (opts.q) q = q.ilike("title", `%${opts.q}%`);
+    if (opts.q) { const s = sanitizePgRestLike(opts.q); if (s) q = q.ilike("title", `%${s}%`); }
     const { data, error } = await q.order("created_at", { ascending: false }).limit(opts.limit ?? 200);
     if (error) throw error;
     return data ?? [];
