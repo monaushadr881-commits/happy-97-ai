@@ -446,6 +446,7 @@ import { Route as AuthenticatedEducationAnalyticsRouteImport } from './routes/_a
 import { Route as AuthenticatedDigitalHumanWhiteboardRouteImport } from './routes/_authenticated/digital-human.whiteboard'
 import { Route as AuthenticatedDigitalHumanSettingsRouteImport } from './routes/_authenticated/digital-human.settings'
 import { Route as AuthenticatedDigitalHumanSessionsRouteImport } from './routes/_authenticated/digital-human.sessions'
+import { Route as AuthenticatedDigitalHumanProductionRouteImport } from './routes/_authenticated/digital-human.production'
 import { Route as AuthenticatedDigitalHumanPresentationRouteImport } from './routes/_authenticated/digital-human.presentation'
 import { Route as AuthenticatedDigitalHumanClassroomRouteImport } from './routes/_authenticated/digital-human.classroom'
 import { Route as AuthenticatedDigitalHumanBoardroomRouteImport } from './routes/_authenticated/digital-human.boardroom'
@@ -2973,6 +2974,12 @@ const AuthenticatedDigitalHumanSessionsRoute =
     path: '/sessions',
     getParentRoute: () => AuthenticatedDigitalHumanRoute,
   } as any)
+const AuthenticatedDigitalHumanProductionRoute =
+  AuthenticatedDigitalHumanProductionRouteImport.update({
+    id: '/production',
+    path: '/production',
+    getParentRoute: () => AuthenticatedDigitalHumanRoute,
+  } as any)
 const AuthenticatedDigitalHumanPresentationRoute =
   AuthenticatedDigitalHumanPresentationRouteImport.update({
     id: '/presentation',
@@ -3671,6 +3678,7 @@ export interface FileRoutesByFullPath {
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
+  '/digital-human/production': typeof AuthenticatedDigitalHumanProductionRoute
   '/digital-human/sessions': typeof AuthenticatedDigitalHumanSessionsRoute
   '/digital-human/settings': typeof AuthenticatedDigitalHumanSettingsRoute
   '/digital-human/whiteboard': typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -4162,6 +4170,7 @@ export interface FileRoutesByTo {
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
+  '/digital-human/production': typeof AuthenticatedDigitalHumanProductionRoute
   '/digital-human/sessions': typeof AuthenticatedDigitalHumanSessionsRoute
   '/digital-human/settings': typeof AuthenticatedDigitalHumanSettingsRoute
   '/digital-human/whiteboard': typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -4673,6 +4682,7 @@ export interface FileRoutesById {
   '/_authenticated/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/_authenticated/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/_authenticated/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
+  '/_authenticated/digital-human/production': typeof AuthenticatedDigitalHumanProductionRoute
   '/_authenticated/digital-human/sessions': typeof AuthenticatedDigitalHumanSessionsRoute
   '/_authenticated/digital-human/settings': typeof AuthenticatedDigitalHumanSettingsRoute
   '/_authenticated/digital-human/whiteboard': typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -5184,6 +5194,7 @@ export interface FileRouteTypes {
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
+    | '/digital-human/production'
     | '/digital-human/sessions'
     | '/digital-human/settings'
     | '/digital-human/whiteboard'
@@ -5675,6 +5686,7 @@ export interface FileRouteTypes {
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
+    | '/digital-human/production'
     | '/digital-human/sessions'
     | '/digital-human/settings'
     | '/digital-human/whiteboard'
@@ -6185,6 +6197,7 @@ export interface FileRouteTypes {
     | '/_authenticated/digital-human/boardroom'
     | '/_authenticated/digital-human/classroom'
     | '/_authenticated/digital-human/presentation'
+    | '/_authenticated/digital-human/production'
     | '/_authenticated/digital-human/sessions'
     | '/_authenticated/digital-human/settings'
     | '/_authenticated/digital-human/whiteboard'
@@ -9509,6 +9522,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDigitalHumanSessionsRouteImport
       parentRoute: typeof AuthenticatedDigitalHumanRoute
     }
+    '/_authenticated/digital-human/production': {
+      id: '/_authenticated/digital-human/production'
+      path: '/production'
+      fullPath: '/digital-human/production'
+      preLoaderRoute: typeof AuthenticatedDigitalHumanProductionRouteImport
+      parentRoute: typeof AuthenticatedDigitalHumanRoute
+    }
     '/_authenticated/digital-human/presentation': {
       id: '/_authenticated/digital-human/presentation'
       path: '/presentation'
@@ -10408,6 +10428,7 @@ interface AuthenticatedDigitalHumanRouteChildren {
   AuthenticatedDigitalHumanBoardroomRoute: typeof AuthenticatedDigitalHumanBoardroomRoute
   AuthenticatedDigitalHumanClassroomRoute: typeof AuthenticatedDigitalHumanClassroomRoute
   AuthenticatedDigitalHumanPresentationRoute: typeof AuthenticatedDigitalHumanPresentationRoute
+  AuthenticatedDigitalHumanProductionRoute: typeof AuthenticatedDigitalHumanProductionRoute
   AuthenticatedDigitalHumanSessionsRoute: typeof AuthenticatedDigitalHumanSessionsRoute
   AuthenticatedDigitalHumanSettingsRoute: typeof AuthenticatedDigitalHumanSettingsRoute
   AuthenticatedDigitalHumanWhiteboardRoute: typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -10422,6 +10443,8 @@ const AuthenticatedDigitalHumanRouteChildren: AuthenticatedDigitalHumanRouteChil
       AuthenticatedDigitalHumanClassroomRoute,
     AuthenticatedDigitalHumanPresentationRoute:
       AuthenticatedDigitalHumanPresentationRoute,
+    AuthenticatedDigitalHumanProductionRoute:
+      AuthenticatedDigitalHumanProductionRoute,
     AuthenticatedDigitalHumanSessionsRoute:
       AuthenticatedDigitalHumanSessionsRoute,
     AuthenticatedDigitalHumanSettingsRoute:
