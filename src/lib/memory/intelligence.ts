@@ -10,7 +10,8 @@ import type { MemoryStoreInput, MemoryKind, MemoryScope } from "./engine";
 
 export type MemoryCategory =
   | "personal" | "conversation" | "workspace" | "company" | "brand"
-  | "project" | "learning" | "founder" | "shared" | "temporary" | "archived";
+  | "project" | "learning" | "founder" | "knowledge" | "digital_human"
+  | "shared" | "temporary" | "archived";
 
 export type MemoryConfidence =
   | "verified" | "user_confirmed" | "ai_inferred" | "expired" | "archived";
@@ -63,14 +64,17 @@ export type MemoryRowLike = {
 export function toCategory(row: Pick<MemoryRowLike, "kind" | "scope" | "expires_at" | "archived" | "tags">): MemoryCategory {
   if (row.archived) return "archived";
   if (row.expires_at && new Date(row.expires_at).getTime() < Date.now()) return "temporary";
+  const tags = row.tags ?? [];
+  if (tags.includes("digital_human") || tags.includes("dh")) return "digital_human";
+  if (tags.includes("knowledge") || tags.includes("kb")) return "knowledge";
   if (row.kind === "founder") return "founder";
   if (row.kind === "project") return "project";
-  if (row.kind === "ai" && (row.tags ?? []).includes("learning")) return "learning";
-  if ((row.tags ?? []).includes("brand")) return "brand";
+  if (row.kind === "ai" && tags.includes("learning")) return "learning";
+  if (tags.includes("brand")) return "brand";
   if (row.kind === "conversation") return "conversation";
   if (row.scope === "workspace") return "workspace";
   if (row.scope === "company") return "company";
-  if ((row.tags ?? []).includes("shared")) return "shared";
+  if (tags.includes("shared")) return "shared";
   return "personal";
 }
 
