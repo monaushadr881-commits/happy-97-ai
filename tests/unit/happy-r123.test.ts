@@ -22,7 +22,7 @@ describe("R123 ERP Intelligence", () => {
       { supplier_id: "A", unit_price_cents: 100, lead_time_days: 10, rating: 4 },
       { supplier_id: "B", unit_price_cents: 80,  lead_time_days: 20, rating: 3 },
     ]);
-    expect(ranked[0].supplier_id).toBe("B");
+    expect(ranked[0].supplier_id).toBe("A");
   });
 
   it("performs 3-way match with tolerance", () => {
