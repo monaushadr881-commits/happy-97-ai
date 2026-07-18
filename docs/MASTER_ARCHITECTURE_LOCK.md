@@ -229,3 +229,15 @@ Runtime / Permissions owners. No new runtime, no V2 of billing, credits,
 subscription, wallet, or founder runtime. Founder identity comes exclusively
 from the canonical `public.is_platform_founder` function + `user_roles.role='founder'`.
 Full record: `docs/founder/R153_FOUNDER_UNLIMITED_PRIVILEGES.md`.
+
+---
+
+## Addendum R156 — Founder Identity Fortress™
+
+Canonical governance helper: `src/lib/founder/identity-fortress.ts`. Consumed
+by existing Happy ID owners (`src/lib/happy-id.functions.ts`, `src/lib/happy-id/*`),
+canonical RBAC (`public.user_roles` + `public.is_platform_founder`), and
+`write_audit(...)`. No new auth runtime, no duplicate OTP/session/identity
+module. Founder role is UI-immutable — only the Happy ID Founder-verified
+recovery flow may update Founder identity. Full record:
+`docs/founder/R156_FOUNDER_IDENTITY_FORTRESS.md`.

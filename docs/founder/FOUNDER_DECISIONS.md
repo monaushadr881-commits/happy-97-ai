@@ -56,3 +56,22 @@ Hard scope exclusion: NEVER applies to Company Admin, Workspace Admin,
 Enterprise Admin, Customer, Developer, Employee, Partner.
 
 Full record: `docs/founder/R153_FOUNDER_UNLIMITED_PRIVILEGES.md`.
+
+## FD-156 — Founder Identity Fortress™ (R156)
+
+**Date:** 2026-07-18 · **Status:** PERMANENT.
+
+The Platform Founder account is the highest-security identity on the
+platform. R156 governs identity, MFA, recovery, session, and audit policy
+via a pure helper (`src/lib/founder/identity-fortress.ts`) consumed by the
+existing canonical Happy ID owners.
+
+Locks:
+- Founder role CANNOT be assigned, edited, deleted, or transferred from any
+  UI. Only the Happy ID Founder-verified recovery flow may update Founder
+  identity contacts.
+- No new auth system, no duplicate OTP, no duplicate session store, no
+  duplicate identity module.
+- Every Founder action is written to `audit_logs` via `write_audit(...)`.
+
+Full record: `docs/founder/R156_FOUNDER_IDENTITY_FORTRESS.md`.
