@@ -319,14 +319,31 @@ export const HappyAvatar = memo(function HappyAvatar({
   const radius = variant === "portrait" ? "1.75rem" : "9999px";
 
 
+  // R110 P1 — Retrigger a one-shot CSS animation whenever `gesture` changes.
+  const gestureNonceRef = useRef(0);
+  gestureNonceRef.current += 1;
+  const gestureKey = gesture !== "none" ? `${gesture}-${gestureNonceRef.current}` : undefined;
+
   return (
     <div
       ref={rootRef}
       role="img"
       aria-label="HAPPY, the digital human"
       className={cn("relative select-none isolate", className)}
+      data-gesture={gesture}
+      data-posture-cue={postureCue ?? "idle"}
       style={{ width: size, height: variant === "portrait" ? Math.round(size * 1.25) : size }}
     >
+      {gesture !== "none" && !reducedMotion && (
+        <span
+          key={gestureKey}
+          aria-hidden
+          className={cn("pointer-events-none absolute inset-0 rounded-[inherit]", `dh-gesture-${gesture}`)}
+          style={{ borderRadius: radius }}
+        />
+      )}
+
+
 
       {/* soft gold halo */}
       <div
