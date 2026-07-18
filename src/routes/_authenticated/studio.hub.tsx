@@ -90,8 +90,8 @@ function Hub() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {p.map((x) => (
               <div key={x.id} className="rounded-md border border-white/5 bg-white/[0.02] p-3">
-                <div className="text-sm text-paper">{x.title ?? "Untitled"}</div>
-                <div className="mt-1 flex gap-1"><Chip tone="neutral">{x.kind ?? "—"}</Chip><Chip tone={x.status === "archived" ? "neutral" : "gold"}>{x.status ?? "active"}</Chip></div>
+                <div className="text-sm text-paper">{x.name ?? "Untitled"}</div>
+                <div className="mt-1 flex gap-1"><Chip tone="neutral">{x.kind ?? "—"}</Chip><Chip tone={x.archived ? "neutral" : "gold"}>{x.archived ? "archived" : "active"}</Chip></div>
               </div>
             ))}
             {p.length === 0 && <div className="text-xs text-soft-gray">No collections yet.</div>}
