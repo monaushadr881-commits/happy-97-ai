@@ -658,70 +658,120 @@ export const brainPipeline = {
  * All brain callers should route through here. Do NOT add a second runBrain.
  */
 export async function runBrain(sb: SB, userId: string, input: RunBrainInput) {
-  // 1 LISTEN — take raw input.
+  const t0 = Date.now();
+  // 1 LISTEN
   const listen = { input: input.input, source: input.source, at: new Date().toISOString() };
 
-  // 2 UNDERSTAND — classify intent.
+  // 2 UNDERSTAND
   const guess = intent.classify(input.input, { module: input.module, founder_mode: input.founder_mode });
 
-  // 3 MIRROR — reflect framing.
-  const mirror = brainPipeline.mirror(input.input, input.persona);
+  // 3 MIRROR — with clarification gate
+  const mirror = brainPipeline.mirror(input.input, input.persona, guess.confidence);
+  const reasoningMode = brainPipeline.pickReasoningMode(guess, input);
+  const memoryScopes = brainPipeline.pickMemoryScopes(guess, input);
+  const knowledgeScopes = brainPipeline.pickKnowledgeScopes(guess, input);
 
-  // 4 LOAD MEMORY — recent context memory.
+  // Short-circuit when we need clarification — never spend planner/runtime tokens.
+  if (mirror.needsClarification) {
+    const dhMode: DigitalHumanMode = "confirm";
+    const dh = brainPipeline.toDigitalHuman(mirror.clarification!, dhMode);
+    const analytics = {
+      thinking_time_ms: Date.now() - t0,
+      confidence: guess.confidence,
+      reasoning_mode: reasoningMode,
+      planner_tier: "none" as PlannerTier,
+      memory_scopes: memoryScopes,
+      knowledge_scopes: knowledgeScopes,
+      digital_human_mode: dhMode,
+      steps_executed: 0,
+      clarification_requested: true,
+    };
+    return {
+      listen, understand: guess, mirror,
+      memory: { items: [] as any[] }, knowledge: { entities: [], relations: [], summary: "" },
+      workspace: null, plan: null, executed: [], facts: {}, recommendations: [],
+      reasoning: { why: "Clarification needed.", what: mirror.clarification, next: [], risks: [] },
+      agents: brainPipeline.selectAgents(guess),
+      reply: mirror.clarification, digitalHuman: dh,
+      session_id: null,
+      reasoningMode, plannerTier: "none" as PlannerTier, memoryScopes, knowledgeScopes,
+      learning: { lessons: [], knowledgeGaps: [`Ambiguous input: "${input.input.slice(0, 80)}"`], memoryCandidates: [], suggestions: [] },
+      analytics,
+    };
+  }
+
+  // 4 LOAD MEMORY
   const memory = await memoryContext(sb, userId, {
     company_id: input.company_id, workspace_id: input.workspace_id ?? null, limit: 20,
   }).catch(() => ({ items: [] as any[] }));
 
-  // 5 LOAD KNOWLEDGE — best-effort KG lookup.
+  // 5 LOAD KNOWLEDGE
   const knowledge = await kgNaturalQuery(sb, userId, { company_id: input.company_id, q: input.input })
     .catch(() => ({ entities: [], relations: [], summary: "" } as any));
 
-  // 6 LOAD WORKSPACE — brain context snapshot (module/source/founder flags).
+  // 6 LOAD WORKSPACE
   const workspace = await contextEngine.snapshot(sb, userId, input.company_id, {
     module: input.module, source: input.source, founder_mode: !!input.founder_mode,
   });
 
-  // 7-8 REASON + PLAN + execute — reuse orchestrator (single source of truth).
+  // 7-8 REASON + PLAN + execute
   const orch = await orchestrator.run(sb, {
     userId, company_id: input.company_id, workspace_id: input.workspace_id,
     input: input.input, source: input.source, channel: input.channel,
     founder_mode: input.founder_mode, module: input.module,
   });
 
-  // 9 SELECT AGENTS.
+  const plannerTier = brainPipeline.pickPlannerTier(guess, (orch.plan as any)?.steps?.length ?? 0);
+
+  // 9 SELECT AGENTS
   const agents = brainPipeline.selectAgents(guess);
 
-  // 10 RESPOND — text summary from reasoning.
+  // 10 RESPOND
   const reply =
     orch.reasoning?.what?.trim()
     || orch.recommendations?.[0]
     || "Acknowledged. No action was executed for this request.";
 
-  // 11 DIGITAL HUMAN envelope.
-  const digitalHuman = brainPipeline.toDigitalHuman(
-    reply,
-    (orch.executed ?? []).some((e: any) => e?.denied) ? "warn" : "answer",
-  );
+  // 11 DIGITAL HUMAN
+  const denied = (orch.executed ?? []).some((e: any) => e?.denied);
+  const dhMode = brainPipeline.pickDigitalHumanMode(guess, input, denied);
+  const digitalHuman = brainPipeline.toDigitalHuman(reply, dhMode);
 
-  // 12 SAVE MEMORY — persist the interaction (best-effort, RLS-scoped).
+  // 12 SAVE MEMORY
   await memoryStore(sb, userId, {
     company_id: input.company_id,
     workspace_id: input.workspace_id ?? null,
     kind: "conversation",
     scope: "personal",
     title: `Brain: ${guess.intent}${guess.action ? "/" + guess.action : ""}`,
-    body: `${mirror}\n\n${reply}`,
-    metadata: { session_id: orch.session_id, agents, source: input.source },
+    body: `${mirror.text}\n\n${reply}`,
+    metadata: { session_id: orch.session_id, agents, source: input.source, reasoningMode, dhMode },
   } as any).catch(() => null);
 
-  // 13 LEARN — append event for feedback loop.
+  // 13 LEARN
+  const learning = brainPipeline.learn(input.input, guess, orch.executed ?? [], orch.recommendations ?? []);
+
+  const analytics = {
+    thinking_time_ms: Date.now() - t0,
+    confidence: guess.confidence,
+    reasoning_mode: reasoningMode,
+    planner_tier: plannerTier,
+    memory_scopes: memoryScopes,
+    knowledge_scopes: knowledgeScopes,
+    digital_human_mode: dhMode,
+    steps_executed: (orch.executed ?? []).length,
+    clarification_requested: false,
+  };
+
   await memoryLogEvent(sb, userId, {
     company_id: input.company_id,
     workspace_id: input.workspace_id ?? null,
     event_type: "brain.run",
     payload: {
       intent: guess.intent, runtime: guess.runtime, confidence: guess.confidence,
-      steps: (orch.executed ?? []).length, session_id: orch.session_id,
+      steps: analytics.steps_executed, session_id: orch.session_id,
+      reasoning_mode: reasoningMode, planner_tier: plannerTier,
+      digital_human_mode: dhMode, thinking_time_ms: analytics.thinking_time_ms,
     },
   } as any).catch(() => null);
 
@@ -731,5 +781,7 @@ export async function runBrain(sb: SB, userId: string, input: RunBrainInput) {
     plan: orch.plan, executed: orch.executed,
     facts: orch.facts, recommendations: orch.recommendations, reasoning: orch.reasoning,
     agents, reply, digitalHuman, session_id: orch.session_id,
+    reasoningMode, plannerTier, memoryScopes, knowledgeScopes,
+    learning, analytics,
   };
 }
