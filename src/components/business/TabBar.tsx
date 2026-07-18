@@ -27,7 +27,7 @@ export function useActiveTab(tabs: Tab[]): string {
 export function useSetTab() {
   const navigate = useNavigate();
   return (slug: string) =>
-    navigate({ to: ".", search: (prev) => ({ ...(prev as object), tab: slug }), replace: true });
+    navigate({ to: ".", search: (prev: Record<string, unknown>) => ({ ...prev, tab: slug }), replace: true });
 }
 
 export function TabBar({ tabs, ariaLabel = "Section navigation" }: { tabs: Tab[]; ariaLabel?: string }) {
