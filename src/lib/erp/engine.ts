@@ -581,7 +581,11 @@ export const workflows = {
 // ---------------- Search ----------------
 export const erpSearch = {
   async search(sb: SB, companyId: string, query: string, limit = 25) {
-    const like = `%${query}%`;
+    const safe = sanitizePgRestLike(query);
+    if (!safe) {
+      return { purchase_orders: [], sales_orders: [], vendors: [], departments: [], approvals: [] };
+    }
+    const like = `%${safe}%`;
     const [pos, sos, sup, dep, appr] = await Promise.all([
       sb.from("purchase_orders").select("id, number, total_cents, approval_status").eq("company_id", companyId).ilike("number", like).limit(limit),
       sb.from("sales_orders").select("id, number, total_cents, approval_status").eq("company_id", companyId).ilike("number", like).limit(limit),
