@@ -118,7 +118,7 @@ export const org = {
 export const vendors = {
   async list(sb: SB, companyId: string, opts: { q?: string; limit?: number } = {}) {
     let q = sb.from("suppliers").select("*").eq("company_id", companyId).is("deleted_at", null);
-    if (opts.q) q = q.or(`name.ilike.%${opts.q}%,email.ilike.%${opts.q}%,code.ilike.%${opts.q}%`);
+    if (opts.q) { const s = sanitizePgRestLike(opts.q); if (s) q = q.or(`name.ilike.%${s}%,email.ilike.%${s}%,code.ilike.%${s}%`); }
     const { data, error } = await q.order("name").limit(opts.limit ?? 200);
     if (error) throw error;
     return data ?? [];
