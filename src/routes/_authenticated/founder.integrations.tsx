@@ -7,7 +7,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel, Chip, Hairline } from "@/design-system/primitives";
 import { adapterReadinessFlat } from "@/lib/happy-adapters";
-import { Plug } from "lucide-react";
+
 
 export const Route = createFileRoute("/_authenticated/founder/integrations")({
   head: () => ({ meta: [{ title: "Integrations — Founder" }, { name: "robots", content: "noindex" }] }),
@@ -22,7 +22,6 @@ function FounderIntegrations() {
   return (
     <div className="p-6 space-y-6">
       <PageHeader
-        icon={<Plug className="h-5 w-5" />}
         title="External Integrations"
         subtitle={`${configured} / ${rows.length} providers configured across ${families.length} families (R142)`}
       />
@@ -44,7 +43,7 @@ function FounderIntegrations() {
                       {row.configured ? (
                         <Chip tone="success">Connected</Chip>
                       ) : (
-                        <Chip tone="muted" title={`Missing: ${row.missing.join(", ")}`}>Pending</Chip>
+                        <Chip tone="neutral" title={`Missing: ${row.missing.join(", ")}`}>Pending</Chip>
                       )}
                       {row.missing.length > 0 && (
                         <span className="text-xs text-muted-foreground max-w-md truncate" title={row.missing.join(", ")}>
