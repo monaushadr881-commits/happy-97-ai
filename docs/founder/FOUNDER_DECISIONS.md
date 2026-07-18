@@ -36,3 +36,23 @@ Permanent Founder Vision. Extends R151. Never remove; never fork.
 - **Bridges:** MetaHuman / NVIDIA ACE / Live2D — hook-only interfaces mapped onto the canonical AvatarEngine. No SDK imports.
 - **Registry guards:** Runtime rejects duplicate registrations under an existing renderer id, platforms that fork a canonical owner, and asset id collisions with a different owner.
 - Full record: `docs/R152_FUTURE_PLATFORM_ARCHITECTURE.md`.
+
+## FD-153 — Founder Unlimited Privileges™ (R153)
+
+**Date:** 2026-07-18 · **Status:** PERMANENT.
+
+The Platform Founder (canonical `founder` role only) NEVER consumes Credits,
+Subscription, Wallet, or any quota across: AI, Builder, Apps, Websites,
+Companies, Workspaces, Storage, API, Automation, Brain, Memory, Search,
+Digital Human, Conversation, Founder Dashboard, Creator Studio, Business OS,
+Enterprise.
+
+Enforced by the pure governance helper `src/lib/founder/unlimited-policy.ts`,
+consumed by the existing canonical owners (Credits / Subscription / Wallet /
+Revenue OS / Payment Runtime / Permissions). No new runtime, no V2 of billing
+/ credits / subscription / wallet.
+
+Hard scope exclusion: NEVER applies to Company Admin, Workspace Admin,
+Enterprise Admin, Customer, Developer, Employee, Partner.
+
+Full record: `docs/founder/R153_FOUNDER_UNLIMITED_PRIVILEGES.md`.

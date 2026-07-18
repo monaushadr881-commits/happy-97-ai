@@ -218,3 +218,14 @@ The following require an explicit new Founder Directive:
 ---
 
 **End of R111 Architecture Lock.**
+
+---
+
+## Addendum R153 — Founder Unlimited Privileges™
+
+Canonical governance helper: `src/lib/founder/unlimited-policy.ts`. Consumed
+by the existing Credits / Subscription / Wallet / Revenue OS / Payment
+Runtime / Permissions owners. No new runtime, no V2 of billing, credits,
+subscription, wallet, or founder runtime. Founder identity comes exclusively
+from the canonical `public.is_platform_founder` function + `user_roles.role='founder'`.
+Full record: `docs/founder/R153_FOUNDER_UNLIMITED_PRIVILEGES.md`.
