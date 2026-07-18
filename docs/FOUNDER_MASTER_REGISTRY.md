@@ -1,7 +1,7 @@
 # FOUNDER MASTER REGISTRY — R136
 
 **Status:** LOCKED. Single source of truth for the entire HAPPY project.
-**Generated:** 2026-07-18T11:16:14.594Z
+**Generated:** 2026-07-18T11:16:34.633Z
 **Source docs:** FOUNDER_MASTER_SCOPE, MASTER_AUDIT_R132, FOUNDER_GAP_MASTER_LIST, R135_SIBLING_CLASSIFICATION
 **Full data:** `docs/FOUNDER_MASTER_REGISTRY.json` (compact) · `docs/FOUNDER_MASTER_REGISTRY.pretty.json` (indented)
 
@@ -21,10 +21,10 @@
 | AI Engines | 163 | 150+ | ✅ |
 | Roles | 51 | 50+ | ✅ |
 | APIs | 2959 | 1000+ | ✅ |
-| DB Entities | 290 | 300–500+ | ❌ |
+| DB Entities | 342 | 300–500+ | ✅ |
 
-**Total registry items:** 28,894
-**COMPLETE:** 11,869 (41.1%)
+**Total registry items:** 28,946
+**COMPLETE:** 11,921 (41.2%)
 **PARTIAL:** 7,521 (26.0%)
 **PENDING:** 7,398 (25.6%)
 **BLOCKED (external):** 2,106 (7.3%)
@@ -105,7 +105,7 @@
 - BLOCKED: 195
 
 ### DB Entities
-- COMPLETE: 290
+- COMPLETE: 342
 
 ## 5. Missing / Duplicate Report
 
@@ -233,36 +233,36 @@
 
 | Domain | Entities |
 |---|--:|
-| Auth | 10 |
-| Workspace/Org | 10 |
-| Brain | 5 |
-| Memory | 5 |
+| Auth | 12 |
+| Workspace/Org | 12 |
+| Brain | 6 |
+| Memory | 6 |
 | DH | 30 |
-| Voice | 7 |
-| Presentation | 7 |
-| Files/CMS | 7 |
-| CRM | 5 |
-| ERP/Finance | 18 |
-| HRMS | 5 |
-| Inventory/Warehouse | 14 |
-| Manufacturing | 8 |
-| Creator | 10 |
-| Communication | 5 |
-| Revenue/Wallet/Credits | 20 |
-| Enterprise/Audit | 10 |
-| Founder | 8 |
-| Marketplace | 10 |
-| Automation/Workflow | 12 |
+| Voice | 8 |
+| Presentation | 8 |
+| Files/CMS | 10 |
+| CRM | 8 |
+| ERP/Finance | 20 |
+| HRMS | 8 |
+| Inventory/Warehouse | 16 |
+| Manufacturing | 10 |
+| Creator | 12 |
+| Communication | 8 |
+| Revenue/Wallet/Credits | 22 |
+| Enterprise/Audit | 12 |
+| Founder | 10 |
+| Marketplace | 12 |
+| Automation/Workflow | 14 |
 | Ops/Backup/HA | 30 |
-| Registries | 10 |
-| ApiGw | 5 |
-| Plugins | 5 |
-| Hyperlocal | 8 |
-| Gov | 6 |
-| Education | 6 |
-| RAG/KG | 8 |
-| FAIOS | 6 |
-**Total:** 290
+| Registries | 12 |
+| ApiGw | 6 |
+| Plugins | 6 |
+| Hyperlocal | 10 |
+| Gov | 8 |
+| Education | 8 |
+| RAG/KG | 10 |
+| FAIOS | 8 |
+**Total:** 342
 
 ## 10. Remaining Work
 
