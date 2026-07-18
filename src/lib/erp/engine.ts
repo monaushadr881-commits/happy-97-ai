@@ -12,6 +12,7 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, Json } from "@/integrations/supabase/types";
+import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 
 export type SB = SupabaseClient<Database>;
 
@@ -117,7 +118,7 @@ export const org = {
 export const vendors = {
   async list(sb: SB, companyId: string, opts: { q?: string; limit?: number } = {}) {
     let q = sb.from("suppliers").select("*").eq("company_id", companyId).is("deleted_at", null);
-    if (opts.q) q = q.or(`name.ilike.%${opts.q}%,email.ilike.%${opts.q}%,code.ilike.%${opts.q}%`);
+    if (opts.q) { const s = sanitizePgRestLike(opts.q); if (s) q = q.or(`name.ilike.%${s}%,email.ilike.%${s}%,code.ilike.%${s}%`); }
     const { data, error } = await q.order("name").limit(opts.limit ?? 200);
     if (error) throw error;
     return data ?? [];
@@ -296,7 +297,7 @@ export const purchase = {
     let q = sb.from("purchase_orders").select("*").eq("company_id", companyId).is("deleted_at", null);
     if (opts.status) q = q.eq("approval_status", opts.status);
     if (opts.supplier) q = q.eq("supplier_id", opts.supplier);
-    if (opts.q) q = q.or(`number.ilike.%${opts.q}%,notes.ilike.%${opts.q}%`);
+    if (opts.q) { const s = sanitizePgRestLike(opts.q); if (s) q = q.or(`number.ilike.%${s}%,notes.ilike.%${s}%`); }
     const { data, error } = await q.order("created_at", { ascending: false }).limit(opts.limit ?? 100);
     if (error) throw error;
     return data ?? [];
@@ -418,7 +419,7 @@ export const sales = {
     let q = sb.from("sales_orders").select("*").eq("company_id", companyId).is("deleted_at", null);
     if (opts.status) q = q.eq("approval_status", opts.status);
     if (opts.customer) q = q.eq("customer_id", opts.customer);
-    if (opts.q) q = q.or(`number.ilike.%${opts.q}%,notes.ilike.%${opts.q}%`);
+    if (opts.q) { const s = sanitizePgRestLike(opts.q); if (s) q = q.or(`number.ilike.%${s}%,notes.ilike.%${s}%`); }
     const { data, error } = await q.order("created_at", { ascending: false }).limit(opts.limit ?? 100);
     if (error) throw error;
     return data ?? [];
@@ -580,7 +581,11 @@ export const workflows = {
 // ---------------- Search ----------------
 export const erpSearch = {
   async search(sb: SB, companyId: string, query: string, limit = 25) {
-    const like = `%${query}%`;
+    const safe = sanitizePgRestLike(query);
+    if (!safe) {
+      return { purchase_orders: [], sales_orders: [], vendors: [], departments: [], approvals: [] };
+    }
+    const like = `%${safe}%`;
     const [pos, sos, sup, dep, appr] = await Promise.all([
       sb.from("purchase_orders").select("id, number, total_cents, approval_status").eq("company_id", companyId).ilike("number", like).limit(limit),
       sb.from("sales_orders").select("id, number, total_cents, approval_status").eq("company_id", companyId).ilike("number", like).limit(limit),

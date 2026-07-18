@@ -35,7 +35,16 @@ export async function transcribeBlob(
   const fd = new FormData();
   const ext = pickExtension(blob.type);
   fd.append("file", blob, `clip.${ext}`);
-  const res = await fetch(STT_URL, { method: "POST", body: fd, signal: opts?.signal });
+  const { supabase } = await import("@/integrations/supabase/client");
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) return null;
+  const res = await fetch(STT_URL, {
+    method: "POST",
+    body: fd,
+    signal: opts?.signal,
+    headers: { Authorization: `Bearer ${token}` },
+  });
   if (!res.ok) return null;
   const json = (await res.json().catch(() => ({}))) as { text?: unknown };
   return typeof json.text === "string" && json.text.trim() ? json.text.trim() : null;

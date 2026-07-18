@@ -8,6 +8,7 @@
  * bridge in HappyDesk.
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { requireSupabaseUser, enforceRateLimit } from "@/lib/security/api-auth";
 
 const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/audio/transcriptions";
 const MODEL = "openai/gpt-4o-mini-transcribe";
@@ -17,6 +18,11 @@ export const Route = createFileRoute("/api/happy-stt")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const auth = await requireSupabaseUser(request);
+        if (auth instanceof Response) return auth;
+        const rl = enforceRateLimit(`happy_stt:${auth.userId}`, { capacity: 5, refillPerSec: 15 / 60 });
+        if (rl) return rl;
+
         const key = process.env.LOVABLE_API_KEY;
         if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
 
