@@ -13,6 +13,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { clearMic, publishMic } from "./audio-bus";
+import { nextStateOnInterrupt, type ConvoState } from "./conversation-engine";
 
 type SpeechRecognitionCtor = new () => SpeechRecognitionLike;
 type SpeechRecognitionLike = {
@@ -31,7 +32,12 @@ type Options = {
   onSpeechStart?: () => void;                          // fires when VAD detects voice
   onTranscript?: (text: string, isFinal: boolean) => void;
   lang?: string;
+  /** R110 P1 — Provides HAPPY's current convo state so the hook can compute the transition. */
+  getConvoState?: () => ConvoState;
+  /** R110 P1 — Called with the resulting ConvoState when the user interrupts mid-turn. */
+  onInterrupt?: (next: ConvoState) => void;
 };
+
 
 export function useVoiceInput(opts: Options = {}) {
   const [listening, setListening] = useState(false);
