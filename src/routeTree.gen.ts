@@ -72,6 +72,7 @@ import { Route as AuthenticatedRuntimeRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedRobotsRouteImport } from './routes/_authenticated/robots'
 import { Route as AuthenticatedRoboticsRouteImport } from './routes/_authenticated/robotics'
 import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
+import { Route as AuthenticatedRevenueRouteImport } from './routes/_authenticated/revenue'
 import { Route as AuthenticatedResearchRouteImport } from './routes/_authenticated/research'
 import { Route as AuthenticatedQualityRouteImport } from './routes/_authenticated/quality'
 import { Route as AuthenticatedPublicSafetyRouteImport } from './routes/_authenticated/public-safety'
@@ -166,6 +167,7 @@ import { Route as AuthenticatedExecutionRouteImport } from './routes/_authentica
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedErpRouteImport } from './routes/_authenticated/erp'
 import { Route as AuthenticatedEnterpriseNetworkRouteImport } from './routes/_authenticated/enterprise-network'
+import { Route as AuthenticatedEnterpriseControlRouteImport } from './routes/_authenticated/enterprise-control'
 import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_authenticated/enterprise-cloud'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEnergyRouteImport } from './routes/_authenticated/energy'
@@ -838,6 +840,11 @@ const AuthenticatedRoadmapRoute = AuthenticatedRoadmapRouteImport.update({
   path: '/roadmap',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRevenueRoute = AuthenticatedRevenueRouteImport.update({
+  id: '/revenue',
+  path: '/revenue',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedResearchRoute = AuthenticatedResearchRouteImport.update({
   id: '/research',
   path: '/research',
@@ -1349,6 +1356,12 @@ const AuthenticatedEnterpriseNetworkRoute =
   AuthenticatedEnterpriseNetworkRouteImport.update({
     id: '/enterprise-network',
     path: '/enterprise-network',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEnterpriseControlRoute =
+  AuthenticatedEnterpriseControlRouteImport.update({
+    id: '/enterprise-control',
+    path: '/enterprise-control',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedEnterpriseCloudRoute =
@@ -3427,6 +3440,7 @@ export interface FileRoutesByFullPath {
   '/energy': typeof AuthenticatedEnergyRoute
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
+  '/enterprise-control': typeof AuthenticatedEnterpriseControlRoute
   '/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
   '/erp': typeof AuthenticatedErpRoute
   '/events': typeof AuthenticatedEventsRoute
@@ -3521,6 +3535,7 @@ export interface FileRoutesByFullPath {
   '/public-safety': typeof AuthenticatedPublicSafetyRoute
   '/quality': typeof AuthenticatedQualityRoute
   '/research': typeof AuthenticatedResearchRoute
+  '/revenue': typeof AuthenticatedRevenueRoute
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/robotics': typeof AuthenticatedRoboticsRoute
   '/robots': typeof AuthenticatedRobotsRoute
@@ -3917,6 +3932,7 @@ export interface FileRoutesByTo {
   '/employee': typeof AuthenticatedEmployeeRoute
   '/energy': typeof AuthenticatedEnergyRoute
   '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
+  '/enterprise-control': typeof AuthenticatedEnterpriseControlRoute
   '/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
   '/erp': typeof AuthenticatedErpRoute
   '/events': typeof AuthenticatedEventsRoute
@@ -4006,6 +4022,7 @@ export interface FileRoutesByTo {
   '/public-safety': typeof AuthenticatedPublicSafetyRoute
   '/quality': typeof AuthenticatedQualityRoute
   '/research': typeof AuthenticatedResearchRoute
+  '/revenue': typeof AuthenticatedRevenueRoute
   '/roadmap': typeof AuthenticatedRoadmapRoute
   '/robotics': typeof AuthenticatedRoboticsRoute
   '/robots': typeof AuthenticatedRobotsRoute
@@ -4415,6 +4432,7 @@ export interface FileRoutesById {
   '/_authenticated/energy': typeof AuthenticatedEnergyRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
+  '/_authenticated/enterprise-control': typeof AuthenticatedEnterpriseControlRoute
   '/_authenticated/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
   '/_authenticated/erp': typeof AuthenticatedErpRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
@@ -4509,6 +4527,7 @@ export interface FileRoutesById {
   '/_authenticated/public-safety': typeof AuthenticatedPublicSafetyRoute
   '/_authenticated/quality': typeof AuthenticatedQualityRoute
   '/_authenticated/research': typeof AuthenticatedResearchRoute
+  '/_authenticated/revenue': typeof AuthenticatedRevenueRoute
   '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
   '/_authenticated/robotics': typeof AuthenticatedRoboticsRoute
   '/_authenticated/robots': typeof AuthenticatedRobotsRoute
@@ -4919,6 +4938,7 @@ export interface FileRouteTypes {
     | '/energy'
     | '/enterprise'
     | '/enterprise-cloud'
+    | '/enterprise-control'
     | '/enterprise-network'
     | '/erp'
     | '/events'
@@ -5013,6 +5033,7 @@ export interface FileRouteTypes {
     | '/public-safety'
     | '/quality'
     | '/research'
+    | '/revenue'
     | '/roadmap'
     | '/robotics'
     | '/robots'
@@ -5409,6 +5430,7 @@ export interface FileRouteTypes {
     | '/employee'
     | '/energy'
     | '/enterprise-cloud'
+    | '/enterprise-control'
     | '/enterprise-network'
     | '/erp'
     | '/events'
@@ -5498,6 +5520,7 @@ export interface FileRouteTypes {
     | '/public-safety'
     | '/quality'
     | '/research'
+    | '/revenue'
     | '/roadmap'
     | '/robotics'
     | '/robots'
@@ -5906,6 +5929,7 @@ export interface FileRouteTypes {
     | '/_authenticated/energy'
     | '/_authenticated/enterprise'
     | '/_authenticated/enterprise-cloud'
+    | '/_authenticated/enterprise-control'
     | '/_authenticated/enterprise-network'
     | '/_authenticated/erp'
     | '/_authenticated/events'
@@ -6000,6 +6024,7 @@ export interface FileRouteTypes {
     | '/_authenticated/public-safety'
     | '/_authenticated/quality'
     | '/_authenticated/research'
+    | '/_authenticated/revenue'
     | '/_authenticated/roadmap'
     | '/_authenticated/robotics'
     | '/_authenticated/robots'
@@ -6804,6 +6829,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRoadmapRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/revenue': {
+      id: '/_authenticated/revenue'
+      path: '/revenue'
+      fullPath: '/revenue'
+      preLoaderRoute: typeof AuthenticatedRevenueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/research': {
       id: '/_authenticated/research'
       path: '/research'
@@ -7460,6 +7492,13 @@ declare module '@tanstack/react-router' {
       path: '/enterprise-network'
       fullPath: '/enterprise-network'
       preLoaderRoute: typeof AuthenticatedEnterpriseNetworkRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/enterprise-control': {
+      id: '/_authenticated/enterprise-control'
+      path: '/enterprise-control'
+      fullPath: '/enterprise-control'
+      preLoaderRoute: typeof AuthenticatedEnterpriseControlRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/enterprise-cloud': {
@@ -10890,6 +10929,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEnergyRoute: typeof AuthenticatedEnergyRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedEnterpriseCloudRoute: typeof AuthenticatedEnterpriseCloudRoute
+  AuthenticatedEnterpriseControlRoute: typeof AuthenticatedEnterpriseControlRoute
   AuthenticatedEnterpriseNetworkRoute: typeof AuthenticatedEnterpriseNetworkRoute
   AuthenticatedErpRoute: typeof AuthenticatedErpRoute
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
@@ -10984,6 +11024,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPublicSafetyRoute: typeof AuthenticatedPublicSafetyRoute
   AuthenticatedQualityRoute: typeof AuthenticatedQualityRoute
   AuthenticatedResearchRoute: typeof AuthenticatedResearchRoute
+  AuthenticatedRevenueRoute: typeof AuthenticatedRevenueRoute
   AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
   AuthenticatedRoboticsRoute: typeof AuthenticatedRoboticsRoute
   AuthenticatedRobotsRoute: typeof AuthenticatedRobotsRoute
@@ -11107,6 +11148,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEnergyRoute: AuthenticatedEnergyRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedEnterpriseCloudRoute: AuthenticatedEnterpriseCloudRoute,
+  AuthenticatedEnterpriseControlRoute: AuthenticatedEnterpriseControlRoute,
   AuthenticatedEnterpriseNetworkRoute: AuthenticatedEnterpriseNetworkRoute,
   AuthenticatedErpRoute: AuthenticatedErpRoute,
   AuthenticatedEventsRoute: AuthenticatedEventsRoute,
@@ -11213,6 +11255,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPublicSafetyRoute: AuthenticatedPublicSafetyRoute,
   AuthenticatedQualityRoute: AuthenticatedQualityRoute,
   AuthenticatedResearchRoute: AuthenticatedResearchRoute,
+  AuthenticatedRevenueRoute: AuthenticatedRevenueRoute,
   AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
   AuthenticatedRoboticsRoute: AuthenticatedRoboticsRoute,
   AuthenticatedRobotsRoute: AuthenticatedRobotsRoute,
