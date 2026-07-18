@@ -68,13 +68,16 @@ function SecurityCenterPage() {
   const renameMut = useMutation({ mutationFn: (v: { device_id: string; device_name: string }) => rename({ data: v }), onSuccess: () => { ok("Renamed"); invalidate(); }, onError: err });
   const logoutMut = useMutation({ mutationFn: (v: { session_id: string }) => logout({ data: v }), onSuccess: () => { ok("Session signed out"); invalidate(); }, onError: err });
   const ackMut = useMutation({ mutationFn: (v: { alert_id: string }) => ack({ data: v }), onSuccess: invalidate, onError: err });
-  const lockMut = useMutation({ mutationFn: () => lock({}), onSuccess: () => { ok("Emergency lock activated"); invalidate(); }, onError: err });
-  const unlockMut = useMutation({ mutationFn: () => unlock({}), onSuccess: () => { ok("Devices unlocked"); invalidate(); }, onError: err });
-  const policyMut = useMutation({ mutationFn: (v: Parameters<typeof setPolicy>[0]["data"]) => setPolicy({ data: v }), onSuccess: () => { ok("Policy updated"); invalidate(); }, onError: err });
+  const lockMut = useMutation({ mutationFn: () => lock(), onSuccess: () => { ok("Emergency lock activated"); invalidate(); }, onError: err });
+  const unlockMut = useMutation({ mutationFn: () => unlock(), onSuccess: () => { ok("Devices unlocked"); invalidate(); }, onError: err });
+  const policyMut = useMutation({
+    mutationFn: (v: { max_active_sessions?: number; require_trusted_device?: boolean; idle_timeout_minutes?: number; require_mfa?: boolean }) => setPolicy({ data: v }),
+    onSuccess: () => { ok("Policy updated"); invalidate(); }, onError: err,
+  });
 
   const [recoveryCodes, setRecoveryCodes] = useState<string[] | null>(null);
   const codesMut = useMutation({
-    mutationFn: () => genCodes({}),
+    mutationFn: () => genCodes(),
     onSuccess: (r) => { setRecoveryCodes(r.codes); ok("Recovery codes generated"); },
     onError: err,
   });
