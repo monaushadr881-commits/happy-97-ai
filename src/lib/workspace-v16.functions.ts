@@ -1,3 +1,10 @@
+/**
+ * @deprecated R115.b Consolidation — this is a compatibility shim.
+ * Canonical owner: src/lib/workspace-runtime (canonical Workspace runtime)
+ * Do NOT add new logic here. All handlers already delegate through
+ * services/domain/roadmap.service which is being routed to the canonical
+ * engines. Kept solely to preserve public import paths (backward-compat).
+ */
 /** HAPPY v16.0 — workspace-v16 server functions. */
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

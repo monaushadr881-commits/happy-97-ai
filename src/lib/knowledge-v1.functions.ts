@@ -1,4 +1,11 @@
 /**
+ * @deprecated R115.b Consolidation — this is a compatibility shim.
+ * Canonical owner: src/lib/kg/kg.functions.ts (canonical Knowledge Graph)
+ * Do NOT add new logic here. All handlers already delegate through
+ * services/domain/roadmap.service which is being routed to the canonical
+ * engines. Kept solely to preserve public import paths (backward-compat).
+ */
+/**
  * HAPPY X — Knowledge OS (WKOS) API v1
  *
  * Central knowledge intelligence for the whole ecosystem.

@@ -1,4 +1,11 @@
 /**
+ * @deprecated R115.b Consolidation — this is a compatibility shim.
+ * Canonical owner: src/lib/brain/brain.functions.ts (canonical Planner lives inside Brain)
+ * Do NOT add new logic here. All handlers already delegate through
+ * services/domain/roadmap.service which is being routed to the canonical
+ * engines. Kept solely to preserve public import paths (backward-compat).
+ */
+/**
  * HAPPY X — Planner Runtime v3 (Phase 3.7).
  */
 import { createServerFn } from "@tanstack/react-start";
