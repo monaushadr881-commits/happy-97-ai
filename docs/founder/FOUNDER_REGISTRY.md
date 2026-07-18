@@ -564,3 +564,18 @@ Architecture-only entries. Do not implement. Reuse canonical Digital Human runti
 | FM511 | XR — Augmented Reality (AR) | Future Platform Expansion / XR | P2 | 🟠 PENDING | Canonical DH runtime + XR adapter |
 | FM512 | XR — Virtual Reality (VR) | Future Platform Expansion / XR | P2 | 🟠 PENDING | Canonical DH runtime + XR adapter |
 | FM513 | XR — Mixed Reality (MR) | Future Platform Expansion / XR | P2 | 🟠 PENDING | Canonical DH runtime + XR adapter |
+
+## R152 — Avatar Engine / Platform / XR Registry (Architecture-Only, Permanent)
+
+Extends R151. Non-duplicating. Reuse canonical owners. Runtime guards enforce "extend, don't fork".
+
+| ID | Name | Category | Priority | Status | Canonical Owner (reuse) |
+|---|---|---|---|---|---|
+| FM514 | Canonical Avatar Engine (16-method interface) | Future Platform / DH Engines | P0 | ✅ ARCHITECTURE READY | `src/lib/happy-r152/avatar-engine.ts` |
+| FM515 | Renderer Registry (VRM · MetaHuman · Live2D · NVIDIA ACE · Plugin) | Future Platform / DH Engines | P1 | ✅ ARCHITECTURE READY | `src/lib/happy-r152/avatar-engine.ts` |
+| FM516 | Platform Runtime Registry | Future Platform Expansion | P1 | ✅ ARCHITECTURE READY | `src/lib/happy-r152/platform-registry.ts` |
+| FM517 | XR Abstraction (AR · VR · MR · anchors · hand · eye · voice · env) | Future Platform / XR | P2 | 🟠 PENDING | `src/lib/happy-r152/xr.ts` |
+| FM518 | MetaHuman Bridge (Renderer · Animation · Expression · Voice · Camera · LipSync) | Future Platform / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-r152/bridges/metahuman.ts` |
+| FM519 | NVIDIA ACE Bridge (Speech · Emotion · Face · Conversation · Streaming · LipSync) | Future Platform / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-r152/bridges/nvidia-ace.ts` |
+| FM520 | Live2D Bridge (Motion · Expression · Physics · LipSync · Animation) | Future Platform / DH Engines | P2 | 🟠 PENDING | `src/lib/happy-r152/bridges/live2d.ts` |
+| FM521 | Unified Asset Registry | Future Platform / Assets | P1 | ✅ ARCHITECTURE READY | `src/lib/happy-r152/asset-registry.ts` |

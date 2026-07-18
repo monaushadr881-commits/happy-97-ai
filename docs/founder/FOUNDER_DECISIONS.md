@@ -24,3 +24,15 @@ Permanent Founder Vision items. Architecture only; do not implement; reuse canon
 
 See `docs/FOUNDER_DECISIONS.md` for prior decisions.
 
+
+## R152 Decisions — Future Platform & Avatar Architecture (Architecture-Only)
+
+Permanent Founder Vision. Extends R151. Never remove; never fork.
+
+- **ONE Avatar Engine:** 16-method contract at `src/lib/happy-r152/avatar-engine.ts`. Every renderer implements it.
+- **Renderers:** VRM (PRIMARY, active) · MetaHuman · Live2D · NVIDIA ACE (ARCHITECTURE READY) · Generic Plugin Slot.
+- **Platforms:** Web (active) · Android · iOS (arch-ready) · Windows · macOS · Linux · Vision Pro · XR (pending). All reuse canonical Brain/Memory/Workspace/Conversation/Digital Human.
+- **XR:** AR/VR/MR adapter contracts with spatial anchors, hand tracking, eye tracking, voice, environment mapping.
+- **Bridges:** MetaHuman / NVIDIA ACE / Live2D — hook-only interfaces mapped onto the canonical AvatarEngine. No SDK imports.
+- **Registry guards:** Runtime rejects duplicate registrations under an existing renderer id, platforms that fork a canonical owner, and asset id collisions with a different owner.
+- Full record: `docs/R152_FUTURE_PLATFORM_ARCHITECTURE.md`.
