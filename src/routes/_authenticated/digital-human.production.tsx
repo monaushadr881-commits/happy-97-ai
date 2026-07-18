@@ -63,7 +63,7 @@ function ProductionExperience() {
       <PageHeader
         eyebrow="R143"
         title="Digital Human Production Experience"
-        subtitle="Founder-approved cinematic runtime. Extends canonical HAPPY — no duplicate VRM, no duplicate speech engine."
+        description="Founder-approved cinematic runtime. Extends canonical HAPPY — no duplicate VRM, no duplicate speech engine."
       />
 
       <Panel title="Cast">
