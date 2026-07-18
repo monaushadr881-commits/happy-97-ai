@@ -132,7 +132,7 @@ function ProductionExperience() {
         <Panel title="Animation Catalogue (20)">
           <div className="flex flex-wrap gap-1.5">
             {ANIMATION_CATALOGUE.map((c) => (
-              <Chip key={c} tone={c === frame.animation.clip ? "gold" : "default"}>{c}</Chip>
+              <Chip key={c} tone={c === frame.animation.clip ? "gold" : "neutral"}>{c}</Chip>
             ))}
           </div>
         </Panel>
@@ -141,7 +141,7 @@ function ProductionExperience() {
             {ENVIRONMENT_SCENES.map((s) => {
               const p = environmentPreset(s);
               return (
-                <Chip key={s} tone={s === scene ? "gold" : "default"}>{p.scene}</Chip>
+                <Chip key={s} tone={s === scene ? "gold" : "neutral"}>{p.scene}</Chip>
               );
             })}
           </div>
@@ -151,7 +151,7 @@ function ProductionExperience() {
             {CAMERA_MODES.map((m) => {
               const p = cameraMode({ mode: m });
               return (
-                <Chip key={m} tone={m === frame.camera.mode ? "gold" : "default"}>
+                <Chip key={m} tone={m === frame.camera.mode ? "gold" : "neutral"}>
                   {m} → {p.scene}
                 </Chip>
               );
