@@ -29,7 +29,7 @@ type App = { id: string; name?: string | null; status?: string | null };
 
 function AppBuilder() {
   const active = useActiveTab(TABS);
-  const list = useQuery({ queryKey: ["app","list"], queryFn: () => listApps() });
+  const list = useQuery({ queryKey: ["app","list"], queryFn: () => listApps({ data: {} }) });
   const v1 = useQuery({ queryKey: ["app","v1"], queryFn: () => AppBuilderV1List() });
   const analytics = useQuery({ queryKey: ["app","an"], queryFn: () => AppBuilderV1Analytics() });
   const apps = (list.data ?? v1.data ?? []) as unknown as App[];
