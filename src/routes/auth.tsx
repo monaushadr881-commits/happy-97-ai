@@ -56,6 +56,21 @@ function AuthPage() {
     }
   };
 
+  const handleMagicLink = async () => {
+    if (!email) { toast.error("Enter your email first"); return; }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+      });
+      if (error) throw error;
+      toast.success("Magic link sent — check your inbox.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Magic link failed");
+    } finally { setLoading(false); }
+  };
+
   const handleGoogle = async () => {
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,

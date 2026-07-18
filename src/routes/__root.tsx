@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { KernelProvider } from "../kernel";
 import { HappyDesk } from "../components/happy-desk/HappyDesk";
+import { AuthSessionBinder } from "../components/auth/AuthSessionBinder";
 
 function NotFoundComponent() {
   return (
@@ -161,6 +162,7 @@ function RootComponent() {
       <KernelProvider>
         <Outlet />
         <HappyDesk />
+        <AuthSessionBinder />
       </KernelProvider>
     </QueryClientProvider>
   );
