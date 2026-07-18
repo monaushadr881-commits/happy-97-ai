@@ -39,7 +39,7 @@ const TABS = [
 ];
 
 type Asset = { id: string; name: string; kind: string; model: string | null; created_at: string };
-type Project = { id: string; title: string | null; kind: string | null; status: string | null; created_at: string };
+type Project = { id: string; name: string | null; kind: string | null; archived: boolean | null; created_at: string };
 type Kit = { id: string; name: string | null; primary_color: string | null };
 type Recent = { id: string; studio: string; operation: string; model: string | null; created_at: string };
 
