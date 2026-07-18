@@ -12,7 +12,7 @@ describe("R120 Search Intelligence", () => {
 
   it("classifies query modes", () => {
     expect(classifyQuery("invoices")).toBe("keyword");
-    expect(classifyQuery("open latest deck")).toBe("semantic");
+    expect(classifyQuery("open latest deck")).toBe("hybrid");
     expect(classifyQuery("what is the roadmap?")).toBe("natural");
     expect(classifyQuery("show invoices from last month for acme")).toBe("hybrid");
   });
