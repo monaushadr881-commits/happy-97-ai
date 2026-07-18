@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, Json } from "@/integrations/supabase/types";
+import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 
 type SB = SupabaseClient<Database>;
 type EntityType = "lead" | "customer" | "deal" | "company" | "contact";
