@@ -58,6 +58,10 @@ export function useHappySpeech() {
   const abortRef = useRef<AbortController | null>(null);
   const rafRef = useRef<number | null>(null);
   const speakingRef = useRef(false);
+  // R110 P1 — Track TTS availability; caller flips subtitles/retry banner UI.
+  const fallbackRef = useRef<VoiceFallbackState>(INITIAL_VOICE_FALLBACK);
+  const [fallback, setFallback] = useState<VoiceFallbackState>(INITIAL_VOICE_FALLBACK);
+
 
   const stopMeter = useCallback(() => {
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
