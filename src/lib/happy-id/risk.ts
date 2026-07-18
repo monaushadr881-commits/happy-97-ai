@@ -107,7 +107,7 @@ export function resolveSessionPolicy(rows: PolicyRow[], ctx: {
     for (const k of Object.keys(row) as (keyof PolicyRow)[]) {
       if (k === "scope_type" || k === "scope_id") continue;
       const v = row[k];
-      if (v !== null && v !== undefined) (merged as Record<string, unknown>)[k] = v;
+      if (v !== null && v !== undefined) (merged as unknown as Record<string, unknown>)[k as string] = v;
     }
     merged.scope_type = row.scope_type;
     merged.scope_id = row.scope_id;
