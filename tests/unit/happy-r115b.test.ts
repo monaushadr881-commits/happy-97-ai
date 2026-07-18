@@ -3,9 +3,9 @@ import { brainPipeline, type DigitalHumanEnvelope } from "@/lib/brain/engine";
 
 describe("R115.b — canonical Brain consolidation", () => {
   it("mirror() reflects framing with persona-aware opener", () => {
-    expect(brainPipeline.mirror("show revenue", "founder")).toMatch(/Founder/);
-    expect(brainPipeline.mirror("hi", "customer")).toMatch(/Got it/);
-    expect(brainPipeline.mirror("hi")).toMatch(/Understood/);
+    expect(brainPipeline.mirror("show revenue now", "founder", 0.9).text).toMatch(/Founder/);
+    expect(brainPipeline.mirror("hi there friend", "customer", 0.9).text).toMatch(/Got it/);
+    expect(brainPipeline.mirror("hello there", undefined, 0.9).text).toMatch(/Understood/);
   });
 
   it("selectAgents() maps known runtimes and falls back to router", () => {
