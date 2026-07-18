@@ -40,9 +40,15 @@ export async function streamHappy(input: HappyStreamInput): Promise<HappyStreamR
   const { message, route, persona, role, history, signal, onDelta } = input;
   let acc = "";
   try {
+    const { supabase } = await import("@/integrations/supabase/client");
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) {
+      return { ok: false, text: "Please sign in to chat with HAPPY.", errorKind: "http" };
+    }
     const res = await fetch("/api/happy-chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ message, route, persona, role, history }),
       signal,
     });
