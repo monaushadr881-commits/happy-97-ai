@@ -210,7 +210,7 @@ export const recordLoginEvent = createServerFn({ method: "POST" })
       device_id: data.device_id ?? null,
       user_agent: data.user_agent ?? null,
       success: data.success,
-      metadata: data.metadata ?? {},
+      metadata: (data.metadata ?? {}) as never,
     });
     if (error) throw error;
     return { ok: true };
