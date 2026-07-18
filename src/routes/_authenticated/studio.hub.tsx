@@ -47,7 +47,7 @@ function Hub() {
   const active = useActiveTab(TABS);
   const dash = useQuery({ queryKey: ["creator","dash"], queryFn: () => creatorDashboard() });
   const assets = useQuery({ queryKey: ["creator","assets","hub"], queryFn: () => creatorListAssets({ data: { limit: 100 } }) });
-  const projects = useQuery({ queryKey: ["creator","projects","hub"], queryFn: () => creatorListProjects({ data: { limit: 50 } }) });
+  const projects = useQuery({ queryKey: ["creator","projects","hub"], queryFn: () => creatorListProjects() });
   const kits = useQuery({ queryKey: ["creator","kits","hub"], queryFn: () => creatorListBrandKits() });
   const recent = useQuery({ queryKey: ["creator","recent","hub"], queryFn: () => creatorRecentGenerations({ data: { limit: 50 } }) });
 
