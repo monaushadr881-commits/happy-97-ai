@@ -12,10 +12,26 @@
  *   - This is the real signal driving the avatar mouth overlay and the
  *     live waveform. Not fake timers.
  */
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { clearSpeech, publishSpeech, useSpeechSignal } from "./audio-bus";
+import {
+  INITIAL_VOICE_FALLBACK,
+  voiceFallbackOnError,
+  voiceFallbackOnRecovery,
+  type VoiceFallbackState,
+} from "./conversation-engine";
 
-type Options = { voice?: string; speed?: number; onStart?: () => void; onEnd?: () => void };
+type Options = {
+  voice?: string;
+  speed?: number;
+  onStart?: () => void;
+  onEnd?: () => void;
+  /** R110 P1 — TTS unavailable: caller should show subtitles / retry banner. */
+  onFallback?: (state: VoiceFallbackState) => void;
+  /** R110 P1 — TTS recovered: caller may hide subtitles banner. */
+  onRecovery?: () => void;
+};
+
 
 // Minimal SSE parser (no dependency)
 function parseSse(chunk: string, onEvent: (data: string) => void, carry: { buf: string }) {
