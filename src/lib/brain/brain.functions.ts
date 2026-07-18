@@ -5,7 +5,7 @@
  */
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { orchestrator, sessions, intent, planner, gateway, reasoning, safety, contextEngine } from "./engine";
+import { orchestrator, sessions, intent, planner, gateway, reasoning, safety, contextEngine, runBrain, type RunBrainInput } from "./engine";
 
 const auth = () => createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]);
 
