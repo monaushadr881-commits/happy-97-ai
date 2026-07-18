@@ -728,9 +728,10 @@ export async function runBrain(sb: SB, userId: string, input: RunBrainInput) {
   const agents = brainPipeline.selectAgents(guess);
 
   // 10 RESPOND
-  const reply =
+  const rec0 = orch.recommendations?.[0];
+  const reply: string =
     orch.reasoning?.what?.trim()
-    || orch.recommendations?.[0]
+    || (typeof rec0 === "string" ? rec0 : rec0?.title)
     || "Acknowledged. No action was executed for this request.";
 
   // 11 DIGITAL HUMAN
