@@ -27,6 +27,7 @@ import {
   extractTimeWindow,
   type SearchDomain,
   type QueryMode,
+  type TimeWindow,
 } from "@/lib/happy-r120/search-intelligence";
 
 // ---------- Types ----------
