@@ -12,6 +12,8 @@
 import { lazy, memo, Suspense, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { detectRuntime } from "./renderers/runtime-detect";
+import type { GestureCue, PostureCue } from "./conversation-engine";
+
 
 // Lazy-load the VRM renderer so three.js only enters the bundle when the
 // Founder's VRM asset is actually present + selected.
