@@ -1,5 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { streamHappy } from "@/lib/happy-stream";
+
+// R134: stub the supabase client so streamHappy sees an authed session.
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: {
+    auth: {
+      getSession: async () => ({ data: { session: { access_token: "test-token" } } }),
+    },
+  },
+}));
+
+const { streamHappy } = await import("@/lib/happy-stream");
 
 function makeSse(chunks: string[]): ReadableStream<Uint8Array> {
   const enc = new TextEncoder();
