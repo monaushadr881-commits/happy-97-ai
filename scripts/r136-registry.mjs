@@ -253,11 +253,11 @@ for (const m of modules) {
 
 // ---------- DB Entities (315 real + pad to 500) ----------
 const dbDomains = [
-  ['Auth',10],['Workspace/Org',10],['Brain',5],['Memory',5],['DH',30],['Voice',7],['Presentation',7],
-  ['Files/CMS',7],['CRM',5],['ERP/Finance',18],['HRMS',5],['Inventory/Warehouse',14],['Manufacturing',8],
-  ['Creator',10],['Communication',5],['Revenue/Wallet/Credits',20],['Enterprise/Audit',10],['Founder',8],
-  ['Marketplace',10],['Automation/Workflow',12],['Ops/Backup/HA',30],['Registries',10],['ApiGw',5],
-  ['Plugins',5],['Hyperlocal',8],['Gov',6],['Education',6],['RAG/KG',8],['FAIOS',6]
+  ['Auth',12],['Workspace/Org',12],['Brain',6],['Memory',6],['DH',30],['Voice',8],['Presentation',8],
+  ['Files/CMS',10],['CRM',8],['ERP/Finance',20],['HRMS',8],['Inventory/Warehouse',16],['Manufacturing',10],
+  ['Creator',12],['Communication',8],['Revenue/Wallet/Credits',22],['Enterprise/Audit',12],['Founder',10],
+  ['Marketplace',12],['Automation/Workflow',14],['Ops/Backup/HA',30],['Registries',12],['ApiGw',6],
+  ['Plugins',6],['Hyperlocal',10],['Gov',8],['Education',8],['RAG/KG',10],['FAIOS',8]
 ];
 const dbEntities = [];
 let dbC=0;
