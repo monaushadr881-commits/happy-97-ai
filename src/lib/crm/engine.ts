@@ -378,7 +378,9 @@ export const activity = {
 // ---- Search ----
 export const search = {
   async global(sb: SB, companyId: string, q: string, limit = 20) {
-    const like = `%${q}%`;
+    const safe = sanitizePgRestLike(q);
+    if (!safe) return { leads: [], customers: [], deals: [] };
+    const like = `%${safe}%`;
     const [l, c, d] = await Promise.all([
       sb.from("leads").select("id,name,email,phone,stage").eq("company_id", companyId).is("deleted_at", null).or(`name.ilike.${like},email.ilike.${like},phone.ilike.${like}`).limit(limit),
       sb.from("customers").select("id,name,email,phone,code").eq("company_id", companyId).is("deleted_at", null).or(`name.ilike.${like},email.ilike.${like},phone.ilike.${like},code.ilike.${like}`).limit(limit),
