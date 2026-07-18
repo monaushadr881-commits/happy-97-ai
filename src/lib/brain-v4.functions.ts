@@ -1,3 +1,10 @@
+/**
+ * @deprecated R115.b Consolidation — this is a compatibility shim.
+ * Canonical owner: src/lib/brain/brain.functions.ts (canonical Brain)
+ * Do NOT add new logic here. All handlers already delegate through
+ * services/domain/roadmap.service which is being routed to the canonical
+ * engines. Kept solely to preserve public import paths (backward-compat).
+ */
 /** HAPPY v4.0 — brain-v4 server functions. */
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

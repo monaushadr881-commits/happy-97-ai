@@ -462,3 +462,160 @@ export const orchestrator = {
     };
   },
 };
+
+/* ---------------- R115.b Canonical runBrain() pipeline --------------------
+ * LISTEN → UNDERSTAND → MIRROR → LOAD MEMORY → LOAD KNOWLEDGE →
+ * LOAD WORKSPACE → REASON → PLAN → SELECT AGENTS → RESPOND →
+ * DIGITAL HUMAN → SAVE MEMORY → LEARN.
+ *
+ * Composes existing owners — never duplicates:
+ *   • intent / planner / gateway / reasoning / orchestrator (this file)
+ *   • memoryContext / memoryStore / memoryLogEvent  (src/lib/memory/engine)
+ *   • naturalQuery                                  (src/lib/kg/engine)
+ * ------------------------------------------------------------------------ */
+import { memoryContext, memoryStore, memoryLogEvent } from "../memory/engine";
+import { naturalQuery as kgNaturalQuery } from "../kg/engine";
+
+export type DigitalHumanEnvelope = {
+  text: string;
+  emotion: "neutral" | "warm" | "focused" | "concerned" | "celebratory";
+  gesture: "idle" | "point" | "wave" | "nod" | "explain" | "celebrate";
+  eyeContact: boolean;
+  whiteboard?: { op: "clear" | "write" | "highlight"; content?: string }[];
+};
+
+export interface RunBrainInput {
+  company_id: string;
+  input: string;
+  source: "voice" | "chat" | "palette" | "api" | "digital_human" | "automation" | "founder" | "job";
+  workspace_id?: string;
+  channel?: string;
+  module?: string;
+  founder_mode?: boolean;
+  persona?: "founder" | "admin" | "employee" | "customer" | "guest";
+}
+
+export const brainPipeline = {
+  /** Stage 3 — MIRROR: reflect back the user's framing in one sentence. */
+  mirror(input: string, persona: RunBrainInput["persona"] = "guest") {
+    const trimmed = input.trim().replace(/\s+/g, " ");
+    const opener =
+      persona === "founder" ? "Founder — hearing you say:"
+      : persona === "customer" ? "Got it:"
+      : "Understood:";
+    return `${opener} "${trimmed.slice(0, 240)}${trimmed.length > 240 ? "…" : ""}"`;
+  },
+
+  /** Stage 9 — SELECT AGENTS from the intent's chosen runtime. */
+  selectAgents(guess: IntentGuess): string[] {
+    const map: Partial<Record<Runtime, string[]>> = {
+      revenue: ["revenue-analyst"],
+      finance: ["finance-analyst"],
+      crm: ["crm-agent"],
+      erp: ["erp-agent"],
+      wms: ["wms-agent"],
+      mfg: ["mfg-agent"],
+      marketplace: ["marketplace-agent"],
+      builder: ["builder-agent"],
+      deployment: ["deployment-agent"],
+      analytics: ["analytics-agent"],
+      digital_human: ["dh-presenter"],
+      notifications: ["notifier"],
+      support: ["support-agent"],
+      brain: ["router"],
+    };
+    return map[guess.runtime] ?? ["router"];
+  },
+
+  /** Stage 11 — DIGITAL HUMAN envelope shaping. */
+  toDigitalHuman(reply: string, kind: "answer" | "confirm" | "warn" | "celebrate" = "answer"): DigitalHumanEnvelope {
+    const preset: Record<string, Pick<DigitalHumanEnvelope, "emotion" | "gesture">> = {
+      answer: { emotion: "warm", gesture: "explain" },
+      confirm: { emotion: "focused", gesture: "nod" },
+      warn: { emotion: "concerned", gesture: "point" },
+      celebrate: { emotion: "celebratory", gesture: "celebrate" },
+    };
+    return { text: reply, eyeContact: true, ...preset[kind] };
+  },
+};
+
+/**
+ * runBrain — canonical HAPPY Brain entrypoint (R115.b).
+ * All brain callers should route through here. Do NOT add a second runBrain.
+ */
+export async function runBrain(sb: SB, userId: string, input: RunBrainInput) {
+  // 1 LISTEN — take raw input.
+  const listen = { input: input.input, source: input.source, at: new Date().toISOString() };
+
+  // 2 UNDERSTAND — classify intent.
+  const guess = intent.classify(input.input, { module: input.module, founder_mode: input.founder_mode });
+
+  // 3 MIRROR — reflect framing.
+  const mirror = brainPipeline.mirror(input.input, input.persona);
+
+  // 4 LOAD MEMORY — recent context memory.
+  const memory = await memoryContext(sb, userId, {
+    company_id: input.company_id, workspace_id: input.workspace_id ?? null, limit: 20,
+  }).catch(() => ({ items: [] as any[] }));
+
+  // 5 LOAD KNOWLEDGE — best-effort KG lookup.
+  const knowledge = await kgNaturalQuery(sb, userId, { company_id: input.company_id, q: input.input })
+    .catch(() => ({ entities: [], relations: [], summary: "" } as any));
+
+  // 6 LOAD WORKSPACE — brain context snapshot (module/source/founder flags).
+  const workspace = await contextEngine.snapshot(sb, userId, input.company_id, {
+    module: input.module, source: input.source, founder_mode: !!input.founder_mode,
+  });
+
+  // 7-8 REASON + PLAN + execute — reuse orchestrator (single source of truth).
+  const orch = await orchestrator.run(sb, {
+    userId, company_id: input.company_id, workspace_id: input.workspace_id,
+    input: input.input, source: input.source, channel: input.channel,
+    founder_mode: input.founder_mode, module: input.module,
+  });
+
+  // 9 SELECT AGENTS.
+  const agents = brainPipeline.selectAgents(guess);
+
+  // 10 RESPOND — text summary from reasoning.
+  const reply =
+    orch.reasoning?.what?.trim()
+    || orch.recommendations?.[0]
+    || "Acknowledged. No action was executed for this request.";
+
+  // 11 DIGITAL HUMAN envelope.
+  const digitalHuman = brainPipeline.toDigitalHuman(
+    reply,
+    (orch.executed ?? []).some((e: any) => e?.denied) ? "warn" : "answer",
+  );
+
+  // 12 SAVE MEMORY — persist the interaction (best-effort, RLS-scoped).
+  await memoryStore(sb, userId, {
+    company_id: input.company_id,
+    workspace_id: input.workspace_id ?? null,
+    kind: "conversation",
+    scope: "personal",
+    title: `Brain: ${guess.intent}${guess.action ? "/" + guess.action : ""}`,
+    body: `${mirror}\n\n${reply}`,
+    metadata: { session_id: orch.session_id, agents, source: input.source },
+  } as any).catch(() => null);
+
+  // 13 LEARN — append event for feedback loop.
+  await memoryLogEvent(sb, userId, {
+    company_id: input.company_id,
+    workspace_id: input.workspace_id ?? null,
+    event_type: "brain.run",
+    payload: {
+      intent: guess.intent, runtime: guess.runtime, confidence: guess.confidence,
+      steps: (orch.executed ?? []).length, session_id: orch.session_id,
+    },
+  } as any).catch(() => null);
+
+  return {
+    listen, understand: guess, mirror,
+    memory, knowledge, workspace,
+    plan: orch.plan, executed: orch.executed,
+    facts: orch.facts, recommendations: orch.recommendations, reasoning: orch.reasoning,
+    agents, reply, digitalHuman, session_id: orch.session_id,
+  };
+}

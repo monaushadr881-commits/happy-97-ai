@@ -1,3 +1,10 @@
+/**
+ * @deprecated R115.b Consolidation — this is a compatibility shim.
+ * Canonical owner: src/lib/automation/automation.functions.ts (canonical Automation)
+ * Do NOT add new logic here. All handlers already delegate through
+ * services/domain/roadmap.service which is being routed to the canonical
+ * engines. Kept solely to preserve public import paths (backward-compat).
+ */
 /** HAPPY v6.0 — automation-v6 server functions (Automation Studio). */
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

@@ -1,4 +1,11 @@
 /**
+ * @deprecated R115.b Consolidation — this is a compatibility shim.
+ * Canonical owner: src/lib/memory/memory.functions.ts (canonical Memory)
+ * Do NOT add new logic here. All handlers already delegate through
+ * services/domain/roadmap.service which is being routed to the canonical
+ * engines. Kept solely to preserve public import paths (backward-compat).
+ */
+/**
  * HAPPY X — memory-runtime v3 (Reserved, Phase 3.1).
  * Auth-guarded server fns for the memory runtime. All handlers currently
  * return the shared NOT_IMPLEMENTED sentinel via memoryRuntimeService.

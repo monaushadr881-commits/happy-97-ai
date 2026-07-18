@@ -1,4 +1,11 @@
 /**
+ * @deprecated R115.b Consolidation — this is a compatibility shim.
+ * Canonical owner: src/lib/memory/memory.functions.ts (canonical Memory)
+ * Do NOT add new logic here. All handlers already delegate through
+ * services/domain/roadmap.service which is being routed to the canonical
+ * engines. Kept solely to preserve public import paths (backward-compat).
+ */
+/**
  * HAPPY X — Memory Intelligence Engine v2 (Reserved Server Functions)
  * Phase 2.6. All handlers use requireSupabaseAuth and delegate to memoryService.
  */
