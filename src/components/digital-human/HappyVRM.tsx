@@ -81,11 +81,21 @@ function useVRM(url: string): VRM | null {
   return vrm;
 }
 
-function VRMStage({ expression, activity, reducedMotion, amplitude, centroid, gazeTarget }: Omit<Props, "size">) {
+function VRMStage({ expression, activity, reducedMotion, amplitude, centroid, gazeTarget, gesture = "none", postureCue }: Omit<Props, "size">) {
   const vrm = useVRM(vrmAsset.url);
   const targetRef = useRef<THREE.Object3D>(new THREE.Object3D());
   const blinkRef = useRef({ t: 0, next: 2 + Math.random() * 4, closed: 0 });
   const smoothed = useRef({ amp: 0, expr: 0 });
+  // R110 P1 — Fire a one-shot bone gesture whenever `gesture` changes.
+  const gestureRef = useRef<{ cue: GestureCue; t: number; duration: number }>({ cue: "none", t: 0, duration: 0 });
+  useEffect(() => {
+    if (gesture === "none") return;
+    const durations: Partial<Record<GestureCue, number>> = {
+      greeting: 1.1, wave: 1.1, point: 0.9, explain: 0.9, teaching: 1.0,
+      presentation: 1.0, whiteboard: 0.9, thank_you: 1.0, goodbye: 1.1, celebrate: 1.2,
+    };
+    gestureRef.current = { cue: gesture, t: 0, duration: durations[gesture] ?? 0.9 };
+  }, [gesture]);
 
   // Retarget the lookAt object every frame from the incoming gazeTarget prop.
   useEffect(() => {
@@ -108,6 +118,51 @@ function VRMStage({ expression, activity, reducedMotion, amplitude, centroid, ga
       const head = vrm.humanoid?.getNormalizedBoneNode("head");
       if (head && activity === "listening") {
         head.rotation.x = Math.sin(t * 1.6) * 0.03 - 0.02;
+      }
+      // R110 P1 — postureCue bias on head/neck.
+      const neck = vrm.humanoid?.getNormalizedBoneNode("neck") ?? head;
+      if (neck && postureCue) {
+        const bias =
+          postureCue === "thinking" ? { x: -0.06, z: 0.05 } :
+          postureCue === "greeting" ? { x: 0.03, z: 0 } :
+          postureCue === "interrupted" ? { x: 0.02, z: -0.04 } :
+          postureCue === "recovery" ? { x: -0.01, z: 0 } :
+          postureCue === "listening" ? { x: -0.02, z: 0.02 } :
+          { x: 0, z: 0 };
+        neck.rotation.x += (bias.x - neck.rotation.x) * Math.min(1, dt * 3);
+        neck.rotation.z += (bias.z - neck.rotation.z) * Math.min(1, dt * 3);
+      }
+
+      // R110 P1 — One-shot arm gesture on the right arm bones.
+      const g = gestureRef.current;
+      const rArm = vrm.humanoid?.getNormalizedBoneNode("rightUpperArm");
+      const rFore = vrm.humanoid?.getNormalizedBoneNode("rightLowerArm");
+      if (g.cue !== "none" && rArm) {
+        g.t += dt;
+        const p = Math.min(1, g.t / g.duration);
+        // Ease in/out sine
+        const s = Math.sin(p * Math.PI);
+        let ax = 0, az = 0, fx = 0;
+        switch (g.cue) {
+          case "greeting":
+          case "wave":
+            az = -0.9 * s; fx = -0.6 * s; break;
+          case "point":
+          case "explain":
+          case "presentation":
+          case "teaching":
+          case "whiteboard":
+            az = -0.5 * s; fx = -0.9 * s; break;
+          case "thank_you":
+          case "celebrate":
+            az = -0.7 * s; fx = -0.4 * s; break;
+          case "goodbye":
+            az = -0.8 * s; fx = -0.5 * s; break;
+        }
+        rArm.rotation.z = az;
+        rArm.rotation.x = ax;
+        if (rFore) rFore.rotation.x = fx;
+        if (p >= 1) g.cue = "none";
       }
     }
 
@@ -166,6 +221,7 @@ function VRMStage({ expression, activity, reducedMotion, amplitude, centroid, ga
     </>
   );
 }
+
 
 export function HappyVRM({ size, ...rest }: Props) {
   const [failed, setFailed] = useState(false);
