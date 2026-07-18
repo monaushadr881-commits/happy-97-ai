@@ -474,6 +474,7 @@ export const orchestrator = {
  *   • naturalQuery                                  (src/lib/kg/engine)
  * ------------------------------------------------------------------------ */
 import { memoryContext, memoryStore, memoryLogEvent } from "../memory/engine";
+import { seedFromBrainTurn } from "../memory/intelligence";
 import { naturalQuery as kgNaturalQuery } from "../kg/engine";
 
 export type DigitalHumanEnvelope = {
@@ -737,15 +738,16 @@ export async function runBrain(sb: SB, userId: string, input: RunBrainInput) {
   const dhMode = brainPipeline.pickDigitalHumanMode(guess, input, denied);
   const digitalHuman = brainPipeline.toDigitalHuman(reply, dhMode);
 
-  // 12 SAVE MEMORY
+  // 12 SAVE MEMORY — seed via canonical Memory Intelligence (R116).
+  const memSeed = seedFromBrainTurn({
+    text: input.input, reply,
+    company_id: input.company_id, workspace_id: input.workspace_id ?? null,
+    founder_mode: input.founder_mode, persona: input.persona,
+    session_id: orch.session_id, agents,
+  });
   await memoryStore(sb, userId, {
-    company_id: input.company_id,
-    workspace_id: input.workspace_id ?? null,
-    kind: "conversation",
-    scope: "personal",
-    title: `Brain: ${guess.intent}${guess.action ? "/" + guess.action : ""}`,
-    body: `${mirror.text}\n\n${reply}`,
-    metadata: { session_id: orch.session_id, agents, source: input.source, reasoningMode, dhMode },
+    ...memSeed,
+    metadata: { ...(memSeed.metadata ?? {}), source: input.source, reasoningMode, dhMode },
   } as any).catch(() => null);
 
   // 13 LEARN
