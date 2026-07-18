@@ -38,7 +38,12 @@ describe("R110 P1 — posture cues", () => {
   it("uses greeting posture when speaking a greeting", () => {
     expect(postureFor("speaking", "greeting")).toBe("greeting");
   });
+  it("maps interrupted → interrupted and finished → recovery", () => {
+    expect(postureFor("interrupted")).toBe("interrupted");
+    expect(postureFor("finished")).toBe("recovery");
+  });
 });
+
 
 describe("R110 P1 — TTS fallback", () => {
   it("switches to subtitles on error with backoff", () => {
