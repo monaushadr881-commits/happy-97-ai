@@ -32,7 +32,7 @@ type WSite = { id: string; name?: string | null; status?: string | null; slug?: 
 
 function Websites() {
   const active = useActiveTab(TABS);
-  const list = useQuery({ queryKey: ["ws","list"], queryFn: () => listWebsiteProjects() });
+  const list = useQuery({ queryKey: ["ws","list"], queryFn: () => listWebsiteProjects({ data: {} }) });
   const v1 = useQuery({ queryKey: ["ws","v1"], queryFn: () => WebsiteBuilderV1List() });
   const analytics = useQuery({ queryKey: ["ws","an"], queryFn: () => WebsiteBuilderV1Analytics() });
   const sites = (list.data ?? v1.data ?? []) as unknown as WSite[];
