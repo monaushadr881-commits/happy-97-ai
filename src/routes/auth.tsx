@@ -172,6 +172,15 @@ function AuthPage() {
             </button>
           </form>
 
+          <button
+            type="button"
+            onClick={handleMagicLink}
+            disabled={loading}
+            className="mt-3 w-full h-11 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            Email me a magic link
+          </button>
+
           <p className="mt-6 text-sm text-soft-gray text-center">
             {mode === "signin" ? "New to HAPPY X?" : "Already have an account?"}{" "}
             <button

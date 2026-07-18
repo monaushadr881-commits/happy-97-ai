@@ -330,20 +330,9 @@ export const emergencyUnlock = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-// Pure risk-score helper (exported for tests + used by device registration).
-export function computeRiskScore(input: {
-  newDevice?: boolean; newCountry?: boolean; vpn?: boolean;
-  failedLoginsLast24h?: number; offHours?: boolean; impossibleTravel?: boolean;
-}): number {
-  let s = 0;
-  if (input.newDevice) s += 25;
-  if (input.newCountry) s += 20;
-  if (input.vpn) s += 10;
-  if (input.offHours) s += 5;
-  if (input.impossibleTravel) s += 40;
-  s += Math.min(20, (input.failedLoginsLast24h ?? 0) * 5);
-  return Math.min(100, s);
-}
+// Re-export the R114.3 expanded risk engine as canonical.
+export { computeRiskScore, resolveSessionPolicy } from "@/lib/happy-id/risk";
+export type { RiskInput, RiskLevel, RiskReport, PolicyRow } from "@/lib/happy-id/risk";
 
 // ---------- Providers ----------
 export const listAvailableProviders = createServerFn({ method: "GET" })
