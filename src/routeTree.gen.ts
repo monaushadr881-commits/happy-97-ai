@@ -399,6 +399,7 @@ import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authen
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
 import { Route as AuthenticatedFounderOpsRouteImport } from './routes/_authenticated/founder.ops'
 import { Route as AuthenticatedFounderCompaniesRouteImport } from './routes/_authenticated/founder.companies'
+import { Route as AuthenticatedFounderBriefRouteImport } from './routes/_authenticated/founder.brief'
 import { Route as AuthenticatedFounderAnalyticsRouteImport } from './routes/_authenticated/founder.analytics'
 import { Route as AuthenticatedFounderAiRouteImport } from './routes/_authenticated/founder.ai'
 import { Route as AuthenticatedFounderAiWorkspaceRouteImport } from './routes/_authenticated/founder-ai/workspace'
@@ -2688,6 +2689,12 @@ const AuthenticatedFounderCompaniesRoute =
     path: '/companies',
     getParentRoute: () => AuthenticatedFounderRoute,
   } as any)
+const AuthenticatedFounderBriefRoute =
+  AuthenticatedFounderBriefRouteImport.update({
+    id: '/brief',
+    path: '/brief',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
 const AuthenticatedFounderAnalyticsRoute =
   AuthenticatedFounderAnalyticsRouteImport.update({
     id: '/analytics',
@@ -3653,6 +3660,7 @@ export interface FileRoutesByFullPath {
   '/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
+  '/founder/brief': typeof AuthenticatedFounderBriefRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
@@ -4136,6 +4144,7 @@ export interface FileRoutesByTo {
   '/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
+  '/founder/brief': typeof AuthenticatedFounderBriefRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
@@ -4639,6 +4648,7 @@ export interface FileRoutesById {
   '/_authenticated/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/_authenticated/founder/ai': typeof AuthenticatedFounderAiRoute
   '/_authenticated/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
+  '/_authenticated/founder/brief': typeof AuthenticatedFounderBriefRoute
   '/_authenticated/founder/companies': typeof AuthenticatedFounderCompaniesRoute
   '/_authenticated/founder/ops': typeof AuthenticatedFounderOpsRoute
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
@@ -5142,6 +5152,7 @@ export interface FileRouteTypes {
     | '/founder-ai/workspace'
     | '/founder/ai'
     | '/founder/analytics'
+    | '/founder/brief'
     | '/founder/companies'
     | '/founder/ops'
     | '/founder/security'
@@ -5625,6 +5636,7 @@ export interface FileRouteTypes {
     | '/founder-ai/workspace'
     | '/founder/ai'
     | '/founder/analytics'
+    | '/founder/brief'
     | '/founder/companies'
     | '/founder/ops'
     | '/founder/security'
@@ -6127,6 +6139,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder-ai/workspace'
     | '/_authenticated/founder/ai'
     | '/_authenticated/founder/analytics'
+    | '/_authenticated/founder/brief'
     | '/_authenticated/founder/companies'
     | '/_authenticated/founder/ops'
     | '/_authenticated/founder/security'
@@ -9080,6 +9093,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderCompaniesRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
+    '/_authenticated/founder/brief': {
+      id: '/_authenticated/founder/brief'
+      path: '/brief'
+      fullPath: '/founder/brief'
+      preLoaderRoute: typeof AuthenticatedFounderBriefRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
     '/_authenticated/founder/analytics': {
       id: '/_authenticated/founder/analytics'
       path: '/analytics'
@@ -10376,6 +10396,7 @@ const AuthenticatedExecutionRouteWithChildren =
 interface AuthenticatedFounderRouteChildren {
   AuthenticatedFounderAiRoute: typeof AuthenticatedFounderAiRoute
   AuthenticatedFounderAnalyticsRoute: typeof AuthenticatedFounderAnalyticsRoute
+  AuthenticatedFounderBriefRoute: typeof AuthenticatedFounderBriefRoute
   AuthenticatedFounderCompaniesRoute: typeof AuthenticatedFounderCompaniesRoute
   AuthenticatedFounderOpsRoute: typeof AuthenticatedFounderOpsRoute
   AuthenticatedFounderSecurityRoute: typeof AuthenticatedFounderSecurityRoute
@@ -10387,6 +10408,7 @@ interface AuthenticatedFounderRouteChildren {
 const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
   AuthenticatedFounderAiRoute: AuthenticatedFounderAiRoute,
   AuthenticatedFounderAnalyticsRoute: AuthenticatedFounderAnalyticsRoute,
+  AuthenticatedFounderBriefRoute: AuthenticatedFounderBriefRoute,
   AuthenticatedFounderCompaniesRoute: AuthenticatedFounderCompaniesRoute,
   AuthenticatedFounderOpsRoute: AuthenticatedFounderOpsRoute,
   AuthenticatedFounderSecurityRoute: AuthenticatedFounderSecurityRoute,

@@ -138,8 +138,8 @@ function FounderBrief() {
 
   const services = useMemo(() => toServiceHealth((health.data as HealthReport[] | undefined) ?? []), [health.data]);
   const cur = useMemo(() => toSnapshot(
-    (overview.data as Record<string, number | null | undefined>) ?? {},
-    revenue.data as Record<string, number | null | undefined> | undefined,
+    (overview.data as unknown as Record<string, number | null | undefined>) ?? {},
+    revenue.data as unknown as Record<string, number | null | undefined> | undefined,
   ), [overview.data, revenue.data]);
   // Prev snapshot = current * 0.9 baseline (real diffing lands when timeseries store is wired).
   const prev = useMemo<AnalyticsSnapshot>(() => ({
