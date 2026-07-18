@@ -506,3 +506,100 @@ export function detectIntelligence(input: {
 
   return signals.sort((a, b) => b.weight - a.weight);
 }
+
+// =========================================================================
+// R139 — FOUNDER ALERTS (pure prioritiser over existing signals)
+// =========================================================================
+
+export type AlertSeverity = 'critical' | 'high' | 'medium' | 'low';
+
+export type FounderAlert = {
+  id: string;
+  severity: AlertSeverity;
+  source: 'health' | 'analytics' | 'architecture' | 'security' | 'revenue';
+  title: string;
+  detail: string;
+  at: number;
+};
+
+export function buildFounderAlerts(input: {
+  services: ServiceHealth[];
+  cur: AnalyticsSnapshot;
+  prev: AnalyticsSnapshot;
+  architecture?: ArchitectureAudit;
+}): FounderAlert[] {
+  const now = Date.now();
+  const out: FounderAlert[] = [];
+  for (const s of input.services) {
+    const st = scoreService(s);
+    if (st === 'operational') continue;
+    const sev: AlertSeverity =
+      st === 'major-outage' ? 'critical' : st === 'partial-outage' ? 'high' : 'medium';
+    out.push({
+      id: `health:${s.kind}:${s.updatedAt}`,
+      severity: sev,
+      source: 'health',
+      title: `${s.kind} ${st}`,
+      detail: `p95 ${s.latencyP95Ms}ms · err ${(s.errorRate * 100).toFixed(1)}% · avail ${(s.availability * 100).toFixed(2)}%`,
+      at: s.updatedAt || now,
+    });
+  }
+  const cmp = compareSnapshots(input.cur, input.prev);
+  for (const { key, delta: d } of cmp) {
+    if (key === 'revenueMinor' && d.direction === 'down' && d.pct <= -0.1) {
+      out.push({
+        id: `analytics:revenue:${input.cur.at}`,
+        severity: d.pct <= -0.3 ? 'critical' : 'high',
+        source: 'revenue',
+        title: `Revenue down ${(d.pct * 100).toFixed(1)}%`,
+        detail: `${input.prev.revenueMinor} → ${input.cur.revenueMinor} (minor units)`,
+        at: input.cur.at || now,
+      });
+    }
+    if (key === 'dau' && d.direction === 'down' && d.pct <= -0.15) {
+      out.push({
+        id: `analytics:dau:${input.cur.at}`,
+        severity: d.pct <= -0.3 ? 'high' : 'medium',
+        source: 'analytics',
+        title: `DAU down ${(d.pct * 100).toFixed(1)}%`,
+        detail: `${input.prev.dau} → ${input.cur.dau}`,
+        at: input.cur.at || now,
+      });
+    }
+  }
+  if (input.architecture) {
+    const a = input.architecture;
+    if (!a.buildOk) {
+      out.push({ id: `arch:build:${now}`, severity: 'critical', source: 'architecture', title: 'Build failing', detail: 'CI build is red.', at: now });
+    }
+    if (a.brokenTests > 0) {
+      out.push({
+        id: `arch:tests:${now}`,
+        severity: a.brokenTests > 10 ? 'high' : 'medium',
+        source: 'architecture',
+        title: `${a.brokenTests} broken tests`,
+        detail: 'Test suite has failures.',
+        at: now,
+      });
+    }
+    if (a.duplicates.length > 0) {
+      out.push({
+        id: `arch:dup:${now}`,
+        severity: a.duplicates.length > 5 ? 'high' : 'low',
+        source: 'architecture',
+        title: `${a.duplicates.length} duplicate runtime(s)`,
+        detail: a.duplicates.slice(0, 3).map((d) => d.capability).join(', '),
+        at: now,
+      });
+    }
+  }
+  const rank: Record<AlertSeverity, number> = { critical: 0, high: 1, medium: 2, low: 3 };
+  return out.sort((a, b) => rank[a.severity] - rank[b.severity] || b.at - a.at);
+}
+
+export function countAlertsBySeverity(alerts: FounderAlert[]): Record<AlertSeverity, number> {
+  const out: Record<AlertSeverity, number> = { critical: 0, high: 0, medium: 0, low: 0 };
+  for (const a of alerts) out[a.severity]++;
+  return out;
+}
+
