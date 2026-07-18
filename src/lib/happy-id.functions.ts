@@ -247,10 +247,9 @@ export const acknowledgeSecurityAlert = createServerFn({ method: "POST" })
 export const getEffectiveSessionPolicy = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    // Precedence: user > company > platform
     const { data, error } = await context.supabase
       .from("auth_session_policies")
-      .select("scope_type, scope_id, max_active_sessions, require_trusted_device, idle_timeout_minutes, absolute_timeout_hours, require_mfa, allowed_providers");
+      .select("scope_type, scope_id, max_active_sessions, require_trusted_device, idle_timeout_minutes, absolute_timeout_hours, require_mfa, allowed_providers, enterprise_configurable");
     if (error) throw error;
     const rows = data ?? [];
     const user = rows.find((r) => r.scope_type === "user" && r.scope_id === context.userId);
@@ -264,6 +263,151 @@ export const getEffectiveSessionPolicy = createServerFn({ method: "GET" })
       idle_timeout_minutes: 43200,
       absolute_timeout_hours: 720,
       require_mfa: false,
-      allowed_providers: ["email","google","apple","passkey","otp","sso"],
+      allowed_providers: ["email","google","apple","magic_link"],
+      enterprise_configurable: true,
     };
+  });
+
+export const setUserSessionPolicy = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({
+    max_active_sessions: z.number().int().min(1).max(50).optional(),
+    require_trusted_device: z.boolean().optional(),
+    idle_timeout_minutes: z.number().int().min(1).max(60*24*90).optional(),
+    require_mfa: z.boolean().optional(),
+  }).parse(input))
+  .handler(async ({ data, context }) => {
+    const patch = { ...data, scope_type: "user" as const, scope_id: context.userId };
+    const { error } = await context.supabase
+      .from("auth_session_policies")
+      .upsert(patch, { onConflict: "scope_type,scope_id" });
+    if (error) throw error;
+    return { ok: true };
+  });
+
+// ---------- Device rename + emergency lock ----------
+export const renameDevice = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({ device_id: z.string().uuid(), device_name: z.string().min(1).max(120) }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("auth_devices")
+      .update({ device_name: data.device_name })
+      .eq("id", data.device_id).eq("user_id", context.userId);
+    if (error) throw error;
+    return { ok: true };
+  });
+
+export const emergencyLock = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const now = new Date().toISOString();
+    const { error: e1 } = await context.supabase
+      .from("auth_devices")
+      .update({ emergency_locked: true, trusted: false })
+      .eq("user_id", context.userId).is("revoked_at", null);
+    if (e1) throw e1;
+    await context.supabase
+      .from("auth_sessions_meta")
+      .update({ ended_at: now, end_reason: "emergency_lock" })
+      .eq("user_id", context.userId).is("ended_at", null);
+    await context.supabase.from("auth_security_alerts").insert({
+      user_id: context.userId, alert_type: "emergency_lock", severity: "critical",
+      message: "Emergency lock activated. All active sessions revoked.",
+    });
+    await context.supabase.from("auth_login_history").insert({
+      user_id: context.userId, event_type: "signout", success: true, metadata: { reason: "emergency_lock" },
+    });
+    return { ok: true };
+  });
+
+export const emergencyUnlock = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { error } = await context.supabase
+      .from("auth_devices").update({ emergency_locked: false }).eq("user_id", context.userId);
+    if (error) throw error;
+    return { ok: true };
+  });
+
+// Pure risk-score helper (exported for tests + used by device registration).
+export function computeRiskScore(input: {
+  newDevice?: boolean; newCountry?: boolean; vpn?: boolean;
+  failedLoginsLast24h?: number; offHours?: boolean; impossibleTravel?: boolean;
+}): number {
+  let s = 0;
+  if (input.newDevice) s += 25;
+  if (input.newCountry) s += 20;
+  if (input.vpn) s += 10;
+  if (input.offHours) s += 5;
+  if (input.impossibleTravel) s += 40;
+  s += Math.min(20, (input.failedLoginsLast24h ?? 0) * 5);
+  return Math.min(100, s);
+}
+
+// ---------- Providers ----------
+export const listAvailableProviders = createServerFn({ method: "GET" })
+  .handler(async () => {
+    const { createClient } = await import("@supabase/supabase-js");
+    const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
+    const supa = createClient(process.env.SUPABASE_URL!, key, {
+      auth: { persistSession: false },
+      global: { fetch: (i, init) => {
+        const h = new Headers(init?.headers);
+        if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) h.delete("Authorization");
+        h.set("apikey", key);
+        return fetch(i, { ...init, headers: h });
+      } },
+    });
+    const { data, error } = await supa.from("auth_provider_registry")
+      .select("provider, enabled, architecture_ready, configured, display_name, category")
+      .order("provider");
+    if (error) throw error;
+    return data ?? [];
+  });
+
+// ---------- Recovery codes ----------
+async function sha256Hex(input: string): Promise<string> {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+export const generateRecoveryCodes = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await context.supabase.from("auth_recovery_codes")
+      .update({ used_at: new Date().toISOString() })
+      .eq("user_id", context.userId).is("used_at", null);
+    const codes: string[] = [];
+    for (let i = 0; i < 10; i++) {
+      const bytes = crypto.getRandomValues(new Uint8Array(6));
+      codes.push(Array.from(bytes).map((b) => b.toString(36).padStart(2, "0")).join("").slice(0, 12).toUpperCase());
+    }
+    const rows = await Promise.all(codes.map(async (c) => ({
+      user_id: context.userId, code_hash: await sha256Hex(c),
+    })));
+    const { error } = await context.supabase.from("auth_recovery_codes").insert(rows);
+    if (error) throw error;
+    await context.supabase.from("auth_security_alerts").insert({
+      user_id: context.userId, alert_type: "recovery_codes_generated", severity: "info",
+      message: "New recovery codes generated. Store them somewhere safe.",
+    });
+    return { codes };
+  });
+
+export const consumeRecoveryCode = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({ code: z.string().min(6).max(64) }).parse(input))
+  .handler(async ({ data, context }) => {
+    const hash = await sha256Hex(data.code.trim().toUpperCase());
+    const { data: row, error } = await context.supabase.from("auth_recovery_codes")
+      .select("id").eq("user_id", context.userId).eq("code_hash", hash).is("used_at", null).maybeSingle();
+    if (error) throw error;
+    if (!row) return { ok: false as const };
+    await context.supabase.from("auth_recovery_codes")
+      .update({ used_at: new Date().toISOString() }).eq("id", row.id);
+    await context.supabase.from("auth_login_history").insert({
+      user_id: context.userId, event_type: "signin", provider: "recovery_code", success: true,
+    });
+    return { ok: true as const };
   });

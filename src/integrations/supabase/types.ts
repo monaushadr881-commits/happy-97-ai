@@ -2197,6 +2197,7 @@ export type Database = {
           device_fingerprint: string
           device_name: string | null
           device_type: string | null
+          emergency_locked: boolean
           first_seen_at: string
           id: string
           ip_hash: string | null
@@ -2205,6 +2206,7 @@ export type Database = {
           location_region: string | null
           os: string | null
           revoked_at: string | null
+          risk_score: number
           trusted: boolean
           updated_at: string
           user_id: string
@@ -2215,6 +2217,7 @@ export type Database = {
           device_fingerprint: string
           device_name?: string | null
           device_type?: string | null
+          emergency_locked?: boolean
           first_seen_at?: string
           id?: string
           ip_hash?: string | null
@@ -2223,6 +2226,7 @@ export type Database = {
           location_region?: string | null
           os?: string | null
           revoked_at?: string | null
+          risk_score?: number
           trusted?: boolean
           updated_at?: string
           user_id: string
@@ -2233,6 +2237,7 @@ export type Database = {
           device_fingerprint?: string
           device_name?: string | null
           device_type?: string | null
+          emergency_locked?: boolean
           first_seen_at?: string
           id?: string
           ip_hash?: string | null
@@ -2241,6 +2246,7 @@ export type Database = {
           location_region?: string | null
           os?: string | null
           revoked_at?: string | null
+          risk_score?: number
           trusted?: boolean
           updated_at?: string
           user_id?: string
@@ -2294,6 +2300,66 @@ export type Database = {
           },
         ]
       }
+      auth_provider_registry: {
+        Row: {
+          architecture_ready: boolean
+          category: string | null
+          configured: boolean
+          created_at: string
+          display_name: string | null
+          enabled: boolean
+          id: string
+          provider: string
+          updated_at: string
+        }
+        Insert: {
+          architecture_ready?: boolean
+          category?: string | null
+          configured?: boolean
+          created_at?: string
+          display_name?: string | null
+          enabled?: boolean
+          id?: string
+          provider: string
+          updated_at?: string
+        }
+        Update: {
+          architecture_ready?: boolean
+          category?: string | null
+          configured?: boolean
+          created_at?: string
+          display_name?: string | null
+          enabled?: boolean
+          id?: string
+          provider?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      auth_recovery_codes: {
+        Row: {
+          code_hash: string
+          created_at: string
+          id: string
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          code_hash: string
+          created_at?: string
+          id?: string
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          code_hash?: string
+          created_at?: string
+          id?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       auth_security_alerts: {
         Row: {
           acknowledged_at: string | null
@@ -2346,6 +2412,7 @@ export type Database = {
           absolute_timeout_hours: number
           allowed_providers: string[]
           created_at: string
+          enterprise_configurable: boolean
           id: string
           idle_timeout_minutes: number
           max_active_sessions: number
@@ -2359,6 +2426,7 @@ export type Database = {
           absolute_timeout_hours?: number
           allowed_providers?: string[]
           created_at?: string
+          enterprise_configurable?: boolean
           id?: string
           idle_timeout_minutes?: number
           max_active_sessions?: number
@@ -2372,6 +2440,7 @@ export type Database = {
           absolute_timeout_hours?: number
           allowed_providers?: string[]
           created_at?: string
+          enterprise_configurable?: boolean
           id?: string
           idle_timeout_minutes?: number
           max_active_sessions?: number
