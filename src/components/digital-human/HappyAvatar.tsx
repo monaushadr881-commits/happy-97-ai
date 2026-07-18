@@ -259,10 +259,13 @@ export const HappyAvatar = memo(function HappyAvatar({
   gazeTarget = null,
   amplitude = 0,
   centroid = 0,
+  gesture = "none",
+  postureCue,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const blink = useBlink(reducedMotion);
   const drift = useMicroMotion(reducedMotion, activity, expression, posture);
+
   const [gaze, setGaze] = useState({ x: 0, y: 0 });
   // Explicit gaze target (e.g. whiteboard region) overrides cursor tracking.
   useEffect(() => {
