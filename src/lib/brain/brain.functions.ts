@@ -60,3 +60,10 @@ export const brainFounderMode = auth().inputValidator((d: { company_id: string }
       userId: context.userId, company_id: data.company_id,
       input: "founder overview", source: "founder", founder_mode: true,
     }));
+
+// R115.b — Canonical runBrain() pipeline (LISTEN→…→LEARN). One endpoint,
+// one runtime. All new brain callers MUST use this — never add a v2.
+export const brainRunBrain = auth()
+  .inputValidator((d: RunBrainInput) => d)
+  .handler(async ({ data, context }): Promise<any> =>
+    runBrain(context.supabase, context.userId, data));
