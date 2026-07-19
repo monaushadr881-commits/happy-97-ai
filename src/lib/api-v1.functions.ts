@@ -100,7 +100,11 @@ export const apiListMyWorkspaces = createServerFn({ method: "GET" })
 export const apiCreateWorkspace = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => workspaceService.create(svc(context), data)));
+  .handler(async ({ data, context }) => {
+    const d = (data ?? {}) as { company_id?: string };
+    await adopt(context, "workspace", "workspace", "create", d.company_id ?? null);
+    return guard(() => workspaceService.create(svc(context), data));
+  });
 
 // ------------------------- User ------------------------------
 export const apiMe = createServerFn({ method: "GET" })
