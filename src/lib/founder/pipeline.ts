@@ -48,6 +48,9 @@ export interface AdoptOptions {
     | "ai"
     | "ufs"
     | "infinity"
+    | "digital-human"
+    | "memory"
+    | "experience"
     | "founder";
   readonly module: string;
   readonly capability: string;
