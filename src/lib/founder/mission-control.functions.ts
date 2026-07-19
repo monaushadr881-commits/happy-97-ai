@@ -156,6 +156,39 @@ export interface MissionControlSnapshot {
     degraded: number;
     down: number;
   };
+  revenue_ext: {
+    wallets: { total: number; ledger_30d: number };
+    credits: { grants_30d: number; consumes_30d: number };
+    subscriptions: {
+      active: number;
+      trial: number;
+      paused: number;
+      cancelled: number;
+      recent: Array<{
+        id: string;
+        status: string;
+        plan_id: string;
+        seats: number;
+        updated_at: string;
+      }>;
+    };
+    payments: {
+      succeeded_30d: number;
+      failed_30d: number;
+      pending_founder_approval: number;
+      recent: Array<{
+        id: string;
+        amount_cents: number;
+        currency: string;
+        status: string;
+        received_at: string | null;
+      }>;
+    };
+    daily_free_credit_policy: {
+      per_day: number;
+      deduction_order: ReadonlyArray<string>;
+    };
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
@@ -252,6 +285,39 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .eq("kind", "publishing")
         .order("created_at", { ascending: false })
         .limit(64),
+    ]);
+
+    // Batch J — Revenue OS extension reads. Kept as a small parallel
+    // batch outside the main Promise.all so its typings stay isolated
+    // and additions don't ripple through the primary tuple.
+    const [
+      walletsTotal,
+      walletLedger30d,
+      creditsGrant30d,
+      creditsConsume30d,
+      subsActive,
+      subsTrial,
+      subsPaused,
+      subsCancelled,
+      subsRecent,
+      paySuccess30d,
+      payFailed30d,
+      payPendingApproval,
+      payRecent,
+    ] = await Promise.all([
+      sb.from("wallets").select("id", { count: "exact", head: true }),
+      sb.from("wallet_ledger_entries").select("id", { count: "exact", head: true }).gte("created_at", since30d),
+      sb.from("credit_ledger_entries").select("id", { count: "exact", head: true }).eq("direction", "credit").gte("created_at", since30d),
+      sb.from("credit_ledger_entries").select("id", { count: "exact", head: true }).eq("direction", "debit").gte("created_at", since30d),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "paused"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "cancelled"),
+      sb.from("subscriptions").select("id,status,plan_id,seats,updated_at").order("updated_at", { ascending: false }).limit(LIMIT),
+      sb.from("payments").select("id", { count: "exact", head: true }).eq("status", "succeeded").gte("received_at", since30d),
+      sb.from("payments").select("id", { count: "exact", head: true }).eq("status", "failed").gte("received_at", since30d),
+      sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "pending").eq("entity_type", "revenue.payment"),
+      sb.from("payments").select("id,amount_cents,currency,status,received_at").order("received_at", { ascending: false, nullsFirst: false }).limit(LIMIT),
     ]);
 
     // Executive Board reviews — separate query so the Promise.all
@@ -527,5 +593,43 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         };
       })(),
       health: healthCounts,
+      revenue_ext: {
+        wallets: { total: cnt(walletsTotal.count), ledger_30d: cnt(walletLedger30d.count) },
+        credits: {
+          grants_30d: cnt(creditsGrant30d.count),
+          consumes_30d: cnt(creditsConsume30d.count),
+        },
+        subscriptions: {
+          active: cnt(subsActive.count),
+          trial: cnt(subsTrial.count),
+          paused: cnt(subsPaused.count),
+          cancelled: cnt(subsCancelled.count),
+          recent: ((subsRecent.data ?? []) as Array<{
+            id: string; status: string; plan_id: string; seats: number; updated_at: string;
+          }>).map((r) => ({
+            id: r.id, status: r.status, plan_id: r.plan_id,
+            seats: r.seats, updated_at: r.updated_at,
+          })),
+        },
+        payments: {
+          succeeded_30d: cnt(paySuccess30d.count),
+          failed_30d: cnt(payFailed30d.count),
+          pending_founder_approval: cnt(payPendingApproval.count),
+          recent: ((payRecent.data ?? []) as Array<{
+            id: string; amount_cents: number | null; currency: string;
+            status: string; received_at: string | null;
+          }>).map((r) => ({
+            id: r.id,
+            amount_cents: r.amount_cents ?? 0,
+            currency: r.currency,
+            status: r.status,
+            received_at: r.received_at,
+          })),
+        },
+        daily_free_credit_policy: {
+          per_day: 5,
+          deduction_order: ["daily_free", "subscription", "purchased"] as const,
+        },
+      },
     };
   });
