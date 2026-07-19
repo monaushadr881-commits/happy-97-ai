@@ -16,10 +16,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import { z } from "zod";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 
 // =====================================================================
 // COURSE LIBRARY (public + company)
@@ -82,6 +84,7 @@ export const eduEnroll = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ course_id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "enrollment", capability: "enroll", user_id: context.userId, company_id: ZERO_UUID, summary: `enroll ${data.course_id}` });
     const r = await context.supabase.from("course_enrollments")
       .upsert({ course_id: data.course_id, user_id: context.userId, status: "enrolled" }, { onConflict: "course_id,user_id" })
       .select("id, course_id, status, progress_pct").single();
@@ -98,6 +101,7 @@ export const eduLessonProgress = createServerFn({ method: "POST" })
     completed: z.boolean().optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "lesson", capability: "progress", user_id: context.userId, company_id: ZERO_UUID, summary: `progress ${data.lesson_id}` });
     const r = await context.supabase.from("lesson_progress").upsert({
       lesson_id: data.lesson_id,
       user_id: context.userId,
@@ -140,6 +144,7 @@ export const eduSaveNote = createServerFn({ method: "POST" })
     lesson_id: uuid.optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "note", capability: data.id ? "update" : "create", user_id: context.userId, company_id: ZERO_UUID });
     const row = {
       user_id: context.userId,
       title: data.title ?? null,
@@ -160,6 +165,7 @@ export const eduDeleteNote = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "note", capability: "delete", user_id: context.userId, company_id: ZERO_UUID, summary: `delete ${data.id}` });
     const r = await context.supabase.from("study_notes").delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
@@ -174,6 +180,7 @@ export const eduBookmark = createServerFn({ method: "POST" })
     timestamp_seconds: z.number().int().min(0).optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "bookmark", capability: "create", user_id: context.userId, company_id: ZERO_UUID, metadata: { resource_type: data.resource_type } });
     const r = await context.supabase.from("study_bookmarks").insert({
       user_id: context.userId,
       resource_type: data.resource_type,
@@ -215,6 +222,7 @@ export const eduSaveFlashcard = createServerFn({ method: "POST" })
     lesson_id: uuid.optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "flashcard", capability: data.id ? "update" : "create", user_id: context.userId, company_id: ZERO_UUID });
     const row = {
       user_id: context.userId,
       front: data.front,
@@ -236,6 +244,7 @@ export const eduReviewFlashcard = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, quality: z.number().int().min(0).max(5) }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "flashcard", capability: "review", user_id: context.userId, company_id: ZERO_UUID, metadata: { quality: data.quality } });
     const s = context.supabase;
     const cur = await s.from("study_flashcards")
       .select("id, ease, interval_days, reps")
@@ -287,6 +296,7 @@ export const eduSubmitQuiz = createServerFn({ method: "POST" })
     answers: z.array(z.object({ question_id: uuid, value: z.unknown() })).max(500),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "quiz", capability: "submit", user_id: context.userId, company_id: ZERO_UUID, summary: `submit ${data.quiz_id}` });
     const s = context.supabase;
     const [quiz, questions] = await Promise.all([
       s.from("quizzes").select("id, passing_score").eq("id", data.quiz_id).maybeSingle(),
@@ -351,6 +361,7 @@ export const eduSavePlan = createServerFn({ method: "POST" })
     status: z.enum(["active", "paused", "completed", "archived"]).optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "plan", capability: data.id ? "update" : "create", user_id: context.userId, company_id: ZERO_UUID });
     const row = {
       user_id: context.userId,
       title: data.title,
@@ -376,6 +387,7 @@ export const eduLogSession = createServerFn({ method: "POST" })
     seconds: z.number().int().min(1).max(21600),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "session", capability: "log", user_id: context.userId, company_id: ZERO_UUID, metadata: { seconds: data.seconds } });
     const r = await context.supabase.from("study_sessions").insert({
       user_id: context.userId,
       course_id: data.course_id ?? null,
@@ -459,6 +471,7 @@ export const eduCreateUpload = createServerFn({ method: "POST" })
     lesson_id: uuid.optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "upload", capability: "create", user_id: context.userId, company_id: data.company_id ?? ZERO_UUID, metadata: { kind: data.kind } });
     const r = await context.supabase.from("content_uploads").insert({
       creator_id: context.userId,
       company_id: data.company_id ?? null,
@@ -496,6 +509,7 @@ export const eduCreateCourse = createServerFn({ method: "POST" })
     is_public: z.boolean().optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "course", capability: "create", user_id: context.userId, company_id: data.company_id, summary: data.title });
     const r = await context.supabase.from("courses").insert({
       company_id: data.company_id,
       title: data.title, slug: data.slug,

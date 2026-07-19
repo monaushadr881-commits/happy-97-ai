@@ -16,10 +16,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import { z } from "zod";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 
 // =====================================================================
 // COMMUNITY — Posts, Comments, Reactions, Follows, Groups
@@ -68,6 +70,7 @@ export const communityCreatePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreatePost.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "post", capability: "create", user_id: context.userId, company_id: ZERO_UUID });
     const r = await context.supabase.from("posts")
       .insert({ ...data, author_id: context.userId, created_by: context.userId })
       .select("*").single();
@@ -104,6 +107,7 @@ export const communityAddComment = createServerFn({ method: "POST" })
     post_id: uuid, parent_id: uuid.optional(), body: z.string().min(1).max(4000),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "comment", capability: "create", user_id: context.userId, company_id: ZERO_UUID, metadata: { post_id: data.post_id } });
     const r = await context.supabase.from("comments")
       .insert({ ...data, author_id: context.userId }).select("*").single();
     if (r.error) throw r.error;
@@ -125,6 +129,7 @@ export const communityReact = createServerFn({ method: "POST" })
     on: z.boolean().default(true),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "reaction", capability: data.on ? "add" : "remove", user_id: context.userId, company_id: ZERO_UUID, metadata: { target_type: data.target_type, kind: data.kind } });
     if (data.on) {
       await context.supabase.from("reactions").upsert(
         { user_id: context.userId, target_type: data.target_type, target_id: data.target_id, kind: data.kind },
@@ -144,6 +149,7 @@ export const communityFollow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ user_id: uuid, on: z.boolean().default(true) }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "follow", capability: data.on ? "on" : "off", user_id: context.userId, company_id: ZERO_UUID, metadata: { followee_id: data.user_id } });
     if (data.user_id === context.userId) throw new Error("Cannot follow yourself.");
     if (data.on) {
       await context.supabase.from("follows")
@@ -213,6 +219,7 @@ export const marketCreateListing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateListing.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "marketplace", module: "listing", capability: "create", user_id: context.userId, company_id: ZERO_UUID, summary: data.title });
     const slug = `${data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60)}-${Date.now().toString(36)}`;
     const r = await context.supabase.from("listings").insert({
       ...data, slug, seller_id: context.userId, created_by: context.userId,
@@ -250,6 +257,7 @@ export const marketAddReview = createServerFn({ method: "POST" })
     listing_id: uuid, rating: z.number().int().min(1).max(5), body: z.string().max(4000).optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "marketplace", module: "listing", capability: "review", user_id: context.userId, company_id: ZERO_UUID, metadata: { listing_id: data.listing_id, rating: data.rating } });
     const r = await context.supabase.from("listing_reviews").upsert(
       { ...data, reviewer_id: context.userId },
       { onConflict: "listing_id,reviewer_id" },
@@ -355,6 +363,7 @@ export const msgCreateConversation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ title: z.string().min(1).max(200) }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "conversation", capability: "create", user_id: context.userId, company_id: ZERO_UUID, summary: data.title });
     const r = await context.supabase.from("conversations")
       .insert({ user_id: context.userId, title: data.title }).select("*").single();
     if (r.error) throw r.error;
@@ -379,6 +388,7 @@ export const msgSend = createServerFn({ method: "POST" })
     conversation_id: uuid, content: z.string().min(1).max(8000),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "message", capability: "send", user_id: context.userId, company_id: ZERO_UUID, metadata: { conversation_id: data.conversation_id } });
     const r = await context.supabase.from("messages").insert({
       conversation_id: data.conversation_id,
       user_id: context.userId, role: "user", content: data.content,
