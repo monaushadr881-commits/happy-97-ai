@@ -34,6 +34,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "./audit";
 import { withBrain } from "./with-brain";
+import { adoptToCanonicalPipeline } from "./pipeline";
 import {
   PUBLISHING_ASSET_KINDS,
   PUBLISHING_CATALOG,
