@@ -35,6 +35,7 @@ import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { withBrain } from "@/lib/founder/with-brain";
 import type { FounderApprovalContext } from "@/lib/founder/types";
 import { REVENUE_APPROVAL_THRESHOLDS } from "./credit-policy";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 type ApprovalStatus = "pending" | "approved" | "rejected" | "cancelled";
 
@@ -90,6 +91,7 @@ export const revWalletAdjust = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => WalletAdjustInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "wallet", capability: "adjust", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000", summary: `wallet adjust ${data.delta_cents}`, metadata: { delta_cents: data.delta_cents, currency: data.currency } });
     const brainCtx: FounderApprovalContext = { isFounder: true, correlationId: userId };
     const brain = await analyseWalletImpact({
       capability: "revenue.wallet.adjust",
@@ -244,6 +246,7 @@ export const revGrantCredits = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => CreditGrantInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "credits", capability: "grant", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000", summary: `grant credits ${data.credits}`, metadata: { credits: data.credits } });
     const brain = await analyseCreditImpact({
       capability: "revenue.credits.grant",
       input: data,
@@ -402,6 +405,7 @@ export const revChangeSubscription = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => SubscriptionChangeInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "subscription", capability: "change", user_id: context.userId, company_id: data.company_id, summary: `subscription change to ${data.plan_id}` });
     const brain = await analyseSubscriptionImpact({
       capability: "revenue.subscription.change",
       input: data,
@@ -570,6 +574,7 @@ export const revRecordPayment = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => RecordPaymentInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "payment", capability: "record", user_id: context.userId, company_id: data.company_id, summary: `record payment ${data.amount_cents}`, metadata: { amount_cents: data.amount_cents, currency: data.currency } });
     const brain = await analysePaymentImpact({
       capability: "revenue.payment.record",
       input: data,
