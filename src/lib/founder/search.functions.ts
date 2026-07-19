@@ -335,32 +335,32 @@ export const universalSearch = createServerFn({ method: "POST" })
 
     if (wfRes.error) errors.business_workflow = errOf(wfRes)!;
     push("business_workflow", ((wfRes.data ?? []) as Array<{
-      id: string; name: string; description: string | null;
-      status: string; updated_at: string; company_id: string | null;
+      id: string; name: string; is_active: boolean;
+      updated_at: string; company_id: string; version: number;
     }>).map((r) => ({
       id: r.id, source: "business_workflow",
       category: "Business · automation",
-      title: r.name, snippet: truncate(r.description ?? r.status),
+      title: r.name, snippet: `${r.is_active ? "active" : "inactive"} · v${r.version}`,
       owner: null, workspace_id: null, company_id: r.company_id,
-      version: null, permission_scope: "company",
+      version: r.version, permission_scope: "company",
       last_updated: r.updated_at, linked_knowledge: [], linked_assets: [],
-      href: `/founder`, score: scoreRow(data.q, r.name, r.description ?? "", 4),
+      href: `/founder`, score: scoreRow(data.q, r.name, "", 4),
     })));
 
     if (invRes.error) errors.revenue_invoice = errOf(invRes)!;
     push("revenue_invoice", ((invRes.data ?? []) as Array<{
-      id: string; invoice_number: string; status: string;
-      total_cents: number | null; currency: string | null;
-      company_id: string | null; updated_at: string; customer_id: string | null;
+      id: string; number: string; status: string;
+      total_cents: number; currency: string;
+      company_id: string; updated_at: string; customer_id: string | null;
     }>).map((r) => ({
       id: r.id, source: "revenue_invoice",
       category: "Revenue · invoice",
-      title: r.invoice_number,
+      title: r.number,
       snippet: `${r.status} · ${(r.total_cents ?? 0) / 100} ${r.currency ?? ""}`,
       owner: r.customer_id, workspace_id: null, company_id: r.company_id,
       version: null, permission_scope: "company",
       last_updated: r.updated_at, linked_knowledge: [], linked_assets: [],
-      href: null, score: scoreRow(data.q, r.invoice_number, r.status, 6),
+      href: null, score: scoreRow(data.q, r.number, r.status, 6),
     })));
 
     if (walRes.error) errors.revenue_wallet = errOf(walRes)!;
