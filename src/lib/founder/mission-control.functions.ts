@@ -323,6 +323,28 @@ export interface MissionControlSnapshot {
     agri: VerticalBlock;
     coverage_pct: number;
   };
+  universal_runtime: {
+    // R189 Batch 2 — Universal Runtime pipeline health. Read-only surface
+    // over the SINGLE canonical execution pipeline:
+    //   Founder → withBrain → runBrain → Universal Search → Knowledge →
+    //   Workspace → Permission → Impact → Executive → Approval → Audit →
+    //   Execution → Mission Control.
+    // Every stage maps to an EXISTING canonical owner. No new tables,
+    // no new runtime, no new services.
+    stages: Array<{
+      stage: string;
+      owner: string;
+      status: "wired" | "read_only" | "degraded";
+      count_24h: number;
+    }>;
+    pipeline_ok: boolean;
+    coverage_pct: number;
+    executions_24h: number;
+    running_now: number;
+    failures_24h: number;
+    queue_pending: number;
+    queue_failed: number;
+  };
 }
 
 interface VerticalBlock {
