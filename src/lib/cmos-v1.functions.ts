@@ -146,6 +146,7 @@ export const communityFollow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ user_id: uuid, on: z.boolean().default(true) }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "follow", capability: data.on ? "on" : "off", user_id: context.userId, company_id: ZERO_UUID, metadata: { followee_id: data.user_id } });
     if (data.user_id === context.userId) throw new Error("Cannot follow yourself.");
     if (data.on) {
       await context.supabase.from("follows")
