@@ -5,6 +5,11 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertOpsAdminR64, writeAudit } from "./gate";
 import { canRolloutTransition, nextRolloutStep, validateRolloutPercent } from "./rollout";
 import { STORE_CODES } from "./contracts";
+import { requireApproval } from "@/lib/founder/enforce";
+
+// R183 — high-risk destructive rollout transitions must be Founder-approved.
+const R183_DESTRUCTIVE = new Set(["rolled_back", "cancelled"]);
+
 
 export const listRollouts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
