@@ -44,6 +44,7 @@ export const createCompanySubscription = createServerFn({ method: "POST" })
     seats?: number; currency?: string; trialDays?: number; autoRenew?: boolean;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createCompanySubscription", source: "api", module: "subscriptions.createCompanySubscription" });
     await assertCompanyAdmin(context, data.companyId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return createSubscription(supabaseAdmin, {
@@ -71,6 +72,7 @@ export const applySubscriptionTransition = createServerFn({ method: "POST" })
     metadata?: Record<string, unknown>;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "applySubscriptionTransition", source: "api", module: "subscriptions.applySubscriptionTransition" });
     const companyId = await loadSubscriptionCompany(context, data.subscriptionId);
     await assertCompanyAdmin(context, companyId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -92,6 +94,7 @@ export const renewSubscription = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { subscriptionId: string; nextPeriodEnd: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "renewSubscription", source: "api", module: "subscriptions.renewSubscription" });
     const companyId = await loadSubscriptionCompany(context, data.subscriptionId);
     await assertCompanyAdmin(context, companyId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -105,6 +108,7 @@ export const cancelSubscription = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { subscriptionId: string; atPeriodEnd?: boolean }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cancelSubscription", source: "api", module: "subscriptions.cancelSubscription" });
     const companyId = await loadSubscriptionCompany(context, data.subscriptionId);
     await assertCompanyAdmin(context, companyId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -119,6 +123,7 @@ export const pauseSubscription = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { subscriptionId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "pauseSubscription", source: "api", module: "subscriptions.pauseSubscription" });
     const companyId = await loadSubscriptionCompany(context, data.subscriptionId);
     await assertCompanyAdmin(context, companyId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -132,6 +137,7 @@ export const resumeSubscription = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { subscriptionId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "resumeSubscription", source: "api", module: "subscriptions.resumeSubscription" });
     const companyId = await loadSubscriptionCompany(context, data.subscriptionId);
     await assertCompanyAdmin(context, companyId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -145,6 +151,7 @@ export const changeSubscriptionPlan = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { subscriptionId: string; toPlanId: string; nextPeriodEnd?: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "changeSubscriptionPlan", source: "api", module: "subscriptions.changeSubscriptionPlan" });
     const companyId = await loadSubscriptionCompany(context, data.subscriptionId);
     await assertCompanyAdmin(context, companyId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

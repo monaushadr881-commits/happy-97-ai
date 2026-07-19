@@ -67,6 +67,7 @@ export const createWallet = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { ownerType: WalletOwnerType; ownerId: string; currency?: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createWallet", source: "api", module: "wallet.createWallet" });
     await assertOwnership(context, data.ownerType, data.ownerId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return ensureWallet(supabaseAdmin, {
@@ -78,6 +79,7 @@ export const setWalletStatusFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { walletId: string; status: WalletStatus }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setWalletStatusFn", source: "api", module: "wallet.setWalletStatusFn" });
     // Freezing/closing requires ops-admin — a company admin cannot lock its own wallet
     // out of billing.
     await assertOpsAdmin(context);
@@ -103,6 +105,7 @@ export const creditWallet = createServerFn({ method: "POST" })
     metadata?: Record<string, unknown>;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creditWallet", source: "api", module: "wallet.creditWallet" });
     if (data.entryType === "adjustment") await assertOpsAdmin(context);
     else if (!NON_ADMIN_ENTRY_TYPES.includes(data.entryType)) {
       throw new Error(`invalid_entry_type: ${data.entryType}`);
@@ -127,6 +130,7 @@ export const debitWallet = createServerFn({ method: "POST" })
     metadata?: Record<string, unknown>;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "debitWallet", source: "api", module: "wallet.debitWallet" });
     if (data.entryType === "adjustment") await assertOpsAdmin(context);
     else if (!NON_ADMIN_ENTRY_TYPES.includes(data.entryType)) {
       throw new Error(`invalid_entry_type: ${data.entryType}`);
@@ -150,6 +154,7 @@ export const transferWallet = createServerFn({ method: "POST" })
     referenceType?: string; referenceId?: string;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "transferWallet", source: "api", module: "wallet.transferWallet" });
     const from = await loadWalletOwner(context, data.fromWalletId);
     const to = await loadWalletOwner(context, data.toWalletId);
     // Sender must be authorized on the source wallet. Receiver is always

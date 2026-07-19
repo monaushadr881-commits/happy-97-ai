@@ -13,20 +13,25 @@ export const crmListLeads = auth()
 
 export const crmCreateLead = auth()
   .inputValidator((d: { company_id: string; name: string; email?: string; phone?: string; source?: string; owner_id?: string; notes?: string; score?: number }) => d)
-  .handler(async ({ data, context }) => leads.create(context.supabase, context.userId, data));
-
-export const crmUpdateLead = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmCreateLead", source: "api", module: "crm.crmCreateLead" });
+    return leads.create(context.supabase, context.userId, data);
+  });export const crmUpdateLead = auth()
   .inputValidator((d: { id: string; patch: Record<string, unknown> }) => d)
-  .handler(async ({ data, context }) => leads.update(context.supabase, context.userId, data.id, data.patch));
-
-export const crmConvertLead = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmUpdateLead", source: "api", module: "crm.crmUpdateLead" });
+    return leads.update(context.supabase, context.userId, data.id, data.patch);
+  });export const crmConvertLead = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => leads.convert(context.supabase, context.userId, data.id));
-
-export const crmDeleteLead = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmConvertLead", source: "api", module: "crm.crmConvertLead" });
+    return leads.convert(context.supabase, context.userId, data.id);
+  });export const crmDeleteLead = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => leads.remove(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmDeleteLead", source: "api", module: "crm.crmDeleteLead" });
+    return leads.remove(context.supabase, context.userId, data.id);
+  });
 // ---------- Customers ----------
 export const crmListCustomers = auth()
   .inputValidator((d: { company_id: string; q?: string; limit?: number }) => d)
@@ -38,13 +43,15 @@ export const crmGetCustomer = auth()
 
 export const crmCreateCustomer = auth()
   .inputValidator((d: { company_id: string; name: string; email?: string; phone?: string; code?: string; brand_id?: string }) => d)
-  .handler(async ({ data, context }) => customers.create(context.supabase, context.userId, data));
-
-export const crmUpdateCustomer = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmCreateCustomer", source: "api", module: "crm.crmCreateCustomer" });
+    return customers.create(context.supabase, context.userId, data);
+  });export const crmUpdateCustomer = auth()
   .inputValidator((d: { id: string; patch: Record<string, unknown> }) => d)
-  .handler(async ({ data, context }) => customers.update(context.supabase, context.userId, data.id, data.patch));
-
-export const crmCustomerProfile = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmUpdateCustomer", source: "api", module: "crm.crmUpdateCustomer" });
+    return customers.update(context.supabase, context.userId, data.id, data.patch);
+  });export const crmCustomerProfile = auth()
   .inputValidator((d: { id: string }) => d)
   .handler(async ({ data, context }) => customers.profile(context.supabase, data.id));
 
@@ -59,20 +66,25 @@ export const crmPipeline = auth()
 
 export const crmCreateDeal = auth()
   .inputValidator((d: { company_id: string; title: string; customer_id?: string; lead_id?: string; amount_cents?: number; currency?: string; owner_id?: string; expected_close_at?: string; stage?: string }) => d)
-  .handler(async ({ data, context }) => deals.create(context.supabase, context.userId, data));
-
-export const crmMoveDealStage = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmCreateDeal", source: "api", module: "crm.crmCreateDeal" });
+    return deals.create(context.supabase, context.userId, data);
+  });export const crmMoveDealStage = auth()
   .inputValidator((d: { id: string; stage: string }) => d)
-  .handler(async ({ data, context }) => deals.moveStage(context.supabase, context.userId, data.id, data.stage));
-
-export const crmUpdateDeal = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmMoveDealStage", source: "api", module: "crm.crmMoveDealStage" });
+    return deals.moveStage(context.supabase, context.userId, data.id, data.stage);
+  });export const crmUpdateDeal = auth()
   .inputValidator((d: { id: string; patch: Record<string, unknown> }) => d)
-  .handler(async ({ data, context }) => deals.update(context.supabase, context.userId, data.id, data.patch));
-
-export const crmDeleteDeal = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmUpdateDeal", source: "api", module: "crm.crmUpdateDeal" });
+    return deals.update(context.supabase, context.userId, data.id, data.patch);
+  });export const crmDeleteDeal = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => deals.remove(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmDeleteDeal", source: "api", module: "crm.crmDeleteDeal" });
+    return deals.remove(context.supabase, context.userId, data.id);
+  });
 // ---------- Tasks ----------
 export const crmListTasks = auth()
   .inputValidator((d: { company_id: string; status?: string; assignee?: string; entity_type?: "lead" | "customer" | "deal" | "company" | "contact"; entity_id?: string; due_before?: string; limit?: number }) => d)
@@ -80,24 +92,30 @@ export const crmListTasks = auth()
 
 export const crmCreateTask = auth()
   .inputValidator((d: { company_id: string; title: string; description?: string; assignee_id?: string; due_at?: string; reminder_at?: string; kind?: string; priority?: string; entity_type?: "lead" | "customer" | "deal" | "company" | "contact"; entity_id?: string; recurrence?: string }) => d)
-  .handler(async ({ data, context }) => tasks.create(context.supabase, context.userId, data));
-
-export const crmUpdateTask = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmCreateTask", source: "api", module: "crm.crmCreateTask" });
+    return tasks.create(context.supabase, context.userId, data);
+  });export const crmUpdateTask = auth()
   .inputValidator((d: { id: string; patch: Record<string, unknown> }) => d)
-  .handler(async ({ data, context }) => tasks.update(context.supabase, context.userId, data.id, data.patch));
-
-export const crmCompleteTask = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmUpdateTask", source: "api", module: "crm.crmUpdateTask" });
+    return tasks.update(context.supabase, context.userId, data.id, data.patch);
+  });export const crmCompleteTask = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => tasks.complete(context.supabase, context.userId, data.id));
-
-export const crmRescheduleTask = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmCompleteTask", source: "api", module: "crm.crmCompleteTask" });
+    return tasks.complete(context.supabase, context.userId, data.id);
+  });export const crmRescheduleTask = auth()
   .inputValidator((d: { id: string; due_at: string; reminder_at?: string }) => d)
-  .handler(async ({ data, context }) => tasks.reschedule(context.supabase, context.userId, data.id, data.due_at, data.reminder_at));
-
-export const crmDeleteTask = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmRescheduleTask", source: "api", module: "crm.crmRescheduleTask" });
+    return tasks.reschedule(context.supabase, context.userId, data.id, data.due_at, data.reminder_at);
+  });export const crmDeleteTask = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => tasks.remove(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmDeleteTask", source: "api", module: "crm.crmDeleteTask" });
+    return tasks.remove(context.supabase, context.userId, data.id);
+  });
 // ---------- Notes ----------
 export const crmListNotes = auth()
   .inputValidator((d: { entity_type: "lead" | "customer" | "deal" | "company" | "contact"; entity_id: string; limit?: number }) => d)
@@ -105,16 +123,20 @@ export const crmListNotes = auth()
 
 export const crmCreateNote = auth()
   .inputValidator((d: { company_id: string; entity_type: "lead" | "customer" | "deal" | "company" | "contact"; entity_id: string; body: string; pinned?: boolean; attachments?: Json[] }) => d)
-  .handler(async ({ data, context }) => notes.create(context.supabase, context.userId, data));
-
-export const crmUpdateNote = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmCreateNote", source: "api", module: "crm.crmCreateNote" });
+    return notes.create(context.supabase, context.userId, data);
+  });export const crmUpdateNote = auth()
   .inputValidator((d: { id: string; patch: { body?: string; pinned?: boolean; attachments?: Json[] } }) => d)
-  .handler(async ({ data, context }) => notes.update(context.supabase, context.userId, data.id, data.patch));
-
-export const crmDeleteNote = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmUpdateNote", source: "api", module: "crm.crmUpdateNote" });
+    return notes.update(context.supabase, context.userId, data.id, data.patch);
+  });export const crmDeleteNote = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => notes.remove(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "crmDeleteNote", source: "api", module: "crm.crmDeleteNote" });
+    return notes.remove(context.supabase, context.userId, data.id);
+  });
 // ---------- Activity ----------
 export const crmActivityForEntity = auth()
   .inputValidator((d: { entity_type: string; entity_id: string; limit?: number }) => d)

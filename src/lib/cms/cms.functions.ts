@@ -87,9 +87,10 @@ export const cmsCreateContent = createServerFn({ method: "POST" })
       parent_id: (o.parent_id as string | null | undefined) ?? null,
     };
   })
-  .handler(async ({ data, context }) => createContent(context.supabase, context.userId, data));
-
-export const cmsUpdateContent = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsCreateContent", source: "api", module: "cms.cmsCreateContent" });
+    return createContent(context.supabase, context.userId, data);
+  });export const cmsUpdateContent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
     const o = (i ?? {}) as Record<string, unknown>;
@@ -109,9 +110,10 @@ export const cmsUpdateContent = createServerFn({ method: "POST" })
     };
     return { id, patch };
   })
-  .handler(async ({ data, context }) => updateContent(context.supabase, context.userId, data.id, data.patch));
-
-export const cmsGetContent = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsUpdateContent", source: "api", module: "cms.cmsUpdateContent" });
+    return updateContent(context.supabase, context.userId, data.id, data.patch);
+  });export const cmsGetContent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
   .handler(async ({ data, context }) => getContent(context.supabase, data.id));
@@ -147,18 +149,22 @@ export const cmsSearch = createServerFn({ method: "POST" })
 export const cmsArchive = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
-  .handler(async ({ data, context }) => archiveContent(context.supabase, context.userId, data.id));
-
-export const cmsRestore = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsArchive", source: "api", module: "cms.cmsArchive" });
+    return archiveContent(context.supabase, context.userId, data.id);
+  });export const cmsRestore = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
-  .handler(async ({ data, context }) => restoreContent(context.supabase, context.userId, data.id));
-
-export const cmsDelete = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsRestore", source: "api", module: "cms.cmsRestore" });
+    return restoreContent(context.supabase, context.userId, data.id);
+  });export const cmsDelete = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
-  .handler(async ({ data, context }) => deleteContent(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsDelete", source: "api", module: "cms.cmsDelete" });
+    return deleteContent(context.supabase, context.userId, data.id);
+  });
 /* =========================== workflow ================================== */
 
 export const cmsSubmitForReview = createServerFn({ method: "POST" })
@@ -167,42 +173,49 @@ export const cmsSubmitForReview = createServerFn({ method: "POST" })
     const o = (i ?? {}) as Record<string, unknown>;
     return { id: asString(o.id, "id"), note: asOptString(o.note) };
   })
-  .handler(async ({ data, context }) => submitForReview(context.supabase, context.userId, data.id, data.note));
-
-export const cmsApprove = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsSubmitForReview", source: "api", module: "cms.cmsSubmitForReview" });
+    return submitForReview(context.supabase, context.userId, data.id, data.note);
+  });export const cmsApprove = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
     const o = (i ?? {}) as Record<string, unknown>;
     return { id: asString(o.id, "id"), note: asOptString(o.note) };
   })
-  .handler(async ({ data, context }) => approve(context.supabase, context.userId, data.id, data.note));
-
-export const cmsReject = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsApprove", source: "api", module: "cms.cmsApprove" });
+    return approve(context.supabase, context.userId, data.id, data.note);
+  });export const cmsReject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
     const o = (i ?? {}) as Record<string, unknown>;
     return { id: asString(o.id, "id"), note: asString(o.note, "note") };
   })
-  .handler(async ({ data, context }) => reject(context.supabase, context.userId, data.id, data.note));
-
-export const cmsSchedule = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsReject", source: "api", module: "cms.cmsReject" });
+    return reject(context.supabase, context.userId, data.id, data.note);
+  });export const cmsSchedule = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
     const o = (i ?? {}) as Record<string, unknown>;
     return { id: asString(o.id, "id"), when: asString(o.when, "when") };
   })
-  .handler(async ({ data, context }) => schedule(context.supabase, context.userId, data.id, data.when));
-
-export const cmsPublish = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsSchedule", source: "api", module: "cms.cmsSchedule" });
+    return schedule(context.supabase, context.userId, data.id, data.when);
+  });export const cmsPublish = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
-  .handler(async ({ data, context }) => publish(context.supabase, context.userId, data.id));
-
-export const cmsUnpublish = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsPublish", source: "api", module: "cms.cmsPublish" });
+    return publish(context.supabase, context.userId, data.id);
+  });export const cmsUnpublish = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
-  .handler(async ({ data, context }) => unpublish(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsUnpublish", source: "api", module: "cms.cmsUnpublish" });
+    return unpublish(context.supabase, context.userId, data.id);
+  });
 /* =========================== revisions ================================= */
 
 export const cmsListRevisions = createServerFn({ method: "POST" })
@@ -236,8 +249,10 @@ export const cmsRestoreRevision = createServerFn({ method: "POST" })
     content_id: asString((i as { content_id?: unknown })?.content_id, "content_id"),
     version: Number((i as { version?: unknown })?.version),
   }))
-  .handler(async ({ data, context }) => restoreRevision(context.supabase, context.userId, data.content_id, data.version));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsRestoreRevision", source: "api", module: "cms.cmsRestoreRevision" });
+    return restoreRevision(context.supabase, context.userId, data.content_id, data.version);
+  });
 /* =========================== media ===================================== */
 
 export const cmsUploadMedia = createServerFn({ method: "POST" })
@@ -282,13 +297,16 @@ export const cmsListMedia = createServerFn({ method: "POST" })
 export const cmsArchiveMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
-  .handler(async ({ data, context }) => archiveMedia(context.supabase, data.id));
-
-export const cmsDeleteMedia = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsArchiveMedia", source: "api", module: "cms.cmsArchiveMedia" });
+    return archiveMedia(context.supabase, data.id);
+  });export const cmsDeleteMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({ id: asString((i as { id?: unknown })?.id, "id") }))
-  .handler(async ({ data, context }) => deleteMedia(context.supabase, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsDeleteMedia", source: "api", module: "cms.cmsDeleteMedia" });
+    return deleteMedia(context.supabase, data.id);
+  });
 /* =========================== folders =================================== */
 
 export const cmsCreateFolder = createServerFn({ method: "POST" })
@@ -301,9 +319,10 @@ export const cmsCreateFolder = createServerFn({ method: "POST" })
       name: asString(o.name, "name"),
     };
   })
-  .handler(async ({ data, context }) => createFolder(context.supabase, context.userId, data));
-
-export const cmsListFolders = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsCreateFolder", source: "api", module: "cms.cmsCreateFolder" });
+    return createFolder(context.supabase, context.userId, data);
+  });export const cmsListFolders = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
     const o = (i ?? {}) as Record<string, unknown>;
@@ -329,9 +348,10 @@ export const cmsUpsertTranslation = createServerFn({ method: "POST" })
       status: (o.status as "draft" | "in_progress" | "translated" | "reviewed" | "published" | undefined),
     };
   })
-  .handler(async ({ data, context }) => upsertTranslation(context.supabase, context.userId, data));
-
-export const cmsListTranslations = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsUpsertTranslation", source: "api", module: "cms.cmsUpsertTranslation" });
+    return upsertTranslation(context.supabase, context.userId, data);
+  });export const cmsListTranslations = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ({
     content_id: asString((i as { content_id?: unknown })?.content_id, "content_id"),
@@ -395,4 +415,7 @@ export const cmsPublicList = createServerFn({ method: "POST" })
 
 export const cmsTickScheduled = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => tickScheduledPublish(context.supabase));
+  .handler(async ({ context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "cmsTickScheduled", source: "api", module: "cms.cmsTickScheduled" });
+    return tickScheduledPublish(context.supabase);
+  });

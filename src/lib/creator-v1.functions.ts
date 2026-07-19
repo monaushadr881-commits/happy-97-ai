@@ -70,6 +70,7 @@ export const creatorCreateProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateProject.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorCreateProject", source: "api", module: "creator.creatorCreateProject" });
     const r = await context.supabase.from("creator_projects")
       .insert({ user_id: context.userId, ...data })
       .select("*").single();
@@ -81,6 +82,7 @@ export const creatorArchiveProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, archived: z.boolean() }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorArchiveProject", source: "api", module: "creator.creatorArchiveProject" });
     const r = await context.supabase.from("creator_projects")
       .update({ archived: data.archived })
       .eq("id", data.id).eq("user_id", context.userId).select("*").single();
@@ -92,6 +94,7 @@ export const creatorDeleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorDeleteProject", source: "api", module: "creator.creatorDeleteProject" });
     const r = await context.supabase.from("creator_projects")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
@@ -125,6 +128,7 @@ export const creatorDeleteAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorDeleteAsset", source: "api", module: "creator.creatorDeleteAsset" });
     const r = await context.supabase.from("creator_assets")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
@@ -176,6 +180,7 @@ export const creatorGenerateImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ImageGen.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorGenerateImage", source: "api", module: "creator.creatorGenerateImage" });
     const started = Date.now();
     // Gemini image models use chat-completions image shape; OpenAI models use the OpenAI images shape.
     const isOpenAI = data.model.startsWith("openai/");
@@ -344,6 +349,7 @@ export const creatorGenerateCopy = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Copy.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorGenerateCopy", source: "api", module: "creator.creatorGenerateCopy" });
     let brand: any = null;
     if (data.brand_kit_id) {
       const r = await context.supabase.from("creator_brand_kits")
@@ -404,6 +410,7 @@ export const creatorGenerateSlides = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Slides.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorGenerateSlides", source: "api", module: "creator.creatorGenerateSlides" });
     const prompt = `Build a ${data.slide_count}-slide presentation.
 Title: ${data.title}
 Audience: ${data.audience ?? "general professional"}
@@ -472,6 +479,7 @@ export const creatorSaveBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => BrandUpsert.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorSaveBrandKit", source: "api", module: "creator.creatorSaveBrandKit" });
     const payload = { ...data, user_id: context.userId, updated_at: new Date().toISOString() };
     const r = data.id
       ? await context.supabase.from("creator_brand_kits").update(payload)
@@ -485,6 +493,7 @@ export const creatorDeleteBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorDeleteBrandKit", source: "api", module: "creator.creatorDeleteBrandKit" });
     const r = await context.supabase.from("creator_brand_kits")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
