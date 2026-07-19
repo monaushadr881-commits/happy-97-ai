@@ -97,7 +97,47 @@ export const transitionRollout = createServerFn({ method: "POST" })
       rollout_id: z.string().uuid(),
       to: z.enum(["active", "paused", "cancelled", "rolled_back", "completed"]),
       reason: z.string().max(500).optional(),
+      company_id: z.string().uuid().optional(),
     }).parse(raw))
+  .handler(async ({ context, data }) => {
+    await assertOpsAdminR64(context);
+    const sb: any = context.supabase;
+    const { data: cur, error } = await sb.from("release_rollouts").select("*").eq("id", data.rollout_id).single();
+    if (error) throw new Error(error.message);
+    if (!canRolloutTransition(cur.state, data.to)) throw new Error(`invalid rollout transition ${cur.state} → ${data.to}`);
+    // R183 — destructive transitions (rollback / cancel) require Founder approval.
+    let approvalMeta: Record<string, unknown> | undefined;
+    if (R183_DESTRUCTIVE.has(data.to)) {
+      if (!data.company_id) throw new Error("company_id is required for destructive rollout transitions (R183)");
+      const enforcement = await requireApproval(context as any, {
+        action: `release.rollout_${data.to}`,
+        entityType: "release_rollouts",
+        entityId: data.rollout_id,
+        companyId: data.company_id,
+        descriptor: { kind: "deploy", action: `rollout_${data.to}`, affectsProduction: true, securityImpact: "high", isRollback: data.to === "rolled_back" },
+        brain: {
+          company_id: data.company_id,
+          input: `${data.to} rollout ${data.rollout_id}${data.reason ? ": " + data.reason : ""}`,
+          source: "automation",
+          module: "release",
+        },
+      });
+      approvalMeta = { approval_id: enforcement.approvalId, tier: enforcement.tier };
+    }
+    await sb.from("release_rollouts").update({ state: data.to, updated_by: context.userId }).eq("id", data.rollout_id);
+    await sb.from("release_rollout_events").insert({
+      rollout_id: data.rollout_id, from_state: cur.state, to_state: data.to,
+      from_percent: cur.current_percent, to_percent: data.to === "rolled_back" ? 0 : cur.current_percent,
+      reason: data.reason ?? null, actor_id: context.userId,
+    });
+    await writeAudit(context, { category: "release", action: `rollout_${data.to}`, entity_id: data.rollout_id, metadata: approvalMeta });
+    return { ok: true, enforcement: approvalMeta };
+  });
+
+export const listRolloutEvents = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((raw) => z.object({ rollout_id: z.string().uuid() }).parse(raw))
+
   .handler(async ({ context, data }) => {
     await assertOpsAdminR64(context);
     const sb: any = context.supabase;
