@@ -182,7 +182,8 @@ const listHealthSchema = z.object({
   companyId: z.string().uuid().nullish(),
   dimension: z.enum(DIMENSIONS).nullish(),
   limit: z.number().int().min(1).max(200).default(50),
-});
+};
+  });
 export const listBusinessHealthFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listHealthSchema.parse(d ?? {}))
@@ -206,7 +207,8 @@ const decisionSchema = z.object({
   recommendations_considered: z.array(recSchema).default([]),
   alternatives: z.array(jsonValue).default([]),
   confidence: z.number().min(0).max(1).default(0.5),
-});
+};
+  });
 export const recordFounderDecisionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decisionSchema.parse(d))
@@ -222,7 +224,8 @@ export const recordFounderDecisionFn = createServerFn({ method: 'POST' })
 const decisionOutcomeSchema = z.object({
   decisionId: z.string().uuid(),
   outcome: z.string().min(1),
-});
+};
+  });
 export const recordDecisionOutcomeFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decisionOutcomeSchema.parse(d))
@@ -243,7 +246,8 @@ const reportSchema = z.object({
   to: z.string().min(1),
   title: z.string().min(1),
   briefingType: z.enum(['morning','evening','daily','weekly','monthly','quarterly','annual']).optional(),
-});
+};
+  });
 export const generateExecutiveReportFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => reportSchema.parse(d))
@@ -301,7 +305,8 @@ const listReportsSchema = z.object({
   companyId: z.string().uuid().nullish(),
   reportType: z.string().optional(),
   limit: z.number().int().min(1).max(100).default(25),
-});
+};
+  });
 export const listExecutiveReportsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listReportsSchema.parse(d ?? {}))
@@ -312,4 +317,5 @@ export const listExecutiveReportsFn = createServerFn({ method: 'GET' })
     if (data.reportType) q = q.eq('report_type', data.reportType);
     const { data: rows, error } = await q;
     if (error) throw error;
-    return rows ?? []);
+    return rows ?? [];
+  });

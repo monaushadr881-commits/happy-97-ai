@@ -123,7 +123,8 @@ const listSessionsSchema = z.object({
   status: z.enum(['active', 'paused', 'archived', 'ended']).optional(),
   companyId: z.string().uuid().nullish(),
   limit: z.number().int().min(1).max(200).default(50),
-});
+};
+  });
 export const listSpecialistSessionsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listSessionsSchema.parse(d ?? {}))
@@ -142,7 +143,8 @@ export const listSpecialistSessionsFn = createServerFn({ method: 'GET' })
 const listTurnsSchema = z.object({
   sessionId: z.string().uuid(),
   limit: z.number().int().min(1).max(500).default(100),
-});
+};
+  });
 export const listSpecialistTurnsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listTurnsSchema.parse(d))
@@ -161,7 +163,8 @@ const analyticsSchema = z.object({
   to: z.string().min(1),
   companyId: z.string().uuid().nullish(),
   sessionId: z.string().uuid().nullish(),
-});
+};
+  });
 export const computeSpecialistAnalyticsFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => analyticsSchema.parse(d))

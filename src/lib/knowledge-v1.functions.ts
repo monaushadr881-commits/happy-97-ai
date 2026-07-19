@@ -117,6 +117,7 @@ export const kbCreateArticle = createServerFn({ method: "POST" })
     }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const kbUpdateArticle = createServerFn({ method: "POST" })
@@ -132,6 +133,7 @@ export const kbUpdateArticle = createServerFn({ method: "POST" })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const kbPublish = createServerFn({ method: "POST" })
@@ -153,6 +155,7 @@ export const kbPublish = createServerFn({ method: "POST" })
       });
     } catch { /* best-effort */ }
     return r.data);
+  };
   });
 
 export const kbAddReference = createServerFn({ method: "POST" })

@@ -29,7 +29,8 @@ export const createLearningPathFn = createServerFn({ method: 'POST' })
 const publishSchema = z.object({
   pathId: z.string().uuid(),
   status: z.enum(['draft','published','archived']),
-});
+};
+  });
 export const setLearningPathStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => publishSchema.parse(d))
@@ -47,7 +48,8 @@ const addItemSchema = z.object({
   itemRef: z.string().uuid(),
   title: z.string().min(1),
   required: z.boolean().default(true),
-});
+};
+  });
 export const addLearningPathItemFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => addItemSchema.parse(d))
@@ -73,7 +75,8 @@ const listPathsSchema = z.object({
   category: z.string().optional(),
   status: z.enum(['draft','published','archived']).optional(),
   limit: z.number().int().min(1).max(200).default(50),
-});
+};
+  });
 export const listLearningPathsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listPathsSchema.parse(d ?? {}))
@@ -86,7 +89,8 @@ export const listLearningPathsFn = createServerFn({ method: 'GET' })
     if (error) throw error;
     return rows ?? []);
 
-const getPathSchema = z.object({ pathId: z.string().uuid() });
+const getPathSchema = z.object({ pathId: z.string().uuid() };
+  });
 export const getLearningPathFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => getPathSchema.parse(d))

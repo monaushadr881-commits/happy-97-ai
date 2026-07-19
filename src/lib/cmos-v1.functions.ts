@@ -82,6 +82,7 @@ export const communityCreatePost = createServerFn({ method: "POST" })
       .select("*").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const communityDeletePost = createServerFn({ method: "POST" })
@@ -128,6 +129,7 @@ export const communityAddComment = createServerFn({ method: "POST" })
       });
     } catch { /* audit is best-effort */ }
     return r.data);
+  };
   });
 
 export const communityReact = createServerFn({ method: "POST" })
@@ -235,6 +237,7 @@ export const marketCreateListing = createServerFn({ method: "POST" })
     }).select("*").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const marketUpdateListing = createServerFn({ method: "POST" })
@@ -250,6 +253,7 @@ export const marketUpdateListing = createServerFn({ method: "POST" })
       .eq("id", data.id).eq("seller_id", context.userId).select("*").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const marketMyListings = createServerFn({ method: "GET" })
@@ -381,6 +385,7 @@ export const msgCreateConversation = createServerFn({ method: "POST" })
       .insert({ user_id: context.userId, title: data.title }).select("*").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const msgListMessages = createServerFn({ method: "GET" })

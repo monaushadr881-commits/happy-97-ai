@@ -55,7 +55,8 @@ const ImportVersion = z.object({
   mime_type: z.string().max(120).optional(),
   meta: z.record(z.string(), z.any()).optional(),
   depends_on: z.array(z.string().uuid()).optional(),
-});
+};
+  });
 
 export const importAssetVersionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -101,7 +102,8 @@ const LinkAsset = z.object({
   slot: z.string().max(80).optional(),
   asset_version_id: z.string().uuid(),
   required: z.boolean().default(true),
-});
+};
+  });
 
 export const linkManifestAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -122,7 +124,8 @@ export const linkManifestAsset = createServerFn({ method: "POST" })
     if (error) throw new Error(`link_asset_failed:${error.message}`);
     return row);
 
-const ManifestId = z.object({ manifest_id: z.string().uuid() });
+const ManifestId = z.object({ manifest_id: z.string().uuid() };
+  });
 
 export const validateManifestFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

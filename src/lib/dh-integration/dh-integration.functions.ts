@@ -25,7 +25,8 @@ const upsertAdapterSchema = z.object({
   capabilities: z.record(z.string(), jsonValue).default({}),
   requiredAssets: z.array(z.string()).default([]),
   enabled: z.boolean().default(true),
-});
+};
+  });
 export const registerRendererAdapterFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => upsertAdapterSchema.parse(d))
@@ -56,7 +57,8 @@ const startSchema = z.object({
   identityId: z.string().uuid().nullish(),
   happySessionId: z.string().uuid().nullish(),
   voiceSessionId: z.string().uuid().nullish(),
-});
+};
+  });
 export const startDhIntegrationSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => startSchema.parse(d))
@@ -83,7 +85,8 @@ const heartbeatSchema = z.object({
   status: z.enum(['connecting','connected','degraded','disconnected','ended']).optional(),
   latencyMs: z.number().int().min(0).optional(),
   syncState: z.record(z.string(), jsonValue).optional(),
-});
+};
+  });
 export const heartbeatDhSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => heartbeatSchema.parse(d))
@@ -104,7 +107,8 @@ const eventSchema = z.object({
   channel: z.enum(['animation','lipsync','gesture','lookat','environment','health','stream']),
   eventType: z.string().min(1),
   payload: jsonValue.default({}),
-});
+};
+  });
 export const emitDhIntegrationEventFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => eventSchema.parse(d))
@@ -121,7 +125,8 @@ export const emitDhIntegrationEventFn = createServerFn({ method: 'POST' })
     return row);
 
 // -------- Health rollup ---------------------------------------------------
-const healthSchema = z.object({ sessionId: z.string().uuid() });
+const healthSchema = z.object({ sessionId: z.string().uuid() };
+  });
 export const dhSessionHealthFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => healthSchema.parse(d))

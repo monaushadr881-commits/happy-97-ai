@@ -164,7 +164,8 @@ const StatusUpdateInput = z.object({
   status: z.enum(["operational", "degraded", "partial_outage", "major_outage", "maintenance", "unknown"]),
   message: z.string().min(1).max(2000),
   incident_id: z.string().uuid().optional(),
-});
+};
+  });
 export const obsPushStatusUpdate = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => StatusUpdateInput.parse(i))

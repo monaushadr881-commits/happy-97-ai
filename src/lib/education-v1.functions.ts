@@ -164,6 +164,7 @@ export const eduSaveNote = createServerFn({ method: "POST" })
       : await s.from("study_notes").insert(row).select("id, title, body, tags, updated_at").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const eduDeleteNote = createServerFn({ method: "POST" })
@@ -333,6 +334,7 @@ export const eduSubmitQuiz = createServerFn({ method: "POST" })
     }).select("id, score, passed").single();
     if (ins.error) throw ins.error;
     return ins.data);
+  };
   });
 
 export const eduMyAttempts = createServerFn({ method: "GET" })
@@ -386,6 +388,7 @@ export const eduSavePlan = createServerFn({ method: "POST" })
       : await s.from("study_plans").insert(row).select("*").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const eduLogSession = createServerFn({ method: "POST" })
@@ -495,6 +498,7 @@ export const eduCreateUpload = createServerFn({ method: "POST" })
     }).select("id, status").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const eduUpdateUploadStatus = createServerFn({ method: "POST" })
@@ -506,6 +510,7 @@ export const eduUpdateUploadStatus = createServerFn({ method: "POST" })
     const r = await context.supabase.from("content_uploads").update({ status: data.status }).eq("id", data.id).select("id, status").single();
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const eduCreateCourse = createServerFn({ method: "POST" })

@@ -350,6 +350,7 @@ Return STRICT JSON in a fenced \`\`\`json block only, matching:
     }).select("*").single();
     if (ins.error) throw ins.error;
     return ins.data);
+  };
   });
 
 export const dhListPresentations = createServerFn({ method: "GET" })

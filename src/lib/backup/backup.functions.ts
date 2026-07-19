@@ -50,6 +50,7 @@ export const bkpUpsertPolicy = createServerFn({ method: "POST" }).middleware([re
       actor_id: context.userId, message: `Policy upserted: ${data.name}`,
     } as never);
     return row);
+  };
   });
 export const bkpDeletePolicy = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))
@@ -160,6 +161,7 @@ export const bkpUpsertPlan = createServerFn({ method: "POST" }).middleware([requ
       .upsert({ ...data, created_by: context.userId } as never, { onConflict: "name" })
       .select("*").single();
     if (error) throw error; return row);
+  };
   });
 export const bkpRunDrill = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ plan_id: z.string().uuid() }).parse(i))

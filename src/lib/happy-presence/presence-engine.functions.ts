@@ -23,7 +23,8 @@ export const upsertPresence = createServerFn({ method: "POST" })
       context: data.context ?? {},
     }, { onConflict: "user_id,session_key" }).select().single();
     if (error) throw new Error(error.message);
-    return row);
+    return row;
+  });
 
 export const heartbeat = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

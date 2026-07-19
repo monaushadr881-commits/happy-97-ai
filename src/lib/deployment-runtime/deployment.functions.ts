@@ -26,7 +26,8 @@ export const listPlatforms = createServerFn({ method: "GET" })
       .order("category", { ascending: true })
       .order("display_name", { ascending: true });
     if (error) throw new Error(error.message);
-    return data ?? []);
+    return data ?? [];
+  });
 
 export const getCompatibilityMatrix = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -147,7 +148,8 @@ export const listBuilds = createServerFn({ method: "GET" })
     if (data.platform_code) q = q.eq("platform_code", data.platform_code);
     const { data: rows, error } = await q;
     if (error) throw new Error(error.message);
-    return rows ?? []);
+    return rows ?? [];
+  });
 
 export const getStoreReadiness = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -156,7 +158,8 @@ export const getStoreReadiness = createServerFn({ method: "GET" })
     const { data, error } = await (context.supabase as any)
       .from("deploy_store_readiness").select("*").order("store", { ascending: true });
     if (error) throw new Error(error.message);
-    return data ?? []);
+    return data ?? [];
+  });
 
 export const refreshStoreReadiness = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -182,4 +185,5 @@ export const refreshStoreReadiness = createServerFn({ method: "POST" })
     }
     const { data } = await (context.supabase as any)
       .from("deploy_store_readiness").select("*").order("store", { ascending: true });
-    return data ?? []);
+    return data ?? [];
+  });

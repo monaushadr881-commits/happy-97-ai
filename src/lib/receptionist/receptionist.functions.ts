@@ -44,7 +44,8 @@ export const startReceptionistSessionFn = createServerFn({ method: 'POST' })
     if (error) throw error;
     return row);
 
-const endSchema = z.object({ sessionId: z.string().uuid(), status: z.enum(['ended','abandoned']).default('ended') });
+const endSchema = z.object({ sessionId: z.string().uuid(), status: z.enum(['ended','abandoned']).default('ended') };
+  });
 export const endReceptionistSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => endSchema.parse(d))
@@ -96,7 +97,8 @@ const turnSchema = z.object({
     description: z.string().optional(),
     priority: z.enum(['low','medium','high','critical']).default('medium'),
   }).optional(),
-});
+};
+  });
 export const processReceptionistTurnFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => turnSchema.parse(d))
@@ -215,4 +217,5 @@ export const computeReceptionistAnalyticsFn = createServerFn({ method: 'POST' })
     const { data: row, error: insErr } = await context.supabase
       .from('receptionist_analytics_snapshots').insert(snapshot).select('*').single();
     if (insErr) throw insErr;
-    return row);
+    return row;
+  });

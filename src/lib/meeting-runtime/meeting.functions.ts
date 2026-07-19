@@ -65,7 +65,8 @@ export const createMeetingFn = createServerFn({ method: 'POST' })
 const statusSchema = z.object({
   meetingId: z.string().uuid(),
   status: z.enum(['scheduled','active','paused','completed','cancelled','archived']),
-});
+};
+  });
 export const setMeetingStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => statusSchema.parse(d))
@@ -88,7 +89,8 @@ const inviteSchema = z.object({
   externalEmail: z.string().email().nullish(),
   displayName: z.string().optional(),
   role: z.enum(['host','presenter','participant','observer','guest']).default('participant'),
-});
+};
+  });
 export const inviteParticipantFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => inviteSchema.parse(d))
@@ -107,7 +109,8 @@ export const inviteParticipantFn = createServerFn({ method: 'POST' })
 const attendanceSchema = z.object({
   participantId: z.string().uuid(),
   status: z.enum(['invited','accepted','declined','tentative','joined','left','no_show']),
-});
+};
+  });
 export const updateAttendanceFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => attendanceSchema.parse(d))
@@ -129,7 +132,8 @@ const agendaSchema = z.object({
   description: z.string().optional(),
   ownerUserId: z.string().uuid().nullish(),
   durationMinutes: z.number().int().positive().optional(),
-});
+};
+  });
 export const addAgendaItemFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => agendaSchema.parse(d))
@@ -146,7 +150,8 @@ export const addAgendaItemFn = createServerFn({ method: 'POST' })
 const agendaStatusSchema = z.object({
   itemId: z.string().uuid(),
   status: z.enum(['pending','active','completed','skipped']),
-});
+};
+  });
 export const setAgendaStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => agendaStatusSchema.parse(d))
@@ -162,7 +167,8 @@ const minutesSchema = z.object({
   meetingId: z.string().uuid(),
   summary: z.string().optional(),
   content: jsonValue,
-});
+};
+  });
 export const appendMinutesVersionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => minutesSchema.parse(d))
@@ -178,7 +184,8 @@ export const appendMinutesVersionFn = createServerFn({ method: 'POST' })
     if (error) throw error;
     return row);
 
-const approveMinutesSchema = z.object({ minutesId: z.string().uuid() });
+const approveMinutesSchema = z.object({ minutesId: z.string().uuid() };
+  });
 export const approveMinutesFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => approveMinutesSchema.parse(d))
@@ -201,7 +208,8 @@ const actionSchema = z.object({
   dueAt: z.string().optional(),
   priority: z.enum(['low','medium','high','critical']).default('medium'),
   linkedTaskId: z.string().uuid().nullish(),
-});
+};
+  });
 export const createActionItemFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => actionSchema.parse(d))
@@ -225,7 +233,8 @@ export const createActionItemFn = createServerFn({ method: 'POST' })
 const actionStatusSchema = z.object({
   actionId: z.string().uuid(),
   status: z.enum(['open','in_progress','blocked','done','cancelled']),
-});
+};
+  });
 export const setActionStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => actionStatusSchema.parse(d))
@@ -249,7 +258,8 @@ const decSchema = z.object({
   recommendations: z.array(recSchema).default([]),
   evidence: z.array(jsonValue).default([]),
   confidence: z.number().min(0).max(1).default(0.5),
-});
+};
+  });
 export const recordMeetingDecisionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decSchema.parse(d))
@@ -271,7 +281,8 @@ export const recordMeetingDecisionFn = createServerFn({ method: 'POST' })
     return row);
 
 // -------- Analytics & Follow-up ------------------------------------------
-const analyticsSchema = z.object({ meetingId: z.string().uuid() });
+const analyticsSchema = z.object({ meetingId: z.string().uuid() };
+  });
 export const computeMeetingAnalyticsFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => analyticsSchema.parse(d))

@@ -70,7 +70,8 @@ export const listCreditHistory = createServerFn({ method: "GET" })
       .order("created_at", { ascending: false })
       .limit(Math.min(data.limit ?? 100, 500));
     if (error) throw new Error(`db_read_failed: ${error.message}`);
-    return rows ?? []);
+    return rows ?? [];
+  });
 
 export const grantCredits = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

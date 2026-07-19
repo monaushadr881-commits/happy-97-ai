@@ -58,7 +58,8 @@ export const createRelease = createServerFn({ method: "POST" })
       .select()
       .single();
     if (error) throw new Error(error.message);
-    return row);
+    return row;
+  });
 
 export const listReleases = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -99,7 +100,8 @@ export const addChangelogEntry = createServerFn({ method: "POST" })
       })
       .select().single();
     if (error) throw new Error(error.message);
-    return row);
+    return row;
+  });
 
 export const generateReleaseNotesMarkdown = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

@@ -51,6 +51,7 @@ export const haUpsertRegion = createServerFn({ method: "POST" }).middleware([req
       message: `Region upserted: ${data.code}`,
     });
     return row as unknown as never);
+  };
   });
 export const haDeleteRegion = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))

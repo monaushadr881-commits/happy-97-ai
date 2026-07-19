@@ -226,6 +226,7 @@ export const hlUpsertBusiness = createServerFn({ method: "POST" })
     const r = await q;
     if (r.error) throw r.error;
     return r.data);
+  };
   });
 
 export const hlListMyBusinesses = createServerFn({ method: "GET" })

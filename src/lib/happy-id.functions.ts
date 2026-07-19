@@ -20,7 +20,8 @@ export const listMyDevices = createServerFn({ method: "GET" })
       .eq("user_id", context.userId)
       .order("last_seen_at", { ascending: false });
     if (error) throw error;
-    return data ?? []);
+    return data ?? [];
+  });
 
 export const registerDevice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -51,7 +52,8 @@ export const registerDevice = createServerFn({ method: "POST" })
       .select("id, trusted")
       .single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 export const trustDevice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -106,7 +108,8 @@ export const listMySessions = createServerFn({ method: "GET" })
       .order("last_active_at", { ascending: false })
       .limit(100);
     if (error) throw error;
-    return data ?? []);
+    return data ?? [];
+  });
 
 export const registerSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -133,7 +136,8 @@ export const registerSession = createServerFn({ method: "POST" })
       .select("id")
       .single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 export const remoteLogout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -186,7 +190,8 @@ export const listMyLoginHistory = createServerFn({ method: "GET" })
       .order("created_at", { ascending: false })
       .limit(200);
     if (error) throw error;
-    return data ?? []);
+    return data ?? [];
+  });
 
 export const recordLoginEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -226,7 +231,8 @@ export const listMySecurityAlerts = createServerFn({ method: "GET" })
       .order("created_at", { ascending: false })
       .limit(100);
     if (error) throw error;
-    return data ?? []);
+    return data ?? [];
+  });
 
 export const acknowledgeSecurityAlert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -417,7 +423,8 @@ export const listMyPasskeys = createServerFn({ method: "GET" })
       .eq("user_id", context.userId)
       .order("created_at", { ascending: false });
     if (error) throw error;
-    return data ?? []);
+    return data ?? [];
+  });
 
 export const registerPasskey = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

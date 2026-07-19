@@ -34,7 +34,8 @@ const upsertCapSchema = z.object({
   owner: z.string().optional(),
   description: z.string().optional(),
   metadata: z.record(z.string(), jsonValue).optional(),
-});
+};
+  });
 export const upsertCapabilityFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => upsertCapSchema.parse(d))
@@ -61,7 +62,8 @@ const healthSchema = z.object({
   verificationMethod: z.enum(['typecheck','rls','policy','invoke','manual','automated']),
   evidence: jsonValue.default({}),
   latencyMs: z.number().int().min(0).optional(),
-});
+};
+  });
 export const recordHealthCheckFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => healthSchema.parse(d))
@@ -82,7 +84,8 @@ export const recordHealthCheckFn = createServerFn({ method: 'POST' })
 const reportSchema = z.object({
   releaseId: z.string().min(2),
   version: z.string().min(1),
-});
+};
+  });
 export const generateCertificationReportFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => reportSchema.parse(d))
@@ -161,7 +164,8 @@ export const generateCertificationReportFn = createServerFn({ method: 'POST' })
       recommendations,
     }).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 export const listCertificationReportsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
@@ -178,7 +182,8 @@ const releaseSchema = z.object({
   releaseNotes: z.string().optional(),
   compatibility: z.record(z.string(), jsonValue).optional(),
   certificationId: z.string().uuid().nullish(),
-});
+};
+  });
 export const createReleaseFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => releaseSchema.parse(d))
@@ -199,7 +204,8 @@ export const createReleaseFn = createServerFn({ method: 'POST' })
 const releaseStatusSchema = z.object({
   releaseId: z.string().uuid(),
   status: z.enum(['pending','released','rolled_back','superseded']),
-});
+};
+  });
 export const setReleaseStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => releaseStatusSchema.parse(d))
@@ -210,7 +216,8 @@ export const setReleaseStatusFn = createServerFn({ method: 'POST' })
     const { data: row, error } = await context.supabase.from('release_records')
       .update(patch as any).eq('id', data.releaseId).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 export const listReleasesFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
@@ -218,4 +225,5 @@ export const listReleasesFn = createServerFn({ method: 'GET' })
     const { data, error } = await context.supabase.from('release_records')
       .select('*').order('created_at', { ascending: false }).limit(50);
     if (error) throw error;
-    return data ?? []);
+    return data ?? [];
+  });
