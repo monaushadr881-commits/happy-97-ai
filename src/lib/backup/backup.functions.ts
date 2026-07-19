@@ -43,8 +43,7 @@ export const bkpUpsertPolicy = createServerFn({ method: "POST" }).middleware([re
     return guard(async () => {
     const { data: row, error } = await context.supabase.from("bkp_policies")
       .upsert({ ...data, created_by: context.userId } as never, { onConflict: "name" })
-      .select("*").single(;
-  });
+      .select("*").single();
     if (error) throw error;
     await context.supabase.from("bkp_audit_events").insert({
       kind: "policy.upserted", ref_type: "policy", ref_id: (row as { id: string }).id,
@@ -57,8 +56,7 @@ export const bkpDeletePolicy = createServerFn({ method: "POST" }).middleware([re
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpDeletePolicy", source: "api", module: "backup.bkpDeletePolicy" });
     return guard(async () => {
-    const { error } = await context.supabase.from("bkp_policies").delete().eq("id", data.id;
-  });
+    const { error } = await context.supabase.from("bkp_policies").delete().eq("id", data.id);
     if (error) throw error; return { ok: true };
   }));
 
@@ -122,8 +120,7 @@ export const bkpRestore = createServerFn({ method: "POST" }).middleware([require
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpListRestores", source: "api", module: "backup.bkpListRestores" });
     return guard(async () => {
     const { data: rows, error } = await context.supabase.from("bkp_restore_jobs")
-      .select("*").order("started_at", { ascending: false }).limit(data.limit;
-  });
+      .select("*").order("started_at", { ascending: false }).limit(data.limit);
     if (error) throw error; return rows ?? [];
   }));
 
@@ -160,8 +157,7 @@ export const bkpUpsertPlan = createServerFn({ method: "POST" }).middleware([requ
     return guard(async () => {
     const { data: row, error } = await context.supabase.from("bkp_recovery_plans")
       .upsert({ ...data, created_by: context.userId } as never, { onConflict: "name" })
-      .select("*").single(;
-  });
+      .select("*").single();
     if (error) throw error; return row;
   }));
 export const bkpRunDrill = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])

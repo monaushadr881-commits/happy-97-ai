@@ -24,8 +24,7 @@ export const createLearningPathFn = createServerFn({ method: 'POST' })
       ...data, created_by: context.userId,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const publishSchema = z.object({
   pathId: z.string().uuid(),
@@ -68,8 +67,7 @@ export const addLearningPathItemFn = createServerFn({ method: 'POST' })
       item_ref: data.itemRef, title: data.title, required: data.required,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const listPathsSchema = z.object({
   audience: z.string().optional(),
@@ -87,8 +85,7 @@ export const listLearningPathsFn = createServerFn({ method: 'GET' })
     if (data.status) q = q.eq('status', data.status);
     const { data: rows, error } = await q;
     if (error) throw error;
-    return rows ?? [];
-  });
+    return rows ?? []);
 
 const getPathSchema = z.object({ pathId: z.string().uuid() });
 export const getLearningPathFn = createServerFn({ method: 'GET' })

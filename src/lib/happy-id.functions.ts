@@ -231,8 +231,7 @@ export const listMySecurityAlerts = createServerFn({ method: "GET" })
       .order("created_at", { ascending: false })
       .limit(100);
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);
 
 export const acknowledgeSecurityAlert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

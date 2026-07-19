@@ -58,8 +58,7 @@ export const haDeleteRegion = createServerFn({ method: "POST" }).middleware([req
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haDeleteRegion", source: "api", module: "ha.haDeleteRegion" });
     return guard(async () => {
-    const { error } = await sbOf(context).from("ha_regions").delete().eq("id", data.id;
-  });
+    const { error } = await sbOf(context).from("ha_regions").delete().eq("id", data.id);
     if (error) throw error; return { ok: true };
   }));
 
@@ -105,8 +104,7 @@ export const haPublishMark = createServerFn({ method: "POST" }).middleware([requ
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haVerifyReplication", source: "api", module: "ha.haVerifyReplication" });
     return guard(async () => {
-    const sb = sbOf(context;
-  });
+    const sb = sbOf(context);
     const res = await haEngine.verifyReplication(sb, data);
     await sb.from("ha_replication_checks").insert({
       scope: data.scope, source_region_id: data.source_region_id, target_region_id: data.target_region_id,

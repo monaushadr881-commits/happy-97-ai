@@ -176,8 +176,7 @@ export const computeBusinessHealthFn = createServerFn({ method: 'POST' })
       if (error) throw error;
       results.push(inserted);
     }
-    return results;
-  });
+    return results);
 
 const listHealthSchema = z.object({
   companyId: z.string().uuid().nullish(),
@@ -219,8 +218,7 @@ export const recordFounderDecisionFn = createServerFn({ method: 'POST' })
       .insert({ title: data.title, category: data.category, decision: data.decision, rationale: data.rationale ?? null, facts: data.facts as any, recommendations_considered: data.recommendations_considered as any, alternatives: data.alternatives as any, confidence: data.confidence, company_id: data.companyId ?? null, decided_by: context.userId } as any)
       .select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const decisionOutcomeSchema = z.object({
   decisionId: z.string().uuid(),
@@ -299,8 +297,7 @@ export const generateExecutiveReportFn = createServerFn({ method: 'POST' })
       status: 'draft',
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const listReportsSchema = z.object({
   companyId: z.string().uuid().nullish(),

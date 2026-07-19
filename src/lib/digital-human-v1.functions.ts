@@ -100,8 +100,7 @@ export const dhUpdatePreferences = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("dh_preferences")
       .upsert({ user_id: context.userId, ...data, updated_at: new Date().toISOString() })
-      .select("*").single(;
-  });
+      .select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -138,8 +137,7 @@ export const dhDeleteSession = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhDeleteSession", source: "api", module: "dh.dhDeleteSession" });
     return guard(async () => {
     const r = await context.supabase.from("dh_sessions")
-      .delete().eq("id", data.session_id).eq("user_id", context.userId;
-  });
+      .delete().eq("id", data.session_id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
   }));
@@ -373,8 +371,7 @@ export const dhDeletePresentation = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhDeletePresentation", source: "api", module: "dh.dhDeletePresentation" });
     return guard(async () => {
     const r = await context.supabase.from("dh_presentations")
-      .delete().eq("id", data.id).eq("user_id", context.userId;
-  });
+      .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
   }));

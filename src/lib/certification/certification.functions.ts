@@ -78,8 +78,7 @@ export const recordHealthCheckFn = createServerFn({ method: 'POST' })
       checked_by: context.userId,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Certification report -------------------------------------------
 const reportSchema = z.object({
@@ -199,8 +198,7 @@ export const createReleaseFn = createServerFn({ method: 'POST' })
       certification_id: data.certificationId ?? null,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const releaseStatusSchema = z.object({
   releaseId: z.string().uuid(),

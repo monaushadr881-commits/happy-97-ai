@@ -78,8 +78,7 @@ export const startDhIntegrationSessionFn = createServerFn({ method: 'POST' })
       status: 'connecting',
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const heartbeatSchema = z.object({
   sessionId: z.string().uuid(),
@@ -99,8 +98,7 @@ export const heartbeatDhSessionFn = createServerFn({ method: 'POST' })
     const { data: row, error } = await context.supabase.from('dh_integration_sessions')
       .update(patch as any).eq('id', data.sessionId).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Integration events (animation/lipsync/gesture/lookat/env/health)
 const eventSchema = z.object({
@@ -122,8 +120,7 @@ export const emitDhIntegrationEventFn = createServerFn({ method: 'POST' })
       channel: data.channel, event_type: data.eventType, payload: data.payload,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Health rollup ---------------------------------------------------
 const healthSchema = z.object({ sessionId: z.string().uuid() });

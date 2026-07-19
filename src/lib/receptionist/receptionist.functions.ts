@@ -42,8 +42,7 @@ export const startReceptionistSessionFn = createServerFn({ method: 'POST' })
       metadata: data.metadata ?? {},
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const endSchema = z.object({ sessionId: z.string().uuid(), status: z.enum(['ended','abandoned']).default('ended') });
 export const endReceptionistSessionFn = createServerFn({ method: 'POST' })

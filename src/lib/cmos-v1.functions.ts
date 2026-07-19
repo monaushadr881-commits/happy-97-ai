@@ -79,8 +79,7 @@ export const communityCreatePost = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("posts")
       .insert({ ...data, author_id: context.userId, created_by: context.userId })
-      .select("*").single(;
-  });
+      .select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -93,8 +92,7 @@ export const communityDeletePost = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("posts")
       .update({ status: "deleted", deleted_at: new Date().toISOString() })
-      .eq("id", data.id).eq("author_id", context.userId;
-  });
+      .eq("id", data.id).eq("author_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
   }));
@@ -120,8 +118,7 @@ export const communityAddComment = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "communityAddComment", source: "api", module: "cmos.communityAddComment" });
     return guard(async () => {
     const r = await context.supabase.from("comments")
-      .insert({ ...data, author_id: context.userId }).select("*").single(;
-  });
+      .insert({ ...data, author_id: context.userId }).select("*").single();
     if (r.error) throw r.error;
     try {
       await context.supabase.rpc("write_audit", {
@@ -234,8 +231,7 @@ export const marketCreateListing = createServerFn({ method: "POST" })
     const slug = `${data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60)}-${Date.now().toString(36)}`;
     const r = await context.supabase.from("listings").insert({
       ...data, slug, seller_id: context.userId, created_by: context.userId,
-    }).select("*").single(;
-  });
+    }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -250,8 +246,7 @@ export const marketUpdateListing = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("listings")
       .update({ ...data.patch, updated_by: context.userId })
-      .eq("id", data.id).eq("seller_id", context.userId).select("*").single(;
-  });
+      .eq("id", data.id).eq("seller_id", context.userId).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -277,8 +272,7 @@ export const marketAddReview = createServerFn({ method: "POST" })
     const r = await context.supabase.from("listing_reviews").upsert(
       { ...data, reviewer_id: context.userId },
       { onConflict: "listing_id,reviewer_id" },
-    ).select("*").single(;
-  });
+    ).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -383,8 +377,7 @@ export const msgCreateConversation = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "msgCreateConversation", source: "api", module: "cmos.msgCreateConversation" });
     return guard(async () => {
     const r = await context.supabase.from("conversations")
-      .insert({ user_id: context.userId, title: data.title }).select("*").single(;
-  });
+      .insert({ user_id: context.userId, title: data.title }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -412,8 +405,7 @@ export const msgSend = createServerFn({ method: "POST" })
     const r = await context.supabase.from("messages").insert({
       conversation_id: data.conversation_id,
       user_id: context.userId, role: "user", content: data.content,
-    }).select("*").single(;
-  });
+    }).select("*").single();
     if (r.error) throw r.error;
     await context.supabase.from("conversations")
       .update({ updated_at: new Date().toISOString() })

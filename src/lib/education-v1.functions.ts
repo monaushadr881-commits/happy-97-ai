@@ -161,8 +161,7 @@ export const eduSaveNote = createServerFn({ method: "POST" })
     const s = context.supabase;
     const r = data.id
       ? await s.from("study_notes").update(row).eq("id", data.id).eq("user_id", context.userId).select("id, title, body, tags, updated_at").single()
-      : await s.from("study_notes").insert(row).select("id, title, body, tags, updated_at").single(;
-  });
+      : await s.from("study_notes").insert(row).select("id, title, body, tags, updated_at").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -173,8 +172,7 @@ export const eduDeleteNote = createServerFn({ method: "POST" })
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduDeleteNote", source: "api", module: "education.eduDeleteNote" });
     return guard(async () => {
-    const r = await context.supabase.from("study_notes").delete().eq("id", data.id).eq("user_id", context.userId;
-  });
+    const r = await context.supabase.from("study_notes").delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
   }));
@@ -196,8 +194,7 @@ export const eduBookmark = createServerFn({ method: "POST" })
       resource_id: data.resource_id,
       label: data.label ?? null,
       timestamp_seconds: data.timestamp_seconds ?? null,
-    }).select("id").single(;
-  });
+    }).select("id").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -245,8 +242,7 @@ export const eduSaveFlashcard = createServerFn({ method: "POST" })
     const s = context.supabase;
     const r = data.id
       ? await s.from("study_flashcards").update(row).eq("id", data.id).eq("user_id", context.userId).select("*").single()
-      : await s.from("study_flashcards").insert(row).select("*").single(;
-  });
+      : await s.from("study_flashcards").insert(row).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -387,8 +383,7 @@ export const eduSavePlan = createServerFn({ method: "POST" })
     const s = context.supabase;
     const r = data.id
       ? await s.from("study_plans").update(row).eq("id", data.id).eq("user_id", context.userId).select("*").single()
-      : await s.from("study_plans").insert(row).select("*").single(;
-  });
+      : await s.from("study_plans").insert(row).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -497,8 +492,7 @@ export const eduCreateUpload = createServerFn({ method: "POST" })
       size_bytes: data.size_bytes ?? null,
       course_id: data.course_id ?? null,
       lesson_id: data.lesson_id ?? null,
-    }).select("id, status").single(;
-  });
+    }).select("id, status").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -509,8 +503,7 @@ export const eduUpdateUploadStatus = createServerFn({ method: "POST" })
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduUpdateUploadStatus", source: "api", module: "education.eduUpdateUploadStatus" });
     return guard(async () => {
-    const r = await context.supabase.from("content_uploads").update({ status: data.status }).eq("id", data.id).select("id, status").single(;
-  });
+    const r = await context.supabase.from("content_uploads").update({ status: data.status }).eq("id", data.id).select("id, status").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -540,8 +533,7 @@ export const eduCreateCourse = createServerFn({ method: "POST" })
       is_public: data.is_public ?? false,
       status: "draft",
       created_by: context.userId, updated_by: context.userId,
-    }).select("id, slug, title, status").single(;
-  });
+    }).select("id, slug, title, status").single();
     if (r.error) throw r.error;
     return r.data;
   }));

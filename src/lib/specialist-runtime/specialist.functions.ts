@@ -117,8 +117,7 @@ export const listSpecialistModesFn = createServerFn({ method: 'GET' })
     if (data.enabledOnly) q = q.eq('enabled', true);
     const { data: rows, error } = await q;
     if (error) throw error;
-    return rows ?? [];
-  });
+    return rows ?? []);
 
 const listSessionsSchema = z.object({
   status: z.enum(['active', 'paused', 'archived', 'ended']).optional(),
@@ -138,8 +137,7 @@ export const listSpecialistSessionsFn = createServerFn({ method: 'GET' })
     if (data.companyId) q = q.eq('company_id', data.companyId);
     const { data: rows, error } = await q;
     if (error) throw error;
-    return rows ?? [];
-  });
+    return rows ?? []);
 
 const listTurnsSchema = z.object({
   sessionId: z.string().uuid(),
@@ -156,8 +154,7 @@ export const listSpecialistTurnsFn = createServerFn({ method: 'GET' })
       .order('seq', { ascending: true })
       .limit(data.limit);
     if (error) throw error;
-    return rows ?? [];
-  });
+    return rows ?? []);
 
 const analyticsSchema = z.object({
   from: z.string().min(1),
