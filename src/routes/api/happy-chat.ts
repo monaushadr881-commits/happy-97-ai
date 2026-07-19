@@ -9,6 +9,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { buildHappySystemPrompt } from "@/lib/happy-chat.functions";
 import { requireSupabaseUser, enforceRateLimit } from "@/lib/security/api-auth";
+import { withBrain } from "@/lib/founder/enforce";
 
 type Turn = { role: "user" | "assistant"; content: string };
 type Body = {
