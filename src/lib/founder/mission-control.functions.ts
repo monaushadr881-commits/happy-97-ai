@@ -228,11 +228,11 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .select("id,name,created_at,metadata")
         .eq("kind", "publishing")
         .order("created_at", { ascending: false })
+        .limit(64),
     ]);
 
-    // 21st Promise.all slot — executive board reviews. We re-fetch just
-    // that slot here to keep the destructure readable; the outer
-    // Promise.all already awaited it.
+    // Executive Board reviews — separate query so the Promise.all
+    // above stays typed. Cheap: capped at 64 rows, RLS-scoped.
     const execRecent = await sb
       .from("approvals")
       .select("id,title,status,entity_id,created_at,metadata")
