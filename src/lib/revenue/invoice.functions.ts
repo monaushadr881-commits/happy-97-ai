@@ -107,9 +107,9 @@ export const revIssueInvoice = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<IssueInvoiceResult> => {
     const { supabase, userId } = context;
 
-    const brainCtx: BrainContext = {
-      actor: { userId, isFounder: true },
-      companyId: data.company_id,
+    const brainCtx: FounderApprovalContext = {
+      isFounder: true,
+      correlationId: userId,
     };
     const brain = await analyzeInvoiceImpact({
       capability: "revenue.invoice.issue",
