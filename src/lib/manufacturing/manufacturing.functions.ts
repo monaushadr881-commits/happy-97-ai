@@ -63,6 +63,7 @@ const analyze = withBrain<
       module === "quality" ||
       module === "maintenance_order" ||
       module === "quality_inspection" ||
+      module === "quality_approval" ||
       module === "machine_downtime";
     if (critical || (criticalModule && highCost)) {
       return { severity: "critical", requires_approval: true, reason: "critical_operation" };
