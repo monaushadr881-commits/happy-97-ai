@@ -134,25 +134,8 @@ export const transitionRollout = createServerFn({ method: "POST" })
     return { ok: true, enforcement: approvalMeta };
   });
 
-export const listRolloutEvents = createServerFn({ method: "GET" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((raw) => z.object({ rollout_id: z.string().uuid() }).parse(raw))
 
-  .handler(async ({ context, data }) => {
-    await assertOpsAdminR64(context);
-    const sb: any = context.supabase;
-    const { data: cur, error } = await sb.from("release_rollouts").select("*").eq("id", data.rollout_id).single();
-    if (error) throw new Error(error.message);
-    if (!canRolloutTransition(cur.state, data.to)) throw new Error(`invalid rollout transition ${cur.state} → ${data.to}`);
-    await sb.from("release_rollouts").update({ state: data.to, updated_by: context.userId }).eq("id", data.rollout_id);
-    await sb.from("release_rollout_events").insert({
-      rollout_id: data.rollout_id, from_state: cur.state, to_state: data.to,
-      from_percent: cur.current_percent, to_percent: data.to === "rolled_back" ? 0 : cur.current_percent,
-      reason: data.reason ?? null, actor_id: context.userId,
-    });
-    await writeAudit(context, { category: "release", action: `rollout_${data.to}`, entity_id: data.rollout_id });
-    return { ok: true };
-  });
+
 
 export const listRolloutEvents = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
