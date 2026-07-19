@@ -9,6 +9,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import {
   healthService, metricsService, alertingService, incidentService,
   deploymentService, queueOpsService, securityOpsService, aiOpsService, dbOpsService,
@@ -18,6 +19,23 @@ type AuthCtx = Parameters<typeof makeServiceContext>[0];
 const svc = (ctx: { supabase: AuthCtx["supabase"]; userId: string; claims?: Record<string, unknown> }) =>
   makeServiceContext({ supabase: ctx.supabase, userId: ctx.userId, claims: ctx.claims });
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
+const adopt = (
+  context: { supabase: AuthCtx["supabase"]; userId: string },
+  module: string,
+  capability: string,
+  metadata: Record<string, unknown> = {},
+) =>
+  adoptToCanonicalPipeline(context.supabase, {
+    domain: "founder",
+    module: `ops.${module}`,
+    capability,
+    user_id: context.userId,
+    company_id: ZERO_UUID,
+    source: "ops-v1",
+    metadata,
+  });
 
 // ---- Health ----
 export const opsHealthAll = createServerFn({ method: "GET" })
