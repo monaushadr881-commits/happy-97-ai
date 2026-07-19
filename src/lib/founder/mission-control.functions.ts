@@ -109,6 +109,24 @@ export interface MissionControlSnapshot {
       created_at: string;
     }>;
   };
+  executive: {
+    total_reviews: number;
+    pending: number;
+    approved: number;
+    rejected: number;
+    conflicts_open: number;
+    top_risks: Array<{ risk: string; count: number }>;
+    recent: Array<{
+      id: string;
+      approval_id: string;
+      title: string;
+      status: string;
+      unified: string;
+      conflicts: number;
+      created_at: string;
+    }>;
+    member_tally: Record<string, { go: number; hold: number; no_go: number }>;
+  };
   health: {
     total: number;
     healthy: number;
@@ -213,6 +231,15 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .limit(64),
     ]);
 
+    // Executive Board reviews — separate query so the Promise.all
+    // above stays typed. Cheap: capped at 64 rows, RLS-scoped.
+    const execRecent = await sb
+      .from("approvals")
+      .select("id,title,status,entity_id,created_at,metadata")
+      .eq("entity_type", "founder_executive_review")
+      .order("created_at", { ascending: false })
+      .limit(64);
+
     const invRows = invRecent.data ?? [];
     const outstanding = invRows.reduce(
       (s, r) =>
@@ -316,6 +343,90 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           pending_approvals: cnt(publishingPending.count),
           by_store: byStore,
           recent,
+        };
+      })(),
+      executive: (() => {
+        const rows = (execRecent.data ?? []) as Array<{
+          id: string;
+          title: string;
+          status: string;
+          entity_id: string;
+          created_at: string;
+          metadata: Record<string, unknown> | null;
+        }>;
+        const tally = { pending: 0, approved: 0, rejected: 0 };
+        let conflictsOpen = 0;
+        const riskMap = new Map<string, number>();
+        const memberTally: Record<
+          string,
+          { go: number; hold: number; no_go: number }
+        > = {};
+        const recent = rows.slice(0, LIMIT).map((r) => {
+          const m = (r.metadata ?? {}) as Record<string, unknown>;
+          const review = (m.review ?? {}) as {
+            unified?: { recommendation?: string };
+            conflicts?: unknown[];
+          };
+          const unified = review.unified?.recommendation ?? "unknown";
+          const conflicts = Array.isArray(review.conflicts)
+            ? review.conflicts.length
+            : 0;
+          return {
+            id: r.entity_id,
+            approval_id: r.id,
+            title: r.title,
+            status: r.status,
+            unified,
+            conflicts,
+            created_at: r.created_at,
+          };
+        });
+        for (const r of rows) {
+          if (r.status === "pending") tally.pending++;
+          else if (r.status === "approved") tally.approved++;
+          else if (r.status === "rejected") tally.rejected++;
+          const m = (r.metadata ?? {}) as Record<string, unknown>;
+          const review = (m.review ?? {}) as {
+            conflicts?: unknown[];
+            top_risks?: Array<{ risk?: string; count?: number }>;
+            members?: Array<{ member_id?: string; recommendation?: string }>;
+          };
+          if (r.status === "pending" && Array.isArray(review.conflicts))
+            conflictsOpen += review.conflicts.length;
+          if (Array.isArray(review.top_risks)) {
+            for (const tr of review.top_risks) {
+              if (typeof tr.risk === "string")
+                riskMap.set(
+                  tr.risk,
+                  (riskMap.get(tr.risk) ?? 0) + (tr.count ?? 1),
+                );
+            }
+          }
+          if (Array.isArray(review.members)) {
+            for (const mm of review.members) {
+              const id = typeof mm.member_id === "string" ? mm.member_id : "";
+              if (!id) continue;
+              const bucket =
+                memberTally[id] ?? (memberTally[id] = { go: 0, hold: 0, no_go: 0 });
+              if (mm.recommendation === "go") bucket.go++;
+              else if (mm.recommendation === "hold") bucket.hold++;
+              else if (mm.recommendation === "no_go") bucket.no_go++;
+            }
+          }
+        }
+        const top_risks = Array.from(riskMap.entries())
+          .map(([risk, count]) => ({ risk, count }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 5);
+        return {
+          total_reviews: rows.length,
+          pending: tally.pending,
+          approved: tally.approved,
+          rejected: tally.rejected,
+          conflicts_open: conflictsOpen,
+          top_risks,
+          recent,
+          member_tally: memberTally,
         };
       })(),
       health: healthCounts,
