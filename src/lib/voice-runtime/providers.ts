@@ -11,6 +11,7 @@
  */
 
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { assertUuid } from "@/lib/security/pgrest-sanitize";
 import {
   availableVoiceProviders,
   synthesizeSpeech,
@@ -57,7 +58,7 @@ export async function listProviderConfigs(
     .select("*")
     .eq("enabled", true)
     .order("priority", { ascending: true });
-  if (companyId) q = q.or(`company_id.eq.${companyId},company_id.is.null`);
+  if (companyId) { const cid = assertUuid(companyId, "company_id"); q = q.or(`company_id.eq.${cid},company_id.is.null`); }
   else q = q.is("company_id", null);
   const { data, error } = await q;
   if (error) throw new Error(`list_provider_configs_failed: ${error.message}`);

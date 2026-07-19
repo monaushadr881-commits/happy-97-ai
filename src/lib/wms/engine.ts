@@ -5,6 +5,7 @@
  * Reuses RLS + audit; never edits stock outside the ledger.
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { assertUuid } from "@/lib/security/pgrest-sanitize";
 
 type SB = SupabaseClient<any, "public", any>;
 type Num = number;
@@ -235,7 +236,7 @@ export const transfers = {
     let q = sb.from("stock_transfers").select("*, from_wh:warehouses!stock_transfers_from_warehouse_id_fkey(id,name,code), to_wh:warehouses!stock_transfers_to_warehouse_id_fkey(id,name,code)")
       .eq("company_id", companyId).order("created_at", { ascending: false }).limit(opts.limit ?? 50);
     if (opts.status) q = q.eq("status", opts.status as any);
-    if (opts.warehouse_id) q = q.or(`from_warehouse_id.eq.${opts.warehouse_id},to_warehouse_id.eq.${opts.warehouse_id}`);
+    if (opts.warehouse_id) { const wid = assertUuid(opts.warehouse_id, "warehouse_id"); q = q.or(`from_warehouse_id.eq.${wid},to_warehouse_id.eq.${wid}`); }
     return unwrap(await q);
   },
   get: async (sb: SB, id: string) => {
