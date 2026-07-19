@@ -387,6 +387,7 @@ export const eduLogSession = createServerFn({ method: "POST" })
     seconds: z.number().int().min(1).max(21600),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "session", capability: "log", user_id: context.userId, company_id: ZERO_UUID, metadata: { seconds: data.seconds } });
     const r = await context.supabase.from("study_sessions").insert({
       user_id: context.userId,
       course_id: data.course_id ?? null,
