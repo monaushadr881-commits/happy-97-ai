@@ -66,12 +66,12 @@ export const opsListAlertRules = createServerFn({ method: "GET" })
 export const opsUpsertAlertRule = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => alertingService.upsertRule(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "alert", "upsert_rule"); return guard(() => alertingService.upsertRule(svc(context), data)); });
 
 export const opsTripAlert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => alertingService.trip(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "alert", "trip"); return guard(() => alertingService.trip(svc(context), data)); });
 
 // ---- Incidents ----
 export const opsListIncidents = createServerFn({ method: "POST" })
