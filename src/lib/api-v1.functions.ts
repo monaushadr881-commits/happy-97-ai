@@ -87,7 +87,11 @@ export const apiListBrands = createServerFn({ method: "POST" })
 export const apiCreateBrand = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => brandService.create(svc(context), data)));
+  .handler(async ({ data, context }) => {
+    const d = (data ?? {}) as { company_id?: string };
+    await adopt(context, "business", "brand", "create", d.company_id ?? null);
+    return guard(() => brandService.create(svc(context), data));
+  });
 
 export const apiListMyWorkspaces = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
