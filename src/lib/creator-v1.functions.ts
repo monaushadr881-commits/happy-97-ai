@@ -59,8 +59,7 @@ export const creatorListProjects = createServerFn({ method: "GET" })
       .limit(100);
     if (r.error) throw r.error;
     return r.data ?? [];
-  }));
-
+  });
 const CreateProject = z.object({
   kind: ProjectKind.default("general"),
   name: z.string().min(1).max(140),
@@ -74,12 +73,10 @@ export const creatorCreateProject = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("creator_projects")
       .insert({ user_id: context.userId, ...data })
-      .select("*").single(;
-  });
+      .select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
-
+  });
 export const creatorArchiveProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, archived: z.boolean() }).parse(i))
@@ -88,12 +85,10 @@ export const creatorArchiveProject = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("creator_projects")
       .update({ archived: data.archived })
-      .eq("id", data.id).eq("user_id", context.userId).select("*").single(;
-  });
+      .eq("id", data.id).eq("user_id", context.userId).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
-
+  });
 export const creatorDeleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
@@ -105,8 +100,7 @@ export const creatorDeleteProject = createServerFn({ method: "POST" })
   });
     if (r.error) throw r.error;
     return { ok: true };
-  }));
-
+  });
 // =====================================================================
 // ASSETS
 // =====================================================================
@@ -131,8 +125,7 @@ export const creatorListAssets = createServerFn({ method: "POST" })
     const r = await q;
     if (r.error) throw r.error;
     return r.data ?? [];
-  }));
-
+  });
 export const creatorDeleteAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
@@ -144,8 +137,7 @@ export const creatorDeleteAsset = createServerFn({ method: "POST" })
   });
     if (r.error) throw r.error;
     return { ok: true };
-  }));
-
+  });
 async function recordGeneration(
   supabase: any, userId: string,
   args: {
@@ -193,8 +185,7 @@ export const creatorGenerateImage = createServerFn({ method: "POST" })
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorGenerateImage", source: "api", module: "creator.creatorGenerateImage" });
     return guard(async () => {
-    const started = Date.now(;
-  });
+    const started = Date.now();
     // Gemini image models use chat-completions image shape; OpenAI models use the OpenAI images shape.
     const isOpenAI = data.model.startsWith("openai/");
     const size = data.aspect === "portrait" ? "1024x1536"
@@ -235,8 +226,7 @@ export const creatorGenerateImage = createServerFn({ method: "POST" })
       project_id: data.project_id ?? null, duration_ms: Date.now() - started,
     });
     return asset.data;
-  }));
-
+  });
 const ImageEdit = z.object({
   asset_id: uuid,
   prompt: z.string().min(3).max(4000),
@@ -290,8 +280,7 @@ export const creatorEditImage = createServerFn({ method: "POST" })
       project_id: src.data.project_id,
     });
     return asset.data;
-  }));
-
+  });
 // =====================================================================
 // VOICE STUDIO (TTS via /v1/audio/speech)
 // =====================================================================
@@ -344,8 +333,7 @@ export const creatorTts = createServerFn({ method: "POST" })
       project_id: data.project_id ?? null,
     });
     return asset.data;
-  }));
-
+  });
 // =====================================================================
 // COPY / MARKETING / DOCUMENT STUDIO — text generation
 // =====================================================================
@@ -367,8 +355,7 @@ export const creatorGenerateCopy = createServerFn({ method: "POST" })
     let brand: any = null;
     if (data.brand_kit_id) {
       const r = await context.supabase.from("creator_brand_kits")
-        .select("*").eq("id", data.brand_kit_id).eq("user_id", context.userId).maybeSingle(;
-  });
+        .select("*").eq("id", data.brand_kit_id).eq("user_id", context.userId).maybeSingle();
       brand = r.data;
     }
     const sys = [
@@ -409,8 +396,7 @@ export const creatorGenerateCopy = createServerFn({ method: "POST" })
       output_asset_id: asset.data.id, project_id: data.project_id ?? null,
     });
     return { ...asset.data, text };
-  }));
-
+  });
 // =====================================================================
 // PRESENTATION STUDIO — generate a deck (structured JSON)
 // =====================================================================
@@ -467,8 +453,7 @@ Return STRICT JSON only, no prose, no code fences:
       output_asset_id: asset.data.id, project_id: data.project_id ?? null,
     });
     return asset.data;
-  }));
-
+  });
 // =====================================================================
 // BRAND STUDIO
 // =====================================================================
@@ -479,8 +464,7 @@ export const creatorListBrandKits = createServerFn({ method: "GET" })
       .select("*").eq("user_id", context.userId).order("updated_at", { ascending: false });
     if (r.error) throw r.error;
     return r.data ?? [];
-  }));
-
+  });
 const BrandUpsert = z.object({
   id: uuid.optional(),
   name: z.string().min(1).max(120),
@@ -502,12 +486,10 @@ export const creatorSaveBrandKit = createServerFn({ method: "POST" })
     const r = data.id
       ? await context.supabase.from("creator_brand_kits").update(payload)
           .eq("id", data.id).eq("user_id", context.userId).select("*").single()
-      : await context.supabase.from("creator_brand_kits").insert(payload).select("*").single(;
-  });
+      : await context.supabase.from("creator_brand_kits").insert(payload).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
-
+  });
 export const creatorDeleteBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
@@ -519,8 +501,7 @@ export const creatorDeleteBrandKit = createServerFn({ method: "POST" })
   });
     if (r.error) throw r.error;
     return { ok: true };
-  }));
-
+  });
 // =====================================================================
 // DASHBOARD / STATS
 // =====================================================================
@@ -544,8 +525,7 @@ export const creatorDashboard = createServerFn({ method: "GET" })
       total_generations: gens.count ?? 0,
       recent: recent.data ?? [],
     };
-  }));
-
+  });
 export const creatorRecentGenerations = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({
@@ -562,4 +542,4 @@ export const creatorRecentGenerations = createServerFn({ method: "POST" })
     const r = await q;
     if (r.error) throw r.error;
     return r.data ?? [];
-  }));
+  });
