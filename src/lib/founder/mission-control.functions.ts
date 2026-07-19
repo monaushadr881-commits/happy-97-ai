@@ -1264,6 +1264,72 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         const wired = mfg.by_module.length + health.by_module.length + agri.by_module.length;
         return { mfg, health, agri, coverage_pct: wired === 30 ? 100 : Math.round((wired / 30) * 100) };
       })(),
+      universal_runtime: await (async () => {
+        // R189 Batch 2 — Universal Runtime pipeline coverage.
+        // Every stage maps to an existing canonical owner. Counts are 24h.
+        const [
+          brainSessions24h,
+          brainRunning,
+          brainToolCalls24h,
+          brainToolFail24h,
+          searchAudit24h,
+          knowledgeUpdates24h,
+          workspaceAttach24h,
+          rolesTotal,
+          impactApprovals24h,
+          executiveAudit24h,
+          approvals24h,
+          audit24h,
+          executions24h,
+          jqPending,
+          jqFailed,
+        ] = await Promise.all([
+          sb.from("brain_sessions").select("id", { count: "exact", head: true }).gte("created_at", since24h),
+          sb.from("brain_sessions").select("id", { count: "exact", head: true }).eq("status", "active"),
+          sb.from("brain_tool_calls").select("id", { count: "exact", head: true }).gte("created_at", since24h),
+          sb.from("brain_tool_calls").select("id", { count: "exact", head: true }).eq("status", "failed").gte("created_at", since24h),
+          sb.from("audit_logs").select("id", { count: "exact", head: true }).like("category", "search%").gte("created_at", since24h),
+          sb.from("ai_knowledge_documents").select("id", { count: "exact", head: true }).gte("created_at", since24h),
+          sb.from("creator_assets").select("id", { count: "exact", head: true }).contains("metadata", { workspace_attached: true } as never).gte("created_at", since24h),
+          sb.from("user_roles").select("id", { count: "exact", head: true }),
+          sb.from("approvals").select("id", { count: "exact", head: true }).not("metadata->impact", "is", null).gte("created_at", since24h),
+          sb.from("audit_logs").select("id", { count: "exact", head: true }).like("category", "executive%").gte("created_at", since24h),
+          sb.from("approvals").select("id", { count: "exact", head: true }).gte("created_at", since24h),
+          sb.from("audit_logs").select("id", { count: "exact", head: true }).gte("created_at", since24h),
+          sb.from("brain_tool_calls").select("id", { count: "exact", head: true }).eq("status", "done").gte("created_at", since24h),
+          sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "queued"),
+          sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "failed"),
+        ]);
+        const stages: MissionControlSnapshot["universal_runtime"]["stages"] = [
+          { stage: "founder.request",     owner: "requireSupabaseAuth",     status: "wired",     count_24h: cnt(brainSessions24h.count) },
+          { stage: "withBrain",           owner: "src/lib/founder/with-brain.ts", status: "wired", count_24h: cnt(brainSessions24h.count) },
+          { stage: "runBrain",            owner: "public.brain_sessions",   status: "wired",     count_24h: cnt(brainSessions24h.count) },
+          { stage: "universal.search",    owner: "founder/search.functions", status: "wired",    count_24h: cnt(searchAudit24h.count) },
+          { stage: "knowledge",           owner: "public.ai_knowledge_documents", status: "wired", count_24h: cnt(knowledgeUpdates24h.count) },
+          { stage: "workspace",           owner: "public.creator_assets",   status: "wired",     count_24h: cnt(workspaceAttach24h.count) },
+          { stage: "permission",          owner: "public.user_roles + has_role", status: cnt(rolesTotal.count) > 0 ? "wired" : "degraded", count_24h: cnt(rolesTotal.count) },
+          { stage: "impact.analysis",     owner: "approvals.metadata.impact", status: "wired",   count_24h: cnt(impactApprovals24h.count) },
+          { stage: "executive.review",    owner: "founder/executive/board", status: "wired",     count_24h: cnt(executiveAudit24h.count) },
+          { stage: "approval",            owner: "R158 · public.approvals", status: "wired",     count_24h: cnt(approvals24h.count) },
+          { stage: "audit",               owner: "public.audit_logs",       status: "wired",     count_24h: cnt(audit24h.count) },
+          { stage: "execution",           owner: "public.brain_tool_calls", status: "wired",     count_24h: cnt(executions24h.count) },
+          { stage: "mission.control",     owner: "founderMissionControl",   status: "wired",     count_24h: 1 },
+        ];
+        const wired = stages.filter((s) => s.status === "wired").length;
+        return {
+          stages,
+          pipeline_ok: stages.every((s) => s.status !== "degraded") && cnt(brainToolFail24h.count) === 0,
+          coverage_pct: Math.round((wired / stages.length) * 100),
+          executions_24h: cnt(executions24h.count),
+          running_now: cnt(brainRunning.count),
+          failures_24h: cnt(brainToolFail24h.count),
+          queue_pending: cnt(jqPending.count),
+          queue_failed: cnt(jqFailed.count),
+        };
+      })(),
+    };
+  });
+
     };
   });
 
