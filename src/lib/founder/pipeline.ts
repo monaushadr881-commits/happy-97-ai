@@ -45,6 +45,7 @@ export interface AdoptOptions {
     | "cloud"
     | "commerce"
     | "partner"
+    | "ai"
     | "ufs"
     | "founder";
   readonly module: string;
