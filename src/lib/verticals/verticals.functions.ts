@@ -298,6 +298,7 @@ export const healthSubmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => HealthInput.parse(i))
   .handler(async ({ data, context }): Promise<SubmitResult> => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "healthcare", module: data.module, capability: "submit", user_id: context.userId, company_id: ZERO_UUID, metadata: { cost_cents: data.cost_cents ?? null, critical: data.critical } });
     const brain = await analyzeHealth({
       capability: "vertical.health.impact",
       input: { module: data.module, cost_cents: data.cost_cents ?? null, critical: data.critical },
