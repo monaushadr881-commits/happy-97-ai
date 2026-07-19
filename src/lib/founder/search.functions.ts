@@ -188,14 +188,14 @@ export const universalSearch = createServerFn({ method: "POST" })
         : Promise.resolve({ data: [], error: null } as never),
       wants("business_workflow")
         ? sb.from("workflows")
-            .select("id,name,description,status,updated_at,company_id")
-            .or(`name.ilike.${like},description.ilike.${like}`)
+            .select("id,name,is_active,updated_at,company_id,version")
+            .ilike("name", like)
             .limit(perSrc)
         : Promise.resolve({ data: [], error: null } as never),
       wants("revenue_invoice")
         ? sb.from("invoices")
-            .select("id,invoice_number,status,total_cents,currency,company_id,updated_at,customer_id")
-            .or(`invoice_number.ilike.${like}`)
+            .select("id,number,status,total_cents,currency,company_id,updated_at,customer_id")
+            .ilike("number", like)
             .limit(perSrc)
         : Promise.resolve({ data: [], error: null } as never),
       wants("revenue_wallet")
