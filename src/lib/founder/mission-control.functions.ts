@@ -127,6 +127,29 @@ export interface MissionControlSnapshot {
     }>;
     member_tally: Record<string, { go: number; hold: number; no_go: number }>;
   };
+  founder_creator: {
+    total_requests: number;
+    pending: number;
+    approved: number;
+    rejected: number;
+    total_assets: number;
+    by_kind: Record<string, number>;
+    recent_requests: Array<{
+      id: string;
+      title: string;
+      status: string;
+      kind: string;
+      created_at: string;
+    }>;
+    recent_assets: Array<{
+      id: string;
+      name: string;
+      kind: string;
+      asset_version: number;
+      model: string | null;
+      created_at: string;
+    }>;
+  };
   health: {
     total: number;
     healthy: number;
