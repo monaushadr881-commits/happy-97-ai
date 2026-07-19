@@ -50,7 +50,8 @@ type ApprovalStatus = "pending" | "approved" | "rejected" | "cancelled";
 
 interface RuntimeResult {
   status: "created" | "pending_approval";
-  row?: Record<string, unknown> | null;
+  entity_id?: string;
+  entity_type?: string;
   approval_id?: string;
   approval_status?: ApprovalStatus;
   reason?: string;
@@ -97,7 +98,7 @@ export const bizCreateCustomer = createServerFn({ method: "POST" })
       severity: "info",
       metadata: { module: "crm" },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -141,7 +142,7 @@ export const bizCreateLead = createServerFn({ method: "POST" })
       severity: "info",
       metadata: { module: "crm" },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -201,7 +202,7 @@ export const bizCreateDeal = createServerFn({ method: "POST" })
       entity_id: row.id, company_id: data.company_id, after: row,
       severity: "notice", metadata: { module: "crm", approval_required: false },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -262,7 +263,7 @@ export const bizCreateSalesOrder = createServerFn({ method: "POST" })
       entity_id: row.id, company_id: data.company_id, after: row,
       severity: "notice", metadata: { module: "sales", approval_required: false },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -323,7 +324,7 @@ export const bizCreatePurchaseOrder = createServerFn({ method: "POST" })
       entity_id: row.id, company_id: data.company_id, after: row,
       severity: "notice", metadata: { module: "purchase", approval_required: false },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -356,7 +357,7 @@ export const bizCreateSupplier = createServerFn({ method: "POST" })
       entity_id: row.id, company_id: data.company_id, after: row,
       severity: "info", metadata: { module: "vendors" },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -439,7 +440,7 @@ export const bizCreateSupportTicket = createServerFn({ method: "POST" })
       severity: data.priority === "urgent" ? "notice" : "info",
       metadata: { module: "support", priority: data.priority },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -479,7 +480,7 @@ export const bizScheduleMeeting = createServerFn({ method: "POST" })
       entity_id: row.id, company_id: data.company_id ?? undefined, after: row,
       severity: "info", metadata: { module: "projects" },
     });
-    return { status: "created", row };
+    return { status: "created", entity_id: row.id };
   });
 
 // =================================================================
@@ -552,5 +553,5 @@ export const bizApplyApprovedBusinessAction = createServerFn({ method: "POST" })
       metadata: { approval_required: true, approval_id: data.approval_id },
     });
 
-    return { status: "created", row, approval_id: data.approval_id };
+    return { status: "created", entity_id: row!.id, entity_type: entityType, approval_id: data.approval_id };
   });
