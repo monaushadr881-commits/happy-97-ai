@@ -450,6 +450,12 @@ export const founderCommandExec = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => CommandInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "command", capability: "exec",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: data.command.slice(0, 240),
+      metadata: { workspace_id: data.workspace_id ?? null },
+    });
     const brain = await analyzeCommand({
       capability: "founder.command.exec",
       input: { command: data.command },
