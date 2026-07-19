@@ -222,6 +222,7 @@ export const eduSaveFlashcard = createServerFn({ method: "POST" })
     lesson_id: uuid.optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "flashcard", capability: data.id ? "update" : "create", user_id: context.userId, company_id: ZERO_UUID });
     const row = {
       user_id: context.userId,
       front: data.front,
