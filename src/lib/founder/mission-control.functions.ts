@@ -229,7 +229,61 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .eq("kind", "publishing")
         .order("created_at", { ascending: false })
         .limit(64),
+      sb
+        .from("approvals")
+        .select("id,title,status,entity_id,created_at,metadata")
+        .eq("entity_type", "founder_executive_review")
+        .order("created_at", { ascending: false })
+        .limit(64),
     ]);
+
+    const [
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      ,
+      execRecent,
+    ] = [
+      apPending,
+      apApproved,
+      apRejected,
+      apCancelled,
+      apRecent,
+      auditRecent,
+      brainActive,
+      brainDone24h,
+      brainCalls,
+      jobPending,
+      jobRunning,
+      jobFailed,
+      jobDone,
+      invCount30d,
+      invRecent,
+      creatorRecent,
+      knowledgeRecent,
+      healthRecent,
+      publishingPending,
+      publishingRecent,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      undefined as never,
+    ] as const;
+    void execRecent;
 
     const invRows = invRecent.data ?? [];
     const outstanding = invRows.reduce(
