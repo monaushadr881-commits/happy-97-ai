@@ -114,8 +114,7 @@ export const kbCreateArticle = createServerFn({ method: "POST" })
     const r = await context.supabase.from("knowledge_articles").insert({
       ...data, status: "draft", is_public: false,
       created_by: context.userId, updated_by: context.userId,
-    }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single(;
-  });
+    }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -130,8 +129,7 @@ export const kbUpdateArticle = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ ...data.patch, updated_by: context.userId })
-      .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single(;
-  });
+      .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -146,8 +144,7 @@ export const kbPublish = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ status: "active", is_public: data.is_public, updated_by: context.userId })
-      .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single(;
-  });
+      .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     try {
       await context.supabase.rpc("write_audit", {
@@ -167,8 +164,7 @@ export const kbAddReference = createServerFn({ method: "POST" })
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbAddReference", source: "api", module: "knowledge.kbAddReference" });
     return guard(async () => {
-    const r = await context.supabase.from("knowledge_references").insert(data).select("*").single(;
-  });
+    const r = await context.supabase.from("knowledge_references").insert(data).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -205,8 +201,7 @@ export const kbAddDocument = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("ai_knowledge_documents").insert({
       ...data, created_by: context.userId, updated_by: context.userId,
-    }).select("*").single(;
-  });
+    }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));

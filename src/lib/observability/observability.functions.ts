@@ -59,8 +59,7 @@ export const obsLogWrite = createServerFn({ method: "POST" })
       correlation_id: data.correlation_id ?? null, trace_id: data.trace_id ?? null,
       actor_id: context.userId, company_id: data.company_id ?? null,
       attributes: data.attributes as never,
-    } as never;
-  });
+    } as never);
     if (error) throw error;
     return { ok: true };
   }));
@@ -112,8 +111,7 @@ export const obsTraceWrite = createServerFn({ method: "POST" })
       started_at: data.started_at ?? new Date().toISOString(),
       duration_ms: data.duration_ms ?? null, attributes: data.attributes as never,
       actor_id: context.userId, company_id: data.company_id ?? null,
-    } as never;
-  });
+    } as never);
     if (error) throw error;
     return { ok: true };
   }));
@@ -154,8 +152,7 @@ export const obsUpsertComponent = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "obsUpsertComponent", source: "api", module: "observability.obsUpsertComponent" });
     return guard(async () => {
     const { data: row, error } = await context.supabase.from("obs_status_components")
-      .upsert(data as never, { onConflict: "key" }).select("*").single(;
-  });
+      .upsert(data as never, { onConflict: "key" }).select("*").single();
     if (error) throw error;
     return row;
   }));
@@ -180,8 +177,7 @@ export const obsPushStatusUpdate = createServerFn({ method: "POST" })
       context.supabase.from("obs_status_components")
         .update({ status: data.status, updated_at: new Date().toISOString() } as never)
         .eq("key", data.component_key),
-    ];
-  });
+    ]);
     if (e1) throw e1;
     if (e2) throw e2;
     return { ok: true };

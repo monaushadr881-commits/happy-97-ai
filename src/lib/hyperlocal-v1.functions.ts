@@ -108,8 +108,7 @@ export const hlSetMyLocation = createServerFn({ method: "POST" })
       city: data.city ?? null,
       pincode: data.pincode ?? null,
       updated_at: new Date().toISOString(),
-    }).select("*").single(;
-  });
+    }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -148,8 +147,7 @@ export const hlCreatePlace = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlCreatePlace", source: "api", module: "hyperlocal.hlCreatePlace" });
     return guard(async () => {
     const r = await context.supabase.from("hl_places")
-      .insert({ ...data, created_by: context.userId }).select("*").single(;
-  });
+      .insert({ ...data, created_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -224,8 +222,7 @@ export const hlUpsertBusiness = createServerFn({ method: "POST" })
     };
     const q = data.id
       ? context.supabase.from("hl_businesses").update(payload).eq("id", data.id).eq("owner_id", context.userId).select("*").single()
-      : context.supabase.from("hl_businesses").insert(payload).select("*").single(;
-  });
+      : context.supabase.from("hl_businesses").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
     return r.data;
@@ -289,8 +286,7 @@ export const hlUpsertJob = createServerFn({ method: "POST" })
     const payload = { ...data, posted_by: context.userId };
     const q = data.id
       ? context.supabase.from("hl_jobs").update(payload).eq("id", data.id).eq("posted_by", context.userId).select("*").single()
-      : context.supabase.from("hl_jobs").insert(payload).select("*").single(;
-  });
+      : context.supabase.from("hl_jobs").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
     return r.data;
@@ -343,8 +339,7 @@ export const hlUpsertEvent = createServerFn({ method: "POST" })
     const payload = { ...data, organizer_id: context.userId };
     const q = data.id
       ? context.supabase.from("hl_events").update(payload).eq("id", data.id).eq("organizer_id", context.userId).select("*").single()
-      : context.supabase.from("hl_events").insert(payload).select("*").single(;
-  });
+      : context.supabase.from("hl_events").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
     return r.data;
@@ -391,8 +386,7 @@ export const hlCreateAlert = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlCreateAlert", source: "api", module: "hyperlocal.hlCreateAlert" });
     return guard(async () => {
     const r = await context.supabase.from("hl_alerts")
-      .insert({ ...data, posted_by: context.userId }).select("*").single(;
-  });
+      .insert({ ...data, posted_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
   }));
