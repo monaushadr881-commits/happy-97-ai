@@ -101,6 +101,7 @@ export const eduLessonProgress = createServerFn({ method: "POST" })
     completed: z.boolean().optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "lesson", capability: "progress", user_id: context.userId, company_id: ZERO_UUID, summary: `progress ${data.lesson_id}` });
     const r = await context.supabase.from("lesson_progress").upsert({
       lesson_id: data.lesson_id,
       user_id: context.userId,
