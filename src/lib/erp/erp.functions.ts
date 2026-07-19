@@ -25,37 +25,55 @@ export const erpListBusinessUnits = auth()
 // ---------- Vendors ----------
 export const erpListVendors = auth()
   .inputValidator((d: { company_id: string; q?: string; limit?: number }) => d)
-  .handler(async ({ data, context }) => vendors.list(context.supabase, data.company_id, data));
-export const erpGetVendor = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpListVendors", source: "api", module: "erp.erpListVendors" });
+    return vendors.list(context.supabase, data.company_id, data);
+  });export const erpGetVendor = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => vendors.get(context.supabase, data.id));
-export const erpCreateVendor = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpGetVendor", source: "api", module: "erp.erpGetVendor" });
+    return vendors.get(context.supabase, data.id);
+  });export const erpCreateVendor = auth()
   .inputValidator((d: Parameters<typeof vendors.create>[2]) => d)
-  .handler(async ({ data, context }) => vendors.create(context.supabase, context.userId, data));
-export const erpUpdateVendor = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpCreateVendor", source: "api", module: "erp.erpCreateVendor" });
+    return vendors.create(context.supabase, context.userId, data);
+  });export const erpUpdateVendor = auth()
   .inputValidator((d: { id: string; patch: Record<string, unknown> }) => d)
-  .handler(async ({ data, context }) => vendors.update(context.supabase, context.userId, data.id, data.patch));
-export const erpDeleteVendor = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpUpdateVendor", source: "api", module: "erp.erpUpdateVendor" });
+    return vendors.update(context.supabase, context.userId, data.id, data.patch);
+  });export const erpDeleteVendor = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => vendors.remove(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpDeleteVendor", source: "api", module: "erp.erpDeleteVendor" });
+    return vendors.remove(context.supabase, context.userId, data.id);
+  });
 // ---------- Approvals ----------
 export const erpListApprovals = auth()
   .inputValidator((d: { company_id: string; status?: string; entity_type?: string; limit?: number }) => d)
   .handler(async ({ data, context }) => approvals.list(context.supabase, data.company_id, data));
 export const erpCreateApproval = auth()
   .inputValidator((d: Parameters<typeof approvals.create>[2]) => d)
-  .handler(async ({ data, context }) => approvals.create(context.supabase, context.userId, data));
-export const erpApprove = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpCreateApproval", source: "api", module: "erp.erpCreateApproval" });
+    return approvals.create(context.supabase, context.userId, data);
+  });export const erpApprove = auth()
   .inputValidator((d: { id: string; reason?: string }) => d)
-  .handler(async ({ data, context }) => approvals.decide(context.supabase, context.userId, data.id, "approved", data.reason));
-export const erpReject = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpApprove", source: "api", module: "erp.erpApprove" });
+    return approvals.decide(context.supabase, context.userId, data.id, "approved", data.reason);
+  });export const erpReject = auth()
   .inputValidator((d: { id: string; reason?: string }) => d)
-  .handler(async ({ data, context }) => approvals.decide(context.supabase, context.userId, data.id, "rejected", data.reason));
-export const erpCancelApproval = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpReject", source: "api", module: "erp.erpReject" });
+    return approvals.decide(context.supabase, context.userId, data.id, "rejected", data.reason);
+  });export const erpCancelApproval = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => approvals.cancel(context.supabase, context.userId, data.id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpCancelApproval", source: "api", module: "erp.erpCancelApproval" });
+    return approvals.cancel(context.supabase, context.userId, data.id);
+  });
 // ---------- Purchase Orders ----------
 export const erpListPurchaseOrders = auth()
   .inputValidator((d: { company_id: string; status?: string; supplier?: string; q?: string; limit?: number }) => d)
@@ -65,17 +83,23 @@ export const erpGetPurchaseOrder = auth()
   .handler(async ({ data, context }) => purchase.get(context.supabase, data.id));
 export const erpCreatePurchaseOrder = auth()
   .inputValidator((d: Parameters<typeof purchase.create>[2]) => d)
-  .handler(async ({ data, context }) => purchase.create(context.supabase, context.userId, data));
-export const erpSubmitPurchaseOrder = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpCreatePurchaseOrder", source: "api", module: "erp.erpCreatePurchaseOrder" });
+    return purchase.create(context.supabase, context.userId, data);
+  });export const erpSubmitPurchaseOrder = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => purchase.submit(context.supabase, context.userId, data.id));
-export const erpReceivePurchaseOrder = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpSubmitPurchaseOrder", source: "api", module: "erp.erpSubmitPurchaseOrder" });
+    return purchase.submit(context.supabase, context.userId, data.id);
+  });export const erpReceivePurchaseOrder = auth()
   .inputValidator((d: { id: string }) => d)
   .handler(async ({ data, context }) => purchase.receive(context.supabase, context.userId, data.id));
 export const erpCancelPurchaseOrder = auth()
   .inputValidator((d: { id: string; reason?: string }) => d)
-  .handler(async ({ data, context }) => purchase.cancel(context.supabase, context.userId, data.id, data.reason));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpCancelPurchaseOrder", source: "api", module: "erp.erpCancelPurchaseOrder" });
+    return purchase.cancel(context.supabase, context.userId, data.id, data.reason);
+  });
 // ---------- Sales Orders ----------
 export const erpListSalesOrders = auth()
   .inputValidator((d: { company_id: string; status?: string; customer?: string; q?: string; limit?: number }) => d)
@@ -85,28 +109,40 @@ export const erpGetSalesOrder = auth()
   .handler(async ({ data, context }) => sales.get(context.supabase, data.id));
 export const erpCreateSalesOrder = auth()
   .inputValidator((d: Parameters<typeof sales.create>[2]) => d)
-  .handler(async ({ data, context }) => sales.create(context.supabase, context.userId, data));
-export const erpSubmitSalesOrder = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpCreateSalesOrder", source: "api", module: "erp.erpCreateSalesOrder" });
+    return sales.create(context.supabase, context.userId, data);
+  });export const erpSubmitSalesOrder = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => sales.submit(context.supabase, context.userId, data.id));
-export const erpFulfillSalesOrder = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpSubmitSalesOrder", source: "api", module: "erp.erpSubmitSalesOrder" });
+    return sales.submit(context.supabase, context.userId, data.id);
+  });export const erpFulfillSalesOrder = auth()
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => sales.fulfill(context.supabase, context.userId, data.id));
-export const erpCancelSalesOrder = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpFulfillSalesOrder", source: "api", module: "erp.erpFulfillSalesOrder" });
+    return sales.fulfill(context.supabase, context.userId, data.id);
+  });export const erpCancelSalesOrder = auth()
   .inputValidator((d: { id: string; reason?: string }) => d)
-  .handler(async ({ data, context }) => sales.cancel(context.supabase, context.userId, data.id, data.reason));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpCancelSalesOrder", source: "api", module: "erp.erpCancelSalesOrder" });
+    return sales.cancel(context.supabase, context.userId, data.id, data.reason);
+  });
 // ---------- Workflows ----------
 export const erpListWorkflows = auth()
   .inputValidator((d: { company_id: string }) => d)
   .handler(async ({ data, context }) => workflows.list(context.supabase, data.company_id));
 export const erpListWorkflowRuns = auth()
   .inputValidator((d: { company_id: string; workflow_id?: string; limit?: number }) => d)
-  .handler(async ({ data, context }) => workflows.runs(context.supabase, data.company_id, data));
-export const erpTriggerWorkflow = auth()
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpListWorkflowRuns", source: "api", module: "erp.erpListWorkflowRuns" });
+    return workflows.runs(context.supabase, data.company_id, data);
+  });export const erpTriggerWorkflow = auth()
   .inputValidator((d: { workflow_id: string; input?: Record<string, unknown> }) => d)
-  .handler(async ({ data, context }) => workflows.trigger(context.supabase, context.userId, data.workflow_id, data.input ?? {}));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "erpTriggerWorkflow", source: "api", module: "erp.erpTriggerWorkflow" });
+    return workflows.trigger(context.supabase, context.userId, data.workflow_id, data.input ?? {});
+  });
 // ---------- Search ----------
 export const erpSearchAll = auth()
   .inputValidator((d: { company_id: string; q: string; limit?: number }) => d)

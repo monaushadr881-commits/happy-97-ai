@@ -69,10 +69,13 @@ const CreateProject = z.object({
 export const creatorCreateProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateProject.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorCreateProject", source: "api", module: "creator.creatorCreateProject" });
+    return guard(async () => {
     const r = await context.supabase.from("creator_projects")
       .insert({ user_id: context.userId, ...data })
-      .select("*").single();
+      .select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -80,10 +83,13 @@ export const creatorCreateProject = createServerFn({ method: "POST" })
 export const creatorArchiveProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, archived: z.boolean() }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorArchiveProject", source: "api", module: "creator.creatorArchiveProject" });
+    return guard(async () => {
     const r = await context.supabase.from("creator_projects")
       .update({ archived: data.archived })
-      .eq("id", data.id).eq("user_id", context.userId).select("*").single();
+      .eq("id", data.id).eq("user_id", context.userId).select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -91,9 +97,12 @@ export const creatorArchiveProject = createServerFn({ method: "POST" })
 export const creatorDeleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorDeleteProject", source: "api", module: "creator.creatorDeleteProject" });
+    return guard(async () => {
     const r = await context.supabase.from("creator_projects")
-      .delete().eq("id", data.id).eq("user_id", context.userId);
+      .delete().eq("id", data.id).eq("user_id", context.userId;
+  });
     if (r.error) throw r.error;
     return { ok: true };
   }));
@@ -108,12 +117,15 @@ export const creatorListAssets = createServerFn({ method: "POST" })
     project_id: uuid.nullable().optional(),
     limit: z.number().int().min(1).max(200).default(60),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorListAssets", source: "api", module: "creator.creatorListAssets" });
+    return guard(async () => {
     let q = context.supabase.from("creator_assets")
       .select("id, kind, mime_type, name, data_url, external_url, width, height, duration_ms, size_bytes, prompt, model, tags, project_id, metadata, created_at")
       .eq("user_id", context.userId)
       .order("created_at", { ascending: false })
-      .limit(data.limit);
+      .limit(data.limit;
+  });
     if (data.kind) q = q.eq("kind", data.kind);
     if (data.project_id) q = q.eq("project_id", data.project_id);
     const r = await q;
@@ -124,9 +136,12 @@ export const creatorListAssets = createServerFn({ method: "POST" })
 export const creatorDeleteAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorDeleteAsset", source: "api", module: "creator.creatorDeleteAsset" });
+    return guard(async () => {
     const r = await context.supabase.from("creator_assets")
-      .delete().eq("id", data.id).eq("user_id", context.userId);
+      .delete().eq("id", data.id).eq("user_id", context.userId;
+  });
     if (r.error) throw r.error;
     return { ok: true };
   }));
@@ -175,8 +190,11 @@ const ImageGen = z.object({
 export const creatorGenerateImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ImageGen.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
-    const started = Date.now();
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorGenerateImage", source: "api", module: "creator.creatorGenerateImage" });
+    return guard(async () => {
+    const started = Date.now(;
+  });
     // Gemini image models use chat-completions image shape; OpenAI models use the OpenAI images shape.
     const isOpenAI = data.model.startsWith("openai/");
     const size = data.aspect === "portrait" ? "1024x1536"
@@ -343,11 +361,14 @@ const Copy = z.object({
 export const creatorGenerateCopy = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Copy.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorGenerateCopy", source: "api", module: "creator.creatorGenerateCopy" });
+    return guard(async () => {
     let brand: any = null;
     if (data.brand_kit_id) {
       const r = await context.supabase.from("creator_brand_kits")
-        .select("*").eq("id", data.brand_kit_id).eq("user_id", context.userId).maybeSingle();
+        .select("*").eq("id", data.brand_kit_id).eq("user_id", context.userId).maybeSingle(;
+  });
       brand = r.data;
     }
     const sys = [
@@ -403,7 +424,9 @@ const Slides = z.object({
 export const creatorGenerateSlides = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Slides.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorGenerateSlides", source: "api", module: "creator.creatorGenerateSlides" });
+    return guard(async () => {
     const prompt = `Build a ${data.slide_count}-slide presentation.
 Title: ${data.title}
 Audience: ${data.audience ?? "general professional"}
@@ -413,7 +436,8 @@ Return STRICT JSON only, no prose, no code fences:
     const json = await callGateway("/chat/completions", {
       model: "google/gemini-2.5-flash",
       messages: [{ role: "user", content: prompt }],
-    });
+    };
+  });
     const raw = (json?.choices?.[0]?.message?.content ?? "").trim();
     const match = raw.match(/```json\s*([\s\S]*?)```/i) ?? raw.match(/(\{[\s\S]*\})/);
     let slides: unknown = [];
@@ -471,12 +495,15 @@ const BrandUpsert = z.object({
 export const creatorSaveBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => BrandUpsert.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorSaveBrandKit", source: "api", module: "creator.creatorSaveBrandKit" });
+    return guard(async () => {
     const payload = { ...data, user_id: context.userId, updated_at: new Date().toISOString() };
     const r = data.id
       ? await context.supabase.from("creator_brand_kits").update(payload)
           .eq("id", data.id).eq("user_id", context.userId).select("*").single()
-      : await context.supabase.from("creator_brand_kits").insert(payload).select("*").single();
+      : await context.supabase.from("creator_brand_kits").insert(payload).select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -484,9 +511,12 @@ export const creatorSaveBrandKit = createServerFn({ method: "POST" })
 export const creatorDeleteBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorDeleteBrandKit", source: "api", module: "creator.creatorDeleteBrandKit" });
+    return guard(async () => {
     const r = await context.supabase.from("creator_brand_kits")
-      .delete().eq("id", data.id).eq("user_id", context.userId);
+      .delete().eq("id", data.id).eq("user_id", context.userId;
+  });
     if (r.error) throw r.error;
     return { ok: true };
   }));
