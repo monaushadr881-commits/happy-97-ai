@@ -854,6 +854,40 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           id: r.id, label: r.label, url: r.url, article_id: r.article_id, created_at: r.created_at,
         })),
       },
+      search: (() => {
+        const sources = [
+          { source: "workspace", rows: cnt(idxWorkspaces.count) },
+          { source: "creator_asset", rows: cnt(idxAssets.count) },
+          { source: "knowledge_article", rows: cnt(idxArticles.count) },
+          { source: "knowledge_reference", rows: cnt(idxReferences.count) },
+          { source: "business_workflow", rows: cnt(idxWorkflows.count) },
+          { source: "revenue_invoice", rows: cnt(idxInvoices.count) },
+          { source: "revenue_wallet", rows: cnt(idxWallets.count) },
+          { source: "approval", rows: cnt(idxApprovals.count) },
+          { source: "audit_log", rows: cnt(idxAudit.count) },
+        ];
+        const total = sources.reduce((s, r) => s + r.rows, 0);
+        const covered = sources.filter((r) => r.rows > 0).length;
+        return {
+          indexed_sources: sources,
+          total_indexed: total,
+          queries_24h: cnt(searchCount24h.count),
+          coverage_pct: sources.length ? Math.round((covered / sources.length) * 100) : 0,
+          recent_queries: ((searchRecent.data ?? []) as Array<{
+            id: string; actor_id: string | null; occurred_at: string;
+            metadata: Record<string, unknown> | null;
+          }>).map((r) => {
+            const m = (r.metadata ?? {}) as Record<string, unknown>;
+            return {
+              id: r.id,
+              q: typeof m.q === "string" ? (m.q as string) : "",
+              results_total: typeof m.results_total === "number" ? (m.results_total as number) : 0,
+              occurred_at: r.occurred_at,
+              actor_id: r.actor_id,
+            };
+          }),
+        };
+      })(),
     };
   });
 
