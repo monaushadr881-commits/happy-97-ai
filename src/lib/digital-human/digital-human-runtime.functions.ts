@@ -196,3 +196,14 @@ export const dhRuntimeList = createServerFn({ method: "GET" })
     if (error) throw new Error(`dh_runtime_list_failed: ${error.message}`);
     return { items: rows ?? [] };
   });
+
+/**
+ * R190 Batch 1 — HAPPY™ Canonical Avatar exposure.
+ * Read-only server function returning the frozen canonical avatar profile.
+ * Reuses this Digital Human runtime; no new module, table, or dashboard.
+ */
+import { HAPPY_CANONICAL_AVATAR } from "@/lib/digital-human/canonical-avatar";
+
+export const dhCanonicalAvatar = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async () => ({ avatar: HAPPY_CANONICAL_AVATAR }));
