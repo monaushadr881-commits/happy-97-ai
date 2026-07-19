@@ -101,6 +101,12 @@ export const requestFounderApproval = createServerFn({ method: "POST" })
   .inputValidator(validateRequest)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "approval", capability: "request",
+      user_id: userId, company_id: data.company_id,
+      summary: data.title,
+      metadata: { entity_type: data.entity_type, entity_id: data.entity_id },
+    });
     const { data: row, error } = await supabase
       .from("approvals")
       .insert({
