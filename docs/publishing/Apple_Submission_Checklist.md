@@ -1,0 +1,23 @@
+# Apple Submission Checklist
+
+- [ ] Apple Developer Program active
+- [ ] App ID `ai.happy.enterprise` registered in Certificates, IDs & Profiles
+- [ ] Distribution certificate installed on build host
+- [ ] App Store provisioning profile installed
+- [ ] APNs key created (if push used)
+- [ ] Sign in with Apple wired (mandatory when any 3rd-party sign-in is offered)
+- [ ] App record created in App Store Connect
+- [ ] Age Rating questionnaire complete
+- [ ] App Privacy answers match `Privacy_Checklist.md`
+- [ ] `PrivacyInfo.xcprivacy` present in binary
+- [ ] Screenshots for 6.7", 6.5", 5.5", iPad 12.9"
+- [ ] Description, keywords, promo text, subtitle set
+- [ ] Support URL, Marketing URL, Privacy URL live
+- [ ] Build uploaded to TestFlight and smoke-tested
+- [ ] Export compliance (`ITSAppUsesNonExemptEncryption`) declared
+- [ ] Review notes + demo account credentials filled
+- [ ] Contact info filled
+- [ ] Version release: manual / automatic / phased chosen
+- [ ] IAP products created + submitted for review (if applicable)
+- [ ] Founder R158 approval recorded
+- [ ] Rollback plan documented (`Rollback_Checklist.md`)
