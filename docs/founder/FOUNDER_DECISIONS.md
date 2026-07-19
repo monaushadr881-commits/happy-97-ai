@@ -96,3 +96,15 @@ File Engine, Search, Creator, Revenue OS, Founder Dashboard, Security
 Center, Audit, RBAC. All 11 tests green.
 
 Full record: `docs/founder/R158_FOUNDER_APPROVAL_GATEWAY.md`.
+
+## FD-159 — Founder Intent Engine (R159)
+Founder speaks naturally in any of 11 modalities across 21 intent types.
+HAPPY understands via an 8-field contract, asks clarifying questions when
+any field is missing (never guesses), generates 9 thinking artifacts, runs
+9 automatic checks (including duplicate-runtime/API/table), produces 6
+plans, presents them via the R158 Explain contract, and hands off to R158
+Approval Gateway. Pure governance helper — zero new runtime, extends
+Brain/Memory/Conversation/Workspace/Search/Creator/Revenue/Approval. All 7
+tests green.
+
+Full record: `docs/founder/R159_FOUNDER_INTENT_ENGINE.md`.
