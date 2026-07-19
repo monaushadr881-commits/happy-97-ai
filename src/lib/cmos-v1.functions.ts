@@ -215,6 +215,7 @@ export const marketCreateListing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateListing.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "marketplace", module: "listing", capability: "create", user_id: context.userId, company_id: ZERO_UUID, summary: data.title });
     const slug = `${data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60)}-${Date.now().toString(36)}`;
     const r = await context.supabase.from("listings").insert({
       ...data, slug, seller_id: context.userId, created_by: context.userId,
