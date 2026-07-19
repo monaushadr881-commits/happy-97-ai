@@ -389,6 +389,12 @@ export const syncPlan = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => SyncInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "sync", capability: "plan",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `sync.${data.scope}`,
+      metadata: { workspace_id: data.workspace_id ?? null, scope: data.scope },
+    });
     const plan = await persistPlan(
       supabase, userId, KIND.SYNC,
       `sync.${data.scope}`,
