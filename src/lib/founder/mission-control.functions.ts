@@ -475,7 +475,7 @@ export const founderMissionControl = createServerFn({ method: "GET" })
     ]);
 
     // Batch C (R188) — Universal Search coverage.
-    const since24h = new Date(Date.now() - 86400_000).toISOString();
+    const since24hSearch = new Date(Date.now() - 86400_000).toISOString();
     const [
       idxWorkspaces, idxAssets, idxArticles, idxReferences,
       idxWorkflows, idxInvoices, idxWallets, idxApprovals, idxAudit,
