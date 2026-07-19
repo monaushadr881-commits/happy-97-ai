@@ -236,7 +236,7 @@ async function runSubmit(
     action: `${module}.record`,
     entity_type: "creator_asset",
     entity_id: row.id,
-    company_id: input.company_id ?? null,
+    company_id: input.company_id ?? undefined,
     after: row,
     severity: brain.output.severity,
     metadata: { module, impact: brain.output, approval_required: false },
