@@ -145,7 +145,7 @@ export const healthcareSubmit = createServerFn({ method: "POST" })
         mime_type: "application/x-happy-vertical+json",
         name,
         tags: Array.from(new Set([...data.tags, "healthcare", data.module])).slice(0, 24),
-        metadata: meta,
+        metadata: meta as never,
       })
       .select("id,name,kind,created_at")
       .single();
