@@ -432,7 +432,7 @@ export function enforceMutation<
           action: opts.action,
           entityType: opts.entityType,
           companyId,
-          entityId: null,
+          entityId: undefined,
           descriptor: {
             title: `${opts.action} ${opts.entityType}`,
             kind: opts.entityType,
