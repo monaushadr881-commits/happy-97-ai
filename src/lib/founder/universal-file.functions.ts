@@ -252,26 +252,21 @@ const SUPPORTED = [
   "pdf","docx","pptx","xlsx","csv","json","zip","image","video","audio",
 ] as const;
 
-type PlanClient = {
-  from: (t: "creator_assets") => {
-    insert: (row: Record<string, unknown>) => {
-      select: (cols: string) => {
-        single: () => Promise<{
-          data: { id: string; name: string; kind: string; metadata: unknown; created_at: string } | null;
-          error: { message: string } | null;
-        }>;
-      };
-    };
-  };
-};
+interface PlanRow {
+  id: string;
+  name: string;
+  kind: string;
+  metadata: Record<string, unknown>;
+  created_at: string;
+}
 
 async function persistPlan(
-  supabase: PlanClient,
+  supabase: { from: (t: string) => { insert: (row: unknown) => { select: (c: string) => { single: () => Promise<{ data: unknown; error: { message: string } | null }> } } } },
   userId: string,
   kind: string,
   name: string,
   meta: Record<string, unknown>,
-) {
+): Promise<PlanRow> {
   const { data, error } = await supabase
     .from("creator_assets")
     .insert({
@@ -284,7 +279,14 @@ async function persistPlan(
     .select("id,name,kind,metadata,created_at")
     .single();
   if (error || !data) throw new Error(`${kind}_plan_failed: ${error?.message ?? "unknown"}`);
-  return data;
+  const d = data as { id: string; name: string; kind: string; metadata: unknown; created_at: string };
+  return {
+    id: d.id,
+    name: d.name,
+    kind: d.kind,
+    metadata: (d.metadata ?? {}) as Record<string, unknown>,
+    created_at: d.created_at,
+  };
 }
 
 const ImportInput = z.object({
