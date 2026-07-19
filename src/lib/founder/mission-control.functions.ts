@@ -108,18 +108,7 @@ export const founderMissionControl = createServerFn({ method: "GET" })
     const since24h = new Date(Date.now() - 24 * 3600_000).toISOString();
     const since30d = new Date(Date.now() - 30 * 86400_000).toISOString();
 
-    const count = (
-      table:
-        | "approvals"
-        | "brain_sessions"
-        | "job_queue"
-        | "invoices"
-        | "creator_assets",
-      apply: (
-        q: ReturnType<typeof sb.from>,
-      ) => ReturnType<ReturnType<typeof sb.from>["select"]>,
-    ) =>
-      apply(sb.from(table)).then((r) => (r.error ? 0 : (r.count ?? 0)));
+    const cnt = (n: number | null | undefined) => n ?? 0;
 
     const [
       apPending,
@@ -141,25 +130,13 @@ export const founderMissionControl = createServerFn({ method: "GET" })
       knowledgeRecent,
       healthRecent,
     ] = await Promise.all([
-      count("approvals", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "pending"),
-      ),
-      count("approvals", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "approved"),
-      ),
-      count("approvals", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "rejected"),
-      ),
-      count("approvals", (q) =>
-        q
-          .select("id", { count: "exact", head: true })
-          .eq("status", "cancelled"),
-      ),
+      sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "pending"),
+      sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "approved"),
+      sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "rejected"),
+      sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "cancelled"),
       sb
         .from("approvals")
-        .select(
-          "id,title,status,entity_type,created_at,amount_cents,currency",
-        )
+        .select("id,title,status,entity_type,created_at,amount_cents,currency")
         .order("created_at", { ascending: false })
         .limit(LIMIT),
       sb
@@ -167,38 +144,27 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .select("id,category,action,entity_type,severity,created_at")
         .order("created_at", { ascending: false })
         .limit(12),
-      count("brain_sessions", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "active"),
-      ),
-      count("brain_sessions", (q) =>
-        q
-          .select("id", { count: "exact", head: true })
-          .eq("status", "completed")
-          .gte("completed_at", since24h),
-      ),
+      sb.from("brain_sessions").select("id", { count: "exact", head: true }).eq("status", "active"),
+      sb
+        .from("brain_sessions")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "completed")
+        .gte("completed_at", since24h),
       sb
         .from("brain_tool_calls")
         .select("id,tool,status,runtime,created_at,duration_ms")
         .order("created_at", { ascending: false })
         .limit(LIMIT),
-      count("job_queue", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "pending"),
-      ),
-      count("job_queue", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "running"),
-      ),
-      count("job_queue", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "failed"),
-      ),
-      count("job_queue", (q) =>
-        q.select("id", { count: "exact", head: true }).eq("status", "done"),
-      ),
-      count("invoices", (q) =>
-        q.select("id", { count: "exact", head: true }).gte("created_at", since30d),
-      ),
+      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "pending"),
+      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "running"),
+      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "failed"),
+      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "done"),
+      sb.from("invoices").select("id", { count: "exact", head: true }).gte("created_at", since30d),
       sb
         .from("invoices")
-        .select("id,number,status,total_cents,amount_paid_cents,currency,issued_at,created_at")
+        .select(
+          "id,number,status,total_cents,amount_paid_cents,currency,issued_at,created_at",
+        )
         .order("created_at", { ascending: false })
         .limit(LIMIT),
       sb
@@ -233,34 +199,35 @@ export const founderMissionControl = createServerFn({ method: "GET" })
     const healthRows = healthRecent.data ?? [];
     const healthCounts = { total: healthRows.length, healthy: 0, degraded: 0, down: 0 };
     for (const h of healthRows) {
-      if (h.status === "healthy") healthCounts.healthy++;
-      else if (h.status === "degraded") healthCounts.degraded++;
-      else if (h.status === "down" || h.status === "unhealthy") healthCounts.down++;
+      const st = h.status as string;
+      if (st === "healthy") healthCounts.healthy++;
+      else if (st === "degraded") healthCounts.degraded++;
+      else if (st === "down" || st === "unhealthy") healthCounts.down++;
     }
 
     return {
       approvals: {
-        pending: apPending,
-        approved: apApproved,
-        rejected: apRejected,
-        cancelled: apCancelled,
+        pending: cnt(apPending.count),
+        approved: cnt(apApproved.count),
+        rejected: cnt(apRejected.count),
+        cancelled: cnt(apCancelled.count),
         recent: (apRecent.data ?? []) as MissionControlSnapshot["approvals"]["recent"],
       },
       audit: (auditRecent.data ?? []) as MissionControlSnapshot["audit"],
       brain: {
-        active: brainActive,
-        completed_24h: brainDone24h,
+        active: cnt(brainActive.count),
+        completed_24h: cnt(brainDone24h.count),
         recent_tool_calls:
           (brainCalls.data ?? []) as MissionControlSnapshot["brain"]["recent_tool_calls"],
       },
       jobs: {
-        pending: jobPending,
-        running: jobRunning,
-        failed: jobFailed,
-        done: jobDone,
+        pending: cnt(jobPending.count),
+        running: cnt(jobRunning.count),
+        failed: cnt(jobFailed.count),
+        done: cnt(jobDone.count),
       },
       revenue: {
-        invoices_30d: invCount30d,
+        invoices_30d: cnt(invCount30d.count),
         outstanding_cents: outstanding,
         paid_cents: paid,
         recent: invRows.map((r) => ({
