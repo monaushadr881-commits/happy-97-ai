@@ -509,6 +509,7 @@ export const eduCreateCourse = createServerFn({ method: "POST" })
     is_public: z.boolean().optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "course", capability: "create", user_id: context.userId, company_id: data.company_id, summary: data.title });
     const r = await context.supabase.from("courses").insert({
       company_id: data.company_id,
       title: data.title, slug: data.slug,
