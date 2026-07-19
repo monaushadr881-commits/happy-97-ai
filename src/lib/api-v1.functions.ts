@@ -13,6 +13,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import {
   platformService, authzService, companyService, brandService,
   workspaceService, userService, settingsService, notificationService,
@@ -26,6 +27,25 @@ const svc = (ctx: AuthCtx) => makeServiceContext({
 });
 
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
+const adopt = (
+  ctx: AuthCtx,
+  domain: import("@/lib/founder/pipeline").AdoptOptions["domain"],
+  module: string,
+  capability: string,
+  company_id: string | null | undefined,
+  metadata: Record<string, unknown> = {},
+) =>
+  adoptToCanonicalPipeline(ctx.supabase, {
+    domain,
+    module,
+    capability,
+    user_id: ctx.userId,
+    company_id: company_id ?? ZERO_UUID,
+    source: "api-v1",
+    metadata,
+  });
 
 // ------------------------- Platform -------------------------
 export const apiHealth = createServerFn({ method: "GET" })
@@ -56,7 +76,7 @@ export const apiGetCompany = createServerFn({ method: "POST" })
 export const apiCreateCompany = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => companyService.create(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "business", "company", "create", null); return guard(() => companyService.create(svc(context), data)); });
 
 // ------------------------- Brands / Workspaces ---------------
 export const apiListBrands = createServerFn({ method: "POST" })
@@ -67,7 +87,11 @@ export const apiListBrands = createServerFn({ method: "POST" })
 export const apiCreateBrand = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => brandService.create(svc(context), data)));
+  .handler(async ({ data, context }) => {
+    const d = (data ?? {}) as { company_id?: string };
+    await adopt(context, "business", "brand", "create", d.company_id ?? null);
+    return guard(() => brandService.create(svc(context), data));
+  });
 
 export const apiListMyWorkspaces = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -76,7 +100,11 @@ export const apiListMyWorkspaces = createServerFn({ method: "GET" })
 export const apiCreateWorkspace = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => workspaceService.create(svc(context), data)));
+  .handler(async ({ data, context }) => {
+    const d = (data ?? {}) as { company_id?: string };
+    await adopt(context, "workspace", "workspace", "create", d.company_id ?? null);
+    return guard(() => workspaceService.create(svc(context), data));
+  });
 
 // ------------------------- User ------------------------------
 export const apiMe = createServerFn({ method: "GET" })
@@ -87,7 +115,7 @@ export const apiMe = createServerFn({ method: "GET" })
 export const apiUpsertSetting = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => settingsService.upsert(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "founder", "setting", "upsert", null); return guard(() => settingsService.upsert(svc(context), data)); });
 
 // ------------------------- Notifications ---------------------
 export const apiMyNotifications = createServerFn({ method: "GET" })
@@ -97,7 +125,7 @@ export const apiMyNotifications = createServerFn({ method: "GET" })
 export const apiMarkNotificationRead = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { id: string })
-  .handler(async ({ data, context }) => guard(() => notificationService.markRead(svc(context), data.id)));
+  .handler(async ({ data, context }) => { await adopt(context, "communication", "notification", "mark_read", null, { id: data.id }); return guard(() => notificationService.markRead(svc(context), data.id)); });
 
 // ------------------------- Audit -----------------------------
 export const apiRecentAudit = createServerFn({ method: "POST" })
@@ -118,7 +146,7 @@ export const apiConversationMessages = createServerFn({ method: "POST" })
 export const apiSendMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => conversationService.send(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "communication", "message", "send", null); return guard(() => conversationService.send(svc(context), data)); });
 
 // ------------------------- Search ----------------------------
 export const apiSearchKnowledge = createServerFn({ method: "POST" })
@@ -148,4 +176,4 @@ export const apiListIntegrations = createServerFn({ method: "GET" })
 export const apiEnqueueJob = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => jobsService.enqueue(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "automation", "job", "enqueue", null); return guard(() => jobsService.enqueue(svc(context), data)); });

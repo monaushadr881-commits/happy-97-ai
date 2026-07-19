@@ -15,7 +15,25 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import { z } from "zod";
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
+const adopt = (
+  context: { supabase: import("@supabase/supabase-js").SupabaseClient; userId: string },
+  module: string,
+  capability: string,
+  metadata: Record<string, unknown> = {},
+) =>
+  adoptToCanonicalPipeline(context.supabase, {
+    domain: "digital-human",
+    module,
+    capability,
+    user_id: context.userId,
+    company_id: ZERO_UUID,
+    source: "digital-human-v1",
+    metadata,
+  });
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -89,6 +107,7 @@ export const dhUpdatePreferences = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => PrefsUpdate.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "preferences", "update", { keys: Object.keys(data) });
     const r = await context.supabase.from("dh_preferences")
       .upsert({ user_id: context.userId, ...data, updated_at: new Date().toISOString() })
       .select("*").single();
@@ -125,6 +144,7 @@ export const dhDeleteSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ session_id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "session", "delete", { session_id: data.session_id });
     const r = await context.supabase.from("dh_sessions")
       .delete().eq("id", data.session_id).eq("user_id", context.userId);
     if (r.error) throw r.error;
@@ -148,6 +168,7 @@ export const dhSpeak = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SpeakInput.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "speak", "converse", { mode: data.mode, surface: data.surface, session_id: data.session_id ?? null });
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
     const s = context.supabase;
@@ -235,6 +256,7 @@ export const dhGeneratePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => GenSlidesInput.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "presentation", "generate", { title: data.title, slide_count: data.slide_count ?? 8 });
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
     const count = data.slide_count ?? 8;
@@ -293,6 +315,7 @@ export const dhDeletePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "presentation", "delete", { id: data.id });
     const r = await context.supabase.from("dh_presentations")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;

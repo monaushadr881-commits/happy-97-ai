@@ -9,6 +9,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import {
   healthService, metricsService, alertingService, incidentService,
   deploymentService, queueOpsService, securityOpsService, aiOpsService, dbOpsService,
@@ -19,6 +20,23 @@ const svc = (ctx: { supabase: AuthCtx["supabase"]; userId: string; claims?: Reco
   makeServiceContext({ supabase: ctx.supabase, userId: ctx.userId, claims: ctx.claims });
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
 
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
+const adopt = (
+  context: { supabase: AuthCtx["supabase"]; userId: string },
+  module: string,
+  capability: string,
+  metadata: Record<string, unknown> = {},
+) =>
+  adoptToCanonicalPipeline(context.supabase, {
+    domain: "founder",
+    module: `ops.${module}`,
+    capability,
+    user_id: context.userId,
+    company_id: ZERO_UUID,
+    source: "ops-v1",
+    metadata,
+  });
+
 // ---- Health ----
 export const opsHealthAll = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -27,13 +45,13 @@ export const opsHealthAll = createServerFn({ method: "GET" })
 export const opsHealthRecord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as Parameters<typeof healthService.record>[1])
-  .handler(async ({ data, context }) => guard(() => healthService.record(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "health", "record"); return guard(() => healthService.record(svc(context), data)); });
 
 // ---- Metrics ----
 export const opsMetricsEmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => metricsService.emit(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "metrics", "emit"); return guard(() => metricsService.emit(svc(context), data)); });
 
 export const opsMetricsRange = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -48,12 +66,12 @@ export const opsListAlertRules = createServerFn({ method: "GET" })
 export const opsUpsertAlertRule = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => alertingService.upsertRule(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "alert", "upsert_rule"); return guard(() => alertingService.upsertRule(svc(context), data)); });
 
 export const opsTripAlert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => alertingService.trip(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "alert", "trip"); return guard(() => alertingService.trip(svc(context), data)); });
 
 // ---- Incidents ----
 export const opsListIncidents = createServerFn({ method: "POST" })
@@ -64,12 +82,12 @@ export const opsListIncidents = createServerFn({ method: "POST" })
 export const opsOpenIncident = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => incidentService.open(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "incident", "open"); return guard(() => incidentService.open(svc(context), data)); });
 
 export const opsTransitionIncident = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => incidentService.transition(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "incident", "transition"); return guard(() => incidentService.transition(svc(context), data)); });
 
 export const opsIncidentTimeline = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -85,12 +103,12 @@ export const opsListDeployments = createServerFn({ method: "POST" })
 export const opsStartDeployment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => deploymentService.start(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "deployment", "start"); return guard(() => deploymentService.start(svc(context), data)); });
 
 export const opsFinishDeployment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => deploymentService.finish(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "deployment", "finish"); return guard(() => deploymentService.finish(svc(context), data)); });
 
 export const opsDeploymentAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
