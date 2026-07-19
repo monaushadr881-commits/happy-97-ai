@@ -1330,7 +1330,6 @@ export const founderMissionControl = createServerFn({ method: "GET" })
     };
   });
 
-    };
-  });
+
 
 
