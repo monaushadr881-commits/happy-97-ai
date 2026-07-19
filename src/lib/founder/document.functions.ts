@@ -185,6 +185,11 @@ export const finalizeFounderDocument = createServerFn({ method: "POST" })
   .inputValidator(validateFinaliseDoc)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "document", capability: "finalize",
+      user_id: userId, company_id: "00000000-0000-0000-0000-000000000000",
+      summary: `finalize approval ${data.approval_id}`,
+    });
 
     const { data: appr, error: readErr } = await supabase
       .from("approvals")
