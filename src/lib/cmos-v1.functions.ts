@@ -357,6 +357,7 @@ export const msgCreateConversation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ title: z.string().min(1).max(200) }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "conversation", capability: "create", user_id: context.userId, company_id: ZERO_UUID, summary: data.title });
     const r = await context.supabase.from("conversations")
       .insert({ user_id: context.userId, title: data.title }).select("*").single();
     if (r.error) throw r.error;
