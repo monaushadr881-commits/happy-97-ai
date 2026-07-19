@@ -340,6 +340,7 @@ export const agriSubmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => AgriInput.parse(i))
   .handler(async ({ data, context }): Promise<SubmitResult> => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "agriculture", module: data.module, capability: "submit", user_id: context.userId, company_id: ZERO_UUID, metadata: { cost_cents: data.cost_cents ?? null, critical: data.critical } });
     const brain = await analyzeAgri({
       capability: "vertical.agri.impact",
       input: { module: data.module, cost_cents: data.cost_cents ?? null, critical: data.critical },
