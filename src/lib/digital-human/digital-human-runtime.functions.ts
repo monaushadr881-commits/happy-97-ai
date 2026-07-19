@@ -202,8 +202,29 @@ export const dhRuntimeList = createServerFn({ method: "GET" })
  * Read-only server function returning the frozen canonical avatar profile.
  * Reuses this Digital Human runtime; no new module, table, or dashboard.
  */
-import { HAPPY_CANONICAL_AVATAR } from "@/lib/digital-human/canonical-avatar";
+import {
+  HAPPY_CANONICAL_AVATAR,
+  HAPPY_CONVERSATION_MODES,
+  HAPPY_VOICE_MODES,
+  HAPPY_EXPRESSION_LIBRARY,
+  HAPPY_PRESENTATION_MODES,
+} from "@/lib/digital-human/canonical-avatar";
 
 export const dhCanonicalAvatar = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async () => ({ avatar: HAPPY_CANONICAL_AVATAR }));
+
+/**
+ * R190 Batch 2 — Canonical mode libraries.
+ * Read-only aggregation reusing the same runtime. Mission Control consumes
+ * these via the existing Digital Human runtime — no new dashboard/module.
+ */
+export const dhCanonicalModes = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async () => ({
+    avatar_id: HAPPY_CANONICAL_AVATAR.id,
+    conversation_modes: HAPPY_CONVERSATION_MODES,
+    voice_modes: HAPPY_VOICE_MODES,
+    expressions: HAPPY_EXPRESSION_LIBRARY,
+    presentation_modes: HAPPY_PRESENTATION_MODES,
+  }));
