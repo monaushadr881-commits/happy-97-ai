@@ -333,6 +333,8 @@ interface VerticalBlock {
   pending_approvals: number;
   by_module: Array<{ module: string; total: number; last_24h: number; status: "wired" }>;
   recent: Array<{ id: string; name: string; kind: string; created_at: string; severity?: string }>;
+}
+
 
 
 export const founderMissionControl = createServerFn({ method: "GET" })
