@@ -400,3 +400,107 @@ export const consumeRecoveryCode = createServerFn({ method: "POST" })
     });
     return { ok: true as const };
   });
+
+// ---------- R157: Passkeys (WebAuthn) ----------
+// Storage-layer server fns. Browser-side navigator.credentials.* calls happen
+// in the client hook; these fns persist / read / revoke the credentials.
+
+export const listMyPasskeys = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase
+      .from("auth_passkeys")
+      .select("id, credential_id, label, authenticator_type, transports, is_backup, last_used_at, revoked_at, created_at")
+      .eq("user_id", context.userId)
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  });
+
+export const registerPasskey = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({
+    credential_id: z.string().min(4).max(400),
+    public_key: z.string().min(4).max(4000),
+    sign_count: z.number().int().nonnegative().default(0),
+    transports: z.array(z.string().max(20)).default([]),
+    authenticator_type: z.enum(["platform", "cross-platform", "security_key"]).default("platform"),
+    label: z.string().min(1).max(80).default("Passkey"),
+    is_backup: z.boolean().default(false),
+    device_id: z.string().uuid().optional(),
+  }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { data: row, error } = await context.supabase
+      .from("auth_passkeys")
+      .insert({
+        user_id: context.userId,
+        credential_id: data.credential_id,
+        public_key: data.public_key,
+        sign_count: data.sign_count,
+        transports: data.transports,
+        authenticator_type: data.authenticator_type,
+        label: data.label,
+        is_backup: data.is_backup,
+        device_id: data.device_id ?? null,
+      })
+      .select("id")
+      .single();
+    if (error) throw error;
+    await context.supabase.from("auth_login_history").insert({
+      user_id: context.userId, event_type: "passkey", provider: "webauthn", success: true,
+      metadata: { action: "enrolled", label: data.label, backup: data.is_backup },
+    });
+    await context.supabase.from("auth_security_alerts").insert({
+      user_id: context.userId, alert_type: "passkey_enrolled", severity: "info",
+      message: `New passkey enrolled: ${data.label}`,
+    });
+    return { id: row.id };
+  });
+
+export const renamePasskey = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({
+    id: z.string().uuid(), label: z.string().min(1).max(80),
+  }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("auth_passkeys").update({ label: data.label })
+      .eq("id", data.id).eq("user_id", context.userId);
+    if (error) throw error;
+    return { ok: true as const };
+  });
+
+export const revokePasskey = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("auth_passkeys").update({ revoked_at: new Date().toISOString() })
+      .eq("id", data.id).eq("user_id", context.userId);
+    if (error) throw error;
+    await context.supabase.from("auth_security_alerts").insert({
+      user_id: context.userId, alert_type: "passkey_revoked", severity: "warning",
+      message: "Passkey revoked from Security Center.",
+    });
+    return { ok: true as const };
+  });
+
+export const markPasskeyAsBackup = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({ id: z.string().uuid(), is_backup: z.boolean() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("auth_passkeys").update({ is_backup: data.is_backup })
+      .eq("id", data.id).eq("user_id", context.userId);
+    if (error) throw error;
+    return { ok: true as const };
+  });
+
+// Re-export the R157 passkey policy helpers as canonical (client-safe).
+export {
+  passkeysSupported, detectPasskeyPlatform, classifyAuthenticator,
+  defaultPasskeyLabel, activePasskeys, hasBackupPasskey,
+  meetsFounderPasskeyPolicy, canRemovePasskey, nextPasskeyStep, passkeyStatus,
+  PASSKEY_AUTHENTICATOR_TYPES, PASSKEY_TRANSPORTS, PASSKEY_PLATFORMS,
+} from "@/lib/happy-id/passkeys";
+export type { PasskeyRow, PasskeyAuthenticatorType, PasskeyTransport, PasskeyPlatform, PasskeyEnrollStep } from "@/lib/happy-id/passkeys";
