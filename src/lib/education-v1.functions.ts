@@ -180,6 +180,7 @@ export const eduBookmark = createServerFn({ method: "POST" })
     timestamp_seconds: z.number().int().min(0).optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "bookmark", capability: "create", user_id: context.userId, company_id: ZERO_UUID, metadata: { resource_type: data.resource_type } });
     const r = await context.supabase.from("study_bookmarks").insert({
       user_id: context.userId,
       resource_type: data.resource_type,
