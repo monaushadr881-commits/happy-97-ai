@@ -81,7 +81,7 @@ export const orderDealerPlace = createServerFn({ method: "POST" })
           payload: { ...data },
         },
       });
-      return { status: "pending_approval", approval_id: (a as { approval_id: string }).approval_id };
+      return { status: "pending_approval", approval_id: (a as { id: string }).id };
     }
     const insert: Database["public"]["Tables"]["sales_orders"]["Insert"] = {
       company_id: data.company_id, customer_id: data.customer_id,
@@ -239,7 +239,7 @@ export const paymentCapture = createServerFn({ method: "POST" })
           payload: { ...data },
         },
       });
-      return { status: "pending_approval", approval_id: (a as { approval_id: string }).approval_id };
+      return { status: "pending_approval", approval_id: (a as { id: string }).id };
     }
     const insert: Database["public"]["Tables"]["payments"]["Insert"] = {
       company_id: data.company_id,
