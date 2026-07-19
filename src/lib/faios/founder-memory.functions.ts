@@ -26,6 +26,7 @@ export const upsertMemory = createServerFn({ method: "POST" })
     weight: z.number().int().min(1).max(10).optional(),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertMemory", source: "api", module: "faios.memory.upsertMemory" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const { data: row, error } = await sb.from("faios_memory").upsert({
@@ -42,6 +43,7 @@ export const deleteMemory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ id: z.string().uuid() }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "deleteMemory", source: "api", module: "faios.memory.deleteMemory" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const { error } = await sb.from("faios_memory").delete().eq("id", data.id).eq("founder_id", context.userId);

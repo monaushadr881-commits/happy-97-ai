@@ -40,6 +40,7 @@ export const createMeetingFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => createSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createMeetingFn", source: "api", module: "meeting.createMeetingFn" });
     const { data: row, error } = await context.supabase.from('meetings').insert({
       company_id: data.companyId ?? null,
       workspace_id: data.workspaceId ?? null,
@@ -70,6 +71,7 @@ export const setMeetingStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => statusSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setMeetingStatusFn", source: "api", module: "meeting.setMeetingStatusFn" });
     const patch: Record<string, unknown> = { status: data.status };
     if (data.status === 'active') patch.actual_start = new Date().toISOString();
     if (data.status === 'completed' || data.status === 'cancelled' || data.status === 'archived') {
@@ -93,6 +95,7 @@ export const inviteParticipantFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => inviteSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "inviteParticipantFn", source: "api", module: "meeting.inviteParticipantFn" });
     const { data: row, error } = await context.supabase.from('meeting_participants').insert({
       meeting_id: data.meetingId,
       user_id: data.userId ?? null,
@@ -112,6 +115,7 @@ export const updateAttendanceFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => attendanceSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "updateAttendanceFn", source: "api", module: "meeting.updateAttendanceFn" });
     const patch: Record<string, unknown> = { attendance_status: data.status };
     if (data.status === 'joined') patch.joined_at = new Date().toISOString();
     if (data.status === 'left') patch.left_at = new Date().toISOString();
@@ -134,6 +138,7 @@ export const addAgendaItemFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => agendaSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "addAgendaItemFn", source: "api", module: "meeting.addAgendaItemFn" });
     const { data: row, error } = await context.supabase.from('meeting_agenda_items').insert({
       meeting_id: data.meetingId, seq: data.seq, title: data.title,
       description: data.description ?? null, owner_user_id: data.ownerUserId ?? null,
@@ -151,6 +156,7 @@ export const setAgendaStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => agendaStatusSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setAgendaStatusFn", source: "api", module: "meeting.setAgendaStatusFn" });
     const { data: row, error } = await context.supabase.from('meeting_agenda_items')
       .update({ status: data.status }).eq('id', data.itemId).select('*').single();
     if (error) throw error;
@@ -184,6 +190,7 @@ export const approveMinutesFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => approveMinutesSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "approveMinutesFn", source: "api", module: "meeting.approveMinutesFn" });
     const { data: row, error } = await context.supabase.from('meeting_minutes')
       .update({ status: 'approved', approved_by: context.userId, approved_at: new Date().toISOString() })
       .eq('id', data.minutesId).select('*').single();
@@ -207,6 +214,7 @@ export const createActionItemFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => actionSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createActionItemFn", source: "api", module: "meeting.createActionItemFn" });
     const { data: row, error } = await context.supabase.from('meeting_action_items').insert({
       meeting_id: data.meetingId,
       agenda_item_id: data.agendaItemId ?? null,
@@ -231,6 +239,7 @@ export const setActionStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => actionStatusSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setActionStatusFn", source: "api", module: "meeting.setActionStatusFn" });
     const patch: Record<string, unknown> = { status: data.status };
     if (data.status === 'done') patch.completed_at = new Date().toISOString();
     const { data: row, error } = await context.supabase.from('meeting_action_items')
@@ -255,6 +264,7 @@ export const recordMeetingDecisionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordMeetingDecisionFn", source: "api", module: "meeting.recordMeetingDecisionFn" });
     const { data: row, error } = await context.supabase.from('meeting_decisions').insert({
       meeting_id: data.meetingId,
       agenda_item_id: data.agendaItemId ?? null,
@@ -277,6 +287,7 @@ export const computeMeetingAnalyticsFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => analyticsSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "computeMeetingAnalyticsFn", source: "api", module: "meeting.computeMeetingAnalyticsFn" });
     const [{ data: meeting }, { data: parts }, { data: agenda }, { data: actions }, { data: decisions }, { data: minutes }] = await Promise.all([
       context.supabase.from('meetings').select('*').eq('id', data.meetingId).single(),
       context.supabase.from('meeting_participants').select('*').eq('meeting_id', data.meetingId),

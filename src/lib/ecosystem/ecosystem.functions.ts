@@ -78,6 +78,7 @@ export const ecosystemUpsertCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: CategoryUpsert) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemUpsertCategory", source: "api", module: "ecosystem.ecosystemUpsertCategory" });
     const c = context as Ctx;
     return upsertCategory(c.supabase as SB, c.userId, data);
   });
@@ -86,6 +87,7 @@ export const ecosystemDeactivateCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { code: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemDeactivateCategory", source: "api", module: "ecosystem.ecosystemDeactivateCategory" });
     const c = context as Ctx;
     return deactivateCategory(c.supabase as SB, c.userId, data.code);
   });
@@ -94,6 +96,7 @@ export const ecosystemUpsertCollection = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: CollectionUpsert) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemUpsertCollection", source: "api", module: "ecosystem.ecosystemUpsertCollection" });
     const c = context as Ctx;
     return upsertCollection(c.supabase as SB, c.userId, data);
   });
@@ -134,6 +137,7 @@ export const ecosystemSetCompatibility = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: CompatibilityInput) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemSetCompatibility", source: "api", module: "ecosystem.ecosystemSetCompatibility" });
     const c = context as Ctx;
     return setCompatibility(c.supabase as SB, c.userId, data);
   });
@@ -142,6 +146,7 @@ export const ecosystemComputeFactRecs = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { scope?: "global" | "user"; limit?: number } | undefined) => d ?? {})
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemComputeFactRecs", source: "api", module: "ecosystem.ecosystemComputeFactRecs" });
     const c = context as Ctx;
     return computeFactRecommendations(c.supabase as SB, c.userId, data.scope ?? "global", data.limit ?? 12);
   });
@@ -150,6 +155,7 @@ export const ecosystemUpsertCreatorProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: CreatorProfileInput) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemUpsertCreatorProfile", source: "api", module: "ecosystem.ecosystemUpsertCreatorProfile" });
     const c = context as Ctx;
     return upsertCreatorProfile(c.supabase as SB, c.userId, data);
   });
@@ -158,6 +164,7 @@ export const ecosystemVerifyCreator = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { creatorUserId: string; verified: boolean }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemVerifyCreator", source: "api", module: "ecosystem.ecosystemVerifyCreator" });
     const c = context as Ctx;
     return verifyCreator(c.supabase as SB, c.userId, data.creatorUserId, data.verified);
   });
@@ -181,6 +188,7 @@ export const ecosystemMarkPayoutSettled = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { payoutId: string; walletLedgerId?: string | null; reference?: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemMarkPayoutSettled", source: "api", module: "ecosystem.ecosystemMarkPayoutSettled" });
     const c = context as Ctx;
     return markPayoutSettled(c.supabase as SB, c.userId, data.payoutId, data.walletLedgerId ?? null, data.reference);
   });
@@ -197,6 +205,7 @@ export const ecosystemUpdateSupportTicket = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { ticketId: string; status?: string; priority?: string; body?: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "ecosystemUpdateSupportTicket", source: "api", module: "ecosystem.ecosystemUpdateSupportTicket" });
     const c = context as Ctx;
     return updateSupportTicket(c.supabase as SB, c.userId, data.ticketId, {
       status: data.status, priority: data.priority, body: data.body,

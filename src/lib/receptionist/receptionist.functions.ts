@@ -27,6 +27,7 @@ export const startReceptionistSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => startSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "startReceptionistSessionFn", source: "api", module: "receptionist.startReceptionistSessionFn" });
     // Detect returning visitor by visitor_key.
     const { data: prior } = await context.supabase
       .from('receptionist_sessions').select('id').eq('visitor_key', data.visitorKey).limit(1).maybeSingle();
@@ -102,6 +103,7 @@ export const processReceptionistTurnFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => turnSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "processReceptionistTurnFn", source: "api", module: "receptionist.processReceptionistTurnFn" });
     const started = Date.now();
     const { data: session, error: sErr } = await context.supabase
       .from('receptionist_sessions').select('*').eq('id', data.sessionId).single();
@@ -172,6 +174,7 @@ export const computeReceptionistAnalyticsFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => analyticsSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "computeReceptionistAnalyticsFn", source: "api", module: "receptionist.computeReceptionistAnalyticsFn" });
     let q = context.supabase.from('receptionist_turns')
       .select('session_id,mode,domain,confidence,latency_ms,outcome,created_at,company_id')
       .gte('created_at', data.from).lte('created_at', data.to);

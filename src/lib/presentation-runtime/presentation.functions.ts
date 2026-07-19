@@ -52,7 +52,9 @@ const CreateInput = z.object({
 export const createSessionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof CreateInput>) => CreateInput.parse(d))
-  .handler(async ({ data, context }) => createSession(context.supabase, { userId: context.userId }, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createSessionFn", source: "api", module: "presentation.createSessionFn" });
+    return createSession(context.supabase, { userId: context.userId }, {
     companyId: data.company_id ?? null,
     happySessionId: data.happy_session_id ?? null,
     voiceSessionId: data.voice_session_id ?? null,
@@ -63,8 +65,8 @@ export const createSessionFn = createServerFn({ method: "POST" })
     participants: data.participants,
     scheduledAt: data.scheduled_at ?? null,
     meta: data.meta,
-  }));
-
+  });
+  });
 const TransitionInput = z.object({
   session_id: z.string().uuid(),
   command: SessionCmd.exclude(["create"]),
@@ -80,10 +82,12 @@ const SetStateInput = z.object({ session_id: z.string().uuid(), state: StateEnum
 export const setSessionStateFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof SetStateInput>) => SetStateInput.parse(d))
-  .handler(async ({ data, context }) => setSessionState(context.supabase, { userId: context.userId }, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setSessionStateFn", source: "api", module: "presentation.setSessionStateFn" });
+    return setSessionState(context.supabase, { userId: context.userId }, {
     sessionId: data.session_id, state: data.state,
-  }));
-
+  });
+  });
 const UpsertSlideInput = z.object({
   session_id: z.string().uuid(),
   slide_index: z.number().int().min(0),
@@ -101,7 +105,9 @@ const UpsertSlideInput = z.object({
 export const upsertSlideFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof UpsertSlideInput>) => UpsertSlideInput.parse(d))
-  .handler(async ({ data, context }) => upsertSlide(context.supabase, { userId: context.userId }, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertSlideFn", source: "api", module: "presentation.upsertSlideFn" });
+    return upsertSlide(context.supabase, { userId: context.userId }, {
     sessionId: data.session_id,
     slideIndex: data.slide_index,
     sceneIndex: data.scene_index,
@@ -114,8 +120,8 @@ export const upsertSlideFn = createServerFn({ method: "POST" })
     transition: data.transition,
     narration: data.narration ?? null,
     meta: data.meta,
-  }));
-
+  });
+  });
 const ListSlidesInput = z.object({ session_id: z.string().uuid() });
 export const listSlidesFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -164,10 +170,12 @@ const CreateAnnotationInput = z.object({
 export const createAnnotationFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof CreateAnnotationInput>) => CreateAnnotationInput.parse(d))
-  .handler(async ({ data, context }) => createAnnotation(context.supabase, { userId: context.userId }, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createAnnotationFn", source: "api", module: "presentation.createAnnotationFn" });
+    return createAnnotation(context.supabase, { userId: context.userId }, {
     sessionId: data.session_id, slideId: data.slide_id ?? null, kind: data.kind, body: data.body, region: data.region,
-  }));
-
+  });
+  });
 const UpdateAnnotationInput = z.object({
   annotation_id: z.string().uuid(),
   body: z.string().min(1).max(20_000).optional(),
@@ -178,16 +186,20 @@ const UpdateAnnotationInput = z.object({
 export const updateAnnotationFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof UpdateAnnotationInput>) => UpdateAnnotationInput.parse(d))
-  .handler(async ({ data, context }) => updateAnnotation(context.supabase, { userId: context.userId }, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "updateAnnotationFn", source: "api", module: "presentation.updateAnnotationFn" });
+    return updateAnnotation(context.supabase, { userId: context.userId }, {
     annotationId: data.annotation_id, body: data.body, region: data.region, kind: data.kind, changeReason: data.change_reason,
-  }));
-
+  });
+  });
 const ResolveAnnotationInput = z.object({ annotation_id: z.string().uuid() });
 export const resolveAnnotationFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof ResolveAnnotationInput>) => ResolveAnnotationInput.parse(d))
-  .handler(async ({ data, context }) => resolveAnnotation(context.supabase, { userId: context.userId }, data.annotation_id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "resolveAnnotationFn", source: "api", module: "presentation.resolveAnnotationFn" });
+    return resolveAnnotation(context.supabase, { userId: context.userId }, data.annotation_id);
+  });
 const ListAnnotationsInput = z.object({
   session_id: z.string().uuid(),
   slide_id: z.string().uuid().nullable().optional(),

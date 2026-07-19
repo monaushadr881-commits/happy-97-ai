@@ -50,14 +50,16 @@ const RecordEmotionInput = z.object({
 export const recordEmotionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof RecordEmotionInput>) => RecordEmotionInput.parse(d))
-  .handler(async ({ data, context }) => recordEmotion(context.supabase, { userId: context.userId }, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordEmotionFn", source: "api", module: "emotion.recordEmotionFn" });
+    return recordEmotion(context.supabase, { userId: context.userId }, {
     companyId: data.company_id ?? null,
     happySessionId: data.happy_session_id ?? null,
     voiceSessionId: data.voice_session_id ?? null,
     conversationTurnId: data.conversation_turn_id ?? null,
     inputs: data.inputs,
-  }));
-
+  });
+  });
 const StateSchema = z.object({
   emotion: EmotionEnum,
   mood: MoodEnum,
@@ -106,15 +108,17 @@ const RecordGestureInput = z.object({
 export const recordGestureFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof RecordGestureInput>) => RecordGestureInput.parse(d))
-  .handler(async ({ data, context }) => recordGesture(context.supabase, { userId: context.userId }, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordGestureFn", source: "api", module: "emotion.recordGestureFn" });
+    return recordGesture(context.supabase, { userId: context.userId }, {
     companyId: data.company_id ?? null,
     happySessionId: data.happy_session_id ?? null,
     emotionEventId: data.emotion_event_id ?? null,
     state: data.state,
     override: data.override,
     target: data.target ?? null,
-  }));
-
+  });
+  });
 const SnapshotMoodInput = z.object({
   company_id: z.string().uuid().nullable().optional(),
   happy_session_id: z.string().uuid().nullable().optional(),

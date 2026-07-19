@@ -67,6 +67,7 @@ export const publishPluginVersion = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { manifest: unknown }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "publishPluginVersion", source: "api", module: "plugins.core.publishPluginVersion" });
     const manifest: PluginManifest = validateManifest(data.manifest);
     const checksum = await computeChecksum(manifest);
 
@@ -172,6 +173,7 @@ export const installPlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof InstallInput>) => InstallInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "installPlugin", source: "api", module: "plugins.core.installPlugin" });
     // Resolve version
     let versionId = data.version_id;
     if (!versionId) {
@@ -236,6 +238,7 @@ export const enablePlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof InstallIdInput>) => InstallIdInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "enablePlugin", source: "api", module: "plugins.core.enablePlugin" });
     const { data: install, error } = await context.supabase
       .from("plugin_installations")
       .update({ enabled: true, status: "installed" })
@@ -258,6 +261,7 @@ export const disablePlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof InstallIdInput>) => InstallIdInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "disablePlugin", source: "api", module: "plugins.core.disablePlugin" });
     const { data: install, error } = await context.supabase
       .from("plugin_installations")
       .update({ enabled: false, status: "disabled" })
@@ -335,6 +339,7 @@ export const rollbackPlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof InstallIdInput>) => InstallIdInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "rollbackPlugin", source: "api", module: "plugins.core.rollbackPlugin" });
     const { data: install, error: ierr } = await context.supabase
       .from("plugin_installations")
       .select("*")
@@ -371,6 +376,7 @@ export const uninstallPlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof InstallIdInput>) => InstallIdInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "uninstallPlugin", source: "api", module: "plugins.core.uninstallPlugin" });
     const { data: install } = await context.supabase
       .from("plugin_installations")
       .select("*")
@@ -428,6 +434,7 @@ export const recordPluginAnalytics = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof AnalyticsIngestInput>) => AnalyticsIngestInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordPluginAnalytics", source: "api", module: "plugins.core.recordPluginAnalytics" });
     const day = new Date().toISOString().slice(0, 10);
     const { error } = await context.supabase.from("plugin_analytics_daily").upsert(
       {

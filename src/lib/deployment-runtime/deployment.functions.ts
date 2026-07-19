@@ -58,6 +58,7 @@ export const startBuild = createServerFn({ method: "POST" })
     git_sha: z.string().max(64).optional(),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "startBuild", source: "api", module: "deploy.runtime.startBuild" });
     await assertAdmin(context);
     const adapter = getAdapter(data.platform_code as PlatformCode);
 
@@ -163,6 +164,7 @@ export const getStoreReadiness = createServerFn({ method: "GET" })
 export const refreshStoreReadiness = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "refreshStoreReadiness", source: "api", module: "deploy.runtime.refreshStoreReadiness" });
     await assertAdmin(context);
     // Honest check: look for known env vars per store.
     const checks = [

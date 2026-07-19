@@ -11,9 +11,10 @@ import {
 export const agRegister = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: AgentRegisterInput) => d)
-  .handler(async ({ data, context }) => agentRegister(context.supabase, context.userId, data));
-
-export const agSeedSystem = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "agRegister", source: "api", module: "agents.core.agRegister" });
+    return agentRegister(context.supabase, context.userId, data);
+  });export const agSeedSystem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { company_id: string }) => d)
   .handler(async ({ data, context }) => agentSeedSystem(context.supabase, context.userId, data.company_id));
@@ -31,9 +32,10 @@ export const agGet = createServerFn({ method: "POST" })
 export const agResolve = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { company_id: string; code: AgentCode }) => d)
-  .handler(async ({ data, context }) => agentResolveByCode(context.supabase, context.userId, data.company_id, data.code));
-
-export const agRouteTask = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "agResolve", source: "api", module: "agents.core.agResolve" });
+    return agentResolveByCode(context.supabase, context.userId, data.company_id, data.code);
+  });export const agRouteTask = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { task_type: string }) => d)
   .handler(async ({ data }) => ({ agent_code: routeTaskType(data.task_type) }));
@@ -41,19 +43,22 @@ export const agRouteTask = createServerFn({ method: "POST" })
 export const agTaskAssign = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: TaskAssignInput) => d)
-  .handler(async ({ data, context }) => taskAssign(context.supabase, context.userId, data));
-
-export const agTaskStart = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "agTaskAssign", source: "api", module: "agents.core.agTaskAssign" });
+    return taskAssign(context.supabase, context.userId, data);
+  });export const agTaskStart = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { task_id: string }) => d)
-  .handler(async ({ data, context }) => taskStart(context.supabase, context.userId, data.task_id));
-
-export const agTaskComplete = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "agTaskStart", source: "api", module: "agents.core.agTaskStart" });
+    return taskStart(context.supabase, context.userId, data.task_id);
+  });export const agTaskComplete = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { task_id: string; status: "succeeded" | "failed" | "escalated"; result?: Record<string, any>; error?: string; escalate_to_code?: AgentCode; escalation_reason?: string }) => d)
-  .handler(async ({ data, context }) => taskComplete(context.supabase, context.userId, data));
-
-export const agTasksList = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "agTaskComplete", source: "api", module: "agents.core.agTaskComplete" });
+    return taskComplete(context.supabase, context.userId, data);
+  });export const agTasksList = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { company_id: string; agent_id?: string; status?: string; limit?: number }) => d)
   .handler(async ({ data, context }) => tasksList(context.supabase, context.userId, data));

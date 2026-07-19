@@ -35,6 +35,7 @@ export const upsertSigningProfile = createServerFn({ method: "POST" })
       metadata: z.record(z.string(), z.any()).optional(),
     }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertSigningProfile", source: "api", module: "release.signing.upsertSigningProfile" });
     await assertOpsAdminR64(context);
     const sb: any = context.supabase;
     const payload: any = {

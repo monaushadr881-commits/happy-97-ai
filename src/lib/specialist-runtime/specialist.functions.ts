@@ -37,8 +37,9 @@ const startSchema = z.object({
 export const startSpecialistSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => startSchema.parse(d))
-  .handler(async ({ data, context }) =>
-    startSession(context.supabase, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "startSpecialistSessionFn", source: "api", module: "specialist.startSpecialistSessionFn" });
+    return startSession(context.supabase, {
       userId: context.userId,
       mode: data.mode as SpecialistModeCode,
       companyId: data.companyId ?? null,
@@ -46,9 +47,8 @@ export const startSpecialistSessionFn = createServerFn({ method: 'POST' })
       happySessionId: data.happySessionId ?? null,
       language: data.language,
       metadata: data.metadata,
-    }),
-  );
-
+    }),;
+  });
 const transitionSchema = z.object({
   sessionId: z.string().uuid(),
   mode: modeSchema,
@@ -67,8 +67,10 @@ const statusSchema = z.object({
 export const setSpecialistStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => statusSchema.parse(d))
-  .handler(async ({ data, context }) => setStatus(context.supabase, data.sessionId, data.status));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setSpecialistStatusFn", source: "api", module: "specialist.setSpecialistStatusFn" });
+    return setStatus(context.supabase, data.sessionId, data.status);
+  });
 const factSchema = z.object({
   source_runtime: z.string().min(1),
   timestamp: z.string().min(1),
@@ -110,6 +112,7 @@ export const listSpecialistModesFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listRegistrySchema.parse(d ?? {}))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "processSpecialistTurnFn", source: "api", module: "specialist.processSpecialistTurnFn" });
     let q = context.supabase.from('specialist_mode_registry').select('*').order('domain');
     if (data.enabledOnly) q = q.eq('enabled', true);
     const { data: rows, error } = await q;
@@ -165,11 +168,12 @@ const analyticsSchema = z.object({
 export const computeSpecialistAnalyticsFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => analyticsSchema.parse(d))
-  .handler(async ({ data, context }) =>
-    computeAnalytics(context.supabase, context.userId, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "computeSpecialistAnalyticsFn", source: "api", module: "specialist.computeSpecialistAnalyticsFn" });
+    return computeAnalytics(context.supabase, context.userId, {
       from: data.from,
       to: data.to,
       companyId: data.companyId ?? null,
       sessionId: data.sessionId ?? null,
-    }),
-  );
+    }),;
+  });

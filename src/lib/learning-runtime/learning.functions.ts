@@ -19,6 +19,7 @@ export const createLearningPathFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => createPathSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createLearningPathFn", source: "api", module: "learning.createLearningPathFn" });
     const { data: row, error } = await context.supabase.from('learning_paths').insert({
       ...data, created_by: context.userId,
     }).select('*').single();
@@ -34,6 +35,7 @@ export const setLearningPathStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => publishSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setLearningPathStatusFn", source: "api", module: "learning.setLearningPathStatusFn" });
     const { data: row, error } = await context.supabase.from('learning_paths')
       .update({ status: data.status }).eq('id', data.pathId).select('*').single();
     if (error) throw error;
@@ -52,6 +54,7 @@ export const addLearningPathItemFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => addItemSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "addLearningPathItemFn", source: "api", module: "learning.addLearningPathItemFn" });
     // Validate the referenced entity exists in its owning runtime.
     const tableMap: Record<string, string> = {
       course: 'courses', lesson: 'lessons', assignment: 'assignments', quiz: 'quizzes',

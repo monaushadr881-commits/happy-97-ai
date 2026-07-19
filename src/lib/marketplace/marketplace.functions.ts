@@ -106,6 +106,7 @@ export const createSellerListing = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createSellerListing", source: "api", module: "marketplace.createSellerListing" });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return createListing(supabaseAdmin, { ...data, sellerId: (context as Ctx).userId });
   });
@@ -114,6 +115,7 @@ export const updateSellerListing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { listingId: string; patch: Record<string, unknown> }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "updateSellerListing", source: "api", module: "marketplace.updateSellerListing" });
     await assertSellerOwns(context as Ctx, data.listingId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return updateListing(supabaseAdmin, data.listingId, data.patch);
@@ -129,6 +131,7 @@ export const publishListingVersion = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "publishListingVersion", source: "api", module: "marketplace.publishListingVersion" });
     await assertSellerOwns(context as Ctx, data.listingId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return publishNewVersion(supabaseAdmin, { ...data, sellerId: (context as Ctx).userId });
@@ -138,6 +141,7 @@ export const submitListingForReview = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { listingId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "submitListingForReview", source: "api", module: "marketplace.submitListingForReview" });
     await assertSellerOwns(context as Ctx, data.listingId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return submitForReview(supabaseAdmin, data.listingId, (context as Ctx).userId);
@@ -147,6 +151,7 @@ export const archiveSellerListing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { listingId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "archiveSellerListing", source: "api", module: "marketplace.archiveSellerListing" });
     await assertSellerOwns(context as Ctx, data.listingId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return archiveListing(supabaseAdmin, data.listingId);
@@ -180,6 +185,7 @@ export const approveListingByFounder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { listingId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "approveListingByFounder", source: "api", module: "marketplace.approveListingByFounder" });
     await assertOpsAdmin(context as Ctx);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return approveListing(supabaseAdmin, data.listingId, (context as Ctx).userId);
@@ -192,6 +198,7 @@ export const rejectListingByFounder = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "rejectListingByFounder", source: "api", module: "marketplace.rejectListingByFounder" });
     await assertOpsAdmin(context as Ctx);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return rejectListing(supabaseAdmin, data.listingId, (context as Ctx).userId, data.reason);
@@ -233,6 +240,7 @@ export const settleMarketplacePurchase = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { transactionId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "settleMarketplacePurchase", source: "api", module: "marketplace.settleMarketplacePurchase" });
     // Called by the payments webhook route or ops admin only.
     await assertOpsAdmin(context as Ctx);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -260,6 +268,7 @@ export const submitListingReview = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "submitListingReview", source: "api", module: "marketplace.submitListingReview" });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return submitReview(supabaseAdmin, {
       listingId: data.listingId, reviewerId: (context as Ctx).userId,
@@ -271,6 +280,7 @@ export const toggleListingWishlist = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { listingId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "toggleListingWishlist", source: "api", module: "marketplace.toggleListingWishlist" });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return toggleWishlist(supabaseAdmin, data.listingId, (context as Ctx).userId);
   });
@@ -289,6 +299,7 @@ export const refundListingPurchase = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "refundListingPurchase", source: "api", module: "marketplace.refundListingPurchase" });
     await assertOpsAdmin(context as Ctx);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return refundPurchase(supabaseAdmin, data.purchaseId, (context as Ctx).userId, data.reason);

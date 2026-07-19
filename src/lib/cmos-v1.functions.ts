@@ -74,10 +74,13 @@ const CreatePost = z.object({
 export const communityCreatePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreatePost.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "communityCreatePost", source: "api", module: "cmos.communityCreatePost" });
+    return guard(async () => {
     const r = await context.supabase.from("posts")
       .insert({ ...data, author_id: context.userId, created_by: context.userId })
-      .select("*").single();
+      .select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -85,10 +88,13 @@ export const communityCreatePost = createServerFn({ method: "POST" })
 export const communityDeletePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "communityDeletePost", source: "api", module: "cmos.communityDeletePost" });
+    return guard(async () => {
     const r = await context.supabase.from("posts")
       .update({ status: "deleted", deleted_at: new Date().toISOString() })
-      .eq("id", data.id).eq("author_id", context.userId);
+      .eq("id", data.id).eq("author_id", context.userId;
+  });
     if (r.error) throw r.error;
     return { ok: true };
   }));
@@ -110,9 +116,12 @@ export const communityAddComment = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({
     post_id: uuid, parent_id: uuid.optional(), body: z.string().min(1).max(4000),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "communityAddComment", source: "api", module: "cmos.communityAddComment" });
+    return guard(async () => {
     const r = await context.supabase.from("comments")
-      .insert({ ...data, author_id: context.userId }).select("*").single();
+      .insert({ ...data, author_id: context.userId }).select("*").single(;
+  });
     if (r.error) throw r.error;
     try {
       await context.supabase.rpc("write_audit", {
@@ -219,11 +228,14 @@ const CreateListing = z.object({
 export const marketCreateListing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateListing.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "marketCreateListing", source: "api", module: "cmos.marketCreateListing" });
+    return guard(async () => {
     const slug = `${data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60)}-${Date.now().toString(36)}`;
     const r = await context.supabase.from("listings").insert({
       ...data, slug, seller_id: context.userId, created_by: context.userId,
-    }).select("*").single();
+    }).select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -233,10 +245,13 @@ export const marketUpdateListing = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({
     id: uuid, patch: CreateListing.partial(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "marketUpdateListing", source: "api", module: "cmos.marketUpdateListing" });
+    return guard(async () => {
     const r = await context.supabase.from("listings")
       .update({ ...data.patch, updated_by: context.userId })
-      .eq("id", data.id).eq("seller_id", context.userId).select("*").single();
+      .eq("id", data.id).eq("seller_id", context.userId).select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -256,11 +271,14 @@ export const marketAddReview = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({
     listing_id: uuid, rating: z.number().int().min(1).max(5), body: z.string().max(4000).optional(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "marketAddReview", source: "api", module: "cmos.marketAddReview" });
+    return guard(async () => {
     const r = await context.supabase.from("listing_reviews").upsert(
       { ...data, reviewer_id: context.userId },
       { onConflict: "listing_id,reviewer_id" },
-    ).select("*").single();
+    ).select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -361,9 +379,12 @@ export const msgListConversations = createServerFn({ method: "GET" })
 export const msgCreateConversation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ title: z.string().min(1).max(200) }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "msgCreateConversation", source: "api", module: "cmos.msgCreateConversation" });
+    return guard(async () => {
     const r = await context.supabase.from("conversations")
-      .insert({ user_id: context.userId, title: data.title }).select("*").single();
+      .insert({ user_id: context.userId, title: data.title }).select("*").single(;
+  });
     if (r.error) throw r.error;
     return r.data;
   }));
@@ -385,11 +406,14 @@ export const msgSend = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({
     conversation_id: uuid, content: z.string().min(1).max(8000),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "msgSend", source: "api", module: "cmos.msgSend" });
+    return guard(async () => {
     const r = await context.supabase.from("messages").insert({
       conversation_id: data.conversation_id,
       user_id: context.userId, role: "user", content: data.content,
-    }).select("*").single();
+    }).select("*").single(;
+  });
     if (r.error) throw r.error;
     await context.supabase.from("conversations")
       .update({ updated_at: new Date().toISOString() })

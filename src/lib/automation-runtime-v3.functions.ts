@@ -43,7 +43,12 @@ export const apiAutomationSettings = createServerFn({ method: "GET" }).middlewar
   .handler(async ({ context }) => guard(() => svcRef.settings(svc(context))));
 export const apiAutomationExecute = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => svcRef.execute(svc(context), data)));
-export const apiAutomationUpdateSettings = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiAutomationExecute", source: "api", module: "automation.runtime.apiAutomationExecute" });
+    return guard(() => svcRef.execute(svc(context), data));
+  });export const apiAutomationUpdateSettings = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => svcRef.updateSettings(svc(context), data)));
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiAutomationUpdateSettings", source: "api", module: "automation.runtime.apiAutomationUpdateSettings" });
+    return guard(() => svcRef.updateSettings(svc(context), data));
+  });

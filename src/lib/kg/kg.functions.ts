@@ -12,9 +12,10 @@ import {
 export const kgEntityUpsert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: EntityUpsertInput) => d)
-  .handler(async ({ data, context }) => entityUpsert(context.supabase, context.userId, data));
-
-export const kgEntityGet = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kgEntityUpsert", source: "api", module: "kg.kgEntityUpsert" });
+    return entityUpsert(context.supabase, context.userId, data);
+  });export const kgEntityGet = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { id: string }) => d)
   .handler(async ({ data, context }) => entityGet(context.supabase, context.userId, data.id));
@@ -22,9 +23,10 @@ export const kgEntityGet = createServerFn({ method: "POST" })
 export const kgEntityResolve = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { company_id: string; kind: EntityKind; ref_id?: string; slug?: string }) => d)
-  .handler(async ({ data, context }) => entityResolve(context.supabase, context.userId, data));
-
-export const kgEntityList = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kgEntityResolve", source: "api", module: "kg.kgEntityResolve" });
+    return entityResolve(context.supabase, context.userId, data);
+  });export const kgEntityList = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { company_id?: string; kind?: EntityKind | EntityKind[]; tags?: string[]; status?: "active" | "archived" | "deleted"; limit?: number }) => d ?? {})
   .handler(async ({ data, context }) => entityList(context.supabase, context.userId, data));
@@ -32,24 +34,28 @@ export const kgEntityList = createServerFn({ method: "POST" })
 export const kgEntityArchive = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => entityArchive(context.supabase, context.userId, data.id));
-
-export const kgEntityDelete = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kgEntityArchive", source: "api", module: "kg.kgEntityArchive" });
+    return entityArchive(context.supabase, context.userId, data.id);
+  });export const kgEntityDelete = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => entityDelete(context.supabase, context.userId, data.id));
-
-export const kgRelationUpsert = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kgEntityDelete", source: "api", module: "kg.kgEntityDelete" });
+    return entityDelete(context.supabase, context.userId, data.id);
+  });export const kgRelationUpsert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: RelationInput) => d)
-  .handler(async ({ data, context }) => relationUpsert(context.supabase, context.userId, data));
-
-export const kgRelationDelete = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kgRelationUpsert", source: "api", module: "kg.kgRelationUpsert" });
+    return relationUpsert(context.supabase, context.userId, data);
+  });export const kgRelationDelete = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { id: string }) => d)
-  .handler(async ({ data, context }) => relationDelete(context.supabase, context.userId, data.id));
-
-export const kgRelationsList = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kgRelationDelete", source: "api", module: "kg.kgRelationDelete" });
+    return relationDelete(context.supabase, context.userId, data.id);
+  });export const kgRelationsList = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { company_id?: string; entity_id?: string; direction?: "in" | "out" | "both"; relation?: RelationKind | RelationKind[]; verified_only?: boolean; limit?: number }) => d ?? {})
   .handler(async ({ data, context }) => relationsList(context.supabase, context.userId, data));
@@ -72,9 +78,10 @@ export const kgNaturalQuery = createServerFn({ method: "POST" })
 export const kgInferenceRecord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: InferenceInput) => d)
-  .handler(async ({ data, context }) => inferenceRecord(context.supabase, context.userId, data));
-
-export const kgInferenceReview = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kgInferenceRecord", source: "api", module: "kg.kgInferenceRecord" });
+    return inferenceRecord(context.supabase, context.userId, data);
+  });export const kgInferenceReview = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { id: string; decision: "accepted" | "rejected" }) => d)
   .handler(async ({ data, context }) => inferenceReview(context.supabase, context.userId, data.id, data.decision));

@@ -15,6 +15,7 @@ export const generateProjectPlan = createServerFn({ method: "POST" })
     modes: z.array(ModeEnum).max(6).optional(),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateProjectPlan", source: "api", module: "uabr.project.generateProjectPlan" });
     await assertUabrAccess(context);
     return planFromPrompt(data.prompt, { projectName: data.project_name, modes: data.modes });
   });

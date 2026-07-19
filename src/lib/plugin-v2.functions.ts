@@ -44,9 +44,10 @@ export const apiListPluginRegistry = createServerFn({ method: "GET" })
 export const apiSearchPluginStore = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { query?: string; category?: string })
-  .handler(async ({ data, context }) => guard(() => pluginService.searchStore(svc(context), data)));
-
-export const apiGetPluginDetail = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiSearchPluginStore", source: "api", module: "plugin.apiSearchPluginStore" });
+    return guard(() => pluginService.searchStore(svc(context), data));
+  });export const apiGetPluginDetail = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string })
   .handler(async ({ data, context }) => guard(() => pluginService.getDetail(svc(context), data)));
@@ -55,13 +56,16 @@ export const apiGetPluginDetail = createServerFn({ method: "POST" })
 export const apiInstallPlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string; version?: string })
-  .handler(async ({ data, context }) => guard(() => pluginService.install(svc(context), data)));
-
-export const apiUninstallPlugin = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiInstallPlugin", source: "api", module: "plugin.apiInstallPlugin" });
+    return guard(() => pluginService.install(svc(context), data));
+  });export const apiUninstallPlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string })
-  .handler(async ({ data, context }) => guard(() => pluginService.uninstall(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiUninstallPlugin", source: "api", module: "plugin.apiUninstallPlugin" });
+    return guard(() => pluginService.uninstall(svc(context), data));
+  });
 export const apiListInstalledPlugins = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => guard(() => pluginService.listInstalled(svc(context))));
@@ -73,8 +77,10 @@ export const apiCheckPluginUpdates = createServerFn({ method: "GET" })
 export const apiUpdatePlugin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string; toVersion?: string })
-  .handler(async ({ data, context }) => guard(() => pluginService.update(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiUpdatePlugin", source: "api", module: "plugin.apiUpdatePlugin" });
+    return guard(() => pluginService.update(svc(context), data));
+  });
 // -------- Permissions --------
 export const apiGetPluginPermissions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -84,13 +90,16 @@ export const apiGetPluginPermissions = createServerFn({ method: "POST" })
 export const apiGrantPluginPermissions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string; permissions: string[] })
-  .handler(async ({ data, context }) => guard(() => pluginService.grantPermissions(svc(context), data)));
-
-export const apiRevokePluginPermissions = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiGrantPluginPermissions", source: "api", module: "plugin.apiGrantPluginPermissions" });
+    return guard(() => pluginService.grantPermissions(svc(context), data));
+  });export const apiRevokePluginPermissions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string; permissions: string[] })
-  .handler(async ({ data, context }) => guard(() => pluginService.revokePermissions(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiRevokePluginPermissions", source: "api", module: "plugin.apiRevokePluginPermissions" });
+    return guard(() => pluginService.revokePermissions(svc(context), data));
+  });
 // -------- Analytics & Settings --------
 export const apiPluginAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -99,9 +108,13 @@ export const apiPluginAnalytics = createServerFn({ method: "GET" })
 export const apiGetPluginSettings = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string })
-  .handler(async ({ data, context }) => guard(() => pluginService.getSettings(svc(context), data)));
-
-export const apiUpdatePluginSettings = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiGetPluginSettings", source: "api", module: "plugin.apiGetPluginSettings" });
+    return guard(() => pluginService.getSettings(svc(context), data));
+  });export const apiUpdatePluginSettings = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { pluginId: string; settings: Record<string, unknown> })
-  .handler(async ({ data, context }) => guard(() => pluginService.updateSettings(svc(context), data)));
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiUpdatePluginSettings", source: "api", module: "plugin.apiUpdatePluginSettings" });
+    return guard(() => pluginService.updateSettings(svc(context), data));
+  });

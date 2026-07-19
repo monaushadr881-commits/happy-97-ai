@@ -29,9 +29,10 @@ export const founderGetPrefs = createServerFn({ method: "GET" })
 export const founderUpsertPrefs = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: WorkspacePrefs) => d)
-  .handler(async ({ data, context }) =>
-    upsertPrefs(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "founderUpsertPrefs", source: "api", module: "founder.workspace.founderUpsertPrefs" });
+    return upsertPrefs(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data);
+  });
 /* ------------------------------ command router ---------------------- */
 
 export const founderClassifyIntent = createServerFn({ method: "POST" })
@@ -45,9 +46,10 @@ export const founderDispatchCommand = createServerFn({ method: "POST" })
     if (!d?.command_text?.trim()) throw new Error("command_text required");
     return d;
   })
-  .handler(async ({ data, context }) =>
-    dispatchCommand(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "founderDispatchCommand", source: "api", module: "founder.workspace.founderDispatchCommand" });
+    return dispatchCommand(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data);
+  });
 export const founderCommandHistory = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { limit?: number }) => d ?? {})
@@ -91,9 +93,10 @@ export const founderGenerateBriefing = createServerFn({ method: "POST" })
       throw new Error("invalid period");
     return d;
   })
-  .handler(async ({ data, context }) =>
-    generateBriefing(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data.period, data.company_id ?? null));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "founderGenerateBriefing", source: "api", module: "founder.workspace.founderGenerateBriefing" });
+    return generateBriefing(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data.period, data.company_id ?? null);
+  });
 export const founderListBriefings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { period?: BriefingPeriod; company_id?: string | null; limit?: number }) => d ?? {})
@@ -108,19 +111,20 @@ export const founderRecordFactRec = createServerFn({ method: "POST" })
     if (!d.title || !d.category || !d.source_runtime) throw new Error("title, category, source_runtime required");
     return d;
   })
-  .handler(async ({ data, context }) =>
-    recordFactRecommendation(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data));
-
-export const founderRecordAiRec = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "founderRecordFactRec", source: "api", module: "founder.workspace.founderRecordFactRec" });
+    return recordFactRecommendation(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data);
+  });export const founderRecordAiRec = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: AiRecommendation) => {
     if (!d.title || !d.category || !d.source_runtime) throw new Error("title, category, source_runtime required");
     if (typeof d.confidence !== "number") throw new Error("confidence required for ai recs");
     return d;
   })
-  .handler(async ({ data, context }) =>
-    recordAiRecommendation(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "founderRecordAiRec", source: "api", module: "founder.workspace.founderRecordAiRec" });
+    return recordAiRecommendation(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data);
+  });
 export const founderListRecommendations = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { kind?: "fact" | "ai"; company_id?: string | null; status?: string; limit?: number }) => d ?? {})
@@ -135,9 +139,10 @@ export const founderUpdateRecommendationStatus = createServerFn({ method: "POST"
       throw new Error("invalid status");
     return d;
   })
-  .handler(async ({ data, context }) =>
-    updateRecommendationStatus(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "founderUpdateRecommendationStatus", source: "api", module: "founder.workspace.founderUpdateRecommendationStatus" });
+    return updateRecommendationStatus(sbOf(context as unknown as Ctx), (context as unknown as Ctx).userId, data);
+  });
 /* ------------------------------ health & search --------------------- */
 
 export const founderHealthOverview = createServerFn({ method: "GET" })

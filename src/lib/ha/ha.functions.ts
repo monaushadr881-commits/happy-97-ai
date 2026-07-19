@@ -36,8 +36,11 @@ export const haListRegions = createServerFn({ method: "GET" }).middleware([requi
   }));
 export const haUpsertRegion = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => RegionInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
-    const sb = sbOf(context);
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haUpsertRegion", source: "api", module: "ha.haUpsertRegion" });
+    return guard(async () => {
+    const sb = sbOf(context;
+  });
     const { data: row, error } = await sb.from("ha_regions")
       .upsert({ ...data, created_by: context.userId }, { onConflict: "code" })
       .select("*").single();
@@ -52,8 +55,11 @@ export const haUpsertRegion = createServerFn({ method: "POST" }).middleware([req
   }));
 export const haDeleteRegion = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
-    const { error } = await sbOf(context).from("ha_regions").delete().eq("id", data.id);
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haDeleteRegion", source: "api", module: "ha.haDeleteRegion" });
+    return guard(async () => {
+    const { error } = await sbOf(context).from("ha_regions").delete().eq("id", data.id;
+  });
     if (error) throw error; return { ok: true };
   }));
 
@@ -88,14 +94,19 @@ export const haListReplication = createServerFn({ method: "GET" }).middleware([r
   }));
 export const haPublishMark = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ region_id: z.string().uuid(), scope: ScopeEnum }).parse(i))
-  .handler(async ({ data, context }) => guard(async () =>
-    haEngine.publishMark(sbOf(context), { region_id: data.region_id, scope: data.scope, actor_id: context.userId })));
-export const haVerifyReplication = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haPublishMark", source: "api", module: "ha.haPublishMark" });
+    return guard(async () =>
+    haEngine.publishMark(sbOf(context), { region_id: data.region_id, scope: data.scope, actor_id: context.userId }));
+  });export const haVerifyReplication = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({
     scope: ScopeEnum, source_region_id: z.string().uuid(), target_region_id: z.string().uuid(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
-    const sb = sbOf(context);
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haVerifyReplication", source: "api", module: "ha.haVerifyReplication" });
+    return guard(async () => {
+    const sb = sbOf(context;
+  });
     const res = await haEngine.verifyReplication(sb, data);
     await sb.from("ha_replication_checks").insert({
       scope: data.scope, source_region_id: data.source_region_id, target_region_id: data.target_region_id,
@@ -129,9 +140,11 @@ export const haRunFailover = createServerFn({ method: "POST" }).middleware([requ
     haEngine.runFailover(sbOf(context), { ...data, actor_id: context.userId })));
 export const haRollback = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ failover_id: z.string().uuid() }).parse(i))
-  .handler(async ({ data, context }) => guard(async () =>
-    haEngine.rollback(sbOf(context), { failover_id: data.failover_id, actor_id: context.userId })));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haRollback", source: "api", module: "ha.haRollback" });
+    return guard(async () =>
+    haEngine.rollback(sbOf(context), { failover_id: data.failover_id, actor_id: context.userId }));
+  });
 // ---- Recovery ----
 export const haRecoverRegion = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ region_id: z.string().uuid(), samples: z.number().int().min(1).max(10).optional() }).parse(i))
@@ -151,8 +164,11 @@ export const haListTrafficPolicies = createServerFn({ method: "GET" }).middlewar
   }));
 export const haUpsertTrafficPolicy = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => TrafficInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
-    const sb = sbOf(context);
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haUpsertTrafficPolicy", source: "api", module: "ha.haUpsertTrafficPolicy" });
+    return guard(async () => {
+    const sb = sbOf(context;
+  });
     const { data: row, error } = await sb.from("ha_traffic_policies")
       .upsert({ ...data, weights: data.weights ?? {}, updated_by: context.userId, updated_at: new Date().toISOString() }, { onConflict: "policy" })
       .select("*").single();

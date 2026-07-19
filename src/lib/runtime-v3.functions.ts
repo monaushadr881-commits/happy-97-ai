@@ -32,10 +32,15 @@ export const apiRtCapabilities = createServerFn({ method: "GET" }).middleware([r
   .handler(async ({ context }) => guard(() => runtimeService.capabilities(svc(context))));
 export const apiRtDispatch = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => runtimeService.dispatch(svc(context), data)));
-export const apiRtExecute = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiRtDispatch", source: "api", module: "runtime.v3.apiRtDispatch" });
+    return guard(() => runtimeService.dispatch(svc(context), data));
+  });export const apiRtExecute = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => runtimeService.execute(svc(context), data)));
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiRtExecute", source: "api", module: "runtime.v3.apiRtExecute" });
+    return guard(() => runtimeService.execute(svc(context), data));
+  });
 export const apiRtLive = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])
   .handler(async ({ context }) => guard(() => runtimeService.live(svc(context))));
 export const apiRtExecutions = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])
@@ -46,12 +51,17 @@ export const apiRtSettings = createServerFn({ method: "GET" }).middleware([requi
   .handler(async ({ context }) => guard(() => runtimeService.settings(svc(context))));
 export const apiRtUpdateSettings = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => runtimeService.updateSettings(svc(context), data)));
-export const apiRtContext = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiRtUpdateSettings", source: "api", module: "runtime.v3.apiRtUpdateSettings" });
+    return guard(() => runtimeService.updateSettings(svc(context), data));
+  });export const apiRtContext = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
   .handler(async ({ data, context }) => guard(() => runtimeService.context(svc(context), data)));
 export const apiRtMemory = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])
   .handler(async ({ context }) => guard(() => runtimeService.memory(svc(context))));
 export const apiRtSchedule = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => runtimeService.schedule(svc(context), data)));
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiRtSchedule", source: "api", module: "runtime.v3.apiRtSchedule" });
+    return guard(() => runtimeService.schedule(svc(context), data));
+  });

@@ -152,6 +152,7 @@ export const computeBusinessHealthFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => healthSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "computeBusinessHealthFn", source: "api", module: "founder.exec.computeBusinessHealthFn" });
     const dims = (data.dimensions ?? DIMENSIONS) as Dimension[];
     const results: any[] = [];
     for (const dim of dims) {
@@ -212,6 +213,7 @@ export const recordFounderDecisionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decisionSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordFounderDecisionFn", source: "api", module: "founder.exec.recordFounderDecisionFn" });
     const { data: row, error } = await context.supabase
       .from('founder_decision_records')
       .insert({ title: data.title, category: data.category, decision: data.decision, rationale: data.rationale ?? null, facts: data.facts as any, recommendations_considered: data.recommendations_considered as any, alternatives: data.alternatives as any, confidence: data.confidence, company_id: data.companyId ?? null, decided_by: context.userId } as any)
@@ -228,6 +230,7 @@ export const recordDecisionOutcomeFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decisionOutcomeSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordDecisionOutcomeFn", source: "api", module: "founder.exec.recordDecisionOutcomeFn" });
     const { data: row, error } = await context.supabase
       .from('founder_decision_records')
       .update({ outcome: data.outcome, outcome_recorded_at: new Date().toISOString() })
@@ -249,6 +252,7 @@ export const generateExecutiveReportFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => reportSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateExecutiveReportFn", source: "api", module: "founder.exec.generateExecutiveReportFn" });
     const dims: Dimension[] = ['revenue','sales','customer','inventory','manufacturing','deployment','security','platform','growth'];
     const sections: any[] = [];
     const allFacts: Fact[] = [];

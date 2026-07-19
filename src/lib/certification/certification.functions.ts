@@ -40,6 +40,7 @@ export const upsertCapabilityFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => upsertCapSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertCapabilityFn", source: "api", module: "certification.upsertCapabilityFn" });
     const { data: existing } = await context.supabase.from('capability_registry')
       .select('id').eq('code', data.code).maybeSingle();
     if (existing) {
@@ -67,6 +68,7 @@ export const recordHealthCheckFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => healthSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordHealthCheckFn", source: "api", module: "certification.recordHealthCheckFn" });
     const { data: row, error } = await context.supabase.from('capability_health_checks').insert({
       capability_code: data.capabilityCode,
       status: data.status,
@@ -88,6 +90,7 @@ export const generateCertificationReportFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => reportSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateCertificationReportFn", source: "api", module: "certification.generateCertificationReportFn" });
     const { data: caps, error: capsErr } = await context.supabase.from('capability_registry')
       .select('*').order('code');
     if (capsErr) throw capsErr;
@@ -185,6 +188,7 @@ export const createReleaseFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => releaseSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createReleaseFn", source: "api", module: "certification.createReleaseFn" });
     const { data: row, error } = await context.supabase.from('release_records').insert({
       version: data.version,
       channel: data.channel,
@@ -206,6 +210,7 @@ export const setReleaseStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => releaseStatusSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setReleaseStatusFn", source: "api", module: "certification.setReleaseStatusFn" });
     const patch: Record<string, unknown> = { status: data.status };
     if (data.status === 'released') patch.released_at = new Date().toISOString();
     const { data: row, error } = await context.supabase.from('release_records')

@@ -31,6 +31,7 @@ export const registerRendererAdapterFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => upsertAdapterSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "registerRendererAdapterFn", source: "api", module: "dh.integration.registerRendererAdapterFn" });
     const row = {
       code: data.code, label: data.label, kind: data.kind,
       capabilities: data.capabilities, required_assets: data.requiredAssets,
@@ -62,6 +63,7 @@ export const startDhIntegrationSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => startSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "startDhIntegrationSessionFn", source: "api", module: "dh.integration.startDhIntegrationSessionFn" });
     const { data: adapter } = await context.supabase.from('dh_renderer_adapters')
       .select('*').eq('code', data.rendererCode).maybeSingle();
     if (!adapter) throw new Error(`Unknown renderer: ${data.rendererCode}`);

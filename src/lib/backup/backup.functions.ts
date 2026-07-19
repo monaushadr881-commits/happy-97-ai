@@ -38,10 +38,13 @@ export const bkpListPolicies = createServerFn({ method: "GET" }).middleware([req
   }));
 export const bkpUpsertPolicy = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => PolicyInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpUpsertPolicy", source: "api", module: "backup.bkpUpsertPolicy" });
+    return guard(async () => {
     const { data: row, error } = await context.supabase.from("bkp_policies")
       .upsert({ ...data, created_by: context.userId } as never, { onConflict: "name" })
-      .select("*").single();
+      .select("*").single(;
+  });
     if (error) throw error;
     await context.supabase.from("bkp_audit_events").insert({
       kind: "policy.upserted", ref_type: "policy", ref_id: (row as { id: string }).id,
@@ -51,8 +54,11 @@ export const bkpUpsertPolicy = createServerFn({ method: "POST" }).middleware([re
   }));
 export const bkpDeletePolicy = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
-    const { error } = await context.supabase.from("bkp_policies").delete().eq("id", data.id);
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpDeletePolicy", source: "api", module: "backup.bkpDeletePolicy" });
+    return guard(async () => {
+    const { error } = await context.supabase.from("bkp_policies").delete().eq("id", data.id;
+  });
     if (error) throw error; return { ok: true };
   }));
 
@@ -70,8 +76,10 @@ export const bkpRunBackup = createServerFn({ method: "POST" }).middleware([requi
 
 export const bkpVerifyBackup = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ job_id: z.string().uuid() }).parse(i))
-  .handler(async ({ data, context }) => guard(() => backupEngine.verifyBackup(context.supabase, context.userId, data.job_id)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpVerifyBackup", source: "api", module: "backup.bkpVerifyBackup" });
+    return guard(() => backupEngine.verifyBackup(context.supabase, context.userId, data.job_id));
+  });
 const ListBackupsInput = z.object({
   target: TargetEnum.optional(),
   status: z.string().max(40).optional(),
@@ -105,21 +113,27 @@ const RestoreInput = z.object({
 });
 export const bkpRestore = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => RestoreInput.parse(i))
-  .handler(async ({ data, context }) => guard(() => backupEngine.runRestore(context.supabase, context.userId, data)));
-
-export const bkpListRestores = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpRestore", source: "api", module: "backup.bkpRestore" });
+    return guard(() => backupEngine.runRestore(context.supabase, context.userId, data));
+  });export const bkpListRestores = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ limit: z.number().int().min(1).max(200).default(50) }).parse(i ?? {}))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpListRestores", source: "api", module: "backup.bkpListRestores" });
+    return guard(async () => {
     const { data: rows, error } = await context.supabase.from("bkp_restore_jobs")
-      .select("*").order("started_at", { ascending: false }).limit(data.limit);
+      .select("*").order("started_at", { ascending: false }).limit(data.limit;
+  });
     if (error) throw error; return rows ?? [];
   }));
 
 // ---- Retention ----
 export const bkpApplyRetention = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ policy_id: z.string().uuid().optional() }).parse(i ?? {}))
-  .handler(async ({ data, context }) => guard(() => backupEngine.applyRetention(context.supabase, context.userId, data.policy_id)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpApplyRetention", source: "api", module: "backup.bkpApplyRetention" });
+    return guard(() => backupEngine.applyRetention(context.supabase, context.userId, data.policy_id));
+  });
 // ---- Recovery plans + drills ----
 const PlanInput = z.object({
   name: z.string().min(2).max(120),
@@ -141,10 +155,13 @@ export const bkpListPlans = createServerFn({ method: "GET" }).middleware([requir
   }));
 export const bkpUpsertPlan = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => PlanInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "bkpUpsertPlan", source: "api", module: "backup.bkpUpsertPlan" });
+    return guard(async () => {
     const { data: row, error } = await context.supabase.from("bkp_recovery_plans")
       .upsert({ ...data, created_by: context.userId } as never, { onConflict: "name" })
-      .select("*").single();
+      .select("*").single(;
+  });
     if (error) throw error; return row;
   }));
 export const bkpRunDrill = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
