@@ -97,6 +97,12 @@ export const requestFounderDocumentGeneration = createServerFn({
   .inputValidator(validateRequestDoc)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "document", capability: "request",
+      user_id: userId, company_id: data.company_id,
+      summary: `document ${data.title}`,
+      metadata: { format: data.format, category: data.category },
+    });
 
     // Brain step — wrapped so capability + approval shape is enforced.
     const brain = withBrain<RequestDocInput, ReturnType<typeof analyseImpact>>({
