@@ -8,7 +8,7 @@ Every new feature in HAPPY X must satisfy **ALL ten** of the requirements below.
 
 ## The ten requirements
 
-1. **Reuse existing canonical owner.** Extend the owner listed in [`MASTER_ARCHITECTURE_LOCK.md`](./MASTER_ARCHITECTURE_LOCK.md) §4. If no owner exists, stop and escalate — do not invent one.
+1. **Reuse existing canonical owner.** Perform a [Canonical Scan](./CANONICAL_SCAN_RULE.md) first, then extend the owner listed in [`MASTER_ARCHITECTURE_LOCK.md`](./MASTER_ARCHITECTURE_LOCK.md) §4. If no owner exists, stop and escalate — do not invent one.
 2. **Never create duplicate runtime.** One HAPPY, one runtime. See [`MASTER_CORE_VISION_LOCK.md`](./MASTER_CORE_VISION_LOCK.md).
 3. **Never create duplicate API.** Extend the existing `*-v1.functions.ts` surface or its canonical successor. No parallel API layer.
 4. **Never create duplicate database table.** Extend the existing table lineage; new tables require Founder approval and a Constitution entry.
