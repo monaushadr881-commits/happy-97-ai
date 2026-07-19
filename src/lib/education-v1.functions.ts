@@ -361,6 +361,7 @@ export const eduSavePlan = createServerFn({ method: "POST" })
     status: z.enum(["active", "paused", "completed", "archived"]).optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "plan", capability: data.id ? "update" : "create", user_id: context.userId, company_id: ZERO_UUID });
     const row = {
       user_id: context.userId,
       title: data.title,
