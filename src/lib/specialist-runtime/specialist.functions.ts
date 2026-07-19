@@ -47,7 +47,7 @@ export const startSpecialistSessionFn = createServerFn({ method: 'POST' })
       happySessionId: data.happySessionId ?? null,
       language: data.language,
       metadata: data.metadata,
-    }),;
+    }));
   });
 const transitionSchema = z.object({
   sessionId: z.string().uuid(),
@@ -175,5 +175,5 @@ export const computeSpecialistAnalyticsFn = createServerFn({ method: 'POST' })
       to: data.to,
       companyId: data.companyId ?? null,
       sessionId: data.sessionId ?? null,
-    }),;
+    }));
   });
