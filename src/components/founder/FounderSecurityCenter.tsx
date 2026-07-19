@@ -40,8 +40,8 @@ export function FounderSecurityCenter({ isFounder }: Props) {
 
   const devices = useQuery({ queryKey: ["fsc","devices"], queryFn: () => listMyDevices() });
   const sessions = useQuery({ queryKey: ["fsc","sessions"], queryFn: () => listMySessions() });
-  const history = useQuery({ queryKey: ["fsc","history"], queryFn: () => listMyLoginHistory({ data: { limit: 20 } }) });
-  const alerts = useQuery({ queryKey: ["fsc","alerts"], queryFn: () => listMySecurityAlerts({ data: { limit: 20 } }) });
+  const history = useQuery({ queryKey: ["fsc","history"], queryFn: () => listMyLoginHistory() });
+  const alerts = useQuery({ queryKey: ["fsc","alerts"], queryFn: () => listMySecurityAlerts() });
   const passkeys = useQuery({ queryKey: ["fsc","passkeys"], queryFn: () => listMyPasskeys() });
 
   const [newCodes, setNewCodes] = useState<string[] | null>(null);
