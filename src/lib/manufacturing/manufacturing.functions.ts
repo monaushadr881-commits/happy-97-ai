@@ -39,6 +39,9 @@ export const MANUFACTURING_MODULES = [
   "production_order", "production_batch", "machine_downtime",
   "maintenance_order", "quality_inspection", "bom",
   "goods_receipt", "cycle_count",
+  // R191 Batch 4 extensions (production/quality/procurement completion)
+  "bom_consumption", "raw_material_issue", "machine_assignment",
+  "quality_approval", "finished_goods", "production_analytics",
 ] as const;
 export type ManufacturingModule = typeof MANUFACTURING_MODULES[number];
 
@@ -60,6 +63,7 @@ const analyze = withBrain<
       module === "quality" ||
       module === "maintenance_order" ||
       module === "quality_inspection" ||
+      module === "quality_approval" ||
       module === "machine_downtime";
     if (critical || (criticalModule && highCost)) {
       return { severity: "critical", requires_approval: true, reason: "critical_operation" };
@@ -450,3 +454,196 @@ export const manufacturingCycleCountRecord = createServerFn({ method: "POST" })
       context,
     ),
   );
+
+// -----------------------------------------------------------------------------
+// R191 Batch 4 — Production / Quality / Procurement completion.
+// Reuses runManufacturingPipeline (canonical). No new tables, no new runtime.
+// Procurement (purchase_order / vendor_bill) stays with Business Runtime
+// (src/lib/business/business-runtime.functions.ts); warehouse receive & stock
+// updates stay with Order/Inventory Runtime — do NOT duplicate here.
+// -----------------------------------------------------------------------------
+
+/** BOM Consumption — record components consumed against a production batch. */
+export const manufacturingBomConsume = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      batch_ref: z.string().min(1).max(120),
+      bom_ref: z.string().min(1).max(120),
+      components: z.array(z.object({
+        sku: z.string(), quantity_consumed: z.number().nonnegative(), unit: z.string().optional(),
+      })).min(1),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "bom_consumption",
+        reference: `${data.bom_ref}:${data.batch_ref}`,
+        payload: { bom_ref: data.bom_ref, batch_ref: data.batch_ref, components: data.components },
+      },
+      context,
+    ),
+  );
+
+/** Raw Material Issue — issue raw materials from warehouse to shopfloor. */
+export const manufacturingRawMaterialIssue = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      issue_ref: z.string().min(1).max(120),
+      warehouse_ref: z.string().min(1).max(120),
+      order_ref: z.string().optional(),
+      items: z.array(z.object({
+        sku: z.string(), quantity: z.number().nonnegative(),
+      })).min(1),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "raw_material_issue",
+        reference: data.issue_ref,
+        payload: { warehouse_ref: data.warehouse_ref, order_ref: data.order_ref ?? null, items: data.items },
+      },
+      context,
+    ),
+  );
+
+/** Machine Assignment — assign machine + operator to a production order. */
+export const manufacturingMachineAssign = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      order_ref: z.string().min(1).max(120),
+      machine_ref: z.string().min(1).max(120),
+      operator: z.string().optional(),
+      shift: z.string().optional(),
+      scheduled_start: z.string().optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "machine_assignment",
+        reference: `${data.machine_ref}:${data.order_ref}`,
+        payload: {
+          machine_ref: data.machine_ref, order_ref: data.order_ref,
+          operator: data.operator ?? null, shift: data.shift ?? null,
+          scheduled_start: data.scheduled_start ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Quality Approval — final QA sign-off (critical; forced approval). */
+export const manufacturingQualityApprove = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      approval_ref: z.string().min(1).max(120),
+      inspection_ref: z.string().min(1).max(120),
+      decision: z.enum(["approved", "rejected", "rework"]),
+      approver: z.string().optional(),
+      notes: z.string().max(4000).optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "quality_approval",
+        reference: data.approval_ref,
+        critical: true,
+        payload: {
+          inspection_ref: data.inspection_ref, decision: data.decision,
+          approver: data.approver ?? null, notes: data.notes ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Finished Goods Entry — post finished output to warehouse. */
+export const manufacturingFinishedGoodsEntry = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      entry_ref: z.string().min(1).max(120),
+      batch_ref: z.string().min(1).max(120),
+      warehouse_ref: z.string().min(1).max(120),
+      sku: z.string().min(1),
+      quantity: z.number().nonnegative(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "finished_goods",
+        reference: data.entry_ref,
+        payload: {
+          batch_ref: data.batch_ref, warehouse_ref: data.warehouse_ref,
+          sku: data.sku, quantity: data.quantity,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Production Analytics — aggregate over recorded manufacturing assets. */
+export const manufacturingProductionAnalytics = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      workspace_id: uuid.optional(),
+      limit: z.number().int().min(1).max(500).default(200),
+    }).parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    let q = context.supabase
+      .from("creator_assets")
+      .select("kind,metadata,created_at")
+      .like("kind", "manufacturing.%")
+      .order("created_at", { ascending: false })
+      .limit(data.limit);
+    if (data.workspace_id) q = q.contains("metadata", { workspace_id: data.workspace_id } as never);
+    const r = await q;
+    if (r.error) throw new Error(`manufacturing_analytics_failed: ${r.error.message}`);
+    const rows = r.data ?? [];
+    const by_module: Record<string, number> = {};
+    let batches = 0, downtime_minutes = 0, quality_fail = 0, quality_pass = 0, approvals_critical = 0;
+    for (const row of rows) {
+      const kind = String(row.kind ?? "");
+      const mod = kind.replace(/^manufacturing\./, "");
+      by_module[mod] = (by_module[mod] ?? 0) + 1;
+      const m = (row.metadata ?? {}) as Record<string, unknown>;
+      const payload = (m.payload ?? {}) as Record<string, unknown>;
+      const impact = (m.impact ?? {}) as Record<string, unknown>;
+      if (mod === "production_batch") batches += 1;
+      if (mod === "machine_downtime" && typeof payload.minutes === "number") downtime_minutes += payload.minutes;
+      if (mod === "quality_inspection") {
+        if (payload.result === "fail") quality_fail += 1;
+        else if (payload.result === "pass") quality_pass += 1;
+      }
+      if (impact.severity === "critical") approvals_critical += 1;
+    }
+    return {
+      total_records: rows.length,
+      by_module,
+      batches,
+      downtime_minutes,
+      quality: { pass: quality_pass, fail: quality_fail },
+      approvals_critical,
+    };
+  });
+
