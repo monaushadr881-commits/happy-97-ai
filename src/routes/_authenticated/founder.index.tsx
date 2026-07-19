@@ -34,6 +34,7 @@ import {
   ListChecks,
   AlertTriangle,
 } from "lucide-react";
+import { MissionControl } from "@/components/founder/MissionControl";
 
 export const Route = createFileRoute("/_authenticated/founder/")({
   head: () => ({ meta: [{ title: "Overview — Founder" }, { name: "robots", content: "noindex" }] }),
@@ -169,6 +170,8 @@ function FounderOverview() {
           {!audit.data && <li className="py-2 text-xs text-soft-gray">No recent activity.</li>}
         </ul>
       </Panel>
+
+      <MissionControl />
     </>
   );
 }
