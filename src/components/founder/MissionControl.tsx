@@ -1079,7 +1079,52 @@ export function MissionControl() {
         </div>
       </Panel>
 
-      {/* R189 Phase 3 — Vertical Runtime (Manufacturing / Healthcare / Agriculture) */}
+      {/* R189 Batch 2 — Universal Runtime pipeline */}
+      <Panel className="p-5 lg:col-span-3">
+        <div className="mb-4 flex items-center gap-2">
+          <Workflow className="h-4 w-4 text-gold" />
+          <h3 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">
+            Universal Runtime · Canonical Execution Pipeline
+          </h3>
+          <Chip tone={d?.universal_runtime.pipeline_ok ? "gold" : "warning"}>
+            {d?.universal_runtime.pipeline_ok ? "healthy" : "attention"}
+          </Chip>
+        </div>
+        <Hairline className="my-4" />
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+          <StatCard label="Coverage"      value={`${d?.universal_runtime.coverage_pct ?? 0}%`} />
+          <StatCard label="Executions·24h" value={fmt(d?.universal_runtime.executions_24h)} />
+          <StatCard label="Running Now"   value={fmt(d?.universal_runtime.running_now)} />
+          <StatCard label="Failures·24h"  value={fmt(d?.universal_runtime.failures_24h)} />
+          <StatCard label="Queue Pending" value={fmt(d?.universal_runtime.queue_pending)} />
+          <StatCard label="Queue Failed"  value={fmt(d?.universal_runtime.queue_failed)} />
+        </div>
+        <Hairline className="my-4" />
+        <div className="text-xs uppercase tracking-[0.14em] text-soft-gray mb-2">
+          Pipeline Stages ({d?.universal_runtime.stages.length ?? 0})
+        </div>
+        <ol className="grid gap-2 md:grid-cols-2">
+          {(d?.universal_runtime.stages ?? []).map((s, i) => (
+            <li key={s.stage} className="flex items-center justify-between rounded-md border border-white/5 bg-white/[0.02] px-3 py-2">
+              <div className="flex items-center gap-3">
+                <span className="w-6 text-[11px] tabular-nums text-soft-gray">{String(i + 1).padStart(2, "0")}</span>
+                <div className="flex flex-col">
+                  <span className="text-sm text-paper">{s.stage}</span>
+                  <span className="text-[11px] text-soft-gray">{s.owner}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] tabular-nums text-soft-gray">{fmt(s.count_24h)} · 24h</span>
+                <Chip tone={s.status === "wired" ? "gold" : s.status === "degraded" ? "warning" : "neutral"}>
+                  {s.status}
+                </Chip>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </Panel>
+
+
       {(["mfg", "health", "agri"] as const).map((v) => {
         const label = v === "mfg" ? "Manufacturing" : v === "health" ? "Healthcare" : "Agriculture";
         const b = d?.verticals?.[v];
