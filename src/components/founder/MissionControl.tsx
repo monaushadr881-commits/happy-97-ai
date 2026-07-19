@@ -19,6 +19,7 @@ import {
   Palette,
   BookOpen,
   Server,
+  Rocket,
 } from "lucide-react";
 import { founderMissionControl } from "@/lib/founder/mission-control.functions";
 
