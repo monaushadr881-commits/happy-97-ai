@@ -35,7 +35,10 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { withBrain } from "@/lib/founder/with-brain";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import type { FounderApprovalContext } from "@/lib/founder/types";
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 
 const uuid = z.string().uuid();
 
