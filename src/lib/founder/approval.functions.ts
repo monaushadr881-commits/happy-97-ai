@@ -18,6 +18,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "./audit";
+import { adoptToCanonicalPipeline } from "./pipeline";
 
 type ApprovalStatus = "pending" | "approved" | "rejected" | "cancelled";
 type Decision = "approved" | "rejected" | "cancelled";
