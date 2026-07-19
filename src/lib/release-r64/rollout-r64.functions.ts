@@ -32,10 +32,25 @@ export const createRollout = createServerFn({ method: "POST" })
       store: z.enum(STORE_CODES as [string, ...string[]]),
       target_percent: z.number().int().min(0).max(100).default(100),
       country_scope: z.array(z.string()).optional(),
+      company_id: z.string().uuid(),
     }).parse(raw))
   .handler(async ({ context, data }) => {
     await assertOpsAdminR64(context);
     if (!validateRolloutPercent(data.target_percent)) throw new Error("target_percent must be 0/1/5/10/20/50/100");
+    // R183 — creating a production rollout is a deploy-tier change.
+    const enforcement = await requireApproval(context as any, {
+      action: "release.rollout_create",
+      entityType: "release_rollouts",
+      entityId: data.release_id,
+      companyId: data.company_id,
+      descriptor: { kind: "deploy", action: "rollout_create", affectsProduction: true, securityImpact: "medium" },
+      brain: {
+        company_id: data.company_id,
+        input: `create ${data.target_percent}% rollout on ${data.store} for release ${data.release_id}`,
+        source: "automation",
+        module: "release",
+      },
+    });
     const sb: any = context.supabase;
     const { data: row, error } = await sb.from("release_rollouts").insert({
       release_id: data.release_id,
@@ -48,14 +63,16 @@ export const createRollout = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     await sb.from("release_rollout_events").insert({
       rollout_id: row.id, to_state: "planned", to_percent: 0, actor_id: context.userId,
+      reason: `approval:${enforcement.approvalId}`,
     });
-    await writeAudit(context, { category: "release", action: "rollout_created", entity_id: row.id });
-    return { rollout: row };
+    await writeAudit(context, { category: "release", action: "rollout_created", entity_id: row.id, metadata: { approval_id: enforcement.approvalId, tier: enforcement.tier } });
+    return { rollout: row, enforcement: { tier: enforcement.tier, approval_id: enforcement.approvalId } };
   });
 
 export const advanceRollout = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ rollout_id: z.string().uuid() }).parse(raw))
+
   .handler(async ({ context, data }) => {
     await assertOpsAdminR64(context);
     const sb: any = context.supabase;
