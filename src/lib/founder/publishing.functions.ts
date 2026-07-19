@@ -145,6 +145,12 @@ export const requestPublishingPackage = createServerFn({ method: "POST" })
   .inputValidator(validateRequest)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "publishing", module: "package", capability: "request",
+      user_id: userId, company_id: data.company_id,
+      summary: `${data.app_name} · ${data.store} · v${data.version}`,
+      metadata: { store: data.store, kinds: data.kinds.length },
+    });
 
     const brain = withBrain<RequestInput, ReturnType<typeof analyseImpact>>({
       capability: CAPABILITY,
