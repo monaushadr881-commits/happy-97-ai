@@ -51,7 +51,7 @@ export const opsHealthRecord = createServerFn({ method: "POST" })
 export const opsMetricsEmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => metricsService.emit(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "metrics", "emit"); return guard(() => metricsService.emit(svc(context), data)); });
 
 export const opsMetricsRange = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
