@@ -3,6 +3,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+import { assertUuid } from "@/lib/security/pgrest-sanitize";
 
 type SB = SupabaseClient<Database>;
 
