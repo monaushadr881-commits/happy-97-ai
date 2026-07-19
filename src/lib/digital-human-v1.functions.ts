@@ -349,7 +349,8 @@ Return STRICT JSON in a fenced \`\`\`json block only, matching:
       audience: data.audience ?? null,
       slides: cleanSlides,
       status: "draft",
-    }).select("*").single();
+    }).select("*").single(;
+  });
     if (ins.error) throw ins.error;
     return ins.data;
   });

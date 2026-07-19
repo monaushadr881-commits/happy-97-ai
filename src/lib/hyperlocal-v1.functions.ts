@@ -440,7 +440,8 @@ export const hlUpsertReview = createServerFn({ method: "POST" })
       const avg = total ? agg.data.reduce((s, x) => s + (x.rating ?? 0), 0) / total : 0;
       await context.supabase.from("hl_businesses")
         .update({ rating_avg: Number(avg.toFixed(2)), rating_count: total })
-        .eq("id", data.business_id);
+        .eq("id", data.business_id;
+  });
     }
     return r.data;
   });

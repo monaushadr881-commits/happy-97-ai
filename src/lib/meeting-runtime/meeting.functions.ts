@@ -60,7 +60,8 @@ export const createMeetingFn = createServerFn({ method: 'POST' })
     await context.supabase.from('meeting_participants').insert({
       meeting_id: row.id, user_id: context.userId, role: 'host', attendance_status: 'accepted',
     });
-    return row);
+    return row;
+  });
 
 const statusSchema = z.object({
   meetingId: z.string().uuid(),
@@ -103,7 +104,8 @@ export const inviteParticipantFn = createServerFn({ method: 'POST' })
       role: data.role,
     }).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 const attendanceSchema = z.object({
   participantId: z.string().uuid(),
@@ -143,7 +145,8 @@ export const addAgendaItemFn = createServerFn({ method: 'POST' })
       duration_minutes: data.durationMinutes ?? null, created_by: context.userId,
     }).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 const agendaStatusSchema = z.object({
   itemId: z.string().uuid(),
@@ -157,7 +160,8 @@ export const setAgendaStatusFn = createServerFn({ method: 'POST' })
     const { data: row, error } = await context.supabase.from('meeting_agenda_items')
       .update({ status: data.status }).eq('id', data.itemId).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 // -------- Minutes ---------------------------------------------------------
 const minutesSchema = z.object({
@@ -178,7 +182,8 @@ export const appendMinutesVersionFn = createServerFn({ method: 'POST' })
       summary: data.summary ?? null, content: data.content, status: 'draft',
     }).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 const approveMinutesSchema = z.object({ minutesId: z.string().uuid() });
 export const approveMinutesFn = createServerFn({ method: 'POST' })
@@ -223,7 +228,8 @@ export const createActionItemFn = createServerFn({ method: 'POST' })
       linked_task_id: data.linkedTaskId ?? null,
     }).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 const actionStatusSchema = z.object({
   actionId: z.string().uuid(),
@@ -272,7 +278,8 @@ export const recordMeetingDecisionFn = createServerFn({ method: 'POST' })
       confidence: data.confidence,
     }).select('*').single();
     if (error) throw error;
-    return row);
+    return row;
+  });
 
 // -------- Analytics & Follow-up ------------------------------------------
 const analyticsSchema = z.object({ meetingId: z.string().uuid() });

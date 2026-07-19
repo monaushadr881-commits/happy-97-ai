@@ -334,7 +334,8 @@ export const eduSubmitQuiz = createServerFn({ method: "POST" })
     const ins = await s.from("quiz_attempts").insert({
       quiz_id: data.quiz_id, user_id: context.userId,
       score, passed, answers: data.answers as unknown as never, submitted_at: new Date().toISOString(),
-    }).select("id, score, passed").single();
+    }).select("id, score, passed").single(;
+  });
     if (ins.error) throw ins.error;
     return ins.data;
   });

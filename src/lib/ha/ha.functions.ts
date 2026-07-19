@@ -43,7 +43,8 @@ export const haUpsertRegion = createServerFn({ method: "POST" }).middleware([req
   });
     const { data: row, error } = await sb.from("ha_regions")
       .upsert({ ...data, created_by: context.userId }, { onConflict: "code" })
-      .select("*").single();
+      .select("*").single(;
+  });
     if (error) throw error;
     const r = row as { id: string };
     await sb.from("ha_events").insert({
@@ -172,7 +173,8 @@ export const haUpsertTrafficPolicy = createServerFn({ method: "POST" }).middlewa
   });
     const { data: row, error } = await sb.from("ha_traffic_policies")
       .upsert({ ...data, weights: data.weights ?? {}, updated_by: context.userId, updated_at: new Date().toISOString() }, { onConflict: "policy" })
-      .select("*").single();
+      .select("*").single(;
+  });
     if (error) throw error;
     const r = row as { id: string };
     await sb.from("ha_events").insert({
