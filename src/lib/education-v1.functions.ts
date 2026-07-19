@@ -244,6 +244,7 @@ export const eduReviewFlashcard = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, quality: z.number().int().min(0).max(5) }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "flashcard", capability: "review", user_id: context.userId, company_id: ZERO_UUID, metadata: { quality: data.quality } });
     const s = context.supabase;
     const cur = await s.from("study_flashcards")
       .select("id, ease, interval_days, reps")
