@@ -20,3 +20,16 @@ export function sanitizePgRestLike(input: string, maxLen = 120): string {
     .replace(/\s+/g, " ")
     .trim();
 }
+
+/**
+ * Assert a string is a canonical UUID before interpolating it into a
+ * PostgREST `.or()` / `.filter()` fragment. Throws on invalid input so
+ * callers never splice attacker-controlled tokens into the filter grammar.
+ */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export function assertUuid(input: unknown, field = "id"): string {
+  if (typeof input !== "string" || !UUID_RE.test(input)) {
+    throw new Error(`invalid_uuid:${field}`);
+  }
+  return input;
+}
