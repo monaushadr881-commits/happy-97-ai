@@ -39,6 +39,9 @@ export const MANUFACTURING_MODULES = [
   "production_order", "production_batch", "machine_downtime",
   "maintenance_order", "quality_inspection", "bom",
   "goods_receipt", "cycle_count",
+  // R191 Batch 4 extensions (production/quality/procurement completion)
+  "bom_consumption", "raw_material_issue", "machine_assignment",
+  "quality_approval", "finished_goods", "production_analytics",
 ] as const;
 export type ManufacturingModule = typeof MANUFACTURING_MODULES[number];
 
