@@ -2300,6 +2300,65 @@ export type Database = {
           },
         ]
       }
+      auth_passkeys: {
+        Row: {
+          authenticator_type: string
+          created_at: string
+          credential_id: string
+          device_id: string | null
+          id: string
+          is_backup: boolean
+          label: string
+          last_used_at: string | null
+          public_key: string
+          revoked_at: string | null
+          sign_count: number
+          transports: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          authenticator_type?: string
+          created_at?: string
+          credential_id: string
+          device_id?: string | null
+          id?: string
+          is_backup?: boolean
+          label?: string
+          last_used_at?: string | null
+          public_key: string
+          revoked_at?: string | null
+          sign_count?: number
+          transports?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          authenticator_type?: string
+          created_at?: string
+          credential_id?: string
+          device_id?: string | null
+          id?: string
+          is_backup?: boolean
+          label?: string
+          last_used_at?: string | null
+          public_key?: string
+          revoked_at?: string | null
+          sign_count?: number
+          transports?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auth_passkeys_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "auth_devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       auth_provider_registry: {
         Row: {
           architecture_ready: boolean
