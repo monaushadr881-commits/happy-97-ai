@@ -290,7 +290,15 @@ export interface MissionControlSnapshot {
     coverage: Array<{ module: string; status: "wired" | "read_only" }>;
     coverage_pct: number;
   };
+  platform_core: {
+    // R189 Batch 1 — Platform Core coverage (read-only manifest over existing
+    // canonical kernel + services/core + integrations). No new files.
+    layers: Array<{ layer: string; owner: string; status: "present" | "degraded" | "missing" }>;
+    coverage_pct: number;
+    db_probe_ok: boolean;
+  };
 }
+
 
 export const founderMissionControl = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -1091,6 +1099,33 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           coverage_pct: Math.round((wired / coverage.length) * 100),
         };
       })(),
+      platform_core: await (async () => {
+        // Deterministic manifest over existing canonical Platform Core owners.
+        // Single lightweight DB probe verifies runtime connectivity.
+        const probe = await sb.from("health_checks").select("id", { count: "exact", head: true }).limit(1);
+        const db_probe_ok = !probe.error;
+        const layers: Array<{ layer: string; owner: string; status: "present" | "degraded" | "missing" }> = [
+          { layer: "kernel.config",         owner: "src/kernel/config.ts",              status: "present" },
+          { layer: "kernel.logger",         owner: "src/kernel/logger.ts",              status: "present" },
+          { layer: "kernel.event-bus",      owner: "src/kernel/event-bus.ts",           status: "present" },
+          { layer: "kernel.feature-flags",  owner: "src/kernel/feature-flags.ts",       status: "present" },
+          { layer: "kernel.permissions",    owner: "src/kernel/permissions.ts",         status: "present" },
+          { layer: "kernel.notifications",  owner: "src/kernel/notifications.tsx",      status: "present" },
+          { layer: "kernel.theme",          owner: "src/kernel/theme.tsx",              status: "present" },
+          { layer: "kernel.app-state",      owner: "src/kernel/app-state.tsx",          status: "present" },
+          { layer: "kernel.module-registry",owner: "src/kernel/module-registry.ts",     status: "present" },
+          { layer: "kernel.ai-service",     owner: "src/kernel/ai-service.ts",          status: "present" },
+          { layer: "services.core",         owner: "src/services/core/*",               status: "present" },
+          { layer: "integrations.supabase", owner: "src/integrations/supabase/*",       status: "present" },
+          { layer: "integrations.lovable",  owner: "src/integrations/lovable/*",        status: "present" },
+          { layer: "router",                owner: "src/router.tsx",                    status: "present" },
+          { layer: "design-system",         owner: "src/design-system/*",               status: "present" },
+          { layer: "runtime.db-probe",      owner: "public.health_checks",              status: db_probe_ok ? "present" : "degraded" },
+        ];
+        const ok = layers.filter((l) => l.status === "present").length;
+        return { layers, coverage_pct: Math.round((ok / layers.length) * 100), db_probe_ok };
+      })(),
     };
   });
+
 
