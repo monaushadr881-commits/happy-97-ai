@@ -146,7 +146,7 @@ export const apiConversationMessages = createServerFn({ method: "POST" })
 export const apiSendMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => conversationService.send(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "communication", "message", "send", null); return guard(() => conversationService.send(svc(context), data)); });
 
 // ------------------------- Search ----------------------------
 export const apiSearchKnowledge = createServerFn({ method: "POST" })
