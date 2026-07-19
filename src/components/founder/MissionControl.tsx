@@ -683,7 +683,105 @@ export function MissionControl() {
           )}
         </ul>
       </Panel>
+
+      {/* R188 Batch B — Workspace Runtime */}
+      <Panel
+        title={
+          <span className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-cyan-400" aria-hidden />
+            Workspace · Founder Attached Items
+          </span>
+        }
+      >
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <StatCard label="Workspaces" value={fmt(d?.workspace.total)} />
+          <StatCard label="Active" value={fmt(d?.workspace.active)} />
+          <StatCard label="Recent items" value={fmt(d?.workspace.items_total)} />
+          <StatCard label="Attach events 7d" value={fmt(d?.workspace.attach_events_7d)} />
+        </div>
+        <ul className="mt-3 divide-y divide-white/5 text-sm">
+          {(d?.workspace.items_recent ?? []).slice(0, 8).map((r) => (
+            <li key={r.id} className="flex items-center justify-between gap-3 py-2">
+              <div className="min-w-0">
+                <div className="truncate text-white/90">{r.name}</div>
+                <div className="truncate text-xs text-soft-gray">
+                  {r.kind} · v{r.workspace_link_version} · ws {r.workspace_id.slice(0, 8)}
+                </div>
+              </div>
+              <span className="text-xs text-soft-gray">
+                {new Date(r.created_at).toLocaleString()}
+              </span>
+            </li>
+          ))}
+          {!d?.workspace.items_recent.length && (
+            <li className="py-2 text-xs text-soft-gray">No workspace-linked assets yet.</li>
+          )}
+        </ul>
+      </Panel>
+
+      {/* R188 Batch B — Knowledge Runtime */}
+      <Panel
+        title={
+          <span className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden />
+            Knowledge · Articles &amp; References
+          </span>
+        }
+      >
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+          <StatCard label="Articles" value={fmt(d?.knowledge_ext.articles_total)} />
+          <StatCard label="Public" value={fmt(d?.knowledge_ext.articles_public)} />
+          <StatCard label="Drafts" value={fmt(d?.knowledge_ext.articles_drafts)} />
+          <StatCard label="References" value={fmt(d?.knowledge_ext.references_total)} />
+          <StatCard label="Publish pending" value={fmt(d?.knowledge_ext.pending_publish_approvals)} />
+        </div>
+        <div className="mt-3 grid gap-4 md:grid-cols-2">
+          <div>
+            <h4 className="mb-1 text-xs uppercase tracking-wide text-soft-gray">Recent updates</h4>
+            <ul className="divide-y divide-white/5 text-sm">
+              {(d?.knowledge_ext.recent_updates ?? []).slice(0, 6).map((r) => (
+                <li key={r.id} className="flex items-center justify-between gap-3 py-2">
+                  <div className="min-w-0">
+                    <div className="truncate text-white/90">{r.title}</div>
+                    <div className="text-xs text-soft-gray">
+                      {r.is_public ? "public" : "company"} · v{r.version}
+                    </div>
+                  </div>
+                  <span className="text-xs text-soft-gray">
+                    {new Date(r.updated_at).toLocaleString()}
+                  </span>
+                </li>
+              ))}
+              {!d?.knowledge_ext.recent_updates.length && (
+                <li className="py-2 text-xs text-soft-gray">No articles yet.</li>
+              )}
+            </ul>
+          </div>
+          <div>
+            <h4 className="mb-1 text-xs uppercase tracking-wide text-soft-gray">Recent references</h4>
+            <ul className="divide-y divide-white/5 text-sm">
+              {(d?.knowledge_ext.recent_references ?? []).slice(0, 6).map((r) => (
+                <li key={r.id} className="flex items-center justify-between gap-3 py-2">
+                  <div className="min-w-0">
+                    <div className="truncate text-white/90">{r.label}</div>
+                    <div className="truncate text-xs text-soft-gray">
+                      {r.url ?? "—"} · article {r.article_id.slice(0, 8)}
+                    </div>
+                  </div>
+                  <span className="text-xs text-soft-gray">
+                    {new Date(r.created_at).toLocaleString()}
+                  </span>
+                </li>
+              ))}
+              {!d?.knowledge_ext.recent_references.length && (
+                <li className="py-2 text-xs text-soft-gray">No references yet.</li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </Panel>
     </section>
   );
 }
+
 
