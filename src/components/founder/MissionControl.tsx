@@ -1024,6 +1024,61 @@ export function MissionControl() {
         </ul>
       </Panel>
 
+      {/* R189 Phase 2 — Universal File System / Import / Export / Sync / Command Mode */}
+      <Panel className="p-5">
+        <div className="flex items-center gap-2">
+          <Server className="h-4 w-4 text-gold" />
+          <h3 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">
+            Universal File Runtime · UFS · Import · Export · Sync · Command
+          </h3>
+        </div>
+        <Hairline className="my-4" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StatCard label="Files"          value={fmt(d?.platform_runtime.files_total)} />
+          <StatCard label="Understood"     value={fmt(d?.platform_runtime.understandings_total)} />
+          <StatCard label="Imports · 24h"  value={fmt(d?.platform_runtime.imports_24h)} />
+          <StatCard label="Exports · 24h"  value={fmt(d?.platform_runtime.exports_24h)} />
+          <StatCard label="Syncs · 24h"    value={fmt(d?.platform_runtime.syncs_24h)} />
+          <StatCard label="Commands · 24h" value={fmt(d?.platform_runtime.commands_24h)} />
+          <StatCard label="Jobs Pending"   value={fmt(d?.platform_runtime.jobs.pending)} />
+          <StatCard label="Coverage"       value={`${d?.platform_runtime.coverage_pct ?? 0}%`} />
+        </div>
+        <Hairline className="my-4" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <div className="text-xs uppercase tracking-[0.14em] text-soft-gray mb-2">Runtime Coverage</div>
+            <ul className="space-y-2">
+              {(d?.platform_runtime.coverage ?? []).map((c) => (
+                <li key={c.capability} className="flex items-center justify-between rounded-md border border-white/5 bg-white/[0.02] px-3 py-2">
+                  <div className="flex flex-col">
+                    <span className="text-sm text-paper">{c.capability}</span>
+                    <span className="text-[11px] text-soft-gray">{c.owner}</span>
+                  </div>
+                  <Chip tone={c.status === "wired" ? "gold" : "muted"}>{c.status}</Chip>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-[0.14em] text-soft-gray mb-2">Recent Activity</div>
+            <ul className="divide-y divide-white/5">
+              {(d?.platform_runtime.recent ?? []).map((r) => (
+                <li key={r.id} className="py-2 flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-sm text-paper">{r.name}</span>
+                    <span className="text-[11px] text-soft-gray">{r.kind}</span>
+                  </div>
+                  <span className="text-[11px] text-soft-gray">{ago(r.created_at)}</span>
+                </li>
+              ))}
+              {!d?.platform_runtime.recent.length && (
+                <li className="py-2 text-xs text-soft-gray">No UFS activity yet.</li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </Panel>
+
     </section>
   );
 }
