@@ -28,3 +28,61 @@ export type {
   FounderApprovalRequest,
   FounderCapability,
 } from "./types";
+
+// R184 Batch 1 — Founder Document & Publishing Studio (foundation only).
+export {
+  DOCUMENT_FORMATS,
+  DOCUMENT_CATEGORIES,
+  DOCUMENT_FORMAT_MIME,
+  DOCUMENT_FORMAT_EXTENSION,
+  isDocumentFormat,
+  isDocumentCategory,
+  type DocumentFormat,
+  type DocumentCategory,
+} from "./document-types";
+
+export {
+  DOCUMENT_STATUSES,
+  TERMINAL_DOCUMENT_STATUSES,
+  DOCUMENT_STATUS_TRANSITIONS,
+  isDocumentStatus,
+  isTerminalDocumentStatus,
+  canTransitionDocumentStatus,
+  type DocumentStatus,
+} from "./document-status";
+
+export {
+  TODO,
+  isTodo,
+  knownOrTodo,
+  type Todo,
+  type Known,
+  type DocumentGeneratorSource,
+  type WorkspaceLocationRef,
+  type DocumentVersion,
+  type DocumentAuditRefs,
+  type DocumentMetadata,
+} from "./document-metadata";
+
+export {
+  TEMPLATE_REGISTRY,
+  listTemplates,
+  getTemplate,
+  listTemplatesByCategory,
+  type TemplateId,
+  type TemplateField,
+  type TemplateDefinition,
+} from "./template-registry";
+
+export {
+  STORE_TARGETS,
+  PUBLISHING_ASSET_KINDS,
+  PUBLISHING_CATALOG,
+  listPublishingAssets,
+  getPublishingAsset,
+  isStoreTarget,
+  isPublishingAssetKind,
+  type StoreTarget,
+  type PublishingAssetKind,
+  type PublishingAssetDefinition,
+} from "./publishing-catalog";
