@@ -109,6 +109,24 @@ export interface MissionControlSnapshot {
       created_at: string;
     }>;
   };
+  executive: {
+    total_reviews: number;
+    pending: number;
+    approved: number;
+    rejected: number;
+    conflicts_open: number;
+    top_risks: Array<{ risk: string; count: number }>;
+    recent: Array<{
+      id: string;
+      approval_id: string;
+      title: string;
+      status: string;
+      unified: string;
+      conflicts: number;
+      created_at: string;
+    }>;
+    member_tally: Record<string, { go: number; hold: number; no_go: number }>;
+  };
   health: {
     total: number;
     healthy: number;
