@@ -109,20 +109,17 @@ export const Route = createFileRoute("/api/dh/tts")({
           ? Math.max(0.5, Math.min(2, body.speed))
           : 1.0;
 
-        // Best-effort audit log — never block on failure.
+        // R183 Phase B — Universal HAPPY Brain™ gate for voice output.
+        // Runs canonical `runBrain()`/lite classify on the text before TTS and
+        // records one canonical audit line for the AI entry.
         try {
+          const { withBrain } = await import("@/lib/founder/enforce");
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-          await (supabaseAdmin as any)
-            .from("audit_logs")
-            .insert({
-              actor_id: userId,
-              category: "ai",
-              action: "dh.tts.request",
-              severity: "info",
-              metadata: { voice, text_len: text.length, speed },
-            })
-            .then(() => undefined, () => undefined);
-        } catch { /* audit is best-effort */ }
+          await withBrain(
+            { userId, supabase: supabaseAdmin as never, companyId: null },
+            { input: text, source: "voice", module: "dh-tts", channel: "voice" },
+          );
+        } catch { /* audit/brain is best-effort — never block TTS */ }
 
         const upstream = await fetch("https://ai.gateway.lovable.dev/v1/audio/speech", {
           method: "POST",

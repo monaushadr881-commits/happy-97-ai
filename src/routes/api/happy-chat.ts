@@ -9,6 +9,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { buildHappySystemPrompt } from "@/lib/happy-chat.functions";
 import { requireSupabaseUser, enforceRateLimit } from "@/lib/security/api-auth";
+import { withBrain } from "@/lib/founder/enforce";
 
 type Turn = { role: "user" | "assistant"; content: string };
 type Body = {
@@ -51,9 +52,44 @@ export const Route = createFileRoute("/api/happy-chat")({
         const message = typeof body.message === "string" ? body.message.trim().slice(0, 4000) : "";
         if (!message) return new Response("message is required", { status: 400 });
 
+        // R183 Phase B — Universal HAPPY Brain™ gate. Every AI entry runs Brain first.
+        const routeStr = typeof body.route === "string" ? body.route : undefined;
+        const personaStr = typeof body.persona === "string" ? body.persona : undefined;
+        const brain = await withBrain(
+          { userId: auth.userId, supabase: undefined, companyId: null },
+          {
+            input: message,
+            source: "chat",
+            module: "happy-chat",
+            channel: "text",
+            persona: personaStr as never,
+          },
+        );
+        // If Brain requests clarification we surface it as a synthetic SSE stream
+        // (single message) so the panel renders it identically to a normal reply.
+        if (brain.clarify && brain.clarification) {
+          const enc = new TextEncoder();
+          const stream = new ReadableStream({
+            start(controller) {
+              const payload = JSON.stringify({ choices: [{ delta: { content: brain.clarification } }] });
+              controller.enqueue(enc.encode(`data: ${payload}\n\ndata: [DONE]\n\n`));
+              controller.close();
+            },
+          });
+          return new Response(stream, {
+            headers: {
+              "Content-Type": "text/event-stream",
+              "Cache-Control": "no-cache, no-transform",
+              "X-Accel-Buffering": "no",
+              "X-Brain-Intent": brain.intent ?? "unknown",
+              "X-Brain-Clarify": "1",
+            },
+          });
+        }
+
         const system = buildHappySystemPrompt({
-          route: typeof body.route === "string" ? body.route : undefined,
-          persona: typeof body.persona === "string" ? body.persona : undefined,
+          route: routeStr,
+          persona: personaStr,
           role: typeof body.role === "string" ? body.role : undefined,
         });
         const history = sanitizeHistory(body.history);
@@ -84,6 +120,8 @@ export const Route = createFileRoute("/api/happy-chat")({
               "Content-Type": "text/event-stream",
               "Cache-Control": "no-cache, no-transform",
               "X-Accel-Buffering": "no",
+              "X-Brain-Intent": brain.intent ?? "unknown",
+              "X-Brain-Confidence": String(brain.confidence.toFixed(2)),
             },
           });
         } catch (err) {

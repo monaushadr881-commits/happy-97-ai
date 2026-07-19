@@ -57,7 +57,25 @@ export const Route = createFileRoute("/api/happy-stt")({
           }
           const payload = (await res.json().catch(() => ({}))) as { text?: unknown };
           const text = typeof payload.text === "string" ? payload.text.trim() : "";
-          return Response.json({ text });
+
+          // R183 Phase B — Universal HAPPY Brain™ gate on transcribed input.
+          try {
+            const { withBrain } = await import("@/lib/founder/enforce");
+            const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+            const brain = await withBrain(
+              { userId: auth.userId, supabase: supabaseAdmin as never, companyId: null },
+              { input: text || "(empty transcript)", source: "voice", module: "happy-stt", channel: "voice" },
+            );
+            return Response.json({
+              text,
+              intent: brain.intent,
+              confidence: brain.confidence,
+              clarify: brain.clarify,
+              clarification: brain.clarification,
+            });
+          } catch {
+            return Response.json({ text });
+          }
         } catch (err) {
           if (request.signal.aborted) return new Response(null, { status: 499 });
           const msg = err instanceof Error ? err.message : "stt failed";
