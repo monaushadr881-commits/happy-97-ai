@@ -168,6 +168,7 @@ export const dhSpeak = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SpeakInput.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "speak", "converse", { mode: data.mode, surface: data.surface, session_id: data.session_id ?? null });
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
     const s = context.supabase;
