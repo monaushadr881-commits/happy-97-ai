@@ -267,6 +267,29 @@ export interface MissionControlSnapshot {
     coverage: Array<{ layer: string; status: "healthy" | "degraded" | "unknown" }>;
     coverage_pct: number;
   };
+  business: {
+    // R188 Batch E — Business OS Runtime Rollout. Read-only aggregation over
+    // existing canonical business tables + business.* approvals + business.*
+    // audit categories. No new tables, no new services.
+    kpis: {
+      customers: number; leads: number; deals: number;
+      sales_orders: number; purchase_orders: number; suppliers: number;
+      employees: number; support_tickets: number; meetings: number;
+      invoices: number; expenses: number;
+    };
+    pending_approvals: number;
+    recent_approvals: Array<{
+      id: string; title: string; entity_type: string; status: string;
+      amount_cents: number | null; currency: string | null; created_at: string;
+    }>;
+    audit_24h: number;
+    recent_audit: Array<{
+      id: string; category: string; action: string; entity_type: string | null;
+      severity: string | null; occurred_at: string;
+    }>;
+    coverage: Array<{ module: string; status: "wired" | "read_only" }>;
+    coverage_pct: number;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
@@ -549,6 +572,41 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         _scope_type: "platform", _scope_id: null,
       } as never),
     ]);
+
+    // Batch E (R188) — Business OS Runtime Rollout aggregation.
+    const [
+      bCustomers, bLeads, bDeals, bSalesOrders, bPurchaseOrders,
+      bSuppliers, bEmployees, bSupport, bMeetings, bInvoicesCnt, bExpensesCnt,
+      bPendingAppr, bRecentAppr, bAudit24h, bRecentAudit,
+    ] = await Promise.all([
+      sb.from("customers").select("id", { count: "exact", head: true }),
+      sb.from("leads").select("id", { count: "exact", head: true }),
+      sb.from("deals").select("id", { count: "exact", head: true }),
+      sb.from("sales_orders").select("id", { count: "exact", head: true }),
+      sb.from("purchase_orders").select("id", { count: "exact", head: true }),
+      sb.from("suppliers").select("id", { count: "exact", head: true }),
+      sb.from("employees").select("id", { count: "exact", head: true }),
+      sb.from("creator_support_tickets").select("id", { count: "exact", head: true }),
+      sb.from("meetings").select("id", { count: "exact", head: true }),
+      sb.from("invoices").select("id", { count: "exact", head: true }),
+      sb.from("expenses").select("id", { count: "exact", head: true }),
+      sb.from("approvals").select("id", { count: "exact", head: true })
+        .eq("status", "pending").like("entity_type", "business.%"),
+      sb.from("approvals")
+        .select("id,title,entity_type,status,amount_cents,currency,created_at")
+        .like("entity_type", "business.%")
+        .order("created_at", { ascending: false })
+        .limit(LIMIT),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .like("category", "business.%").gte("occurred_at", since24h),
+      sb.from("audit_logs")
+        .select("id,category,action,entity_type,severity,occurred_at")
+        .like("category", "business.%")
+        .order("occurred_at", { ascending: false })
+        .limit(LIMIT),
+    ]);
+
+
 
 
 
@@ -976,6 +1034,61 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           rbac: { rpc_ok: rbacOk, policies_present: true },
           coverage: layers,
           coverage_pct: Math.round((healthy / layers.length) * 100),
+        };
+      })(),
+      business: (() => {
+        const kpis = {
+          customers: cnt(bCustomers.count),
+          leads: cnt(bLeads.count),
+          deals: cnt(bDeals.count),
+          sales_orders: cnt(bSalesOrders.count),
+          purchase_orders: cnt(bPurchaseOrders.count),
+          suppliers: cnt(bSuppliers.count),
+          employees: cnt(bEmployees.count),
+          support_tickets: cnt(bSupport.count),
+          meetings: cnt(bMeetings.count),
+          invoices: cnt(bInvoicesCnt.count),
+          expenses: cnt(bExpensesCnt.count),
+        };
+        // Coverage: modules with canonical runtime wired (Brain/Approval/Audit)
+        // vs. read_only (list-only in business-v1). Batch E wires 9 modules;
+        // Expense and Invoice were wired earlier (Batches D, R183-E).
+        const coverage: Array<{ module: string; status: "wired" | "read_only" }> = [
+          { module: "customers",       status: "wired" },
+          { module: "leads",           status: "wired" },
+          { module: "deals",           status: "wired" },
+          { module: "sales_orders",    status: "wired" },
+          { module: "purchase_orders", status: "wired" },
+          { module: "suppliers",       status: "wired" },
+          { module: "employees",       status: "wired" },
+          { module: "support",         status: "wired" },
+          { module: "projects",        status: "wired" },
+          { module: "expenses",        status: "wired" },
+          { module: "invoices",        status: "wired" },
+          { module: "inventory",       status: "read_only" },
+          { module: "finance",         status: "read_only" },
+        ];
+        const wired = coverage.filter((c) => c.status === "wired").length;
+        return {
+          kpis,
+          pending_approvals: cnt(bPendingAppr.count),
+          recent_approvals: ((bRecentAppr.data ?? []) as Array<{
+            id: string; title: string; entity_type: string; status: string;
+            amount_cents: number | null; currency: string | null; created_at: string;
+          }>).map((r) => ({
+            id: r.id, title: r.title, entity_type: r.entity_type, status: r.status,
+            amount_cents: r.amount_cents, currency: r.currency, created_at: r.created_at,
+          })),
+          audit_24h: cnt(bAudit24h.count),
+          recent_audit: ((bRecentAudit.data ?? []) as Array<{
+            id: string; category: string; action: string; entity_type: string | null;
+            severity: string | null; occurred_at: string;
+          }>).map((r) => ({
+            id: r.id, category: r.category, action: r.action, entity_type: r.entity_type,
+            severity: r.severity, occurred_at: r.occurred_at,
+          })),
+          coverage,
+          coverage_pct: Math.round((wired / coverage.length) * 100),
         };
       })(),
     };
