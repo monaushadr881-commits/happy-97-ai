@@ -180,7 +180,7 @@ export const bizSalesOutstandingReport = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, { domain: "business", module: "sales", capability: "outstanding_report", user_id: context.userId, company_id: data.company_id, summary: "outstanding receivables" });
-    const { data: invs, error } = await supabase.from("invoices").select("id,number,customer_id,total_cents,amount_paid_cents,due_at,status,issued_at").eq("company_id", data.company_id).in("status", ["sent", "overdue", "partial"] as Database["public"]["Enums"]["invoice_status"][]).order("due_at", { ascending: true }).limit(500);
+    const { data: invs, error } = await supabase.from("invoices").select("id,number,customer_id,total_cents,amount_paid_cents,due_at,status,issued_at").eq("company_id", data.company_id).in("status", ["sent", "overdue"] as Database["public"]["Enums"]["invoice_status"][]).order("due_at", { ascending: true }).limit(500);
     if (error) throw new Error(`outstanding_failed: ${error.message}`);
     const now = Date.now();
     const rows = (invs ?? []).map((i) => ({ ...i, outstanding_cents: (i.total_cents ?? 0) - (i.amount_paid_cents ?? 0), overdue_days: i.due_at ? Math.max(0, Math.floor((now - new Date(i.due_at).getTime()) / 86_400_000)) : 0 }));
@@ -278,7 +278,7 @@ export const finPaymentReconcile = createServerFn({ method: "POST" })
     if (uPay) throw new Error(`payment_link_failed: ${uPay.message}`);
     const newPaid = (inv.amount_paid_cents ?? 0) + (pay.amount_cents ?? 0);
     const fullyPaid = newPaid >= (inv.total_cents ?? 0);
-    const nextStatus: Database["public"]["Enums"]["invoice_status"] = fullyPaid ? "paid" : "partial";
+    const nextStatus: Database["public"]["Enums"]["invoice_status"] = fullyPaid ? "paid" : "sent";
     const invPatch: Database["public"]["Tables"]["invoices"]["Update"] = { amount_paid_cents: newPaid, status: nextStatus, updated_by: context.userId };
     if (fullyPaid) invPatch.paid_at = new Date().toISOString();
     const { data: invRow, error: uInv } = await supabase.from("invoices").update(invPatch).eq("id", data.invoice_id).eq("company_id", data.company_id).select("*").single();
