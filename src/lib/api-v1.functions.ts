@@ -176,4 +176,4 @@ export const apiListIntegrations = createServerFn({ method: "GET" })
 export const apiEnqueueJob = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => jobsService.enqueue(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "automation", "job", "enqueue", null); return guard(() => jobsService.enqueue(svc(context), data)); });
