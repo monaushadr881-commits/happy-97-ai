@@ -189,6 +189,22 @@ export interface MissionControlSnapshot {
       deduction_order: ReadonlyArray<string>;
     };
   };
+  automation: {
+    workflows_total: number;
+    workflows_active: number;
+    workflows_inactive: number;
+    pending_approvals: number;
+    runs_24h: number;
+    runs_failed_24h: number;
+    recent_runs: Array<{
+      id: string;
+      workflow_id: string;
+      status: string;
+      started_at: string | null;
+      completed_at: string | null;
+      error: string | null;
+    }>;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
@@ -340,6 +356,32 @@ export const founderMissionControl = createServerFn({ method: "GET" })
     const creatorRows = creatorRecent.data ?? [];
     const byKind: Record<string, number> = {};
     for (const c of creatorRows) byKind[c.kind] = (byKind[c.kind] ?? 0) + 1;
+
+    // Batch A (R188) — Automation Runtime reads. Small parallel batch
+    // so tuple typing stays isolated from the primary Promise.all.
+    const [
+      wfTotal,
+      wfActive,
+      wfInactive,
+      autoPending,
+      runs24h,
+      runsFailed24h,
+      runsRecent,
+    ] = await Promise.all([
+      sb.from("workflows").select("id", { count: "exact", head: true }),
+      sb.from("workflows").select("id", { count: "exact", head: true }).eq("is_active", true),
+      sb.from("workflows").select("id", { count: "exact", head: true }).eq("is_active", false),
+      sb.from("approvals").select("id", { count: "exact", head: true })
+        .eq("status", "pending").eq("entity_type", "business.automation"),
+      sb.from("workflow_runs").select("id", { count: "exact", head: true }).gte("created_at", since24h),
+      sb.from("workflow_runs").select("id", { count: "exact", head: true }).eq("status", "failed").gte("created_at", since24h),
+      sb.from("workflow_runs")
+        .select("id,workflow_id,status,started_at,completed_at,error")
+        .order("created_at", { ascending: false })
+        .limit(LIMIT),
+    ]);
+
+
 
     // Founder-initiated Creator Runtime (Batch I) — read approvals +
     // finalized assets tagged by ASSET_SOURCE metadata.source.
@@ -631,5 +673,25 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           deduction_order: ["daily_free", "subscription", "purchased"] as const,
         },
       },
+      automation: {
+        workflows_total: cnt(wfTotal.count),
+        workflows_active: cnt(wfActive.count),
+        workflows_inactive: cnt(wfInactive.count),
+        pending_approvals: cnt(autoPending.count),
+        runs_24h: cnt(runs24h.count),
+        runs_failed_24h: cnt(runsFailed24h.count),
+        recent_runs: ((runsRecent.data ?? []) as Array<{
+          id: string; workflow_id: string; status: string;
+          started_at: string | null; completed_at: string | null; error: string | null;
+        }>).map((r) => ({
+          id: r.id,
+          workflow_id: r.workflow_id,
+          status: r.status,
+          started_at: r.started_at,
+          completed_at: r.completed_at,
+          error: r.error,
+        })),
+      },
     };
   });
+
