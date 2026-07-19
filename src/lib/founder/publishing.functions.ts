@@ -397,6 +397,11 @@ export const finalizePublishingPackage = createServerFn({ method: "POST" })
   .inputValidator(validateFinalise)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "publishing", module: "package", capability: "finalize",
+      user_id: userId, company_id: "00000000-0000-0000-0000-000000000000",
+      summary: `finalize package ${data.approval_id}`,
+    });
 
     const { data: appr, error: readErr } = await supabase
       .from("approvals")
