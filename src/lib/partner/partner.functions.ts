@@ -93,7 +93,7 @@ async function runPartnerPipeline(
     context: { isFounder: true, correlationId: context.userId } satisfies FounderApprovalContext,
   });
   const kind = `partner.${data.module}`;
-  if (brain.output.requires_approval && data.company_id) {
+  if ((brain.output.requires_approval || data.force_approval) && data.company_id) {
     const approval = await requestFounderApproval({
       data: {
         company_id: data.company_id,
