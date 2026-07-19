@@ -18,6 +18,7 @@ import {
   Quote,
 } from "lucide-react";
 import avatarImg from "@/assets/happyx-avatar.jpg";
+import happyAiLogo from "@/assets/happy-ai-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: HappyXLanding,
