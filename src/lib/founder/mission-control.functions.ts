@@ -93,6 +93,22 @@ export interface MissionControlSnapshot {
     title: string;
     updated_at: string;
   }>;
+  publishing: {
+    total_packages: number;
+    total_assets: number;
+    pending_approvals: number;
+    by_store: Record<string, number>;
+    recent: Array<{
+      id: string;
+      name: string;
+      store: string;
+      app_name: string;
+      app_version: string;
+      package_version: number;
+      asset_kind: string;
+      created_at: string;
+    }>;
+  };
   health: {
     total: number;
     healthy: number;
