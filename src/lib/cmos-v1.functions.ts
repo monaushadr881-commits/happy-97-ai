@@ -106,6 +106,7 @@ export const communityAddComment = createServerFn({ method: "POST" })
     post_id: uuid, parent_id: uuid.optional(), body: z.string().min(1).max(4000),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "comment", capability: "create", user_id: context.userId, company_id: ZERO_UUID, metadata: { post_id: data.post_id } });
     const r = await context.supabase.from("comments")
       .insert({ ...data, author_id: context.userId }).select("*").single();
     if (r.error) throw r.error;
