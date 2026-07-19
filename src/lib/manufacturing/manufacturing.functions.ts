@@ -42,6 +42,11 @@ export const MANUFACTURING_MODULES = [
   // R191 Batch 4 extensions (production/quality/procurement completion)
   "bom_consumption", "raw_material_issue", "machine_assignment",
   "quality_approval", "finished_goods", "production_analytics",
+  // R191 Batch 5 extensions (H.P. SHUDDH MASALE — recipe/packaging/traceability)
+  "recipe_formula", "ingredient_formula", "blend_formula",
+  "production_batch_recipe", "recipe_qc_approval",
+  "packaging_batch", "label", "traceability", "shelf_life",
+  "recipe_version", "ai_recipe_recommendation",
 ] as const;
 export type ManufacturingModule = typeof MANUFACTURING_MODULES[number];
 
@@ -64,6 +69,7 @@ const analyze = withBrain<
       module === "maintenance_order" ||
       module === "quality_inspection" ||
       module === "quality_approval" ||
+      module === "recipe_qc_approval" ||
       module === "machine_downtime";
     if (critical || (criticalModule && highCost)) {
       return { severity: "critical", requires_approval: true, reason: "critical_operation" };
@@ -646,4 +652,443 @@ export const manufacturingProductionAnalytics = createServerFn({ method: "GET" }
       approvals_critical,
     };
   });
+
+// -----------------------------------------------------------------------------
+// R191 Batch 5 — H.P. SHUDDH MASALE™ Recipe + AI Recipe Intelligence.
+// Persists recipe artifacts as manufacturing.<module> creator_assets (canonical).
+// Knowledge search is delegated to the caller via existing `kbSearchArticles`;
+// AI recommendation calls the Lovable AI Gateway (server-only) and records the
+// recommendation itself as an auditable canonical asset. No new tables, no new
+// runtime, no new UI.
+// -----------------------------------------------------------------------------
+
+/** Recipe Formula — master recipe (blend of ingredients + steps). */
+export const masalaRecipeFormulaSave = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      recipe_ref: z.string().min(1).max(120),
+      product_name: z.string().min(1).max(200),
+      description: z.string().max(4000).optional(),
+      ingredients: z.array(z.object({
+        name: z.string(), quantity: z.number().nonnegative(),
+        unit: z.string(), note: z.string().optional(),
+      })).min(1),
+      steps: z.array(z.string().min(1)).default([]),
+      yield_kg: z.number().nonnegative().optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "recipe_formula",
+        reference: data.recipe_ref,
+        payload: {
+          product_name: data.product_name, description: data.description ?? null,
+          ingredients: data.ingredients, steps: data.steps,
+          yield_kg: data.yield_kg ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Ingredient Formula — spec for a single ingredient (source, grade, moisture). */
+export const masalaIngredientFormulaSave = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      ingredient_ref: z.string().min(1).max(120),
+      name: z.string().min(1).max(200),
+      grade: z.string().max(80).optional(),
+      moisture_pct: z.number().min(0).max(100).optional(),
+      origin: z.string().max(120).optional(),
+      allergen: z.boolean().default(false),
+      notes: z.string().max(4000).optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "ingredient_formula",
+        reference: data.ingredient_ref,
+        payload: {
+          name: data.name, grade: data.grade ?? null,
+          moisture_pct: data.moisture_pct ?? null, origin: data.origin ?? null,
+          allergen: data.allergen, notes: data.notes ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Blend Formula — proportional blend spec (e.g. Garam Masala percentages). */
+export const masalaBlendFormulaSave = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      blend_ref: z.string().min(1).max(120),
+      product_name: z.string().min(1).max(200),
+      components: z.array(z.object({
+        ingredient_ref: z.string(), percent: z.number().min(0).max(100),
+      })).min(1),
+      target_flavour_profile: z.string().max(2000).optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "blend_formula",
+        reference: data.blend_ref,
+        payload: {
+          product_name: data.product_name, components: data.components,
+          target_flavour_profile: data.target_flavour_profile ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Production Batch Recipe — attach a recipe/blend version to a production batch. */
+export const masalaBatchRecipeAttach = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      batch_ref: z.string().min(1).max(120),
+      recipe_ref: z.string().min(1).max(120),
+      recipe_version: z.string().max(40).default("v1"),
+      planned_output_kg: z.number().nonnegative(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "production_batch_recipe",
+        reference: `${data.batch_ref}:${data.recipe_ref}:${data.recipe_version}`,
+        payload: {
+          batch_ref: data.batch_ref, recipe_ref: data.recipe_ref,
+          recipe_version: data.recipe_version, planned_output_kg: data.planned_output_kg,
+        },
+      },
+      context,
+    ),
+  );
+
+/** QC Recipe Approval — critical sign-off, always Founder-gated. */
+export const masalaQcRecipeApprove = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      recipe_ref: z.string().min(1).max(120),
+      recipe_version: z.string().max(40).default("v1"),
+      decision: z.enum(["approved", "rejected", "rework"]),
+      reviewer: z.string().optional(),
+      lab_report_ref: z.string().optional(),
+      notes: z.string().max(4000).optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "recipe_qc_approval",
+        reference: `${data.recipe_ref}:${data.recipe_version}`,
+        critical: true,
+        payload: {
+          recipe_version: data.recipe_version, decision: data.decision,
+          reviewer: data.reviewer ?? null, lab_report_ref: data.lab_report_ref ?? null,
+          notes: data.notes ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Packaging Batch — record packaging run against a finished batch. */
+export const masalaPackagingBatchCreate = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      pack_ref: z.string().min(1).max(120),
+      batch_ref: z.string().min(1).max(120),
+      pack_size: z.string().min(1).max(80),
+      units_produced: z.number().nonnegative(),
+      line_ref: z.string().optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "packaging_batch",
+        reference: data.pack_ref,
+        payload: {
+          batch_ref: data.batch_ref, pack_size: data.pack_size,
+          units_produced: data.units_produced, line_ref: data.line_ref ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Label Generation — record label artwork/version applied to a pack batch. */
+export const masalaLabelGenerate = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      label_ref: z.string().min(1).max(120),
+      pack_ref: z.string().min(1).max(120),
+      artwork_version: z.string().max(40).default("v1"),
+      mrp_cents: z.number().int().nonnegative().optional(),
+      mfg_date: z.string().optional(),
+      expiry_date: z.string().optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "label",
+        reference: `${data.label_ref}:${data.artwork_version}`,
+        payload: {
+          pack_ref: data.pack_ref, artwork_version: data.artwork_version,
+          mrp_cents: data.mrp_cents ?? null, mfg_date: data.mfg_date ?? null,
+          expiry_date: data.expiry_date ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Batch Traceability — link raw lots → batch → pack for recall traceability. */
+export const masalaTraceabilityRecord = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      trace_ref: z.string().min(1).max(120),
+      batch_ref: z.string().min(1).max(120),
+      raw_lots: z.array(z.object({
+        ingredient_ref: z.string(), lot_ref: z.string(), vendor_ref: z.string().optional(),
+      })).min(1),
+      pack_refs: z.array(z.string()).default([]),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "traceability",
+        reference: data.trace_ref,
+        payload: {
+          batch_ref: data.batch_ref, raw_lots: data.raw_lots, pack_refs: data.pack_refs,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Shelf Life — declared shelf-life window for a recipe/pack combination. */
+export const masalaShelfLifeSet = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      shelf_ref: z.string().min(1).max(120),
+      recipe_ref: z.string().min(1).max(120),
+      pack_size: z.string().min(1).max(80),
+      months: z.number().int().min(1).max(120),
+      storage_conditions: z.string().max(400).optional(),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "shelf_life",
+        reference: `${data.recipe_ref}:${data.pack_size}`,
+        payload: {
+          recipe_ref: data.recipe_ref, pack_size: data.pack_size,
+          months: data.months, storage_conditions: data.storage_conditions ?? null,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Recipe Version — publish a new immutable recipe revision (append-only). */
+export const masalaRecipeVersionPublish = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      recipe_ref: z.string().min(1).max(120),
+      recipe_version: z.string().min(1).max(40),
+      changelog: z.string().max(4000),
+      snapshot: z.record(z.string(), z.unknown()),
+    }).parse(i),
+  )
+  .handler(({ data, context }) =>
+    runManufacturingPipeline(
+      {
+        ...data,
+        module: "recipe_version",
+        reference: `${data.recipe_ref}:${data.recipe_version}`,
+        payload: {
+          recipe_version: data.recipe_version, changelog: data.changelog,
+          snapshot: data.snapshot,
+        },
+      },
+      context,
+    ),
+  );
+
+/** Recipe Search — canonical list across masala recipe assets. */
+export const masalaRecipeSearch = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      q: z.string().max(200).optional(),
+      workspace_id: uuid.optional(),
+      module: z.enum([
+        "recipe_formula", "ingredient_formula", "blend_formula", "recipe_version",
+      ]).default("recipe_formula"),
+      limit: z.number().int().min(1).max(200).default(50),
+    }).parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    let q = context.supabase
+      .from("creator_assets")
+      .select("id,name,kind,tags,metadata,created_at")
+      .eq("kind", `manufacturing.${data.module}`)
+      .order("created_at", { ascending: false })
+      .limit(data.limit);
+    if (data.workspace_id) q = q.contains("metadata", { workspace_id: data.workspace_id } as never);
+    if (data.q) q = q.ilike("name", `%${data.q}%`);
+    const r = await q;
+    if (r.error) throw new Error(`masala_recipe_search_failed: ${r.error.message}`);
+    return r.data ?? [];
+  });
+
+/** Recipe Analytics — usage + QC breakdown across recipe assets. */
+export const masalaRecipeAnalytics = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      workspace_id: uuid.optional(),
+      limit: z.number().int().min(1).max(500).default(200),
+    }).parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    let q = context.supabase
+      .from("creator_assets")
+      .select("kind,metadata,created_at")
+      .in("kind", [
+        "manufacturing.recipe_formula", "manufacturing.blend_formula",
+        "manufacturing.recipe_version", "manufacturing.recipe_qc_approval",
+        "manufacturing.production_batch_recipe", "manufacturing.packaging_batch",
+        "manufacturing.traceability",
+      ])
+      .order("created_at", { ascending: false })
+      .limit(data.limit);
+    if (data.workspace_id) q = q.contains("metadata", { workspace_id: data.workspace_id } as never);
+    const r = await q;
+    if (r.error) throw new Error(`masala_recipe_analytics_failed: ${r.error.message}`);
+    const rows = r.data ?? [];
+    const by_module: Record<string, number> = {};
+    let qc_approved = 0, qc_rejected = 0, packaging_units = 0, traces = 0;
+    for (const row of rows) {
+      const mod = String(row.kind ?? "").replace(/^manufacturing\./, "");
+      by_module[mod] = (by_module[mod] ?? 0) + 1;
+      const meta = (row.metadata ?? {}) as Record<string, unknown>;
+      const payload = (meta.payload ?? {}) as Record<string, unknown>;
+      if (mod === "recipe_qc_approval") {
+        if (payload.decision === "approved") qc_approved += 1;
+        else if (payload.decision === "rejected") qc_rejected += 1;
+      }
+      if (mod === "packaging_batch" && typeof payload.units_produced === "number") {
+        packaging_units += payload.units_produced;
+      }
+      if (mod === "traceability") traces += 1;
+    }
+    return {
+      total_records: rows.length,
+      by_module,
+      qc: { approved: qc_approved, rejected: qc_rejected },
+      packaging_units,
+      traceability_records: traces,
+    };
+  });
+
+/**
+ * AI Recipe Recommendation — Lovable AI Gateway (server-only).
+ * Returns a suggested recipe blend and records the recommendation as an
+ * auditable canonical asset. Model: google/gemini-3-flash-preview.
+ */
+export const masalaAiRecommendRecipe = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) =>
+    z.object({
+      ...BaseFields,
+      brief: z.string().min(4).max(2000),
+      product_name: z.string().min(1).max(200),
+      constraints: z.array(z.string().min(1).max(200)).max(20).default([]),
+    }).parse(i),
+  )
+  .handler(async ({ data, context }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) throw new Error("lovable_api_key_missing");
+    const system =
+      "You are H.P. SHUDDH MASALE's master blender. Given a brief, return a JSON " +
+      "object with fields: product_name, blend_components (array of {ingredient, percent}), " +
+      "notes (string), suggested_shelf_life_months (number). Percents must sum to 100. " +
+      "Respond with JSON only, no prose.";
+    const user =
+      `Brief: ${data.brief}\nProduct: ${data.product_name}\n` +
+      (data.constraints.length ? `Constraints: ${data.constraints.join("; ")}\n` : "");
+    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user },
+        ],
+        response_format: { type: "json_object" },
+      }),
+    });
+    if (!resp.ok) {
+      const body = await resp.text().catch(() => "");
+      throw new Error(`ai_recipe_recommendation_failed: ${resp.status} ${body.slice(0, 200)}`);
+    }
+    const json = (await resp.json()) as {
+      choices?: Array<{ message?: { content?: string } }>;
+    };
+    const content = json.choices?.[0]?.message?.content ?? "{}";
+    let recommendation: Record<string, unknown>;
+    try { recommendation = JSON.parse(content) as Record<string, unknown>; }
+    catch { recommendation = { raw: content }; }
+    return runManufacturingPipeline(
+      {
+        ...data,
+        module: "ai_recipe_recommendation",
+        reference: `${data.product_name}:${Date.now()}`,
+        payload: { brief: data.brief, constraints: data.constraints, recommendation },
+      },
+      context,
+    );
+  });
+
 
