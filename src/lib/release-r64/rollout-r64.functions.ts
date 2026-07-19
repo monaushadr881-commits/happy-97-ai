@@ -130,7 +130,7 @@ export const transitionRollout = createServerFn({ method: "POST" })
       from_percent: cur.current_percent, to_percent: data.to === "rolled_back" ? 0 : cur.current_percent,
       reason: data.reason ?? null, actor_id: context.userId,
     });
-    await writeAudit(context, { category: "release", action: `rollout_${data.to}`, entity_id: data.rollout_id, metadata: approvalMeta });
+    await writeAudit(context, { category: "release", action: `rollout_${data.to}`, entity_id: data.rollout_id, metadata: approvalMeta ?? undefined });
     return { ok: true, enforcement: approvalMeta };
   });
 
