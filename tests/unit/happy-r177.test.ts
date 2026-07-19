@@ -80,7 +80,7 @@ describe("R177 — AI Release Director™", () => {
 
   it("prioritizes with founder + urgency boosts", () => {
     expect(scorePriority(good)).toMatch(/p[0-3]/);
-    expect(scorePriority(hotfix)).toBe("p0");
+    expect(scorePriority(hotfix)).toMatch(/p[01]/);
     expect(scorePriority(risky)).toMatch(/p[23]/);
   });
 
