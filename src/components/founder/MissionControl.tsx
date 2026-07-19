@@ -580,7 +580,14 @@ export function MissionControl() {
       </Panel>
 
       {/* Batch J — Revenue OS Completion */}
-      <Panel title="Revenue OS · Wallet · Credits · Subscriptions · Payments" icon={<Receipt className="h-4 w-4" />}>
+      <Panel className="p-5">
+        <div className="flex items-center gap-2">
+          <Receipt className="h-4 w-4 text-gold" />
+          <h3 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">
+            Revenue OS · Wallet · Credits · Subscriptions · Payments
+          </h3>
+        </div>
+        <Hairline className="my-4" />
         <div className="grid gap-3 md:grid-cols-4">
           <StatCard label="Wallets" value={fmt(d?.revenue_ext.wallets.total)} />
           <StatCard label="Ledger 30d" value={fmt(d?.revenue_ext.wallets.ledger_30d)} />
