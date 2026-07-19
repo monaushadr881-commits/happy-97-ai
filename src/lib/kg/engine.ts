@@ -162,9 +162,10 @@ export async function relationsList(sb: SB, _userId: string, opts: {
   if (opts.verified_only) q = q.eq("verified", true);
   if (opts.entity_id) {
     const dir = opts.direction ?? "both";
-    if (dir === "out") q = q.eq("from_entity_id", opts.entity_id);
-    else if (dir === "in") q = q.eq("to_entity_id", opts.entity_id);
-    else q = q.or(`from_entity_id.eq.${opts.entity_id},to_entity_id.eq.${opts.entity_id}`);
+    const eid = assertUuid(opts.entity_id, "entity_id");
+    if (dir === "out") q = q.eq("from_entity_id", eid);
+    else if (dir === "in") q = q.eq("to_entity_id", eid);
+    else q = q.or(`from_entity_id.eq.${eid},to_entity_id.eq.${eid}`);
   }
   q = q.order("weight", { ascending: false }).order("created_at", { ascending: false }).limit(Math.min(opts.limit ?? 200, 1000));
   const { data, error } = await q;
