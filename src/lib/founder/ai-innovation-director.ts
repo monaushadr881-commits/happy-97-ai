@@ -311,11 +311,11 @@ export function detectRisks(i: Idea): RiskFinding[] {
 export function recommend(i: Idea): Recommendation {
   if (isForbiddenSource(i.source)) return "reject";
   const k = computeKpis(i);
-  if (k.overall_innovation_score >= 80 && i.founderRequested) return "immediate_opportunity";
-  if (k.overall_innovation_score >= 70) return "prototype";
-  if (k.overall_innovation_score >= 55) return "research_more";
-  if (k.overall_innovation_score >= 40) return "build_later";
-  if (k.overall_innovation_score >= 25) return "archive";
+  if (k.overall_innovation_score >= 70 && i.founderRequested) return "immediate_opportunity";
+  if (k.overall_innovation_score >= 60) return "prototype";
+  if (k.overall_innovation_score >= 45) return "research_more";
+  if (k.overall_innovation_score >= 30) return "build_later";
+  if (k.overall_innovation_score >= 15) return "archive";
   return "reject";
 }
 
