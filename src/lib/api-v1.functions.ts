@@ -13,6 +13,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import {
   platformService, authzService, companyService, brandService,
   workspaceService, userService, settingsService, notificationService,
@@ -26,6 +27,25 @@ const svc = (ctx: AuthCtx) => makeServiceContext({
 });
 
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
+const adopt = (
+  ctx: AuthCtx,
+  domain: import("@/lib/founder/pipeline").AdoptOptions["domain"],
+  module: string,
+  capability: string,
+  company_id: string | null | undefined,
+  metadata: Record<string, unknown> = {},
+) =>
+  adoptToCanonicalPipeline(ctx.supabase, {
+    domain,
+    module,
+    capability,
+    user_id: ctx.userId,
+    company_id: company_id ?? ZERO_UUID,
+    source: "api-v1",
+    metadata,
+  });
 
 // ------------------------- Platform -------------------------
 export const apiHealth = createServerFn({ method: "GET" })
