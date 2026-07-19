@@ -21,6 +21,7 @@ import {
   Server,
   Rocket,
   Users,
+  Workflow,
 } from "lucide-react";
 import { founderMissionControl } from "@/lib/founder/mission-control.functions";
 
