@@ -774,6 +774,45 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           error: r.error,
         })),
       },
+      workspace: {
+        total: cnt(wsTotal.count),
+        active: cnt(wsActive.count),
+        items_total: (wsItemsRecent.data ?? []).length,
+        attach_events_7d: cnt(wsAttach7d.count),
+        items_recent: ((wsItemsRecent.data ?? []) as Array<{
+          id: string; name: string; kind: string; created_at: string;
+          metadata: Record<string, unknown> | null;
+        }>).map((r) => {
+          const m = (r.metadata ?? {}) as Record<string, unknown>;
+          return {
+            id: r.id,
+            name: r.name,
+            kind: r.kind,
+            workspace_id: (m.workspace_id as string) ?? "",
+            workspace_link_version:
+              typeof m.workspace_link_version === "number" ? (m.workspace_link_version as number) : 1,
+            created_at: r.created_at,
+          };
+        }),
+      },
+      knowledge_ext: {
+        articles_total: cnt(kaTotal.count),
+        articles_public: cnt(kaPublic.count),
+        articles_drafts: cnt(kaDrafts.count),
+        references_total: cnt(krTotal.count),
+        pending_publish_approvals: cnt(kaPendingApproval.count),
+        recent_updates: ((kaRecentUpdates.data ?? []) as Array<{
+          id: string; title: string; is_public: boolean; version: number; updated_at: string;
+        }>).map((r) => ({
+          id: r.id, title: r.title, is_public: !!r.is_public,
+          version: r.version ?? 1, updated_at: r.updated_at,
+        })),
+        recent_references: ((krRecent.data ?? []) as Array<{
+          id: string; label: string; url: string | null; article_id: string; created_at: string;
+        }>).map((r) => ({
+          id: r.id, label: r.label, url: r.url, article_id: r.article_id, created_at: r.created_at,
+        })),
+      },
     };
   });
 
