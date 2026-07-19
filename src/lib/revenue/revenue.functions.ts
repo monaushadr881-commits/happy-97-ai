@@ -91,7 +91,7 @@ export const revWalletAdjust = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => WalletAdjustInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
-    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "wallet", capability: "adjust", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000", summary: `wallet adjust ${data.delta_cents}`, metadata: { delta_cents: data.delta_cents, currency: data.currency } });
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "wallet", capability: "adjust", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000", summary: `wallet ${data.direction} ${data.amount_cents}`, metadata: { amount_cents: data.amount_cents, direction: data.direction, currency: data.currency } });
     const brainCtx: FounderApprovalContext = { isFounder: true, correlationId: userId };
     const brain = await analyseWalletImpact({
       capability: "revenue.wallet.adjust",
@@ -246,7 +246,7 @@ export const revGrantCredits = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => CreditGrantInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
-    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "credits", capability: "grant", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000", summary: `grant credits ${data.credits}`, metadata: { credits: data.credits } });
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "credits", capability: "grant", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000", summary: `credits ${data.direction} ${data.amount}`, metadata: { amount: data.amount, direction: data.direction } });
     const brain = await analyseCreditImpact({
       capability: "revenue.credits.grant",
       input: data,

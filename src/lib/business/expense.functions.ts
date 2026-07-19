@@ -79,7 +79,7 @@ export const bizCreateExpense = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => CreateExpenseInput.parse(i))
   .handler(async ({ data, context }): Promise<CreateExpenseResult> => {
     const { supabase } = context;
-    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "expense", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `expense ${data.description ?? data.category ?? ""}`, metadata: { amount_cents: data.amount_cents, currency: data.currency } });
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "expense", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `expense ${data.memo ?? data.category ?? ""}`, metadata: { amount_cents: data.amount_cents, currency: data.currency } });
     const requiresApproval =
       data.amount_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS;
 
