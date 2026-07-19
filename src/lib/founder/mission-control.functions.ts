@@ -290,7 +290,15 @@ export interface MissionControlSnapshot {
     coverage: Array<{ module: string; status: "wired" | "read_only" }>;
     coverage_pct: number;
   };
+  platform_core: {
+    // R189 Batch 1 — Platform Core coverage (read-only manifest over existing
+    // canonical kernel + services/core + integrations). No new files.
+    layers: Array<{ layer: string; owner: string; status: "present" | "degraded" | "missing" }>;
+    coverage_pct: number;
+    db_probe_ok: boolean;
+  };
 }
+
 
 export const founderMissionControl = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
