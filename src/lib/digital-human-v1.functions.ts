@@ -107,6 +107,7 @@ export const dhUpdatePreferences = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => PrefsUpdate.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "preferences", "update", { keys: Object.keys(data) });
     const r = await context.supabase.from("dh_preferences")
       .upsert({ user_id: context.userId, ...data, updated_at: new Date().toISOString() })
       .select("*").single();
