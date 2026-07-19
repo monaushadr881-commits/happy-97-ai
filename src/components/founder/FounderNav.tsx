@@ -6,7 +6,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard, Building2, Users, Sparkles, Activity, Shield,
-  BarChart3, Settings2, Newspaper, Crown, Plug,
+  BarChart3, Settings2, Newspaper, Crown, Plug, Rocket,
 } from "lucide-react";
 
 const TABS = [
@@ -20,8 +20,10 @@ const TABS = [
   { to: "/founder/security", label: "Security", icon: Shield, exact: false },
   { to: "/founder/analytics", label: "Analytics", icon: BarChart3, exact: false },
   { to: "/founder/integrations", label: "Integrations", icon: Plug, exact: false },
+  { to: "/founder/publishing", label: "Publishing", icon: Rocket, exact: false },
   { to: "/founder/system", label: "System", icon: Settings2, exact: false },
 ] as const;
+
 
 export function FounderNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
