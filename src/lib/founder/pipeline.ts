@@ -51,6 +51,7 @@ export interface AdoptOptions {
     | "digital-human"
     | "memory"
     | "experience"
+    | "universe"
     | "founder";
   readonly module: string;
   readonly capability: string;
