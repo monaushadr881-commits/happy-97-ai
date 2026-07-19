@@ -6,32 +6,17 @@ import { defineService, type ServiceContext } from "../core";
 
 export const analyticsService = defineService({ name: "analytics", version: "v1" }, () => ({
   async platformOverview(ctx: ServiceContext) {
-    const countOf = async (table: string) => {
-      const { count, error } = await ctx.supabase
-        .from(table as never)
-        .select("id", { count: "exact", head: true });
-      // Treat missing/inaccessible tables as null (=> "Not Available Yet") rather than 0.
-      if (error) return null;
-      return count ?? 0;
-    };
-    const [
-      companies, workspaces, brands, users,
-      aiSessions, conversations, deployments, notifications,
-    ] = await Promise.all([
-      countOf("companies"),
-      countOf("workspaces"),
-      countOf("brands"),
-      countOf("profiles"),
-      countOf("ai_sessions"),
-      countOf("conversations"),
-      countOf("deployments"),
-      countOf("notifications"),
+    const [companies, workspaces, users, ai] = await Promise.all([
+      ctx.supabase.from("companies").select("id", { count: "exact", head: true }),
+      ctx.supabase.from("workspaces").select("id", { count: "exact", head: true }),
+      ctx.supabase.from("profiles").select("id", { count: "exact", head: true }),
+      ctx.supabase.from("ai_sessions").select("id", { count: "exact", head: true }),
     ]);
     return {
-      companies, workspaces, brands, users,
-      // Provide both snake_case and camelCase so no caller sees a stale mismatch.
-      ai_sessions: aiSessions, aiSessions,
-      conversations, deployments, notifications,
+      companies: companies.count ?? 0,
+      workspaces: workspaces.count ?? 0,
+      users: users.count ?? 0,
+      aiSessions: ai.count ?? 0,
       at: new Date().toISOString(),
     };
   },

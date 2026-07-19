@@ -1,18 +1,4 @@
 /**
- * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
- * Canonical owner: src/lib/happy-r119/file-intelligence.ts
- * All future work MUST extend the canonical owner, not this file.
- * This file's exports are preserved for backward compatibility only.
- * @deprecated Extend the canonical owner listed above.
- */
-/**
- * @deprecated R115.b Consolidation — this is a compatibility shim.
- * Canonical owner: src/lib/kg/kg.functions.ts (canonical Knowledge Graph)
- * Do NOT add new logic here. All handlers already delegate through
- * services/domain/roadmap.service which is being routed to the canonical
- * engines. Kept solely to preserve public import paths (backward-compat).
- */
-/**
  * HAPPY X — Knowledge OS (WKOS) API v1
  *
  * Central knowledge intelligence for the whole ecosystem.
@@ -33,7 +19,6 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
 import { z } from "zod";
-import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -76,7 +61,7 @@ export const kbSearchArticles = createServerFn({ method: "GET" })
     else if (data.scope === "company" && data.company_id) q = q.eq("company_id", data.company_id);
     if (data.category_id) q = q.eq("category_id", data.category_id);
     if (data.language) q = q.eq("language", data.language);
-    if (data.q) { const s = sanitizePgRestLike(data.q); if (s) q = q.or(`title.ilike.%${s}%,summary.ilike.%${s}%`); }
+    if (data.q) q = q.or(`title.ilike.%${data.q}%,summary.ilike.%${data.q}%`);
     const r = await q;
     if (r.error) throw r.error;
     return r.data ?? [];
@@ -108,42 +93,34 @@ const CreateArticle = z.object({
 export const kbCreateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateArticle.parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbCreateArticle", source: "api", module: "knowledge.kbCreateArticle" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("knowledge_articles").insert({
       ...data, status: "draft", is_public: false,
       created_by: context.userId, updated_by: context.userId,
     }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
-    return r.data);
-  };
-  });
+    return r.data;
+  }));
 
 export const kbUpdateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({
     id: uuid, patch: CreateArticle.omit({ company_id: true }).partial(),
   }).parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbUpdateArticle", source: "api", module: "knowledge.kbUpdateArticle" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ ...data.patch, updated_by: context.userId })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
-    return r.data);
-  };
-  });
+    return r.data;
+  }));
 
 export const kbPublish = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({
     id: uuid, is_public: z.boolean(),
   }).parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbPublish", source: "api", module: "knowledge.kbPublish" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ status: "active", is_public: data.is_public, updated_by: context.userId })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
@@ -154,9 +131,8 @@ export const kbPublish = createServerFn({ method: "POST" })
         _entity_type: "knowledge_article", _entity_id: data.id,
       });
     } catch { /* best-effort */ }
-    return r.data);
-  };
-  });
+    return r.data;
+  }));
 
 export const kbAddReference = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -164,13 +140,11 @@ export const kbAddReference = createServerFn({ method: "POST" })
     article_id: uuid, label: z.string().min(1).max(240),
     url: z.string().url().optional(), position: z.number().int().min(0).default(0),
   }).parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbAddReference", source: "api", module: "knowledge.kbAddReference" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("knowledge_references").insert(data).select("*").single();
     if (r.error) throw r.error;
-    return r.data);
-  });
+    return r.data;
+  }));
 
 // =====================================================================
 // DOCUMENTS (RAG source library)
@@ -199,15 +173,13 @@ export const kbAddDocument = createServerFn({ method: "POST" })
     language: z.string().max(8).default("en"),
     tags: z.array(z.string().max(40)).max(20).default([]),
   }).parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbAddDocument", source: "api", module: "knowledge.kbAddDocument" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("ai_knowledge_documents").insert({
       ...data, created_by: context.userId, updated_by: context.userId,
     }).select("*").single();
     if (r.error) throw r.error;
-    return r.data);
-  });
+    return r.data;
+  }));
 
 // =====================================================================
 // KNOWLEDGE DASHBOARD
@@ -272,7 +244,7 @@ export const kbAskHappy = createServerFn({ method: "POST" })
     let q = context.supabase.from("knowledge_articles")
       .select("id, slug, title, summary, is_public, company_id")
       .eq("status", "active")
-      .or(((): string => { const s = sanitizePgRestLike(data.question, 60) || "x"; return `title.ilike.%${s}%,summary.ilike.%${s}%`; })())
+      .or(`title.ilike.%${data.question.slice(0, 60)}%,summary.ilike.%${data.question.slice(0, 60)}%`)
       .limit(data.top_k);
     if (data.scope === "public") q = q.eq("is_public", true);
     else if (data.scope === "company" && data.company_id) q = q.eq("company_id", data.company_id);

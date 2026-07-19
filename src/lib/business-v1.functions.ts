@@ -1,11 +1,4 @@
 /**
- * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
- * Canonical owner: src/lib/happy-r122/crm-intelligence.ts
- * All future work MUST extend the canonical owner, not this file.
- * This file's exports are preserved for backward compatibility only.
- * @deprecated Extend the canonical owner listed above.
- */
-/**
  * HAPPY X — Business OS API v1 (server functions)
  *
  * Company-scoped RPCs for the Business Operating System — CRM, Sales,
@@ -17,7 +10,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
-import { sanitizePgRestLike } from "@/lib/security/pgrest-sanitize";
 import { z } from "zod";
 
 const uuid = z.string().uuid();
@@ -278,11 +270,7 @@ export const bizUniversalSearch = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SearchInput.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
-    const safe = sanitizePgRestLike(data.q);
-    if (!safe) {
-      return { customers: [], products: [], invoices: [], orders: [], suppliers: [], employees: [] };
-    }
-    const q = `%${safe}%`;
+    const q = `%${data.q.replace(/[%_]/g, "")}%`;
     const s = context.supabase;
     const lim = data.limit ?? 8;
     const cid = data.company_id;

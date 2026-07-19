@@ -1,11 +1,4 @@
 /**
- * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
- * Canonical owner: src/lib/happy-r130/founder-dashboard.ts
- * All future work MUST extend the canonical owner, not this file.
- * This file's exports are preserved for backward compatibility only.
- * @deprecated Extend the canonical owner listed above.
- */
-/**
  * HAPPY X — Ops API v1 (server functions)
  *
  * Thin RPC adapters over @/ops services. All require auth; the RLS policies
@@ -34,10 +27,8 @@ export const opsHealthAll = createServerFn({ method: "GET" })
 export const opsHealthRecord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as Parameters<typeof healthService.record>[1])
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "opsHealthRecord", source: "api", module: "ops.opsHealthRecord" });
-    return guard(() => healthService.record(svc(context), data));
-  });
+  .handler(async ({ data, context }) => guard(() => healthService.record(svc(context), data)));
+
 // ---- Metrics ----
 export const opsMetricsEmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -57,10 +48,9 @@ export const opsListAlertRules = createServerFn({ method: "GET" })
 export const opsUpsertAlertRule = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "opsUpsertAlertRule", source: "api", module: "ops.opsUpsertAlertRule" });
-    return guard(() => alertingService.upsertRule(svc(context), data));
-  });export const opsTripAlert = createServerFn({ method: "POST" })
+  .handler(async ({ data, context }) => guard(() => alertingService.upsertRule(svc(context), data)));
+
+export const opsTripAlert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
   .handler(async ({ data, context }) => guard(() => alertingService.trip(svc(context), data)));
@@ -90,22 +80,18 @@ export const opsIncidentTimeline = createServerFn({ method: "POST" })
 export const opsListDeployments = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => (i as { channel?: string } | undefined) ?? {})
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "opsListDeployments", source: "api", module: "ops.opsListDeployments" });
-    return guard(() => deploymentService.list(svc(context), (data as { channel?: string }).channel));
-  });export const opsStartDeployment = createServerFn({ method: "POST" })
+  .handler(async ({ data, context }) => guard(() => deploymentService.list(svc(context), (data as { channel?: string }).channel)));
+
+export const opsStartDeployment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "opsStartDeployment", source: "api", module: "ops.opsStartDeployment" });
-    return guard(() => deploymentService.start(svc(context), data));
-  });export const opsFinishDeployment = createServerFn({ method: "POST" })
+  .handler(async ({ data, context }) => guard(() => deploymentService.start(svc(context), data)));
+
+export const opsFinishDeployment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "opsFinishDeployment", source: "api", module: "ops.opsFinishDeployment" });
-    return guard(() => deploymentService.finish(svc(context), data));
-  });
+  .handler(async ({ data, context }) => guard(() => deploymentService.finish(svc(context), data)));
+
 export const opsDeploymentAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => guard(() => deploymentService.analytics(svc(context))));
@@ -139,7 +125,8 @@ export const opsSecurityAudit = createServerFn({ method: "POST" })
       const { ip_address, ...rest } = r as typeof r & { ip_address: unknown };
       return { ...rest, ip_address: ip_address == null ? null : String(ip_address) };
     });
-    return safe as Array<Omit<(typeof rows)[number], "ip_address"> & { ip_address: string | null }>);
+    return safe as Array<Omit<(typeof rows)[number], "ip_address"> & { ip_address: string | null }>;
+  });
 
 // ---- AI Ops ----
 export const opsAiUsage = createServerFn({ method: "POST" })

@@ -22,7 +22,7 @@ type Slide = { title: string; bullets: string[]; narration: string };
 type Deck = { id: string; title: string; audience: string | null; status: string; updated_at: string; slides: Slide[] };
 
 function Presentations() {
-  const { prefs, activity, setActivity, expression, setExpression, setPosture } = useDigitalHuman();
+  const { prefs, activity, setActivity, expression, setExpression } = useDigitalHuman();
   const { speak, stop } = useHappySpeech();
   const qc = useQueryClient();
   const [title, setTitle] = useState("");
@@ -49,23 +49,13 @@ function Presentations() {
   });
 
   const slide = current?.slides?.[slideIdx];
-  // Presentation posture: straighter, calmer, longer holds. Reset on unmount.
-  useEffect(() => {
-    setPosture("presentation");
-    setExpression("smile");
-    return () => { stop(); setPosture("normal"); setExpression("neutral"); setActivity("idle"); };
-  }, [setPosture, setExpression, setActivity, stop]);
+  useEffect(() => { return () => stop(); }, [stop]);
 
   const present = async () => {
     if (!slide) return;
     setExpression("explain"); setActivity("speaking");
-    await speak(slide.narration, {
-      voice: prefs.voice,
-      speed: Math.min(1.5, (prefs.speed ?? 1) * 1.05), // executive delivery
-      onEnd: () => { setActivity("idle"); setExpression("smile"); },
-    });
+    await speak(slide.narration, { voice: prefs.voice, speed: prefs.speed, onEnd: () => setActivity("idle") });
   };
-
 
   return (
     <>
@@ -126,7 +116,7 @@ function Presentations() {
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-[10rem_1fr] items-start">
-                <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={160} posture="presentation" />
+                <HappyAvatar expression={expression} activity={activity} reducedMotion={prefs.reduced_motion} size={160} />
                 <div className="rounded-lg border border-white/10 bg-white/[0.02] p-6 min-h-[16rem]">
                   <h2 className="text-2xl font-medium text-paper">{slide.title}</h2>
                   <Hairline className="my-4" />

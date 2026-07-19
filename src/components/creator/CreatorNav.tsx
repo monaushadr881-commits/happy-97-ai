@@ -3,13 +3,12 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard, FolderKanban, Images, ImageIcon, Mic, Presentation,
-  PenLine, Megaphone, Palette, Download, LayoutGrid,
+  PenLine, Megaphone, Palette, Download,
 } from "lucide-react";
 
 type Tab = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 const TABS: ReadonlyArray<Tab> = [
   { to: "/studio", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/studio/hub", label: "Hub", icon: LayoutGrid },
   { to: "/studio/projects", label: "Projects", icon: FolderKanban },
   { to: "/studio/image", label: "Image", icon: ImageIcon },
   { to: "/studio/voice", label: "Voice", icon: Mic },

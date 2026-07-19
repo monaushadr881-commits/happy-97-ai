@@ -9,421 +9,59 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TrustRouteImport } from './routes/trust'
-import { Route as StatusRouteImport } from './routes/status'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as RegisterRouteImport } from './routes/register'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiSitemapDotxmlRouteImport } from './routes/api/sitemap[.]xml'
-import { Route as ApiRobotsDottxtRouteImport } from './routes/api/robots[.]txt'
-import { Route as ApiHappySttRouteImport } from './routes/api/happy-stt'
-import { Route as ApiHappyChatRouteImport } from './routes/api/happy-chat'
-import { Route as AuthenticatedZenRouteImport } from './routes/_authenticated/zen'
-import { Route as AuthenticatedWorkspacesRouteImport } from './routes/_authenticated/workspaces'
-import { Route as AuthenticatedWorkspaceRouteImport } from './routes/_authenticated/workspace'
-import { Route as AuthenticatedWorkforceRouteImport } from './routes/_authenticated/workforce'
-import { Route as AuthenticatedWorkflowsRouteImport } from './routes/_authenticated/workflows'
-import { Route as AuthenticatedWidgetsRouteImport } from './routes/_authenticated/widgets'
-import { Route as AuthenticatedWhiteLabelRouteImport } from './routes/_authenticated/white-label'
-import { Route as AuthenticatedWellnessRouteImport } from './routes/_authenticated/wellness'
-import { Route as AuthenticatedWebsitesRouteImport } from './routes/_authenticated/websites'
-import { Route as AuthenticatedWarehouseRouteImport } from './routes/_authenticated/warehouse'
-import { Route as AuthenticatedWallpaperMarketplaceRouteImport } from './routes/_authenticated/wallpaper-marketplace'
-import { Route as AuthenticatedWalletRouteImport } from './routes/_authenticated/wallet'
-import { Route as AuthenticatedVisionRouteImport } from './routes/_authenticated/vision'
-import { Route as AuthenticatedVendorsRouteImport } from './routes/_authenticated/vendors'
-import { Route as AuthenticatedUtilitiesRouteImport } from './routes/_authenticated/utilities'
-import { Route as AuthenticatedUniversalRouteImport } from './routes/_authenticated/universal'
-import { Route as AuthenticatedUnifiedOsRouteImport } from './routes/_authenticated/unified-os'
-import { Route as AuthenticatedTransportRouteImport } from './routes/_authenticated/transport'
-import { Route as AuthenticatedToolsRouteImport } from './routes/_authenticated/tools'
-import { Route as AuthenticatedThemesRouteImport } from './routes/_authenticated/themes'
-import { Route as AuthenticatedThemeMarketplaceRouteImport } from './routes/_authenticated/theme-marketplace'
-import { Route as AuthenticatedTemplatesRouteImport } from './routes/_authenticated/templates'
-import { Route as AuthenticatedTelemedicineRouteImport } from './routes/_authenticated/telemedicine'
-import { Route as AuthenticatedSustainabilityRouteImport } from './routes/_authenticated/sustainability'
-import { Route as AuthenticatedSupportRouteImport } from './routes/_authenticated/support'
-import { Route as AuthenticatedSupplyChainRouteImport } from './routes/_authenticated/supply-chain'
-import { Route as AuthenticatedSuperIntelligenceRouteImport } from './routes/_authenticated/super-intelligence'
 import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
-import { Route as AuthenticatedStreaksRouteImport } from './routes/_authenticated/streaks'
-import { Route as AuthenticatedSmartCityRouteImport } from './routes/_authenticated/smart-city'
-import { Route as AuthenticatedSkillsRouteImport } from './routes/_authenticated/skills'
-import { Route as AuthenticatedSimulationRouteImport } from './routes/_authenticated/simulation'
-import { Route as AuthenticatedSettingsWallpapersRouteImport } from './routes/_authenticated/settings-wallpapers'
-import { Route as AuthenticatedSettingsThemeRouteImport } from './routes/_authenticated/settings-theme'
-import { Route as AuthenticatedSettingsBackgroundRouteImport } from './routes/_authenticated/settings-background'
-import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings-appearance'
-import { Route as AuthenticatedSettingsAccessibilityRouteImport } from './routes/_authenticated/settings-accessibility'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedServiceMeshRouteImport } from './routes/_authenticated/service-mesh'
-import { Route as AuthenticatedSecuritySessionsRouteImport } from './routes/_authenticated/security-sessions'
-import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated/security'
-import { Route as AuthenticatedSearchV2RouteImport } from './routes/_authenticated/search-v2'
-import { Route as AuthenticatedSearchHubRouteImport } from './routes/_authenticated/search-hub'
-import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
-import { Route as AuthenticatedRuralRouteImport } from './routes/_authenticated/rural'
-import { Route as AuthenticatedRuntimeRouteImport } from './routes/_authenticated/runtime'
-import { Route as AuthenticatedRobotsRouteImport } from './routes/_authenticated/robots'
-import { Route as AuthenticatedRoboticsRouteImport } from './routes/_authenticated/robotics'
-import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
-import { Route as AuthenticatedRevenueRouteImport } from './routes/_authenticated/revenue'
-import { Route as AuthenticatedResearchRouteImport } from './routes/_authenticated/research'
-import { Route as AuthenticatedQualityRouteImport } from './routes/_authenticated/quality'
-import { Route as AuthenticatedPublicSafetyRouteImport } from './routes/_authenticated/public-safety'
-import { Route as AuthenticatedPublicHealthRouteImport } from './routes/_authenticated/public-health'
-import { Route as AuthenticatedPublicEducationRouteImport } from './routes/_authenticated/public-education'
-import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
-import { Route as AuthenticatedProductivityRouteImport } from './routes/_authenticated/productivity'
-import { Route as AuthenticatedPricingRouteImport } from './routes/_authenticated/pricing'
-import { Route as AuthenticatedPredictionsRouteImport } from './routes/_authenticated/predictions'
-import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins'
-import { Route as AuthenticatedPlatformHubRouteImport } from './routes/_authenticated/platform-hub'
-import { Route as AuthenticatedPharmacyRouteImport } from './routes/_authenticated/pharmacy'
-import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
-import { Route as AuthenticatedPatientsRouteImport } from './routes/_authenticated/patients'
-import { Route as AuthenticatedPartnersRouteImport } from './routes/_authenticated/partners'
-import { Route as AuthenticatedOrganizationsRouteImport } from './routes/_authenticated/organizations'
-import { Route as AuthenticatedOrchestrationRouteImport } from './routes/_authenticated/orchestration'
-import { Route as AuthenticatedOperationsRouteImport } from './routes/_authenticated/operations'
-import { Route as AuthenticatedObservabilityV3RouteImport } from './routes/_authenticated/observability-v3'
-import { Route as AuthenticatedObservabilityV2RouteImport } from './routes/_authenticated/observability-v2'
-import { Route as AuthenticatedObservabilityRouteImport } from './routes/_authenticated/observability'
-import { Route as AuthenticatedNotificationsTemplatesRouteImport } from './routes/_authenticated/notifications-templates'
-import { Route as AuthenticatedNotificationsStarredRouteImport } from './routes/_authenticated/notifications-starred'
-import { Route as AuthenticatedNotificationsSettingsRouteImport } from './routes/_authenticated/notifications-settings'
-import { Route as AuthenticatedNotificationsRemindersRouteImport } from './routes/_authenticated/notifications-reminders'
-import { Route as AuthenticatedNotificationsPreferencesRouteImport } from './routes/_authenticated/notifications-preferences'
-import { Route as AuthenticatedNotificationsInboxRouteImport } from './routes/_authenticated/notifications-inbox'
-import { Route as AuthenticatedNotificationsHistoryRouteImport } from './routes/_authenticated/notifications-history'
-import { Route as AuthenticatedNotificationsCategoriesRouteImport } from './routes/_authenticated/notifications-categories'
-import { Route as AuthenticatedNotificationsAutomationRouteImport } from './routes/_authenticated/notifications-automation'
-import { Route as AuthenticatedNotificationsArchiveRouteImport } from './routes/_authenticated/notifications-archive'
-import { Route as AuthenticatedNotificationsAnnouncementsRouteImport } from './routes/_authenticated/notifications-announcements'
-import { Route as AuthenticatedNotificationsAnalyticsRouteImport } from './routes/_authenticated/notifications-analytics'
-import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
-import { Route as AuthenticatedNetworkRouteImport } from './routes/_authenticated/network'
-import { Route as AuthenticatedNativeRouteImport } from './routes/_authenticated/native'
-import { Route as AuthenticatedNationalRouteImport } from './routes/_authenticated/national'
-import { Route as AuthenticatedMultimodalRouteImport } from './routes/_authenticated/multimodal'
-import { Route as AuthenticatedMonitoringRouteImport } from './routes/_authenticated/monitoring'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
-import { Route as AuthenticatedMemoryRouteImport } from './routes/_authenticated/memory'
-import { Route as AuthenticatedMedicalResearchRouteImport } from './routes/_authenticated/medical-research'
-import { Route as AuthenticatedMarketplaceHubRouteImport } from './routes/_authenticated/marketplace-hub'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
-import { Route as AuthenticatedMarketNetworkRouteImport } from './routes/_authenticated/market-network'
-import { Route as AuthenticatedMarketIntelligenceRouteImport } from './routes/_authenticated/market-intelligence'
-import { Route as AuthenticatedManufacturingRouteImport } from './routes/_authenticated/manufacturing'
-import { Route as AuthenticatedMaintenanceRouteImport } from './routes/_authenticated/maintenance'
-import { Route as AuthenticatedLiveIslandRouteImport } from './routes/_authenticated/live-island'
-import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
-import { Route as AuthenticatedLearningNetworkRouteImport } from './routes/_authenticated/learning-network'
-import { Route as AuthenticatedLearningRouteImport } from './routes/_authenticated/learning'
-import { Route as AuthenticatedLaboratoryRouteImport } from './routes/_authenticated/laboratory'
-import { Route as AuthenticatedKnowledgeNetworkRouteImport } from './routes/_authenticated/knowledge-network'
-import { Route as AuthenticatedKnowledgeGraphRouteImport } from './routes/_authenticated/knowledge-graph'
-import { Route as AuthenticatedKnowledgeExchangeRouteImport } from './routes/_authenticated/knowledge-exchange'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
-import { Route as AuthenticatedIotRuntimeRouteImport } from './routes/_authenticated/iot-runtime'
-import { Route as AuthenticatedIotRouteImport } from './routes/_authenticated/iot'
-import { Route as AuthenticatedInvestorsRouteImport } from './routes/_authenticated/investors'
-import { Route as AuthenticatedIntelligenceNetworkRouteImport } from './routes/_authenticated/intelligence-network'
-import { Route as AuthenticatedIntelligenceExchangeRouteImport } from './routes/_authenticated/intelligence-exchange'
-import { Route as AuthenticatedIntelligenceRouteImport } from './routes/_authenticated/intelligence'
-import { Route as AuthenticatedInsightsRouteImport } from './routes/_authenticated/insights'
-import { Route as AuthenticatedInnovationRouteImport } from './routes/_authenticated/innovation'
-import { Route as AuthenticatedIndustryRouteImport } from './routes/_authenticated/industry'
-import { Route as AuthenticatedIdentityRouteImport } from './routes/_authenticated/identity'
-import { Route as AuthenticatedIconsRouteImport } from './routes/_authenticated/icons'
-import { Route as AuthenticatedHyperlocalRouteImport } from './routes/_authenticated/hyperlocal'
-import { Route as AuthenticatedHrmsRouteImport } from './routes/_authenticated/hrms'
-import { Route as AuthenticatedHostingRouteImport } from './routes/_authenticated/hosting'
-import { Route as AuthenticatedHospitalsRouteImport } from './routes/_authenticated/hospitals'
-import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
-import { Route as AuthenticatedHealthcareRouteImport } from './routes/_authenticated/healthcare'
-import { Route as AuthenticatedGovernmentRouteImport } from './routes/_authenticated/government'
-import { Route as AuthenticatedGovernanceV2RouteImport } from './routes/_authenticated/governance-v2'
-import { Route as AuthenticatedGovernanceRouteImport } from './routes/_authenticated/governance'
-import { Route as AuthenticatedGlobalMemoryRouteImport } from './routes/_authenticated/global-memory'
-import { Route as AuthenticatedGlobalRouteImport } from './routes/_authenticated/global'
-import { Route as AuthenticatedFutureRouteImport } from './routes/_authenticated/future'
 import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
-import { Route as AuthenticatedFocusRouteImport } from './routes/_authenticated/focus'
-import { Route as AuthenticatedFleetRouteImport } from './routes/_authenticated/fleet'
-import { Route as AuthenticatedFinancialAiRouteImport } from './routes/_authenticated/financial-ai'
-import { Route as AuthenticatedFinanceRouteImport } from './routes/_authenticated/finance'
-import { Route as AuthenticatedFactoryRouteImport } from './routes/_authenticated/factory'
-import { Route as AuthenticatedFabricRouteImport } from './routes/_authenticated/fabric'
-import { Route as AuthenticatedExperienceFabricRouteImport } from './routes/_authenticated/experience-fabric'
-import { Route as AuthenticatedExperienceRouteImport } from './routes/_authenticated/experience'
-import { Route as AuthenticatedExecutiveRouteImport } from './routes/_authenticated/executive'
-import { Route as AuthenticatedExecutionRouteImport } from './routes/_authenticated/execution'
-import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
-import { Route as AuthenticatedErpRouteImport } from './routes/_authenticated/erp'
-import { Route as AuthenticatedEnterpriseNetworkRouteImport } from './routes/_authenticated/enterprise-network'
-import { Route as AuthenticatedEnterpriseControlRouteImport } from './routes/_authenticated/enterprise-control'
-import { Route as AuthenticatedEnterpriseCloudRouteImport } from './routes/_authenticated/enterprise-cloud'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
-import { Route as AuthenticatedEnergyRouteImport } from './routes/_authenticated/energy'
-import { Route as AuthenticatedEmployeeRouteImport } from './routes/_authenticated/employee'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
-import { Route as AuthenticatedEdgeRouteImport } from './routes/_authenticated/edge'
-import { Route as AuthenticatedEcosystemIntelligenceRouteImport } from './routes/_authenticated/ecosystem-intelligence'
-import { Route as AuthenticatedEcosystemHubRouteImport } from './routes/_authenticated/ecosystem-hub'
-import { Route as AuthenticatedEcosystemRouteImport } from './routes/_authenticated/ecosystem'
-import { Route as AuthenticatedDomainsSearchRouteImport } from './routes/_authenticated/domains-search'
-import { Route as AuthenticatedDomainsManageRouteImport } from './routes/_authenticated/domains-manage'
-import { Route as AuthenticatedDomainsRouteImport } from './routes/_authenticated/domains'
-import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents'
-import { Route as AuthenticatedDistributorRouteImport } from './routes/_authenticated/distributor'
-import { Route as AuthenticatedDigitalTwinV2RouteImport } from './routes/_authenticated/digital-twin-v2'
-import { Route as AuthenticatedDigitalTwinRouteImport } from './routes/_authenticated/digital-twin'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
-import { Route as AuthenticatedDigitalFactoryRouteImport } from './routes/_authenticated/digital-factory'
-import { Route as AuthenticatedDevicesRouteImport } from './routes/_authenticated/devices'
-import { Route as AuthenticatedDevelopersRouteImport } from './routes/_authenticated/developers'
-import { Route as AuthenticatedDeveloperRouteImport } from './routes/_authenticated/developer'
-import { Route as AuthenticatedDeployRouteImport } from './routes/_authenticated/deploy'
-import { Route as AuthenticatedDecisionRouteImport } from './routes/_authenticated/decision'
-import { Route as AuthenticatedDealerRouteImport } from './routes/_authenticated/dealer'
-import { Route as AuthenticatedDatabaseBuilderRouteImport } from './routes/_authenticated/database-builder'
-import { Route as AuthenticatedDataFabricRouteImport } from './routes/_authenticated/data-fabric'
-import { Route as AuthenticatedDataExchangeRouteImport } from './routes/_authenticated/data-exchange'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedCustomersRouteImport } from './routes/_authenticated/customers'
-import { Route as AuthenticatedCustomer360RouteImport } from './routes/_authenticated/customer360'
-import { Route as AuthenticatedCustomerRouteImport } from './routes/_authenticated/customer'
-import { Route as AuthenticatedCrmRouteImport } from './routes/_authenticated/crm'
-import { Route as AuthenticatedCreditsRouteImport } from './routes/_authenticated/credits'
-import { Route as AuthenticatedContentRouteImport } from './routes/_authenticated/content'
-import { Route as AuthenticatedConnectorsRouteImport } from './routes/_authenticated/connectors'
-import { Route as AuthenticatedConnectivityRouteImport } from './routes/_authenticated/connectivity'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
-import { Route as AuthenticatedCommunicationsRouteImport } from './routes/_authenticated/communications'
-import { Route as AuthenticatedCommerceRouteImport } from './routes/_authenticated/commerce'
-import { Route as AuthenticatedCollaborationRouteImport } from './routes/_authenticated/collaboration'
-import { Route as AuthenticatedCoachRouteImport } from './routes/_authenticated/coach'
-import { Route as AuthenticatedCloudRouteImport } from './routes/_authenticated/cloud'
-import { Route as AuthenticatedCitizensRouteImport } from './routes/_authenticated/citizens'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
-import { Route as AuthenticatedBuilderRouteImport } from './routes/_authenticated/builder'
-import { Route as AuthenticatedBrainRouteImport } from './routes/_authenticated/brain'
-import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
-import { Route as AuthenticatedBankingRouteImport } from './routes/_authenticated/banking'
-import { Route as AuthenticatedAutonomousRouteImport } from './routes/_authenticated/autonomous'
-import { Route as AuthenticatedAutomationHubRouteImport } from './routes/_authenticated/automation-hub'
-import { Route as AuthenticatedAutomationRouteImport } from './routes/_authenticated/automation'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
-import { Route as AuthenticatedAssetsRouteImport } from './routes/_authenticated/assets'
-import { Route as AuthenticatedAppsRouteImport } from './routes/_authenticated/apps'
-import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
-import { Route as AuthenticatedAppBuilderRouteImport } from './routes/_authenticated/app-builder'
-import { Route as AuthenticatedApiFabricRouteImport } from './routes/_authenticated/api-fabric'
-import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
-import { Route as AuthenticatedAiDesignRouteImport } from './routes/_authenticated/ai-design'
-import { Route as AuthenticatedAiBuilderRouteImport } from './routes/_authenticated/ai-builder'
-import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated/agents'
-import { Route as AuthenticatedAgentOsRouteImport } from './routes/_authenticated/agent-os'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
-import { Route as AuthenticatedUabrRouteRouteImport } from './routes/_authenticated/uabr/route'
-import { Route as AuthenticatedReleasesRouteRouteImport } from './routes/_authenticated/releases/route'
-import { Route as AuthenticatedProductionRouteRouteImport } from './routes/_authenticated/production/route'
-import { Route as AuthenticatedLiveRouteRouteImport } from './routes/_authenticated/live/route'
-import { Route as AuthenticatedHappyRouteRouteImport } from './routes/_authenticated/happy/route'
-import { Route as AuthenticatedFounderAiRouteRouteImport } from './routes/_authenticated/founder-ai/route'
-import { Route as AuthenticatedUabrIndexRouteImport } from './routes/_authenticated/uabr/index'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
-import { Route as AuthenticatedReleasesIndexRouteImport } from './routes/_authenticated/releases/index'
-import { Route as AuthenticatedProductionIndexRouteImport } from './routes/_authenticated/production/index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMarketplaceIndexRouteImport } from './routes/_authenticated/marketplace.index'
-import { Route as AuthenticatedLiveIndexRouteImport } from './routes/_authenticated/live/index'
 import { Route as AuthenticatedKnowledgeIndexRouteImport } from './routes/_authenticated/knowledge.index'
-import { Route as AuthenticatedHyperlocalIndexRouteImport } from './routes/_authenticated/hyperlocal.index'
-import { Route as AuthenticatedHappyIndexRouteImport } from './routes/_authenticated/happy/index'
 import { Route as AuthenticatedFounderIndexRouteImport } from './routes/_authenticated/founder.index'
-import { Route as AuthenticatedFounderAiIndexRouteImport } from './routes/_authenticated/founder-ai/index'
 import { Route as AuthenticatedEnterpriseIndexRouteImport } from './routes/_authenticated/enterprise.index'
-import { Route as AuthenticatedEnterpriseAiIndexRouteImport } from './routes/_authenticated/enterprise-ai/index'
 import { Route as AuthenticatedEducationIndexRouteImport } from './routes/_authenticated/education.index'
 import { Route as AuthenticatedDigitalHumanIndexRouteImport } from './routes/_authenticated/digital-human.index'
 import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authenticated/community.index'
 import { Route as AuthenticatedBusinessIndexRouteImport } from './routes/_authenticated/business.index'
-import { Route as AuthenticatedBrainIndexRouteImport } from './routes/_authenticated/brain.index'
 import { Route as ApiDhTtsRouteImport } from './routes/api/dh.tts'
-import { Route as AuthenticatedWorkflowsRuntimeRouteImport } from './routes/_authenticated/workflows.runtime'
-import { Route as AuthenticatedWorkflowsMonitorRouteImport } from './routes/_authenticated/workflows.monitor'
-import { Route as AuthenticatedWorkflowsHistoryRouteImport } from './routes/_authenticated/workflows.history'
-import { Route as AuthenticatedWorkflowsExecutionsRouteImport } from './routes/_authenticated/workflows.executions'
-import { Route as AuthenticatedWorkflowsDesignerRouteImport } from './routes/_authenticated/workflows.designer'
-import { Route as AuthenticatedWorkflowsAnalyticsRouteImport } from './routes/_authenticated/workflows.analytics'
-import { Route as AuthenticatedUabrTestsRouteImport } from './routes/_authenticated/uabr/tests'
-import { Route as AuthenticatedUabrPlannerRouteImport } from './routes/_authenticated/uabr/planner'
-import { Route as AuthenticatedUabrHistoryRouteImport } from './routes/_authenticated/uabr/history'
-import { Route as AuthenticatedUabrFrontendRouteImport } from './routes/_authenticated/uabr/frontend'
-import { Route as AuthenticatedUabrDocumentationRouteImport } from './routes/_authenticated/uabr/documentation'
-import { Route as AuthenticatedUabrDesignRouteImport } from './routes/_authenticated/uabr/design'
-import { Route as AuthenticatedUabrDeploymentRouteImport } from './routes/_authenticated/uabr/deployment'
-import { Route as AuthenticatedUabrDatabaseRouteImport } from './routes/_authenticated/uabr/database'
-import { Route as AuthenticatedUabrDashboardRouteImport } from './routes/_authenticated/uabr/dashboard'
-import { Route as AuthenticatedUabrBackendRouteImport } from './routes/_authenticated/uabr/backend'
-import { Route as AuthenticatedToolsSettingsRouteImport } from './routes/_authenticated/tools.settings'
-import { Route as AuthenticatedToolsRuntimeRouteImport } from './routes/_authenticated/tools.runtime'
-import { Route as AuthenticatedToolsAnalyticsRouteImport } from './routes/_authenticated/tools.analytics'
 import { Route as AuthenticatedStudioVoiceRouteImport } from './routes/_authenticated/studio.voice'
 import { Route as AuthenticatedStudioProjectsRouteImport } from './routes/_authenticated/studio.projects'
 import { Route as AuthenticatedStudioPresentationRouteImport } from './routes/_authenticated/studio.presentation'
 import { Route as AuthenticatedStudioMarketingRouteImport } from './routes/_authenticated/studio.marketing'
 import { Route as AuthenticatedStudioImageRouteImport } from './routes/_authenticated/studio.image'
-import { Route as AuthenticatedStudioHubRouteImport } from './routes/_authenticated/studio.hub'
 import { Route as AuthenticatedStudioExportsRouteImport } from './routes/_authenticated/studio.exports'
 import { Route as AuthenticatedStudioCopyRouteImport } from './routes/_authenticated/studio.copy'
 import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenticated/studio.brand'
 import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authenticated/studio.assets'
-import { Route as AuthenticatedSkillsStoreRouteImport } from './routes/_authenticated/skills.store'
-import { Route as AuthenticatedSkillsSettingsRouteImport } from './routes/_authenticated/skills.settings'
-import { Route as AuthenticatedSkillsInstalledRouteImport } from './routes/_authenticated/skills.installed'
-import { Route as AuthenticatedSkillsCategoriesRouteImport } from './routes/_authenticated/skills.categories'
-import { Route as AuthenticatedRuntimeWorkflowsRouteImport } from './routes/_authenticated/runtime.workflows'
-import { Route as AuthenticatedRuntimeToolsRouteImport } from './routes/_authenticated/runtime.tools'
-import { Route as AuthenticatedRuntimeTimelineRouteImport } from './routes/_authenticated/runtime.timeline'
-import { Route as AuthenticatedRuntimeSkillsRouteImport } from './routes/_authenticated/runtime.skills'
-import { Route as AuthenticatedRuntimeSettingsRouteImport } from './routes/_authenticated/runtime.settings'
-import { Route as AuthenticatedRuntimeSecurityRouteImport } from './routes/_authenticated/runtime.security'
-import { Route as AuthenticatedRuntimeRisksRouteImport } from './routes/_authenticated/runtime.risks'
-import { Route as AuthenticatedRuntimePluginsRouteImport } from './routes/_authenticated/runtime.plugins'
-import { Route as AuthenticatedRuntimePlanningRouteImport } from './routes/_authenticated/runtime.planning'
-import { Route as AuthenticatedRuntimePlannerRouteImport } from './routes/_authenticated/runtime.planner'
-import { Route as AuthenticatedRuntimePerformanceRouteImport } from './routes/_authenticated/runtime.performance'
-import { Route as AuthenticatedRuntimeMonitorRouteImport } from './routes/_authenticated/runtime.monitor'
-import { Route as AuthenticatedRuntimeMemoryRouteImport } from './routes/_authenticated/runtime.memory'
-import { Route as AuthenticatedRuntimeLogsRouteImport } from './routes/_authenticated/runtime.logs'
-import { Route as AuthenticatedRuntimeLiveRouteImport } from './routes/_authenticated/runtime.live'
-import { Route as AuthenticatedRuntimeIntelligenceRouteImport } from './routes/_authenticated/runtime.intelligence'
-import { Route as AuthenticatedRuntimeHistoryRouteImport } from './routes/_authenticated/runtime.history'
-import { Route as AuthenticatedRuntimeHealthRouteImport } from './routes/_authenticated/runtime.health'
-import { Route as AuthenticatedRuntimeGoalsRouteImport } from './routes/_authenticated/runtime.goals'
-import { Route as AuthenticatedRuntimeExecutionsRouteImport } from './routes/_authenticated/runtime.executions'
-import { Route as AuthenticatedRuntimeExecutionRouteImport } from './routes/_authenticated/runtime.execution'
-import { Route as AuthenticatedRuntimeDevelopersRouteImport } from './routes/_authenticated/runtime.developers'
-import { Route as AuthenticatedRuntimeDependenciesRouteImport } from './routes/_authenticated/runtime.dependencies'
-import { Route as AuthenticatedRuntimeDecisionRouteImport } from './routes/_authenticated/runtime.decision'
-import { Route as AuthenticatedRuntimeDashboardRouteImport } from './routes/_authenticated/runtime.dashboard'
-import { Route as AuthenticatedRuntimeCollaborationRouteImport } from './routes/_authenticated/runtime.collaboration'
-import { Route as AuthenticatedRuntimeCapabilitiesRouteImport } from './routes/_authenticated/runtime.capabilities'
-import { Route as AuthenticatedRuntimeAutomationRouteImport } from './routes/_authenticated/runtime.automation'
-import { Route as AuthenticatedRuntimeAnalyticsRouteImport } from './routes/_authenticated/runtime.analytics'
-import { Route as AuthenticatedReleasesSigningRouteImport } from './routes/_authenticated/releases/signing'
-import { Route as AuthenticatedReleasesSettingsRouteImport } from './routes/_authenticated/releases/settings'
-import { Route as AuthenticatedReleasesRolloutRouteImport } from './routes/_authenticated/releases/rollout'
-import { Route as AuthenticatedReleasesPublishRouteImport } from './routes/_authenticated/releases/publish'
-import { Route as AuthenticatedReleasesLogsRouteImport } from './routes/_authenticated/releases/logs'
-import { Route as AuthenticatedReleasesHistoryRouteImport } from './routes/_authenticated/releases/history'
-import { Route as AuthenticatedReleasesDashboardRouteImport } from './routes/_authenticated/releases/dashboard'
-import { Route as AuthenticatedReleasesBuildsRouteImport } from './routes/_authenticated/releases/builds'
-import { Route as AuthenticatedReleasesArtifactsRouteImport } from './routes/_authenticated/releases/artifacts'
-import { Route as AuthenticatedReleasesAnalyticsRouteImport } from './routes/_authenticated/releases/analytics'
-import { Route as AuthenticatedProductionTestingRouteImport } from './routes/_authenticated/production/testing'
-import { Route as AuthenticatedProductionSecurityRouteImport } from './routes/_authenticated/production/security'
-import { Route as AuthenticatedProductionQualityRouteImport } from './routes/_authenticated/production/quality'
-import { Route as AuthenticatedProductionPerformanceRouteImport } from './routes/_authenticated/production/performance'
-import { Route as AuthenticatedProductionDeploymentRouteImport } from './routes/_authenticated/production/deployment'
-import { Route as AuthenticatedProductionDashboardRouteImport } from './routes/_authenticated/production/dashboard'
-import { Route as AuthenticatedPluginsStoreRouteImport } from './routes/_authenticated/plugins.store'
-import { Route as AuthenticatedPluginsSettingsRouteImport } from './routes/_authenticated/plugins.settings'
-import { Route as AuthenticatedPluginsReviewsRouteImport } from './routes/_authenticated/plugins.reviews'
-import { Route as AuthenticatedPluginsManageRouteImport } from './routes/_authenticated/plugins.manage'
-import { Route as AuthenticatedPluginsInstalledRouteImport } from './routes/_authenticated/plugins.installed'
-import { Route as AuthenticatedMemoryTimelineRouteImport } from './routes/_authenticated/memory.timeline'
-import { Route as AuthenticatedMemorySettingsRouteImport } from './routes/_authenticated/memory.settings'
-import { Route as AuthenticatedMemorySearchRouteImport } from './routes/_authenticated/memory.search'
-import { Route as AuthenticatedMemoryPreferencesRouteImport } from './routes/_authenticated/memory.preferences'
-import { Route as AuthenticatedMemoryDashboardRouteImport } from './routes/_authenticated/memory.dashboard'
 import { Route as AuthenticatedMarketplaceSellerRouteImport } from './routes/_authenticated/marketplace.seller'
 import { Route as AuthenticatedMarketplaceSalesRouteImport } from './routes/_authenticated/marketplace.sales'
 import { Route as AuthenticatedMarketplaceOrdersRouteImport } from './routes/_authenticated/marketplace.orders'
-import { Route as AuthenticatedLiveSettingsRouteImport } from './routes/_authenticated/live/settings'
-import { Route as AuthenticatedLiveRelationshipRouteImport } from './routes/_authenticated/live/relationship'
-import { Route as AuthenticatedLivePresenceRouteImport } from './routes/_authenticated/live/presence'
-import { Route as AuthenticatedLiveLanguageRouteImport } from './routes/_authenticated/live/language'
-import { Route as AuthenticatedLiveHomeRouteImport } from './routes/_authenticated/live/home'
-import { Route as AuthenticatedLiveFounderRouteImport } from './routes/_authenticated/live/founder'
-import { Route as AuthenticatedLiveDashboardRouteImport } from './routes/_authenticated/live/dashboard'
-import { Route as AuthenticatedLiveContextRouteImport } from './routes/_authenticated/live/context'
-import { Route as AuthenticatedLiveActivityRouteImport } from './routes/_authenticated/live/activity'
 import { Route as AuthenticatedKnowledgeSourcesRouteImport } from './routes/_authenticated/knowledge.sources'
 import { Route as AuthenticatedKnowledgeSearchRouteImport } from './routes/_authenticated/knowledge.search'
 import { Route as AuthenticatedKnowledgeReligionCultureRouteImport } from './routes/_authenticated/knowledge.religion-culture'
 import { Route as AuthenticatedKnowledgeModerationRouteImport } from './routes/_authenticated/knowledge.moderation'
 import { Route as AuthenticatedKnowledgeLibraryRouteImport } from './routes/_authenticated/knowledge.library'
 import { Route as AuthenticatedKnowledgeAskRouteImport } from './routes/_authenticated/knowledge.ask'
-import { Route as AuthenticatedIntelligenceSettingsRouteImport } from './routes/_authenticated/intelligence.settings'
-import { Route as AuthenticatedIntelligenceRuntimeRouteImport } from './routes/_authenticated/intelligence.runtime'
-import { Route as AuthenticatedIntelligenceRiskRouteImport } from './routes/_authenticated/intelligence.risk'
-import { Route as AuthenticatedIntelligenceReportsRouteImport } from './routes/_authenticated/intelligence.reports'
-import { Route as AuthenticatedIntelligenceRecommendationsRouteImport } from './routes/_authenticated/intelligence.recommendations'
-import { Route as AuthenticatedIntelligenceOverviewRouteImport } from './routes/_authenticated/intelligence.overview'
-import { Route as AuthenticatedIntelligenceOpportunitiesRouteImport } from './routes/_authenticated/intelligence.opportunities'
-import { Route as AuthenticatedIntelligenceLiveRouteImport } from './routes/_authenticated/intelligence.live'
-import { Route as AuthenticatedIntelligenceInsightsRouteImport } from './routes/_authenticated/intelligence.insights'
-import { Route as AuthenticatedIntelligenceForecastRouteImport } from './routes/_authenticated/intelligence.forecast'
-import { Route as AuthenticatedIntelligenceExecutiveRouteImport } from './routes/_authenticated/intelligence.executive'
-import { Route as AuthenticatedIntelligenceDashboardRouteImport } from './routes/_authenticated/intelligence.dashboard'
-import { Route as AuthenticatedIntelligenceAdvisorRouteImport } from './routes/_authenticated/intelligence.advisor'
-import { Route as AuthenticatedHyperlocalSettingsRouteImport } from './routes/_authenticated/hyperlocal.settings'
-import { Route as AuthenticatedHyperlocalMapRouteImport } from './routes/_authenticated/hyperlocal.map'
-import { Route as AuthenticatedHyperlocalManageRouteImport } from './routes/_authenticated/hyperlocal.manage'
-import { Route as AuthenticatedHyperlocalJobsRouteImport } from './routes/_authenticated/hyperlocal.jobs'
-import { Route as AuthenticatedHyperlocalEventsRouteImport } from './routes/_authenticated/hyperlocal.events'
-import { Route as AuthenticatedHyperlocalDiscoverRouteImport } from './routes/_authenticated/hyperlocal.discover'
-import { Route as AuthenticatedHyperlocalBusinessesRouteImport } from './routes/_authenticated/hyperlocal.businesses'
-import { Route as AuthenticatedHyperlocalAskRouteImport } from './routes/_authenticated/hyperlocal.ask'
-import { Route as AuthenticatedHyperlocalAlertsRouteImport } from './routes/_authenticated/hyperlocal.alerts'
-import { Route as AuthenticatedHappyWalkRouteImport } from './routes/_authenticated/happy/walk'
-import { Route as AuthenticatedHappyVideoRouteImport } from './routes/_authenticated/happy/video'
-import { Route as AuthenticatedHappySettingsRouteImport } from './routes/_authenticated/happy/settings'
-import { Route as AuthenticatedHappyPresentationRouteImport } from './routes/_authenticated/happy/presentation'
-import { Route as AuthenticatedHappyPresenceRouteImport } from './routes/_authenticated/happy/presence'
-import { Route as AuthenticatedHappyOfficeRouteImport } from './routes/_authenticated/happy/office'
-import { Route as AuthenticatedHappyMemoryRouteImport } from './routes/_authenticated/happy/memory'
-import { Route as AuthenticatedHappyLiveRouteImport } from './routes/_authenticated/happy/live'
-import { Route as AuthenticatedHappyInitiativeRouteImport } from './routes/_authenticated/happy/initiative'
-import { Route as AuthenticatedHappyComfortRouteImport } from './routes/_authenticated/happy/comfort'
-import { Route as AuthenticatedHappyCinematicRouteImport } from './routes/_authenticated/happy/cinematic'
-import { Route as AuthenticatedHappyCallRouteImport } from './routes/_authenticated/happy/call'
-import { Route as AuthenticatedHappyBusinessRouteImport } from './routes/_authenticated/happy/business'
-import { Route as AuthenticatedHappyBehaviourRouteImport } from './routes/_authenticated/happy/behaviour'
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
-import { Route as AuthenticatedFounderPublishingRouteImport } from './routes/_authenticated/founder.publishing'
 import { Route as AuthenticatedFounderOpsRouteImport } from './routes/_authenticated/founder.ops'
-import { Route as AuthenticatedFounderIntegrationsRouteImport } from './routes/_authenticated/founder.integrations'
-import { Route as AuthenticatedFounderExecutiveRouteImport } from './routes/_authenticated/founder.executive'
 import { Route as AuthenticatedFounderCompaniesRouteImport } from './routes/_authenticated/founder.companies'
-import { Route as AuthenticatedFounderBriefRouteImport } from './routes/_authenticated/founder.brief'
 import { Route as AuthenticatedFounderAnalyticsRouteImport } from './routes/_authenticated/founder.analytics'
 import { Route as AuthenticatedFounderAiRouteImport } from './routes/_authenticated/founder.ai'
-import { Route as AuthenticatedFounderAiWorkspaceRouteImport } from './routes/_authenticated/founder-ai/workspace'
-import { Route as AuthenticatedFounderAiVoiceRouteImport } from './routes/_authenticated/founder-ai/voice'
-import { Route as AuthenticatedFounderAiTerminalRouteImport } from './routes/_authenticated/founder-ai/terminal'
-import { Route as AuthenticatedFounderAiTasksRouteImport } from './routes/_authenticated/founder-ai/tasks'
-import { Route as AuthenticatedFounderAiSettingsRouteImport } from './routes/_authenticated/founder-ai/settings'
-import { Route as AuthenticatedFounderAiMemoryRouteImport } from './routes/_authenticated/founder-ai/memory'
-import { Route as AuthenticatedFounderAiHistoryRouteImport } from './routes/_authenticated/founder-ai/history'
-import { Route as AuthenticatedFounderAiDashboardRouteImport } from './routes/_authenticated/founder-ai/dashboard'
-import { Route as AuthenticatedFounderAiChatRouteImport } from './routes/_authenticated/founder-ai/chat'
-import { Route as AuthenticatedFounderAiActivityRouteImport } from './routes/_authenticated/founder-ai/activity'
-import { Route as AuthenticatedExecutionTasksRouteImport } from './routes/_authenticated/execution.tasks'
-import { Route as AuthenticatedExecutionHistoryRouteImport } from './routes/_authenticated/execution.history'
-import { Route as AuthenticatedExecutionAnalyticsRouteImport } from './routes/_authenticated/execution.analytics'
 import { Route as AuthenticatedEnterpriseWorkflowsRouteImport } from './routes/_authenticated/enterprise.workflows'
 import { Route as AuthenticatedEnterpriseStructureRouteImport } from './routes/_authenticated/enterprise.structure'
 import { Route as AuthenticatedEnterpriseSecurityRouteImport } from './routes/_authenticated/enterprise.security'
@@ -448,28 +86,12 @@ import { Route as AuthenticatedEducationAnalyticsRouteImport } from './routes/_a
 import { Route as AuthenticatedDigitalHumanWhiteboardRouteImport } from './routes/_authenticated/digital-human.whiteboard'
 import { Route as AuthenticatedDigitalHumanSettingsRouteImport } from './routes/_authenticated/digital-human.settings'
 import { Route as AuthenticatedDigitalHumanSessionsRouteImport } from './routes/_authenticated/digital-human.sessions'
-import { Route as AuthenticatedDigitalHumanProductionRouteImport } from './routes/_authenticated/digital-human.production'
 import { Route as AuthenticatedDigitalHumanPresentationRouteImport } from './routes/_authenticated/digital-human.presentation'
 import { Route as AuthenticatedDigitalHumanClassroomRouteImport } from './routes/_authenticated/digital-human.classroom'
 import { Route as AuthenticatedDigitalHumanBoardroomRouteImport } from './routes/_authenticated/digital-human.boardroom'
-import { Route as AuthenticatedDevelopersWebhooksRouteImport } from './routes/_authenticated/developers.webhooks'
-import { Route as AuthenticatedDevelopersSdkRouteImport } from './routes/_authenticated/developers.sdk'
-import { Route as AuthenticatedDevelopersDocsRouteImport } from './routes/_authenticated/developers.docs'
-import { Route as AuthenticatedDevelopersApisRouteImport } from './routes/_authenticated/developers.apis'
-import { Route as AuthenticatedDecisionScenariosRouteImport } from './routes/_authenticated/decision.scenarios'
-import { Route as AuthenticatedDecisionHistoryRouteImport } from './routes/_authenticated/decision.history'
-import { Route as AuthenticatedDecisionAnalyticsRouteImport } from './routes/_authenticated/decision.analytics'
 import { Route as AuthenticatedCommunityMineRouteImport } from './routes/_authenticated/community.mine'
 import { Route as AuthenticatedCommunityGroupsRouteImport } from './routes/_authenticated/community.groups'
 import { Route as AuthenticatedCommunityFollowingRouteImport } from './routes/_authenticated/community.following'
-import { Route as AuthenticatedCloudStorageRouteImport } from './routes/_authenticated/cloud.storage'
-import { Route as AuthenticatedCloudProjectsRouteImport } from './routes/_authenticated/cloud.projects'
-import { Route as AuthenticatedCloudModelsRouteImport } from './routes/_authenticated/cloud.models'
-import { Route as AuthenticatedCloudMarketplaceRouteImport } from './routes/_authenticated/cloud.marketplace'
-import { Route as AuthenticatedCloudDeploymentsRouteImport } from './routes/_authenticated/cloud.deployments'
-import { Route as AuthenticatedCloudComplianceRouteImport } from './routes/_authenticated/cloud.compliance'
-import { Route as AuthenticatedCloudBillingRouteImport } from './routes/_authenticated/cloud.billing'
-import { Route as AuthenticatedCloudAnalyticsRouteImport } from './routes/_authenticated/cloud.analytics'
 import { Route as AuthenticatedBusinessWarehouseRouteImport } from './routes/_authenticated/business.warehouse'
 import { Route as AuthenticatedBusinessSearchRouteImport } from './routes/_authenticated/business.search'
 import { Route as AuthenticatedBusinessSalesRouteImport } from './routes/_authenticated/business.sales'
@@ -483,74 +105,9 @@ import { Route as AuthenticatedBusinessCrmRouteImport } from './routes/_authenti
 import { Route as AuthenticatedBusinessAutomationRouteImport } from './routes/_authenticated/business.automation'
 import { Route as AuthenticatedBusinessAnalyticsRouteImport } from './routes/_authenticated/business.analytics'
 import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authenticated/business.ai'
-import { Route as AuthenticatedBrainValidationRouteImport } from './routes/_authenticated/brain.validation'
-import { Route as AuthenticatedBrainRuntimeRouteImport } from './routes/_authenticated/brain.runtime'
-import { Route as AuthenticatedBrainReflectionRouteImport } from './routes/_authenticated/brain.reflection'
-import { Route as AuthenticatedBrainReasoningRouteImport } from './routes/_authenticated/brain.reasoning'
-import { Route as AuthenticatedBrainPlanningRouteImport } from './routes/_authenticated/brain.planning'
-import { Route as AuthenticatedBrainMemoryRouteImport } from './routes/_authenticated/brain.memory'
-import { Route as AuthenticatedBrainHealthRouteImport } from './routes/_authenticated/brain.health'
-import { Route as AuthenticatedBrainExecutionRouteImport } from './routes/_authenticated/brain.execution'
-import { Route as AuthenticatedBrainAnalyticsRouteImport } from './routes/_authenticated/brain.analytics'
-import { Route as AuthenticatedAgentsRuntimeRouteImport } from './routes/_authenticated/agents.runtime'
-import { Route as AuthenticatedAgentsMetricsRouteImport } from './routes/_authenticated/agents.metrics'
-import { Route as AuthenticatedAgentsExecutionRouteImport } from './routes/_authenticated/agents.execution'
-import { Route as AuthenticatedAgentsCollaborationRouteImport } from './routes/_authenticated/agents.collaboration'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
-import { Route as ApiPublicCronSubscriptionsTickRouteImport } from './routes/api/public/cron/subscriptions-tick'
-import { Route as ApiPublicCronReleaseStoreStatusRouteImport } from './routes/api/public/cron/release-store-status'
-import { Route as ApiPublicCronReleasePipelineTickRouteImport } from './routes/api/public/cron/release-pipeline-tick'
-import { Route as ApiPublicCronReleaseMetricsRollupRouteImport } from './routes/api/public/cron/release-metrics-rollup'
-import { Route as ApiPublicCronPaymentsRetryRouteImport } from './routes/api/public/cron/payments-retry'
-import { Route as ApiPublicCronDeploymentsTickRouteImport } from './routes/api/public/cron/deployments-tick'
-import { Route as ApiPublicCronCreditsExpireRouteImport } from './routes/api/public/cron/credits-expire'
-import { Route as ApiPublicCronCmsPublishRouteImport } from './routes/api/public/cron/cms-publish'
-import { Route as AuthenticatedRuntimeWorkflowsLiveRouteImport } from './routes/_authenticated/runtime.workflows.live'
-import { Route as AuthenticatedRuntimeWorkflowsHistoryRouteImport } from './routes/_authenticated/runtime.workflows.history'
-import { Route as AuthenticatedRuntimeWorkflowsAnalyticsRouteImport } from './routes/_authenticated/runtime.workflows.analytics'
-import { Route as AuthenticatedRuntimeToolsLiveRouteImport } from './routes/_authenticated/runtime.tools.live'
-import { Route as AuthenticatedRuntimeToolsHistoryRouteImport } from './routes/_authenticated/runtime.tools.history'
-import { Route as AuthenticatedRuntimeToolsAnalyticsRouteImport } from './routes/_authenticated/runtime.tools.analytics'
-import { Route as AuthenticatedRuntimeIntelligenceRecommendationsRouteImport } from './routes/_authenticated/runtime.intelligence.recommendations'
-import { Route as AuthenticatedRuntimeIntelligenceOpportunitiesRouteImport } from './routes/_authenticated/runtime.intelligence.opportunities'
-import { Route as AuthenticatedRuntimeIntelligenceForecastRouteImport } from './routes/_authenticated/runtime.intelligence.forecast'
-import { Route as AuthenticatedRuntimeIntelligenceAdvisorRouteImport } from './routes/_authenticated/runtime.intelligence.advisor'
-import { Route as AuthenticatedAgentsCollaborationLiveRouteImport } from './routes/_authenticated/agents.collaboration.live'
-import { Route as AuthenticatedAgentsCollaborationHistoryRouteImport } from './routes/_authenticated/agents.collaboration.history'
-import { Route as AuthenticatedAgentsCollaborationAnalyticsRouteImport } from './routes/_authenticated/agents.collaboration.analytics'
-import { Route as ApiPublicWebhooksPaymentsProviderRouteImport } from './routes/api/public/webhooks/payments.$provider'
 
-const TrustRoute = TrustRouteImport.update({
-  id: '/trust',
-  path: '/trust',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StatusRoute = StatusRouteImport.update({
-  id: '/status',
-  path: '/status',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DesignRoute = DesignRouteImport.update({
   id: '/design',
   path: '/design',
@@ -570,506 +127,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiSitemapDotxmlRoute = ApiSitemapDotxmlRouteImport.update({
-  id: '/api/sitemap.xml',
-  path: '/api/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiRobotsDottxtRoute = ApiRobotsDottxtRouteImport.update({
-  id: '/api/robots.txt',
-  path: '/api/robots.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiHappySttRoute = ApiHappySttRouteImport.update({
-  id: '/api/happy-stt',
-  path: '/api/happy-stt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiHappyChatRoute = ApiHappyChatRouteImport.update({
-  id: '/api/happy-chat',
-  path: '/api/happy-chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedZenRoute = AuthenticatedZenRouteImport.update({
-  id: '/zen',
-  path: '/zen',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWorkspacesRoute = AuthenticatedWorkspacesRouteImport.update({
-  id: '/workspaces',
-  path: '/workspaces',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWorkspaceRoute = AuthenticatedWorkspaceRouteImport.update({
-  id: '/workspace',
-  path: '/workspace',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWorkforceRoute = AuthenticatedWorkforceRouteImport.update({
-  id: '/workforce',
-  path: '/workforce',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWorkflowsRoute = AuthenticatedWorkflowsRouteImport.update({
-  id: '/workflows',
-  path: '/workflows',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWidgetsRoute = AuthenticatedWidgetsRouteImport.update({
-  id: '/widgets',
-  path: '/widgets',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWhiteLabelRoute = AuthenticatedWhiteLabelRouteImport.update({
-  id: '/white-label',
-  path: '/white-label',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWellnessRoute = AuthenticatedWellnessRouteImport.update({
-  id: '/wellness',
-  path: '/wellness',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWebsitesRoute = AuthenticatedWebsitesRouteImport.update({
-  id: '/websites',
-  path: '/websites',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWarehouseRoute = AuthenticatedWarehouseRouteImport.update({
-  id: '/warehouse',
-  path: '/warehouse',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedWallpaperMarketplaceRoute =
-  AuthenticatedWallpaperMarketplaceRouteImport.update({
-    id: '/wallpaper-marketplace',
-    path: '/wallpaper-marketplace',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedWalletRoute = AuthenticatedWalletRouteImport.update({
-  id: '/wallet',
-  path: '/wallet',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedVisionRoute = AuthenticatedVisionRouteImport.update({
-  id: '/vision',
-  path: '/vision',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedVendorsRoute = AuthenticatedVendorsRouteImport.update({
-  id: '/vendors',
-  path: '/vendors',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedUtilitiesRoute = AuthenticatedUtilitiesRouteImport.update({
-  id: '/utilities',
-  path: '/utilities',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedUniversalRoute = AuthenticatedUniversalRouteImport.update({
-  id: '/universal',
-  path: '/universal',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedUnifiedOsRoute = AuthenticatedUnifiedOsRouteImport.update({
-  id: '/unified-os',
-  path: '/unified-os',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedTransportRoute = AuthenticatedTransportRouteImport.update({
-  id: '/transport',
-  path: '/transport',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedToolsRoute = AuthenticatedToolsRouteImport.update({
-  id: '/tools',
-  path: '/tools',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedThemesRoute = AuthenticatedThemesRouteImport.update({
-  id: '/themes',
-  path: '/themes',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedThemeMarketplaceRoute =
-  AuthenticatedThemeMarketplaceRouteImport.update({
-    id: '/theme-marketplace',
-    path: '/theme-marketplace',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedTemplatesRoute = AuthenticatedTemplatesRouteImport.update({
-  id: '/templates',
-  path: '/templates',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedTelemedicineRoute =
-  AuthenticatedTelemedicineRouteImport.update({
-    id: '/telemedicine',
-    path: '/telemedicine',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSustainabilityRoute =
-  AuthenticatedSustainabilityRouteImport.update({
-    id: '/sustainability',
-    path: '/sustainability',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSupportRoute = AuthenticatedSupportRouteImport.update({
-  id: '/support',
-  path: '/support',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSupplyChainRoute =
-  AuthenticatedSupplyChainRouteImport.update({
-    id: '/supply-chain',
-    path: '/supply-chain',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSuperIntelligenceRoute =
-  AuthenticatedSuperIntelligenceRouteImport.update({
-    id: '/super-intelligence',
-    path: '/super-intelligence',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedStudioRoute = AuthenticatedStudioRouteImport.update({
   id: '/studio',
   path: '/studio',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedStreaksRoute = AuthenticatedStreaksRouteImport.update({
-  id: '/streaks',
-  path: '/streaks',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSmartCityRoute = AuthenticatedSmartCityRouteImport.update({
-  id: '/smart-city',
-  path: '/smart-city',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSkillsRoute = AuthenticatedSkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSimulationRoute = AuthenticatedSimulationRouteImport.update({
-  id: '/simulation',
-  path: '/simulation',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSettingsWallpapersRoute =
-  AuthenticatedSettingsWallpapersRouteImport.update({
-    id: '/settings-wallpapers',
-    path: '/settings-wallpapers',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSettingsThemeRoute =
-  AuthenticatedSettingsThemeRouteImport.update({
-    id: '/settings-theme',
-    path: '/settings-theme',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSettingsBackgroundRoute =
-  AuthenticatedSettingsBackgroundRouteImport.update({
-    id: '/settings-background',
-    path: '/settings-background',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSettingsAppearanceRoute =
-  AuthenticatedSettingsAppearanceRouteImport.update({
-    id: '/settings-appearance',
-    path: '/settings-appearance',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSettingsAccessibilityRoute =
-  AuthenticatedSettingsAccessibilityRouteImport.update({
-    id: '/settings-accessibility',
-    path: '/settings-accessibility',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedServiceMeshRoute =
-  AuthenticatedServiceMeshRouteImport.update({
-    id: '/service-mesh',
-    path: '/service-mesh',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSecuritySessionsRoute =
-  AuthenticatedSecuritySessionsRouteImport.update({
-    id: '/security-sessions',
-    path: '/security-sessions',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedSecurityRoute = AuthenticatedSecurityRouteImport.update({
-  id: '/security',
-  path: '/security',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSearchV2Route = AuthenticatedSearchV2RouteImport.update({
-  id: '/search-v2',
-  path: '/search-v2',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSearchHubRoute = AuthenticatedSearchHubRouteImport.update({
-  id: '/search-hub',
-  path: '/search-hub',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRuralRoute = AuthenticatedRuralRouteImport.update({
-  id: '/rural',
-  path: '/rural',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRuntimeRoute = AuthenticatedRuntimeRouteImport.update({
-  id: '/runtime',
-  path: '/runtime',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRobotsRoute = AuthenticatedRobotsRouteImport.update({
-  id: '/robots',
-  path: '/robots',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRoboticsRoute = AuthenticatedRoboticsRouteImport.update({
-  id: '/robotics',
-  path: '/robotics',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRoadmapRoute = AuthenticatedRoadmapRouteImport.update({
-  id: '/roadmap',
-  path: '/roadmap',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRevenueRoute = AuthenticatedRevenueRouteImport.update({
-  id: '/revenue',
-  path: '/revenue',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedResearchRoute = AuthenticatedResearchRouteImport.update({
-  id: '/research',
-  path: '/research',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedQualityRoute = AuthenticatedQualityRouteImport.update({
-  id: '/quality',
-  path: '/quality',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPublicSafetyRoute =
-  AuthenticatedPublicSafetyRouteImport.update({
-    id: '/public-safety',
-    path: '/public-safety',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedPublicHealthRoute =
-  AuthenticatedPublicHealthRouteImport.update({
-    id: '/public-health',
-    path: '/public-health',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedPublicEducationRoute =
-  AuthenticatedPublicEducationRouteImport.update({
-    id: '/public-education',
-    path: '/public-education',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedProductivityRoute =
-  AuthenticatedProductivityRouteImport.update({
-    id: '/productivity',
-    path: '/productivity',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedPricingRoute = AuthenticatedPricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPredictionsRoute =
-  AuthenticatedPredictionsRouteImport.update({
-    id: '/predictions',
-    path: '/predictions',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedPluginsRoute = AuthenticatedPluginsRouteImport.update({
-  id: '/plugins',
-  path: '/plugins',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPlatformHubRoute =
-  AuthenticatedPlatformHubRouteImport.update({
-    id: '/platform-hub',
-    path: '/platform-hub',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedPharmacyRoute = AuthenticatedPharmacyRouteImport.update({
-  id: '/pharmacy',
-  path: '/pharmacy',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
-  id: '/payments',
-  path: '/payments',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPatientsRoute = AuthenticatedPatientsRouteImport.update({
-  id: '/patients',
-  path: '/patients',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPartnersRoute = AuthenticatedPartnersRouteImport.update({
-  id: '/partners',
-  path: '/partners',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedOrganizationsRoute =
-  AuthenticatedOrganizationsRouteImport.update({
-    id: '/organizations',
-    path: '/organizations',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedOrchestrationRoute =
-  AuthenticatedOrchestrationRouteImport.update({
-    id: '/orchestration',
-    path: '/orchestration',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedOperationsRoute = AuthenticatedOperationsRouteImport.update({
-  id: '/operations',
-  path: '/operations',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedObservabilityV3Route =
-  AuthenticatedObservabilityV3RouteImport.update({
-    id: '/observability-v3',
-    path: '/observability-v3',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedObservabilityV2Route =
-  AuthenticatedObservabilityV2RouteImport.update({
-    id: '/observability-v2',
-    path: '/observability-v2',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedObservabilityRoute =
-  AuthenticatedObservabilityRouteImport.update({
-    id: '/observability',
-    path: '/observability',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsTemplatesRoute =
-  AuthenticatedNotificationsTemplatesRouteImport.update({
-    id: '/notifications-templates',
-    path: '/notifications-templates',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsStarredRoute =
-  AuthenticatedNotificationsStarredRouteImport.update({
-    id: '/notifications-starred',
-    path: '/notifications-starred',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsSettingsRoute =
-  AuthenticatedNotificationsSettingsRouteImport.update({
-    id: '/notifications-settings',
-    path: '/notifications-settings',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsRemindersRoute =
-  AuthenticatedNotificationsRemindersRouteImport.update({
-    id: '/notifications-reminders',
-    path: '/notifications-reminders',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsPreferencesRoute =
-  AuthenticatedNotificationsPreferencesRouteImport.update({
-    id: '/notifications-preferences',
-    path: '/notifications-preferences',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsInboxRoute =
-  AuthenticatedNotificationsInboxRouteImport.update({
-    id: '/notifications-inbox',
-    path: '/notifications-inbox',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsHistoryRoute =
-  AuthenticatedNotificationsHistoryRouteImport.update({
-    id: '/notifications-history',
-    path: '/notifications-history',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsCategoriesRoute =
-  AuthenticatedNotificationsCategoriesRouteImport.update({
-    id: '/notifications-categories',
-    path: '/notifications-categories',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsAutomationRoute =
-  AuthenticatedNotificationsAutomationRouteImport.update({
-    id: '/notifications-automation',
-    path: '/notifications-automation',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsArchiveRoute =
-  AuthenticatedNotificationsArchiveRouteImport.update({
-    id: '/notifications-archive',
-    path: '/notifications-archive',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsAnnouncementsRoute =
-  AuthenticatedNotificationsAnnouncementsRouteImport.update({
-    id: '/notifications-announcements',
-    path: '/notifications-announcements',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsAnalyticsRoute =
-  AuthenticatedNotificationsAnalyticsRouteImport.update({
-    id: '/notifications-analytics',
-    path: '/notifications-analytics',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNotificationsRoute =
-  AuthenticatedNotificationsRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedNetworkRoute = AuthenticatedNetworkRouteImport.update({
-  id: '/network',
-  path: '/network',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedNativeRoute = AuthenticatedNativeRouteImport.update({
-  id: '/native',
-  path: '/native',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedNationalRoute = AuthenticatedNationalRouteImport.update({
-  id: '/national',
-  path: '/national',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedMultimodalRoute = AuthenticatedMultimodalRouteImport.update({
-  id: '/multimodal',
-  path: '/multimodal',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedMonitoringRoute = AuthenticatedMonitoringRouteImport.update({
-  id: '/monitoring',
-  path: '/monitoring',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
@@ -1077,95 +142,10 @@ const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedMemoryRoute = AuthenticatedMemoryRouteImport.update({
-  id: '/memory',
-  path: '/memory',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedMedicalResearchRoute =
-  AuthenticatedMedicalResearchRouteImport.update({
-    id: '/medical-research',
-    path: '/medical-research',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedMarketplaceHubRoute =
-  AuthenticatedMarketplaceHubRouteImport.update({
-    id: '/marketplace-hub',
-    path: '/marketplace-hub',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedMarketplaceRoute =
   AuthenticatedMarketplaceRouteImport.update({
     id: '/marketplace',
     path: '/marketplace',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedMarketNetworkRoute =
-  AuthenticatedMarketNetworkRouteImport.update({
-    id: '/market-network',
-    path: '/market-network',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedMarketIntelligenceRoute =
-  AuthenticatedMarketIntelligenceRouteImport.update({
-    id: '/market-intelligence',
-    path: '/market-intelligence',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedManufacturingRoute =
-  AuthenticatedManufacturingRouteImport.update({
-    id: '/manufacturing',
-    path: '/manufacturing',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedMaintenanceRoute =
-  AuthenticatedMaintenanceRouteImport.update({
-    id: '/maintenance',
-    path: '/maintenance',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedLiveIslandRoute = AuthenticatedLiveIslandRouteImport.update({
-  id: '/live-island',
-  path: '/live-island',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedLibraryRoute = AuthenticatedLibraryRouteImport.update({
-  id: '/library',
-  path: '/library',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedLearningNetworkRoute =
-  AuthenticatedLearningNetworkRouteImport.update({
-    id: '/learning-network',
-    path: '/learning-network',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedLearningRoute = AuthenticatedLearningRouteImport.update({
-  id: '/learning',
-  path: '/learning',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedLaboratoryRoute = AuthenticatedLaboratoryRouteImport.update({
-  id: '/laboratory',
-  path: '/laboratory',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedKnowledgeNetworkRoute =
-  AuthenticatedKnowledgeNetworkRouteImport.update({
-    id: '/knowledge-network',
-    path: '/knowledge-network',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedKnowledgeGraphRoute =
-  AuthenticatedKnowledgeGraphRouteImport.update({
-    id: '/knowledge-graph',
-    path: '/knowledge-graph',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedKnowledgeExchangeRoute =
-  AuthenticatedKnowledgeExchangeRouteImport.update({
-    id: '/knowledge-exchange',
-    path: '/knowledge-exchange',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
@@ -1173,224 +153,14 @@ const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
   path: '/knowledge',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedIotRuntimeRoute = AuthenticatedIotRuntimeRouteImport.update({
-  id: '/iot-runtime',
-  path: '/iot-runtime',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedIotRoute = AuthenticatedIotRouteImport.update({
-  id: '/iot',
-  path: '/iot',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedInvestorsRoute = AuthenticatedInvestorsRouteImport.update({
-  id: '/investors',
-  path: '/investors',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedIntelligenceNetworkRoute =
-  AuthenticatedIntelligenceNetworkRouteImport.update({
-    id: '/intelligence-network',
-    path: '/intelligence-network',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedIntelligenceExchangeRoute =
-  AuthenticatedIntelligenceExchangeRouteImport.update({
-    id: '/intelligence-exchange',
-    path: '/intelligence-exchange',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedIntelligenceRoute =
-  AuthenticatedIntelligenceRouteImport.update({
-    id: '/intelligence',
-    path: '/intelligence',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedInsightsRoute = AuthenticatedInsightsRouteImport.update({
-  id: '/insights',
-  path: '/insights',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedInnovationRoute = AuthenticatedInnovationRouteImport.update({
-  id: '/innovation',
-  path: '/innovation',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedIndustryRoute = AuthenticatedIndustryRouteImport.update({
-  id: '/industry',
-  path: '/industry',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedIdentityRoute = AuthenticatedIdentityRouteImport.update({
-  id: '/identity',
-  path: '/identity',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedIconsRoute = AuthenticatedIconsRouteImport.update({
-  id: '/icons',
-  path: '/icons',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedHyperlocalRoute = AuthenticatedHyperlocalRouteImport.update({
-  id: '/hyperlocal',
-  path: '/hyperlocal',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedHrmsRoute = AuthenticatedHrmsRouteImport.update({
-  id: '/hrms',
-  path: '/hrms',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedHostingRoute = AuthenticatedHostingRouteImport.update({
-  id: '/hosting',
-  path: '/hosting',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedHospitalsRoute = AuthenticatedHospitalsRouteImport.update({
-  id: '/hospitals',
-  path: '/hospitals',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedHealthcareRoute = AuthenticatedHealthcareRouteImport.update({
-  id: '/healthcare',
-  path: '/healthcare',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedGovernmentRoute = AuthenticatedGovernmentRouteImport.update({
-  id: '/government',
-  path: '/government',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedGovernanceV2Route =
-  AuthenticatedGovernanceV2RouteImport.update({
-    id: '/governance-v2',
-    path: '/governance-v2',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedGovernanceRoute = AuthenticatedGovernanceRouteImport.update({
-  id: '/governance',
-  path: '/governance',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedGlobalMemoryRoute =
-  AuthenticatedGlobalMemoryRouteImport.update({
-    id: '/global-memory',
-    path: '/global-memory',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedGlobalRoute = AuthenticatedGlobalRouteImport.update({
-  id: '/global',
-  path: '/global',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFutureRoute = AuthenticatedFutureRouteImport.update({
-  id: '/future',
-  path: '/future',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedFounderRoute = AuthenticatedFounderRouteImport.update({
   id: '/founder',
   path: '/founder',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedFocusRoute = AuthenticatedFocusRouteImport.update({
-  id: '/focus',
-  path: '/focus',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFleetRoute = AuthenticatedFleetRouteImport.update({
-  id: '/fleet',
-  path: '/fleet',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFinancialAiRoute =
-  AuthenticatedFinancialAiRouteImport.update({
-    id: '/financial-ai',
-    path: '/financial-ai',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedFinanceRoute = AuthenticatedFinanceRouteImport.update({
-  id: '/finance',
-  path: '/finance',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFactoryRoute = AuthenticatedFactoryRouteImport.update({
-  id: '/factory',
-  path: '/factory',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFabricRoute = AuthenticatedFabricRouteImport.update({
-  id: '/fabric',
-  path: '/fabric',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedExperienceFabricRoute =
-  AuthenticatedExperienceFabricRouteImport.update({
-    id: '/experience-fabric',
-    path: '/experience-fabric',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedExperienceRoute = AuthenticatedExperienceRouteImport.update({
-  id: '/experience',
-  path: '/experience',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedExecutiveRoute = AuthenticatedExecutiveRouteImport.update({
-  id: '/executive',
-  path: '/executive',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedExecutionRoute = AuthenticatedExecutionRouteImport.update({
-  id: '/execution',
-  path: '/execution',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedErpRoute = AuthenticatedErpRouteImport.update({
-  id: '/erp',
-  path: '/erp',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEnterpriseNetworkRoute =
-  AuthenticatedEnterpriseNetworkRouteImport.update({
-    id: '/enterprise-network',
-    path: '/enterprise-network',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedEnterpriseControlRoute =
-  AuthenticatedEnterpriseControlRouteImport.update({
-    id: '/enterprise-control',
-    path: '/enterprise-control',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedEnterpriseCloudRoute =
-  AuthenticatedEnterpriseCloudRouteImport.update({
-    id: '/enterprise-cloud',
-    path: '/enterprise-cloud',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedEnterpriseRoute = AuthenticatedEnterpriseRouteImport.update({
   id: '/enterprise',
   path: '/enterprise',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEnergyRoute = AuthenticatedEnergyRouteImport.update({
-  id: '/energy',
-  path: '/energy',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEmployeeRoute = AuthenticatedEmployeeRouteImport.update({
-  id: '/employee',
-  path: '/employee',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedEducationRoute = AuthenticatedEducationRouteImport.update({
@@ -1398,125 +168,10 @@ const AuthenticatedEducationRoute = AuthenticatedEducationRouteImport.update({
   path: '/education',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedEdgeRoute = AuthenticatedEdgeRouteImport.update({
-  id: '/edge',
-  path: '/edge',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEcosystemIntelligenceRoute =
-  AuthenticatedEcosystemIntelligenceRouteImport.update({
-    id: '/ecosystem-intelligence',
-    path: '/ecosystem-intelligence',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedEcosystemHubRoute =
-  AuthenticatedEcosystemHubRouteImport.update({
-    id: '/ecosystem-hub',
-    path: '/ecosystem-hub',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedEcosystemRoute = AuthenticatedEcosystemRouteImport.update({
-  id: '/ecosystem',
-  path: '/ecosystem',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDomainsSearchRoute =
-  AuthenticatedDomainsSearchRouteImport.update({
-    id: '/domains-search',
-    path: '/domains-search',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDomainsManageRoute =
-  AuthenticatedDomainsManageRouteImport.update({
-    id: '/domains-manage',
-    path: '/domains-manage',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDomainsRoute = AuthenticatedDomainsRouteImport.update({
-  id: '/domains',
-  path: '/domains',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDocumentsRoute = AuthenticatedDocumentsRouteImport.update({
-  id: '/documents',
-  path: '/documents',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDistributorRoute =
-  AuthenticatedDistributorRouteImport.update({
-    id: '/distributor',
-    path: '/distributor',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDigitalTwinV2Route =
-  AuthenticatedDigitalTwinV2RouteImport.update({
-    id: '/digital-twin-v2',
-    path: '/digital-twin-v2',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDigitalTwinRoute =
-  AuthenticatedDigitalTwinRouteImport.update({
-    id: '/digital-twin',
-    path: '/digital-twin',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedDigitalHumanRoute =
   AuthenticatedDigitalHumanRouteImport.update({
     id: '/digital-human',
     path: '/digital-human',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDigitalFactoryRoute =
-  AuthenticatedDigitalFactoryRouteImport.update({
-    id: '/digital-factory',
-    path: '/digital-factory',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDevicesRoute = AuthenticatedDevicesRouteImport.update({
-  id: '/devices',
-  path: '/devices',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDevelopersRoute = AuthenticatedDevelopersRouteImport.update({
-  id: '/developers',
-  path: '/developers',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDeveloperRoute = AuthenticatedDeveloperRouteImport.update({
-  id: '/developer',
-  path: '/developer',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDeployRoute = AuthenticatedDeployRouteImport.update({
-  id: '/deploy',
-  path: '/deploy',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDecisionRoute = AuthenticatedDecisionRouteImport.update({
-  id: '/decision',
-  path: '/decision',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDealerRoute = AuthenticatedDealerRouteImport.update({
-  id: '/dealer',
-  path: '/dealer',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDatabaseBuilderRoute =
-  AuthenticatedDatabaseBuilderRouteImport.update({
-    id: '/database-builder',
-    path: '/database-builder',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedDataFabricRoute = AuthenticatedDataFabricRouteImport.update({
-  id: '/data-fabric',
-  path: '/data-fabric',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDataExchangeRoute =
-  AuthenticatedDataExchangeRouteImport.update({
-    id: '/data-exchange',
-    path: '/data-exchange',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -1524,83 +179,9 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedCustomersRoute = AuthenticatedCustomersRouteImport.update({
-  id: '/customers',
-  path: '/customers',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCustomer360Route =
-  AuthenticatedCustomer360RouteImport.update({
-    id: '/customer360',
-    path: '/customer360',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCustomerRoute = AuthenticatedCustomerRouteImport.update({
-  id: '/customer',
-  path: '/customer',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCrmRoute = AuthenticatedCrmRouteImport.update({
-  id: '/crm',
-  path: '/crm',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCreditsRoute = AuthenticatedCreditsRouteImport.update({
-  id: '/credits',
-  path: '/credits',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedContentRoute = AuthenticatedContentRouteImport.update({
-  id: '/content',
-  path: '/content',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedConnectorsRoute = AuthenticatedConnectorsRouteImport.update({
-  id: '/connectors',
-  path: '/connectors',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedConnectivityRoute =
-  AuthenticatedConnectivityRouteImport.update({
-    id: '/connectivity',
-    path: '/connectivity',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
   id: '/community',
   path: '/community',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCommunicationsRoute =
-  AuthenticatedCommunicationsRouteImport.update({
-    id: '/communications',
-    path: '/communications',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCommerceRoute = AuthenticatedCommerceRouteImport.update({
-  id: '/commerce',
-  path: '/commerce',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCollaborationRoute =
-  AuthenticatedCollaborationRouteImport.update({
-    id: '/collaboration',
-    path: '/collaboration',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCoachRoute = AuthenticatedCoachRouteImport.update({
-  id: '/coach',
-  path: '/coach',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCloudRoute = AuthenticatedCloudRouteImport.update({
-  id: '/cloud',
-  path: '/cloud',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCitizensRoute = AuthenticatedCitizensRouteImport.update({
-  id: '/citizens',
-  path: '/citizens',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
@@ -1608,164 +189,16 @@ const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
   path: '/business',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedBuilderRoute = AuthenticatedBuilderRouteImport.update({
-  id: '/builder',
-  path: '/builder',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedBrainRoute = AuthenticatedBrainRouteImport.update({
-  id: '/brain',
-  path: '/brain',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedBillingRoute = AuthenticatedBillingRouteImport.update({
-  id: '/billing',
-  path: '/billing',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedBankingRoute = AuthenticatedBankingRouteImport.update({
-  id: '/banking',
-  path: '/banking',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAutonomousRoute = AuthenticatedAutonomousRouteImport.update({
-  id: '/autonomous',
-  path: '/autonomous',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAutomationHubRoute =
-  AuthenticatedAutomationHubRouteImport.update({
-    id: '/automation-hub',
-    path: '/automation-hub',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAutomationRoute = AuthenticatedAutomationRouteImport.update({
-  id: '/automation',
-  path: '/automation',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAssetsRoute = AuthenticatedAssetsRouteImport.update({
-  id: '/assets',
-  path: '/assets',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAppsRoute = AuthenticatedAppsRouteImport.update({
-  id: '/apps',
-  path: '/apps',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAppointmentsRoute =
-  AuthenticatedAppointmentsRouteImport.update({
-    id: '/appointments',
-    path: '/appointments',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAppBuilderRoute = AuthenticatedAppBuilderRouteImport.update({
-  id: '/app-builder',
-  path: '/app-builder',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedApiFabricRoute = AuthenticatedApiFabricRouteImport.update({
-  id: '/api-fabric',
-  path: '/api-fabric',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
-  id: '/analytics',
-  path: '/analytics',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAiDesignRoute = AuthenticatedAiDesignRouteImport.update({
-  id: '/ai-design',
-  path: '/ai-design',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAiBuilderRoute = AuthenticatedAiBuilderRouteImport.update({
-  id: '/ai-builder',
-  path: '/ai-builder',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
-  id: '/agents',
-  path: '/agents',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAgentOsRoute = AuthenticatedAgentOsRouteImport.update({
-  id: '/agent-os',
-  path: '/agent-os',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAchievementsRoute =
-  AuthenticatedAchievementsRouteImport.update({
-    id: '/achievements',
-    path: '/achievements',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedUabrRouteRoute = AuthenticatedUabrRouteRouteImport.update({
-  id: '/uabr',
-  path: '/uabr',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedReleasesRouteRoute =
-  AuthenticatedReleasesRouteRouteImport.update({
-    id: '/releases',
-    path: '/releases',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedProductionRouteRoute =
-  AuthenticatedProductionRouteRouteImport.update({
-    id: '/production',
-    path: '/production',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedLiveRouteRoute = AuthenticatedLiveRouteRouteImport.update({
-  id: '/live',
-  path: '/live',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedHappyRouteRoute = AuthenticatedHappyRouteRouteImport.update({
-  id: '/happy',
-  path: '/happy',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFounderAiRouteRoute =
-  AuthenticatedFounderAiRouteRouteImport.update({
-    id: '/founder-ai',
-    path: '/founder-ai',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedUabrIndexRoute = AuthenticatedUabrIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedUabrRouteRoute,
 } as any)
 const AuthenticatedStudioIndexRoute =
   AuthenticatedStudioIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedStudioRoute,
-  } as any)
-const AuthenticatedReleasesIndexRoute =
-  AuthenticatedReleasesIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedProductionIndexRoute =
-  AuthenticatedProductionIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedProductionRouteRoute,
   } as any)
 const AuthenticatedMessagesIndexRoute =
   AuthenticatedMessagesIndexRouteImport.update({
@@ -1779,51 +212,23 @@ const AuthenticatedMarketplaceIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedMarketplaceRoute,
   } as any)
-const AuthenticatedLiveIndexRoute = AuthenticatedLiveIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedLiveRouteRoute,
-} as any)
 const AuthenticatedKnowledgeIndexRoute =
   AuthenticatedKnowledgeIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
-const AuthenticatedHyperlocalIndexRoute =
-  AuthenticatedHyperlocalIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHappyIndexRoute = AuthenticatedHappyIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedHappyRouteRoute,
-} as any)
 const AuthenticatedFounderIndexRoute =
   AuthenticatedFounderIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedFounderRoute,
   } as any)
-const AuthenticatedFounderAiIndexRoute =
-  AuthenticatedFounderAiIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
 const AuthenticatedEnterpriseIndexRoute =
   AuthenticatedEnterpriseIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedEnterpriseRoute,
-  } as any)
-const AuthenticatedEnterpriseAiIndexRoute =
-  AuthenticatedEnterpriseAiIndexRouteImport.update({
-    id: '/enterprise-ai/',
-    path: '/enterprise-ai/',
-    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedEducationIndexRoute =
   AuthenticatedEducationIndexRouteImport.update({
@@ -1849,128 +254,11 @@ const AuthenticatedBusinessIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedBusinessRoute,
   } as any)
-const AuthenticatedBrainIndexRoute = AuthenticatedBrainIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedBrainRoute,
-} as any)
 const ApiDhTtsRoute = ApiDhTtsRouteImport.update({
   id: '/api/dh/tts',
   path: '/api/dh/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedWorkflowsRuntimeRoute =
-  AuthenticatedWorkflowsRuntimeRouteImport.update({
-    id: '/runtime',
-    path: '/runtime',
-    getParentRoute: () => AuthenticatedWorkflowsRoute,
-  } as any)
-const AuthenticatedWorkflowsMonitorRoute =
-  AuthenticatedWorkflowsMonitorRouteImport.update({
-    id: '/monitor',
-    path: '/monitor',
-    getParentRoute: () => AuthenticatedWorkflowsRoute,
-  } as any)
-const AuthenticatedWorkflowsHistoryRoute =
-  AuthenticatedWorkflowsHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedWorkflowsRoute,
-  } as any)
-const AuthenticatedWorkflowsExecutionsRoute =
-  AuthenticatedWorkflowsExecutionsRouteImport.update({
-    id: '/executions',
-    path: '/executions',
-    getParentRoute: () => AuthenticatedWorkflowsRoute,
-  } as any)
-const AuthenticatedWorkflowsDesignerRoute =
-  AuthenticatedWorkflowsDesignerRouteImport.update({
-    id: '/designer',
-    path: '/designer',
-    getParentRoute: () => AuthenticatedWorkflowsRoute,
-  } as any)
-const AuthenticatedWorkflowsAnalyticsRoute =
-  AuthenticatedWorkflowsAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedWorkflowsRoute,
-  } as any)
-const AuthenticatedUabrTestsRoute = AuthenticatedUabrTestsRouteImport.update({
-  id: '/tests',
-  path: '/tests',
-  getParentRoute: () => AuthenticatedUabrRouteRoute,
-} as any)
-const AuthenticatedUabrPlannerRoute =
-  AuthenticatedUabrPlannerRouteImport.update({
-    id: '/planner',
-    path: '/planner',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedUabrHistoryRoute =
-  AuthenticatedUabrHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedUabrFrontendRoute =
-  AuthenticatedUabrFrontendRouteImport.update({
-    id: '/frontend',
-    path: '/frontend',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedUabrDocumentationRoute =
-  AuthenticatedUabrDocumentationRouteImport.update({
-    id: '/documentation',
-    path: '/documentation',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedUabrDesignRoute = AuthenticatedUabrDesignRouteImport.update({
-  id: '/design',
-  path: '/design',
-  getParentRoute: () => AuthenticatedUabrRouteRoute,
-} as any)
-const AuthenticatedUabrDeploymentRoute =
-  AuthenticatedUabrDeploymentRouteImport.update({
-    id: '/deployment',
-    path: '/deployment',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedUabrDatabaseRoute =
-  AuthenticatedUabrDatabaseRouteImport.update({
-    id: '/database',
-    path: '/database',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedUabrDashboardRoute =
-  AuthenticatedUabrDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedUabrBackendRoute =
-  AuthenticatedUabrBackendRouteImport.update({
-    id: '/backend',
-    path: '/backend',
-    getParentRoute: () => AuthenticatedUabrRouteRoute,
-  } as any)
-const AuthenticatedToolsSettingsRoute =
-  AuthenticatedToolsSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedToolsRoute,
-  } as any)
-const AuthenticatedToolsRuntimeRoute =
-  AuthenticatedToolsRuntimeRouteImport.update({
-    id: '/runtime',
-    path: '/runtime',
-    getParentRoute: () => AuthenticatedToolsRoute,
-  } as any)
-const AuthenticatedToolsAnalyticsRoute =
-  AuthenticatedToolsAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedToolsRoute,
-  } as any)
 const AuthenticatedStudioVoiceRoute =
   AuthenticatedStudioVoiceRouteImport.update({
     id: '/voice',
@@ -2001,11 +289,6 @@ const AuthenticatedStudioImageRoute =
     path: '/image',
     getParentRoute: () => AuthenticatedStudioRoute,
   } as any)
-const AuthenticatedStudioHubRoute = AuthenticatedStudioHubRouteImport.update({
-  id: '/hub',
-  path: '/hub',
-  getParentRoute: () => AuthenticatedStudioRoute,
-} as any)
 const AuthenticatedStudioExportsRoute =
   AuthenticatedStudioExportsRouteImport.update({
     id: '/exports',
@@ -2029,360 +312,6 @@ const AuthenticatedStudioAssetsRoute =
     path: '/assets',
     getParentRoute: () => AuthenticatedStudioRoute,
   } as any)
-const AuthenticatedSkillsStoreRoute =
-  AuthenticatedSkillsStoreRouteImport.update({
-    id: '/store',
-    path: '/store',
-    getParentRoute: () => AuthenticatedSkillsRoute,
-  } as any)
-const AuthenticatedSkillsSettingsRoute =
-  AuthenticatedSkillsSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedSkillsRoute,
-  } as any)
-const AuthenticatedSkillsInstalledRoute =
-  AuthenticatedSkillsInstalledRouteImport.update({
-    id: '/installed',
-    path: '/installed',
-    getParentRoute: () => AuthenticatedSkillsRoute,
-  } as any)
-const AuthenticatedSkillsCategoriesRoute =
-  AuthenticatedSkillsCategoriesRouteImport.update({
-    id: '/categories',
-    path: '/categories',
-    getParentRoute: () => AuthenticatedSkillsRoute,
-  } as any)
-const AuthenticatedRuntimeWorkflowsRoute =
-  AuthenticatedRuntimeWorkflowsRouteImport.update({
-    id: '/workflows',
-    path: '/workflows',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeToolsRoute =
-  AuthenticatedRuntimeToolsRouteImport.update({
-    id: '/tools',
-    path: '/tools',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeTimelineRoute =
-  AuthenticatedRuntimeTimelineRouteImport.update({
-    id: '/timeline',
-    path: '/timeline',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeSkillsRoute =
-  AuthenticatedRuntimeSkillsRouteImport.update({
-    id: '/skills',
-    path: '/skills',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeSettingsRoute =
-  AuthenticatedRuntimeSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeSecurityRoute =
-  AuthenticatedRuntimeSecurityRouteImport.update({
-    id: '/security',
-    path: '/security',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeRisksRoute =
-  AuthenticatedRuntimeRisksRouteImport.update({
-    id: '/risks',
-    path: '/risks',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimePluginsRoute =
-  AuthenticatedRuntimePluginsRouteImport.update({
-    id: '/plugins',
-    path: '/plugins',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimePlanningRoute =
-  AuthenticatedRuntimePlanningRouteImport.update({
-    id: '/planning',
-    path: '/planning',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimePlannerRoute =
-  AuthenticatedRuntimePlannerRouteImport.update({
-    id: '/planner',
-    path: '/planner',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimePerformanceRoute =
-  AuthenticatedRuntimePerformanceRouteImport.update({
-    id: '/performance',
-    path: '/performance',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeMonitorRoute =
-  AuthenticatedRuntimeMonitorRouteImport.update({
-    id: '/monitor',
-    path: '/monitor',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeMemoryRoute =
-  AuthenticatedRuntimeMemoryRouteImport.update({
-    id: '/memory',
-    path: '/memory',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeLogsRoute =
-  AuthenticatedRuntimeLogsRouteImport.update({
-    id: '/logs',
-    path: '/logs',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeLiveRoute =
-  AuthenticatedRuntimeLiveRouteImport.update({
-    id: '/live',
-    path: '/live',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeIntelligenceRoute =
-  AuthenticatedRuntimeIntelligenceRouteImport.update({
-    id: '/intelligence',
-    path: '/intelligence',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeHistoryRoute =
-  AuthenticatedRuntimeHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeHealthRoute =
-  AuthenticatedRuntimeHealthRouteImport.update({
-    id: '/health',
-    path: '/health',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeGoalsRoute =
-  AuthenticatedRuntimeGoalsRouteImport.update({
-    id: '/goals',
-    path: '/goals',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeExecutionsRoute =
-  AuthenticatedRuntimeExecutionsRouteImport.update({
-    id: '/executions',
-    path: '/executions',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeExecutionRoute =
-  AuthenticatedRuntimeExecutionRouteImport.update({
-    id: '/execution',
-    path: '/execution',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeDevelopersRoute =
-  AuthenticatedRuntimeDevelopersRouteImport.update({
-    id: '/developers',
-    path: '/developers',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeDependenciesRoute =
-  AuthenticatedRuntimeDependenciesRouteImport.update({
-    id: '/dependencies',
-    path: '/dependencies',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeDecisionRoute =
-  AuthenticatedRuntimeDecisionRouteImport.update({
-    id: '/decision',
-    path: '/decision',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeDashboardRoute =
-  AuthenticatedRuntimeDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeCollaborationRoute =
-  AuthenticatedRuntimeCollaborationRouteImport.update({
-    id: '/collaboration',
-    path: '/collaboration',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeCapabilitiesRoute =
-  AuthenticatedRuntimeCapabilitiesRouteImport.update({
-    id: '/capabilities',
-    path: '/capabilities',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeAutomationRoute =
-  AuthenticatedRuntimeAutomationRouteImport.update({
-    id: '/automation',
-    path: '/automation',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedRuntimeAnalyticsRoute =
-  AuthenticatedRuntimeAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedRuntimeRoute,
-  } as any)
-const AuthenticatedReleasesSigningRoute =
-  AuthenticatedReleasesSigningRouteImport.update({
-    id: '/signing',
-    path: '/signing',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesSettingsRoute =
-  AuthenticatedReleasesSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesRolloutRoute =
-  AuthenticatedReleasesRolloutRouteImport.update({
-    id: '/rollout',
-    path: '/rollout',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesPublishRoute =
-  AuthenticatedReleasesPublishRouteImport.update({
-    id: '/publish',
-    path: '/publish',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesLogsRoute =
-  AuthenticatedReleasesLogsRouteImport.update({
-    id: '/logs',
-    path: '/logs',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesHistoryRoute =
-  AuthenticatedReleasesHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesDashboardRoute =
-  AuthenticatedReleasesDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesBuildsRoute =
-  AuthenticatedReleasesBuildsRouteImport.update({
-    id: '/builds',
-    path: '/builds',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesArtifactsRoute =
-  AuthenticatedReleasesArtifactsRouteImport.update({
-    id: '/artifacts',
-    path: '/artifacts',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedReleasesAnalyticsRoute =
-  AuthenticatedReleasesAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedReleasesRouteRoute,
-  } as any)
-const AuthenticatedProductionTestingRoute =
-  AuthenticatedProductionTestingRouteImport.update({
-    id: '/testing',
-    path: '/testing',
-    getParentRoute: () => AuthenticatedProductionRouteRoute,
-  } as any)
-const AuthenticatedProductionSecurityRoute =
-  AuthenticatedProductionSecurityRouteImport.update({
-    id: '/security',
-    path: '/security',
-    getParentRoute: () => AuthenticatedProductionRouteRoute,
-  } as any)
-const AuthenticatedProductionQualityRoute =
-  AuthenticatedProductionQualityRouteImport.update({
-    id: '/quality',
-    path: '/quality',
-    getParentRoute: () => AuthenticatedProductionRouteRoute,
-  } as any)
-const AuthenticatedProductionPerformanceRoute =
-  AuthenticatedProductionPerformanceRouteImport.update({
-    id: '/performance',
-    path: '/performance',
-    getParentRoute: () => AuthenticatedProductionRouteRoute,
-  } as any)
-const AuthenticatedProductionDeploymentRoute =
-  AuthenticatedProductionDeploymentRouteImport.update({
-    id: '/deployment',
-    path: '/deployment',
-    getParentRoute: () => AuthenticatedProductionRouteRoute,
-  } as any)
-const AuthenticatedProductionDashboardRoute =
-  AuthenticatedProductionDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedProductionRouteRoute,
-  } as any)
-const AuthenticatedPluginsStoreRoute =
-  AuthenticatedPluginsStoreRouteImport.update({
-    id: '/store',
-    path: '/store',
-    getParentRoute: () => AuthenticatedPluginsRoute,
-  } as any)
-const AuthenticatedPluginsSettingsRoute =
-  AuthenticatedPluginsSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedPluginsRoute,
-  } as any)
-const AuthenticatedPluginsReviewsRoute =
-  AuthenticatedPluginsReviewsRouteImport.update({
-    id: '/reviews',
-    path: '/reviews',
-    getParentRoute: () => AuthenticatedPluginsRoute,
-  } as any)
-const AuthenticatedPluginsManageRoute =
-  AuthenticatedPluginsManageRouteImport.update({
-    id: '/manage',
-    path: '/manage',
-    getParentRoute: () => AuthenticatedPluginsRoute,
-  } as any)
-const AuthenticatedPluginsInstalledRoute =
-  AuthenticatedPluginsInstalledRouteImport.update({
-    id: '/installed',
-    path: '/installed',
-    getParentRoute: () => AuthenticatedPluginsRoute,
-  } as any)
-const AuthenticatedMemoryTimelineRoute =
-  AuthenticatedMemoryTimelineRouteImport.update({
-    id: '/timeline',
-    path: '/timeline',
-    getParentRoute: () => AuthenticatedMemoryRoute,
-  } as any)
-const AuthenticatedMemorySettingsRoute =
-  AuthenticatedMemorySettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedMemoryRoute,
-  } as any)
-const AuthenticatedMemorySearchRoute =
-  AuthenticatedMemorySearchRouteImport.update({
-    id: '/search',
-    path: '/search',
-    getParentRoute: () => AuthenticatedMemoryRoute,
-  } as any)
-const AuthenticatedMemoryPreferencesRoute =
-  AuthenticatedMemoryPreferencesRouteImport.update({
-    id: '/preferences',
-    path: '/preferences',
-    getParentRoute: () => AuthenticatedMemoryRoute,
-  } as any)
-const AuthenticatedMemoryDashboardRoute =
-  AuthenticatedMemoryDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedMemoryRoute,
-  } as any)
 const AuthenticatedMarketplaceSellerRoute =
   AuthenticatedMarketplaceSellerRouteImport.update({
     id: '/seller',
@@ -2400,59 +329,6 @@ const AuthenticatedMarketplaceOrdersRoute =
     id: '/orders',
     path: '/orders',
     getParentRoute: () => AuthenticatedMarketplaceRoute,
-  } as any)
-const AuthenticatedLiveSettingsRoute =
-  AuthenticatedLiveSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
-  } as any)
-const AuthenticatedLiveRelationshipRoute =
-  AuthenticatedLiveRelationshipRouteImport.update({
-    id: '/relationship',
-    path: '/relationship',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
-  } as any)
-const AuthenticatedLivePresenceRoute =
-  AuthenticatedLivePresenceRouteImport.update({
-    id: '/presence',
-    path: '/presence',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
-  } as any)
-const AuthenticatedLiveLanguageRoute =
-  AuthenticatedLiveLanguageRouteImport.update({
-    id: '/language',
-    path: '/language',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
-  } as any)
-const AuthenticatedLiveHomeRoute = AuthenticatedLiveHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => AuthenticatedLiveRouteRoute,
-} as any)
-const AuthenticatedLiveFounderRoute =
-  AuthenticatedLiveFounderRouteImport.update({
-    id: '/founder',
-    path: '/founder',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
-  } as any)
-const AuthenticatedLiveDashboardRoute =
-  AuthenticatedLiveDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
-  } as any)
-const AuthenticatedLiveContextRoute =
-  AuthenticatedLiveContextRouteImport.update({
-    id: '/context',
-    path: '/context',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
-  } as any)
-const AuthenticatedLiveActivityRoute =
-  AuthenticatedLiveActivityRouteImport.update({
-    id: '/activity',
-    path: '/activity',
-    getParentRoute: () => AuthenticatedLiveRouteRoute,
   } as any)
 const AuthenticatedKnowledgeSourcesRoute =
   AuthenticatedKnowledgeSourcesRouteImport.update({
@@ -2490,218 +366,6 @@ const AuthenticatedKnowledgeAskRoute =
     path: '/ask',
     getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
-const AuthenticatedIntelligenceSettingsRoute =
-  AuthenticatedIntelligenceSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceRuntimeRoute =
-  AuthenticatedIntelligenceRuntimeRouteImport.update({
-    id: '/runtime',
-    path: '/runtime',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceRiskRoute =
-  AuthenticatedIntelligenceRiskRouteImport.update({
-    id: '/risk',
-    path: '/risk',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceReportsRoute =
-  AuthenticatedIntelligenceReportsRouteImport.update({
-    id: '/reports',
-    path: '/reports',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceRecommendationsRoute =
-  AuthenticatedIntelligenceRecommendationsRouteImport.update({
-    id: '/recommendations',
-    path: '/recommendations',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceOverviewRoute =
-  AuthenticatedIntelligenceOverviewRouteImport.update({
-    id: '/overview',
-    path: '/overview',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceOpportunitiesRoute =
-  AuthenticatedIntelligenceOpportunitiesRouteImport.update({
-    id: '/opportunities',
-    path: '/opportunities',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceLiveRoute =
-  AuthenticatedIntelligenceLiveRouteImport.update({
-    id: '/live',
-    path: '/live',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceInsightsRoute =
-  AuthenticatedIntelligenceInsightsRouteImport.update({
-    id: '/insights',
-    path: '/insights',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceForecastRoute =
-  AuthenticatedIntelligenceForecastRouteImport.update({
-    id: '/forecast',
-    path: '/forecast',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceExecutiveRoute =
-  AuthenticatedIntelligenceExecutiveRouteImport.update({
-    id: '/executive',
-    path: '/executive',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceDashboardRoute =
-  AuthenticatedIntelligenceDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedIntelligenceAdvisorRoute =
-  AuthenticatedIntelligenceAdvisorRouteImport.update({
-    id: '/advisor',
-    path: '/advisor',
-    getParentRoute: () => AuthenticatedIntelligenceRoute,
-  } as any)
-const AuthenticatedHyperlocalSettingsRoute =
-  AuthenticatedHyperlocalSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalMapRoute =
-  AuthenticatedHyperlocalMapRouteImport.update({
-    id: '/map',
-    path: '/map',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalManageRoute =
-  AuthenticatedHyperlocalManageRouteImport.update({
-    id: '/manage',
-    path: '/manage',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalJobsRoute =
-  AuthenticatedHyperlocalJobsRouteImport.update({
-    id: '/jobs',
-    path: '/jobs',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalEventsRoute =
-  AuthenticatedHyperlocalEventsRouteImport.update({
-    id: '/events',
-    path: '/events',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalDiscoverRoute =
-  AuthenticatedHyperlocalDiscoverRouteImport.update({
-    id: '/discover',
-    path: '/discover',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalBusinessesRoute =
-  AuthenticatedHyperlocalBusinessesRouteImport.update({
-    id: '/businesses',
-    path: '/businesses',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalAskRoute =
-  AuthenticatedHyperlocalAskRouteImport.update({
-    id: '/ask',
-    path: '/ask',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHyperlocalAlertsRoute =
-  AuthenticatedHyperlocalAlertsRouteImport.update({
-    id: '/alerts',
-    path: '/alerts',
-    getParentRoute: () => AuthenticatedHyperlocalRoute,
-  } as any)
-const AuthenticatedHappyWalkRoute = AuthenticatedHappyWalkRouteImport.update({
-  id: '/walk',
-  path: '/walk',
-  getParentRoute: () => AuthenticatedHappyRouteRoute,
-} as any)
-const AuthenticatedHappyVideoRoute = AuthenticatedHappyVideoRouteImport.update({
-  id: '/video',
-  path: '/video',
-  getParentRoute: () => AuthenticatedHappyRouteRoute,
-} as any)
-const AuthenticatedHappySettingsRoute =
-  AuthenticatedHappySettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyPresentationRoute =
-  AuthenticatedHappyPresentationRouteImport.update({
-    id: '/presentation',
-    path: '/presentation',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyPresenceRoute =
-  AuthenticatedHappyPresenceRouteImport.update({
-    id: '/presence',
-    path: '/presence',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyOfficeRoute =
-  AuthenticatedHappyOfficeRouteImport.update({
-    id: '/office',
-    path: '/office',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyMemoryRoute =
-  AuthenticatedHappyMemoryRouteImport.update({
-    id: '/memory',
-    path: '/memory',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyLiveRoute = AuthenticatedHappyLiveRouteImport.update({
-  id: '/live',
-  path: '/live',
-  getParentRoute: () => AuthenticatedHappyRouteRoute,
-} as any)
-const AuthenticatedHappyInitiativeRoute =
-  AuthenticatedHappyInitiativeRouteImport.update({
-    id: '/initiative',
-    path: '/initiative',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyComfortRoute =
-  AuthenticatedHappyComfortRouteImport.update({
-    id: '/comfort',
-    path: '/comfort',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyCinematicRoute =
-  AuthenticatedHappyCinematicRouteImport.update({
-    id: '/cinematic',
-    path: '/cinematic',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyCallRoute = AuthenticatedHappyCallRouteImport.update({
-  id: '/call',
-  path: '/call',
-  getParentRoute: () => AuthenticatedHappyRouteRoute,
-} as any)
-const AuthenticatedHappyBusinessRoute =
-  AuthenticatedHappyBusinessRouteImport.update({
-    id: '/business',
-    path: '/business',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
-const AuthenticatedHappyBehaviourRoute =
-  AuthenticatedHappyBehaviourRouteImport.update({
-    id: '/behaviour',
-    path: '/behaviour',
-    getParentRoute: () => AuthenticatedHappyRouteRoute,
-  } as any)
 const AuthenticatedFounderUsersRoute =
   AuthenticatedFounderUsersRouteImport.update({
     id: '/users',
@@ -2720,39 +384,15 @@ const AuthenticatedFounderSecurityRoute =
     path: '/security',
     getParentRoute: () => AuthenticatedFounderRoute,
   } as any)
-const AuthenticatedFounderPublishingRoute =
-  AuthenticatedFounderPublishingRouteImport.update({
-    id: '/publishing',
-    path: '/publishing',
-    getParentRoute: () => AuthenticatedFounderRoute,
-  } as any)
 const AuthenticatedFounderOpsRoute = AuthenticatedFounderOpsRouteImport.update({
   id: '/ops',
   path: '/ops',
   getParentRoute: () => AuthenticatedFounderRoute,
 } as any)
-const AuthenticatedFounderIntegrationsRoute =
-  AuthenticatedFounderIntegrationsRouteImport.update({
-    id: '/integrations',
-    path: '/integrations',
-    getParentRoute: () => AuthenticatedFounderRoute,
-  } as any)
-const AuthenticatedFounderExecutiveRoute =
-  AuthenticatedFounderExecutiveRouteImport.update({
-    id: '/executive',
-    path: '/executive',
-    getParentRoute: () => AuthenticatedFounderRoute,
-  } as any)
 const AuthenticatedFounderCompaniesRoute =
   AuthenticatedFounderCompaniesRouteImport.update({
     id: '/companies',
     path: '/companies',
-    getParentRoute: () => AuthenticatedFounderRoute,
-  } as any)
-const AuthenticatedFounderBriefRoute =
-  AuthenticatedFounderBriefRouteImport.update({
-    id: '/brief',
-    path: '/brief',
     getParentRoute: () => AuthenticatedFounderRoute,
   } as any)
 const AuthenticatedFounderAnalyticsRoute =
@@ -2766,84 +406,6 @@ const AuthenticatedFounderAiRoute = AuthenticatedFounderAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AuthenticatedFounderRoute,
 } as any)
-const AuthenticatedFounderAiWorkspaceRoute =
-  AuthenticatedFounderAiWorkspaceRouteImport.update({
-    id: '/workspace',
-    path: '/workspace',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiVoiceRoute =
-  AuthenticatedFounderAiVoiceRouteImport.update({
-    id: '/voice',
-    path: '/voice',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiTerminalRoute =
-  AuthenticatedFounderAiTerminalRouteImport.update({
-    id: '/terminal',
-    path: '/terminal',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiTasksRoute =
-  AuthenticatedFounderAiTasksRouteImport.update({
-    id: '/tasks',
-    path: '/tasks',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiSettingsRoute =
-  AuthenticatedFounderAiSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiMemoryRoute =
-  AuthenticatedFounderAiMemoryRouteImport.update({
-    id: '/memory',
-    path: '/memory',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiHistoryRoute =
-  AuthenticatedFounderAiHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiDashboardRoute =
-  AuthenticatedFounderAiDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiChatRoute =
-  AuthenticatedFounderAiChatRouteImport.update({
-    id: '/chat',
-    path: '/chat',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedFounderAiActivityRoute =
-  AuthenticatedFounderAiActivityRouteImport.update({
-    id: '/activity',
-    path: '/activity',
-    getParentRoute: () => AuthenticatedFounderAiRouteRoute,
-  } as any)
-const AuthenticatedExecutionTasksRoute =
-  AuthenticatedExecutionTasksRouteImport.update({
-    id: '/tasks',
-    path: '/tasks',
-    getParentRoute: () => AuthenticatedExecutionRoute,
-  } as any)
-const AuthenticatedExecutionHistoryRoute =
-  AuthenticatedExecutionHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedExecutionRoute,
-  } as any)
-const AuthenticatedExecutionAnalyticsRoute =
-  AuthenticatedExecutionAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedExecutionRoute,
-  } as any)
 const AuthenticatedEnterpriseWorkflowsRoute =
   AuthenticatedEnterpriseWorkflowsRouteImport.update({
     id: '/workflows',
@@ -2988,12 +550,6 @@ const AuthenticatedDigitalHumanSessionsRoute =
     path: '/sessions',
     getParentRoute: () => AuthenticatedDigitalHumanRoute,
   } as any)
-const AuthenticatedDigitalHumanProductionRoute =
-  AuthenticatedDigitalHumanProductionRouteImport.update({
-    id: '/production',
-    path: '/production',
-    getParentRoute: () => AuthenticatedDigitalHumanRoute,
-  } as any)
 const AuthenticatedDigitalHumanPresentationRoute =
   AuthenticatedDigitalHumanPresentationRouteImport.update({
     id: '/presentation',
@@ -3012,48 +568,6 @@ const AuthenticatedDigitalHumanBoardroomRoute =
     path: '/boardroom',
     getParentRoute: () => AuthenticatedDigitalHumanRoute,
   } as any)
-const AuthenticatedDevelopersWebhooksRoute =
-  AuthenticatedDevelopersWebhooksRouteImport.update({
-    id: '/webhooks',
-    path: '/webhooks',
-    getParentRoute: () => AuthenticatedDevelopersRoute,
-  } as any)
-const AuthenticatedDevelopersSdkRoute =
-  AuthenticatedDevelopersSdkRouteImport.update({
-    id: '/sdk',
-    path: '/sdk',
-    getParentRoute: () => AuthenticatedDevelopersRoute,
-  } as any)
-const AuthenticatedDevelopersDocsRoute =
-  AuthenticatedDevelopersDocsRouteImport.update({
-    id: '/docs',
-    path: '/docs',
-    getParentRoute: () => AuthenticatedDevelopersRoute,
-  } as any)
-const AuthenticatedDevelopersApisRoute =
-  AuthenticatedDevelopersApisRouteImport.update({
-    id: '/apis',
-    path: '/apis',
-    getParentRoute: () => AuthenticatedDevelopersRoute,
-  } as any)
-const AuthenticatedDecisionScenariosRoute =
-  AuthenticatedDecisionScenariosRouteImport.update({
-    id: '/scenarios',
-    path: '/scenarios',
-    getParentRoute: () => AuthenticatedDecisionRoute,
-  } as any)
-const AuthenticatedDecisionHistoryRoute =
-  AuthenticatedDecisionHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedDecisionRoute,
-  } as any)
-const AuthenticatedDecisionAnalyticsRoute =
-  AuthenticatedDecisionAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedDecisionRoute,
-  } as any)
 const AuthenticatedCommunityMineRoute =
   AuthenticatedCommunityMineRouteImport.update({
     id: '/mine',
@@ -3071,54 +585,6 @@ const AuthenticatedCommunityFollowingRoute =
     id: '/following',
     path: '/following',
     getParentRoute: () => AuthenticatedCommunityRoute,
-  } as any)
-const AuthenticatedCloudStorageRoute =
-  AuthenticatedCloudStorageRouteImport.update({
-    id: '/storage',
-    path: '/storage',
-    getParentRoute: () => AuthenticatedCloudRoute,
-  } as any)
-const AuthenticatedCloudProjectsRoute =
-  AuthenticatedCloudProjectsRouteImport.update({
-    id: '/projects',
-    path: '/projects',
-    getParentRoute: () => AuthenticatedCloudRoute,
-  } as any)
-const AuthenticatedCloudModelsRoute =
-  AuthenticatedCloudModelsRouteImport.update({
-    id: '/models',
-    path: '/models',
-    getParentRoute: () => AuthenticatedCloudRoute,
-  } as any)
-const AuthenticatedCloudMarketplaceRoute =
-  AuthenticatedCloudMarketplaceRouteImport.update({
-    id: '/marketplace',
-    path: '/marketplace',
-    getParentRoute: () => AuthenticatedCloudRoute,
-  } as any)
-const AuthenticatedCloudDeploymentsRoute =
-  AuthenticatedCloudDeploymentsRouteImport.update({
-    id: '/deployments',
-    path: '/deployments',
-    getParentRoute: () => AuthenticatedCloudRoute,
-  } as any)
-const AuthenticatedCloudComplianceRoute =
-  AuthenticatedCloudComplianceRouteImport.update({
-    id: '/compliance',
-    path: '/compliance',
-    getParentRoute: () => AuthenticatedCloudRoute,
-  } as any)
-const AuthenticatedCloudBillingRoute =
-  AuthenticatedCloudBillingRouteImport.update({
-    id: '/billing',
-    path: '/billing',
-    getParentRoute: () => AuthenticatedCloudRoute,
-  } as any)
-const AuthenticatedCloudAnalyticsRoute =
-  AuthenticatedCloudAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedCloudRoute,
   } as any)
 const AuthenticatedBusinessWarehouseRoute =
   AuthenticatedBusinessWarehouseRouteImport.update({
@@ -3196,84 +662,6 @@ const AuthenticatedBusinessAiRoute = AuthenticatedBusinessAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AuthenticatedBusinessRoute,
 } as any)
-const AuthenticatedBrainValidationRoute =
-  AuthenticatedBrainValidationRouteImport.update({
-    id: '/validation',
-    path: '/validation',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainRuntimeRoute =
-  AuthenticatedBrainRuntimeRouteImport.update({
-    id: '/runtime',
-    path: '/runtime',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainReflectionRoute =
-  AuthenticatedBrainReflectionRouteImport.update({
-    id: '/reflection',
-    path: '/reflection',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainReasoningRoute =
-  AuthenticatedBrainReasoningRouteImport.update({
-    id: '/reasoning',
-    path: '/reasoning',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainPlanningRoute =
-  AuthenticatedBrainPlanningRouteImport.update({
-    id: '/planning',
-    path: '/planning',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainMemoryRoute =
-  AuthenticatedBrainMemoryRouteImport.update({
-    id: '/memory',
-    path: '/memory',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainHealthRoute =
-  AuthenticatedBrainHealthRouteImport.update({
-    id: '/health',
-    path: '/health',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainExecutionRoute =
-  AuthenticatedBrainExecutionRouteImport.update({
-    id: '/execution',
-    path: '/execution',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedBrainAnalyticsRoute =
-  AuthenticatedBrainAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedBrainRoute,
-  } as any)
-const AuthenticatedAgentsRuntimeRoute =
-  AuthenticatedAgentsRuntimeRouteImport.update({
-    id: '/runtime',
-    path: '/runtime',
-    getParentRoute: () => AuthenticatedAgentsRoute,
-  } as any)
-const AuthenticatedAgentsMetricsRoute =
-  AuthenticatedAgentsMetricsRouteImport.update({
-    id: '/metrics',
-    path: '/metrics',
-    getParentRoute: () => AuthenticatedAgentsRoute,
-  } as any)
-const AuthenticatedAgentsExecutionRoute =
-  AuthenticatedAgentsExecutionRouteImport.update({
-    id: '/execution',
-    path: '/execution',
-    getParentRoute: () => AuthenticatedAgentsRoute,
-  } as any)
-const AuthenticatedAgentsCollaborationRoute =
-  AuthenticatedAgentsCollaborationRouteImport.update({
-    id: '/collaboration',
-    path: '/collaboration',
-    getParentRoute: () => AuthenticatedAgentsRoute,
-  } as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
   path: '/api/public/v1/status',
@@ -3284,380 +672,24 @@ const ApiPublicV1HealthRoute = ApiPublicV1HealthRouteImport.update({
   path: '/api/public/v1/health',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicCronSubscriptionsTickRoute =
-  ApiPublicCronSubscriptionsTickRouteImport.update({
-    id: '/api/public/cron/subscriptions-tick',
-    path: '/api/public/cron/subscriptions-tick',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicCronReleaseStoreStatusRoute =
-  ApiPublicCronReleaseStoreStatusRouteImport.update({
-    id: '/api/public/cron/release-store-status',
-    path: '/api/public/cron/release-store-status',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicCronReleasePipelineTickRoute =
-  ApiPublicCronReleasePipelineTickRouteImport.update({
-    id: '/api/public/cron/release-pipeline-tick',
-    path: '/api/public/cron/release-pipeline-tick',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicCronReleaseMetricsRollupRoute =
-  ApiPublicCronReleaseMetricsRollupRouteImport.update({
-    id: '/api/public/cron/release-metrics-rollup',
-    path: '/api/public/cron/release-metrics-rollup',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicCronPaymentsRetryRoute =
-  ApiPublicCronPaymentsRetryRouteImport.update({
-    id: '/api/public/cron/payments-retry',
-    path: '/api/public/cron/payments-retry',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicCronDeploymentsTickRoute =
-  ApiPublicCronDeploymentsTickRouteImport.update({
-    id: '/api/public/cron/deployments-tick',
-    path: '/api/public/cron/deployments-tick',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicCronCreditsExpireRoute =
-  ApiPublicCronCreditsExpireRouteImport.update({
-    id: '/api/public/cron/credits-expire',
-    path: '/api/public/cron/credits-expire',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicCronCmsPublishRoute = ApiPublicCronCmsPublishRouteImport.update({
-  id: '/api/public/cron/cms-publish',
-  path: '/api/public/cron/cms-publish',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRuntimeWorkflowsLiveRoute =
-  AuthenticatedRuntimeWorkflowsLiveRouteImport.update({
-    id: '/live',
-    path: '/live',
-    getParentRoute: () => AuthenticatedRuntimeWorkflowsRoute,
-  } as any)
-const AuthenticatedRuntimeWorkflowsHistoryRoute =
-  AuthenticatedRuntimeWorkflowsHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedRuntimeWorkflowsRoute,
-  } as any)
-const AuthenticatedRuntimeWorkflowsAnalyticsRoute =
-  AuthenticatedRuntimeWorkflowsAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedRuntimeWorkflowsRoute,
-  } as any)
-const AuthenticatedRuntimeToolsLiveRoute =
-  AuthenticatedRuntimeToolsLiveRouteImport.update({
-    id: '/live',
-    path: '/live',
-    getParentRoute: () => AuthenticatedRuntimeToolsRoute,
-  } as any)
-const AuthenticatedRuntimeToolsHistoryRoute =
-  AuthenticatedRuntimeToolsHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedRuntimeToolsRoute,
-  } as any)
-const AuthenticatedRuntimeToolsAnalyticsRoute =
-  AuthenticatedRuntimeToolsAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedRuntimeToolsRoute,
-  } as any)
-const AuthenticatedRuntimeIntelligenceRecommendationsRoute =
-  AuthenticatedRuntimeIntelligenceRecommendationsRouteImport.update({
-    id: '/recommendations',
-    path: '/recommendations',
-    getParentRoute: () => AuthenticatedRuntimeIntelligenceRoute,
-  } as any)
-const AuthenticatedRuntimeIntelligenceOpportunitiesRoute =
-  AuthenticatedRuntimeIntelligenceOpportunitiesRouteImport.update({
-    id: '/opportunities',
-    path: '/opportunities',
-    getParentRoute: () => AuthenticatedRuntimeIntelligenceRoute,
-  } as any)
-const AuthenticatedRuntimeIntelligenceForecastRoute =
-  AuthenticatedRuntimeIntelligenceForecastRouteImport.update({
-    id: '/forecast',
-    path: '/forecast',
-    getParentRoute: () => AuthenticatedRuntimeIntelligenceRoute,
-  } as any)
-const AuthenticatedRuntimeIntelligenceAdvisorRoute =
-  AuthenticatedRuntimeIntelligenceAdvisorRouteImport.update({
-    id: '/advisor',
-    path: '/advisor',
-    getParentRoute: () => AuthenticatedRuntimeIntelligenceRoute,
-  } as any)
-const AuthenticatedAgentsCollaborationLiveRoute =
-  AuthenticatedAgentsCollaborationLiveRouteImport.update({
-    id: '/live',
-    path: '/live',
-    getParentRoute: () => AuthenticatedAgentsCollaborationRoute,
-  } as any)
-const AuthenticatedAgentsCollaborationHistoryRoute =
-  AuthenticatedAgentsCollaborationHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
-    getParentRoute: () => AuthenticatedAgentsCollaborationRoute,
-  } as any)
-const AuthenticatedAgentsCollaborationAnalyticsRoute =
-  AuthenticatedAgentsCollaborationAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AuthenticatedAgentsCollaborationRoute,
-  } as any)
-const ApiPublicWebhooksPaymentsProviderRoute =
-  ApiPublicWebhooksPaymentsProviderRouteImport.update({
-    id: '/api/public/webhooks/payments/$provider',
-    path: '/api/public/webhooks/payments/$provider',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/status': typeof StatusRoute
-  '/trust': typeof TrustRoute
-  '/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
-  '/happy': typeof AuthenticatedHappyRouteRouteWithChildren
-  '/live': typeof AuthenticatedLiveRouteRouteWithChildren
-  '/production': typeof AuthenticatedProductionRouteRouteWithChildren
-  '/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
-  '/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
-  '/achievements': typeof AuthenticatedAchievementsRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/agent-os': typeof AuthenticatedAgentOsRoute
-  '/agents': typeof AuthenticatedAgentsRouteWithChildren
-  '/ai-builder': typeof AuthenticatedAiBuilderRoute
-  '/ai-design': typeof AuthenticatedAiDesignRoute
-  '/analytics': typeof AuthenticatedAnalyticsRoute
-  '/api-fabric': typeof AuthenticatedApiFabricRoute
-  '/app-builder': typeof AuthenticatedAppBuilderRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
-  '/apps': typeof AuthenticatedAppsRoute
-  '/assets': typeof AuthenticatedAssetsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
-  '/automation': typeof AuthenticatedAutomationRoute
-  '/automation-hub': typeof AuthenticatedAutomationHubRoute
-  '/autonomous': typeof AuthenticatedAutonomousRoute
-  '/banking': typeof AuthenticatedBankingRoute
-  '/billing': typeof AuthenticatedBillingRoute
-  '/brain': typeof AuthenticatedBrainRouteWithChildren
-  '/builder': typeof AuthenticatedBuilderRoute
   '/business': typeof AuthenticatedBusinessRouteWithChildren
-  '/citizens': typeof AuthenticatedCitizensRoute
-  '/cloud': typeof AuthenticatedCloudRouteWithChildren
-  '/coach': typeof AuthenticatedCoachRoute
-  '/collaboration': typeof AuthenticatedCollaborationRoute
-  '/commerce': typeof AuthenticatedCommerceRoute
-  '/communications': typeof AuthenticatedCommunicationsRoute
   '/community': typeof AuthenticatedCommunityRouteWithChildren
-  '/connectivity': typeof AuthenticatedConnectivityRoute
-  '/connectors': typeof AuthenticatedConnectorsRoute
-  '/content': typeof AuthenticatedContentRoute
-  '/credits': typeof AuthenticatedCreditsRoute
-  '/crm': typeof AuthenticatedCrmRoute
-  '/customer': typeof AuthenticatedCustomerRoute
-  '/customer360': typeof AuthenticatedCustomer360Route
-  '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/data-exchange': typeof AuthenticatedDataExchangeRoute
-  '/data-fabric': typeof AuthenticatedDataFabricRoute
-  '/database-builder': typeof AuthenticatedDatabaseBuilderRoute
-  '/dealer': typeof AuthenticatedDealerRoute
-  '/decision': typeof AuthenticatedDecisionRouteWithChildren
-  '/deploy': typeof AuthenticatedDeployRoute
-  '/developer': typeof AuthenticatedDeveloperRoute
-  '/developers': typeof AuthenticatedDevelopersRouteWithChildren
-  '/devices': typeof AuthenticatedDevicesRoute
-  '/digital-factory': typeof AuthenticatedDigitalFactoryRoute
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
-  '/digital-twin': typeof AuthenticatedDigitalTwinRoute
-  '/digital-twin-v2': typeof AuthenticatedDigitalTwinV2Route
-  '/distributor': typeof AuthenticatedDistributorRoute
-  '/documents': typeof AuthenticatedDocumentsRoute
-  '/domains': typeof AuthenticatedDomainsRoute
-  '/domains-manage': typeof AuthenticatedDomainsManageRoute
-  '/domains-search': typeof AuthenticatedDomainsSearchRoute
-  '/ecosystem': typeof AuthenticatedEcosystemRoute
-  '/ecosystem-hub': typeof AuthenticatedEcosystemHubRoute
-  '/ecosystem-intelligence': typeof AuthenticatedEcosystemIntelligenceRoute
-  '/edge': typeof AuthenticatedEdgeRoute
   '/education': typeof AuthenticatedEducationRouteWithChildren
-  '/employee': typeof AuthenticatedEmployeeRoute
-  '/energy': typeof AuthenticatedEnergyRoute
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
-  '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
-  '/enterprise-control': typeof AuthenticatedEnterpriseControlRoute
-  '/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
-  '/erp': typeof AuthenticatedErpRoute
-  '/events': typeof AuthenticatedEventsRoute
-  '/execution': typeof AuthenticatedExecutionRouteWithChildren
-  '/executive': typeof AuthenticatedExecutiveRoute
-  '/experience': typeof AuthenticatedExperienceRoute
-  '/experience-fabric': typeof AuthenticatedExperienceFabricRoute
-  '/fabric': typeof AuthenticatedFabricRoute
-  '/factory': typeof AuthenticatedFactoryRoute
-  '/finance': typeof AuthenticatedFinanceRoute
-  '/financial-ai': typeof AuthenticatedFinancialAiRoute
-  '/fleet': typeof AuthenticatedFleetRoute
-  '/focus': typeof AuthenticatedFocusRoute
   '/founder': typeof AuthenticatedFounderRouteWithChildren
-  '/future': typeof AuthenticatedFutureRoute
-  '/global': typeof AuthenticatedGlobalRoute
-  '/global-memory': typeof AuthenticatedGlobalMemoryRoute
-  '/governance': typeof AuthenticatedGovernanceRoute
-  '/governance-v2': typeof AuthenticatedGovernanceV2Route
-  '/government': typeof AuthenticatedGovernmentRoute
-  '/healthcare': typeof AuthenticatedHealthcareRoute
-  '/home': typeof AuthenticatedHomeRoute
-  '/hospitals': typeof AuthenticatedHospitalsRoute
-  '/hosting': typeof AuthenticatedHostingRoute
-  '/hrms': typeof AuthenticatedHrmsRoute
-  '/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
-  '/icons': typeof AuthenticatedIconsRoute
-  '/identity': typeof AuthenticatedIdentityRoute
-  '/industry': typeof AuthenticatedIndustryRoute
-  '/innovation': typeof AuthenticatedInnovationRoute
-  '/insights': typeof AuthenticatedInsightsRoute
-  '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
-  '/intelligence-exchange': typeof AuthenticatedIntelligenceExchangeRoute
-  '/intelligence-network': typeof AuthenticatedIntelligenceNetworkRoute
-  '/investors': typeof AuthenticatedInvestorsRoute
-  '/iot': typeof AuthenticatedIotRoute
-  '/iot-runtime': typeof AuthenticatedIotRuntimeRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
-  '/knowledge-exchange': typeof AuthenticatedKnowledgeExchangeRoute
-  '/knowledge-graph': typeof AuthenticatedKnowledgeGraphRoute
-  '/knowledge-network': typeof AuthenticatedKnowledgeNetworkRoute
-  '/laboratory': typeof AuthenticatedLaboratoryRoute
-  '/learning': typeof AuthenticatedLearningRoute
-  '/learning-network': typeof AuthenticatedLearningNetworkRoute
-  '/library': typeof AuthenticatedLibraryRoute
-  '/live-island': typeof AuthenticatedLiveIslandRoute
-  '/maintenance': typeof AuthenticatedMaintenanceRoute
-  '/manufacturing': typeof AuthenticatedManufacturingRoute
-  '/market-intelligence': typeof AuthenticatedMarketIntelligenceRoute
-  '/market-network': typeof AuthenticatedMarketNetworkRoute
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
-  '/marketplace-hub': typeof AuthenticatedMarketplaceHubRoute
-  '/medical-research': typeof AuthenticatedMedicalResearchRoute
-  '/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
-  '/monitoring': typeof AuthenticatedMonitoringRoute
-  '/multimodal': typeof AuthenticatedMultimodalRoute
-  '/national': typeof AuthenticatedNationalRoute
-  '/native': typeof AuthenticatedNativeRoute
-  '/network': typeof AuthenticatedNetworkRoute
-  '/notifications': typeof AuthenticatedNotificationsRoute
-  '/notifications-analytics': typeof AuthenticatedNotificationsAnalyticsRoute
-  '/notifications-announcements': typeof AuthenticatedNotificationsAnnouncementsRoute
-  '/notifications-archive': typeof AuthenticatedNotificationsArchiveRoute
-  '/notifications-automation': typeof AuthenticatedNotificationsAutomationRoute
-  '/notifications-categories': typeof AuthenticatedNotificationsCategoriesRoute
-  '/notifications-history': typeof AuthenticatedNotificationsHistoryRoute
-  '/notifications-inbox': typeof AuthenticatedNotificationsInboxRoute
-  '/notifications-preferences': typeof AuthenticatedNotificationsPreferencesRoute
-  '/notifications-reminders': typeof AuthenticatedNotificationsRemindersRoute
-  '/notifications-settings': typeof AuthenticatedNotificationsSettingsRoute
-  '/notifications-starred': typeof AuthenticatedNotificationsStarredRoute
-  '/notifications-templates': typeof AuthenticatedNotificationsTemplatesRoute
-  '/observability': typeof AuthenticatedObservabilityRoute
-  '/observability-v2': typeof AuthenticatedObservabilityV2Route
-  '/observability-v3': typeof AuthenticatedObservabilityV3Route
-  '/operations': typeof AuthenticatedOperationsRoute
-  '/orchestration': typeof AuthenticatedOrchestrationRoute
-  '/organizations': typeof AuthenticatedOrganizationsRoute
-  '/partners': typeof AuthenticatedPartnersRoute
-  '/patients': typeof AuthenticatedPatientsRoute
-  '/payments': typeof AuthenticatedPaymentsRoute
-  '/pharmacy': typeof AuthenticatedPharmacyRoute
-  '/platform-hub': typeof AuthenticatedPlatformHubRoute
-  '/plugins': typeof AuthenticatedPluginsRouteWithChildren
-  '/predictions': typeof AuthenticatedPredictionsRoute
-  '/pricing': typeof AuthenticatedPricingRoute
-  '/productivity': typeof AuthenticatedProductivityRoute
-  '/profile': typeof AuthenticatedProfileRoute
-  '/public-education': typeof AuthenticatedPublicEducationRoute
-  '/public-health': typeof AuthenticatedPublicHealthRoute
-  '/public-safety': typeof AuthenticatedPublicSafetyRoute
-  '/quality': typeof AuthenticatedQualityRoute
-  '/research': typeof AuthenticatedResearchRoute
-  '/revenue': typeof AuthenticatedRevenueRoute
-  '/roadmap': typeof AuthenticatedRoadmapRoute
-  '/robotics': typeof AuthenticatedRoboticsRoute
-  '/robots': typeof AuthenticatedRobotsRoute
-  '/runtime': typeof AuthenticatedRuntimeRouteWithChildren
-  '/rural': typeof AuthenticatedRuralRoute
-  '/search': typeof AuthenticatedSearchRoute
-  '/search-hub': typeof AuthenticatedSearchHubRoute
-  '/search-v2': typeof AuthenticatedSearchV2Route
-  '/security': typeof AuthenticatedSecurityRoute
-  '/security-sessions': typeof AuthenticatedSecuritySessionsRoute
-  '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
-  '/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
-  '/settings-background': typeof AuthenticatedSettingsBackgroundRoute
-  '/settings-theme': typeof AuthenticatedSettingsThemeRoute
-  '/settings-wallpapers': typeof AuthenticatedSettingsWallpapersRoute
-  '/simulation': typeof AuthenticatedSimulationRoute
-  '/skills': typeof AuthenticatedSkillsRouteWithChildren
-  '/smart-city': typeof AuthenticatedSmartCityRoute
-  '/streaks': typeof AuthenticatedStreaksRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
-  '/super-intelligence': typeof AuthenticatedSuperIntelligenceRoute
-  '/supply-chain': typeof AuthenticatedSupplyChainRoute
-  '/support': typeof AuthenticatedSupportRoute
-  '/sustainability': typeof AuthenticatedSustainabilityRoute
-  '/telemedicine': typeof AuthenticatedTelemedicineRoute
-  '/templates': typeof AuthenticatedTemplatesRoute
-  '/theme-marketplace': typeof AuthenticatedThemeMarketplaceRoute
-  '/themes': typeof AuthenticatedThemesRoute
-  '/tools': typeof AuthenticatedToolsRouteWithChildren
-  '/transport': typeof AuthenticatedTransportRoute
-  '/unified-os': typeof AuthenticatedUnifiedOsRoute
-  '/universal': typeof AuthenticatedUniversalRoute
-  '/utilities': typeof AuthenticatedUtilitiesRoute
-  '/vendors': typeof AuthenticatedVendorsRoute
-  '/vision': typeof AuthenticatedVisionRoute
-  '/wallet': typeof AuthenticatedWalletRoute
-  '/wallpaper-marketplace': typeof AuthenticatedWallpaperMarketplaceRoute
-  '/warehouse': typeof AuthenticatedWarehouseRoute
-  '/websites': typeof AuthenticatedWebsitesRoute
-  '/wellness': typeof AuthenticatedWellnessRoute
-  '/white-label': typeof AuthenticatedWhiteLabelRoute
-  '/widgets': typeof AuthenticatedWidgetsRoute
-  '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
-  '/workforce': typeof AuthenticatedWorkforceRoute
-  '/workspace': typeof AuthenticatedWorkspaceRoute
-  '/workspaces': typeof AuthenticatedWorkspacesRoute
-  '/zen': typeof AuthenticatedZenRoute
-  '/api/happy-chat': typeof ApiHappyChatRoute
-  '/api/happy-stt': typeof ApiHappySttRoute
-  '/api/robots.txt': typeof ApiRobotsDottxtRoute
-  '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
-  '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
-  '/agents/execution': typeof AuthenticatedAgentsExecutionRoute
-  '/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
-  '/agents/runtime': typeof AuthenticatedAgentsRuntimeRoute
-  '/brain/analytics': typeof AuthenticatedBrainAnalyticsRoute
-  '/brain/execution': typeof AuthenticatedBrainExecutionRoute
-  '/brain/health': typeof AuthenticatedBrainHealthRoute
-  '/brain/memory': typeof AuthenticatedBrainMemoryRoute
-  '/brain/planning': typeof AuthenticatedBrainPlanningRoute
-  '/brain/reasoning': typeof AuthenticatedBrainReasoningRoute
-  '/brain/reflection': typeof AuthenticatedBrainReflectionRoute
-  '/brain/runtime': typeof AuthenticatedBrainRuntimeRoute
-  '/brain/validation': typeof AuthenticatedBrainValidationRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -3671,28 +703,12 @@ export interface FileRoutesByFullPath {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
-  '/cloud/analytics': typeof AuthenticatedCloudAnalyticsRoute
-  '/cloud/billing': typeof AuthenticatedCloudBillingRoute
-  '/cloud/compliance': typeof AuthenticatedCloudComplianceRoute
-  '/cloud/deployments': typeof AuthenticatedCloudDeploymentsRoute
-  '/cloud/marketplace': typeof AuthenticatedCloudMarketplaceRoute
-  '/cloud/models': typeof AuthenticatedCloudModelsRoute
-  '/cloud/projects': typeof AuthenticatedCloudProjectsRoute
-  '/cloud/storage': typeof AuthenticatedCloudStorageRoute
   '/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/community/mine': typeof AuthenticatedCommunityMineRoute
-  '/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
-  '/decision/history': typeof AuthenticatedDecisionHistoryRoute
-  '/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
-  '/developers/apis': typeof AuthenticatedDevelopersApisRoute
-  '/developers/docs': typeof AuthenticatedDevelopersDocsRoute
-  '/developers/sdk': typeof AuthenticatedDevelopersSdkRoute
-  '/developers/webhooks': typeof AuthenticatedDevelopersWebhooksRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
-  '/digital-human/production': typeof AuthenticatedDigitalHumanProductionRoute
   '/digital-human/sessions': typeof AuthenticatedDigitalHumanSessionsRoute
   '/digital-human/settings': typeof AuthenticatedDigitalHumanSettingsRoute
   '/digital-human/whiteboard': typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -3717,441 +733,52 @@ export interface FileRoutesByFullPath {
   '/enterprise/security': typeof AuthenticatedEnterpriseSecurityRoute
   '/enterprise/structure': typeof AuthenticatedEnterpriseStructureRoute
   '/enterprise/workflows': typeof AuthenticatedEnterpriseWorkflowsRoute
-  '/execution/analytics': typeof AuthenticatedExecutionAnalyticsRoute
-  '/execution/history': typeof AuthenticatedExecutionHistoryRoute
-  '/execution/tasks': typeof AuthenticatedExecutionTasksRoute
-  '/founder-ai/activity': typeof AuthenticatedFounderAiActivityRoute
-  '/founder-ai/chat': typeof AuthenticatedFounderAiChatRoute
-  '/founder-ai/dashboard': typeof AuthenticatedFounderAiDashboardRoute
-  '/founder-ai/history': typeof AuthenticatedFounderAiHistoryRoute
-  '/founder-ai/memory': typeof AuthenticatedFounderAiMemoryRoute
-  '/founder-ai/settings': typeof AuthenticatedFounderAiSettingsRoute
-  '/founder-ai/tasks': typeof AuthenticatedFounderAiTasksRoute
-  '/founder-ai/terminal': typeof AuthenticatedFounderAiTerminalRoute
-  '/founder-ai/voice': typeof AuthenticatedFounderAiVoiceRoute
-  '/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
-  '/founder/brief': typeof AuthenticatedFounderBriefRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
-  '/founder/executive': typeof AuthenticatedFounderExecutiveRoute
-  '/founder/integrations': typeof AuthenticatedFounderIntegrationsRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
-  '/founder/publishing': typeof AuthenticatedFounderPublishingRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
-  '/happy/behaviour': typeof AuthenticatedHappyBehaviourRoute
-  '/happy/business': typeof AuthenticatedHappyBusinessRoute
-  '/happy/call': typeof AuthenticatedHappyCallRoute
-  '/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
-  '/happy/comfort': typeof AuthenticatedHappyComfortRoute
-  '/happy/initiative': typeof AuthenticatedHappyInitiativeRoute
-  '/happy/live': typeof AuthenticatedHappyLiveRoute
-  '/happy/memory': typeof AuthenticatedHappyMemoryRoute
-  '/happy/office': typeof AuthenticatedHappyOfficeRoute
-  '/happy/presence': typeof AuthenticatedHappyPresenceRoute
-  '/happy/presentation': typeof AuthenticatedHappyPresentationRoute
-  '/happy/settings': typeof AuthenticatedHappySettingsRoute
-  '/happy/video': typeof AuthenticatedHappyVideoRoute
-  '/happy/walk': typeof AuthenticatedHappyWalkRoute
-  '/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
-  '/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
-  '/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
-  '/hyperlocal/discover': typeof AuthenticatedHyperlocalDiscoverRoute
-  '/hyperlocal/events': typeof AuthenticatedHyperlocalEventsRoute
-  '/hyperlocal/jobs': typeof AuthenticatedHyperlocalJobsRoute
-  '/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
-  '/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
-  '/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
-  '/intelligence/advisor': typeof AuthenticatedIntelligenceAdvisorRoute
-  '/intelligence/dashboard': typeof AuthenticatedIntelligenceDashboardRoute
-  '/intelligence/executive': typeof AuthenticatedIntelligenceExecutiveRoute
-  '/intelligence/forecast': typeof AuthenticatedIntelligenceForecastRoute
-  '/intelligence/insights': typeof AuthenticatedIntelligenceInsightsRoute
-  '/intelligence/live': typeof AuthenticatedIntelligenceLiveRoute
-  '/intelligence/opportunities': typeof AuthenticatedIntelligenceOpportunitiesRoute
-  '/intelligence/overview': typeof AuthenticatedIntelligenceOverviewRoute
-  '/intelligence/recommendations': typeof AuthenticatedIntelligenceRecommendationsRoute
-  '/intelligence/reports': typeof AuthenticatedIntelligenceReportsRoute
-  '/intelligence/risk': typeof AuthenticatedIntelligenceRiskRoute
-  '/intelligence/runtime': typeof AuthenticatedIntelligenceRuntimeRoute
-  '/intelligence/settings': typeof AuthenticatedIntelligenceSettingsRoute
   '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
   '/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
   '/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
   '/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
-  '/live/activity': typeof AuthenticatedLiveActivityRoute
-  '/live/context': typeof AuthenticatedLiveContextRoute
-  '/live/dashboard': typeof AuthenticatedLiveDashboardRoute
-  '/live/founder': typeof AuthenticatedLiveFounderRoute
-  '/live/home': typeof AuthenticatedLiveHomeRoute
-  '/live/language': typeof AuthenticatedLiveLanguageRoute
-  '/live/presence': typeof AuthenticatedLivePresenceRoute
-  '/live/relationship': typeof AuthenticatedLiveRelationshipRoute
-  '/live/settings': typeof AuthenticatedLiveSettingsRoute
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
-  '/memory/dashboard': typeof AuthenticatedMemoryDashboardRoute
-  '/memory/preferences': typeof AuthenticatedMemoryPreferencesRoute
-  '/memory/search': typeof AuthenticatedMemorySearchRoute
-  '/memory/settings': typeof AuthenticatedMemorySettingsRoute
-  '/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
-  '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
-  '/plugins/manage': typeof AuthenticatedPluginsManageRoute
-  '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
-  '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
-  '/plugins/store': typeof AuthenticatedPluginsStoreRoute
-  '/production/dashboard': typeof AuthenticatedProductionDashboardRoute
-  '/production/deployment': typeof AuthenticatedProductionDeploymentRoute
-  '/production/performance': typeof AuthenticatedProductionPerformanceRoute
-  '/production/quality': typeof AuthenticatedProductionQualityRoute
-  '/production/security': typeof AuthenticatedProductionSecurityRoute
-  '/production/testing': typeof AuthenticatedProductionTestingRoute
-  '/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
-  '/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
-  '/releases/builds': typeof AuthenticatedReleasesBuildsRoute
-  '/releases/dashboard': typeof AuthenticatedReleasesDashboardRoute
-  '/releases/history': typeof AuthenticatedReleasesHistoryRoute
-  '/releases/logs': typeof AuthenticatedReleasesLogsRoute
-  '/releases/publish': typeof AuthenticatedReleasesPublishRoute
-  '/releases/rollout': typeof AuthenticatedReleasesRolloutRoute
-  '/releases/settings': typeof AuthenticatedReleasesSettingsRoute
-  '/releases/signing': typeof AuthenticatedReleasesSigningRoute
-  '/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
-  '/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
-  '/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
-  '/runtime/collaboration': typeof AuthenticatedRuntimeCollaborationRoute
-  '/runtime/dashboard': typeof AuthenticatedRuntimeDashboardRoute
-  '/runtime/decision': typeof AuthenticatedRuntimeDecisionRoute
-  '/runtime/dependencies': typeof AuthenticatedRuntimeDependenciesRoute
-  '/runtime/developers': typeof AuthenticatedRuntimeDevelopersRoute
-  '/runtime/execution': typeof AuthenticatedRuntimeExecutionRoute
-  '/runtime/executions': typeof AuthenticatedRuntimeExecutionsRoute
-  '/runtime/goals': typeof AuthenticatedRuntimeGoalsRoute
-  '/runtime/health': typeof AuthenticatedRuntimeHealthRoute
-  '/runtime/history': typeof AuthenticatedRuntimeHistoryRoute
-  '/runtime/intelligence': typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
-  '/runtime/live': typeof AuthenticatedRuntimeLiveRoute
-  '/runtime/logs': typeof AuthenticatedRuntimeLogsRoute
-  '/runtime/memory': typeof AuthenticatedRuntimeMemoryRoute
-  '/runtime/monitor': typeof AuthenticatedRuntimeMonitorRoute
-  '/runtime/performance': typeof AuthenticatedRuntimePerformanceRoute
-  '/runtime/planner': typeof AuthenticatedRuntimePlannerRoute
-  '/runtime/planning': typeof AuthenticatedRuntimePlanningRoute
-  '/runtime/plugins': typeof AuthenticatedRuntimePluginsRoute
-  '/runtime/risks': typeof AuthenticatedRuntimeRisksRoute
-  '/runtime/security': typeof AuthenticatedRuntimeSecurityRoute
-  '/runtime/settings': typeof AuthenticatedRuntimeSettingsRoute
-  '/runtime/skills': typeof AuthenticatedRuntimeSkillsRoute
-  '/runtime/timeline': typeof AuthenticatedRuntimeTimelineRoute
-  '/runtime/tools': typeof AuthenticatedRuntimeToolsRouteWithChildren
-  '/runtime/workflows': typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
-  '/skills/categories': typeof AuthenticatedSkillsCategoriesRoute
-  '/skills/installed': typeof AuthenticatedSkillsInstalledRoute
-  '/skills/settings': typeof AuthenticatedSkillsSettingsRoute
-  '/skills/store': typeof AuthenticatedSkillsStoreRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/studio/exports': typeof AuthenticatedStudioExportsRoute
-  '/studio/hub': typeof AuthenticatedStudioHubRoute
   '/studio/image': typeof AuthenticatedStudioImageRoute
   '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
   '/studio/projects': typeof AuthenticatedStudioProjectsRoute
   '/studio/voice': typeof AuthenticatedStudioVoiceRoute
-  '/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
-  '/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
-  '/tools/settings': typeof AuthenticatedToolsSettingsRoute
-  '/uabr/backend': typeof AuthenticatedUabrBackendRoute
-  '/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
-  '/uabr/database': typeof AuthenticatedUabrDatabaseRoute
-  '/uabr/deployment': typeof AuthenticatedUabrDeploymentRoute
-  '/uabr/design': typeof AuthenticatedUabrDesignRoute
-  '/uabr/documentation': typeof AuthenticatedUabrDocumentationRoute
-  '/uabr/frontend': typeof AuthenticatedUabrFrontendRoute
-  '/uabr/history': typeof AuthenticatedUabrHistoryRoute
-  '/uabr/planner': typeof AuthenticatedUabrPlannerRoute
-  '/uabr/tests': typeof AuthenticatedUabrTestsRoute
-  '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
-  '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
-  '/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
-  '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
-  '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
-  '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
-  '/brain/': typeof AuthenticatedBrainIndexRoute
   '/business/': typeof AuthenticatedBusinessIndexRoute
   '/community/': typeof AuthenticatedCommunityIndexRoute
   '/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/education/': typeof AuthenticatedEducationIndexRoute
-  '/enterprise-ai/': typeof AuthenticatedEnterpriseAiIndexRoute
   '/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
-  '/founder-ai/': typeof AuthenticatedFounderAiIndexRoute
   '/founder/': typeof AuthenticatedFounderIndexRoute
-  '/happy/': typeof AuthenticatedHappyIndexRoute
-  '/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
-  '/live/': typeof AuthenticatedLiveIndexRoute
   '/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
-  '/production/': typeof AuthenticatedProductionIndexRoute
-  '/releases/': typeof AuthenticatedReleasesIndexRoute
   '/studio/': typeof AuthenticatedStudioIndexRoute
-  '/uabr/': typeof AuthenticatedUabrIndexRoute
-  '/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
-  '/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
-  '/agents/collaboration/live': typeof AuthenticatedAgentsCollaborationLiveRoute
-  '/runtime/intelligence/advisor': typeof AuthenticatedRuntimeIntelligenceAdvisorRoute
-  '/runtime/intelligence/forecast': typeof AuthenticatedRuntimeIntelligenceForecastRoute
-  '/runtime/intelligence/opportunities': typeof AuthenticatedRuntimeIntelligenceOpportunitiesRoute
-  '/runtime/intelligence/recommendations': typeof AuthenticatedRuntimeIntelligenceRecommendationsRoute
-  '/runtime/tools/analytics': typeof AuthenticatedRuntimeToolsAnalyticsRoute
-  '/runtime/tools/history': typeof AuthenticatedRuntimeToolsHistoryRoute
-  '/runtime/tools/live': typeof AuthenticatedRuntimeToolsLiveRoute
-  '/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
-  '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
-  '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
-  '/api/public/cron/cms-publish': typeof ApiPublicCronCmsPublishRoute
-  '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
-  '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
-  '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
-  '/api/public/cron/release-metrics-rollup': typeof ApiPublicCronReleaseMetricsRollupRoute
-  '/api/public/cron/release-pipeline-tick': typeof ApiPublicCronReleasePipelineTickRoute
-  '/api/public/cron/release-store-status': typeof ApiPublicCronReleaseStoreStatusRoute
-  '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
-  '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/status': typeof StatusRoute
-  '/trust': typeof TrustRoute
-  '/achievements': typeof AuthenticatedAchievementsRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/agent-os': typeof AuthenticatedAgentOsRoute
-  '/agents': typeof AuthenticatedAgentsRouteWithChildren
-  '/ai-builder': typeof AuthenticatedAiBuilderRoute
-  '/ai-design': typeof AuthenticatedAiDesignRoute
-  '/analytics': typeof AuthenticatedAnalyticsRoute
-  '/api-fabric': typeof AuthenticatedApiFabricRoute
-  '/app-builder': typeof AuthenticatedAppBuilderRoute
-  '/appointments': typeof AuthenticatedAppointmentsRoute
-  '/apps': typeof AuthenticatedAppsRoute
-  '/assets': typeof AuthenticatedAssetsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
-  '/automation': typeof AuthenticatedAutomationRoute
-  '/automation-hub': typeof AuthenticatedAutomationHubRoute
-  '/autonomous': typeof AuthenticatedAutonomousRoute
-  '/banking': typeof AuthenticatedBankingRoute
-  '/billing': typeof AuthenticatedBillingRoute
-  '/builder': typeof AuthenticatedBuilderRoute
-  '/citizens': typeof AuthenticatedCitizensRoute
-  '/cloud': typeof AuthenticatedCloudRouteWithChildren
-  '/coach': typeof AuthenticatedCoachRoute
-  '/collaboration': typeof AuthenticatedCollaborationRoute
-  '/commerce': typeof AuthenticatedCommerceRoute
-  '/communications': typeof AuthenticatedCommunicationsRoute
-  '/connectivity': typeof AuthenticatedConnectivityRoute
-  '/connectors': typeof AuthenticatedConnectorsRoute
-  '/content': typeof AuthenticatedContentRoute
-  '/credits': typeof AuthenticatedCreditsRoute
-  '/crm': typeof AuthenticatedCrmRoute
-  '/customer': typeof AuthenticatedCustomerRoute
-  '/customer360': typeof AuthenticatedCustomer360Route
-  '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/data-exchange': typeof AuthenticatedDataExchangeRoute
-  '/data-fabric': typeof AuthenticatedDataFabricRoute
-  '/database-builder': typeof AuthenticatedDatabaseBuilderRoute
-  '/dealer': typeof AuthenticatedDealerRoute
-  '/decision': typeof AuthenticatedDecisionRouteWithChildren
-  '/deploy': typeof AuthenticatedDeployRoute
-  '/developer': typeof AuthenticatedDeveloperRoute
-  '/developers': typeof AuthenticatedDevelopersRouteWithChildren
-  '/devices': typeof AuthenticatedDevicesRoute
-  '/digital-factory': typeof AuthenticatedDigitalFactoryRoute
-  '/digital-twin': typeof AuthenticatedDigitalTwinRoute
-  '/digital-twin-v2': typeof AuthenticatedDigitalTwinV2Route
-  '/distributor': typeof AuthenticatedDistributorRoute
-  '/documents': typeof AuthenticatedDocumentsRoute
-  '/domains': typeof AuthenticatedDomainsRoute
-  '/domains-manage': typeof AuthenticatedDomainsManageRoute
-  '/domains-search': typeof AuthenticatedDomainsSearchRoute
-  '/ecosystem': typeof AuthenticatedEcosystemRoute
-  '/ecosystem-hub': typeof AuthenticatedEcosystemHubRoute
-  '/ecosystem-intelligence': typeof AuthenticatedEcosystemIntelligenceRoute
-  '/edge': typeof AuthenticatedEdgeRoute
-  '/employee': typeof AuthenticatedEmployeeRoute
-  '/energy': typeof AuthenticatedEnergyRoute
-  '/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
-  '/enterprise-control': typeof AuthenticatedEnterpriseControlRoute
-  '/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
-  '/erp': typeof AuthenticatedErpRoute
-  '/events': typeof AuthenticatedEventsRoute
-  '/execution': typeof AuthenticatedExecutionRouteWithChildren
-  '/executive': typeof AuthenticatedExecutiveRoute
-  '/experience': typeof AuthenticatedExperienceRoute
-  '/experience-fabric': typeof AuthenticatedExperienceFabricRoute
-  '/fabric': typeof AuthenticatedFabricRoute
-  '/factory': typeof AuthenticatedFactoryRoute
-  '/finance': typeof AuthenticatedFinanceRoute
-  '/financial-ai': typeof AuthenticatedFinancialAiRoute
-  '/fleet': typeof AuthenticatedFleetRoute
-  '/focus': typeof AuthenticatedFocusRoute
-  '/future': typeof AuthenticatedFutureRoute
-  '/global': typeof AuthenticatedGlobalRoute
-  '/global-memory': typeof AuthenticatedGlobalMemoryRoute
-  '/governance': typeof AuthenticatedGovernanceRoute
-  '/governance-v2': typeof AuthenticatedGovernanceV2Route
-  '/government': typeof AuthenticatedGovernmentRoute
-  '/healthcare': typeof AuthenticatedHealthcareRoute
-  '/home': typeof AuthenticatedHomeRoute
-  '/hospitals': typeof AuthenticatedHospitalsRoute
-  '/hosting': typeof AuthenticatedHostingRoute
-  '/hrms': typeof AuthenticatedHrmsRoute
-  '/icons': typeof AuthenticatedIconsRoute
-  '/identity': typeof AuthenticatedIdentityRoute
-  '/industry': typeof AuthenticatedIndustryRoute
-  '/innovation': typeof AuthenticatedInnovationRoute
-  '/insights': typeof AuthenticatedInsightsRoute
-  '/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
-  '/intelligence-exchange': typeof AuthenticatedIntelligenceExchangeRoute
-  '/intelligence-network': typeof AuthenticatedIntelligenceNetworkRoute
-  '/investors': typeof AuthenticatedInvestorsRoute
-  '/iot': typeof AuthenticatedIotRoute
-  '/iot-runtime': typeof AuthenticatedIotRuntimeRoute
-  '/knowledge-exchange': typeof AuthenticatedKnowledgeExchangeRoute
-  '/knowledge-graph': typeof AuthenticatedKnowledgeGraphRoute
-  '/knowledge-network': typeof AuthenticatedKnowledgeNetworkRoute
-  '/laboratory': typeof AuthenticatedLaboratoryRoute
-  '/learning': typeof AuthenticatedLearningRoute
-  '/learning-network': typeof AuthenticatedLearningNetworkRoute
-  '/library': typeof AuthenticatedLibraryRoute
-  '/live-island': typeof AuthenticatedLiveIslandRoute
-  '/maintenance': typeof AuthenticatedMaintenanceRoute
-  '/manufacturing': typeof AuthenticatedManufacturingRoute
-  '/market-intelligence': typeof AuthenticatedMarketIntelligenceRoute
-  '/market-network': typeof AuthenticatedMarketNetworkRoute
-  '/marketplace-hub': typeof AuthenticatedMarketplaceHubRoute
-  '/medical-research': typeof AuthenticatedMedicalResearchRoute
-  '/memory': typeof AuthenticatedMemoryRouteWithChildren
-  '/monitoring': typeof AuthenticatedMonitoringRoute
-  '/multimodal': typeof AuthenticatedMultimodalRoute
-  '/national': typeof AuthenticatedNationalRoute
-  '/native': typeof AuthenticatedNativeRoute
-  '/network': typeof AuthenticatedNetworkRoute
-  '/notifications': typeof AuthenticatedNotificationsRoute
-  '/notifications-analytics': typeof AuthenticatedNotificationsAnalyticsRoute
-  '/notifications-announcements': typeof AuthenticatedNotificationsAnnouncementsRoute
-  '/notifications-archive': typeof AuthenticatedNotificationsArchiveRoute
-  '/notifications-automation': typeof AuthenticatedNotificationsAutomationRoute
-  '/notifications-categories': typeof AuthenticatedNotificationsCategoriesRoute
-  '/notifications-history': typeof AuthenticatedNotificationsHistoryRoute
-  '/notifications-inbox': typeof AuthenticatedNotificationsInboxRoute
-  '/notifications-preferences': typeof AuthenticatedNotificationsPreferencesRoute
-  '/notifications-reminders': typeof AuthenticatedNotificationsRemindersRoute
-  '/notifications-settings': typeof AuthenticatedNotificationsSettingsRoute
-  '/notifications-starred': typeof AuthenticatedNotificationsStarredRoute
-  '/notifications-templates': typeof AuthenticatedNotificationsTemplatesRoute
-  '/observability': typeof AuthenticatedObservabilityRoute
-  '/observability-v2': typeof AuthenticatedObservabilityV2Route
-  '/observability-v3': typeof AuthenticatedObservabilityV3Route
-  '/operations': typeof AuthenticatedOperationsRoute
-  '/orchestration': typeof AuthenticatedOrchestrationRoute
-  '/organizations': typeof AuthenticatedOrganizationsRoute
-  '/partners': typeof AuthenticatedPartnersRoute
-  '/patients': typeof AuthenticatedPatientsRoute
-  '/payments': typeof AuthenticatedPaymentsRoute
-  '/pharmacy': typeof AuthenticatedPharmacyRoute
-  '/platform-hub': typeof AuthenticatedPlatformHubRoute
-  '/plugins': typeof AuthenticatedPluginsRouteWithChildren
-  '/predictions': typeof AuthenticatedPredictionsRoute
-  '/pricing': typeof AuthenticatedPricingRoute
-  '/productivity': typeof AuthenticatedProductivityRoute
-  '/profile': typeof AuthenticatedProfileRoute
-  '/public-education': typeof AuthenticatedPublicEducationRoute
-  '/public-health': typeof AuthenticatedPublicHealthRoute
-  '/public-safety': typeof AuthenticatedPublicSafetyRoute
-  '/quality': typeof AuthenticatedQualityRoute
-  '/research': typeof AuthenticatedResearchRoute
-  '/revenue': typeof AuthenticatedRevenueRoute
-  '/roadmap': typeof AuthenticatedRoadmapRoute
-  '/robotics': typeof AuthenticatedRoboticsRoute
-  '/robots': typeof AuthenticatedRobotsRoute
-  '/runtime': typeof AuthenticatedRuntimeRouteWithChildren
-  '/rural': typeof AuthenticatedRuralRoute
-  '/search': typeof AuthenticatedSearchRoute
-  '/search-hub': typeof AuthenticatedSearchHubRoute
-  '/search-v2': typeof AuthenticatedSearchV2Route
-  '/security': typeof AuthenticatedSecurityRoute
-  '/security-sessions': typeof AuthenticatedSecuritySessionsRoute
-  '/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
-  '/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
-  '/settings-background': typeof AuthenticatedSettingsBackgroundRoute
-  '/settings-theme': typeof AuthenticatedSettingsThemeRoute
-  '/settings-wallpapers': typeof AuthenticatedSettingsWallpapersRoute
-  '/simulation': typeof AuthenticatedSimulationRoute
-  '/skills': typeof AuthenticatedSkillsRouteWithChildren
-  '/smart-city': typeof AuthenticatedSmartCityRoute
-  '/streaks': typeof AuthenticatedStreaksRoute
-  '/super-intelligence': typeof AuthenticatedSuperIntelligenceRoute
-  '/supply-chain': typeof AuthenticatedSupplyChainRoute
-  '/support': typeof AuthenticatedSupportRoute
-  '/sustainability': typeof AuthenticatedSustainabilityRoute
-  '/telemedicine': typeof AuthenticatedTelemedicineRoute
-  '/templates': typeof AuthenticatedTemplatesRoute
-  '/theme-marketplace': typeof AuthenticatedThemeMarketplaceRoute
-  '/themes': typeof AuthenticatedThemesRoute
-  '/tools': typeof AuthenticatedToolsRouteWithChildren
-  '/transport': typeof AuthenticatedTransportRoute
-  '/unified-os': typeof AuthenticatedUnifiedOsRoute
-  '/universal': typeof AuthenticatedUniversalRoute
-  '/utilities': typeof AuthenticatedUtilitiesRoute
-  '/vendors': typeof AuthenticatedVendorsRoute
-  '/vision': typeof AuthenticatedVisionRoute
-  '/wallet': typeof AuthenticatedWalletRoute
-  '/wallpaper-marketplace': typeof AuthenticatedWallpaperMarketplaceRoute
-  '/warehouse': typeof AuthenticatedWarehouseRoute
-  '/websites': typeof AuthenticatedWebsitesRoute
-  '/wellness': typeof AuthenticatedWellnessRoute
-  '/white-label': typeof AuthenticatedWhiteLabelRoute
-  '/widgets': typeof AuthenticatedWidgetsRoute
-  '/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
-  '/workforce': typeof AuthenticatedWorkforceRoute
-  '/workspace': typeof AuthenticatedWorkspaceRoute
-  '/workspaces': typeof AuthenticatedWorkspacesRoute
-  '/zen': typeof AuthenticatedZenRoute
-  '/api/happy-chat': typeof ApiHappyChatRoute
-  '/api/happy-stt': typeof ApiHappySttRoute
-  '/api/robots.txt': typeof ApiRobotsDottxtRoute
-  '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
-  '/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
-  '/agents/execution': typeof AuthenticatedAgentsExecutionRoute
-  '/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
-  '/agents/runtime': typeof AuthenticatedAgentsRuntimeRoute
-  '/brain/analytics': typeof AuthenticatedBrainAnalyticsRoute
-  '/brain/execution': typeof AuthenticatedBrainExecutionRoute
-  '/brain/health': typeof AuthenticatedBrainHealthRoute
-  '/brain/memory': typeof AuthenticatedBrainMemoryRoute
-  '/brain/planning': typeof AuthenticatedBrainPlanningRoute
-  '/brain/reasoning': typeof AuthenticatedBrainReasoningRoute
-  '/brain/reflection': typeof AuthenticatedBrainReflectionRoute
-  '/brain/runtime': typeof AuthenticatedBrainRuntimeRoute
-  '/brain/validation': typeof AuthenticatedBrainValidationRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -4165,28 +792,12 @@ export interface FileRoutesByTo {
   '/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/business/search': typeof AuthenticatedBusinessSearchRoute
   '/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
-  '/cloud/analytics': typeof AuthenticatedCloudAnalyticsRoute
-  '/cloud/billing': typeof AuthenticatedCloudBillingRoute
-  '/cloud/compliance': typeof AuthenticatedCloudComplianceRoute
-  '/cloud/deployments': typeof AuthenticatedCloudDeploymentsRoute
-  '/cloud/marketplace': typeof AuthenticatedCloudMarketplaceRoute
-  '/cloud/models': typeof AuthenticatedCloudModelsRoute
-  '/cloud/projects': typeof AuthenticatedCloudProjectsRoute
-  '/cloud/storage': typeof AuthenticatedCloudStorageRoute
   '/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/community/mine': typeof AuthenticatedCommunityMineRoute
-  '/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
-  '/decision/history': typeof AuthenticatedDecisionHistoryRoute
-  '/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
-  '/developers/apis': typeof AuthenticatedDevelopersApisRoute
-  '/developers/docs': typeof AuthenticatedDevelopersDocsRoute
-  '/developers/sdk': typeof AuthenticatedDevelopersSdkRoute
-  '/developers/webhooks': typeof AuthenticatedDevelopersWebhooksRoute
   '/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
-  '/digital-human/production': typeof AuthenticatedDigitalHumanProductionRoute
   '/digital-human/sessions': typeof AuthenticatedDigitalHumanSessionsRoute
   '/digital-human/settings': typeof AuthenticatedDigitalHumanSettingsRoute
   '/digital-human/whiteboard': typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -4211,216 +822,44 @@ export interface FileRoutesByTo {
   '/enterprise/security': typeof AuthenticatedEnterpriseSecurityRoute
   '/enterprise/structure': typeof AuthenticatedEnterpriseStructureRoute
   '/enterprise/workflows': typeof AuthenticatedEnterpriseWorkflowsRoute
-  '/execution/analytics': typeof AuthenticatedExecutionAnalyticsRoute
-  '/execution/history': typeof AuthenticatedExecutionHistoryRoute
-  '/execution/tasks': typeof AuthenticatedExecutionTasksRoute
-  '/founder-ai/activity': typeof AuthenticatedFounderAiActivityRoute
-  '/founder-ai/chat': typeof AuthenticatedFounderAiChatRoute
-  '/founder-ai/dashboard': typeof AuthenticatedFounderAiDashboardRoute
-  '/founder-ai/history': typeof AuthenticatedFounderAiHistoryRoute
-  '/founder-ai/memory': typeof AuthenticatedFounderAiMemoryRoute
-  '/founder-ai/settings': typeof AuthenticatedFounderAiSettingsRoute
-  '/founder-ai/tasks': typeof AuthenticatedFounderAiTasksRoute
-  '/founder-ai/terminal': typeof AuthenticatedFounderAiTerminalRoute
-  '/founder-ai/voice': typeof AuthenticatedFounderAiVoiceRoute
-  '/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
-  '/founder/brief': typeof AuthenticatedFounderBriefRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
-  '/founder/executive': typeof AuthenticatedFounderExecutiveRoute
-  '/founder/integrations': typeof AuthenticatedFounderIntegrationsRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
-  '/founder/publishing': typeof AuthenticatedFounderPublishingRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
-  '/happy/behaviour': typeof AuthenticatedHappyBehaviourRoute
-  '/happy/business': typeof AuthenticatedHappyBusinessRoute
-  '/happy/call': typeof AuthenticatedHappyCallRoute
-  '/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
-  '/happy/comfort': typeof AuthenticatedHappyComfortRoute
-  '/happy/initiative': typeof AuthenticatedHappyInitiativeRoute
-  '/happy/live': typeof AuthenticatedHappyLiveRoute
-  '/happy/memory': typeof AuthenticatedHappyMemoryRoute
-  '/happy/office': typeof AuthenticatedHappyOfficeRoute
-  '/happy/presence': typeof AuthenticatedHappyPresenceRoute
-  '/happy/presentation': typeof AuthenticatedHappyPresentationRoute
-  '/happy/settings': typeof AuthenticatedHappySettingsRoute
-  '/happy/video': typeof AuthenticatedHappyVideoRoute
-  '/happy/walk': typeof AuthenticatedHappyWalkRoute
-  '/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
-  '/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
-  '/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
-  '/hyperlocal/discover': typeof AuthenticatedHyperlocalDiscoverRoute
-  '/hyperlocal/events': typeof AuthenticatedHyperlocalEventsRoute
-  '/hyperlocal/jobs': typeof AuthenticatedHyperlocalJobsRoute
-  '/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
-  '/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
-  '/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
-  '/intelligence/advisor': typeof AuthenticatedIntelligenceAdvisorRoute
-  '/intelligence/dashboard': typeof AuthenticatedIntelligenceDashboardRoute
-  '/intelligence/executive': typeof AuthenticatedIntelligenceExecutiveRoute
-  '/intelligence/forecast': typeof AuthenticatedIntelligenceForecastRoute
-  '/intelligence/insights': typeof AuthenticatedIntelligenceInsightsRoute
-  '/intelligence/live': typeof AuthenticatedIntelligenceLiveRoute
-  '/intelligence/opportunities': typeof AuthenticatedIntelligenceOpportunitiesRoute
-  '/intelligence/overview': typeof AuthenticatedIntelligenceOverviewRoute
-  '/intelligence/recommendations': typeof AuthenticatedIntelligenceRecommendationsRoute
-  '/intelligence/reports': typeof AuthenticatedIntelligenceReportsRoute
-  '/intelligence/risk': typeof AuthenticatedIntelligenceRiskRoute
-  '/intelligence/runtime': typeof AuthenticatedIntelligenceRuntimeRoute
-  '/intelligence/settings': typeof AuthenticatedIntelligenceSettingsRoute
   '/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
   '/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
   '/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
   '/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
-  '/live/activity': typeof AuthenticatedLiveActivityRoute
-  '/live/context': typeof AuthenticatedLiveContextRoute
-  '/live/dashboard': typeof AuthenticatedLiveDashboardRoute
-  '/live/founder': typeof AuthenticatedLiveFounderRoute
-  '/live/home': typeof AuthenticatedLiveHomeRoute
-  '/live/language': typeof AuthenticatedLiveLanguageRoute
-  '/live/presence': typeof AuthenticatedLivePresenceRoute
-  '/live/relationship': typeof AuthenticatedLiveRelationshipRoute
-  '/live/settings': typeof AuthenticatedLiveSettingsRoute
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
-  '/memory/dashboard': typeof AuthenticatedMemoryDashboardRoute
-  '/memory/preferences': typeof AuthenticatedMemoryPreferencesRoute
-  '/memory/search': typeof AuthenticatedMemorySearchRoute
-  '/memory/settings': typeof AuthenticatedMemorySettingsRoute
-  '/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
-  '/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
-  '/plugins/manage': typeof AuthenticatedPluginsManageRoute
-  '/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
-  '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
-  '/plugins/store': typeof AuthenticatedPluginsStoreRoute
-  '/production/dashboard': typeof AuthenticatedProductionDashboardRoute
-  '/production/deployment': typeof AuthenticatedProductionDeploymentRoute
-  '/production/performance': typeof AuthenticatedProductionPerformanceRoute
-  '/production/quality': typeof AuthenticatedProductionQualityRoute
-  '/production/security': typeof AuthenticatedProductionSecurityRoute
-  '/production/testing': typeof AuthenticatedProductionTestingRoute
-  '/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
-  '/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
-  '/releases/builds': typeof AuthenticatedReleasesBuildsRoute
-  '/releases/dashboard': typeof AuthenticatedReleasesDashboardRoute
-  '/releases/history': typeof AuthenticatedReleasesHistoryRoute
-  '/releases/logs': typeof AuthenticatedReleasesLogsRoute
-  '/releases/publish': typeof AuthenticatedReleasesPublishRoute
-  '/releases/rollout': typeof AuthenticatedReleasesRolloutRoute
-  '/releases/settings': typeof AuthenticatedReleasesSettingsRoute
-  '/releases/signing': typeof AuthenticatedReleasesSigningRoute
-  '/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
-  '/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
-  '/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
-  '/runtime/collaboration': typeof AuthenticatedRuntimeCollaborationRoute
-  '/runtime/dashboard': typeof AuthenticatedRuntimeDashboardRoute
-  '/runtime/decision': typeof AuthenticatedRuntimeDecisionRoute
-  '/runtime/dependencies': typeof AuthenticatedRuntimeDependenciesRoute
-  '/runtime/developers': typeof AuthenticatedRuntimeDevelopersRoute
-  '/runtime/execution': typeof AuthenticatedRuntimeExecutionRoute
-  '/runtime/executions': typeof AuthenticatedRuntimeExecutionsRoute
-  '/runtime/goals': typeof AuthenticatedRuntimeGoalsRoute
-  '/runtime/health': typeof AuthenticatedRuntimeHealthRoute
-  '/runtime/history': typeof AuthenticatedRuntimeHistoryRoute
-  '/runtime/intelligence': typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
-  '/runtime/live': typeof AuthenticatedRuntimeLiveRoute
-  '/runtime/logs': typeof AuthenticatedRuntimeLogsRoute
-  '/runtime/memory': typeof AuthenticatedRuntimeMemoryRoute
-  '/runtime/monitor': typeof AuthenticatedRuntimeMonitorRoute
-  '/runtime/performance': typeof AuthenticatedRuntimePerformanceRoute
-  '/runtime/planner': typeof AuthenticatedRuntimePlannerRoute
-  '/runtime/planning': typeof AuthenticatedRuntimePlanningRoute
-  '/runtime/plugins': typeof AuthenticatedRuntimePluginsRoute
-  '/runtime/risks': typeof AuthenticatedRuntimeRisksRoute
-  '/runtime/security': typeof AuthenticatedRuntimeSecurityRoute
-  '/runtime/settings': typeof AuthenticatedRuntimeSettingsRoute
-  '/runtime/skills': typeof AuthenticatedRuntimeSkillsRoute
-  '/runtime/timeline': typeof AuthenticatedRuntimeTimelineRoute
-  '/runtime/tools': typeof AuthenticatedRuntimeToolsRouteWithChildren
-  '/runtime/workflows': typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
-  '/skills/categories': typeof AuthenticatedSkillsCategoriesRoute
-  '/skills/installed': typeof AuthenticatedSkillsInstalledRoute
-  '/skills/settings': typeof AuthenticatedSkillsSettingsRoute
-  '/skills/store': typeof AuthenticatedSkillsStoreRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/studio/exports': typeof AuthenticatedStudioExportsRoute
-  '/studio/hub': typeof AuthenticatedStudioHubRoute
   '/studio/image': typeof AuthenticatedStudioImageRoute
   '/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/studio/presentation': typeof AuthenticatedStudioPresentationRoute
   '/studio/projects': typeof AuthenticatedStudioProjectsRoute
   '/studio/voice': typeof AuthenticatedStudioVoiceRoute
-  '/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
-  '/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
-  '/tools/settings': typeof AuthenticatedToolsSettingsRoute
-  '/uabr/backend': typeof AuthenticatedUabrBackendRoute
-  '/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
-  '/uabr/database': typeof AuthenticatedUabrDatabaseRoute
-  '/uabr/deployment': typeof AuthenticatedUabrDeploymentRoute
-  '/uabr/design': typeof AuthenticatedUabrDesignRoute
-  '/uabr/documentation': typeof AuthenticatedUabrDocumentationRoute
-  '/uabr/frontend': typeof AuthenticatedUabrFrontendRoute
-  '/uabr/history': typeof AuthenticatedUabrHistoryRoute
-  '/uabr/planner': typeof AuthenticatedUabrPlannerRoute
-  '/uabr/tests': typeof AuthenticatedUabrTestsRoute
-  '/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
-  '/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
-  '/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
-  '/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
-  '/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
-  '/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
-  '/brain': typeof AuthenticatedBrainIndexRoute
   '/business': typeof AuthenticatedBusinessIndexRoute
   '/community': typeof AuthenticatedCommunityIndexRoute
   '/digital-human': typeof AuthenticatedDigitalHumanIndexRoute
   '/education': typeof AuthenticatedEducationIndexRoute
-  '/enterprise-ai': typeof AuthenticatedEnterpriseAiIndexRoute
   '/enterprise': typeof AuthenticatedEnterpriseIndexRoute
-  '/founder-ai': typeof AuthenticatedFounderAiIndexRoute
   '/founder': typeof AuthenticatedFounderIndexRoute
-  '/happy': typeof AuthenticatedHappyIndexRoute
-  '/hyperlocal': typeof AuthenticatedHyperlocalIndexRoute
   '/knowledge': typeof AuthenticatedKnowledgeIndexRoute
-  '/live': typeof AuthenticatedLiveIndexRoute
   '/marketplace': typeof AuthenticatedMarketplaceIndexRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
-  '/production': typeof AuthenticatedProductionIndexRoute
-  '/releases': typeof AuthenticatedReleasesIndexRoute
   '/studio': typeof AuthenticatedStudioIndexRoute
-  '/uabr': typeof AuthenticatedUabrIndexRoute
-  '/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
-  '/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
-  '/agents/collaboration/live': typeof AuthenticatedAgentsCollaborationLiveRoute
-  '/runtime/intelligence/advisor': typeof AuthenticatedRuntimeIntelligenceAdvisorRoute
-  '/runtime/intelligence/forecast': typeof AuthenticatedRuntimeIntelligenceForecastRoute
-  '/runtime/intelligence/opportunities': typeof AuthenticatedRuntimeIntelligenceOpportunitiesRoute
-  '/runtime/intelligence/recommendations': typeof AuthenticatedRuntimeIntelligenceRecommendationsRoute
-  '/runtime/tools/analytics': typeof AuthenticatedRuntimeToolsAnalyticsRoute
-  '/runtime/tools/history': typeof AuthenticatedRuntimeToolsHistoryRoute
-  '/runtime/tools/live': typeof AuthenticatedRuntimeToolsLiveRoute
-  '/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
-  '/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
-  '/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
-  '/api/public/cron/cms-publish': typeof ApiPublicCronCmsPublishRoute
-  '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
-  '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
-  '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
-  '/api/public/cron/release-metrics-rollup': typeof ApiPublicCronReleaseMetricsRollupRoute
-  '/api/public/cron/release-pipeline-tick': typeof ApiPublicCronReleasePipelineTickRoute
-  '/api/public/cron/release-store-status': typeof ApiPublicCronReleaseStoreStatusRoute
-  '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
-  '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -4428,244 +867,19 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/status': typeof StatusRoute
-  '/trust': typeof TrustRoute
-  '/_authenticated/founder-ai': typeof AuthenticatedFounderAiRouteRouteWithChildren
-  '/_authenticated/happy': typeof AuthenticatedHappyRouteRouteWithChildren
-  '/_authenticated/live': typeof AuthenticatedLiveRouteRouteWithChildren
-  '/_authenticated/production': typeof AuthenticatedProductionRouteRouteWithChildren
-  '/_authenticated/releases': typeof AuthenticatedReleasesRouteRouteWithChildren
-  '/_authenticated/uabr': typeof AuthenticatedUabrRouteRouteWithChildren
-  '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/agent-os': typeof AuthenticatedAgentOsRoute
-  '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
-  '/_authenticated/ai-builder': typeof AuthenticatedAiBuilderRoute
-  '/_authenticated/ai-design': typeof AuthenticatedAiDesignRoute
-  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
-  '/_authenticated/api-fabric': typeof AuthenticatedApiFabricRoute
-  '/_authenticated/app-builder': typeof AuthenticatedAppBuilderRoute
-  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
-  '/_authenticated/apps': typeof AuthenticatedAppsRoute
-  '/_authenticated/assets': typeof AuthenticatedAssetsRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
-  '/_authenticated/automation': typeof AuthenticatedAutomationRoute
-  '/_authenticated/automation-hub': typeof AuthenticatedAutomationHubRoute
-  '/_authenticated/autonomous': typeof AuthenticatedAutonomousRoute
-  '/_authenticated/banking': typeof AuthenticatedBankingRoute
-  '/_authenticated/billing': typeof AuthenticatedBillingRoute
-  '/_authenticated/brain': typeof AuthenticatedBrainRouteWithChildren
-  '/_authenticated/builder': typeof AuthenticatedBuilderRoute
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
-  '/_authenticated/citizens': typeof AuthenticatedCitizensRoute
-  '/_authenticated/cloud': typeof AuthenticatedCloudRouteWithChildren
-  '/_authenticated/coach': typeof AuthenticatedCoachRoute
-  '/_authenticated/collaboration': typeof AuthenticatedCollaborationRoute
-  '/_authenticated/commerce': typeof AuthenticatedCommerceRoute
-  '/_authenticated/communications': typeof AuthenticatedCommunicationsRoute
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
-  '/_authenticated/connectivity': typeof AuthenticatedConnectivityRoute
-  '/_authenticated/connectors': typeof AuthenticatedConnectorsRoute
-  '/_authenticated/content': typeof AuthenticatedContentRoute
-  '/_authenticated/credits': typeof AuthenticatedCreditsRoute
-  '/_authenticated/crm': typeof AuthenticatedCrmRoute
-  '/_authenticated/customer': typeof AuthenticatedCustomerRoute
-  '/_authenticated/customer360': typeof AuthenticatedCustomer360Route
-  '/_authenticated/customers': typeof AuthenticatedCustomersRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/data-exchange': typeof AuthenticatedDataExchangeRoute
-  '/_authenticated/data-fabric': typeof AuthenticatedDataFabricRoute
-  '/_authenticated/database-builder': typeof AuthenticatedDatabaseBuilderRoute
-  '/_authenticated/dealer': typeof AuthenticatedDealerRoute
-  '/_authenticated/decision': typeof AuthenticatedDecisionRouteWithChildren
-  '/_authenticated/deploy': typeof AuthenticatedDeployRoute
-  '/_authenticated/developer': typeof AuthenticatedDeveloperRoute
-  '/_authenticated/developers': typeof AuthenticatedDevelopersRouteWithChildren
-  '/_authenticated/devices': typeof AuthenticatedDevicesRoute
-  '/_authenticated/digital-factory': typeof AuthenticatedDigitalFactoryRoute
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
-  '/_authenticated/digital-twin': typeof AuthenticatedDigitalTwinRoute
-  '/_authenticated/digital-twin-v2': typeof AuthenticatedDigitalTwinV2Route
-  '/_authenticated/distributor': typeof AuthenticatedDistributorRoute
-  '/_authenticated/documents': typeof AuthenticatedDocumentsRoute
-  '/_authenticated/domains': typeof AuthenticatedDomainsRoute
-  '/_authenticated/domains-manage': typeof AuthenticatedDomainsManageRoute
-  '/_authenticated/domains-search': typeof AuthenticatedDomainsSearchRoute
-  '/_authenticated/ecosystem': typeof AuthenticatedEcosystemRoute
-  '/_authenticated/ecosystem-hub': typeof AuthenticatedEcosystemHubRoute
-  '/_authenticated/ecosystem-intelligence': typeof AuthenticatedEcosystemIntelligenceRoute
-  '/_authenticated/edge': typeof AuthenticatedEdgeRoute
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
-  '/_authenticated/employee': typeof AuthenticatedEmployeeRoute
-  '/_authenticated/energy': typeof AuthenticatedEnergyRoute
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
-  '/_authenticated/enterprise-cloud': typeof AuthenticatedEnterpriseCloudRoute
-  '/_authenticated/enterprise-control': typeof AuthenticatedEnterpriseControlRoute
-  '/_authenticated/enterprise-network': typeof AuthenticatedEnterpriseNetworkRoute
-  '/_authenticated/erp': typeof AuthenticatedErpRoute
-  '/_authenticated/events': typeof AuthenticatedEventsRoute
-  '/_authenticated/execution': typeof AuthenticatedExecutionRouteWithChildren
-  '/_authenticated/executive': typeof AuthenticatedExecutiveRoute
-  '/_authenticated/experience': typeof AuthenticatedExperienceRoute
-  '/_authenticated/experience-fabric': typeof AuthenticatedExperienceFabricRoute
-  '/_authenticated/fabric': typeof AuthenticatedFabricRoute
-  '/_authenticated/factory': typeof AuthenticatedFactoryRoute
-  '/_authenticated/finance': typeof AuthenticatedFinanceRoute
-  '/_authenticated/financial-ai': typeof AuthenticatedFinancialAiRoute
-  '/_authenticated/fleet': typeof AuthenticatedFleetRoute
-  '/_authenticated/focus': typeof AuthenticatedFocusRoute
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
-  '/_authenticated/future': typeof AuthenticatedFutureRoute
-  '/_authenticated/global': typeof AuthenticatedGlobalRoute
-  '/_authenticated/global-memory': typeof AuthenticatedGlobalMemoryRoute
-  '/_authenticated/governance': typeof AuthenticatedGovernanceRoute
-  '/_authenticated/governance-v2': typeof AuthenticatedGovernanceV2Route
-  '/_authenticated/government': typeof AuthenticatedGovernmentRoute
-  '/_authenticated/healthcare': typeof AuthenticatedHealthcareRoute
-  '/_authenticated/home': typeof AuthenticatedHomeRoute
-  '/_authenticated/hospitals': typeof AuthenticatedHospitalsRoute
-  '/_authenticated/hosting': typeof AuthenticatedHostingRoute
-  '/_authenticated/hrms': typeof AuthenticatedHrmsRoute
-  '/_authenticated/hyperlocal': typeof AuthenticatedHyperlocalRouteWithChildren
-  '/_authenticated/icons': typeof AuthenticatedIconsRoute
-  '/_authenticated/identity': typeof AuthenticatedIdentityRoute
-  '/_authenticated/industry': typeof AuthenticatedIndustryRoute
-  '/_authenticated/innovation': typeof AuthenticatedInnovationRoute
-  '/_authenticated/insights': typeof AuthenticatedInsightsRoute
-  '/_authenticated/intelligence': typeof AuthenticatedIntelligenceRouteWithChildren
-  '/_authenticated/intelligence-exchange': typeof AuthenticatedIntelligenceExchangeRoute
-  '/_authenticated/intelligence-network': typeof AuthenticatedIntelligenceNetworkRoute
-  '/_authenticated/investors': typeof AuthenticatedInvestorsRoute
-  '/_authenticated/iot': typeof AuthenticatedIotRoute
-  '/_authenticated/iot-runtime': typeof AuthenticatedIotRuntimeRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
-  '/_authenticated/knowledge-exchange': typeof AuthenticatedKnowledgeExchangeRoute
-  '/_authenticated/knowledge-graph': typeof AuthenticatedKnowledgeGraphRoute
-  '/_authenticated/knowledge-network': typeof AuthenticatedKnowledgeNetworkRoute
-  '/_authenticated/laboratory': typeof AuthenticatedLaboratoryRoute
-  '/_authenticated/learning': typeof AuthenticatedLearningRoute
-  '/_authenticated/learning-network': typeof AuthenticatedLearningNetworkRoute
-  '/_authenticated/library': typeof AuthenticatedLibraryRoute
-  '/_authenticated/live-island': typeof AuthenticatedLiveIslandRoute
-  '/_authenticated/maintenance': typeof AuthenticatedMaintenanceRoute
-  '/_authenticated/manufacturing': typeof AuthenticatedManufacturingRoute
-  '/_authenticated/market-intelligence': typeof AuthenticatedMarketIntelligenceRoute
-  '/_authenticated/market-network': typeof AuthenticatedMarketNetworkRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
-  '/_authenticated/marketplace-hub': typeof AuthenticatedMarketplaceHubRoute
-  '/_authenticated/medical-research': typeof AuthenticatedMedicalResearchRoute
-  '/_authenticated/memory': typeof AuthenticatedMemoryRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
-  '/_authenticated/monitoring': typeof AuthenticatedMonitoringRoute
-  '/_authenticated/multimodal': typeof AuthenticatedMultimodalRoute
-  '/_authenticated/national': typeof AuthenticatedNationalRoute
-  '/_authenticated/native': typeof AuthenticatedNativeRoute
-  '/_authenticated/network': typeof AuthenticatedNetworkRoute
-  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
-  '/_authenticated/notifications-analytics': typeof AuthenticatedNotificationsAnalyticsRoute
-  '/_authenticated/notifications-announcements': typeof AuthenticatedNotificationsAnnouncementsRoute
-  '/_authenticated/notifications-archive': typeof AuthenticatedNotificationsArchiveRoute
-  '/_authenticated/notifications-automation': typeof AuthenticatedNotificationsAutomationRoute
-  '/_authenticated/notifications-categories': typeof AuthenticatedNotificationsCategoriesRoute
-  '/_authenticated/notifications-history': typeof AuthenticatedNotificationsHistoryRoute
-  '/_authenticated/notifications-inbox': typeof AuthenticatedNotificationsInboxRoute
-  '/_authenticated/notifications-preferences': typeof AuthenticatedNotificationsPreferencesRoute
-  '/_authenticated/notifications-reminders': typeof AuthenticatedNotificationsRemindersRoute
-  '/_authenticated/notifications-settings': typeof AuthenticatedNotificationsSettingsRoute
-  '/_authenticated/notifications-starred': typeof AuthenticatedNotificationsStarredRoute
-  '/_authenticated/notifications-templates': typeof AuthenticatedNotificationsTemplatesRoute
-  '/_authenticated/observability': typeof AuthenticatedObservabilityRoute
-  '/_authenticated/observability-v2': typeof AuthenticatedObservabilityV2Route
-  '/_authenticated/observability-v3': typeof AuthenticatedObservabilityV3Route
-  '/_authenticated/operations': typeof AuthenticatedOperationsRoute
-  '/_authenticated/orchestration': typeof AuthenticatedOrchestrationRoute
-  '/_authenticated/organizations': typeof AuthenticatedOrganizationsRoute
-  '/_authenticated/partners': typeof AuthenticatedPartnersRoute
-  '/_authenticated/patients': typeof AuthenticatedPatientsRoute
-  '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
-  '/_authenticated/pharmacy': typeof AuthenticatedPharmacyRoute
-  '/_authenticated/platform-hub': typeof AuthenticatedPlatformHubRoute
-  '/_authenticated/plugins': typeof AuthenticatedPluginsRouteWithChildren
-  '/_authenticated/predictions': typeof AuthenticatedPredictionsRoute
-  '/_authenticated/pricing': typeof AuthenticatedPricingRoute
-  '/_authenticated/productivity': typeof AuthenticatedProductivityRoute
-  '/_authenticated/profile': typeof AuthenticatedProfileRoute
-  '/_authenticated/public-education': typeof AuthenticatedPublicEducationRoute
-  '/_authenticated/public-health': typeof AuthenticatedPublicHealthRoute
-  '/_authenticated/public-safety': typeof AuthenticatedPublicSafetyRoute
-  '/_authenticated/quality': typeof AuthenticatedQualityRoute
-  '/_authenticated/research': typeof AuthenticatedResearchRoute
-  '/_authenticated/revenue': typeof AuthenticatedRevenueRoute
-  '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
-  '/_authenticated/robotics': typeof AuthenticatedRoboticsRoute
-  '/_authenticated/robots': typeof AuthenticatedRobotsRoute
-  '/_authenticated/runtime': typeof AuthenticatedRuntimeRouteWithChildren
-  '/_authenticated/rural': typeof AuthenticatedRuralRoute
-  '/_authenticated/search': typeof AuthenticatedSearchRoute
-  '/_authenticated/search-hub': typeof AuthenticatedSearchHubRoute
-  '/_authenticated/search-v2': typeof AuthenticatedSearchV2Route
-  '/_authenticated/security': typeof AuthenticatedSecurityRoute
-  '/_authenticated/security-sessions': typeof AuthenticatedSecuritySessionsRoute
-  '/_authenticated/service-mesh': typeof AuthenticatedServiceMeshRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/_authenticated/settings-accessibility': typeof AuthenticatedSettingsAccessibilityRoute
-  '/_authenticated/settings-appearance': typeof AuthenticatedSettingsAppearanceRoute
-  '/_authenticated/settings-background': typeof AuthenticatedSettingsBackgroundRoute
-  '/_authenticated/settings-theme': typeof AuthenticatedSettingsThemeRoute
-  '/_authenticated/settings-wallpapers': typeof AuthenticatedSettingsWallpapersRoute
-  '/_authenticated/simulation': typeof AuthenticatedSimulationRoute
-  '/_authenticated/skills': typeof AuthenticatedSkillsRouteWithChildren
-  '/_authenticated/smart-city': typeof AuthenticatedSmartCityRoute
-  '/_authenticated/streaks': typeof AuthenticatedStreaksRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
-  '/_authenticated/super-intelligence': typeof AuthenticatedSuperIntelligenceRoute
-  '/_authenticated/supply-chain': typeof AuthenticatedSupplyChainRoute
-  '/_authenticated/support': typeof AuthenticatedSupportRoute
-  '/_authenticated/sustainability': typeof AuthenticatedSustainabilityRoute
-  '/_authenticated/telemedicine': typeof AuthenticatedTelemedicineRoute
-  '/_authenticated/templates': typeof AuthenticatedTemplatesRoute
-  '/_authenticated/theme-marketplace': typeof AuthenticatedThemeMarketplaceRoute
-  '/_authenticated/themes': typeof AuthenticatedThemesRoute
-  '/_authenticated/tools': typeof AuthenticatedToolsRouteWithChildren
-  '/_authenticated/transport': typeof AuthenticatedTransportRoute
-  '/_authenticated/unified-os': typeof AuthenticatedUnifiedOsRoute
-  '/_authenticated/universal': typeof AuthenticatedUniversalRoute
-  '/_authenticated/utilities': typeof AuthenticatedUtilitiesRoute
-  '/_authenticated/vendors': typeof AuthenticatedVendorsRoute
-  '/_authenticated/vision': typeof AuthenticatedVisionRoute
-  '/_authenticated/wallet': typeof AuthenticatedWalletRoute
-  '/_authenticated/wallpaper-marketplace': typeof AuthenticatedWallpaperMarketplaceRoute
-  '/_authenticated/warehouse': typeof AuthenticatedWarehouseRoute
-  '/_authenticated/websites': typeof AuthenticatedWebsitesRoute
-  '/_authenticated/wellness': typeof AuthenticatedWellnessRoute
-  '/_authenticated/white-label': typeof AuthenticatedWhiteLabelRoute
-  '/_authenticated/widgets': typeof AuthenticatedWidgetsRoute
-  '/_authenticated/workflows': typeof AuthenticatedWorkflowsRouteWithChildren
-  '/_authenticated/workforce': typeof AuthenticatedWorkforceRoute
-  '/_authenticated/workspace': typeof AuthenticatedWorkspaceRoute
-  '/_authenticated/workspaces': typeof AuthenticatedWorkspacesRoute
-  '/_authenticated/zen': typeof AuthenticatedZenRoute
-  '/api/happy-chat': typeof ApiHappyChatRoute
-  '/api/happy-stt': typeof ApiHappySttRoute
-  '/api/robots.txt': typeof ApiRobotsDottxtRoute
-  '/api/sitemap.xml': typeof ApiSitemapDotxmlRoute
-  '/_authenticated/agents/collaboration': typeof AuthenticatedAgentsCollaborationRouteWithChildren
-  '/_authenticated/agents/execution': typeof AuthenticatedAgentsExecutionRoute
-  '/_authenticated/agents/metrics': typeof AuthenticatedAgentsMetricsRoute
-  '/_authenticated/agents/runtime': typeof AuthenticatedAgentsRuntimeRoute
-  '/_authenticated/brain/analytics': typeof AuthenticatedBrainAnalyticsRoute
-  '/_authenticated/brain/execution': typeof AuthenticatedBrainExecutionRoute
-  '/_authenticated/brain/health': typeof AuthenticatedBrainHealthRoute
-  '/_authenticated/brain/memory': typeof AuthenticatedBrainMemoryRoute
-  '/_authenticated/brain/planning': typeof AuthenticatedBrainPlanningRoute
-  '/_authenticated/brain/reasoning': typeof AuthenticatedBrainReasoningRoute
-  '/_authenticated/brain/reflection': typeof AuthenticatedBrainReflectionRoute
-  '/_authenticated/brain/runtime': typeof AuthenticatedBrainRuntimeRoute
-  '/_authenticated/brain/validation': typeof AuthenticatedBrainValidationRoute
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
   '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/_authenticated/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -4679,28 +893,12 @@ export interface FileRoutesById {
   '/_authenticated/business/sales': typeof AuthenticatedBusinessSalesRoute
   '/_authenticated/business/search': typeof AuthenticatedBusinessSearchRoute
   '/_authenticated/business/warehouse': typeof AuthenticatedBusinessWarehouseRoute
-  '/_authenticated/cloud/analytics': typeof AuthenticatedCloudAnalyticsRoute
-  '/_authenticated/cloud/billing': typeof AuthenticatedCloudBillingRoute
-  '/_authenticated/cloud/compliance': typeof AuthenticatedCloudComplianceRoute
-  '/_authenticated/cloud/deployments': typeof AuthenticatedCloudDeploymentsRoute
-  '/_authenticated/cloud/marketplace': typeof AuthenticatedCloudMarketplaceRoute
-  '/_authenticated/cloud/models': typeof AuthenticatedCloudModelsRoute
-  '/_authenticated/cloud/projects': typeof AuthenticatedCloudProjectsRoute
-  '/_authenticated/cloud/storage': typeof AuthenticatedCloudStorageRoute
   '/_authenticated/community/following': typeof AuthenticatedCommunityFollowingRoute
   '/_authenticated/community/groups': typeof AuthenticatedCommunityGroupsRoute
   '/_authenticated/community/mine': typeof AuthenticatedCommunityMineRoute
-  '/_authenticated/decision/analytics': typeof AuthenticatedDecisionAnalyticsRoute
-  '/_authenticated/decision/history': typeof AuthenticatedDecisionHistoryRoute
-  '/_authenticated/decision/scenarios': typeof AuthenticatedDecisionScenariosRoute
-  '/_authenticated/developers/apis': typeof AuthenticatedDevelopersApisRoute
-  '/_authenticated/developers/docs': typeof AuthenticatedDevelopersDocsRoute
-  '/_authenticated/developers/sdk': typeof AuthenticatedDevelopersSdkRoute
-  '/_authenticated/developers/webhooks': typeof AuthenticatedDevelopersWebhooksRoute
   '/_authenticated/digital-human/boardroom': typeof AuthenticatedDigitalHumanBoardroomRoute
   '/_authenticated/digital-human/classroom': typeof AuthenticatedDigitalHumanClassroomRoute
   '/_authenticated/digital-human/presentation': typeof AuthenticatedDigitalHumanPresentationRoute
-  '/_authenticated/digital-human/production': typeof AuthenticatedDigitalHumanProductionRoute
   '/_authenticated/digital-human/sessions': typeof AuthenticatedDigitalHumanSessionsRoute
   '/_authenticated/digital-human/settings': typeof AuthenticatedDigitalHumanSettingsRoute
   '/_authenticated/digital-human/whiteboard': typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -4725,216 +923,44 @@ export interface FileRoutesById {
   '/_authenticated/enterprise/security': typeof AuthenticatedEnterpriseSecurityRoute
   '/_authenticated/enterprise/structure': typeof AuthenticatedEnterpriseStructureRoute
   '/_authenticated/enterprise/workflows': typeof AuthenticatedEnterpriseWorkflowsRoute
-  '/_authenticated/execution/analytics': typeof AuthenticatedExecutionAnalyticsRoute
-  '/_authenticated/execution/history': typeof AuthenticatedExecutionHistoryRoute
-  '/_authenticated/execution/tasks': typeof AuthenticatedExecutionTasksRoute
-  '/_authenticated/founder-ai/activity': typeof AuthenticatedFounderAiActivityRoute
-  '/_authenticated/founder-ai/chat': typeof AuthenticatedFounderAiChatRoute
-  '/_authenticated/founder-ai/dashboard': typeof AuthenticatedFounderAiDashboardRoute
-  '/_authenticated/founder-ai/history': typeof AuthenticatedFounderAiHistoryRoute
-  '/_authenticated/founder-ai/memory': typeof AuthenticatedFounderAiMemoryRoute
-  '/_authenticated/founder-ai/settings': typeof AuthenticatedFounderAiSettingsRoute
-  '/_authenticated/founder-ai/tasks': typeof AuthenticatedFounderAiTasksRoute
-  '/_authenticated/founder-ai/terminal': typeof AuthenticatedFounderAiTerminalRoute
-  '/_authenticated/founder-ai/voice': typeof AuthenticatedFounderAiVoiceRoute
-  '/_authenticated/founder-ai/workspace': typeof AuthenticatedFounderAiWorkspaceRoute
   '/_authenticated/founder/ai': typeof AuthenticatedFounderAiRoute
   '/_authenticated/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
-  '/_authenticated/founder/brief': typeof AuthenticatedFounderBriefRoute
   '/_authenticated/founder/companies': typeof AuthenticatedFounderCompaniesRoute
-  '/_authenticated/founder/executive': typeof AuthenticatedFounderExecutiveRoute
-  '/_authenticated/founder/integrations': typeof AuthenticatedFounderIntegrationsRoute
   '/_authenticated/founder/ops': typeof AuthenticatedFounderOpsRoute
-  '/_authenticated/founder/publishing': typeof AuthenticatedFounderPublishingRoute
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
-  '/_authenticated/happy/behaviour': typeof AuthenticatedHappyBehaviourRoute
-  '/_authenticated/happy/business': typeof AuthenticatedHappyBusinessRoute
-  '/_authenticated/happy/call': typeof AuthenticatedHappyCallRoute
-  '/_authenticated/happy/cinematic': typeof AuthenticatedHappyCinematicRoute
-  '/_authenticated/happy/comfort': typeof AuthenticatedHappyComfortRoute
-  '/_authenticated/happy/initiative': typeof AuthenticatedHappyInitiativeRoute
-  '/_authenticated/happy/live': typeof AuthenticatedHappyLiveRoute
-  '/_authenticated/happy/memory': typeof AuthenticatedHappyMemoryRoute
-  '/_authenticated/happy/office': typeof AuthenticatedHappyOfficeRoute
-  '/_authenticated/happy/presence': typeof AuthenticatedHappyPresenceRoute
-  '/_authenticated/happy/presentation': typeof AuthenticatedHappyPresentationRoute
-  '/_authenticated/happy/settings': typeof AuthenticatedHappySettingsRoute
-  '/_authenticated/happy/video': typeof AuthenticatedHappyVideoRoute
-  '/_authenticated/happy/walk': typeof AuthenticatedHappyWalkRoute
-  '/_authenticated/hyperlocal/alerts': typeof AuthenticatedHyperlocalAlertsRoute
-  '/_authenticated/hyperlocal/ask': typeof AuthenticatedHyperlocalAskRoute
-  '/_authenticated/hyperlocal/businesses': typeof AuthenticatedHyperlocalBusinessesRoute
-  '/_authenticated/hyperlocal/discover': typeof AuthenticatedHyperlocalDiscoverRoute
-  '/_authenticated/hyperlocal/events': typeof AuthenticatedHyperlocalEventsRoute
-  '/_authenticated/hyperlocal/jobs': typeof AuthenticatedHyperlocalJobsRoute
-  '/_authenticated/hyperlocal/manage': typeof AuthenticatedHyperlocalManageRoute
-  '/_authenticated/hyperlocal/map': typeof AuthenticatedHyperlocalMapRoute
-  '/_authenticated/hyperlocal/settings': typeof AuthenticatedHyperlocalSettingsRoute
-  '/_authenticated/intelligence/advisor': typeof AuthenticatedIntelligenceAdvisorRoute
-  '/_authenticated/intelligence/dashboard': typeof AuthenticatedIntelligenceDashboardRoute
-  '/_authenticated/intelligence/executive': typeof AuthenticatedIntelligenceExecutiveRoute
-  '/_authenticated/intelligence/forecast': typeof AuthenticatedIntelligenceForecastRoute
-  '/_authenticated/intelligence/insights': typeof AuthenticatedIntelligenceInsightsRoute
-  '/_authenticated/intelligence/live': typeof AuthenticatedIntelligenceLiveRoute
-  '/_authenticated/intelligence/opportunities': typeof AuthenticatedIntelligenceOpportunitiesRoute
-  '/_authenticated/intelligence/overview': typeof AuthenticatedIntelligenceOverviewRoute
-  '/_authenticated/intelligence/recommendations': typeof AuthenticatedIntelligenceRecommendationsRoute
-  '/_authenticated/intelligence/reports': typeof AuthenticatedIntelligenceReportsRoute
-  '/_authenticated/intelligence/risk': typeof AuthenticatedIntelligenceRiskRoute
-  '/_authenticated/intelligence/runtime': typeof AuthenticatedIntelligenceRuntimeRoute
-  '/_authenticated/intelligence/settings': typeof AuthenticatedIntelligenceSettingsRoute
   '/_authenticated/knowledge/ask': typeof AuthenticatedKnowledgeAskRoute
   '/_authenticated/knowledge/library': typeof AuthenticatedKnowledgeLibraryRoute
   '/_authenticated/knowledge/moderation': typeof AuthenticatedKnowledgeModerationRoute
   '/_authenticated/knowledge/religion-culture': typeof AuthenticatedKnowledgeReligionCultureRoute
   '/_authenticated/knowledge/search': typeof AuthenticatedKnowledgeSearchRoute
   '/_authenticated/knowledge/sources': typeof AuthenticatedKnowledgeSourcesRoute
-  '/_authenticated/live/activity': typeof AuthenticatedLiveActivityRoute
-  '/_authenticated/live/context': typeof AuthenticatedLiveContextRoute
-  '/_authenticated/live/dashboard': typeof AuthenticatedLiveDashboardRoute
-  '/_authenticated/live/founder': typeof AuthenticatedLiveFounderRoute
-  '/_authenticated/live/home': typeof AuthenticatedLiveHomeRoute
-  '/_authenticated/live/language': typeof AuthenticatedLiveLanguageRoute
-  '/_authenticated/live/presence': typeof AuthenticatedLivePresenceRoute
-  '/_authenticated/live/relationship': typeof AuthenticatedLiveRelationshipRoute
-  '/_authenticated/live/settings': typeof AuthenticatedLiveSettingsRoute
   '/_authenticated/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/_authenticated/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/_authenticated/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
-  '/_authenticated/memory/dashboard': typeof AuthenticatedMemoryDashboardRoute
-  '/_authenticated/memory/preferences': typeof AuthenticatedMemoryPreferencesRoute
-  '/_authenticated/memory/search': typeof AuthenticatedMemorySearchRoute
-  '/_authenticated/memory/settings': typeof AuthenticatedMemorySettingsRoute
-  '/_authenticated/memory/timeline': typeof AuthenticatedMemoryTimelineRoute
-  '/_authenticated/plugins/installed': typeof AuthenticatedPluginsInstalledRoute
-  '/_authenticated/plugins/manage': typeof AuthenticatedPluginsManageRoute
-  '/_authenticated/plugins/reviews': typeof AuthenticatedPluginsReviewsRoute
-  '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
-  '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
-  '/_authenticated/production/dashboard': typeof AuthenticatedProductionDashboardRoute
-  '/_authenticated/production/deployment': typeof AuthenticatedProductionDeploymentRoute
-  '/_authenticated/production/performance': typeof AuthenticatedProductionPerformanceRoute
-  '/_authenticated/production/quality': typeof AuthenticatedProductionQualityRoute
-  '/_authenticated/production/security': typeof AuthenticatedProductionSecurityRoute
-  '/_authenticated/production/testing': typeof AuthenticatedProductionTestingRoute
-  '/_authenticated/releases/analytics': typeof AuthenticatedReleasesAnalyticsRoute
-  '/_authenticated/releases/artifacts': typeof AuthenticatedReleasesArtifactsRoute
-  '/_authenticated/releases/builds': typeof AuthenticatedReleasesBuildsRoute
-  '/_authenticated/releases/dashboard': typeof AuthenticatedReleasesDashboardRoute
-  '/_authenticated/releases/history': typeof AuthenticatedReleasesHistoryRoute
-  '/_authenticated/releases/logs': typeof AuthenticatedReleasesLogsRoute
-  '/_authenticated/releases/publish': typeof AuthenticatedReleasesPublishRoute
-  '/_authenticated/releases/rollout': typeof AuthenticatedReleasesRolloutRoute
-  '/_authenticated/releases/settings': typeof AuthenticatedReleasesSettingsRoute
-  '/_authenticated/releases/signing': typeof AuthenticatedReleasesSigningRoute
-  '/_authenticated/runtime/analytics': typeof AuthenticatedRuntimeAnalyticsRoute
-  '/_authenticated/runtime/automation': typeof AuthenticatedRuntimeAutomationRoute
-  '/_authenticated/runtime/capabilities': typeof AuthenticatedRuntimeCapabilitiesRoute
-  '/_authenticated/runtime/collaboration': typeof AuthenticatedRuntimeCollaborationRoute
-  '/_authenticated/runtime/dashboard': typeof AuthenticatedRuntimeDashboardRoute
-  '/_authenticated/runtime/decision': typeof AuthenticatedRuntimeDecisionRoute
-  '/_authenticated/runtime/dependencies': typeof AuthenticatedRuntimeDependenciesRoute
-  '/_authenticated/runtime/developers': typeof AuthenticatedRuntimeDevelopersRoute
-  '/_authenticated/runtime/execution': typeof AuthenticatedRuntimeExecutionRoute
-  '/_authenticated/runtime/executions': typeof AuthenticatedRuntimeExecutionsRoute
-  '/_authenticated/runtime/goals': typeof AuthenticatedRuntimeGoalsRoute
-  '/_authenticated/runtime/health': typeof AuthenticatedRuntimeHealthRoute
-  '/_authenticated/runtime/history': typeof AuthenticatedRuntimeHistoryRoute
-  '/_authenticated/runtime/intelligence': typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
-  '/_authenticated/runtime/live': typeof AuthenticatedRuntimeLiveRoute
-  '/_authenticated/runtime/logs': typeof AuthenticatedRuntimeLogsRoute
-  '/_authenticated/runtime/memory': typeof AuthenticatedRuntimeMemoryRoute
-  '/_authenticated/runtime/monitor': typeof AuthenticatedRuntimeMonitorRoute
-  '/_authenticated/runtime/performance': typeof AuthenticatedRuntimePerformanceRoute
-  '/_authenticated/runtime/planner': typeof AuthenticatedRuntimePlannerRoute
-  '/_authenticated/runtime/planning': typeof AuthenticatedRuntimePlanningRoute
-  '/_authenticated/runtime/plugins': typeof AuthenticatedRuntimePluginsRoute
-  '/_authenticated/runtime/risks': typeof AuthenticatedRuntimeRisksRoute
-  '/_authenticated/runtime/security': typeof AuthenticatedRuntimeSecurityRoute
-  '/_authenticated/runtime/settings': typeof AuthenticatedRuntimeSettingsRoute
-  '/_authenticated/runtime/skills': typeof AuthenticatedRuntimeSkillsRoute
-  '/_authenticated/runtime/timeline': typeof AuthenticatedRuntimeTimelineRoute
-  '/_authenticated/runtime/tools': typeof AuthenticatedRuntimeToolsRouteWithChildren
-  '/_authenticated/runtime/workflows': typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
-  '/_authenticated/skills/categories': typeof AuthenticatedSkillsCategoriesRoute
-  '/_authenticated/skills/installed': typeof AuthenticatedSkillsInstalledRoute
-  '/_authenticated/skills/settings': typeof AuthenticatedSkillsSettingsRoute
-  '/_authenticated/skills/store': typeof AuthenticatedSkillsStoreRoute
   '/_authenticated/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/_authenticated/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/_authenticated/studio/copy': typeof AuthenticatedStudioCopyRoute
   '/_authenticated/studio/exports': typeof AuthenticatedStudioExportsRoute
-  '/_authenticated/studio/hub': typeof AuthenticatedStudioHubRoute
   '/_authenticated/studio/image': typeof AuthenticatedStudioImageRoute
   '/_authenticated/studio/marketing': typeof AuthenticatedStudioMarketingRoute
   '/_authenticated/studio/presentation': typeof AuthenticatedStudioPresentationRoute
   '/_authenticated/studio/projects': typeof AuthenticatedStudioProjectsRoute
   '/_authenticated/studio/voice': typeof AuthenticatedStudioVoiceRoute
-  '/_authenticated/tools/analytics': typeof AuthenticatedToolsAnalyticsRoute
-  '/_authenticated/tools/runtime': typeof AuthenticatedToolsRuntimeRoute
-  '/_authenticated/tools/settings': typeof AuthenticatedToolsSettingsRoute
-  '/_authenticated/uabr/backend': typeof AuthenticatedUabrBackendRoute
-  '/_authenticated/uabr/dashboard': typeof AuthenticatedUabrDashboardRoute
-  '/_authenticated/uabr/database': typeof AuthenticatedUabrDatabaseRoute
-  '/_authenticated/uabr/deployment': typeof AuthenticatedUabrDeploymentRoute
-  '/_authenticated/uabr/design': typeof AuthenticatedUabrDesignRoute
-  '/_authenticated/uabr/documentation': typeof AuthenticatedUabrDocumentationRoute
-  '/_authenticated/uabr/frontend': typeof AuthenticatedUabrFrontendRoute
-  '/_authenticated/uabr/history': typeof AuthenticatedUabrHistoryRoute
-  '/_authenticated/uabr/planner': typeof AuthenticatedUabrPlannerRoute
-  '/_authenticated/uabr/tests': typeof AuthenticatedUabrTestsRoute
-  '/_authenticated/workflows/analytics': typeof AuthenticatedWorkflowsAnalyticsRoute
-  '/_authenticated/workflows/designer': typeof AuthenticatedWorkflowsDesignerRoute
-  '/_authenticated/workflows/executions': typeof AuthenticatedWorkflowsExecutionsRoute
-  '/_authenticated/workflows/history': typeof AuthenticatedWorkflowsHistoryRoute
-  '/_authenticated/workflows/monitor': typeof AuthenticatedWorkflowsMonitorRoute
-  '/_authenticated/workflows/runtime': typeof AuthenticatedWorkflowsRuntimeRoute
   '/api/dh/tts': typeof ApiDhTtsRoute
-  '/_authenticated/brain/': typeof AuthenticatedBrainIndexRoute
   '/_authenticated/business/': typeof AuthenticatedBusinessIndexRoute
   '/_authenticated/community/': typeof AuthenticatedCommunityIndexRoute
   '/_authenticated/digital-human/': typeof AuthenticatedDigitalHumanIndexRoute
   '/_authenticated/education/': typeof AuthenticatedEducationIndexRoute
-  '/_authenticated/enterprise-ai/': typeof AuthenticatedEnterpriseAiIndexRoute
   '/_authenticated/enterprise/': typeof AuthenticatedEnterpriseIndexRoute
-  '/_authenticated/founder-ai/': typeof AuthenticatedFounderAiIndexRoute
   '/_authenticated/founder/': typeof AuthenticatedFounderIndexRoute
-  '/_authenticated/happy/': typeof AuthenticatedHappyIndexRoute
-  '/_authenticated/hyperlocal/': typeof AuthenticatedHyperlocalIndexRoute
   '/_authenticated/knowledge/': typeof AuthenticatedKnowledgeIndexRoute
-  '/_authenticated/live/': typeof AuthenticatedLiveIndexRoute
   '/_authenticated/marketplace/': typeof AuthenticatedMarketplaceIndexRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
-  '/_authenticated/production/': typeof AuthenticatedProductionIndexRoute
-  '/_authenticated/releases/': typeof AuthenticatedReleasesIndexRoute
   '/_authenticated/studio/': typeof AuthenticatedStudioIndexRoute
-  '/_authenticated/uabr/': typeof AuthenticatedUabrIndexRoute
-  '/_authenticated/agents/collaboration/analytics': typeof AuthenticatedAgentsCollaborationAnalyticsRoute
-  '/_authenticated/agents/collaboration/history': typeof AuthenticatedAgentsCollaborationHistoryRoute
-  '/_authenticated/agents/collaboration/live': typeof AuthenticatedAgentsCollaborationLiveRoute
-  '/_authenticated/runtime/intelligence/advisor': typeof AuthenticatedRuntimeIntelligenceAdvisorRoute
-  '/_authenticated/runtime/intelligence/forecast': typeof AuthenticatedRuntimeIntelligenceForecastRoute
-  '/_authenticated/runtime/intelligence/opportunities': typeof AuthenticatedRuntimeIntelligenceOpportunitiesRoute
-  '/_authenticated/runtime/intelligence/recommendations': typeof AuthenticatedRuntimeIntelligenceRecommendationsRoute
-  '/_authenticated/runtime/tools/analytics': typeof AuthenticatedRuntimeToolsAnalyticsRoute
-  '/_authenticated/runtime/tools/history': typeof AuthenticatedRuntimeToolsHistoryRoute
-  '/_authenticated/runtime/tools/live': typeof AuthenticatedRuntimeToolsLiveRoute
-  '/_authenticated/runtime/workflows/analytics': typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
-  '/_authenticated/runtime/workflows/history': typeof AuthenticatedRuntimeWorkflowsHistoryRoute
-  '/_authenticated/runtime/workflows/live': typeof AuthenticatedRuntimeWorkflowsLiveRoute
-  '/api/public/cron/cms-publish': typeof ApiPublicCronCmsPublishRoute
-  '/api/public/cron/credits-expire': typeof ApiPublicCronCreditsExpireRoute
-  '/api/public/cron/deployments-tick': typeof ApiPublicCronDeploymentsTickRoute
-  '/api/public/cron/payments-retry': typeof ApiPublicCronPaymentsRetryRoute
-  '/api/public/cron/release-metrics-rollup': typeof ApiPublicCronReleaseMetricsRollupRoute
-  '/api/public/cron/release-pipeline-tick': typeof ApiPublicCronReleasePipelineTickRoute
-  '/api/public/cron/release-store-status': typeof ApiPublicCronReleaseStoreStatusRoute
-  '/api/public/cron/subscriptions-tick': typeof ApiPublicCronSubscriptionsTickRoute
   '/api/public/v1/health': typeof ApiPublicV1HealthRoute
   '/api/public/v1/status': typeof ApiPublicV1StatusRoute
-  '/api/public/webhooks/payments/$provider': typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -4942,244 +968,19 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/design'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/status'
-    | '/trust'
-    | '/founder-ai'
-    | '/happy'
-    | '/live'
-    | '/production'
-    | '/releases'
-    | '/uabr'
-    | '/achievements'
-    | '/admin'
-    | '/agent-os'
-    | '/agents'
-    | '/ai-builder'
-    | '/ai-design'
-    | '/analytics'
-    | '/api-fabric'
-    | '/app-builder'
-    | '/appointments'
-    | '/apps'
-    | '/assets'
     | '/assistant'
-    | '/automation'
-    | '/automation-hub'
-    | '/autonomous'
-    | '/banking'
-    | '/billing'
-    | '/brain'
-    | '/builder'
     | '/business'
-    | '/citizens'
-    | '/cloud'
-    | '/coach'
-    | '/collaboration'
-    | '/commerce'
-    | '/communications'
     | '/community'
-    | '/connectivity'
-    | '/connectors'
-    | '/content'
-    | '/credits'
-    | '/crm'
-    | '/customer'
-    | '/customer360'
-    | '/customers'
     | '/dashboard'
-    | '/data-exchange'
-    | '/data-fabric'
-    | '/database-builder'
-    | '/dealer'
-    | '/decision'
-    | '/deploy'
-    | '/developer'
-    | '/developers'
-    | '/devices'
-    | '/digital-factory'
     | '/digital-human'
-    | '/digital-twin'
-    | '/digital-twin-v2'
-    | '/distributor'
-    | '/documents'
-    | '/domains'
-    | '/domains-manage'
-    | '/domains-search'
-    | '/ecosystem'
-    | '/ecosystem-hub'
-    | '/ecosystem-intelligence'
-    | '/edge'
     | '/education'
-    | '/employee'
-    | '/energy'
     | '/enterprise'
-    | '/enterprise-cloud'
-    | '/enterprise-control'
-    | '/enterprise-network'
-    | '/erp'
-    | '/events'
-    | '/execution'
-    | '/executive'
-    | '/experience'
-    | '/experience-fabric'
-    | '/fabric'
-    | '/factory'
-    | '/finance'
-    | '/financial-ai'
-    | '/fleet'
-    | '/focus'
     | '/founder'
-    | '/future'
-    | '/global'
-    | '/global-memory'
-    | '/governance'
-    | '/governance-v2'
-    | '/government'
-    | '/healthcare'
-    | '/home'
-    | '/hospitals'
-    | '/hosting'
-    | '/hrms'
-    | '/hyperlocal'
-    | '/icons'
-    | '/identity'
-    | '/industry'
-    | '/innovation'
-    | '/insights'
-    | '/intelligence'
-    | '/intelligence-exchange'
-    | '/intelligence-network'
-    | '/investors'
-    | '/iot'
-    | '/iot-runtime'
     | '/knowledge'
-    | '/knowledge-exchange'
-    | '/knowledge-graph'
-    | '/knowledge-network'
-    | '/laboratory'
-    | '/learning'
-    | '/learning-network'
-    | '/library'
-    | '/live-island'
-    | '/maintenance'
-    | '/manufacturing'
-    | '/market-intelligence'
-    | '/market-network'
     | '/marketplace'
-    | '/marketplace-hub'
-    | '/medical-research'
-    | '/memory'
     | '/messages'
-    | '/monitoring'
-    | '/multimodal'
-    | '/national'
-    | '/native'
-    | '/network'
-    | '/notifications'
-    | '/notifications-analytics'
-    | '/notifications-announcements'
-    | '/notifications-archive'
-    | '/notifications-automation'
-    | '/notifications-categories'
-    | '/notifications-history'
-    | '/notifications-inbox'
-    | '/notifications-preferences'
-    | '/notifications-reminders'
-    | '/notifications-settings'
-    | '/notifications-starred'
-    | '/notifications-templates'
-    | '/observability'
-    | '/observability-v2'
-    | '/observability-v3'
-    | '/operations'
-    | '/orchestration'
-    | '/organizations'
-    | '/partners'
-    | '/patients'
-    | '/payments'
-    | '/pharmacy'
-    | '/platform-hub'
-    | '/plugins'
-    | '/predictions'
-    | '/pricing'
-    | '/productivity'
-    | '/profile'
-    | '/public-education'
-    | '/public-health'
-    | '/public-safety'
-    | '/quality'
-    | '/research'
-    | '/revenue'
-    | '/roadmap'
-    | '/robotics'
-    | '/robots'
-    | '/runtime'
-    | '/rural'
-    | '/search'
-    | '/search-hub'
-    | '/search-v2'
-    | '/security'
-    | '/security-sessions'
-    | '/service-mesh'
     | '/settings'
-    | '/settings-accessibility'
-    | '/settings-appearance'
-    | '/settings-background'
-    | '/settings-theme'
-    | '/settings-wallpapers'
-    | '/simulation'
-    | '/skills'
-    | '/smart-city'
-    | '/streaks'
     | '/studio'
-    | '/super-intelligence'
-    | '/supply-chain'
-    | '/support'
-    | '/sustainability'
-    | '/telemedicine'
-    | '/templates'
-    | '/theme-marketplace'
-    | '/themes'
-    | '/tools'
-    | '/transport'
-    | '/unified-os'
-    | '/universal'
-    | '/utilities'
-    | '/vendors'
-    | '/vision'
-    | '/wallet'
-    | '/wallpaper-marketplace'
-    | '/warehouse'
-    | '/websites'
-    | '/wellness'
-    | '/white-label'
-    | '/widgets'
-    | '/workflows'
-    | '/workforce'
-    | '/workspace'
-    | '/workspaces'
-    | '/zen'
-    | '/api/happy-chat'
-    | '/api/happy-stt'
-    | '/api/robots.txt'
-    | '/api/sitemap.xml'
-    | '/agents/collaboration'
-    | '/agents/execution'
-    | '/agents/metrics'
-    | '/agents/runtime'
-    | '/brain/analytics'
-    | '/brain/execution'
-    | '/brain/health'
-    | '/brain/memory'
-    | '/brain/planning'
-    | '/brain/reasoning'
-    | '/brain/reflection'
-    | '/brain/runtime'
-    | '/brain/validation'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -5193,28 +994,12 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
-    | '/cloud/analytics'
-    | '/cloud/billing'
-    | '/cloud/compliance'
-    | '/cloud/deployments'
-    | '/cloud/marketplace'
-    | '/cloud/models'
-    | '/cloud/projects'
-    | '/cloud/storage'
     | '/community/following'
     | '/community/groups'
     | '/community/mine'
-    | '/decision/analytics'
-    | '/decision/history'
-    | '/decision/scenarios'
-    | '/developers/apis'
-    | '/developers/docs'
-    | '/developers/sdk'
-    | '/developers/webhooks'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
-    | '/digital-human/production'
     | '/digital-human/sessions'
     | '/digital-human/settings'
     | '/digital-human/whiteboard'
@@ -5239,441 +1024,52 @@ export interface FileRouteTypes {
     | '/enterprise/security'
     | '/enterprise/structure'
     | '/enterprise/workflows'
-    | '/execution/analytics'
-    | '/execution/history'
-    | '/execution/tasks'
-    | '/founder-ai/activity'
-    | '/founder-ai/chat'
-    | '/founder-ai/dashboard'
-    | '/founder-ai/history'
-    | '/founder-ai/memory'
-    | '/founder-ai/settings'
-    | '/founder-ai/tasks'
-    | '/founder-ai/terminal'
-    | '/founder-ai/voice'
-    | '/founder-ai/workspace'
     | '/founder/ai'
     | '/founder/analytics'
-    | '/founder/brief'
     | '/founder/companies'
-    | '/founder/executive'
-    | '/founder/integrations'
     | '/founder/ops'
-    | '/founder/publishing'
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
-    | '/happy/behaviour'
-    | '/happy/business'
-    | '/happy/call'
-    | '/happy/cinematic'
-    | '/happy/comfort'
-    | '/happy/initiative'
-    | '/happy/live'
-    | '/happy/memory'
-    | '/happy/office'
-    | '/happy/presence'
-    | '/happy/presentation'
-    | '/happy/settings'
-    | '/happy/video'
-    | '/happy/walk'
-    | '/hyperlocal/alerts'
-    | '/hyperlocal/ask'
-    | '/hyperlocal/businesses'
-    | '/hyperlocal/discover'
-    | '/hyperlocal/events'
-    | '/hyperlocal/jobs'
-    | '/hyperlocal/manage'
-    | '/hyperlocal/map'
-    | '/hyperlocal/settings'
-    | '/intelligence/advisor'
-    | '/intelligence/dashboard'
-    | '/intelligence/executive'
-    | '/intelligence/forecast'
-    | '/intelligence/insights'
-    | '/intelligence/live'
-    | '/intelligence/opportunities'
-    | '/intelligence/overview'
-    | '/intelligence/recommendations'
-    | '/intelligence/reports'
-    | '/intelligence/risk'
-    | '/intelligence/runtime'
-    | '/intelligence/settings'
     | '/knowledge/ask'
     | '/knowledge/library'
     | '/knowledge/moderation'
     | '/knowledge/religion-culture'
     | '/knowledge/search'
     | '/knowledge/sources'
-    | '/live/activity'
-    | '/live/context'
-    | '/live/dashboard'
-    | '/live/founder'
-    | '/live/home'
-    | '/live/language'
-    | '/live/presence'
-    | '/live/relationship'
-    | '/live/settings'
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
-    | '/memory/dashboard'
-    | '/memory/preferences'
-    | '/memory/search'
-    | '/memory/settings'
-    | '/memory/timeline'
-    | '/plugins/installed'
-    | '/plugins/manage'
-    | '/plugins/reviews'
-    | '/plugins/settings'
-    | '/plugins/store'
-    | '/production/dashboard'
-    | '/production/deployment'
-    | '/production/performance'
-    | '/production/quality'
-    | '/production/security'
-    | '/production/testing'
-    | '/releases/analytics'
-    | '/releases/artifacts'
-    | '/releases/builds'
-    | '/releases/dashboard'
-    | '/releases/history'
-    | '/releases/logs'
-    | '/releases/publish'
-    | '/releases/rollout'
-    | '/releases/settings'
-    | '/releases/signing'
-    | '/runtime/analytics'
-    | '/runtime/automation'
-    | '/runtime/capabilities'
-    | '/runtime/collaboration'
-    | '/runtime/dashboard'
-    | '/runtime/decision'
-    | '/runtime/dependencies'
-    | '/runtime/developers'
-    | '/runtime/execution'
-    | '/runtime/executions'
-    | '/runtime/goals'
-    | '/runtime/health'
-    | '/runtime/history'
-    | '/runtime/intelligence'
-    | '/runtime/live'
-    | '/runtime/logs'
-    | '/runtime/memory'
-    | '/runtime/monitor'
-    | '/runtime/performance'
-    | '/runtime/planner'
-    | '/runtime/planning'
-    | '/runtime/plugins'
-    | '/runtime/risks'
-    | '/runtime/security'
-    | '/runtime/settings'
-    | '/runtime/skills'
-    | '/runtime/timeline'
-    | '/runtime/tools'
-    | '/runtime/workflows'
-    | '/skills/categories'
-    | '/skills/installed'
-    | '/skills/settings'
-    | '/skills/store'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
     | '/studio/exports'
-    | '/studio/hub'
     | '/studio/image'
     | '/studio/marketing'
     | '/studio/presentation'
     | '/studio/projects'
     | '/studio/voice'
-    | '/tools/analytics'
-    | '/tools/runtime'
-    | '/tools/settings'
-    | '/uabr/backend'
-    | '/uabr/dashboard'
-    | '/uabr/database'
-    | '/uabr/deployment'
-    | '/uabr/design'
-    | '/uabr/documentation'
-    | '/uabr/frontend'
-    | '/uabr/history'
-    | '/uabr/planner'
-    | '/uabr/tests'
-    | '/workflows/analytics'
-    | '/workflows/designer'
-    | '/workflows/executions'
-    | '/workflows/history'
-    | '/workflows/monitor'
-    | '/workflows/runtime'
     | '/api/dh/tts'
-    | '/brain/'
     | '/business/'
     | '/community/'
     | '/digital-human/'
     | '/education/'
-    | '/enterprise-ai/'
     | '/enterprise/'
-    | '/founder-ai/'
     | '/founder/'
-    | '/happy/'
-    | '/hyperlocal/'
     | '/knowledge/'
-    | '/live/'
     | '/marketplace/'
     | '/messages/'
-    | '/production/'
-    | '/releases/'
     | '/studio/'
-    | '/uabr/'
-    | '/agents/collaboration/analytics'
-    | '/agents/collaboration/history'
-    | '/agents/collaboration/live'
-    | '/runtime/intelligence/advisor'
-    | '/runtime/intelligence/forecast'
-    | '/runtime/intelligence/opportunities'
-    | '/runtime/intelligence/recommendations'
-    | '/runtime/tools/analytics'
-    | '/runtime/tools/history'
-    | '/runtime/tools/live'
-    | '/runtime/workflows/analytics'
-    | '/runtime/workflows/history'
-    | '/runtime/workflows/live'
-    | '/api/public/cron/cms-publish'
-    | '/api/public/cron/credits-expire'
-    | '/api/public/cron/deployments-tick'
-    | '/api/public/cron/payments-retry'
-    | '/api/public/cron/release-metrics-rollup'
-    | '/api/public/cron/release-pipeline-tick'
-    | '/api/public/cron/release-store-status'
-    | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
-    | '/api/public/webhooks/payments/$provider'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/design'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/status'
-    | '/trust'
-    | '/achievements'
-    | '/admin'
-    | '/agent-os'
-    | '/agents'
-    | '/ai-builder'
-    | '/ai-design'
-    | '/analytics'
-    | '/api-fabric'
-    | '/app-builder'
-    | '/appointments'
-    | '/apps'
-    | '/assets'
     | '/assistant'
-    | '/automation'
-    | '/automation-hub'
-    | '/autonomous'
-    | '/banking'
-    | '/billing'
-    | '/builder'
-    | '/citizens'
-    | '/cloud'
-    | '/coach'
-    | '/collaboration'
-    | '/commerce'
-    | '/communications'
-    | '/connectivity'
-    | '/connectors'
-    | '/content'
-    | '/credits'
-    | '/crm'
-    | '/customer'
-    | '/customer360'
-    | '/customers'
     | '/dashboard'
-    | '/data-exchange'
-    | '/data-fabric'
-    | '/database-builder'
-    | '/dealer'
-    | '/decision'
-    | '/deploy'
-    | '/developer'
-    | '/developers'
-    | '/devices'
-    | '/digital-factory'
-    | '/digital-twin'
-    | '/digital-twin-v2'
-    | '/distributor'
-    | '/documents'
-    | '/domains'
-    | '/domains-manage'
-    | '/domains-search'
-    | '/ecosystem'
-    | '/ecosystem-hub'
-    | '/ecosystem-intelligence'
-    | '/edge'
-    | '/employee'
-    | '/energy'
-    | '/enterprise-cloud'
-    | '/enterprise-control'
-    | '/enterprise-network'
-    | '/erp'
-    | '/events'
-    | '/execution'
-    | '/executive'
-    | '/experience'
-    | '/experience-fabric'
-    | '/fabric'
-    | '/factory'
-    | '/finance'
-    | '/financial-ai'
-    | '/fleet'
-    | '/focus'
-    | '/future'
-    | '/global'
-    | '/global-memory'
-    | '/governance'
-    | '/governance-v2'
-    | '/government'
-    | '/healthcare'
-    | '/home'
-    | '/hospitals'
-    | '/hosting'
-    | '/hrms'
-    | '/icons'
-    | '/identity'
-    | '/industry'
-    | '/innovation'
-    | '/insights'
-    | '/intelligence'
-    | '/intelligence-exchange'
-    | '/intelligence-network'
-    | '/investors'
-    | '/iot'
-    | '/iot-runtime'
-    | '/knowledge-exchange'
-    | '/knowledge-graph'
-    | '/knowledge-network'
-    | '/laboratory'
-    | '/learning'
-    | '/learning-network'
-    | '/library'
-    | '/live-island'
-    | '/maintenance'
-    | '/manufacturing'
-    | '/market-intelligence'
-    | '/market-network'
-    | '/marketplace-hub'
-    | '/medical-research'
-    | '/memory'
-    | '/monitoring'
-    | '/multimodal'
-    | '/national'
-    | '/native'
-    | '/network'
-    | '/notifications'
-    | '/notifications-analytics'
-    | '/notifications-announcements'
-    | '/notifications-archive'
-    | '/notifications-automation'
-    | '/notifications-categories'
-    | '/notifications-history'
-    | '/notifications-inbox'
-    | '/notifications-preferences'
-    | '/notifications-reminders'
-    | '/notifications-settings'
-    | '/notifications-starred'
-    | '/notifications-templates'
-    | '/observability'
-    | '/observability-v2'
-    | '/observability-v3'
-    | '/operations'
-    | '/orchestration'
-    | '/organizations'
-    | '/partners'
-    | '/patients'
-    | '/payments'
-    | '/pharmacy'
-    | '/platform-hub'
-    | '/plugins'
-    | '/predictions'
-    | '/pricing'
-    | '/productivity'
-    | '/profile'
-    | '/public-education'
-    | '/public-health'
-    | '/public-safety'
-    | '/quality'
-    | '/research'
-    | '/revenue'
-    | '/roadmap'
-    | '/robotics'
-    | '/robots'
-    | '/runtime'
-    | '/rural'
-    | '/search'
-    | '/search-hub'
-    | '/search-v2'
-    | '/security'
-    | '/security-sessions'
-    | '/service-mesh'
     | '/settings'
-    | '/settings-accessibility'
-    | '/settings-appearance'
-    | '/settings-background'
-    | '/settings-theme'
-    | '/settings-wallpapers'
-    | '/simulation'
-    | '/skills'
-    | '/smart-city'
-    | '/streaks'
-    | '/super-intelligence'
-    | '/supply-chain'
-    | '/support'
-    | '/sustainability'
-    | '/telemedicine'
-    | '/templates'
-    | '/theme-marketplace'
-    | '/themes'
-    | '/tools'
-    | '/transport'
-    | '/unified-os'
-    | '/universal'
-    | '/utilities'
-    | '/vendors'
-    | '/vision'
-    | '/wallet'
-    | '/wallpaper-marketplace'
-    | '/warehouse'
-    | '/websites'
-    | '/wellness'
-    | '/white-label'
-    | '/widgets'
-    | '/workflows'
-    | '/workforce'
-    | '/workspace'
-    | '/workspaces'
-    | '/zen'
-    | '/api/happy-chat'
-    | '/api/happy-stt'
-    | '/api/robots.txt'
-    | '/api/sitemap.xml'
-    | '/agents/collaboration'
-    | '/agents/execution'
-    | '/agents/metrics'
-    | '/agents/runtime'
-    | '/brain/analytics'
-    | '/brain/execution'
-    | '/brain/health'
-    | '/brain/memory'
-    | '/brain/planning'
-    | '/brain/reasoning'
-    | '/brain/reflection'
-    | '/brain/runtime'
-    | '/brain/validation'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -5687,28 +1083,12 @@ export interface FileRouteTypes {
     | '/business/sales'
     | '/business/search'
     | '/business/warehouse'
-    | '/cloud/analytics'
-    | '/cloud/billing'
-    | '/cloud/compliance'
-    | '/cloud/deployments'
-    | '/cloud/marketplace'
-    | '/cloud/models'
-    | '/cloud/projects'
-    | '/cloud/storage'
     | '/community/following'
     | '/community/groups'
     | '/community/mine'
-    | '/decision/analytics'
-    | '/decision/history'
-    | '/decision/scenarios'
-    | '/developers/apis'
-    | '/developers/docs'
-    | '/developers/sdk'
-    | '/developers/webhooks'
     | '/digital-human/boardroom'
     | '/digital-human/classroom'
     | '/digital-human/presentation'
-    | '/digital-human/production'
     | '/digital-human/sessions'
     | '/digital-human/settings'
     | '/digital-human/whiteboard'
@@ -5733,460 +1113,63 @@ export interface FileRouteTypes {
     | '/enterprise/security'
     | '/enterprise/structure'
     | '/enterprise/workflows'
-    | '/execution/analytics'
-    | '/execution/history'
-    | '/execution/tasks'
-    | '/founder-ai/activity'
-    | '/founder-ai/chat'
-    | '/founder-ai/dashboard'
-    | '/founder-ai/history'
-    | '/founder-ai/memory'
-    | '/founder-ai/settings'
-    | '/founder-ai/tasks'
-    | '/founder-ai/terminal'
-    | '/founder-ai/voice'
-    | '/founder-ai/workspace'
     | '/founder/ai'
     | '/founder/analytics'
-    | '/founder/brief'
     | '/founder/companies'
-    | '/founder/executive'
-    | '/founder/integrations'
     | '/founder/ops'
-    | '/founder/publishing'
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
-    | '/happy/behaviour'
-    | '/happy/business'
-    | '/happy/call'
-    | '/happy/cinematic'
-    | '/happy/comfort'
-    | '/happy/initiative'
-    | '/happy/live'
-    | '/happy/memory'
-    | '/happy/office'
-    | '/happy/presence'
-    | '/happy/presentation'
-    | '/happy/settings'
-    | '/happy/video'
-    | '/happy/walk'
-    | '/hyperlocal/alerts'
-    | '/hyperlocal/ask'
-    | '/hyperlocal/businesses'
-    | '/hyperlocal/discover'
-    | '/hyperlocal/events'
-    | '/hyperlocal/jobs'
-    | '/hyperlocal/manage'
-    | '/hyperlocal/map'
-    | '/hyperlocal/settings'
-    | '/intelligence/advisor'
-    | '/intelligence/dashboard'
-    | '/intelligence/executive'
-    | '/intelligence/forecast'
-    | '/intelligence/insights'
-    | '/intelligence/live'
-    | '/intelligence/opportunities'
-    | '/intelligence/overview'
-    | '/intelligence/recommendations'
-    | '/intelligence/reports'
-    | '/intelligence/risk'
-    | '/intelligence/runtime'
-    | '/intelligence/settings'
     | '/knowledge/ask'
     | '/knowledge/library'
     | '/knowledge/moderation'
     | '/knowledge/religion-culture'
     | '/knowledge/search'
     | '/knowledge/sources'
-    | '/live/activity'
-    | '/live/context'
-    | '/live/dashboard'
-    | '/live/founder'
-    | '/live/home'
-    | '/live/language'
-    | '/live/presence'
-    | '/live/relationship'
-    | '/live/settings'
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
-    | '/memory/dashboard'
-    | '/memory/preferences'
-    | '/memory/search'
-    | '/memory/settings'
-    | '/memory/timeline'
-    | '/plugins/installed'
-    | '/plugins/manage'
-    | '/plugins/reviews'
-    | '/plugins/settings'
-    | '/plugins/store'
-    | '/production/dashboard'
-    | '/production/deployment'
-    | '/production/performance'
-    | '/production/quality'
-    | '/production/security'
-    | '/production/testing'
-    | '/releases/analytics'
-    | '/releases/artifacts'
-    | '/releases/builds'
-    | '/releases/dashboard'
-    | '/releases/history'
-    | '/releases/logs'
-    | '/releases/publish'
-    | '/releases/rollout'
-    | '/releases/settings'
-    | '/releases/signing'
-    | '/runtime/analytics'
-    | '/runtime/automation'
-    | '/runtime/capabilities'
-    | '/runtime/collaboration'
-    | '/runtime/dashboard'
-    | '/runtime/decision'
-    | '/runtime/dependencies'
-    | '/runtime/developers'
-    | '/runtime/execution'
-    | '/runtime/executions'
-    | '/runtime/goals'
-    | '/runtime/health'
-    | '/runtime/history'
-    | '/runtime/intelligence'
-    | '/runtime/live'
-    | '/runtime/logs'
-    | '/runtime/memory'
-    | '/runtime/monitor'
-    | '/runtime/performance'
-    | '/runtime/planner'
-    | '/runtime/planning'
-    | '/runtime/plugins'
-    | '/runtime/risks'
-    | '/runtime/security'
-    | '/runtime/settings'
-    | '/runtime/skills'
-    | '/runtime/timeline'
-    | '/runtime/tools'
-    | '/runtime/workflows'
-    | '/skills/categories'
-    | '/skills/installed'
-    | '/skills/settings'
-    | '/skills/store'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
     | '/studio/exports'
-    | '/studio/hub'
     | '/studio/image'
     | '/studio/marketing'
     | '/studio/presentation'
     | '/studio/projects'
     | '/studio/voice'
-    | '/tools/analytics'
-    | '/tools/runtime'
-    | '/tools/settings'
-    | '/uabr/backend'
-    | '/uabr/dashboard'
-    | '/uabr/database'
-    | '/uabr/deployment'
-    | '/uabr/design'
-    | '/uabr/documentation'
-    | '/uabr/frontend'
-    | '/uabr/history'
-    | '/uabr/planner'
-    | '/uabr/tests'
-    | '/workflows/analytics'
-    | '/workflows/designer'
-    | '/workflows/executions'
-    | '/workflows/history'
-    | '/workflows/monitor'
-    | '/workflows/runtime'
     | '/api/dh/tts'
-    | '/brain'
     | '/business'
     | '/community'
     | '/digital-human'
     | '/education'
-    | '/enterprise-ai'
     | '/enterprise'
-    | '/founder-ai'
     | '/founder'
-    | '/happy'
-    | '/hyperlocal'
     | '/knowledge'
-    | '/live'
     | '/marketplace'
     | '/messages'
-    | '/production'
-    | '/releases'
     | '/studio'
-    | '/uabr'
-    | '/agents/collaboration/analytics'
-    | '/agents/collaboration/history'
-    | '/agents/collaboration/live'
-    | '/runtime/intelligence/advisor'
-    | '/runtime/intelligence/forecast'
-    | '/runtime/intelligence/opportunities'
-    | '/runtime/intelligence/recommendations'
-    | '/runtime/tools/analytics'
-    | '/runtime/tools/history'
-    | '/runtime/tools/live'
-    | '/runtime/workflows/analytics'
-    | '/runtime/workflows/history'
-    | '/runtime/workflows/live'
-    | '/api/public/cron/cms-publish'
-    | '/api/public/cron/credits-expire'
-    | '/api/public/cron/deployments-tick'
-    | '/api/public/cron/payments-retry'
-    | '/api/public/cron/release-metrics-rollup'
-    | '/api/public/cron/release-pipeline-tick'
-    | '/api/public/cron/release-store-status'
-    | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
-    | '/api/public/webhooks/payments/$provider'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
     | '/design'
-    | '/forgot-password'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/status'
-    | '/trust'
-    | '/_authenticated/founder-ai'
-    | '/_authenticated/happy'
-    | '/_authenticated/live'
-    | '/_authenticated/production'
-    | '/_authenticated/releases'
-    | '/_authenticated/uabr'
-    | '/_authenticated/achievements'
-    | '/_authenticated/admin'
-    | '/_authenticated/agent-os'
-    | '/_authenticated/agents'
-    | '/_authenticated/ai-builder'
-    | '/_authenticated/ai-design'
-    | '/_authenticated/analytics'
-    | '/_authenticated/api-fabric'
-    | '/_authenticated/app-builder'
-    | '/_authenticated/appointments'
-    | '/_authenticated/apps'
-    | '/_authenticated/assets'
     | '/_authenticated/assistant'
-    | '/_authenticated/automation'
-    | '/_authenticated/automation-hub'
-    | '/_authenticated/autonomous'
-    | '/_authenticated/banking'
-    | '/_authenticated/billing'
-    | '/_authenticated/brain'
-    | '/_authenticated/builder'
     | '/_authenticated/business'
-    | '/_authenticated/citizens'
-    | '/_authenticated/cloud'
-    | '/_authenticated/coach'
-    | '/_authenticated/collaboration'
-    | '/_authenticated/commerce'
-    | '/_authenticated/communications'
     | '/_authenticated/community'
-    | '/_authenticated/connectivity'
-    | '/_authenticated/connectors'
-    | '/_authenticated/content'
-    | '/_authenticated/credits'
-    | '/_authenticated/crm'
-    | '/_authenticated/customer'
-    | '/_authenticated/customer360'
-    | '/_authenticated/customers'
     | '/_authenticated/dashboard'
-    | '/_authenticated/data-exchange'
-    | '/_authenticated/data-fabric'
-    | '/_authenticated/database-builder'
-    | '/_authenticated/dealer'
-    | '/_authenticated/decision'
-    | '/_authenticated/deploy'
-    | '/_authenticated/developer'
-    | '/_authenticated/developers'
-    | '/_authenticated/devices'
-    | '/_authenticated/digital-factory'
     | '/_authenticated/digital-human'
-    | '/_authenticated/digital-twin'
-    | '/_authenticated/digital-twin-v2'
-    | '/_authenticated/distributor'
-    | '/_authenticated/documents'
-    | '/_authenticated/domains'
-    | '/_authenticated/domains-manage'
-    | '/_authenticated/domains-search'
-    | '/_authenticated/ecosystem'
-    | '/_authenticated/ecosystem-hub'
-    | '/_authenticated/ecosystem-intelligence'
-    | '/_authenticated/edge'
     | '/_authenticated/education'
-    | '/_authenticated/employee'
-    | '/_authenticated/energy'
     | '/_authenticated/enterprise'
-    | '/_authenticated/enterprise-cloud'
-    | '/_authenticated/enterprise-control'
-    | '/_authenticated/enterprise-network'
-    | '/_authenticated/erp'
-    | '/_authenticated/events'
-    | '/_authenticated/execution'
-    | '/_authenticated/executive'
-    | '/_authenticated/experience'
-    | '/_authenticated/experience-fabric'
-    | '/_authenticated/fabric'
-    | '/_authenticated/factory'
-    | '/_authenticated/finance'
-    | '/_authenticated/financial-ai'
-    | '/_authenticated/fleet'
-    | '/_authenticated/focus'
     | '/_authenticated/founder'
-    | '/_authenticated/future'
-    | '/_authenticated/global'
-    | '/_authenticated/global-memory'
-    | '/_authenticated/governance'
-    | '/_authenticated/governance-v2'
-    | '/_authenticated/government'
-    | '/_authenticated/healthcare'
-    | '/_authenticated/home'
-    | '/_authenticated/hospitals'
-    | '/_authenticated/hosting'
-    | '/_authenticated/hrms'
-    | '/_authenticated/hyperlocal'
-    | '/_authenticated/icons'
-    | '/_authenticated/identity'
-    | '/_authenticated/industry'
-    | '/_authenticated/innovation'
-    | '/_authenticated/insights'
-    | '/_authenticated/intelligence'
-    | '/_authenticated/intelligence-exchange'
-    | '/_authenticated/intelligence-network'
-    | '/_authenticated/investors'
-    | '/_authenticated/iot'
-    | '/_authenticated/iot-runtime'
     | '/_authenticated/knowledge'
-    | '/_authenticated/knowledge-exchange'
-    | '/_authenticated/knowledge-graph'
-    | '/_authenticated/knowledge-network'
-    | '/_authenticated/laboratory'
-    | '/_authenticated/learning'
-    | '/_authenticated/learning-network'
-    | '/_authenticated/library'
-    | '/_authenticated/live-island'
-    | '/_authenticated/maintenance'
-    | '/_authenticated/manufacturing'
-    | '/_authenticated/market-intelligence'
-    | '/_authenticated/market-network'
     | '/_authenticated/marketplace'
-    | '/_authenticated/marketplace-hub'
-    | '/_authenticated/medical-research'
-    | '/_authenticated/memory'
     | '/_authenticated/messages'
-    | '/_authenticated/monitoring'
-    | '/_authenticated/multimodal'
-    | '/_authenticated/national'
-    | '/_authenticated/native'
-    | '/_authenticated/network'
-    | '/_authenticated/notifications'
-    | '/_authenticated/notifications-analytics'
-    | '/_authenticated/notifications-announcements'
-    | '/_authenticated/notifications-archive'
-    | '/_authenticated/notifications-automation'
-    | '/_authenticated/notifications-categories'
-    | '/_authenticated/notifications-history'
-    | '/_authenticated/notifications-inbox'
-    | '/_authenticated/notifications-preferences'
-    | '/_authenticated/notifications-reminders'
-    | '/_authenticated/notifications-settings'
-    | '/_authenticated/notifications-starred'
-    | '/_authenticated/notifications-templates'
-    | '/_authenticated/observability'
-    | '/_authenticated/observability-v2'
-    | '/_authenticated/observability-v3'
-    | '/_authenticated/operations'
-    | '/_authenticated/orchestration'
-    | '/_authenticated/organizations'
-    | '/_authenticated/partners'
-    | '/_authenticated/patients'
-    | '/_authenticated/payments'
-    | '/_authenticated/pharmacy'
-    | '/_authenticated/platform-hub'
-    | '/_authenticated/plugins'
-    | '/_authenticated/predictions'
-    | '/_authenticated/pricing'
-    | '/_authenticated/productivity'
-    | '/_authenticated/profile'
-    | '/_authenticated/public-education'
-    | '/_authenticated/public-health'
-    | '/_authenticated/public-safety'
-    | '/_authenticated/quality'
-    | '/_authenticated/research'
-    | '/_authenticated/revenue'
-    | '/_authenticated/roadmap'
-    | '/_authenticated/robotics'
-    | '/_authenticated/robots'
-    | '/_authenticated/runtime'
-    | '/_authenticated/rural'
-    | '/_authenticated/search'
-    | '/_authenticated/search-hub'
-    | '/_authenticated/search-v2'
-    | '/_authenticated/security'
-    | '/_authenticated/security-sessions'
-    | '/_authenticated/service-mesh'
     | '/_authenticated/settings'
-    | '/_authenticated/settings-accessibility'
-    | '/_authenticated/settings-appearance'
-    | '/_authenticated/settings-background'
-    | '/_authenticated/settings-theme'
-    | '/_authenticated/settings-wallpapers'
-    | '/_authenticated/simulation'
-    | '/_authenticated/skills'
-    | '/_authenticated/smart-city'
-    | '/_authenticated/streaks'
     | '/_authenticated/studio'
-    | '/_authenticated/super-intelligence'
-    | '/_authenticated/supply-chain'
-    | '/_authenticated/support'
-    | '/_authenticated/sustainability'
-    | '/_authenticated/telemedicine'
-    | '/_authenticated/templates'
-    | '/_authenticated/theme-marketplace'
-    | '/_authenticated/themes'
-    | '/_authenticated/tools'
-    | '/_authenticated/transport'
-    | '/_authenticated/unified-os'
-    | '/_authenticated/universal'
-    | '/_authenticated/utilities'
-    | '/_authenticated/vendors'
-    | '/_authenticated/vision'
-    | '/_authenticated/wallet'
-    | '/_authenticated/wallpaper-marketplace'
-    | '/_authenticated/warehouse'
-    | '/_authenticated/websites'
-    | '/_authenticated/wellness'
-    | '/_authenticated/white-label'
-    | '/_authenticated/widgets'
-    | '/_authenticated/workflows'
-    | '/_authenticated/workforce'
-    | '/_authenticated/workspace'
-    | '/_authenticated/workspaces'
-    | '/_authenticated/zen'
-    | '/api/happy-chat'
-    | '/api/happy-stt'
-    | '/api/robots.txt'
-    | '/api/sitemap.xml'
-    | '/_authenticated/agents/collaboration'
-    | '/_authenticated/agents/execution'
-    | '/_authenticated/agents/metrics'
-    | '/_authenticated/agents/runtime'
-    | '/_authenticated/brain/analytics'
-    | '/_authenticated/brain/execution'
-    | '/_authenticated/brain/health'
-    | '/_authenticated/brain/memory'
-    | '/_authenticated/brain/planning'
-    | '/_authenticated/brain/reasoning'
-    | '/_authenticated/brain/reflection'
-    | '/_authenticated/brain/runtime'
-    | '/_authenticated/brain/validation'
     | '/_authenticated/business/ai'
     | '/_authenticated/business/analytics'
     | '/_authenticated/business/automation'
@@ -6200,28 +1183,12 @@ export interface FileRouteTypes {
     | '/_authenticated/business/sales'
     | '/_authenticated/business/search'
     | '/_authenticated/business/warehouse'
-    | '/_authenticated/cloud/analytics'
-    | '/_authenticated/cloud/billing'
-    | '/_authenticated/cloud/compliance'
-    | '/_authenticated/cloud/deployments'
-    | '/_authenticated/cloud/marketplace'
-    | '/_authenticated/cloud/models'
-    | '/_authenticated/cloud/projects'
-    | '/_authenticated/cloud/storage'
     | '/_authenticated/community/following'
     | '/_authenticated/community/groups'
     | '/_authenticated/community/mine'
-    | '/_authenticated/decision/analytics'
-    | '/_authenticated/decision/history'
-    | '/_authenticated/decision/scenarios'
-    | '/_authenticated/developers/apis'
-    | '/_authenticated/developers/docs'
-    | '/_authenticated/developers/sdk'
-    | '/_authenticated/developers/webhooks'
     | '/_authenticated/digital-human/boardroom'
     | '/_authenticated/digital-human/classroom'
     | '/_authenticated/digital-human/presentation'
-    | '/_authenticated/digital-human/production'
     | '/_authenticated/digital-human/sessions'
     | '/_authenticated/digital-human/settings'
     | '/_authenticated/digital-human/whiteboard'
@@ -6246,216 +1213,44 @@ export interface FileRouteTypes {
     | '/_authenticated/enterprise/security'
     | '/_authenticated/enterprise/structure'
     | '/_authenticated/enterprise/workflows'
-    | '/_authenticated/execution/analytics'
-    | '/_authenticated/execution/history'
-    | '/_authenticated/execution/tasks'
-    | '/_authenticated/founder-ai/activity'
-    | '/_authenticated/founder-ai/chat'
-    | '/_authenticated/founder-ai/dashboard'
-    | '/_authenticated/founder-ai/history'
-    | '/_authenticated/founder-ai/memory'
-    | '/_authenticated/founder-ai/settings'
-    | '/_authenticated/founder-ai/tasks'
-    | '/_authenticated/founder-ai/terminal'
-    | '/_authenticated/founder-ai/voice'
-    | '/_authenticated/founder-ai/workspace'
     | '/_authenticated/founder/ai'
     | '/_authenticated/founder/analytics'
-    | '/_authenticated/founder/brief'
     | '/_authenticated/founder/companies'
-    | '/_authenticated/founder/executive'
-    | '/_authenticated/founder/integrations'
     | '/_authenticated/founder/ops'
-    | '/_authenticated/founder/publishing'
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
-    | '/_authenticated/happy/behaviour'
-    | '/_authenticated/happy/business'
-    | '/_authenticated/happy/call'
-    | '/_authenticated/happy/cinematic'
-    | '/_authenticated/happy/comfort'
-    | '/_authenticated/happy/initiative'
-    | '/_authenticated/happy/live'
-    | '/_authenticated/happy/memory'
-    | '/_authenticated/happy/office'
-    | '/_authenticated/happy/presence'
-    | '/_authenticated/happy/presentation'
-    | '/_authenticated/happy/settings'
-    | '/_authenticated/happy/video'
-    | '/_authenticated/happy/walk'
-    | '/_authenticated/hyperlocal/alerts'
-    | '/_authenticated/hyperlocal/ask'
-    | '/_authenticated/hyperlocal/businesses'
-    | '/_authenticated/hyperlocal/discover'
-    | '/_authenticated/hyperlocal/events'
-    | '/_authenticated/hyperlocal/jobs'
-    | '/_authenticated/hyperlocal/manage'
-    | '/_authenticated/hyperlocal/map'
-    | '/_authenticated/hyperlocal/settings'
-    | '/_authenticated/intelligence/advisor'
-    | '/_authenticated/intelligence/dashboard'
-    | '/_authenticated/intelligence/executive'
-    | '/_authenticated/intelligence/forecast'
-    | '/_authenticated/intelligence/insights'
-    | '/_authenticated/intelligence/live'
-    | '/_authenticated/intelligence/opportunities'
-    | '/_authenticated/intelligence/overview'
-    | '/_authenticated/intelligence/recommendations'
-    | '/_authenticated/intelligence/reports'
-    | '/_authenticated/intelligence/risk'
-    | '/_authenticated/intelligence/runtime'
-    | '/_authenticated/intelligence/settings'
     | '/_authenticated/knowledge/ask'
     | '/_authenticated/knowledge/library'
     | '/_authenticated/knowledge/moderation'
     | '/_authenticated/knowledge/religion-culture'
     | '/_authenticated/knowledge/search'
     | '/_authenticated/knowledge/sources'
-    | '/_authenticated/live/activity'
-    | '/_authenticated/live/context'
-    | '/_authenticated/live/dashboard'
-    | '/_authenticated/live/founder'
-    | '/_authenticated/live/home'
-    | '/_authenticated/live/language'
-    | '/_authenticated/live/presence'
-    | '/_authenticated/live/relationship'
-    | '/_authenticated/live/settings'
     | '/_authenticated/marketplace/orders'
     | '/_authenticated/marketplace/sales'
     | '/_authenticated/marketplace/seller'
-    | '/_authenticated/memory/dashboard'
-    | '/_authenticated/memory/preferences'
-    | '/_authenticated/memory/search'
-    | '/_authenticated/memory/settings'
-    | '/_authenticated/memory/timeline'
-    | '/_authenticated/plugins/installed'
-    | '/_authenticated/plugins/manage'
-    | '/_authenticated/plugins/reviews'
-    | '/_authenticated/plugins/settings'
-    | '/_authenticated/plugins/store'
-    | '/_authenticated/production/dashboard'
-    | '/_authenticated/production/deployment'
-    | '/_authenticated/production/performance'
-    | '/_authenticated/production/quality'
-    | '/_authenticated/production/security'
-    | '/_authenticated/production/testing'
-    | '/_authenticated/releases/analytics'
-    | '/_authenticated/releases/artifacts'
-    | '/_authenticated/releases/builds'
-    | '/_authenticated/releases/dashboard'
-    | '/_authenticated/releases/history'
-    | '/_authenticated/releases/logs'
-    | '/_authenticated/releases/publish'
-    | '/_authenticated/releases/rollout'
-    | '/_authenticated/releases/settings'
-    | '/_authenticated/releases/signing'
-    | '/_authenticated/runtime/analytics'
-    | '/_authenticated/runtime/automation'
-    | '/_authenticated/runtime/capabilities'
-    | '/_authenticated/runtime/collaboration'
-    | '/_authenticated/runtime/dashboard'
-    | '/_authenticated/runtime/decision'
-    | '/_authenticated/runtime/dependencies'
-    | '/_authenticated/runtime/developers'
-    | '/_authenticated/runtime/execution'
-    | '/_authenticated/runtime/executions'
-    | '/_authenticated/runtime/goals'
-    | '/_authenticated/runtime/health'
-    | '/_authenticated/runtime/history'
-    | '/_authenticated/runtime/intelligence'
-    | '/_authenticated/runtime/live'
-    | '/_authenticated/runtime/logs'
-    | '/_authenticated/runtime/memory'
-    | '/_authenticated/runtime/monitor'
-    | '/_authenticated/runtime/performance'
-    | '/_authenticated/runtime/planner'
-    | '/_authenticated/runtime/planning'
-    | '/_authenticated/runtime/plugins'
-    | '/_authenticated/runtime/risks'
-    | '/_authenticated/runtime/security'
-    | '/_authenticated/runtime/settings'
-    | '/_authenticated/runtime/skills'
-    | '/_authenticated/runtime/timeline'
-    | '/_authenticated/runtime/tools'
-    | '/_authenticated/runtime/workflows'
-    | '/_authenticated/skills/categories'
-    | '/_authenticated/skills/installed'
-    | '/_authenticated/skills/settings'
-    | '/_authenticated/skills/store'
     | '/_authenticated/studio/assets'
     | '/_authenticated/studio/brand'
     | '/_authenticated/studio/copy'
     | '/_authenticated/studio/exports'
-    | '/_authenticated/studio/hub'
     | '/_authenticated/studio/image'
     | '/_authenticated/studio/marketing'
     | '/_authenticated/studio/presentation'
     | '/_authenticated/studio/projects'
     | '/_authenticated/studio/voice'
-    | '/_authenticated/tools/analytics'
-    | '/_authenticated/tools/runtime'
-    | '/_authenticated/tools/settings'
-    | '/_authenticated/uabr/backend'
-    | '/_authenticated/uabr/dashboard'
-    | '/_authenticated/uabr/database'
-    | '/_authenticated/uabr/deployment'
-    | '/_authenticated/uabr/design'
-    | '/_authenticated/uabr/documentation'
-    | '/_authenticated/uabr/frontend'
-    | '/_authenticated/uabr/history'
-    | '/_authenticated/uabr/planner'
-    | '/_authenticated/uabr/tests'
-    | '/_authenticated/workflows/analytics'
-    | '/_authenticated/workflows/designer'
-    | '/_authenticated/workflows/executions'
-    | '/_authenticated/workflows/history'
-    | '/_authenticated/workflows/monitor'
-    | '/_authenticated/workflows/runtime'
     | '/api/dh/tts'
-    | '/_authenticated/brain/'
     | '/_authenticated/business/'
     | '/_authenticated/community/'
     | '/_authenticated/digital-human/'
     | '/_authenticated/education/'
-    | '/_authenticated/enterprise-ai/'
     | '/_authenticated/enterprise/'
-    | '/_authenticated/founder-ai/'
     | '/_authenticated/founder/'
-    | '/_authenticated/happy/'
-    | '/_authenticated/hyperlocal/'
     | '/_authenticated/knowledge/'
-    | '/_authenticated/live/'
     | '/_authenticated/marketplace/'
     | '/_authenticated/messages/'
-    | '/_authenticated/production/'
-    | '/_authenticated/releases/'
     | '/_authenticated/studio/'
-    | '/_authenticated/uabr/'
-    | '/_authenticated/agents/collaboration/analytics'
-    | '/_authenticated/agents/collaboration/history'
-    | '/_authenticated/agents/collaboration/live'
-    | '/_authenticated/runtime/intelligence/advisor'
-    | '/_authenticated/runtime/intelligence/forecast'
-    | '/_authenticated/runtime/intelligence/opportunities'
-    | '/_authenticated/runtime/intelligence/recommendations'
-    | '/_authenticated/runtime/tools/analytics'
-    | '/_authenticated/runtime/tools/history'
-    | '/_authenticated/runtime/tools/live'
-    | '/_authenticated/runtime/workflows/analytics'
-    | '/_authenticated/runtime/workflows/history'
-    | '/_authenticated/runtime/workflows/live'
-    | '/api/public/cron/cms-publish'
-    | '/api/public/cron/credits-expire'
-    | '/api/public/cron/deployments-tick'
-    | '/api/public/cron/payments-retry'
-    | '/api/public/cron/release-metrics-rollup'
-    | '/api/public/cron/release-pipeline-tick'
-    | '/api/public/cron/release-store-status'
-    | '/api/public/cron/subscriptions-tick'
     | '/api/public/v1/health'
     | '/api/public/v1/status'
-    | '/api/public/webhooks/payments/$provider'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -6463,74 +1258,13 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   DesignRoute: typeof DesignRoute
-  ForgotPasswordRoute: typeof ForgotPasswordRoute
-  LoginRoute: typeof LoginRoute
-  RegisterRoute: typeof RegisterRoute
-  ResetPasswordRoute: typeof ResetPasswordRoute
-  StatusRoute: typeof StatusRoute
-  TrustRoute: typeof TrustRoute
-  ApiHappyChatRoute: typeof ApiHappyChatRoute
-  ApiHappySttRoute: typeof ApiHappySttRoute
-  ApiRobotsDottxtRoute: typeof ApiRobotsDottxtRoute
-  ApiSitemapDotxmlRoute: typeof ApiSitemapDotxmlRoute
   ApiDhTtsRoute: typeof ApiDhTtsRoute
-  ApiPublicCronCmsPublishRoute: typeof ApiPublicCronCmsPublishRoute
-  ApiPublicCronCreditsExpireRoute: typeof ApiPublicCronCreditsExpireRoute
-  ApiPublicCronDeploymentsTickRoute: typeof ApiPublicCronDeploymentsTickRoute
-  ApiPublicCronPaymentsRetryRoute: typeof ApiPublicCronPaymentsRetryRoute
-  ApiPublicCronReleaseMetricsRollupRoute: typeof ApiPublicCronReleaseMetricsRollupRoute
-  ApiPublicCronReleasePipelineTickRoute: typeof ApiPublicCronReleasePipelineTickRoute
-  ApiPublicCronReleaseStoreStatusRoute: typeof ApiPublicCronReleaseStoreStatusRoute
-  ApiPublicCronSubscriptionsTickRoute: typeof ApiPublicCronSubscriptionsTickRoute
   ApiPublicV1HealthRoute: typeof ApiPublicV1HealthRoute
   ApiPublicV1StatusRoute: typeof ApiPublicV1StatusRoute
-  ApiPublicWebhooksPaymentsProviderRoute: typeof ApiPublicWebhooksPaymentsProviderRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/trust': {
-      id: '/trust'
-      path: '/trust'
-      fullPath: '/trust'
-      preLoaderRoute: typeof TrustRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/status': {
-      id: '/status'
-      path: '/status'
-      fullPath: '/status'
-      preLoaderRoute: typeof StatusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forgot-password': {
-      id: '/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof ForgotPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/design': {
       id: '/design'
       path: '/design'
@@ -6559,291 +1293,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/sitemap.xml': {
-      id: '/api/sitemap.xml'
-      path: '/api/sitemap.xml'
-      fullPath: '/api/sitemap.xml'
-      preLoaderRoute: typeof ApiSitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/robots.txt': {
-      id: '/api/robots.txt'
-      path: '/api/robots.txt'
-      fullPath: '/api/robots.txt'
-      preLoaderRoute: typeof ApiRobotsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/happy-stt': {
-      id: '/api/happy-stt'
-      path: '/api/happy-stt'
-      fullPath: '/api/happy-stt'
-      preLoaderRoute: typeof ApiHappySttRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/happy-chat': {
-      id: '/api/happy-chat'
-      path: '/api/happy-chat'
-      fullPath: '/api/happy-chat'
-      preLoaderRoute: typeof ApiHappyChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/zen': {
-      id: '/_authenticated/zen'
-      path: '/zen'
-      fullPath: '/zen'
-      preLoaderRoute: typeof AuthenticatedZenRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/workspaces': {
-      id: '/_authenticated/workspaces'
-      path: '/workspaces'
-      fullPath: '/workspaces'
-      preLoaderRoute: typeof AuthenticatedWorkspacesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/workspace': {
-      id: '/_authenticated/workspace'
-      path: '/workspace'
-      fullPath: '/workspace'
-      preLoaderRoute: typeof AuthenticatedWorkspaceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/workforce': {
-      id: '/_authenticated/workforce'
-      path: '/workforce'
-      fullPath: '/workforce'
-      preLoaderRoute: typeof AuthenticatedWorkforceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/workflows': {
-      id: '/_authenticated/workflows'
-      path: '/workflows'
-      fullPath: '/workflows'
-      preLoaderRoute: typeof AuthenticatedWorkflowsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/widgets': {
-      id: '/_authenticated/widgets'
-      path: '/widgets'
-      fullPath: '/widgets'
-      preLoaderRoute: typeof AuthenticatedWidgetsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/white-label': {
-      id: '/_authenticated/white-label'
-      path: '/white-label'
-      fullPath: '/white-label'
-      preLoaderRoute: typeof AuthenticatedWhiteLabelRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/wellness': {
-      id: '/_authenticated/wellness'
-      path: '/wellness'
-      fullPath: '/wellness'
-      preLoaderRoute: typeof AuthenticatedWellnessRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/websites': {
-      id: '/_authenticated/websites'
-      path: '/websites'
-      fullPath: '/websites'
-      preLoaderRoute: typeof AuthenticatedWebsitesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/warehouse': {
-      id: '/_authenticated/warehouse'
-      path: '/warehouse'
-      fullPath: '/warehouse'
-      preLoaderRoute: typeof AuthenticatedWarehouseRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/wallpaper-marketplace': {
-      id: '/_authenticated/wallpaper-marketplace'
-      path: '/wallpaper-marketplace'
-      fullPath: '/wallpaper-marketplace'
-      preLoaderRoute: typeof AuthenticatedWallpaperMarketplaceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/wallet': {
-      id: '/_authenticated/wallet'
-      path: '/wallet'
-      fullPath: '/wallet'
-      preLoaderRoute: typeof AuthenticatedWalletRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/vision': {
-      id: '/_authenticated/vision'
-      path: '/vision'
-      fullPath: '/vision'
-      preLoaderRoute: typeof AuthenticatedVisionRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/vendors': {
-      id: '/_authenticated/vendors'
-      path: '/vendors'
-      fullPath: '/vendors'
-      preLoaderRoute: typeof AuthenticatedVendorsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/utilities': {
-      id: '/_authenticated/utilities'
-      path: '/utilities'
-      fullPath: '/utilities'
-      preLoaderRoute: typeof AuthenticatedUtilitiesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/universal': {
-      id: '/_authenticated/universal'
-      path: '/universal'
-      fullPath: '/universal'
-      preLoaderRoute: typeof AuthenticatedUniversalRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/unified-os': {
-      id: '/_authenticated/unified-os'
-      path: '/unified-os'
-      fullPath: '/unified-os'
-      preLoaderRoute: typeof AuthenticatedUnifiedOsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/transport': {
-      id: '/_authenticated/transport'
-      path: '/transport'
-      fullPath: '/transport'
-      preLoaderRoute: typeof AuthenticatedTransportRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/tools': {
-      id: '/_authenticated/tools'
-      path: '/tools'
-      fullPath: '/tools'
-      preLoaderRoute: typeof AuthenticatedToolsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/themes': {
-      id: '/_authenticated/themes'
-      path: '/themes'
-      fullPath: '/themes'
-      preLoaderRoute: typeof AuthenticatedThemesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/theme-marketplace': {
-      id: '/_authenticated/theme-marketplace'
-      path: '/theme-marketplace'
-      fullPath: '/theme-marketplace'
-      preLoaderRoute: typeof AuthenticatedThemeMarketplaceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/templates': {
-      id: '/_authenticated/templates'
-      path: '/templates'
-      fullPath: '/templates'
-      preLoaderRoute: typeof AuthenticatedTemplatesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/telemedicine': {
-      id: '/_authenticated/telemedicine'
-      path: '/telemedicine'
-      fullPath: '/telemedicine'
-      preLoaderRoute: typeof AuthenticatedTelemedicineRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/sustainability': {
-      id: '/_authenticated/sustainability'
-      path: '/sustainability'
-      fullPath: '/sustainability'
-      preLoaderRoute: typeof AuthenticatedSustainabilityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/support': {
-      id: '/_authenticated/support'
-      path: '/support'
-      fullPath: '/support'
-      preLoaderRoute: typeof AuthenticatedSupportRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/supply-chain': {
-      id: '/_authenticated/supply-chain'
-      path: '/supply-chain'
-      fullPath: '/supply-chain'
-      preLoaderRoute: typeof AuthenticatedSupplyChainRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/super-intelligence': {
-      id: '/_authenticated/super-intelligence'
-      path: '/super-intelligence'
-      fullPath: '/super-intelligence'
-      preLoaderRoute: typeof AuthenticatedSuperIntelligenceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/studio': {
       id: '/_authenticated/studio'
       path: '/studio'
       fullPath: '/studio'
       preLoaderRoute: typeof AuthenticatedStudioRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/streaks': {
-      id: '/_authenticated/streaks'
-      path: '/streaks'
-      fullPath: '/streaks'
-      preLoaderRoute: typeof AuthenticatedStreaksRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/smart-city': {
-      id: '/_authenticated/smart-city'
-      path: '/smart-city'
-      fullPath: '/smart-city'
-      preLoaderRoute: typeof AuthenticatedSmartCityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/skills': {
-      id: '/_authenticated/skills'
-      path: '/skills'
-      fullPath: '/skills'
-      preLoaderRoute: typeof AuthenticatedSkillsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/simulation': {
-      id: '/_authenticated/simulation'
-      path: '/simulation'
-      fullPath: '/simulation'
-      preLoaderRoute: typeof AuthenticatedSimulationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings-wallpapers': {
-      id: '/_authenticated/settings-wallpapers'
-      path: '/settings-wallpapers'
-      fullPath: '/settings-wallpapers'
-      preLoaderRoute: typeof AuthenticatedSettingsWallpapersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings-theme': {
-      id: '/_authenticated/settings-theme'
-      path: '/settings-theme'
-      fullPath: '/settings-theme'
-      preLoaderRoute: typeof AuthenticatedSettingsThemeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings-background': {
-      id: '/_authenticated/settings-background'
-      path: '/settings-background'
-      fullPath: '/settings-background'
-      preLoaderRoute: typeof AuthenticatedSettingsBackgroundRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings-appearance': {
-      id: '/_authenticated/settings-appearance'
-      path: '/settings-appearance'
-      fullPath: '/settings-appearance'
-      preLoaderRoute: typeof AuthenticatedSettingsAppearanceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings-accessibility': {
-      id: '/_authenticated/settings-accessibility'
-      path: '/settings-accessibility'
-      fullPath: '/settings-accessibility'
-      preLoaderRoute: typeof AuthenticatedSettingsAccessibilityRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings': {
@@ -6853,389 +1307,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/service-mesh': {
-      id: '/_authenticated/service-mesh'
-      path: '/service-mesh'
-      fullPath: '/service-mesh'
-      preLoaderRoute: typeof AuthenticatedServiceMeshRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/security-sessions': {
-      id: '/_authenticated/security-sessions'
-      path: '/security-sessions'
-      fullPath: '/security-sessions'
-      preLoaderRoute: typeof AuthenticatedSecuritySessionsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/security': {
-      id: '/_authenticated/security'
-      path: '/security'
-      fullPath: '/security'
-      preLoaderRoute: typeof AuthenticatedSecurityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/search-v2': {
-      id: '/_authenticated/search-v2'
-      path: '/search-v2'
-      fullPath: '/search-v2'
-      preLoaderRoute: typeof AuthenticatedSearchV2RouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/search-hub': {
-      id: '/_authenticated/search-hub'
-      path: '/search-hub'
-      fullPath: '/search-hub'
-      preLoaderRoute: typeof AuthenticatedSearchHubRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/search': {
-      id: '/_authenticated/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof AuthenticatedSearchRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/rural': {
-      id: '/_authenticated/rural'
-      path: '/rural'
-      fullPath: '/rural'
-      preLoaderRoute: typeof AuthenticatedRuralRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/runtime': {
-      id: '/_authenticated/runtime'
-      path: '/runtime'
-      fullPath: '/runtime'
-      preLoaderRoute: typeof AuthenticatedRuntimeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/robots': {
-      id: '/_authenticated/robots'
-      path: '/robots'
-      fullPath: '/robots'
-      preLoaderRoute: typeof AuthenticatedRobotsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/robotics': {
-      id: '/_authenticated/robotics'
-      path: '/robotics'
-      fullPath: '/robotics'
-      preLoaderRoute: typeof AuthenticatedRoboticsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/roadmap': {
-      id: '/_authenticated/roadmap'
-      path: '/roadmap'
-      fullPath: '/roadmap'
-      preLoaderRoute: typeof AuthenticatedRoadmapRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/revenue': {
-      id: '/_authenticated/revenue'
-      path: '/revenue'
-      fullPath: '/revenue'
-      preLoaderRoute: typeof AuthenticatedRevenueRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/research': {
-      id: '/_authenticated/research'
-      path: '/research'
-      fullPath: '/research'
-      preLoaderRoute: typeof AuthenticatedResearchRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/quality': {
-      id: '/_authenticated/quality'
-      path: '/quality'
-      fullPath: '/quality'
-      preLoaderRoute: typeof AuthenticatedQualityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/public-safety': {
-      id: '/_authenticated/public-safety'
-      path: '/public-safety'
-      fullPath: '/public-safety'
-      preLoaderRoute: typeof AuthenticatedPublicSafetyRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/public-health': {
-      id: '/_authenticated/public-health'
-      path: '/public-health'
-      fullPath: '/public-health'
-      preLoaderRoute: typeof AuthenticatedPublicHealthRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/public-education': {
-      id: '/_authenticated/public-education'
-      path: '/public-education'
-      fullPath: '/public-education'
-      preLoaderRoute: typeof AuthenticatedPublicEducationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/profile': {
-      id: '/_authenticated/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/productivity': {
-      id: '/_authenticated/productivity'
-      path: '/productivity'
-      fullPath: '/productivity'
-      preLoaderRoute: typeof AuthenticatedProductivityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/pricing': {
-      id: '/_authenticated/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof AuthenticatedPricingRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/predictions': {
-      id: '/_authenticated/predictions'
-      path: '/predictions'
-      fullPath: '/predictions'
-      preLoaderRoute: typeof AuthenticatedPredictionsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/plugins': {
-      id: '/_authenticated/plugins'
-      path: '/plugins'
-      fullPath: '/plugins'
-      preLoaderRoute: typeof AuthenticatedPluginsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/platform-hub': {
-      id: '/_authenticated/platform-hub'
-      path: '/platform-hub'
-      fullPath: '/platform-hub'
-      preLoaderRoute: typeof AuthenticatedPlatformHubRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/pharmacy': {
-      id: '/_authenticated/pharmacy'
-      path: '/pharmacy'
-      fullPath: '/pharmacy'
-      preLoaderRoute: typeof AuthenticatedPharmacyRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/payments': {
-      id: '/_authenticated/payments'
-      path: '/payments'
-      fullPath: '/payments'
-      preLoaderRoute: typeof AuthenticatedPaymentsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/patients': {
-      id: '/_authenticated/patients'
-      path: '/patients'
-      fullPath: '/patients'
-      preLoaderRoute: typeof AuthenticatedPatientsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/partners': {
-      id: '/_authenticated/partners'
-      path: '/partners'
-      fullPath: '/partners'
-      preLoaderRoute: typeof AuthenticatedPartnersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/organizations': {
-      id: '/_authenticated/organizations'
-      path: '/organizations'
-      fullPath: '/organizations'
-      preLoaderRoute: typeof AuthenticatedOrganizationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/orchestration': {
-      id: '/_authenticated/orchestration'
-      path: '/orchestration'
-      fullPath: '/orchestration'
-      preLoaderRoute: typeof AuthenticatedOrchestrationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/operations': {
-      id: '/_authenticated/operations'
-      path: '/operations'
-      fullPath: '/operations'
-      preLoaderRoute: typeof AuthenticatedOperationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/observability-v3': {
-      id: '/_authenticated/observability-v3'
-      path: '/observability-v3'
-      fullPath: '/observability-v3'
-      preLoaderRoute: typeof AuthenticatedObservabilityV3RouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/observability-v2': {
-      id: '/_authenticated/observability-v2'
-      path: '/observability-v2'
-      fullPath: '/observability-v2'
-      preLoaderRoute: typeof AuthenticatedObservabilityV2RouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/observability': {
-      id: '/_authenticated/observability'
-      path: '/observability'
-      fullPath: '/observability'
-      preLoaderRoute: typeof AuthenticatedObservabilityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-templates': {
-      id: '/_authenticated/notifications-templates'
-      path: '/notifications-templates'
-      fullPath: '/notifications-templates'
-      preLoaderRoute: typeof AuthenticatedNotificationsTemplatesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-starred': {
-      id: '/_authenticated/notifications-starred'
-      path: '/notifications-starred'
-      fullPath: '/notifications-starred'
-      preLoaderRoute: typeof AuthenticatedNotificationsStarredRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-settings': {
-      id: '/_authenticated/notifications-settings'
-      path: '/notifications-settings'
-      fullPath: '/notifications-settings'
-      preLoaderRoute: typeof AuthenticatedNotificationsSettingsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-reminders': {
-      id: '/_authenticated/notifications-reminders'
-      path: '/notifications-reminders'
-      fullPath: '/notifications-reminders'
-      preLoaderRoute: typeof AuthenticatedNotificationsRemindersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-preferences': {
-      id: '/_authenticated/notifications-preferences'
-      path: '/notifications-preferences'
-      fullPath: '/notifications-preferences'
-      preLoaderRoute: typeof AuthenticatedNotificationsPreferencesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-inbox': {
-      id: '/_authenticated/notifications-inbox'
-      path: '/notifications-inbox'
-      fullPath: '/notifications-inbox'
-      preLoaderRoute: typeof AuthenticatedNotificationsInboxRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-history': {
-      id: '/_authenticated/notifications-history'
-      path: '/notifications-history'
-      fullPath: '/notifications-history'
-      preLoaderRoute: typeof AuthenticatedNotificationsHistoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-categories': {
-      id: '/_authenticated/notifications-categories'
-      path: '/notifications-categories'
-      fullPath: '/notifications-categories'
-      preLoaderRoute: typeof AuthenticatedNotificationsCategoriesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-automation': {
-      id: '/_authenticated/notifications-automation'
-      path: '/notifications-automation'
-      fullPath: '/notifications-automation'
-      preLoaderRoute: typeof AuthenticatedNotificationsAutomationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-archive': {
-      id: '/_authenticated/notifications-archive'
-      path: '/notifications-archive'
-      fullPath: '/notifications-archive'
-      preLoaderRoute: typeof AuthenticatedNotificationsArchiveRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-announcements': {
-      id: '/_authenticated/notifications-announcements'
-      path: '/notifications-announcements'
-      fullPath: '/notifications-announcements'
-      preLoaderRoute: typeof AuthenticatedNotificationsAnnouncementsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications-analytics': {
-      id: '/_authenticated/notifications-analytics'
-      path: '/notifications-analytics'
-      fullPath: '/notifications-analytics'
-      preLoaderRoute: typeof AuthenticatedNotificationsAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications': {
-      id: '/_authenticated/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/network': {
-      id: '/_authenticated/network'
-      path: '/network'
-      fullPath: '/network'
-      preLoaderRoute: typeof AuthenticatedNetworkRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/native': {
-      id: '/_authenticated/native'
-      path: '/native'
-      fullPath: '/native'
-      preLoaderRoute: typeof AuthenticatedNativeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/national': {
-      id: '/_authenticated/national'
-      path: '/national'
-      fullPath: '/national'
-      preLoaderRoute: typeof AuthenticatedNationalRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/multimodal': {
-      id: '/_authenticated/multimodal'
-      path: '/multimodal'
-      fullPath: '/multimodal'
-      preLoaderRoute: typeof AuthenticatedMultimodalRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/monitoring': {
-      id: '/_authenticated/monitoring'
-      path: '/monitoring'
-      fullPath: '/monitoring'
-      preLoaderRoute: typeof AuthenticatedMonitoringRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/messages': {
       id: '/_authenticated/messages'
       path: '/messages'
       fullPath: '/messages'
       preLoaderRoute: typeof AuthenticatedMessagesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/memory': {
-      id: '/_authenticated/memory'
-      path: '/memory'
-      fullPath: '/memory'
-      preLoaderRoute: typeof AuthenticatedMemoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/medical-research': {
-      id: '/_authenticated/medical-research'
-      path: '/medical-research'
-      fullPath: '/medical-research'
-      preLoaderRoute: typeof AuthenticatedMedicalResearchRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/marketplace-hub': {
-      id: '/_authenticated/marketplace-hub'
-      path: '/marketplace-hub'
-      fullPath: '/marketplace-hub'
-      preLoaderRoute: typeof AuthenticatedMarketplaceHubRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/marketplace': {
@@ -7245,256 +1321,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMarketplaceRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/market-network': {
-      id: '/_authenticated/market-network'
-      path: '/market-network'
-      fullPath: '/market-network'
-      preLoaderRoute: typeof AuthenticatedMarketNetworkRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/market-intelligence': {
-      id: '/_authenticated/market-intelligence'
-      path: '/market-intelligence'
-      fullPath: '/market-intelligence'
-      preLoaderRoute: typeof AuthenticatedMarketIntelligenceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/manufacturing': {
-      id: '/_authenticated/manufacturing'
-      path: '/manufacturing'
-      fullPath: '/manufacturing'
-      preLoaderRoute: typeof AuthenticatedManufacturingRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/maintenance': {
-      id: '/_authenticated/maintenance'
-      path: '/maintenance'
-      fullPath: '/maintenance'
-      preLoaderRoute: typeof AuthenticatedMaintenanceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/live-island': {
-      id: '/_authenticated/live-island'
-      path: '/live-island'
-      fullPath: '/live-island'
-      preLoaderRoute: typeof AuthenticatedLiveIslandRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/library': {
-      id: '/_authenticated/library'
-      path: '/library'
-      fullPath: '/library'
-      preLoaderRoute: typeof AuthenticatedLibraryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/learning-network': {
-      id: '/_authenticated/learning-network'
-      path: '/learning-network'
-      fullPath: '/learning-network'
-      preLoaderRoute: typeof AuthenticatedLearningNetworkRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/learning': {
-      id: '/_authenticated/learning'
-      path: '/learning'
-      fullPath: '/learning'
-      preLoaderRoute: typeof AuthenticatedLearningRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/laboratory': {
-      id: '/_authenticated/laboratory'
-      path: '/laboratory'
-      fullPath: '/laboratory'
-      preLoaderRoute: typeof AuthenticatedLaboratoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/knowledge-network': {
-      id: '/_authenticated/knowledge-network'
-      path: '/knowledge-network'
-      fullPath: '/knowledge-network'
-      preLoaderRoute: typeof AuthenticatedKnowledgeNetworkRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/knowledge-graph': {
-      id: '/_authenticated/knowledge-graph'
-      path: '/knowledge-graph'
-      fullPath: '/knowledge-graph'
-      preLoaderRoute: typeof AuthenticatedKnowledgeGraphRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/knowledge-exchange': {
-      id: '/_authenticated/knowledge-exchange'
-      path: '/knowledge-exchange'
-      fullPath: '/knowledge-exchange'
-      preLoaderRoute: typeof AuthenticatedKnowledgeExchangeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/knowledge': {
       id: '/_authenticated/knowledge'
       path: '/knowledge'
       fullPath: '/knowledge'
       preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/iot-runtime': {
-      id: '/_authenticated/iot-runtime'
-      path: '/iot-runtime'
-      fullPath: '/iot-runtime'
-      preLoaderRoute: typeof AuthenticatedIotRuntimeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/iot': {
-      id: '/_authenticated/iot'
-      path: '/iot'
-      fullPath: '/iot'
-      preLoaderRoute: typeof AuthenticatedIotRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/investors': {
-      id: '/_authenticated/investors'
-      path: '/investors'
-      fullPath: '/investors'
-      preLoaderRoute: typeof AuthenticatedInvestorsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/intelligence-network': {
-      id: '/_authenticated/intelligence-network'
-      path: '/intelligence-network'
-      fullPath: '/intelligence-network'
-      preLoaderRoute: typeof AuthenticatedIntelligenceNetworkRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/intelligence-exchange': {
-      id: '/_authenticated/intelligence-exchange'
-      path: '/intelligence-exchange'
-      fullPath: '/intelligence-exchange'
-      preLoaderRoute: typeof AuthenticatedIntelligenceExchangeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/intelligence': {
-      id: '/_authenticated/intelligence'
-      path: '/intelligence'
-      fullPath: '/intelligence'
-      preLoaderRoute: typeof AuthenticatedIntelligenceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/insights': {
-      id: '/_authenticated/insights'
-      path: '/insights'
-      fullPath: '/insights'
-      preLoaderRoute: typeof AuthenticatedInsightsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/innovation': {
-      id: '/_authenticated/innovation'
-      path: '/innovation'
-      fullPath: '/innovation'
-      preLoaderRoute: typeof AuthenticatedInnovationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/industry': {
-      id: '/_authenticated/industry'
-      path: '/industry'
-      fullPath: '/industry'
-      preLoaderRoute: typeof AuthenticatedIndustryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/identity': {
-      id: '/_authenticated/identity'
-      path: '/identity'
-      fullPath: '/identity'
-      preLoaderRoute: typeof AuthenticatedIdentityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/icons': {
-      id: '/_authenticated/icons'
-      path: '/icons'
-      fullPath: '/icons'
-      preLoaderRoute: typeof AuthenticatedIconsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/hyperlocal': {
-      id: '/_authenticated/hyperlocal'
-      path: '/hyperlocal'
-      fullPath: '/hyperlocal'
-      preLoaderRoute: typeof AuthenticatedHyperlocalRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/hrms': {
-      id: '/_authenticated/hrms'
-      path: '/hrms'
-      fullPath: '/hrms'
-      preLoaderRoute: typeof AuthenticatedHrmsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/hosting': {
-      id: '/_authenticated/hosting'
-      path: '/hosting'
-      fullPath: '/hosting'
-      preLoaderRoute: typeof AuthenticatedHostingRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/hospitals': {
-      id: '/_authenticated/hospitals'
-      path: '/hospitals'
-      fullPath: '/hospitals'
-      preLoaderRoute: typeof AuthenticatedHospitalsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/home': {
-      id: '/_authenticated/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof AuthenticatedHomeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/healthcare': {
-      id: '/_authenticated/healthcare'
-      path: '/healthcare'
-      fullPath: '/healthcare'
-      preLoaderRoute: typeof AuthenticatedHealthcareRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/government': {
-      id: '/_authenticated/government'
-      path: '/government'
-      fullPath: '/government'
-      preLoaderRoute: typeof AuthenticatedGovernmentRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/governance-v2': {
-      id: '/_authenticated/governance-v2'
-      path: '/governance-v2'
-      fullPath: '/governance-v2'
-      preLoaderRoute: typeof AuthenticatedGovernanceV2RouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/governance': {
-      id: '/_authenticated/governance'
-      path: '/governance'
-      fullPath: '/governance'
-      preLoaderRoute: typeof AuthenticatedGovernanceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/global-memory': {
-      id: '/_authenticated/global-memory'
-      path: '/global-memory'
-      fullPath: '/global-memory'
-      preLoaderRoute: typeof AuthenticatedGlobalMemoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/global': {
-      id: '/_authenticated/global'
-      path: '/global'
-      fullPath: '/global'
-      preLoaderRoute: typeof AuthenticatedGlobalRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/future': {
-      id: '/_authenticated/future'
-      path: '/future'
-      fullPath: '/future'
-      preLoaderRoute: typeof AuthenticatedFutureRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/founder': {
@@ -7504,130 +1335,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/focus': {
-      id: '/_authenticated/focus'
-      path: '/focus'
-      fullPath: '/focus'
-      preLoaderRoute: typeof AuthenticatedFocusRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/fleet': {
-      id: '/_authenticated/fleet'
-      path: '/fleet'
-      fullPath: '/fleet'
-      preLoaderRoute: typeof AuthenticatedFleetRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/financial-ai': {
-      id: '/_authenticated/financial-ai'
-      path: '/financial-ai'
-      fullPath: '/financial-ai'
-      preLoaderRoute: typeof AuthenticatedFinancialAiRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/finance': {
-      id: '/_authenticated/finance'
-      path: '/finance'
-      fullPath: '/finance'
-      preLoaderRoute: typeof AuthenticatedFinanceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/factory': {
-      id: '/_authenticated/factory'
-      path: '/factory'
-      fullPath: '/factory'
-      preLoaderRoute: typeof AuthenticatedFactoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/fabric': {
-      id: '/_authenticated/fabric'
-      path: '/fabric'
-      fullPath: '/fabric'
-      preLoaderRoute: typeof AuthenticatedFabricRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/experience-fabric': {
-      id: '/_authenticated/experience-fabric'
-      path: '/experience-fabric'
-      fullPath: '/experience-fabric'
-      preLoaderRoute: typeof AuthenticatedExperienceFabricRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/experience': {
-      id: '/_authenticated/experience'
-      path: '/experience'
-      fullPath: '/experience'
-      preLoaderRoute: typeof AuthenticatedExperienceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/executive': {
-      id: '/_authenticated/executive'
-      path: '/executive'
-      fullPath: '/executive'
-      preLoaderRoute: typeof AuthenticatedExecutiveRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/execution': {
-      id: '/_authenticated/execution'
-      path: '/execution'
-      fullPath: '/execution'
-      preLoaderRoute: typeof AuthenticatedExecutionRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/events': {
-      id: '/_authenticated/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof AuthenticatedEventsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/erp': {
-      id: '/_authenticated/erp'
-      path: '/erp'
-      fullPath: '/erp'
-      preLoaderRoute: typeof AuthenticatedErpRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/enterprise-network': {
-      id: '/_authenticated/enterprise-network'
-      path: '/enterprise-network'
-      fullPath: '/enterprise-network'
-      preLoaderRoute: typeof AuthenticatedEnterpriseNetworkRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/enterprise-control': {
-      id: '/_authenticated/enterprise-control'
-      path: '/enterprise-control'
-      fullPath: '/enterprise-control'
-      preLoaderRoute: typeof AuthenticatedEnterpriseControlRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/enterprise-cloud': {
-      id: '/_authenticated/enterprise-cloud'
-      path: '/enterprise-cloud'
-      fullPath: '/enterprise-cloud'
-      preLoaderRoute: typeof AuthenticatedEnterpriseCloudRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/enterprise': {
       id: '/_authenticated/enterprise'
       path: '/enterprise'
       fullPath: '/enterprise'
       preLoaderRoute: typeof AuthenticatedEnterpriseRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/energy': {
-      id: '/_authenticated/energy'
-      path: '/energy'
-      fullPath: '/energy'
-      preLoaderRoute: typeof AuthenticatedEnergyRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/employee': {
-      id: '/_authenticated/employee'
-      path: '/employee'
-      fullPath: '/employee'
-      preLoaderRoute: typeof AuthenticatedEmployeeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/education': {
@@ -7637,158 +1349,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEducationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/edge': {
-      id: '/_authenticated/edge'
-      path: '/edge'
-      fullPath: '/edge'
-      preLoaderRoute: typeof AuthenticatedEdgeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/ecosystem-intelligence': {
-      id: '/_authenticated/ecosystem-intelligence'
-      path: '/ecosystem-intelligence'
-      fullPath: '/ecosystem-intelligence'
-      preLoaderRoute: typeof AuthenticatedEcosystemIntelligenceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/ecosystem-hub': {
-      id: '/_authenticated/ecosystem-hub'
-      path: '/ecosystem-hub'
-      fullPath: '/ecosystem-hub'
-      preLoaderRoute: typeof AuthenticatedEcosystemHubRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/ecosystem': {
-      id: '/_authenticated/ecosystem'
-      path: '/ecosystem'
-      fullPath: '/ecosystem'
-      preLoaderRoute: typeof AuthenticatedEcosystemRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/domains-search': {
-      id: '/_authenticated/domains-search'
-      path: '/domains-search'
-      fullPath: '/domains-search'
-      preLoaderRoute: typeof AuthenticatedDomainsSearchRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/domains-manage': {
-      id: '/_authenticated/domains-manage'
-      path: '/domains-manage'
-      fullPath: '/domains-manage'
-      preLoaderRoute: typeof AuthenticatedDomainsManageRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/domains': {
-      id: '/_authenticated/domains'
-      path: '/domains'
-      fullPath: '/domains'
-      preLoaderRoute: typeof AuthenticatedDomainsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/documents': {
-      id: '/_authenticated/documents'
-      path: '/documents'
-      fullPath: '/documents'
-      preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/distributor': {
-      id: '/_authenticated/distributor'
-      path: '/distributor'
-      fullPath: '/distributor'
-      preLoaderRoute: typeof AuthenticatedDistributorRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/digital-twin-v2': {
-      id: '/_authenticated/digital-twin-v2'
-      path: '/digital-twin-v2'
-      fullPath: '/digital-twin-v2'
-      preLoaderRoute: typeof AuthenticatedDigitalTwinV2RouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/digital-twin': {
-      id: '/_authenticated/digital-twin'
-      path: '/digital-twin'
-      fullPath: '/digital-twin'
-      preLoaderRoute: typeof AuthenticatedDigitalTwinRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/digital-human': {
       id: '/_authenticated/digital-human'
       path: '/digital-human'
       fullPath: '/digital-human'
       preLoaderRoute: typeof AuthenticatedDigitalHumanRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/digital-factory': {
-      id: '/_authenticated/digital-factory'
-      path: '/digital-factory'
-      fullPath: '/digital-factory'
-      preLoaderRoute: typeof AuthenticatedDigitalFactoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/devices': {
-      id: '/_authenticated/devices'
-      path: '/devices'
-      fullPath: '/devices'
-      preLoaderRoute: typeof AuthenticatedDevicesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/developers': {
-      id: '/_authenticated/developers'
-      path: '/developers'
-      fullPath: '/developers'
-      preLoaderRoute: typeof AuthenticatedDevelopersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/developer': {
-      id: '/_authenticated/developer'
-      path: '/developer'
-      fullPath: '/developer'
-      preLoaderRoute: typeof AuthenticatedDeveloperRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/deploy': {
-      id: '/_authenticated/deploy'
-      path: '/deploy'
-      fullPath: '/deploy'
-      preLoaderRoute: typeof AuthenticatedDeployRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/decision': {
-      id: '/_authenticated/decision'
-      path: '/decision'
-      fullPath: '/decision'
-      preLoaderRoute: typeof AuthenticatedDecisionRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/dealer': {
-      id: '/_authenticated/dealer'
-      path: '/dealer'
-      fullPath: '/dealer'
-      preLoaderRoute: typeof AuthenticatedDealerRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/database-builder': {
-      id: '/_authenticated/database-builder'
-      path: '/database-builder'
-      fullPath: '/database-builder'
-      preLoaderRoute: typeof AuthenticatedDatabaseBuilderRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/data-fabric': {
-      id: '/_authenticated/data-fabric'
-      path: '/data-fabric'
-      fullPath: '/data-fabric'
-      preLoaderRoute: typeof AuthenticatedDataFabricRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/data-exchange': {
-      id: '/_authenticated/data-exchange'
-      path: '/data-exchange'
-      fullPath: '/data-exchange'
-      preLoaderRoute: typeof AuthenticatedDataExchangeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -7798,109 +1363,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/customers': {
-      id: '/_authenticated/customers'
-      path: '/customers'
-      fullPath: '/customers'
-      preLoaderRoute: typeof AuthenticatedCustomersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/customer360': {
-      id: '/_authenticated/customer360'
-      path: '/customer360'
-      fullPath: '/customer360'
-      preLoaderRoute: typeof AuthenticatedCustomer360RouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/customer': {
-      id: '/_authenticated/customer'
-      path: '/customer'
-      fullPath: '/customer'
-      preLoaderRoute: typeof AuthenticatedCustomerRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/crm': {
-      id: '/_authenticated/crm'
-      path: '/crm'
-      fullPath: '/crm'
-      preLoaderRoute: typeof AuthenticatedCrmRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/credits': {
-      id: '/_authenticated/credits'
-      path: '/credits'
-      fullPath: '/credits'
-      preLoaderRoute: typeof AuthenticatedCreditsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/content': {
-      id: '/_authenticated/content'
-      path: '/content'
-      fullPath: '/content'
-      preLoaderRoute: typeof AuthenticatedContentRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/connectors': {
-      id: '/_authenticated/connectors'
-      path: '/connectors'
-      fullPath: '/connectors'
-      preLoaderRoute: typeof AuthenticatedConnectorsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/connectivity': {
-      id: '/_authenticated/connectivity'
-      path: '/connectivity'
-      fullPath: '/connectivity'
-      preLoaderRoute: typeof AuthenticatedConnectivityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/community': {
       id: '/_authenticated/community'
       path: '/community'
       fullPath: '/community'
       preLoaderRoute: typeof AuthenticatedCommunityRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/communications': {
-      id: '/_authenticated/communications'
-      path: '/communications'
-      fullPath: '/communications'
-      preLoaderRoute: typeof AuthenticatedCommunicationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/commerce': {
-      id: '/_authenticated/commerce'
-      path: '/commerce'
-      fullPath: '/commerce'
-      preLoaderRoute: typeof AuthenticatedCommerceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/collaboration': {
-      id: '/_authenticated/collaboration'
-      path: '/collaboration'
-      fullPath: '/collaboration'
-      preLoaderRoute: typeof AuthenticatedCollaborationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/coach': {
-      id: '/_authenticated/coach'
-      path: '/coach'
-      fullPath: '/coach'
-      preLoaderRoute: typeof AuthenticatedCoachRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/cloud': {
-      id: '/_authenticated/cloud'
-      path: '/cloud'
-      fullPath: '/cloud'
-      preLoaderRoute: typeof AuthenticatedCloudRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/citizens': {
-      id: '/_authenticated/citizens'
-      path: '/citizens'
-      fullPath: '/citizens'
-      preLoaderRoute: typeof AuthenticatedCitizensRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/business': {
@@ -7910,55 +1377,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/builder': {
-      id: '/_authenticated/builder'
-      path: '/builder'
-      fullPath: '/builder'
-      preLoaderRoute: typeof AuthenticatedBuilderRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/brain': {
-      id: '/_authenticated/brain'
-      path: '/brain'
-      fullPath: '/brain'
-      preLoaderRoute: typeof AuthenticatedBrainRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/billing': {
-      id: '/_authenticated/billing'
-      path: '/billing'
-      fullPath: '/billing'
-      preLoaderRoute: typeof AuthenticatedBillingRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/banking': {
-      id: '/_authenticated/banking'
-      path: '/banking'
-      fullPath: '/banking'
-      preLoaderRoute: typeof AuthenticatedBankingRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/autonomous': {
-      id: '/_authenticated/autonomous'
-      path: '/autonomous'
-      fullPath: '/autonomous'
-      preLoaderRoute: typeof AuthenticatedAutonomousRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/automation-hub': {
-      id: '/_authenticated/automation-hub'
-      path: '/automation-hub'
-      fullPath: '/automation-hub'
-      preLoaderRoute: typeof AuthenticatedAutomationHubRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/automation': {
-      id: '/_authenticated/automation'
-      path: '/automation'
-      fullPath: '/automation'
-      preLoaderRoute: typeof AuthenticatedAutomationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/assistant': {
       id: '/_authenticated/assistant'
       path: '/assistant'
@@ -7966,159 +1384,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/assets': {
-      id: '/_authenticated/assets'
-      path: '/assets'
-      fullPath: '/assets'
-      preLoaderRoute: typeof AuthenticatedAssetsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/apps': {
-      id: '/_authenticated/apps'
-      path: '/apps'
-      fullPath: '/apps'
-      preLoaderRoute: typeof AuthenticatedAppsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/appointments': {
-      id: '/_authenticated/appointments'
-      path: '/appointments'
-      fullPath: '/appointments'
-      preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/app-builder': {
-      id: '/_authenticated/app-builder'
-      path: '/app-builder'
-      fullPath: '/app-builder'
-      preLoaderRoute: typeof AuthenticatedAppBuilderRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/api-fabric': {
-      id: '/_authenticated/api-fabric'
-      path: '/api-fabric'
-      fullPath: '/api-fabric'
-      preLoaderRoute: typeof AuthenticatedApiFabricRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/analytics': {
-      id: '/_authenticated/analytics'
-      path: '/analytics'
-      fullPath: '/analytics'
-      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/ai-design': {
-      id: '/_authenticated/ai-design'
-      path: '/ai-design'
-      fullPath: '/ai-design'
-      preLoaderRoute: typeof AuthenticatedAiDesignRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/ai-builder': {
-      id: '/_authenticated/ai-builder'
-      path: '/ai-builder'
-      fullPath: '/ai-builder'
-      preLoaderRoute: typeof AuthenticatedAiBuilderRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/agents': {
-      id: '/_authenticated/agents'
-      path: '/agents'
-      fullPath: '/agents'
-      preLoaderRoute: typeof AuthenticatedAgentsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/agent-os': {
-      id: '/_authenticated/agent-os'
-      path: '/agent-os'
-      fullPath: '/agent-os'
-      preLoaderRoute: typeof AuthenticatedAgentOsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/achievements': {
-      id: '/_authenticated/achievements'
-      path: '/achievements'
-      fullPath: '/achievements'
-      preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/uabr': {
-      id: '/_authenticated/uabr'
-      path: '/uabr'
-      fullPath: '/uabr'
-      preLoaderRoute: typeof AuthenticatedUabrRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/releases': {
-      id: '/_authenticated/releases'
-      path: '/releases'
-      fullPath: '/releases'
-      preLoaderRoute: typeof AuthenticatedReleasesRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/production': {
-      id: '/_authenticated/production'
-      path: '/production'
-      fullPath: '/production'
-      preLoaderRoute: typeof AuthenticatedProductionRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/live': {
-      id: '/_authenticated/live'
-      path: '/live'
-      fullPath: '/live'
-      preLoaderRoute: typeof AuthenticatedLiveRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/happy': {
-      id: '/_authenticated/happy'
-      path: '/happy'
-      fullPath: '/happy'
-      preLoaderRoute: typeof AuthenticatedHappyRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/founder-ai': {
-      id: '/_authenticated/founder-ai'
-      path: '/founder-ai'
-      fullPath: '/founder-ai'
-      preLoaderRoute: typeof AuthenticatedFounderAiRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/uabr/': {
-      id: '/_authenticated/uabr/'
-      path: '/'
-      fullPath: '/uabr/'
-      preLoaderRoute: typeof AuthenticatedUabrIndexRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
     '/_authenticated/studio/': {
       id: '/_authenticated/studio/'
       path: '/'
       fullPath: '/studio/'
       preLoaderRoute: typeof AuthenticatedStudioIndexRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
-    }
-    '/_authenticated/releases/': {
-      id: '/_authenticated/releases/'
-      path: '/'
-      fullPath: '/releases/'
-      preLoaderRoute: typeof AuthenticatedReleasesIndexRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/production/': {
-      id: '/_authenticated/production/'
-      path: '/'
-      fullPath: '/production/'
-      preLoaderRoute: typeof AuthenticatedProductionIndexRouteImport
-      parentRoute: typeof AuthenticatedProductionRouteRoute
     }
     '/_authenticated/messages/': {
       id: '/_authenticated/messages/'
@@ -8134,33 +1405,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMarketplaceIndexRouteImport
       parentRoute: typeof AuthenticatedMarketplaceRoute
     }
-    '/_authenticated/live/': {
-      id: '/_authenticated/live/'
-      path: '/'
-      fullPath: '/live/'
-      preLoaderRoute: typeof AuthenticatedLiveIndexRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
     '/_authenticated/knowledge/': {
       id: '/_authenticated/knowledge/'
       path: '/'
       fullPath: '/knowledge/'
       preLoaderRoute: typeof AuthenticatedKnowledgeIndexRouteImport
       parentRoute: typeof AuthenticatedKnowledgeRoute
-    }
-    '/_authenticated/hyperlocal/': {
-      id: '/_authenticated/hyperlocal/'
-      path: '/'
-      fullPath: '/hyperlocal/'
-      preLoaderRoute: typeof AuthenticatedHyperlocalIndexRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/happy/': {
-      id: '/_authenticated/happy/'
-      path: '/'
-      fullPath: '/happy/'
-      preLoaderRoute: typeof AuthenticatedHappyIndexRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
     }
     '/_authenticated/founder/': {
       id: '/_authenticated/founder/'
@@ -8169,26 +1419,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderIndexRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
-    '/_authenticated/founder-ai/': {
-      id: '/_authenticated/founder-ai/'
-      path: '/'
-      fullPath: '/founder-ai/'
-      preLoaderRoute: typeof AuthenticatedFounderAiIndexRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
     '/_authenticated/enterprise/': {
       id: '/_authenticated/enterprise/'
       path: '/'
       fullPath: '/enterprise/'
       preLoaderRoute: typeof AuthenticatedEnterpriseIndexRouteImport
       parentRoute: typeof AuthenticatedEnterpriseRoute
-    }
-    '/_authenticated/enterprise-ai/': {
-      id: '/_authenticated/enterprise-ai/'
-      path: '/enterprise-ai'
-      fullPath: '/enterprise-ai/'
-      preLoaderRoute: typeof AuthenticatedEnterpriseAiIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/education/': {
       id: '/_authenticated/education/'
@@ -8218,152 +1454,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessIndexRouteImport
       parentRoute: typeof AuthenticatedBusinessRoute
     }
-    '/_authenticated/brain/': {
-      id: '/_authenticated/brain/'
-      path: '/'
-      fullPath: '/brain/'
-      preLoaderRoute: typeof AuthenticatedBrainIndexRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
     '/api/dh/tts': {
       id: '/api/dh/tts'
       path: '/api/dh/tts'
       fullPath: '/api/dh/tts'
       preLoaderRoute: typeof ApiDhTtsRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/workflows/runtime': {
-      id: '/_authenticated/workflows/runtime'
-      path: '/runtime'
-      fullPath: '/workflows/runtime'
-      preLoaderRoute: typeof AuthenticatedWorkflowsRuntimeRouteImport
-      parentRoute: typeof AuthenticatedWorkflowsRoute
-    }
-    '/_authenticated/workflows/monitor': {
-      id: '/_authenticated/workflows/monitor'
-      path: '/monitor'
-      fullPath: '/workflows/monitor'
-      preLoaderRoute: typeof AuthenticatedWorkflowsMonitorRouteImport
-      parentRoute: typeof AuthenticatedWorkflowsRoute
-    }
-    '/_authenticated/workflows/history': {
-      id: '/_authenticated/workflows/history'
-      path: '/history'
-      fullPath: '/workflows/history'
-      preLoaderRoute: typeof AuthenticatedWorkflowsHistoryRouteImport
-      parentRoute: typeof AuthenticatedWorkflowsRoute
-    }
-    '/_authenticated/workflows/executions': {
-      id: '/_authenticated/workflows/executions'
-      path: '/executions'
-      fullPath: '/workflows/executions'
-      preLoaderRoute: typeof AuthenticatedWorkflowsExecutionsRouteImport
-      parentRoute: typeof AuthenticatedWorkflowsRoute
-    }
-    '/_authenticated/workflows/designer': {
-      id: '/_authenticated/workflows/designer'
-      path: '/designer'
-      fullPath: '/workflows/designer'
-      preLoaderRoute: typeof AuthenticatedWorkflowsDesignerRouteImport
-      parentRoute: typeof AuthenticatedWorkflowsRoute
-    }
-    '/_authenticated/workflows/analytics': {
-      id: '/_authenticated/workflows/analytics'
-      path: '/analytics'
-      fullPath: '/workflows/analytics'
-      preLoaderRoute: typeof AuthenticatedWorkflowsAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedWorkflowsRoute
-    }
-    '/_authenticated/uabr/tests': {
-      id: '/_authenticated/uabr/tests'
-      path: '/tests'
-      fullPath: '/uabr/tests'
-      preLoaderRoute: typeof AuthenticatedUabrTestsRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/planner': {
-      id: '/_authenticated/uabr/planner'
-      path: '/planner'
-      fullPath: '/uabr/planner'
-      preLoaderRoute: typeof AuthenticatedUabrPlannerRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/history': {
-      id: '/_authenticated/uabr/history'
-      path: '/history'
-      fullPath: '/uabr/history'
-      preLoaderRoute: typeof AuthenticatedUabrHistoryRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/frontend': {
-      id: '/_authenticated/uabr/frontend'
-      path: '/frontend'
-      fullPath: '/uabr/frontend'
-      preLoaderRoute: typeof AuthenticatedUabrFrontendRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/documentation': {
-      id: '/_authenticated/uabr/documentation'
-      path: '/documentation'
-      fullPath: '/uabr/documentation'
-      preLoaderRoute: typeof AuthenticatedUabrDocumentationRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/design': {
-      id: '/_authenticated/uabr/design'
-      path: '/design'
-      fullPath: '/uabr/design'
-      preLoaderRoute: typeof AuthenticatedUabrDesignRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/deployment': {
-      id: '/_authenticated/uabr/deployment'
-      path: '/deployment'
-      fullPath: '/uabr/deployment'
-      preLoaderRoute: typeof AuthenticatedUabrDeploymentRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/database': {
-      id: '/_authenticated/uabr/database'
-      path: '/database'
-      fullPath: '/uabr/database'
-      preLoaderRoute: typeof AuthenticatedUabrDatabaseRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/dashboard': {
-      id: '/_authenticated/uabr/dashboard'
-      path: '/dashboard'
-      fullPath: '/uabr/dashboard'
-      preLoaderRoute: typeof AuthenticatedUabrDashboardRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/uabr/backend': {
-      id: '/_authenticated/uabr/backend'
-      path: '/backend'
-      fullPath: '/uabr/backend'
-      preLoaderRoute: typeof AuthenticatedUabrBackendRouteImport
-      parentRoute: typeof AuthenticatedUabrRouteRoute
-    }
-    '/_authenticated/tools/settings': {
-      id: '/_authenticated/tools/settings'
-      path: '/settings'
-      fullPath: '/tools/settings'
-      preLoaderRoute: typeof AuthenticatedToolsSettingsRouteImport
-      parentRoute: typeof AuthenticatedToolsRoute
-    }
-    '/_authenticated/tools/runtime': {
-      id: '/_authenticated/tools/runtime'
-      path: '/runtime'
-      fullPath: '/tools/runtime'
-      preLoaderRoute: typeof AuthenticatedToolsRuntimeRouteImport
-      parentRoute: typeof AuthenticatedToolsRoute
-    }
-    '/_authenticated/tools/analytics': {
-      id: '/_authenticated/tools/analytics'
-      path: '/analytics'
-      fullPath: '/tools/analytics'
-      preLoaderRoute: typeof AuthenticatedToolsAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedToolsRoute
     }
     '/_authenticated/studio/voice': {
       id: '/_authenticated/studio/voice'
@@ -8400,13 +1496,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStudioImageRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
     }
-    '/_authenticated/studio/hub': {
-      id: '/_authenticated/studio/hub'
-      path: '/hub'
-      fullPath: '/studio/hub'
-      preLoaderRoute: typeof AuthenticatedStudioHubRouteImport
-      parentRoute: typeof AuthenticatedStudioRoute
-    }
     '/_authenticated/studio/exports': {
       id: '/_authenticated/studio/exports'
       path: '/exports'
@@ -8435,419 +1524,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStudioAssetsRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
     }
-    '/_authenticated/skills/store': {
-      id: '/_authenticated/skills/store'
-      path: '/store'
-      fullPath: '/skills/store'
-      preLoaderRoute: typeof AuthenticatedSkillsStoreRouteImport
-      parentRoute: typeof AuthenticatedSkillsRoute
-    }
-    '/_authenticated/skills/settings': {
-      id: '/_authenticated/skills/settings'
-      path: '/settings'
-      fullPath: '/skills/settings'
-      preLoaderRoute: typeof AuthenticatedSkillsSettingsRouteImport
-      parentRoute: typeof AuthenticatedSkillsRoute
-    }
-    '/_authenticated/skills/installed': {
-      id: '/_authenticated/skills/installed'
-      path: '/installed'
-      fullPath: '/skills/installed'
-      preLoaderRoute: typeof AuthenticatedSkillsInstalledRouteImport
-      parentRoute: typeof AuthenticatedSkillsRoute
-    }
-    '/_authenticated/skills/categories': {
-      id: '/_authenticated/skills/categories'
-      path: '/categories'
-      fullPath: '/skills/categories'
-      preLoaderRoute: typeof AuthenticatedSkillsCategoriesRouteImport
-      parentRoute: typeof AuthenticatedSkillsRoute
-    }
-    '/_authenticated/runtime/workflows': {
-      id: '/_authenticated/runtime/workflows'
-      path: '/workflows'
-      fullPath: '/runtime/workflows'
-      preLoaderRoute: typeof AuthenticatedRuntimeWorkflowsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/tools': {
-      id: '/_authenticated/runtime/tools'
-      path: '/tools'
-      fullPath: '/runtime/tools'
-      preLoaderRoute: typeof AuthenticatedRuntimeToolsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/timeline': {
-      id: '/_authenticated/runtime/timeline'
-      path: '/timeline'
-      fullPath: '/runtime/timeline'
-      preLoaderRoute: typeof AuthenticatedRuntimeTimelineRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/skills': {
-      id: '/_authenticated/runtime/skills'
-      path: '/skills'
-      fullPath: '/runtime/skills'
-      preLoaderRoute: typeof AuthenticatedRuntimeSkillsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/settings': {
-      id: '/_authenticated/runtime/settings'
-      path: '/settings'
-      fullPath: '/runtime/settings'
-      preLoaderRoute: typeof AuthenticatedRuntimeSettingsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/security': {
-      id: '/_authenticated/runtime/security'
-      path: '/security'
-      fullPath: '/runtime/security'
-      preLoaderRoute: typeof AuthenticatedRuntimeSecurityRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/risks': {
-      id: '/_authenticated/runtime/risks'
-      path: '/risks'
-      fullPath: '/runtime/risks'
-      preLoaderRoute: typeof AuthenticatedRuntimeRisksRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/plugins': {
-      id: '/_authenticated/runtime/plugins'
-      path: '/plugins'
-      fullPath: '/runtime/plugins'
-      preLoaderRoute: typeof AuthenticatedRuntimePluginsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/planning': {
-      id: '/_authenticated/runtime/planning'
-      path: '/planning'
-      fullPath: '/runtime/planning'
-      preLoaderRoute: typeof AuthenticatedRuntimePlanningRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/planner': {
-      id: '/_authenticated/runtime/planner'
-      path: '/planner'
-      fullPath: '/runtime/planner'
-      preLoaderRoute: typeof AuthenticatedRuntimePlannerRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/performance': {
-      id: '/_authenticated/runtime/performance'
-      path: '/performance'
-      fullPath: '/runtime/performance'
-      preLoaderRoute: typeof AuthenticatedRuntimePerformanceRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/monitor': {
-      id: '/_authenticated/runtime/monitor'
-      path: '/monitor'
-      fullPath: '/runtime/monitor'
-      preLoaderRoute: typeof AuthenticatedRuntimeMonitorRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/memory': {
-      id: '/_authenticated/runtime/memory'
-      path: '/memory'
-      fullPath: '/runtime/memory'
-      preLoaderRoute: typeof AuthenticatedRuntimeMemoryRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/logs': {
-      id: '/_authenticated/runtime/logs'
-      path: '/logs'
-      fullPath: '/runtime/logs'
-      preLoaderRoute: typeof AuthenticatedRuntimeLogsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/live': {
-      id: '/_authenticated/runtime/live'
-      path: '/live'
-      fullPath: '/runtime/live'
-      preLoaderRoute: typeof AuthenticatedRuntimeLiveRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/intelligence': {
-      id: '/_authenticated/runtime/intelligence'
-      path: '/intelligence'
-      fullPath: '/runtime/intelligence'
-      preLoaderRoute: typeof AuthenticatedRuntimeIntelligenceRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/history': {
-      id: '/_authenticated/runtime/history'
-      path: '/history'
-      fullPath: '/runtime/history'
-      preLoaderRoute: typeof AuthenticatedRuntimeHistoryRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/health': {
-      id: '/_authenticated/runtime/health'
-      path: '/health'
-      fullPath: '/runtime/health'
-      preLoaderRoute: typeof AuthenticatedRuntimeHealthRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/goals': {
-      id: '/_authenticated/runtime/goals'
-      path: '/goals'
-      fullPath: '/runtime/goals'
-      preLoaderRoute: typeof AuthenticatedRuntimeGoalsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/executions': {
-      id: '/_authenticated/runtime/executions'
-      path: '/executions'
-      fullPath: '/runtime/executions'
-      preLoaderRoute: typeof AuthenticatedRuntimeExecutionsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/execution': {
-      id: '/_authenticated/runtime/execution'
-      path: '/execution'
-      fullPath: '/runtime/execution'
-      preLoaderRoute: typeof AuthenticatedRuntimeExecutionRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/developers': {
-      id: '/_authenticated/runtime/developers'
-      path: '/developers'
-      fullPath: '/runtime/developers'
-      preLoaderRoute: typeof AuthenticatedRuntimeDevelopersRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/dependencies': {
-      id: '/_authenticated/runtime/dependencies'
-      path: '/dependencies'
-      fullPath: '/runtime/dependencies'
-      preLoaderRoute: typeof AuthenticatedRuntimeDependenciesRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/decision': {
-      id: '/_authenticated/runtime/decision'
-      path: '/decision'
-      fullPath: '/runtime/decision'
-      preLoaderRoute: typeof AuthenticatedRuntimeDecisionRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/dashboard': {
-      id: '/_authenticated/runtime/dashboard'
-      path: '/dashboard'
-      fullPath: '/runtime/dashboard'
-      preLoaderRoute: typeof AuthenticatedRuntimeDashboardRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/collaboration': {
-      id: '/_authenticated/runtime/collaboration'
-      path: '/collaboration'
-      fullPath: '/runtime/collaboration'
-      preLoaderRoute: typeof AuthenticatedRuntimeCollaborationRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/capabilities': {
-      id: '/_authenticated/runtime/capabilities'
-      path: '/capabilities'
-      fullPath: '/runtime/capabilities'
-      preLoaderRoute: typeof AuthenticatedRuntimeCapabilitiesRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/automation': {
-      id: '/_authenticated/runtime/automation'
-      path: '/automation'
-      fullPath: '/runtime/automation'
-      preLoaderRoute: typeof AuthenticatedRuntimeAutomationRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/runtime/analytics': {
-      id: '/_authenticated/runtime/analytics'
-      path: '/analytics'
-      fullPath: '/runtime/analytics'
-      preLoaderRoute: typeof AuthenticatedRuntimeAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeRoute
-    }
-    '/_authenticated/releases/signing': {
-      id: '/_authenticated/releases/signing'
-      path: '/signing'
-      fullPath: '/releases/signing'
-      preLoaderRoute: typeof AuthenticatedReleasesSigningRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/settings': {
-      id: '/_authenticated/releases/settings'
-      path: '/settings'
-      fullPath: '/releases/settings'
-      preLoaderRoute: typeof AuthenticatedReleasesSettingsRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/rollout': {
-      id: '/_authenticated/releases/rollout'
-      path: '/rollout'
-      fullPath: '/releases/rollout'
-      preLoaderRoute: typeof AuthenticatedReleasesRolloutRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/publish': {
-      id: '/_authenticated/releases/publish'
-      path: '/publish'
-      fullPath: '/releases/publish'
-      preLoaderRoute: typeof AuthenticatedReleasesPublishRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/logs': {
-      id: '/_authenticated/releases/logs'
-      path: '/logs'
-      fullPath: '/releases/logs'
-      preLoaderRoute: typeof AuthenticatedReleasesLogsRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/history': {
-      id: '/_authenticated/releases/history'
-      path: '/history'
-      fullPath: '/releases/history'
-      preLoaderRoute: typeof AuthenticatedReleasesHistoryRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/dashboard': {
-      id: '/_authenticated/releases/dashboard'
-      path: '/dashboard'
-      fullPath: '/releases/dashboard'
-      preLoaderRoute: typeof AuthenticatedReleasesDashboardRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/builds': {
-      id: '/_authenticated/releases/builds'
-      path: '/builds'
-      fullPath: '/releases/builds'
-      preLoaderRoute: typeof AuthenticatedReleasesBuildsRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/artifacts': {
-      id: '/_authenticated/releases/artifacts'
-      path: '/artifacts'
-      fullPath: '/releases/artifacts'
-      preLoaderRoute: typeof AuthenticatedReleasesArtifactsRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/releases/analytics': {
-      id: '/_authenticated/releases/analytics'
-      path: '/analytics'
-      fullPath: '/releases/analytics'
-      preLoaderRoute: typeof AuthenticatedReleasesAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedReleasesRouteRoute
-    }
-    '/_authenticated/production/testing': {
-      id: '/_authenticated/production/testing'
-      path: '/testing'
-      fullPath: '/production/testing'
-      preLoaderRoute: typeof AuthenticatedProductionTestingRouteImport
-      parentRoute: typeof AuthenticatedProductionRouteRoute
-    }
-    '/_authenticated/production/security': {
-      id: '/_authenticated/production/security'
-      path: '/security'
-      fullPath: '/production/security'
-      preLoaderRoute: typeof AuthenticatedProductionSecurityRouteImport
-      parentRoute: typeof AuthenticatedProductionRouteRoute
-    }
-    '/_authenticated/production/quality': {
-      id: '/_authenticated/production/quality'
-      path: '/quality'
-      fullPath: '/production/quality'
-      preLoaderRoute: typeof AuthenticatedProductionQualityRouteImport
-      parentRoute: typeof AuthenticatedProductionRouteRoute
-    }
-    '/_authenticated/production/performance': {
-      id: '/_authenticated/production/performance'
-      path: '/performance'
-      fullPath: '/production/performance'
-      preLoaderRoute: typeof AuthenticatedProductionPerformanceRouteImport
-      parentRoute: typeof AuthenticatedProductionRouteRoute
-    }
-    '/_authenticated/production/deployment': {
-      id: '/_authenticated/production/deployment'
-      path: '/deployment'
-      fullPath: '/production/deployment'
-      preLoaderRoute: typeof AuthenticatedProductionDeploymentRouteImport
-      parentRoute: typeof AuthenticatedProductionRouteRoute
-    }
-    '/_authenticated/production/dashboard': {
-      id: '/_authenticated/production/dashboard'
-      path: '/dashboard'
-      fullPath: '/production/dashboard'
-      preLoaderRoute: typeof AuthenticatedProductionDashboardRouteImport
-      parentRoute: typeof AuthenticatedProductionRouteRoute
-    }
-    '/_authenticated/plugins/store': {
-      id: '/_authenticated/plugins/store'
-      path: '/store'
-      fullPath: '/plugins/store'
-      preLoaderRoute: typeof AuthenticatedPluginsStoreRouteImport
-      parentRoute: typeof AuthenticatedPluginsRoute
-    }
-    '/_authenticated/plugins/settings': {
-      id: '/_authenticated/plugins/settings'
-      path: '/settings'
-      fullPath: '/plugins/settings'
-      preLoaderRoute: typeof AuthenticatedPluginsSettingsRouteImport
-      parentRoute: typeof AuthenticatedPluginsRoute
-    }
-    '/_authenticated/plugins/reviews': {
-      id: '/_authenticated/plugins/reviews'
-      path: '/reviews'
-      fullPath: '/plugins/reviews'
-      preLoaderRoute: typeof AuthenticatedPluginsReviewsRouteImport
-      parentRoute: typeof AuthenticatedPluginsRoute
-    }
-    '/_authenticated/plugins/manage': {
-      id: '/_authenticated/plugins/manage'
-      path: '/manage'
-      fullPath: '/plugins/manage'
-      preLoaderRoute: typeof AuthenticatedPluginsManageRouteImport
-      parentRoute: typeof AuthenticatedPluginsRoute
-    }
-    '/_authenticated/plugins/installed': {
-      id: '/_authenticated/plugins/installed'
-      path: '/installed'
-      fullPath: '/plugins/installed'
-      preLoaderRoute: typeof AuthenticatedPluginsInstalledRouteImport
-      parentRoute: typeof AuthenticatedPluginsRoute
-    }
-    '/_authenticated/memory/timeline': {
-      id: '/_authenticated/memory/timeline'
-      path: '/timeline'
-      fullPath: '/memory/timeline'
-      preLoaderRoute: typeof AuthenticatedMemoryTimelineRouteImport
-      parentRoute: typeof AuthenticatedMemoryRoute
-    }
-    '/_authenticated/memory/settings': {
-      id: '/_authenticated/memory/settings'
-      path: '/settings'
-      fullPath: '/memory/settings'
-      preLoaderRoute: typeof AuthenticatedMemorySettingsRouteImport
-      parentRoute: typeof AuthenticatedMemoryRoute
-    }
-    '/_authenticated/memory/search': {
-      id: '/_authenticated/memory/search'
-      path: '/search'
-      fullPath: '/memory/search'
-      preLoaderRoute: typeof AuthenticatedMemorySearchRouteImport
-      parentRoute: typeof AuthenticatedMemoryRoute
-    }
-    '/_authenticated/memory/preferences': {
-      id: '/_authenticated/memory/preferences'
-      path: '/preferences'
-      fullPath: '/memory/preferences'
-      preLoaderRoute: typeof AuthenticatedMemoryPreferencesRouteImport
-      parentRoute: typeof AuthenticatedMemoryRoute
-    }
-    '/_authenticated/memory/dashboard': {
-      id: '/_authenticated/memory/dashboard'
-      path: '/dashboard'
-      fullPath: '/memory/dashboard'
-      preLoaderRoute: typeof AuthenticatedMemoryDashboardRouteImport
-      parentRoute: typeof AuthenticatedMemoryRoute
-    }
     '/_authenticated/marketplace/seller': {
       id: '/_authenticated/marketplace/seller'
       path: '/seller'
@@ -8868,69 +1544,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/marketplace/orders'
       preLoaderRoute: typeof AuthenticatedMarketplaceOrdersRouteImport
       parentRoute: typeof AuthenticatedMarketplaceRoute
-    }
-    '/_authenticated/live/settings': {
-      id: '/_authenticated/live/settings'
-      path: '/settings'
-      fullPath: '/live/settings'
-      preLoaderRoute: typeof AuthenticatedLiveSettingsRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/relationship': {
-      id: '/_authenticated/live/relationship'
-      path: '/relationship'
-      fullPath: '/live/relationship'
-      preLoaderRoute: typeof AuthenticatedLiveRelationshipRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/presence': {
-      id: '/_authenticated/live/presence'
-      path: '/presence'
-      fullPath: '/live/presence'
-      preLoaderRoute: typeof AuthenticatedLivePresenceRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/language': {
-      id: '/_authenticated/live/language'
-      path: '/language'
-      fullPath: '/live/language'
-      preLoaderRoute: typeof AuthenticatedLiveLanguageRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/home': {
-      id: '/_authenticated/live/home'
-      path: '/home'
-      fullPath: '/live/home'
-      preLoaderRoute: typeof AuthenticatedLiveHomeRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/founder': {
-      id: '/_authenticated/live/founder'
-      path: '/founder'
-      fullPath: '/live/founder'
-      preLoaderRoute: typeof AuthenticatedLiveFounderRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/dashboard': {
-      id: '/_authenticated/live/dashboard'
-      path: '/dashboard'
-      fullPath: '/live/dashboard'
-      preLoaderRoute: typeof AuthenticatedLiveDashboardRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/context': {
-      id: '/_authenticated/live/context'
-      path: '/context'
-      fullPath: '/live/context'
-      preLoaderRoute: typeof AuthenticatedLiveContextRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
-    }
-    '/_authenticated/live/activity': {
-      id: '/_authenticated/live/activity'
-      path: '/activity'
-      fullPath: '/live/activity'
-      preLoaderRoute: typeof AuthenticatedLiveActivityRouteImport
-      parentRoute: typeof AuthenticatedLiveRouteRoute
     }
     '/_authenticated/knowledge/sources': {
       id: '/_authenticated/knowledge/sources'
@@ -8974,258 +1587,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedKnowledgeAskRouteImport
       parentRoute: typeof AuthenticatedKnowledgeRoute
     }
-    '/_authenticated/intelligence/settings': {
-      id: '/_authenticated/intelligence/settings'
-      path: '/settings'
-      fullPath: '/intelligence/settings'
-      preLoaderRoute: typeof AuthenticatedIntelligenceSettingsRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/runtime': {
-      id: '/_authenticated/intelligence/runtime'
-      path: '/runtime'
-      fullPath: '/intelligence/runtime'
-      preLoaderRoute: typeof AuthenticatedIntelligenceRuntimeRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/risk': {
-      id: '/_authenticated/intelligence/risk'
-      path: '/risk'
-      fullPath: '/intelligence/risk'
-      preLoaderRoute: typeof AuthenticatedIntelligenceRiskRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/reports': {
-      id: '/_authenticated/intelligence/reports'
-      path: '/reports'
-      fullPath: '/intelligence/reports'
-      preLoaderRoute: typeof AuthenticatedIntelligenceReportsRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/recommendations': {
-      id: '/_authenticated/intelligence/recommendations'
-      path: '/recommendations'
-      fullPath: '/intelligence/recommendations'
-      preLoaderRoute: typeof AuthenticatedIntelligenceRecommendationsRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/overview': {
-      id: '/_authenticated/intelligence/overview'
-      path: '/overview'
-      fullPath: '/intelligence/overview'
-      preLoaderRoute: typeof AuthenticatedIntelligenceOverviewRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/opportunities': {
-      id: '/_authenticated/intelligence/opportunities'
-      path: '/opportunities'
-      fullPath: '/intelligence/opportunities'
-      preLoaderRoute: typeof AuthenticatedIntelligenceOpportunitiesRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/live': {
-      id: '/_authenticated/intelligence/live'
-      path: '/live'
-      fullPath: '/intelligence/live'
-      preLoaderRoute: typeof AuthenticatedIntelligenceLiveRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/insights': {
-      id: '/_authenticated/intelligence/insights'
-      path: '/insights'
-      fullPath: '/intelligence/insights'
-      preLoaderRoute: typeof AuthenticatedIntelligenceInsightsRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/forecast': {
-      id: '/_authenticated/intelligence/forecast'
-      path: '/forecast'
-      fullPath: '/intelligence/forecast'
-      preLoaderRoute: typeof AuthenticatedIntelligenceForecastRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/executive': {
-      id: '/_authenticated/intelligence/executive'
-      path: '/executive'
-      fullPath: '/intelligence/executive'
-      preLoaderRoute: typeof AuthenticatedIntelligenceExecutiveRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/dashboard': {
-      id: '/_authenticated/intelligence/dashboard'
-      path: '/dashboard'
-      fullPath: '/intelligence/dashboard'
-      preLoaderRoute: typeof AuthenticatedIntelligenceDashboardRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/intelligence/advisor': {
-      id: '/_authenticated/intelligence/advisor'
-      path: '/advisor'
-      fullPath: '/intelligence/advisor'
-      preLoaderRoute: typeof AuthenticatedIntelligenceAdvisorRouteImport
-      parentRoute: typeof AuthenticatedIntelligenceRoute
-    }
-    '/_authenticated/hyperlocal/settings': {
-      id: '/_authenticated/hyperlocal/settings'
-      path: '/settings'
-      fullPath: '/hyperlocal/settings'
-      preLoaderRoute: typeof AuthenticatedHyperlocalSettingsRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/map': {
-      id: '/_authenticated/hyperlocal/map'
-      path: '/map'
-      fullPath: '/hyperlocal/map'
-      preLoaderRoute: typeof AuthenticatedHyperlocalMapRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/manage': {
-      id: '/_authenticated/hyperlocal/manage'
-      path: '/manage'
-      fullPath: '/hyperlocal/manage'
-      preLoaderRoute: typeof AuthenticatedHyperlocalManageRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/jobs': {
-      id: '/_authenticated/hyperlocal/jobs'
-      path: '/jobs'
-      fullPath: '/hyperlocal/jobs'
-      preLoaderRoute: typeof AuthenticatedHyperlocalJobsRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/events': {
-      id: '/_authenticated/hyperlocal/events'
-      path: '/events'
-      fullPath: '/hyperlocal/events'
-      preLoaderRoute: typeof AuthenticatedHyperlocalEventsRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/discover': {
-      id: '/_authenticated/hyperlocal/discover'
-      path: '/discover'
-      fullPath: '/hyperlocal/discover'
-      preLoaderRoute: typeof AuthenticatedHyperlocalDiscoverRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/businesses': {
-      id: '/_authenticated/hyperlocal/businesses'
-      path: '/businesses'
-      fullPath: '/hyperlocal/businesses'
-      preLoaderRoute: typeof AuthenticatedHyperlocalBusinessesRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/ask': {
-      id: '/_authenticated/hyperlocal/ask'
-      path: '/ask'
-      fullPath: '/hyperlocal/ask'
-      preLoaderRoute: typeof AuthenticatedHyperlocalAskRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/hyperlocal/alerts': {
-      id: '/_authenticated/hyperlocal/alerts'
-      path: '/alerts'
-      fullPath: '/hyperlocal/alerts'
-      preLoaderRoute: typeof AuthenticatedHyperlocalAlertsRouteImport
-      parentRoute: typeof AuthenticatedHyperlocalRoute
-    }
-    '/_authenticated/happy/walk': {
-      id: '/_authenticated/happy/walk'
-      path: '/walk'
-      fullPath: '/happy/walk'
-      preLoaderRoute: typeof AuthenticatedHappyWalkRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/video': {
-      id: '/_authenticated/happy/video'
-      path: '/video'
-      fullPath: '/happy/video'
-      preLoaderRoute: typeof AuthenticatedHappyVideoRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/settings': {
-      id: '/_authenticated/happy/settings'
-      path: '/settings'
-      fullPath: '/happy/settings'
-      preLoaderRoute: typeof AuthenticatedHappySettingsRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/presentation': {
-      id: '/_authenticated/happy/presentation'
-      path: '/presentation'
-      fullPath: '/happy/presentation'
-      preLoaderRoute: typeof AuthenticatedHappyPresentationRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/presence': {
-      id: '/_authenticated/happy/presence'
-      path: '/presence'
-      fullPath: '/happy/presence'
-      preLoaderRoute: typeof AuthenticatedHappyPresenceRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/office': {
-      id: '/_authenticated/happy/office'
-      path: '/office'
-      fullPath: '/happy/office'
-      preLoaderRoute: typeof AuthenticatedHappyOfficeRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/memory': {
-      id: '/_authenticated/happy/memory'
-      path: '/memory'
-      fullPath: '/happy/memory'
-      preLoaderRoute: typeof AuthenticatedHappyMemoryRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/live': {
-      id: '/_authenticated/happy/live'
-      path: '/live'
-      fullPath: '/happy/live'
-      preLoaderRoute: typeof AuthenticatedHappyLiveRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/initiative': {
-      id: '/_authenticated/happy/initiative'
-      path: '/initiative'
-      fullPath: '/happy/initiative'
-      preLoaderRoute: typeof AuthenticatedHappyInitiativeRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/comfort': {
-      id: '/_authenticated/happy/comfort'
-      path: '/comfort'
-      fullPath: '/happy/comfort'
-      preLoaderRoute: typeof AuthenticatedHappyComfortRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/cinematic': {
-      id: '/_authenticated/happy/cinematic'
-      path: '/cinematic'
-      fullPath: '/happy/cinematic'
-      preLoaderRoute: typeof AuthenticatedHappyCinematicRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/call': {
-      id: '/_authenticated/happy/call'
-      path: '/call'
-      fullPath: '/happy/call'
-      preLoaderRoute: typeof AuthenticatedHappyCallRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/business': {
-      id: '/_authenticated/happy/business'
-      path: '/business'
-      fullPath: '/happy/business'
-      preLoaderRoute: typeof AuthenticatedHappyBusinessRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
-    '/_authenticated/happy/behaviour': {
-      id: '/_authenticated/happy/behaviour'
-      path: '/behaviour'
-      fullPath: '/happy/behaviour'
-      preLoaderRoute: typeof AuthenticatedHappyBehaviourRouteImport
-      parentRoute: typeof AuthenticatedHappyRouteRoute
-    }
     '/_authenticated/founder/users': {
       id: '/_authenticated/founder/users'
       path: '/users'
@@ -9247,13 +1608,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderSecurityRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
-    '/_authenticated/founder/publishing': {
-      id: '/_authenticated/founder/publishing'
-      path: '/publishing'
-      fullPath: '/founder/publishing'
-      preLoaderRoute: typeof AuthenticatedFounderPublishingRouteImport
-      parentRoute: typeof AuthenticatedFounderRoute
-    }
     '/_authenticated/founder/ops': {
       id: '/_authenticated/founder/ops'
       path: '/ops'
@@ -9261,32 +1615,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderOpsRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
-    '/_authenticated/founder/integrations': {
-      id: '/_authenticated/founder/integrations'
-      path: '/integrations'
-      fullPath: '/founder/integrations'
-      preLoaderRoute: typeof AuthenticatedFounderIntegrationsRouteImport
-      parentRoute: typeof AuthenticatedFounderRoute
-    }
-    '/_authenticated/founder/executive': {
-      id: '/_authenticated/founder/executive'
-      path: '/executive'
-      fullPath: '/founder/executive'
-      preLoaderRoute: typeof AuthenticatedFounderExecutiveRouteImport
-      parentRoute: typeof AuthenticatedFounderRoute
-    }
     '/_authenticated/founder/companies': {
       id: '/_authenticated/founder/companies'
       path: '/companies'
       fullPath: '/founder/companies'
       preLoaderRoute: typeof AuthenticatedFounderCompaniesRouteImport
-      parentRoute: typeof AuthenticatedFounderRoute
-    }
-    '/_authenticated/founder/brief': {
-      id: '/_authenticated/founder/brief'
-      path: '/brief'
-      fullPath: '/founder/brief'
-      preLoaderRoute: typeof AuthenticatedFounderBriefRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
     '/_authenticated/founder/analytics': {
@@ -9302,97 +1635,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/founder/ai'
       preLoaderRoute: typeof AuthenticatedFounderAiRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
-    }
-    '/_authenticated/founder-ai/workspace': {
-      id: '/_authenticated/founder-ai/workspace'
-      path: '/workspace'
-      fullPath: '/founder-ai/workspace'
-      preLoaderRoute: typeof AuthenticatedFounderAiWorkspaceRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/voice': {
-      id: '/_authenticated/founder-ai/voice'
-      path: '/voice'
-      fullPath: '/founder-ai/voice'
-      preLoaderRoute: typeof AuthenticatedFounderAiVoiceRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/terminal': {
-      id: '/_authenticated/founder-ai/terminal'
-      path: '/terminal'
-      fullPath: '/founder-ai/terminal'
-      preLoaderRoute: typeof AuthenticatedFounderAiTerminalRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/tasks': {
-      id: '/_authenticated/founder-ai/tasks'
-      path: '/tasks'
-      fullPath: '/founder-ai/tasks'
-      preLoaderRoute: typeof AuthenticatedFounderAiTasksRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/settings': {
-      id: '/_authenticated/founder-ai/settings'
-      path: '/settings'
-      fullPath: '/founder-ai/settings'
-      preLoaderRoute: typeof AuthenticatedFounderAiSettingsRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/memory': {
-      id: '/_authenticated/founder-ai/memory'
-      path: '/memory'
-      fullPath: '/founder-ai/memory'
-      preLoaderRoute: typeof AuthenticatedFounderAiMemoryRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/history': {
-      id: '/_authenticated/founder-ai/history'
-      path: '/history'
-      fullPath: '/founder-ai/history'
-      preLoaderRoute: typeof AuthenticatedFounderAiHistoryRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/dashboard': {
-      id: '/_authenticated/founder-ai/dashboard'
-      path: '/dashboard'
-      fullPath: '/founder-ai/dashboard'
-      preLoaderRoute: typeof AuthenticatedFounderAiDashboardRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/chat': {
-      id: '/_authenticated/founder-ai/chat'
-      path: '/chat'
-      fullPath: '/founder-ai/chat'
-      preLoaderRoute: typeof AuthenticatedFounderAiChatRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/founder-ai/activity': {
-      id: '/_authenticated/founder-ai/activity'
-      path: '/activity'
-      fullPath: '/founder-ai/activity'
-      preLoaderRoute: typeof AuthenticatedFounderAiActivityRouteImport
-      parentRoute: typeof AuthenticatedFounderAiRouteRoute
-    }
-    '/_authenticated/execution/tasks': {
-      id: '/_authenticated/execution/tasks'
-      path: '/tasks'
-      fullPath: '/execution/tasks'
-      preLoaderRoute: typeof AuthenticatedExecutionTasksRouteImport
-      parentRoute: typeof AuthenticatedExecutionRoute
-    }
-    '/_authenticated/execution/history': {
-      id: '/_authenticated/execution/history'
-      path: '/history'
-      fullPath: '/execution/history'
-      preLoaderRoute: typeof AuthenticatedExecutionHistoryRouteImport
-      parentRoute: typeof AuthenticatedExecutionRoute
-    }
-    '/_authenticated/execution/analytics': {
-      id: '/_authenticated/execution/analytics'
-      path: '/analytics'
-      fullPath: '/execution/analytics'
-      preLoaderRoute: typeof AuthenticatedExecutionAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedExecutionRoute
     }
     '/_authenticated/enterprise/workflows': {
       id: '/_authenticated/enterprise/workflows'
@@ -9562,13 +1804,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDigitalHumanSessionsRouteImport
       parentRoute: typeof AuthenticatedDigitalHumanRoute
     }
-    '/_authenticated/digital-human/production': {
-      id: '/_authenticated/digital-human/production'
-      path: '/production'
-      fullPath: '/digital-human/production'
-      preLoaderRoute: typeof AuthenticatedDigitalHumanProductionRouteImport
-      parentRoute: typeof AuthenticatedDigitalHumanRoute
-    }
     '/_authenticated/digital-human/presentation': {
       id: '/_authenticated/digital-human/presentation'
       path: '/presentation'
@@ -9590,55 +1825,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDigitalHumanBoardroomRouteImport
       parentRoute: typeof AuthenticatedDigitalHumanRoute
     }
-    '/_authenticated/developers/webhooks': {
-      id: '/_authenticated/developers/webhooks'
-      path: '/webhooks'
-      fullPath: '/developers/webhooks'
-      preLoaderRoute: typeof AuthenticatedDevelopersWebhooksRouteImport
-      parentRoute: typeof AuthenticatedDevelopersRoute
-    }
-    '/_authenticated/developers/sdk': {
-      id: '/_authenticated/developers/sdk'
-      path: '/sdk'
-      fullPath: '/developers/sdk'
-      preLoaderRoute: typeof AuthenticatedDevelopersSdkRouteImport
-      parentRoute: typeof AuthenticatedDevelopersRoute
-    }
-    '/_authenticated/developers/docs': {
-      id: '/_authenticated/developers/docs'
-      path: '/docs'
-      fullPath: '/developers/docs'
-      preLoaderRoute: typeof AuthenticatedDevelopersDocsRouteImport
-      parentRoute: typeof AuthenticatedDevelopersRoute
-    }
-    '/_authenticated/developers/apis': {
-      id: '/_authenticated/developers/apis'
-      path: '/apis'
-      fullPath: '/developers/apis'
-      preLoaderRoute: typeof AuthenticatedDevelopersApisRouteImport
-      parentRoute: typeof AuthenticatedDevelopersRoute
-    }
-    '/_authenticated/decision/scenarios': {
-      id: '/_authenticated/decision/scenarios'
-      path: '/scenarios'
-      fullPath: '/decision/scenarios'
-      preLoaderRoute: typeof AuthenticatedDecisionScenariosRouteImport
-      parentRoute: typeof AuthenticatedDecisionRoute
-    }
-    '/_authenticated/decision/history': {
-      id: '/_authenticated/decision/history'
-      path: '/history'
-      fullPath: '/decision/history'
-      preLoaderRoute: typeof AuthenticatedDecisionHistoryRouteImport
-      parentRoute: typeof AuthenticatedDecisionRoute
-    }
-    '/_authenticated/decision/analytics': {
-      id: '/_authenticated/decision/analytics'
-      path: '/analytics'
-      fullPath: '/decision/analytics'
-      preLoaderRoute: typeof AuthenticatedDecisionAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedDecisionRoute
-    }
     '/_authenticated/community/mine': {
       id: '/_authenticated/community/mine'
       path: '/mine'
@@ -9659,62 +1845,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/community/following'
       preLoaderRoute: typeof AuthenticatedCommunityFollowingRouteImport
       parentRoute: typeof AuthenticatedCommunityRoute
-    }
-    '/_authenticated/cloud/storage': {
-      id: '/_authenticated/cloud/storage'
-      path: '/storage'
-      fullPath: '/cloud/storage'
-      preLoaderRoute: typeof AuthenticatedCloudStorageRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
-    }
-    '/_authenticated/cloud/projects': {
-      id: '/_authenticated/cloud/projects'
-      path: '/projects'
-      fullPath: '/cloud/projects'
-      preLoaderRoute: typeof AuthenticatedCloudProjectsRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
-    }
-    '/_authenticated/cloud/models': {
-      id: '/_authenticated/cloud/models'
-      path: '/models'
-      fullPath: '/cloud/models'
-      preLoaderRoute: typeof AuthenticatedCloudModelsRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
-    }
-    '/_authenticated/cloud/marketplace': {
-      id: '/_authenticated/cloud/marketplace'
-      path: '/marketplace'
-      fullPath: '/cloud/marketplace'
-      preLoaderRoute: typeof AuthenticatedCloudMarketplaceRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
-    }
-    '/_authenticated/cloud/deployments': {
-      id: '/_authenticated/cloud/deployments'
-      path: '/deployments'
-      fullPath: '/cloud/deployments'
-      preLoaderRoute: typeof AuthenticatedCloudDeploymentsRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
-    }
-    '/_authenticated/cloud/compliance': {
-      id: '/_authenticated/cloud/compliance'
-      path: '/compliance'
-      fullPath: '/cloud/compliance'
-      preLoaderRoute: typeof AuthenticatedCloudComplianceRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
-    }
-    '/_authenticated/cloud/billing': {
-      id: '/_authenticated/cloud/billing'
-      path: '/billing'
-      fullPath: '/cloud/billing'
-      preLoaderRoute: typeof AuthenticatedCloudBillingRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
-    }
-    '/_authenticated/cloud/analytics': {
-      id: '/_authenticated/cloud/analytics'
-      path: '/analytics'
-      fullPath: '/cloud/analytics'
-      preLoaderRoute: typeof AuthenticatedCloudAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedCloudRoute
     }
     '/_authenticated/business/warehouse': {
       id: '/_authenticated/business/warehouse'
@@ -9807,97 +1937,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessAiRouteImport
       parentRoute: typeof AuthenticatedBusinessRoute
     }
-    '/_authenticated/brain/validation': {
-      id: '/_authenticated/brain/validation'
-      path: '/validation'
-      fullPath: '/brain/validation'
-      preLoaderRoute: typeof AuthenticatedBrainValidationRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/runtime': {
-      id: '/_authenticated/brain/runtime'
-      path: '/runtime'
-      fullPath: '/brain/runtime'
-      preLoaderRoute: typeof AuthenticatedBrainRuntimeRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/reflection': {
-      id: '/_authenticated/brain/reflection'
-      path: '/reflection'
-      fullPath: '/brain/reflection'
-      preLoaderRoute: typeof AuthenticatedBrainReflectionRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/reasoning': {
-      id: '/_authenticated/brain/reasoning'
-      path: '/reasoning'
-      fullPath: '/brain/reasoning'
-      preLoaderRoute: typeof AuthenticatedBrainReasoningRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/planning': {
-      id: '/_authenticated/brain/planning'
-      path: '/planning'
-      fullPath: '/brain/planning'
-      preLoaderRoute: typeof AuthenticatedBrainPlanningRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/memory': {
-      id: '/_authenticated/brain/memory'
-      path: '/memory'
-      fullPath: '/brain/memory'
-      preLoaderRoute: typeof AuthenticatedBrainMemoryRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/health': {
-      id: '/_authenticated/brain/health'
-      path: '/health'
-      fullPath: '/brain/health'
-      preLoaderRoute: typeof AuthenticatedBrainHealthRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/execution': {
-      id: '/_authenticated/brain/execution'
-      path: '/execution'
-      fullPath: '/brain/execution'
-      preLoaderRoute: typeof AuthenticatedBrainExecutionRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/brain/analytics': {
-      id: '/_authenticated/brain/analytics'
-      path: '/analytics'
-      fullPath: '/brain/analytics'
-      preLoaderRoute: typeof AuthenticatedBrainAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedBrainRoute
-    }
-    '/_authenticated/agents/runtime': {
-      id: '/_authenticated/agents/runtime'
-      path: '/runtime'
-      fullPath: '/agents/runtime'
-      preLoaderRoute: typeof AuthenticatedAgentsRuntimeRouteImport
-      parentRoute: typeof AuthenticatedAgentsRoute
-    }
-    '/_authenticated/agents/metrics': {
-      id: '/_authenticated/agents/metrics'
-      path: '/metrics'
-      fullPath: '/agents/metrics'
-      preLoaderRoute: typeof AuthenticatedAgentsMetricsRouteImport
-      parentRoute: typeof AuthenticatedAgentsRoute
-    }
-    '/_authenticated/agents/execution': {
-      id: '/_authenticated/agents/execution'
-      path: '/execution'
-      fullPath: '/agents/execution'
-      preLoaderRoute: typeof AuthenticatedAgentsExecutionRouteImport
-      parentRoute: typeof AuthenticatedAgentsRoute
-    }
-    '/_authenticated/agents/collaboration': {
-      id: '/_authenticated/agents/collaboration'
-      path: '/collaboration'
-      fullPath: '/agents/collaboration'
-      preLoaderRoute: typeof AuthenticatedAgentsCollaborationRouteImport
-      parentRoute: typeof AuthenticatedAgentsRoute
-    }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
       path: '/api/public/v1/status'
@@ -9912,435 +1951,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicV1HealthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/cron/subscriptions-tick': {
-      id: '/api/public/cron/subscriptions-tick'
-      path: '/api/public/cron/subscriptions-tick'
-      fullPath: '/api/public/cron/subscriptions-tick'
-      preLoaderRoute: typeof ApiPublicCronSubscriptionsTickRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/cron/release-store-status': {
-      id: '/api/public/cron/release-store-status'
-      path: '/api/public/cron/release-store-status'
-      fullPath: '/api/public/cron/release-store-status'
-      preLoaderRoute: typeof ApiPublicCronReleaseStoreStatusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/cron/release-pipeline-tick': {
-      id: '/api/public/cron/release-pipeline-tick'
-      path: '/api/public/cron/release-pipeline-tick'
-      fullPath: '/api/public/cron/release-pipeline-tick'
-      preLoaderRoute: typeof ApiPublicCronReleasePipelineTickRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/cron/release-metrics-rollup': {
-      id: '/api/public/cron/release-metrics-rollup'
-      path: '/api/public/cron/release-metrics-rollup'
-      fullPath: '/api/public/cron/release-metrics-rollup'
-      preLoaderRoute: typeof ApiPublicCronReleaseMetricsRollupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/cron/payments-retry': {
-      id: '/api/public/cron/payments-retry'
-      path: '/api/public/cron/payments-retry'
-      fullPath: '/api/public/cron/payments-retry'
-      preLoaderRoute: typeof ApiPublicCronPaymentsRetryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/cron/deployments-tick': {
-      id: '/api/public/cron/deployments-tick'
-      path: '/api/public/cron/deployments-tick'
-      fullPath: '/api/public/cron/deployments-tick'
-      preLoaderRoute: typeof ApiPublicCronDeploymentsTickRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/cron/credits-expire': {
-      id: '/api/public/cron/credits-expire'
-      path: '/api/public/cron/credits-expire'
-      fullPath: '/api/public/cron/credits-expire'
-      preLoaderRoute: typeof ApiPublicCronCreditsExpireRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/cron/cms-publish': {
-      id: '/api/public/cron/cms-publish'
-      path: '/api/public/cron/cms-publish'
-      fullPath: '/api/public/cron/cms-publish'
-      preLoaderRoute: typeof ApiPublicCronCmsPublishRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/runtime/workflows/live': {
-      id: '/_authenticated/runtime/workflows/live'
-      path: '/live'
-      fullPath: '/runtime/workflows/live'
-      preLoaderRoute: typeof AuthenticatedRuntimeWorkflowsLiveRouteImport
-      parentRoute: typeof AuthenticatedRuntimeWorkflowsRoute
-    }
-    '/_authenticated/runtime/workflows/history': {
-      id: '/_authenticated/runtime/workflows/history'
-      path: '/history'
-      fullPath: '/runtime/workflows/history'
-      preLoaderRoute: typeof AuthenticatedRuntimeWorkflowsHistoryRouteImport
-      parentRoute: typeof AuthenticatedRuntimeWorkflowsRoute
-    }
-    '/_authenticated/runtime/workflows/analytics': {
-      id: '/_authenticated/runtime/workflows/analytics'
-      path: '/analytics'
-      fullPath: '/runtime/workflows/analytics'
-      preLoaderRoute: typeof AuthenticatedRuntimeWorkflowsAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeWorkflowsRoute
-    }
-    '/_authenticated/runtime/tools/live': {
-      id: '/_authenticated/runtime/tools/live'
-      path: '/live'
-      fullPath: '/runtime/tools/live'
-      preLoaderRoute: typeof AuthenticatedRuntimeToolsLiveRouteImport
-      parentRoute: typeof AuthenticatedRuntimeToolsRoute
-    }
-    '/_authenticated/runtime/tools/history': {
-      id: '/_authenticated/runtime/tools/history'
-      path: '/history'
-      fullPath: '/runtime/tools/history'
-      preLoaderRoute: typeof AuthenticatedRuntimeToolsHistoryRouteImport
-      parentRoute: typeof AuthenticatedRuntimeToolsRoute
-    }
-    '/_authenticated/runtime/tools/analytics': {
-      id: '/_authenticated/runtime/tools/analytics'
-      path: '/analytics'
-      fullPath: '/runtime/tools/analytics'
-      preLoaderRoute: typeof AuthenticatedRuntimeToolsAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeToolsRoute
-    }
-    '/_authenticated/runtime/intelligence/recommendations': {
-      id: '/_authenticated/runtime/intelligence/recommendations'
-      path: '/recommendations'
-      fullPath: '/runtime/intelligence/recommendations'
-      preLoaderRoute: typeof AuthenticatedRuntimeIntelligenceRecommendationsRouteImport
-      parentRoute: typeof AuthenticatedRuntimeIntelligenceRoute
-    }
-    '/_authenticated/runtime/intelligence/opportunities': {
-      id: '/_authenticated/runtime/intelligence/opportunities'
-      path: '/opportunities'
-      fullPath: '/runtime/intelligence/opportunities'
-      preLoaderRoute: typeof AuthenticatedRuntimeIntelligenceOpportunitiesRouteImport
-      parentRoute: typeof AuthenticatedRuntimeIntelligenceRoute
-    }
-    '/_authenticated/runtime/intelligence/forecast': {
-      id: '/_authenticated/runtime/intelligence/forecast'
-      path: '/forecast'
-      fullPath: '/runtime/intelligence/forecast'
-      preLoaderRoute: typeof AuthenticatedRuntimeIntelligenceForecastRouteImport
-      parentRoute: typeof AuthenticatedRuntimeIntelligenceRoute
-    }
-    '/_authenticated/runtime/intelligence/advisor': {
-      id: '/_authenticated/runtime/intelligence/advisor'
-      path: '/advisor'
-      fullPath: '/runtime/intelligence/advisor'
-      preLoaderRoute: typeof AuthenticatedRuntimeIntelligenceAdvisorRouteImport
-      parentRoute: typeof AuthenticatedRuntimeIntelligenceRoute
-    }
-    '/_authenticated/agents/collaboration/live': {
-      id: '/_authenticated/agents/collaboration/live'
-      path: '/live'
-      fullPath: '/agents/collaboration/live'
-      preLoaderRoute: typeof AuthenticatedAgentsCollaborationLiveRouteImport
-      parentRoute: typeof AuthenticatedAgentsCollaborationRoute
-    }
-    '/_authenticated/agents/collaboration/history': {
-      id: '/_authenticated/agents/collaboration/history'
-      path: '/history'
-      fullPath: '/agents/collaboration/history'
-      preLoaderRoute: typeof AuthenticatedAgentsCollaborationHistoryRouteImport
-      parentRoute: typeof AuthenticatedAgentsCollaborationRoute
-    }
-    '/_authenticated/agents/collaboration/analytics': {
-      id: '/_authenticated/agents/collaboration/analytics'
-      path: '/analytics'
-      fullPath: '/agents/collaboration/analytics'
-      preLoaderRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedAgentsCollaborationRoute
-    }
-    '/api/public/webhooks/payments/$provider': {
-      id: '/api/public/webhooks/payments/$provider'
-      path: '/api/public/webhooks/payments/$provider'
-      fullPath: '/api/public/webhooks/payments/$provider'
-      preLoaderRoute: typeof ApiPublicWebhooksPaymentsProviderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
-
-interface AuthenticatedFounderAiRouteRouteChildren {
-  AuthenticatedFounderAiActivityRoute: typeof AuthenticatedFounderAiActivityRoute
-  AuthenticatedFounderAiChatRoute: typeof AuthenticatedFounderAiChatRoute
-  AuthenticatedFounderAiDashboardRoute: typeof AuthenticatedFounderAiDashboardRoute
-  AuthenticatedFounderAiHistoryRoute: typeof AuthenticatedFounderAiHistoryRoute
-  AuthenticatedFounderAiMemoryRoute: typeof AuthenticatedFounderAiMemoryRoute
-  AuthenticatedFounderAiSettingsRoute: typeof AuthenticatedFounderAiSettingsRoute
-  AuthenticatedFounderAiTasksRoute: typeof AuthenticatedFounderAiTasksRoute
-  AuthenticatedFounderAiTerminalRoute: typeof AuthenticatedFounderAiTerminalRoute
-  AuthenticatedFounderAiVoiceRoute: typeof AuthenticatedFounderAiVoiceRoute
-  AuthenticatedFounderAiWorkspaceRoute: typeof AuthenticatedFounderAiWorkspaceRoute
-  AuthenticatedFounderAiIndexRoute: typeof AuthenticatedFounderAiIndexRoute
-}
-
-const AuthenticatedFounderAiRouteRouteChildren: AuthenticatedFounderAiRouteRouteChildren =
-  {
-    AuthenticatedFounderAiActivityRoute: AuthenticatedFounderAiActivityRoute,
-    AuthenticatedFounderAiChatRoute: AuthenticatedFounderAiChatRoute,
-    AuthenticatedFounderAiDashboardRoute: AuthenticatedFounderAiDashboardRoute,
-    AuthenticatedFounderAiHistoryRoute: AuthenticatedFounderAiHistoryRoute,
-    AuthenticatedFounderAiMemoryRoute: AuthenticatedFounderAiMemoryRoute,
-    AuthenticatedFounderAiSettingsRoute: AuthenticatedFounderAiSettingsRoute,
-    AuthenticatedFounderAiTasksRoute: AuthenticatedFounderAiTasksRoute,
-    AuthenticatedFounderAiTerminalRoute: AuthenticatedFounderAiTerminalRoute,
-    AuthenticatedFounderAiVoiceRoute: AuthenticatedFounderAiVoiceRoute,
-    AuthenticatedFounderAiWorkspaceRoute: AuthenticatedFounderAiWorkspaceRoute,
-    AuthenticatedFounderAiIndexRoute: AuthenticatedFounderAiIndexRoute,
-  }
-
-const AuthenticatedFounderAiRouteRouteWithChildren =
-  AuthenticatedFounderAiRouteRoute._addFileChildren(
-    AuthenticatedFounderAiRouteRouteChildren,
-  )
-
-interface AuthenticatedHappyRouteRouteChildren {
-  AuthenticatedHappyBehaviourRoute: typeof AuthenticatedHappyBehaviourRoute
-  AuthenticatedHappyBusinessRoute: typeof AuthenticatedHappyBusinessRoute
-  AuthenticatedHappyCallRoute: typeof AuthenticatedHappyCallRoute
-  AuthenticatedHappyCinematicRoute: typeof AuthenticatedHappyCinematicRoute
-  AuthenticatedHappyComfortRoute: typeof AuthenticatedHappyComfortRoute
-  AuthenticatedHappyInitiativeRoute: typeof AuthenticatedHappyInitiativeRoute
-  AuthenticatedHappyLiveRoute: typeof AuthenticatedHappyLiveRoute
-  AuthenticatedHappyMemoryRoute: typeof AuthenticatedHappyMemoryRoute
-  AuthenticatedHappyOfficeRoute: typeof AuthenticatedHappyOfficeRoute
-  AuthenticatedHappyPresenceRoute: typeof AuthenticatedHappyPresenceRoute
-  AuthenticatedHappyPresentationRoute: typeof AuthenticatedHappyPresentationRoute
-  AuthenticatedHappySettingsRoute: typeof AuthenticatedHappySettingsRoute
-  AuthenticatedHappyVideoRoute: typeof AuthenticatedHappyVideoRoute
-  AuthenticatedHappyWalkRoute: typeof AuthenticatedHappyWalkRoute
-  AuthenticatedHappyIndexRoute: typeof AuthenticatedHappyIndexRoute
-}
-
-const AuthenticatedHappyRouteRouteChildren: AuthenticatedHappyRouteRouteChildren =
-  {
-    AuthenticatedHappyBehaviourRoute: AuthenticatedHappyBehaviourRoute,
-    AuthenticatedHappyBusinessRoute: AuthenticatedHappyBusinessRoute,
-    AuthenticatedHappyCallRoute: AuthenticatedHappyCallRoute,
-    AuthenticatedHappyCinematicRoute: AuthenticatedHappyCinematicRoute,
-    AuthenticatedHappyComfortRoute: AuthenticatedHappyComfortRoute,
-    AuthenticatedHappyInitiativeRoute: AuthenticatedHappyInitiativeRoute,
-    AuthenticatedHappyLiveRoute: AuthenticatedHappyLiveRoute,
-    AuthenticatedHappyMemoryRoute: AuthenticatedHappyMemoryRoute,
-    AuthenticatedHappyOfficeRoute: AuthenticatedHappyOfficeRoute,
-    AuthenticatedHappyPresenceRoute: AuthenticatedHappyPresenceRoute,
-    AuthenticatedHappyPresentationRoute: AuthenticatedHappyPresentationRoute,
-    AuthenticatedHappySettingsRoute: AuthenticatedHappySettingsRoute,
-    AuthenticatedHappyVideoRoute: AuthenticatedHappyVideoRoute,
-    AuthenticatedHappyWalkRoute: AuthenticatedHappyWalkRoute,
-    AuthenticatedHappyIndexRoute: AuthenticatedHappyIndexRoute,
-  }
-
-const AuthenticatedHappyRouteRouteWithChildren =
-  AuthenticatedHappyRouteRoute._addFileChildren(
-    AuthenticatedHappyRouteRouteChildren,
-  )
-
-interface AuthenticatedLiveRouteRouteChildren {
-  AuthenticatedLiveActivityRoute: typeof AuthenticatedLiveActivityRoute
-  AuthenticatedLiveContextRoute: typeof AuthenticatedLiveContextRoute
-  AuthenticatedLiveDashboardRoute: typeof AuthenticatedLiveDashboardRoute
-  AuthenticatedLiveFounderRoute: typeof AuthenticatedLiveFounderRoute
-  AuthenticatedLiveHomeRoute: typeof AuthenticatedLiveHomeRoute
-  AuthenticatedLiveLanguageRoute: typeof AuthenticatedLiveLanguageRoute
-  AuthenticatedLivePresenceRoute: typeof AuthenticatedLivePresenceRoute
-  AuthenticatedLiveRelationshipRoute: typeof AuthenticatedLiveRelationshipRoute
-  AuthenticatedLiveSettingsRoute: typeof AuthenticatedLiveSettingsRoute
-  AuthenticatedLiveIndexRoute: typeof AuthenticatedLiveIndexRoute
-}
-
-const AuthenticatedLiveRouteRouteChildren: AuthenticatedLiveRouteRouteChildren =
-  {
-    AuthenticatedLiveActivityRoute: AuthenticatedLiveActivityRoute,
-    AuthenticatedLiveContextRoute: AuthenticatedLiveContextRoute,
-    AuthenticatedLiveDashboardRoute: AuthenticatedLiveDashboardRoute,
-    AuthenticatedLiveFounderRoute: AuthenticatedLiveFounderRoute,
-    AuthenticatedLiveHomeRoute: AuthenticatedLiveHomeRoute,
-    AuthenticatedLiveLanguageRoute: AuthenticatedLiveLanguageRoute,
-    AuthenticatedLivePresenceRoute: AuthenticatedLivePresenceRoute,
-    AuthenticatedLiveRelationshipRoute: AuthenticatedLiveRelationshipRoute,
-    AuthenticatedLiveSettingsRoute: AuthenticatedLiveSettingsRoute,
-    AuthenticatedLiveIndexRoute: AuthenticatedLiveIndexRoute,
-  }
-
-const AuthenticatedLiveRouteRouteWithChildren =
-  AuthenticatedLiveRouteRoute._addFileChildren(
-    AuthenticatedLiveRouteRouteChildren,
-  )
-
-interface AuthenticatedProductionRouteRouteChildren {
-  AuthenticatedProductionDashboardRoute: typeof AuthenticatedProductionDashboardRoute
-  AuthenticatedProductionDeploymentRoute: typeof AuthenticatedProductionDeploymentRoute
-  AuthenticatedProductionPerformanceRoute: typeof AuthenticatedProductionPerformanceRoute
-  AuthenticatedProductionQualityRoute: typeof AuthenticatedProductionQualityRoute
-  AuthenticatedProductionSecurityRoute: typeof AuthenticatedProductionSecurityRoute
-  AuthenticatedProductionTestingRoute: typeof AuthenticatedProductionTestingRoute
-  AuthenticatedProductionIndexRoute: typeof AuthenticatedProductionIndexRoute
-}
-
-const AuthenticatedProductionRouteRouteChildren: AuthenticatedProductionRouteRouteChildren =
-  {
-    AuthenticatedProductionDashboardRoute:
-      AuthenticatedProductionDashboardRoute,
-    AuthenticatedProductionDeploymentRoute:
-      AuthenticatedProductionDeploymentRoute,
-    AuthenticatedProductionPerformanceRoute:
-      AuthenticatedProductionPerformanceRoute,
-    AuthenticatedProductionQualityRoute: AuthenticatedProductionQualityRoute,
-    AuthenticatedProductionSecurityRoute: AuthenticatedProductionSecurityRoute,
-    AuthenticatedProductionTestingRoute: AuthenticatedProductionTestingRoute,
-    AuthenticatedProductionIndexRoute: AuthenticatedProductionIndexRoute,
-  }
-
-const AuthenticatedProductionRouteRouteWithChildren =
-  AuthenticatedProductionRouteRoute._addFileChildren(
-    AuthenticatedProductionRouteRouteChildren,
-  )
-
-interface AuthenticatedReleasesRouteRouteChildren {
-  AuthenticatedReleasesAnalyticsRoute: typeof AuthenticatedReleasesAnalyticsRoute
-  AuthenticatedReleasesArtifactsRoute: typeof AuthenticatedReleasesArtifactsRoute
-  AuthenticatedReleasesBuildsRoute: typeof AuthenticatedReleasesBuildsRoute
-  AuthenticatedReleasesDashboardRoute: typeof AuthenticatedReleasesDashboardRoute
-  AuthenticatedReleasesHistoryRoute: typeof AuthenticatedReleasesHistoryRoute
-  AuthenticatedReleasesLogsRoute: typeof AuthenticatedReleasesLogsRoute
-  AuthenticatedReleasesPublishRoute: typeof AuthenticatedReleasesPublishRoute
-  AuthenticatedReleasesRolloutRoute: typeof AuthenticatedReleasesRolloutRoute
-  AuthenticatedReleasesSettingsRoute: typeof AuthenticatedReleasesSettingsRoute
-  AuthenticatedReleasesSigningRoute: typeof AuthenticatedReleasesSigningRoute
-  AuthenticatedReleasesIndexRoute: typeof AuthenticatedReleasesIndexRoute
-}
-
-const AuthenticatedReleasesRouteRouteChildren: AuthenticatedReleasesRouteRouteChildren =
-  {
-    AuthenticatedReleasesAnalyticsRoute: AuthenticatedReleasesAnalyticsRoute,
-    AuthenticatedReleasesArtifactsRoute: AuthenticatedReleasesArtifactsRoute,
-    AuthenticatedReleasesBuildsRoute: AuthenticatedReleasesBuildsRoute,
-    AuthenticatedReleasesDashboardRoute: AuthenticatedReleasesDashboardRoute,
-    AuthenticatedReleasesHistoryRoute: AuthenticatedReleasesHistoryRoute,
-    AuthenticatedReleasesLogsRoute: AuthenticatedReleasesLogsRoute,
-    AuthenticatedReleasesPublishRoute: AuthenticatedReleasesPublishRoute,
-    AuthenticatedReleasesRolloutRoute: AuthenticatedReleasesRolloutRoute,
-    AuthenticatedReleasesSettingsRoute: AuthenticatedReleasesSettingsRoute,
-    AuthenticatedReleasesSigningRoute: AuthenticatedReleasesSigningRoute,
-    AuthenticatedReleasesIndexRoute: AuthenticatedReleasesIndexRoute,
-  }
-
-const AuthenticatedReleasesRouteRouteWithChildren =
-  AuthenticatedReleasesRouteRoute._addFileChildren(
-    AuthenticatedReleasesRouteRouteChildren,
-  )
-
-interface AuthenticatedUabrRouteRouteChildren {
-  AuthenticatedUabrBackendRoute: typeof AuthenticatedUabrBackendRoute
-  AuthenticatedUabrDashboardRoute: typeof AuthenticatedUabrDashboardRoute
-  AuthenticatedUabrDatabaseRoute: typeof AuthenticatedUabrDatabaseRoute
-  AuthenticatedUabrDeploymentRoute: typeof AuthenticatedUabrDeploymentRoute
-  AuthenticatedUabrDesignRoute: typeof AuthenticatedUabrDesignRoute
-  AuthenticatedUabrDocumentationRoute: typeof AuthenticatedUabrDocumentationRoute
-  AuthenticatedUabrFrontendRoute: typeof AuthenticatedUabrFrontendRoute
-  AuthenticatedUabrHistoryRoute: typeof AuthenticatedUabrHistoryRoute
-  AuthenticatedUabrPlannerRoute: typeof AuthenticatedUabrPlannerRoute
-  AuthenticatedUabrTestsRoute: typeof AuthenticatedUabrTestsRoute
-  AuthenticatedUabrIndexRoute: typeof AuthenticatedUabrIndexRoute
-}
-
-const AuthenticatedUabrRouteRouteChildren: AuthenticatedUabrRouteRouteChildren =
-  {
-    AuthenticatedUabrBackendRoute: AuthenticatedUabrBackendRoute,
-    AuthenticatedUabrDashboardRoute: AuthenticatedUabrDashboardRoute,
-    AuthenticatedUabrDatabaseRoute: AuthenticatedUabrDatabaseRoute,
-    AuthenticatedUabrDeploymentRoute: AuthenticatedUabrDeploymentRoute,
-    AuthenticatedUabrDesignRoute: AuthenticatedUabrDesignRoute,
-    AuthenticatedUabrDocumentationRoute: AuthenticatedUabrDocumentationRoute,
-    AuthenticatedUabrFrontendRoute: AuthenticatedUabrFrontendRoute,
-    AuthenticatedUabrHistoryRoute: AuthenticatedUabrHistoryRoute,
-    AuthenticatedUabrPlannerRoute: AuthenticatedUabrPlannerRoute,
-    AuthenticatedUabrTestsRoute: AuthenticatedUabrTestsRoute,
-    AuthenticatedUabrIndexRoute: AuthenticatedUabrIndexRoute,
-  }
-
-const AuthenticatedUabrRouteRouteWithChildren =
-  AuthenticatedUabrRouteRoute._addFileChildren(
-    AuthenticatedUabrRouteRouteChildren,
-  )
-
-interface AuthenticatedAgentsCollaborationRouteChildren {
-  AuthenticatedAgentsCollaborationAnalyticsRoute: typeof AuthenticatedAgentsCollaborationAnalyticsRoute
-  AuthenticatedAgentsCollaborationHistoryRoute: typeof AuthenticatedAgentsCollaborationHistoryRoute
-  AuthenticatedAgentsCollaborationLiveRoute: typeof AuthenticatedAgentsCollaborationLiveRoute
-}
-
-const AuthenticatedAgentsCollaborationRouteChildren: AuthenticatedAgentsCollaborationRouteChildren =
-  {
-    AuthenticatedAgentsCollaborationAnalyticsRoute:
-      AuthenticatedAgentsCollaborationAnalyticsRoute,
-    AuthenticatedAgentsCollaborationHistoryRoute:
-      AuthenticatedAgentsCollaborationHistoryRoute,
-    AuthenticatedAgentsCollaborationLiveRoute:
-      AuthenticatedAgentsCollaborationLiveRoute,
-  }
-
-const AuthenticatedAgentsCollaborationRouteWithChildren =
-  AuthenticatedAgentsCollaborationRoute._addFileChildren(
-    AuthenticatedAgentsCollaborationRouteChildren,
-  )
-
-interface AuthenticatedAgentsRouteChildren {
-  AuthenticatedAgentsCollaborationRoute: typeof AuthenticatedAgentsCollaborationRouteWithChildren
-  AuthenticatedAgentsExecutionRoute: typeof AuthenticatedAgentsExecutionRoute
-  AuthenticatedAgentsMetricsRoute: typeof AuthenticatedAgentsMetricsRoute
-  AuthenticatedAgentsRuntimeRoute: typeof AuthenticatedAgentsRuntimeRoute
-}
-
-const AuthenticatedAgentsRouteChildren: AuthenticatedAgentsRouteChildren = {
-  AuthenticatedAgentsCollaborationRoute:
-    AuthenticatedAgentsCollaborationRouteWithChildren,
-  AuthenticatedAgentsExecutionRoute: AuthenticatedAgentsExecutionRoute,
-  AuthenticatedAgentsMetricsRoute: AuthenticatedAgentsMetricsRoute,
-  AuthenticatedAgentsRuntimeRoute: AuthenticatedAgentsRuntimeRoute,
-}
-
-const AuthenticatedAgentsRouteWithChildren =
-  AuthenticatedAgentsRoute._addFileChildren(AuthenticatedAgentsRouteChildren)
-
-interface AuthenticatedBrainRouteChildren {
-  AuthenticatedBrainAnalyticsRoute: typeof AuthenticatedBrainAnalyticsRoute
-  AuthenticatedBrainExecutionRoute: typeof AuthenticatedBrainExecutionRoute
-  AuthenticatedBrainHealthRoute: typeof AuthenticatedBrainHealthRoute
-  AuthenticatedBrainMemoryRoute: typeof AuthenticatedBrainMemoryRoute
-  AuthenticatedBrainPlanningRoute: typeof AuthenticatedBrainPlanningRoute
-  AuthenticatedBrainReasoningRoute: typeof AuthenticatedBrainReasoningRoute
-  AuthenticatedBrainReflectionRoute: typeof AuthenticatedBrainReflectionRoute
-  AuthenticatedBrainRuntimeRoute: typeof AuthenticatedBrainRuntimeRoute
-  AuthenticatedBrainValidationRoute: typeof AuthenticatedBrainValidationRoute
-  AuthenticatedBrainIndexRoute: typeof AuthenticatedBrainIndexRoute
-}
-
-const AuthenticatedBrainRouteChildren: AuthenticatedBrainRouteChildren = {
-  AuthenticatedBrainAnalyticsRoute: AuthenticatedBrainAnalyticsRoute,
-  AuthenticatedBrainExecutionRoute: AuthenticatedBrainExecutionRoute,
-  AuthenticatedBrainHealthRoute: AuthenticatedBrainHealthRoute,
-  AuthenticatedBrainMemoryRoute: AuthenticatedBrainMemoryRoute,
-  AuthenticatedBrainPlanningRoute: AuthenticatedBrainPlanningRoute,
-  AuthenticatedBrainReasoningRoute: AuthenticatedBrainReasoningRoute,
-  AuthenticatedBrainReflectionRoute: AuthenticatedBrainReflectionRoute,
-  AuthenticatedBrainRuntimeRoute: AuthenticatedBrainRuntimeRoute,
-  AuthenticatedBrainValidationRoute: AuthenticatedBrainValidationRoute,
-  AuthenticatedBrainIndexRoute: AuthenticatedBrainIndexRoute,
-}
-
-const AuthenticatedBrainRouteWithChildren =
-  AuthenticatedBrainRoute._addFileChildren(AuthenticatedBrainRouteChildren)
 
 interface AuthenticatedBusinessRouteChildren {
   AuthenticatedBusinessAiRoute: typeof AuthenticatedBusinessAiRoute
@@ -10382,31 +1994,6 @@ const AuthenticatedBusinessRouteWithChildren =
     AuthenticatedBusinessRouteChildren,
   )
 
-interface AuthenticatedCloudRouteChildren {
-  AuthenticatedCloudAnalyticsRoute: typeof AuthenticatedCloudAnalyticsRoute
-  AuthenticatedCloudBillingRoute: typeof AuthenticatedCloudBillingRoute
-  AuthenticatedCloudComplianceRoute: typeof AuthenticatedCloudComplianceRoute
-  AuthenticatedCloudDeploymentsRoute: typeof AuthenticatedCloudDeploymentsRoute
-  AuthenticatedCloudMarketplaceRoute: typeof AuthenticatedCloudMarketplaceRoute
-  AuthenticatedCloudModelsRoute: typeof AuthenticatedCloudModelsRoute
-  AuthenticatedCloudProjectsRoute: typeof AuthenticatedCloudProjectsRoute
-  AuthenticatedCloudStorageRoute: typeof AuthenticatedCloudStorageRoute
-}
-
-const AuthenticatedCloudRouteChildren: AuthenticatedCloudRouteChildren = {
-  AuthenticatedCloudAnalyticsRoute: AuthenticatedCloudAnalyticsRoute,
-  AuthenticatedCloudBillingRoute: AuthenticatedCloudBillingRoute,
-  AuthenticatedCloudComplianceRoute: AuthenticatedCloudComplianceRoute,
-  AuthenticatedCloudDeploymentsRoute: AuthenticatedCloudDeploymentsRoute,
-  AuthenticatedCloudMarketplaceRoute: AuthenticatedCloudMarketplaceRoute,
-  AuthenticatedCloudModelsRoute: AuthenticatedCloudModelsRoute,
-  AuthenticatedCloudProjectsRoute: AuthenticatedCloudProjectsRoute,
-  AuthenticatedCloudStorageRoute: AuthenticatedCloudStorageRoute,
-}
-
-const AuthenticatedCloudRouteWithChildren =
-  AuthenticatedCloudRoute._addFileChildren(AuthenticatedCloudRouteChildren)
-
 interface AuthenticatedCommunityRouteChildren {
   AuthenticatedCommunityFollowingRoute: typeof AuthenticatedCommunityFollowingRoute
   AuthenticatedCommunityGroupsRoute: typeof AuthenticatedCommunityGroupsRoute
@@ -10427,48 +2014,10 @@ const AuthenticatedCommunityRouteWithChildren =
     AuthenticatedCommunityRouteChildren,
   )
 
-interface AuthenticatedDecisionRouteChildren {
-  AuthenticatedDecisionAnalyticsRoute: typeof AuthenticatedDecisionAnalyticsRoute
-  AuthenticatedDecisionHistoryRoute: typeof AuthenticatedDecisionHistoryRoute
-  AuthenticatedDecisionScenariosRoute: typeof AuthenticatedDecisionScenariosRoute
-}
-
-const AuthenticatedDecisionRouteChildren: AuthenticatedDecisionRouteChildren = {
-  AuthenticatedDecisionAnalyticsRoute: AuthenticatedDecisionAnalyticsRoute,
-  AuthenticatedDecisionHistoryRoute: AuthenticatedDecisionHistoryRoute,
-  AuthenticatedDecisionScenariosRoute: AuthenticatedDecisionScenariosRoute,
-}
-
-const AuthenticatedDecisionRouteWithChildren =
-  AuthenticatedDecisionRoute._addFileChildren(
-    AuthenticatedDecisionRouteChildren,
-  )
-
-interface AuthenticatedDevelopersRouteChildren {
-  AuthenticatedDevelopersApisRoute: typeof AuthenticatedDevelopersApisRoute
-  AuthenticatedDevelopersDocsRoute: typeof AuthenticatedDevelopersDocsRoute
-  AuthenticatedDevelopersSdkRoute: typeof AuthenticatedDevelopersSdkRoute
-  AuthenticatedDevelopersWebhooksRoute: typeof AuthenticatedDevelopersWebhooksRoute
-}
-
-const AuthenticatedDevelopersRouteChildren: AuthenticatedDevelopersRouteChildren =
-  {
-    AuthenticatedDevelopersApisRoute: AuthenticatedDevelopersApisRoute,
-    AuthenticatedDevelopersDocsRoute: AuthenticatedDevelopersDocsRoute,
-    AuthenticatedDevelopersSdkRoute: AuthenticatedDevelopersSdkRoute,
-    AuthenticatedDevelopersWebhooksRoute: AuthenticatedDevelopersWebhooksRoute,
-  }
-
-const AuthenticatedDevelopersRouteWithChildren =
-  AuthenticatedDevelopersRoute._addFileChildren(
-    AuthenticatedDevelopersRouteChildren,
-  )
-
 interface AuthenticatedDigitalHumanRouteChildren {
   AuthenticatedDigitalHumanBoardroomRoute: typeof AuthenticatedDigitalHumanBoardroomRoute
   AuthenticatedDigitalHumanClassroomRoute: typeof AuthenticatedDigitalHumanClassroomRoute
   AuthenticatedDigitalHumanPresentationRoute: typeof AuthenticatedDigitalHumanPresentationRoute
-  AuthenticatedDigitalHumanProductionRoute: typeof AuthenticatedDigitalHumanProductionRoute
   AuthenticatedDigitalHumanSessionsRoute: typeof AuthenticatedDigitalHumanSessionsRoute
   AuthenticatedDigitalHumanSettingsRoute: typeof AuthenticatedDigitalHumanSettingsRoute
   AuthenticatedDigitalHumanWhiteboardRoute: typeof AuthenticatedDigitalHumanWhiteboardRoute
@@ -10483,8 +2032,6 @@ const AuthenticatedDigitalHumanRouteChildren: AuthenticatedDigitalHumanRouteChil
       AuthenticatedDigitalHumanClassroomRoute,
     AuthenticatedDigitalHumanPresentationRoute:
       AuthenticatedDigitalHumanPresentationRoute,
-    AuthenticatedDigitalHumanProductionRoute:
-      AuthenticatedDigitalHumanProductionRoute,
     AuthenticatedDigitalHumanSessionsRoute:
       AuthenticatedDigitalHumanSessionsRoute,
     AuthenticatedDigitalHumanSettingsRoute:
@@ -10574,33 +2121,11 @@ const AuthenticatedEnterpriseRouteWithChildren =
     AuthenticatedEnterpriseRouteChildren,
   )
 
-interface AuthenticatedExecutionRouteChildren {
-  AuthenticatedExecutionAnalyticsRoute: typeof AuthenticatedExecutionAnalyticsRoute
-  AuthenticatedExecutionHistoryRoute: typeof AuthenticatedExecutionHistoryRoute
-  AuthenticatedExecutionTasksRoute: typeof AuthenticatedExecutionTasksRoute
-}
-
-const AuthenticatedExecutionRouteChildren: AuthenticatedExecutionRouteChildren =
-  {
-    AuthenticatedExecutionAnalyticsRoute: AuthenticatedExecutionAnalyticsRoute,
-    AuthenticatedExecutionHistoryRoute: AuthenticatedExecutionHistoryRoute,
-    AuthenticatedExecutionTasksRoute: AuthenticatedExecutionTasksRoute,
-  }
-
-const AuthenticatedExecutionRouteWithChildren =
-  AuthenticatedExecutionRoute._addFileChildren(
-    AuthenticatedExecutionRouteChildren,
-  )
-
 interface AuthenticatedFounderRouteChildren {
   AuthenticatedFounderAiRoute: typeof AuthenticatedFounderAiRoute
   AuthenticatedFounderAnalyticsRoute: typeof AuthenticatedFounderAnalyticsRoute
-  AuthenticatedFounderBriefRoute: typeof AuthenticatedFounderBriefRoute
   AuthenticatedFounderCompaniesRoute: typeof AuthenticatedFounderCompaniesRoute
-  AuthenticatedFounderExecutiveRoute: typeof AuthenticatedFounderExecutiveRoute
-  AuthenticatedFounderIntegrationsRoute: typeof AuthenticatedFounderIntegrationsRoute
   AuthenticatedFounderOpsRoute: typeof AuthenticatedFounderOpsRoute
-  AuthenticatedFounderPublishingRoute: typeof AuthenticatedFounderPublishingRoute
   AuthenticatedFounderSecurityRoute: typeof AuthenticatedFounderSecurityRoute
   AuthenticatedFounderSystemRoute: typeof AuthenticatedFounderSystemRoute
   AuthenticatedFounderUsersRoute: typeof AuthenticatedFounderUsersRoute
@@ -10610,12 +2135,8 @@ interface AuthenticatedFounderRouteChildren {
 const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
   AuthenticatedFounderAiRoute: AuthenticatedFounderAiRoute,
   AuthenticatedFounderAnalyticsRoute: AuthenticatedFounderAnalyticsRoute,
-  AuthenticatedFounderBriefRoute: AuthenticatedFounderBriefRoute,
   AuthenticatedFounderCompaniesRoute: AuthenticatedFounderCompaniesRoute,
-  AuthenticatedFounderExecutiveRoute: AuthenticatedFounderExecutiveRoute,
-  AuthenticatedFounderIntegrationsRoute: AuthenticatedFounderIntegrationsRoute,
   AuthenticatedFounderOpsRoute: AuthenticatedFounderOpsRoute,
-  AuthenticatedFounderPublishingRoute: AuthenticatedFounderPublishingRoute,
   AuthenticatedFounderSecurityRoute: AuthenticatedFounderSecurityRoute,
   AuthenticatedFounderSystemRoute: AuthenticatedFounderSystemRoute,
   AuthenticatedFounderUsersRoute: AuthenticatedFounderUsersRoute,
@@ -10624,88 +2145,6 @@ const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
 
 const AuthenticatedFounderRouteWithChildren =
   AuthenticatedFounderRoute._addFileChildren(AuthenticatedFounderRouteChildren)
-
-interface AuthenticatedHyperlocalRouteChildren {
-  AuthenticatedHyperlocalAlertsRoute: typeof AuthenticatedHyperlocalAlertsRoute
-  AuthenticatedHyperlocalAskRoute: typeof AuthenticatedHyperlocalAskRoute
-  AuthenticatedHyperlocalBusinessesRoute: typeof AuthenticatedHyperlocalBusinessesRoute
-  AuthenticatedHyperlocalDiscoverRoute: typeof AuthenticatedHyperlocalDiscoverRoute
-  AuthenticatedHyperlocalEventsRoute: typeof AuthenticatedHyperlocalEventsRoute
-  AuthenticatedHyperlocalJobsRoute: typeof AuthenticatedHyperlocalJobsRoute
-  AuthenticatedHyperlocalManageRoute: typeof AuthenticatedHyperlocalManageRoute
-  AuthenticatedHyperlocalMapRoute: typeof AuthenticatedHyperlocalMapRoute
-  AuthenticatedHyperlocalSettingsRoute: typeof AuthenticatedHyperlocalSettingsRoute
-  AuthenticatedHyperlocalIndexRoute: typeof AuthenticatedHyperlocalIndexRoute
-}
-
-const AuthenticatedHyperlocalRouteChildren: AuthenticatedHyperlocalRouteChildren =
-  {
-    AuthenticatedHyperlocalAlertsRoute: AuthenticatedHyperlocalAlertsRoute,
-    AuthenticatedHyperlocalAskRoute: AuthenticatedHyperlocalAskRoute,
-    AuthenticatedHyperlocalBusinessesRoute:
-      AuthenticatedHyperlocalBusinessesRoute,
-    AuthenticatedHyperlocalDiscoverRoute: AuthenticatedHyperlocalDiscoverRoute,
-    AuthenticatedHyperlocalEventsRoute: AuthenticatedHyperlocalEventsRoute,
-    AuthenticatedHyperlocalJobsRoute: AuthenticatedHyperlocalJobsRoute,
-    AuthenticatedHyperlocalManageRoute: AuthenticatedHyperlocalManageRoute,
-    AuthenticatedHyperlocalMapRoute: AuthenticatedHyperlocalMapRoute,
-    AuthenticatedHyperlocalSettingsRoute: AuthenticatedHyperlocalSettingsRoute,
-    AuthenticatedHyperlocalIndexRoute: AuthenticatedHyperlocalIndexRoute,
-  }
-
-const AuthenticatedHyperlocalRouteWithChildren =
-  AuthenticatedHyperlocalRoute._addFileChildren(
-    AuthenticatedHyperlocalRouteChildren,
-  )
-
-interface AuthenticatedIntelligenceRouteChildren {
-  AuthenticatedIntelligenceAdvisorRoute: typeof AuthenticatedIntelligenceAdvisorRoute
-  AuthenticatedIntelligenceDashboardRoute: typeof AuthenticatedIntelligenceDashboardRoute
-  AuthenticatedIntelligenceExecutiveRoute: typeof AuthenticatedIntelligenceExecutiveRoute
-  AuthenticatedIntelligenceForecastRoute: typeof AuthenticatedIntelligenceForecastRoute
-  AuthenticatedIntelligenceInsightsRoute: typeof AuthenticatedIntelligenceInsightsRoute
-  AuthenticatedIntelligenceLiveRoute: typeof AuthenticatedIntelligenceLiveRoute
-  AuthenticatedIntelligenceOpportunitiesRoute: typeof AuthenticatedIntelligenceOpportunitiesRoute
-  AuthenticatedIntelligenceOverviewRoute: typeof AuthenticatedIntelligenceOverviewRoute
-  AuthenticatedIntelligenceRecommendationsRoute: typeof AuthenticatedIntelligenceRecommendationsRoute
-  AuthenticatedIntelligenceReportsRoute: typeof AuthenticatedIntelligenceReportsRoute
-  AuthenticatedIntelligenceRiskRoute: typeof AuthenticatedIntelligenceRiskRoute
-  AuthenticatedIntelligenceRuntimeRoute: typeof AuthenticatedIntelligenceRuntimeRoute
-  AuthenticatedIntelligenceSettingsRoute: typeof AuthenticatedIntelligenceSettingsRoute
-}
-
-const AuthenticatedIntelligenceRouteChildren: AuthenticatedIntelligenceRouteChildren =
-  {
-    AuthenticatedIntelligenceAdvisorRoute:
-      AuthenticatedIntelligenceAdvisorRoute,
-    AuthenticatedIntelligenceDashboardRoute:
-      AuthenticatedIntelligenceDashboardRoute,
-    AuthenticatedIntelligenceExecutiveRoute:
-      AuthenticatedIntelligenceExecutiveRoute,
-    AuthenticatedIntelligenceForecastRoute:
-      AuthenticatedIntelligenceForecastRoute,
-    AuthenticatedIntelligenceInsightsRoute:
-      AuthenticatedIntelligenceInsightsRoute,
-    AuthenticatedIntelligenceLiveRoute: AuthenticatedIntelligenceLiveRoute,
-    AuthenticatedIntelligenceOpportunitiesRoute:
-      AuthenticatedIntelligenceOpportunitiesRoute,
-    AuthenticatedIntelligenceOverviewRoute:
-      AuthenticatedIntelligenceOverviewRoute,
-    AuthenticatedIntelligenceRecommendationsRoute:
-      AuthenticatedIntelligenceRecommendationsRoute,
-    AuthenticatedIntelligenceReportsRoute:
-      AuthenticatedIntelligenceReportsRoute,
-    AuthenticatedIntelligenceRiskRoute: AuthenticatedIntelligenceRiskRoute,
-    AuthenticatedIntelligenceRuntimeRoute:
-      AuthenticatedIntelligenceRuntimeRoute,
-    AuthenticatedIntelligenceSettingsRoute:
-      AuthenticatedIntelligenceSettingsRoute,
-  }
-
-const AuthenticatedIntelligenceRouteWithChildren =
-  AuthenticatedIntelligenceRoute._addFileChildren(
-    AuthenticatedIntelligenceRouteChildren,
-  )
 
 interface AuthenticatedKnowledgeRouteChildren {
   AuthenticatedKnowledgeAskRoute: typeof AuthenticatedKnowledgeAskRoute
@@ -10755,25 +2194,6 @@ const AuthenticatedMarketplaceRouteWithChildren =
     AuthenticatedMarketplaceRouteChildren,
   )
 
-interface AuthenticatedMemoryRouteChildren {
-  AuthenticatedMemoryDashboardRoute: typeof AuthenticatedMemoryDashboardRoute
-  AuthenticatedMemoryPreferencesRoute: typeof AuthenticatedMemoryPreferencesRoute
-  AuthenticatedMemorySearchRoute: typeof AuthenticatedMemorySearchRoute
-  AuthenticatedMemorySettingsRoute: typeof AuthenticatedMemorySettingsRoute
-  AuthenticatedMemoryTimelineRoute: typeof AuthenticatedMemoryTimelineRoute
-}
-
-const AuthenticatedMemoryRouteChildren: AuthenticatedMemoryRouteChildren = {
-  AuthenticatedMemoryDashboardRoute: AuthenticatedMemoryDashboardRoute,
-  AuthenticatedMemoryPreferencesRoute: AuthenticatedMemoryPreferencesRoute,
-  AuthenticatedMemorySearchRoute: AuthenticatedMemorySearchRoute,
-  AuthenticatedMemorySettingsRoute: AuthenticatedMemorySettingsRoute,
-  AuthenticatedMemoryTimelineRoute: AuthenticatedMemoryTimelineRoute,
-}
-
-const AuthenticatedMemoryRouteWithChildren =
-  AuthenticatedMemoryRoute._addFileChildren(AuthenticatedMemoryRouteChildren)
-
 interface AuthenticatedMessagesRouteChildren {
   AuthenticatedMessagesIndexRoute: typeof AuthenticatedMessagesIndexRoute
 }
@@ -10787,183 +2207,11 @@ const AuthenticatedMessagesRouteWithChildren =
     AuthenticatedMessagesRouteChildren,
   )
 
-interface AuthenticatedPluginsRouteChildren {
-  AuthenticatedPluginsInstalledRoute: typeof AuthenticatedPluginsInstalledRoute
-  AuthenticatedPluginsManageRoute: typeof AuthenticatedPluginsManageRoute
-  AuthenticatedPluginsReviewsRoute: typeof AuthenticatedPluginsReviewsRoute
-  AuthenticatedPluginsSettingsRoute: typeof AuthenticatedPluginsSettingsRoute
-  AuthenticatedPluginsStoreRoute: typeof AuthenticatedPluginsStoreRoute
-}
-
-const AuthenticatedPluginsRouteChildren: AuthenticatedPluginsRouteChildren = {
-  AuthenticatedPluginsInstalledRoute: AuthenticatedPluginsInstalledRoute,
-  AuthenticatedPluginsManageRoute: AuthenticatedPluginsManageRoute,
-  AuthenticatedPluginsReviewsRoute: AuthenticatedPluginsReviewsRoute,
-  AuthenticatedPluginsSettingsRoute: AuthenticatedPluginsSettingsRoute,
-  AuthenticatedPluginsStoreRoute: AuthenticatedPluginsStoreRoute,
-}
-
-const AuthenticatedPluginsRouteWithChildren =
-  AuthenticatedPluginsRoute._addFileChildren(AuthenticatedPluginsRouteChildren)
-
-interface AuthenticatedRuntimeIntelligenceRouteChildren {
-  AuthenticatedRuntimeIntelligenceAdvisorRoute: typeof AuthenticatedRuntimeIntelligenceAdvisorRoute
-  AuthenticatedRuntimeIntelligenceForecastRoute: typeof AuthenticatedRuntimeIntelligenceForecastRoute
-  AuthenticatedRuntimeIntelligenceOpportunitiesRoute: typeof AuthenticatedRuntimeIntelligenceOpportunitiesRoute
-  AuthenticatedRuntimeIntelligenceRecommendationsRoute: typeof AuthenticatedRuntimeIntelligenceRecommendationsRoute
-}
-
-const AuthenticatedRuntimeIntelligenceRouteChildren: AuthenticatedRuntimeIntelligenceRouteChildren =
-  {
-    AuthenticatedRuntimeIntelligenceAdvisorRoute:
-      AuthenticatedRuntimeIntelligenceAdvisorRoute,
-    AuthenticatedRuntimeIntelligenceForecastRoute:
-      AuthenticatedRuntimeIntelligenceForecastRoute,
-    AuthenticatedRuntimeIntelligenceOpportunitiesRoute:
-      AuthenticatedRuntimeIntelligenceOpportunitiesRoute,
-    AuthenticatedRuntimeIntelligenceRecommendationsRoute:
-      AuthenticatedRuntimeIntelligenceRecommendationsRoute,
-  }
-
-const AuthenticatedRuntimeIntelligenceRouteWithChildren =
-  AuthenticatedRuntimeIntelligenceRoute._addFileChildren(
-    AuthenticatedRuntimeIntelligenceRouteChildren,
-  )
-
-interface AuthenticatedRuntimeToolsRouteChildren {
-  AuthenticatedRuntimeToolsAnalyticsRoute: typeof AuthenticatedRuntimeToolsAnalyticsRoute
-  AuthenticatedRuntimeToolsHistoryRoute: typeof AuthenticatedRuntimeToolsHistoryRoute
-  AuthenticatedRuntimeToolsLiveRoute: typeof AuthenticatedRuntimeToolsLiveRoute
-}
-
-const AuthenticatedRuntimeToolsRouteChildren: AuthenticatedRuntimeToolsRouteChildren =
-  {
-    AuthenticatedRuntimeToolsAnalyticsRoute:
-      AuthenticatedRuntimeToolsAnalyticsRoute,
-    AuthenticatedRuntimeToolsHistoryRoute:
-      AuthenticatedRuntimeToolsHistoryRoute,
-    AuthenticatedRuntimeToolsLiveRoute: AuthenticatedRuntimeToolsLiveRoute,
-  }
-
-const AuthenticatedRuntimeToolsRouteWithChildren =
-  AuthenticatedRuntimeToolsRoute._addFileChildren(
-    AuthenticatedRuntimeToolsRouteChildren,
-  )
-
-interface AuthenticatedRuntimeWorkflowsRouteChildren {
-  AuthenticatedRuntimeWorkflowsAnalyticsRoute: typeof AuthenticatedRuntimeWorkflowsAnalyticsRoute
-  AuthenticatedRuntimeWorkflowsHistoryRoute: typeof AuthenticatedRuntimeWorkflowsHistoryRoute
-  AuthenticatedRuntimeWorkflowsLiveRoute: typeof AuthenticatedRuntimeWorkflowsLiveRoute
-}
-
-const AuthenticatedRuntimeWorkflowsRouteChildren: AuthenticatedRuntimeWorkflowsRouteChildren =
-  {
-    AuthenticatedRuntimeWorkflowsAnalyticsRoute:
-      AuthenticatedRuntimeWorkflowsAnalyticsRoute,
-    AuthenticatedRuntimeWorkflowsHistoryRoute:
-      AuthenticatedRuntimeWorkflowsHistoryRoute,
-    AuthenticatedRuntimeWorkflowsLiveRoute:
-      AuthenticatedRuntimeWorkflowsLiveRoute,
-  }
-
-const AuthenticatedRuntimeWorkflowsRouteWithChildren =
-  AuthenticatedRuntimeWorkflowsRoute._addFileChildren(
-    AuthenticatedRuntimeWorkflowsRouteChildren,
-  )
-
-interface AuthenticatedRuntimeRouteChildren {
-  AuthenticatedRuntimeAnalyticsRoute: typeof AuthenticatedRuntimeAnalyticsRoute
-  AuthenticatedRuntimeAutomationRoute: typeof AuthenticatedRuntimeAutomationRoute
-  AuthenticatedRuntimeCapabilitiesRoute: typeof AuthenticatedRuntimeCapabilitiesRoute
-  AuthenticatedRuntimeCollaborationRoute: typeof AuthenticatedRuntimeCollaborationRoute
-  AuthenticatedRuntimeDashboardRoute: typeof AuthenticatedRuntimeDashboardRoute
-  AuthenticatedRuntimeDecisionRoute: typeof AuthenticatedRuntimeDecisionRoute
-  AuthenticatedRuntimeDependenciesRoute: typeof AuthenticatedRuntimeDependenciesRoute
-  AuthenticatedRuntimeDevelopersRoute: typeof AuthenticatedRuntimeDevelopersRoute
-  AuthenticatedRuntimeExecutionRoute: typeof AuthenticatedRuntimeExecutionRoute
-  AuthenticatedRuntimeExecutionsRoute: typeof AuthenticatedRuntimeExecutionsRoute
-  AuthenticatedRuntimeGoalsRoute: typeof AuthenticatedRuntimeGoalsRoute
-  AuthenticatedRuntimeHealthRoute: typeof AuthenticatedRuntimeHealthRoute
-  AuthenticatedRuntimeHistoryRoute: typeof AuthenticatedRuntimeHistoryRoute
-  AuthenticatedRuntimeIntelligenceRoute: typeof AuthenticatedRuntimeIntelligenceRouteWithChildren
-  AuthenticatedRuntimeLiveRoute: typeof AuthenticatedRuntimeLiveRoute
-  AuthenticatedRuntimeLogsRoute: typeof AuthenticatedRuntimeLogsRoute
-  AuthenticatedRuntimeMemoryRoute: typeof AuthenticatedRuntimeMemoryRoute
-  AuthenticatedRuntimeMonitorRoute: typeof AuthenticatedRuntimeMonitorRoute
-  AuthenticatedRuntimePerformanceRoute: typeof AuthenticatedRuntimePerformanceRoute
-  AuthenticatedRuntimePlannerRoute: typeof AuthenticatedRuntimePlannerRoute
-  AuthenticatedRuntimePlanningRoute: typeof AuthenticatedRuntimePlanningRoute
-  AuthenticatedRuntimePluginsRoute: typeof AuthenticatedRuntimePluginsRoute
-  AuthenticatedRuntimeRisksRoute: typeof AuthenticatedRuntimeRisksRoute
-  AuthenticatedRuntimeSecurityRoute: typeof AuthenticatedRuntimeSecurityRoute
-  AuthenticatedRuntimeSettingsRoute: typeof AuthenticatedRuntimeSettingsRoute
-  AuthenticatedRuntimeSkillsRoute: typeof AuthenticatedRuntimeSkillsRoute
-  AuthenticatedRuntimeTimelineRoute: typeof AuthenticatedRuntimeTimelineRoute
-  AuthenticatedRuntimeToolsRoute: typeof AuthenticatedRuntimeToolsRouteWithChildren
-  AuthenticatedRuntimeWorkflowsRoute: typeof AuthenticatedRuntimeWorkflowsRouteWithChildren
-}
-
-const AuthenticatedRuntimeRouteChildren: AuthenticatedRuntimeRouteChildren = {
-  AuthenticatedRuntimeAnalyticsRoute: AuthenticatedRuntimeAnalyticsRoute,
-  AuthenticatedRuntimeAutomationRoute: AuthenticatedRuntimeAutomationRoute,
-  AuthenticatedRuntimeCapabilitiesRoute: AuthenticatedRuntimeCapabilitiesRoute,
-  AuthenticatedRuntimeCollaborationRoute:
-    AuthenticatedRuntimeCollaborationRoute,
-  AuthenticatedRuntimeDashboardRoute: AuthenticatedRuntimeDashboardRoute,
-  AuthenticatedRuntimeDecisionRoute: AuthenticatedRuntimeDecisionRoute,
-  AuthenticatedRuntimeDependenciesRoute: AuthenticatedRuntimeDependenciesRoute,
-  AuthenticatedRuntimeDevelopersRoute: AuthenticatedRuntimeDevelopersRoute,
-  AuthenticatedRuntimeExecutionRoute: AuthenticatedRuntimeExecutionRoute,
-  AuthenticatedRuntimeExecutionsRoute: AuthenticatedRuntimeExecutionsRoute,
-  AuthenticatedRuntimeGoalsRoute: AuthenticatedRuntimeGoalsRoute,
-  AuthenticatedRuntimeHealthRoute: AuthenticatedRuntimeHealthRoute,
-  AuthenticatedRuntimeHistoryRoute: AuthenticatedRuntimeHistoryRoute,
-  AuthenticatedRuntimeIntelligenceRoute:
-    AuthenticatedRuntimeIntelligenceRouteWithChildren,
-  AuthenticatedRuntimeLiveRoute: AuthenticatedRuntimeLiveRoute,
-  AuthenticatedRuntimeLogsRoute: AuthenticatedRuntimeLogsRoute,
-  AuthenticatedRuntimeMemoryRoute: AuthenticatedRuntimeMemoryRoute,
-  AuthenticatedRuntimeMonitorRoute: AuthenticatedRuntimeMonitorRoute,
-  AuthenticatedRuntimePerformanceRoute: AuthenticatedRuntimePerformanceRoute,
-  AuthenticatedRuntimePlannerRoute: AuthenticatedRuntimePlannerRoute,
-  AuthenticatedRuntimePlanningRoute: AuthenticatedRuntimePlanningRoute,
-  AuthenticatedRuntimePluginsRoute: AuthenticatedRuntimePluginsRoute,
-  AuthenticatedRuntimeRisksRoute: AuthenticatedRuntimeRisksRoute,
-  AuthenticatedRuntimeSecurityRoute: AuthenticatedRuntimeSecurityRoute,
-  AuthenticatedRuntimeSettingsRoute: AuthenticatedRuntimeSettingsRoute,
-  AuthenticatedRuntimeSkillsRoute: AuthenticatedRuntimeSkillsRoute,
-  AuthenticatedRuntimeTimelineRoute: AuthenticatedRuntimeTimelineRoute,
-  AuthenticatedRuntimeToolsRoute: AuthenticatedRuntimeToolsRouteWithChildren,
-  AuthenticatedRuntimeWorkflowsRoute:
-    AuthenticatedRuntimeWorkflowsRouteWithChildren,
-}
-
-const AuthenticatedRuntimeRouteWithChildren =
-  AuthenticatedRuntimeRoute._addFileChildren(AuthenticatedRuntimeRouteChildren)
-
-interface AuthenticatedSkillsRouteChildren {
-  AuthenticatedSkillsCategoriesRoute: typeof AuthenticatedSkillsCategoriesRoute
-  AuthenticatedSkillsInstalledRoute: typeof AuthenticatedSkillsInstalledRoute
-  AuthenticatedSkillsSettingsRoute: typeof AuthenticatedSkillsSettingsRoute
-  AuthenticatedSkillsStoreRoute: typeof AuthenticatedSkillsStoreRoute
-}
-
-const AuthenticatedSkillsRouteChildren: AuthenticatedSkillsRouteChildren = {
-  AuthenticatedSkillsCategoriesRoute: AuthenticatedSkillsCategoriesRoute,
-  AuthenticatedSkillsInstalledRoute: AuthenticatedSkillsInstalledRoute,
-  AuthenticatedSkillsSettingsRoute: AuthenticatedSkillsSettingsRoute,
-  AuthenticatedSkillsStoreRoute: AuthenticatedSkillsStoreRoute,
-}
-
-const AuthenticatedSkillsRouteWithChildren =
-  AuthenticatedSkillsRoute._addFileChildren(AuthenticatedSkillsRouteChildren)
-
 interface AuthenticatedStudioRouteChildren {
   AuthenticatedStudioAssetsRoute: typeof AuthenticatedStudioAssetsRoute
   AuthenticatedStudioBrandRoute: typeof AuthenticatedStudioBrandRoute
   AuthenticatedStudioCopyRoute: typeof AuthenticatedStudioCopyRoute
   AuthenticatedStudioExportsRoute: typeof AuthenticatedStudioExportsRoute
-  AuthenticatedStudioHubRoute: typeof AuthenticatedStudioHubRoute
   AuthenticatedStudioImageRoute: typeof AuthenticatedStudioImageRoute
   AuthenticatedStudioMarketingRoute: typeof AuthenticatedStudioMarketingRoute
   AuthenticatedStudioPresentationRoute: typeof AuthenticatedStudioPresentationRoute
@@ -10977,7 +2225,6 @@ const AuthenticatedStudioRouteChildren: AuthenticatedStudioRouteChildren = {
   AuthenticatedStudioBrandRoute: AuthenticatedStudioBrandRoute,
   AuthenticatedStudioCopyRoute: AuthenticatedStudioCopyRoute,
   AuthenticatedStudioExportsRoute: AuthenticatedStudioExportsRoute,
-  AuthenticatedStudioHubRoute: AuthenticatedStudioHubRoute,
   AuthenticatedStudioImageRoute: AuthenticatedStudioImageRoute,
   AuthenticatedStudioMarketingRoute: AuthenticatedStudioMarketingRoute,
   AuthenticatedStudioPresentationRoute: AuthenticatedStudioPresentationRoute,
@@ -10989,499 +2236,36 @@ const AuthenticatedStudioRouteChildren: AuthenticatedStudioRouteChildren = {
 const AuthenticatedStudioRouteWithChildren =
   AuthenticatedStudioRoute._addFileChildren(AuthenticatedStudioRouteChildren)
 
-interface AuthenticatedToolsRouteChildren {
-  AuthenticatedToolsAnalyticsRoute: typeof AuthenticatedToolsAnalyticsRoute
-  AuthenticatedToolsRuntimeRoute: typeof AuthenticatedToolsRuntimeRoute
-  AuthenticatedToolsSettingsRoute: typeof AuthenticatedToolsSettingsRoute
-}
-
-const AuthenticatedToolsRouteChildren: AuthenticatedToolsRouteChildren = {
-  AuthenticatedToolsAnalyticsRoute: AuthenticatedToolsAnalyticsRoute,
-  AuthenticatedToolsRuntimeRoute: AuthenticatedToolsRuntimeRoute,
-  AuthenticatedToolsSettingsRoute: AuthenticatedToolsSettingsRoute,
-}
-
-const AuthenticatedToolsRouteWithChildren =
-  AuthenticatedToolsRoute._addFileChildren(AuthenticatedToolsRouteChildren)
-
-interface AuthenticatedWorkflowsRouteChildren {
-  AuthenticatedWorkflowsAnalyticsRoute: typeof AuthenticatedWorkflowsAnalyticsRoute
-  AuthenticatedWorkflowsDesignerRoute: typeof AuthenticatedWorkflowsDesignerRoute
-  AuthenticatedWorkflowsExecutionsRoute: typeof AuthenticatedWorkflowsExecutionsRoute
-  AuthenticatedWorkflowsHistoryRoute: typeof AuthenticatedWorkflowsHistoryRoute
-  AuthenticatedWorkflowsMonitorRoute: typeof AuthenticatedWorkflowsMonitorRoute
-  AuthenticatedWorkflowsRuntimeRoute: typeof AuthenticatedWorkflowsRuntimeRoute
-}
-
-const AuthenticatedWorkflowsRouteChildren: AuthenticatedWorkflowsRouteChildren =
-  {
-    AuthenticatedWorkflowsAnalyticsRoute: AuthenticatedWorkflowsAnalyticsRoute,
-    AuthenticatedWorkflowsDesignerRoute: AuthenticatedWorkflowsDesignerRoute,
-    AuthenticatedWorkflowsExecutionsRoute:
-      AuthenticatedWorkflowsExecutionsRoute,
-    AuthenticatedWorkflowsHistoryRoute: AuthenticatedWorkflowsHistoryRoute,
-    AuthenticatedWorkflowsMonitorRoute: AuthenticatedWorkflowsMonitorRoute,
-    AuthenticatedWorkflowsRuntimeRoute: AuthenticatedWorkflowsRuntimeRoute,
-  }
-
-const AuthenticatedWorkflowsRouteWithChildren =
-  AuthenticatedWorkflowsRoute._addFileChildren(
-    AuthenticatedWorkflowsRouteChildren,
-  )
-
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedFounderAiRouteRoute: typeof AuthenticatedFounderAiRouteRouteWithChildren
-  AuthenticatedHappyRouteRoute: typeof AuthenticatedHappyRouteRouteWithChildren
-  AuthenticatedLiveRouteRoute: typeof AuthenticatedLiveRouteRouteWithChildren
-  AuthenticatedProductionRouteRoute: typeof AuthenticatedProductionRouteRouteWithChildren
-  AuthenticatedReleasesRouteRoute: typeof AuthenticatedReleasesRouteRouteWithChildren
-  AuthenticatedUabrRouteRoute: typeof AuthenticatedUabrRouteRouteWithChildren
-  AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedAgentOsRoute: typeof AuthenticatedAgentOsRoute
-  AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
-  AuthenticatedAiBuilderRoute: typeof AuthenticatedAiBuilderRoute
-  AuthenticatedAiDesignRoute: typeof AuthenticatedAiDesignRoute
-  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
-  AuthenticatedApiFabricRoute: typeof AuthenticatedApiFabricRoute
-  AuthenticatedAppBuilderRoute: typeof AuthenticatedAppBuilderRoute
-  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
-  AuthenticatedAppsRoute: typeof AuthenticatedAppsRoute
-  AuthenticatedAssetsRoute: typeof AuthenticatedAssetsRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
-  AuthenticatedAutomationRoute: typeof AuthenticatedAutomationRoute
-  AuthenticatedAutomationHubRoute: typeof AuthenticatedAutomationHubRoute
-  AuthenticatedAutonomousRoute: typeof AuthenticatedAutonomousRoute
-  AuthenticatedBankingRoute: typeof AuthenticatedBankingRoute
-  AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
-  AuthenticatedBrainRoute: typeof AuthenticatedBrainRouteWithChildren
-  AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRoute
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
-  AuthenticatedCitizensRoute: typeof AuthenticatedCitizensRoute
-  AuthenticatedCloudRoute: typeof AuthenticatedCloudRouteWithChildren
-  AuthenticatedCoachRoute: typeof AuthenticatedCoachRoute
-  AuthenticatedCollaborationRoute: typeof AuthenticatedCollaborationRoute
-  AuthenticatedCommerceRoute: typeof AuthenticatedCommerceRoute
-  AuthenticatedCommunicationsRoute: typeof AuthenticatedCommunicationsRoute
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
-  AuthenticatedConnectivityRoute: typeof AuthenticatedConnectivityRoute
-  AuthenticatedConnectorsRoute: typeof AuthenticatedConnectorsRoute
-  AuthenticatedContentRoute: typeof AuthenticatedContentRoute
-  AuthenticatedCreditsRoute: typeof AuthenticatedCreditsRoute
-  AuthenticatedCrmRoute: typeof AuthenticatedCrmRoute
-  AuthenticatedCustomerRoute: typeof AuthenticatedCustomerRoute
-  AuthenticatedCustomer360Route: typeof AuthenticatedCustomer360Route
-  AuthenticatedCustomersRoute: typeof AuthenticatedCustomersRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedDataExchangeRoute: typeof AuthenticatedDataExchangeRoute
-  AuthenticatedDataFabricRoute: typeof AuthenticatedDataFabricRoute
-  AuthenticatedDatabaseBuilderRoute: typeof AuthenticatedDatabaseBuilderRoute
-  AuthenticatedDealerRoute: typeof AuthenticatedDealerRoute
-  AuthenticatedDecisionRoute: typeof AuthenticatedDecisionRouteWithChildren
-  AuthenticatedDeployRoute: typeof AuthenticatedDeployRoute
-  AuthenticatedDeveloperRoute: typeof AuthenticatedDeveloperRoute
-  AuthenticatedDevelopersRoute: typeof AuthenticatedDevelopersRouteWithChildren
-  AuthenticatedDevicesRoute: typeof AuthenticatedDevicesRoute
-  AuthenticatedDigitalFactoryRoute: typeof AuthenticatedDigitalFactoryRoute
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
-  AuthenticatedDigitalTwinRoute: typeof AuthenticatedDigitalTwinRoute
-  AuthenticatedDigitalTwinV2Route: typeof AuthenticatedDigitalTwinV2Route
-  AuthenticatedDistributorRoute: typeof AuthenticatedDistributorRoute
-  AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRoute
-  AuthenticatedDomainsRoute: typeof AuthenticatedDomainsRoute
-  AuthenticatedDomainsManageRoute: typeof AuthenticatedDomainsManageRoute
-  AuthenticatedDomainsSearchRoute: typeof AuthenticatedDomainsSearchRoute
-  AuthenticatedEcosystemRoute: typeof AuthenticatedEcosystemRoute
-  AuthenticatedEcosystemHubRoute: typeof AuthenticatedEcosystemHubRoute
-  AuthenticatedEcosystemIntelligenceRoute: typeof AuthenticatedEcosystemIntelligenceRoute
-  AuthenticatedEdgeRoute: typeof AuthenticatedEdgeRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
-  AuthenticatedEmployeeRoute: typeof AuthenticatedEmployeeRoute
-  AuthenticatedEnergyRoute: typeof AuthenticatedEnergyRoute
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
-  AuthenticatedEnterpriseCloudRoute: typeof AuthenticatedEnterpriseCloudRoute
-  AuthenticatedEnterpriseControlRoute: typeof AuthenticatedEnterpriseControlRoute
-  AuthenticatedEnterpriseNetworkRoute: typeof AuthenticatedEnterpriseNetworkRoute
-  AuthenticatedErpRoute: typeof AuthenticatedErpRoute
-  AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
-  AuthenticatedExecutionRoute: typeof AuthenticatedExecutionRouteWithChildren
-  AuthenticatedExecutiveRoute: typeof AuthenticatedExecutiveRoute
-  AuthenticatedExperienceRoute: typeof AuthenticatedExperienceRoute
-  AuthenticatedExperienceFabricRoute: typeof AuthenticatedExperienceFabricRoute
-  AuthenticatedFabricRoute: typeof AuthenticatedFabricRoute
-  AuthenticatedFactoryRoute: typeof AuthenticatedFactoryRoute
-  AuthenticatedFinanceRoute: typeof AuthenticatedFinanceRoute
-  AuthenticatedFinancialAiRoute: typeof AuthenticatedFinancialAiRoute
-  AuthenticatedFleetRoute: typeof AuthenticatedFleetRoute
-  AuthenticatedFocusRoute: typeof AuthenticatedFocusRoute
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
-  AuthenticatedFutureRoute: typeof AuthenticatedFutureRoute
-  AuthenticatedGlobalRoute: typeof AuthenticatedGlobalRoute
-  AuthenticatedGlobalMemoryRoute: typeof AuthenticatedGlobalMemoryRoute
-  AuthenticatedGovernanceRoute: typeof AuthenticatedGovernanceRoute
-  AuthenticatedGovernanceV2Route: typeof AuthenticatedGovernanceV2Route
-  AuthenticatedGovernmentRoute: typeof AuthenticatedGovernmentRoute
-  AuthenticatedHealthcareRoute: typeof AuthenticatedHealthcareRoute
-  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
-  AuthenticatedHospitalsRoute: typeof AuthenticatedHospitalsRoute
-  AuthenticatedHostingRoute: typeof AuthenticatedHostingRoute
-  AuthenticatedHrmsRoute: typeof AuthenticatedHrmsRoute
-  AuthenticatedHyperlocalRoute: typeof AuthenticatedHyperlocalRouteWithChildren
-  AuthenticatedIconsRoute: typeof AuthenticatedIconsRoute
-  AuthenticatedIdentityRoute: typeof AuthenticatedIdentityRoute
-  AuthenticatedIndustryRoute: typeof AuthenticatedIndustryRoute
-  AuthenticatedInnovationRoute: typeof AuthenticatedInnovationRoute
-  AuthenticatedInsightsRoute: typeof AuthenticatedInsightsRoute
-  AuthenticatedIntelligenceRoute: typeof AuthenticatedIntelligenceRouteWithChildren
-  AuthenticatedIntelligenceExchangeRoute: typeof AuthenticatedIntelligenceExchangeRoute
-  AuthenticatedIntelligenceNetworkRoute: typeof AuthenticatedIntelligenceNetworkRoute
-  AuthenticatedInvestorsRoute: typeof AuthenticatedInvestorsRoute
-  AuthenticatedIotRoute: typeof AuthenticatedIotRoute
-  AuthenticatedIotRuntimeRoute: typeof AuthenticatedIotRuntimeRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
-  AuthenticatedKnowledgeExchangeRoute: typeof AuthenticatedKnowledgeExchangeRoute
-  AuthenticatedKnowledgeGraphRoute: typeof AuthenticatedKnowledgeGraphRoute
-  AuthenticatedKnowledgeNetworkRoute: typeof AuthenticatedKnowledgeNetworkRoute
-  AuthenticatedLaboratoryRoute: typeof AuthenticatedLaboratoryRoute
-  AuthenticatedLearningRoute: typeof AuthenticatedLearningRoute
-  AuthenticatedLearningNetworkRoute: typeof AuthenticatedLearningNetworkRoute
-  AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
-  AuthenticatedLiveIslandRoute: typeof AuthenticatedLiveIslandRoute
-  AuthenticatedMaintenanceRoute: typeof AuthenticatedMaintenanceRoute
-  AuthenticatedManufacturingRoute: typeof AuthenticatedManufacturingRoute
-  AuthenticatedMarketIntelligenceRoute: typeof AuthenticatedMarketIntelligenceRoute
-  AuthenticatedMarketNetworkRoute: typeof AuthenticatedMarketNetworkRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
-  AuthenticatedMarketplaceHubRoute: typeof AuthenticatedMarketplaceHubRoute
-  AuthenticatedMedicalResearchRoute: typeof AuthenticatedMedicalResearchRoute
-  AuthenticatedMemoryRoute: typeof AuthenticatedMemoryRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
-  AuthenticatedMonitoringRoute: typeof AuthenticatedMonitoringRoute
-  AuthenticatedMultimodalRoute: typeof AuthenticatedMultimodalRoute
-  AuthenticatedNationalRoute: typeof AuthenticatedNationalRoute
-  AuthenticatedNativeRoute: typeof AuthenticatedNativeRoute
-  AuthenticatedNetworkRoute: typeof AuthenticatedNetworkRoute
-  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
-  AuthenticatedNotificationsAnalyticsRoute: typeof AuthenticatedNotificationsAnalyticsRoute
-  AuthenticatedNotificationsAnnouncementsRoute: typeof AuthenticatedNotificationsAnnouncementsRoute
-  AuthenticatedNotificationsArchiveRoute: typeof AuthenticatedNotificationsArchiveRoute
-  AuthenticatedNotificationsAutomationRoute: typeof AuthenticatedNotificationsAutomationRoute
-  AuthenticatedNotificationsCategoriesRoute: typeof AuthenticatedNotificationsCategoriesRoute
-  AuthenticatedNotificationsHistoryRoute: typeof AuthenticatedNotificationsHistoryRoute
-  AuthenticatedNotificationsInboxRoute: typeof AuthenticatedNotificationsInboxRoute
-  AuthenticatedNotificationsPreferencesRoute: typeof AuthenticatedNotificationsPreferencesRoute
-  AuthenticatedNotificationsRemindersRoute: typeof AuthenticatedNotificationsRemindersRoute
-  AuthenticatedNotificationsSettingsRoute: typeof AuthenticatedNotificationsSettingsRoute
-  AuthenticatedNotificationsStarredRoute: typeof AuthenticatedNotificationsStarredRoute
-  AuthenticatedNotificationsTemplatesRoute: typeof AuthenticatedNotificationsTemplatesRoute
-  AuthenticatedObservabilityRoute: typeof AuthenticatedObservabilityRoute
-  AuthenticatedObservabilityV2Route: typeof AuthenticatedObservabilityV2Route
-  AuthenticatedObservabilityV3Route: typeof AuthenticatedObservabilityV3Route
-  AuthenticatedOperationsRoute: typeof AuthenticatedOperationsRoute
-  AuthenticatedOrchestrationRoute: typeof AuthenticatedOrchestrationRoute
-  AuthenticatedOrganizationsRoute: typeof AuthenticatedOrganizationsRoute
-  AuthenticatedPartnersRoute: typeof AuthenticatedPartnersRoute
-  AuthenticatedPatientsRoute: typeof AuthenticatedPatientsRoute
-  AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
-  AuthenticatedPharmacyRoute: typeof AuthenticatedPharmacyRoute
-  AuthenticatedPlatformHubRoute: typeof AuthenticatedPlatformHubRoute
-  AuthenticatedPluginsRoute: typeof AuthenticatedPluginsRouteWithChildren
-  AuthenticatedPredictionsRoute: typeof AuthenticatedPredictionsRoute
-  AuthenticatedPricingRoute: typeof AuthenticatedPricingRoute
-  AuthenticatedProductivityRoute: typeof AuthenticatedProductivityRoute
-  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
-  AuthenticatedPublicEducationRoute: typeof AuthenticatedPublicEducationRoute
-  AuthenticatedPublicHealthRoute: typeof AuthenticatedPublicHealthRoute
-  AuthenticatedPublicSafetyRoute: typeof AuthenticatedPublicSafetyRoute
-  AuthenticatedQualityRoute: typeof AuthenticatedQualityRoute
-  AuthenticatedResearchRoute: typeof AuthenticatedResearchRoute
-  AuthenticatedRevenueRoute: typeof AuthenticatedRevenueRoute
-  AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
-  AuthenticatedRoboticsRoute: typeof AuthenticatedRoboticsRoute
-  AuthenticatedRobotsRoute: typeof AuthenticatedRobotsRoute
-  AuthenticatedRuntimeRoute: typeof AuthenticatedRuntimeRouteWithChildren
-  AuthenticatedRuralRoute: typeof AuthenticatedRuralRoute
-  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
-  AuthenticatedSearchHubRoute: typeof AuthenticatedSearchHubRoute
-  AuthenticatedSearchV2Route: typeof AuthenticatedSearchV2Route
-  AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
-  AuthenticatedSecuritySessionsRoute: typeof AuthenticatedSecuritySessionsRoute
-  AuthenticatedServiceMeshRoute: typeof AuthenticatedServiceMeshRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-  AuthenticatedSettingsAccessibilityRoute: typeof AuthenticatedSettingsAccessibilityRoute
-  AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
-  AuthenticatedSettingsBackgroundRoute: typeof AuthenticatedSettingsBackgroundRoute
-  AuthenticatedSettingsThemeRoute: typeof AuthenticatedSettingsThemeRoute
-  AuthenticatedSettingsWallpapersRoute: typeof AuthenticatedSettingsWallpapersRoute
-  AuthenticatedSimulationRoute: typeof AuthenticatedSimulationRoute
-  AuthenticatedSkillsRoute: typeof AuthenticatedSkillsRouteWithChildren
-  AuthenticatedSmartCityRoute: typeof AuthenticatedSmartCityRoute
-  AuthenticatedStreaksRoute: typeof AuthenticatedStreaksRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
-  AuthenticatedSuperIntelligenceRoute: typeof AuthenticatedSuperIntelligenceRoute
-  AuthenticatedSupplyChainRoute: typeof AuthenticatedSupplyChainRoute
-  AuthenticatedSupportRoute: typeof AuthenticatedSupportRoute
-  AuthenticatedSustainabilityRoute: typeof AuthenticatedSustainabilityRoute
-  AuthenticatedTelemedicineRoute: typeof AuthenticatedTelemedicineRoute
-  AuthenticatedTemplatesRoute: typeof AuthenticatedTemplatesRoute
-  AuthenticatedThemeMarketplaceRoute: typeof AuthenticatedThemeMarketplaceRoute
-  AuthenticatedThemesRoute: typeof AuthenticatedThemesRoute
-  AuthenticatedToolsRoute: typeof AuthenticatedToolsRouteWithChildren
-  AuthenticatedTransportRoute: typeof AuthenticatedTransportRoute
-  AuthenticatedUnifiedOsRoute: typeof AuthenticatedUnifiedOsRoute
-  AuthenticatedUniversalRoute: typeof AuthenticatedUniversalRoute
-  AuthenticatedUtilitiesRoute: typeof AuthenticatedUtilitiesRoute
-  AuthenticatedVendorsRoute: typeof AuthenticatedVendorsRoute
-  AuthenticatedVisionRoute: typeof AuthenticatedVisionRoute
-  AuthenticatedWalletRoute: typeof AuthenticatedWalletRoute
-  AuthenticatedWallpaperMarketplaceRoute: typeof AuthenticatedWallpaperMarketplaceRoute
-  AuthenticatedWarehouseRoute: typeof AuthenticatedWarehouseRoute
-  AuthenticatedWebsitesRoute: typeof AuthenticatedWebsitesRoute
-  AuthenticatedWellnessRoute: typeof AuthenticatedWellnessRoute
-  AuthenticatedWhiteLabelRoute: typeof AuthenticatedWhiteLabelRoute
-  AuthenticatedWidgetsRoute: typeof AuthenticatedWidgetsRoute
-  AuthenticatedWorkflowsRoute: typeof AuthenticatedWorkflowsRouteWithChildren
-  AuthenticatedWorkforceRoute: typeof AuthenticatedWorkforceRoute
-  AuthenticatedWorkspaceRoute: typeof AuthenticatedWorkspaceRoute
-  AuthenticatedWorkspacesRoute: typeof AuthenticatedWorkspacesRoute
-  AuthenticatedZenRoute: typeof AuthenticatedZenRoute
-  AuthenticatedEnterpriseAiIndexRoute: typeof AuthenticatedEnterpriseAiIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedFounderAiRouteRoute:
-    AuthenticatedFounderAiRouteRouteWithChildren,
-  AuthenticatedHappyRouteRoute: AuthenticatedHappyRouteRouteWithChildren,
-  AuthenticatedLiveRouteRoute: AuthenticatedLiveRouteRouteWithChildren,
-  AuthenticatedProductionRouteRoute:
-    AuthenticatedProductionRouteRouteWithChildren,
-  AuthenticatedReleasesRouteRoute: AuthenticatedReleasesRouteRouteWithChildren,
-  AuthenticatedUabrRouteRoute: AuthenticatedUabrRouteRouteWithChildren,
-  AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedAgentOsRoute: AuthenticatedAgentOsRoute,
-  AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
-  AuthenticatedAiBuilderRoute: AuthenticatedAiBuilderRoute,
-  AuthenticatedAiDesignRoute: AuthenticatedAiDesignRoute,
-  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
-  AuthenticatedApiFabricRoute: AuthenticatedApiFabricRoute,
-  AuthenticatedAppBuilderRoute: AuthenticatedAppBuilderRoute,
-  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
-  AuthenticatedAppsRoute: AuthenticatedAppsRoute,
-  AuthenticatedAssetsRoute: AuthenticatedAssetsRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
-  AuthenticatedAutomationRoute: AuthenticatedAutomationRoute,
-  AuthenticatedAutomationHubRoute: AuthenticatedAutomationHubRoute,
-  AuthenticatedAutonomousRoute: AuthenticatedAutonomousRoute,
-  AuthenticatedBankingRoute: AuthenticatedBankingRoute,
-  AuthenticatedBillingRoute: AuthenticatedBillingRoute,
-  AuthenticatedBrainRoute: AuthenticatedBrainRouteWithChildren,
-  AuthenticatedBuilderRoute: AuthenticatedBuilderRoute,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
-  AuthenticatedCitizensRoute: AuthenticatedCitizensRoute,
-  AuthenticatedCloudRoute: AuthenticatedCloudRouteWithChildren,
-  AuthenticatedCoachRoute: AuthenticatedCoachRoute,
-  AuthenticatedCollaborationRoute: AuthenticatedCollaborationRoute,
-  AuthenticatedCommerceRoute: AuthenticatedCommerceRoute,
-  AuthenticatedCommunicationsRoute: AuthenticatedCommunicationsRoute,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
-  AuthenticatedConnectivityRoute: AuthenticatedConnectivityRoute,
-  AuthenticatedConnectorsRoute: AuthenticatedConnectorsRoute,
-  AuthenticatedContentRoute: AuthenticatedContentRoute,
-  AuthenticatedCreditsRoute: AuthenticatedCreditsRoute,
-  AuthenticatedCrmRoute: AuthenticatedCrmRoute,
-  AuthenticatedCustomerRoute: AuthenticatedCustomerRoute,
-  AuthenticatedCustomer360Route: AuthenticatedCustomer360Route,
-  AuthenticatedCustomersRoute: AuthenticatedCustomersRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedDataExchangeRoute: AuthenticatedDataExchangeRoute,
-  AuthenticatedDataFabricRoute: AuthenticatedDataFabricRoute,
-  AuthenticatedDatabaseBuilderRoute: AuthenticatedDatabaseBuilderRoute,
-  AuthenticatedDealerRoute: AuthenticatedDealerRoute,
-  AuthenticatedDecisionRoute: AuthenticatedDecisionRouteWithChildren,
-  AuthenticatedDeployRoute: AuthenticatedDeployRoute,
-  AuthenticatedDeveloperRoute: AuthenticatedDeveloperRoute,
-  AuthenticatedDevelopersRoute: AuthenticatedDevelopersRouteWithChildren,
-  AuthenticatedDevicesRoute: AuthenticatedDevicesRoute,
-  AuthenticatedDigitalFactoryRoute: AuthenticatedDigitalFactoryRoute,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
-  AuthenticatedDigitalTwinRoute: AuthenticatedDigitalTwinRoute,
-  AuthenticatedDigitalTwinV2Route: AuthenticatedDigitalTwinV2Route,
-  AuthenticatedDistributorRoute: AuthenticatedDistributorRoute,
-  AuthenticatedDocumentsRoute: AuthenticatedDocumentsRoute,
-  AuthenticatedDomainsRoute: AuthenticatedDomainsRoute,
-  AuthenticatedDomainsManageRoute: AuthenticatedDomainsManageRoute,
-  AuthenticatedDomainsSearchRoute: AuthenticatedDomainsSearchRoute,
-  AuthenticatedEcosystemRoute: AuthenticatedEcosystemRoute,
-  AuthenticatedEcosystemHubRoute: AuthenticatedEcosystemHubRoute,
-  AuthenticatedEcosystemIntelligenceRoute:
-    AuthenticatedEcosystemIntelligenceRoute,
-  AuthenticatedEdgeRoute: AuthenticatedEdgeRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
-  AuthenticatedEmployeeRoute: AuthenticatedEmployeeRoute,
-  AuthenticatedEnergyRoute: AuthenticatedEnergyRoute,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
-  AuthenticatedEnterpriseCloudRoute: AuthenticatedEnterpriseCloudRoute,
-  AuthenticatedEnterpriseControlRoute: AuthenticatedEnterpriseControlRoute,
-  AuthenticatedEnterpriseNetworkRoute: AuthenticatedEnterpriseNetworkRoute,
-  AuthenticatedErpRoute: AuthenticatedErpRoute,
-  AuthenticatedEventsRoute: AuthenticatedEventsRoute,
-  AuthenticatedExecutionRoute: AuthenticatedExecutionRouteWithChildren,
-  AuthenticatedExecutiveRoute: AuthenticatedExecutiveRoute,
-  AuthenticatedExperienceRoute: AuthenticatedExperienceRoute,
-  AuthenticatedExperienceFabricRoute: AuthenticatedExperienceFabricRoute,
-  AuthenticatedFabricRoute: AuthenticatedFabricRoute,
-  AuthenticatedFactoryRoute: AuthenticatedFactoryRoute,
-  AuthenticatedFinanceRoute: AuthenticatedFinanceRoute,
-  AuthenticatedFinancialAiRoute: AuthenticatedFinancialAiRoute,
-  AuthenticatedFleetRoute: AuthenticatedFleetRoute,
-  AuthenticatedFocusRoute: AuthenticatedFocusRoute,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
-  AuthenticatedFutureRoute: AuthenticatedFutureRoute,
-  AuthenticatedGlobalRoute: AuthenticatedGlobalRoute,
-  AuthenticatedGlobalMemoryRoute: AuthenticatedGlobalMemoryRoute,
-  AuthenticatedGovernanceRoute: AuthenticatedGovernanceRoute,
-  AuthenticatedGovernanceV2Route: AuthenticatedGovernanceV2Route,
-  AuthenticatedGovernmentRoute: AuthenticatedGovernmentRoute,
-  AuthenticatedHealthcareRoute: AuthenticatedHealthcareRoute,
-  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
-  AuthenticatedHospitalsRoute: AuthenticatedHospitalsRoute,
-  AuthenticatedHostingRoute: AuthenticatedHostingRoute,
-  AuthenticatedHrmsRoute: AuthenticatedHrmsRoute,
-  AuthenticatedHyperlocalRoute: AuthenticatedHyperlocalRouteWithChildren,
-  AuthenticatedIconsRoute: AuthenticatedIconsRoute,
-  AuthenticatedIdentityRoute: AuthenticatedIdentityRoute,
-  AuthenticatedIndustryRoute: AuthenticatedIndustryRoute,
-  AuthenticatedInnovationRoute: AuthenticatedInnovationRoute,
-  AuthenticatedInsightsRoute: AuthenticatedInsightsRoute,
-  AuthenticatedIntelligenceRoute: AuthenticatedIntelligenceRouteWithChildren,
-  AuthenticatedIntelligenceExchangeRoute:
-    AuthenticatedIntelligenceExchangeRoute,
-  AuthenticatedIntelligenceNetworkRoute: AuthenticatedIntelligenceNetworkRoute,
-  AuthenticatedInvestorsRoute: AuthenticatedInvestorsRoute,
-  AuthenticatedIotRoute: AuthenticatedIotRoute,
-  AuthenticatedIotRuntimeRoute: AuthenticatedIotRuntimeRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
-  AuthenticatedKnowledgeExchangeRoute: AuthenticatedKnowledgeExchangeRoute,
-  AuthenticatedKnowledgeGraphRoute: AuthenticatedKnowledgeGraphRoute,
-  AuthenticatedKnowledgeNetworkRoute: AuthenticatedKnowledgeNetworkRoute,
-  AuthenticatedLaboratoryRoute: AuthenticatedLaboratoryRoute,
-  AuthenticatedLearningRoute: AuthenticatedLearningRoute,
-  AuthenticatedLearningNetworkRoute: AuthenticatedLearningNetworkRoute,
-  AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
-  AuthenticatedLiveIslandRoute: AuthenticatedLiveIslandRoute,
-  AuthenticatedMaintenanceRoute: AuthenticatedMaintenanceRoute,
-  AuthenticatedManufacturingRoute: AuthenticatedManufacturingRoute,
-  AuthenticatedMarketIntelligenceRoute: AuthenticatedMarketIntelligenceRoute,
-  AuthenticatedMarketNetworkRoute: AuthenticatedMarketNetworkRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
-  AuthenticatedMarketplaceHubRoute: AuthenticatedMarketplaceHubRoute,
-  AuthenticatedMedicalResearchRoute: AuthenticatedMedicalResearchRoute,
-  AuthenticatedMemoryRoute: AuthenticatedMemoryRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
-  AuthenticatedMonitoringRoute: AuthenticatedMonitoringRoute,
-  AuthenticatedMultimodalRoute: AuthenticatedMultimodalRoute,
-  AuthenticatedNationalRoute: AuthenticatedNationalRoute,
-  AuthenticatedNativeRoute: AuthenticatedNativeRoute,
-  AuthenticatedNetworkRoute: AuthenticatedNetworkRoute,
-  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
-  AuthenticatedNotificationsAnalyticsRoute:
-    AuthenticatedNotificationsAnalyticsRoute,
-  AuthenticatedNotificationsAnnouncementsRoute:
-    AuthenticatedNotificationsAnnouncementsRoute,
-  AuthenticatedNotificationsArchiveRoute:
-    AuthenticatedNotificationsArchiveRoute,
-  AuthenticatedNotificationsAutomationRoute:
-    AuthenticatedNotificationsAutomationRoute,
-  AuthenticatedNotificationsCategoriesRoute:
-    AuthenticatedNotificationsCategoriesRoute,
-  AuthenticatedNotificationsHistoryRoute:
-    AuthenticatedNotificationsHistoryRoute,
-  AuthenticatedNotificationsInboxRoute: AuthenticatedNotificationsInboxRoute,
-  AuthenticatedNotificationsPreferencesRoute:
-    AuthenticatedNotificationsPreferencesRoute,
-  AuthenticatedNotificationsRemindersRoute:
-    AuthenticatedNotificationsRemindersRoute,
-  AuthenticatedNotificationsSettingsRoute:
-    AuthenticatedNotificationsSettingsRoute,
-  AuthenticatedNotificationsStarredRoute:
-    AuthenticatedNotificationsStarredRoute,
-  AuthenticatedNotificationsTemplatesRoute:
-    AuthenticatedNotificationsTemplatesRoute,
-  AuthenticatedObservabilityRoute: AuthenticatedObservabilityRoute,
-  AuthenticatedObservabilityV2Route: AuthenticatedObservabilityV2Route,
-  AuthenticatedObservabilityV3Route: AuthenticatedObservabilityV3Route,
-  AuthenticatedOperationsRoute: AuthenticatedOperationsRoute,
-  AuthenticatedOrchestrationRoute: AuthenticatedOrchestrationRoute,
-  AuthenticatedOrganizationsRoute: AuthenticatedOrganizationsRoute,
-  AuthenticatedPartnersRoute: AuthenticatedPartnersRoute,
-  AuthenticatedPatientsRoute: AuthenticatedPatientsRoute,
-  AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
-  AuthenticatedPharmacyRoute: AuthenticatedPharmacyRoute,
-  AuthenticatedPlatformHubRoute: AuthenticatedPlatformHubRoute,
-  AuthenticatedPluginsRoute: AuthenticatedPluginsRouteWithChildren,
-  AuthenticatedPredictionsRoute: AuthenticatedPredictionsRoute,
-  AuthenticatedPricingRoute: AuthenticatedPricingRoute,
-  AuthenticatedProductivityRoute: AuthenticatedProductivityRoute,
-  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
-  AuthenticatedPublicEducationRoute: AuthenticatedPublicEducationRoute,
-  AuthenticatedPublicHealthRoute: AuthenticatedPublicHealthRoute,
-  AuthenticatedPublicSafetyRoute: AuthenticatedPublicSafetyRoute,
-  AuthenticatedQualityRoute: AuthenticatedQualityRoute,
-  AuthenticatedResearchRoute: AuthenticatedResearchRoute,
-  AuthenticatedRevenueRoute: AuthenticatedRevenueRoute,
-  AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
-  AuthenticatedRoboticsRoute: AuthenticatedRoboticsRoute,
-  AuthenticatedRobotsRoute: AuthenticatedRobotsRoute,
-  AuthenticatedRuntimeRoute: AuthenticatedRuntimeRouteWithChildren,
-  AuthenticatedRuralRoute: AuthenticatedRuralRoute,
-  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
-  AuthenticatedSearchHubRoute: AuthenticatedSearchHubRoute,
-  AuthenticatedSearchV2Route: AuthenticatedSearchV2Route,
-  AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
-  AuthenticatedSecuritySessionsRoute: AuthenticatedSecuritySessionsRoute,
-  AuthenticatedServiceMeshRoute: AuthenticatedServiceMeshRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-  AuthenticatedSettingsAccessibilityRoute:
-    AuthenticatedSettingsAccessibilityRoute,
-  AuthenticatedSettingsAppearanceRoute: AuthenticatedSettingsAppearanceRoute,
-  AuthenticatedSettingsBackgroundRoute: AuthenticatedSettingsBackgroundRoute,
-  AuthenticatedSettingsThemeRoute: AuthenticatedSettingsThemeRoute,
-  AuthenticatedSettingsWallpapersRoute: AuthenticatedSettingsWallpapersRoute,
-  AuthenticatedSimulationRoute: AuthenticatedSimulationRoute,
-  AuthenticatedSkillsRoute: AuthenticatedSkillsRouteWithChildren,
-  AuthenticatedSmartCityRoute: AuthenticatedSmartCityRoute,
-  AuthenticatedStreaksRoute: AuthenticatedStreaksRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
-  AuthenticatedSuperIntelligenceRoute: AuthenticatedSuperIntelligenceRoute,
-  AuthenticatedSupplyChainRoute: AuthenticatedSupplyChainRoute,
-  AuthenticatedSupportRoute: AuthenticatedSupportRoute,
-  AuthenticatedSustainabilityRoute: AuthenticatedSustainabilityRoute,
-  AuthenticatedTelemedicineRoute: AuthenticatedTelemedicineRoute,
-  AuthenticatedTemplatesRoute: AuthenticatedTemplatesRoute,
-  AuthenticatedThemeMarketplaceRoute: AuthenticatedThemeMarketplaceRoute,
-  AuthenticatedThemesRoute: AuthenticatedThemesRoute,
-  AuthenticatedToolsRoute: AuthenticatedToolsRouteWithChildren,
-  AuthenticatedTransportRoute: AuthenticatedTransportRoute,
-  AuthenticatedUnifiedOsRoute: AuthenticatedUnifiedOsRoute,
-  AuthenticatedUniversalRoute: AuthenticatedUniversalRoute,
-  AuthenticatedUtilitiesRoute: AuthenticatedUtilitiesRoute,
-  AuthenticatedVendorsRoute: AuthenticatedVendorsRoute,
-  AuthenticatedVisionRoute: AuthenticatedVisionRoute,
-  AuthenticatedWalletRoute: AuthenticatedWalletRoute,
-  AuthenticatedWallpaperMarketplaceRoute:
-    AuthenticatedWallpaperMarketplaceRoute,
-  AuthenticatedWarehouseRoute: AuthenticatedWarehouseRoute,
-  AuthenticatedWebsitesRoute: AuthenticatedWebsitesRoute,
-  AuthenticatedWellnessRoute: AuthenticatedWellnessRoute,
-  AuthenticatedWhiteLabelRoute: AuthenticatedWhiteLabelRoute,
-  AuthenticatedWidgetsRoute: AuthenticatedWidgetsRoute,
-  AuthenticatedWorkflowsRoute: AuthenticatedWorkflowsRouteWithChildren,
-  AuthenticatedWorkforceRoute: AuthenticatedWorkforceRoute,
-  AuthenticatedWorkspaceRoute: AuthenticatedWorkspaceRoute,
-  AuthenticatedWorkspacesRoute: AuthenticatedWorkspacesRoute,
-  AuthenticatedZenRoute: AuthenticatedZenRoute,
-  AuthenticatedEnterpriseAiIndexRoute: AuthenticatedEnterpriseAiIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -11492,30 +2276,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   DesignRoute: DesignRoute,
-  ForgotPasswordRoute: ForgotPasswordRoute,
-  LoginRoute: LoginRoute,
-  RegisterRoute: RegisterRoute,
-  ResetPasswordRoute: ResetPasswordRoute,
-  StatusRoute: StatusRoute,
-  TrustRoute: TrustRoute,
-  ApiHappyChatRoute: ApiHappyChatRoute,
-  ApiHappySttRoute: ApiHappySttRoute,
-  ApiRobotsDottxtRoute: ApiRobotsDottxtRoute,
-  ApiSitemapDotxmlRoute: ApiSitemapDotxmlRoute,
   ApiDhTtsRoute: ApiDhTtsRoute,
-  ApiPublicCronCmsPublishRoute: ApiPublicCronCmsPublishRoute,
-  ApiPublicCronCreditsExpireRoute: ApiPublicCronCreditsExpireRoute,
-  ApiPublicCronDeploymentsTickRoute: ApiPublicCronDeploymentsTickRoute,
-  ApiPublicCronPaymentsRetryRoute: ApiPublicCronPaymentsRetryRoute,
-  ApiPublicCronReleaseMetricsRollupRoute:
-    ApiPublicCronReleaseMetricsRollupRoute,
-  ApiPublicCronReleasePipelineTickRoute: ApiPublicCronReleasePipelineTickRoute,
-  ApiPublicCronReleaseStoreStatusRoute: ApiPublicCronReleaseStoreStatusRoute,
-  ApiPublicCronSubscriptionsTickRoute: ApiPublicCronSubscriptionsTickRoute,
   ApiPublicV1HealthRoute: ApiPublicV1HealthRoute,
   ApiPublicV1StatusRoute: ApiPublicV1StatusRoute,
-  ApiPublicWebhooksPaymentsProviderRoute:
-    ApiPublicWebhooksPaymentsProviderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

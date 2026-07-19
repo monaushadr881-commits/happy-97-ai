@@ -1,11 +1,4 @@
 /**
- * ⚠️ R145 CONSOLIDATION MARKER — class: MERGE
- * Canonical owner: src/components/digital-human/HappyVRM.tsx
- * All future work MUST extend the canonical owner, not this file.
- * This file's exports are preserved for backward compatibility only.
- * @deprecated Extend the canonical owner listed above.
- */
-/**
  * HAPPY X — Digital Human OS API v1 (server functions)
  *
  * The complete backend surface for HDHOS. HAPPY is the single digital-human
@@ -95,15 +88,13 @@ const PrefsUpdate = z.object({
 export const dhUpdatePreferences = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => PrefsUpdate.parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhUpdatePreferences", source: "api", module: "dh.dhUpdatePreferences" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("dh_preferences")
       .upsert({ user_id: context.userId, ...data, updated_at: new Date().toISOString() })
       .select("*").single();
     if (r.error) throw r.error;
-    return r.data);
-  });
+    return r.data;
+  }));
 
 // =====================================================================
 // SESSIONS
@@ -133,15 +124,12 @@ export const dhGetSession = createServerFn({ method: "POST" })
 export const dhDeleteSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ session_id: uuid }).parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhDeleteSession", source: "api", module: "dh.dhDeleteSession" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("dh_sessions")
       .delete().eq("id", data.session_id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  });
-  });
+  }));
 
 // =====================================================================
 // HAPPY SPEAK — main conversational endpoint (Lovable AI Gateway)
@@ -193,83 +181,22 @@ export const dhSpeak = createServerFn({ method: "POST" })
       ? "The user has opted in to gentle emotional adaptation. Adjust tone warmly but never assert their emotional state."
       : "Do not adapt tone based on assumed emotions. Stay professional and neutral.";
 
-    const { HAPPY_TOOLS, runHappyTool } = await import("./happy-tools.server");
-    type ClientAction =
-      | { type: "navigate"; to: string; label?: string }
-      | { type: "invalidate"; keys: string[]; label?: string }
-      | { type: "toast"; kind: "success" | "info" | "warning" | "error"; message: string };
-
-    const systemPrompt = `${IDENTITY} ${MODE_INSTRUCTIONS[data.mode]} ${emotionRule} Reply in ${prefs.language ?? "en"}. Use short paragraphs suitable for spoken delivery. Avoid tables unless asked.
-
-You are integrated with the HAPPY platform and can call tools to answer with live data or execute in-app actions on the user's behalf. Prefer tools over guessing whenever the question is about the user's own notifications, platform metrics, health, deployments, queues, security, or when the user asks you to navigate somewhere or mark notifications read. After tools return, summarize what you found in one to three short spoken sentences.`;
-
-    type ChatMsg = {
-      role: "system" | "user" | "assistant" | "tool";
-      content: string | null;
-      tool_calls?: Array<{ id: string; type: "function"; function: { name: string; arguments: string } }>;
-      tool_call_id?: string;
-    };
-
-    const messages: ChatMsg[] = [
-      { role: "system", content: systemPrompt },
-      ...(prefs.memory_enabled ? transcript.slice(-30) : []).map((m) => ({ role: m.role, content: m.content } as ChatMsg)),
+    const messages = [
+      { role: "system", content: `${IDENTITY} ${MODE_INSTRUCTIONS[data.mode]} ${emotionRule} Reply in ${prefs.language ?? "en"}. Use short paragraphs suitable for spoken delivery. Avoid tables unless asked.` },
+      ...(prefs.memory_enabled ? transcript.slice(-30) : []).map((m) => ({ role: m.role, content: m.content })),
       { role: "user", content: data.expression_hint ? `[expression:${data.expression_hint}] ${data.message}` : data.message },
     ];
 
-    const clientActions: ClientAction[] = [];
-    const toolsUsed: string[] = [];
-    let answer = "";
-
-    // Tool-call loop, capped to prevent runaway rounds.
-    for (let round = 0; round < 4; round++) {
-      const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages,
-          tools: HAPPY_TOOLS,
-          tool_choice: "auto",
-        }),
-      });
-      if (res.status === 429) throw new Error("HAPPY is busy — please try again in a moment.");
-      if (res.status === 402) throw new Error("AI credits exhausted for this workspace.");
-      if (!res.ok) throw new Error(`AI Gateway error: ${res.status}`);
-      const json = await res.json() as {
-        choices?: Array<{
-          message?: {
-            content?: string | null;
-            tool_calls?: Array<{ id: string; type: "function"; function: { name: string; arguments: string } }>;
-          };
-          finish_reason?: string;
-        }>;
-      };
-      const msg = json.choices?.[0]?.message;
-      const toolCalls = msg?.tool_calls ?? [];
-
-      if (toolCalls.length > 0) {
-        messages.push({ role: "assistant", content: msg?.content ?? null, tool_calls: toolCalls });
-        for (const call of toolCalls) {
-          toolsUsed.push(call.function.name);
-          let parsed: unknown = {};
-          try { parsed = JSON.parse(call.function.arguments || "{}"); } catch { /* ignore */ }
-          const result = await runHappyTool(call.function.name, parsed, {
-            supabase: context.supabase, userId: context.userId, claims: context.claims,
-          });
-          if (result.client_actions) clientActions.push(...result.client_actions);
-          messages.push({
-            role: "tool",
-            tool_call_id: call.id,
-            content: JSON.stringify(result.error ? { error: result.error } : (result.data ?? {})).slice(0, 4000),
-          });
-        }
-        continue; // ask model to summarize with tool results
-      }
-
-      answer = (msg?.content ?? "").trim();
-      break;
-    }
-    if (!answer) answer = "I couldn't compose a response — please try again.";
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({ model: "google/gemini-2.5-flash", messages }),
+    });
+    if (res.status === 429) throw new Error("HAPPY is busy — please try again in a moment.");
+    if (res.status === 402) throw new Error("AI credits exhausted for this workspace.");
+    if (!res.ok) throw new Error(`AI Gateway error: ${res.status}`);
+    const json = await res.json() as { choices?: Array<{ message?: { content?: string } }> };
+    const answer = (json.choices?.[0]?.message?.content ?? "").trim();
 
     // Heuristic expression tag for the avatar — never asserts user emotion.
     const expression =
@@ -292,7 +219,7 @@ You are integrated with the HAPPY platform and can call tools to answer with liv
     }).eq("id", sessionId).eq("user_id", context.userId);
     if (upd.error) throw upd.error;
 
-    return { session_id: sessionId, answer, expression, transcript: nextTranscript, client_actions: clientActions, tools_used: toolsUsed };
+    return { session_id: sessionId, answer, expression, transcript: nextTranscript };
   }));
 
 // =====================================================================
@@ -307,9 +234,7 @@ const GenSlidesInput = z.object({
 export const dhGeneratePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => GenSlidesInput.parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhGeneratePresentation", source: "api", module: "dh.dhGeneratePresentation" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
     const count = data.slide_count ?? 8;
@@ -349,9 +274,8 @@ Return STRICT JSON in a fenced \`\`\`json block only, matching:
       status: "draft",
     }).select("*").single();
     if (ins.error) throw ins.error;
-    return ins.data);
-  };
-  });
+    return ins.data;
+  }));
 
 export const dhListPresentations = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -368,12 +292,9 @@ export const dhListPresentations = createServerFn({ method: "GET" })
 export const dhDeletePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
-  .handler(async ({ data, context  }) => {
-    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhDeletePresentation", source: "api", module: "dh.dhDeletePresentation" });
-    return guard(async () => {
+  .handler(async ({ data, context }) => guard(async () => {
     const r = await context.supabase.from("dh_presentations")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  });
-  });
+  }));

@@ -1,24 +1,20 @@
 /**
  * Interactive Whiteboard — HAPPY's teaching surface.
  * Pointer-driven canvas with pen / highlighter / eraser and PNG export.
- * Publishes the current pointer region to the Digital Human context so
- * HAPPY's gaze briefly follows what the user draws.
+ * No external drawing libs; renders through the native Canvas API.
  */
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Eraser, Pencil, Highlighter, Download, Trash2, ZoomIn, ZoomOut } from "lucide-react";
-import { useDigitalHuman } from "./DigitalHumanContext";
 
 type Tool = "pen" | "highlight" | "eraser";
 
 export function Whiteboard({ height = 480 }: { height?: number }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
-  const { glanceAt } = useDigitalHuman();
   const [tool, setTool] = useState<Tool>("pen");
   const [size, setSize] = useState(3);
   const drawing = useRef(false);
   const last = useRef<{ x: number; y: number } | null>(null);
-  const lastGlance = useRef(0);
 
   useEffect(() => {
     const c = ref.current; if (!c) return;
@@ -47,27 +43,10 @@ export function Whiteboard({ height = 480 }: { height?: number }) {
     last.current = { x, y };
   };
 
-  const publishGaze = (clientX: number, clientY: number) => {
-    // Throttle: at most once per 700ms so HAPPY's glance stays natural.
-    const now = performance.now();
-    if (now - lastGlance.current < 700) return;
-    lastGlance.current = now;
-    // We can't easily locate the avatar's rect from here — pass client coords
-    // and let the avatar compute its offset. To do that we need a shared
-    // reference frame: use viewport-centered deltas which the avatar's own
-    // rect logic will normalize.
-    // Pass a coarse delta relative to viewport center; the avatar's clamp
-    // will scale it naturally.
-    const dx = clientX - window.innerWidth / 2;
-    const dy = clientY - window.innerHeight / 2;
-    glanceAt({ x: dx, y: dy }, 900);
-  };
-
   const onPointer = (e: React.PointerEvent<HTMLCanvasElement>) => {
     if (!drawing.current) return;
     const rect = (e.target as HTMLCanvasElement).getBoundingClientRect();
     stroke(e.clientX - rect.left, e.clientY - rect.top);
-    publishGaze(e.clientX, e.clientY);
   };
   const start = (e: React.PointerEvent<HTMLCanvasElement>) => {
     drawing.current = true;
@@ -102,9 +81,9 @@ export function Whiteboard({ height = 480 }: { height?: number }) {
           <Eraser className="h-4 w-4 mr-1" /> Erase
         </Button>
         <div className="h-6 w-px bg-white/10" />
-        <Button size="sm" variant="outline" onClick={() => setSize((s) => Math.max(1, s - 1))} aria-label="Decrease brush size"><ZoomOut className="h-4 w-4" /></Button>
-        <span className="text-xs text-soft-gray tabular-nums w-6 text-center" aria-label={`brush size ${size}`}>{size}</span>
-        <Button size="sm" variant="outline" onClick={() => setSize((s) => Math.min(20, s + 1))} aria-label="Increase brush size"><ZoomIn className="h-4 w-4" /></Button>
+        <Button size="sm" variant="outline" onClick={() => setSize((s) => Math.max(1, s - 1))}><ZoomOut className="h-4 w-4" /></Button>
+        <span className="text-xs text-soft-gray tabular-nums w-6 text-center">{size}</span>
+        <Button size="sm" variant="outline" onClick={() => setSize((s) => Math.min(20, s + 1))}><ZoomIn className="h-4 w-4" /></Button>
         <div className="ml-auto flex gap-2">
           <Button size="sm" variant="outline" onClick={clear}><Trash2 className="h-4 w-4 mr-1" /> Clear</Button>
           <Button size="sm" onClick={exportPng}><Download className="h-4 w-4 mr-1" /> Export</Button>

@@ -56,21 +56,6 @@ function AuthPage() {
     }
   };
 
-  const handleMagicLink = async () => {
-    if (!email) { toast.error("Enter your email first"); return; }
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: `${window.location.origin}/dashboard` },
-      });
-      if (error) throw error;
-      toast.success("Magic link sent — check your inbox.");
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Magic link failed");
-    } finally { setLoading(false); }
-  };
-
   const handleGoogle = async () => {
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
@@ -171,15 +156,6 @@ function AuthPage() {
               {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
             </button>
           </form>
-
-          <button
-            type="button"
-            onClick={handleMagicLink}
-            disabled={loading}
-            className="mt-3 w-full h-11 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] text-sm font-medium transition-colors disabled:opacity-50"
-          >
-            Email me a magic link
-          </button>
 
           <p className="mt-6 text-sm text-soft-gray text-center">
             {mode === "signin" ? "New to HAPPY X?" : "Already have an account?"}{" "}

@@ -13,12 +13,6 @@ import {
   Settings,
   LogOut,
   Bot,
-  MapPin,
-  BrainCircuit,
-  Globe2,
-  Cloud,
-  Cpu,
-  Rocket,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,7 +27,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import happyAiLogoAsset from "@/assets/happy-ai-logo.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -52,19 +45,6 @@ const modules = [
   { title: "Knowledge", url: "/knowledge", icon: BookOpen },
   { title: "Community", url: "/community", icon: Users },
   { title: "Marketplace", url: "/marketplace", icon: Store },
-  { title: "Hyperlocal", url: "/hyperlocal", icon: MapPin },
-];
-
-// Reserved surfaces for the v2.0 – v6.0 roadmap. Routes, feature flags,
-// permissions, and API contracts already exist — implementation ships per
-// phase without changing this sidebar.
-const roadmap = [
-  { title: "Agent OS · v2.0", url: "/agent-os", icon: Bot },
-  { title: "Intelligence · v3.0", url: "/intelligence", icon: BrainCircuit },
-  { title: "Global · v4.0", url: "/global", icon: Globe2 },
-  { title: "Enterprise Cloud · v5.0", url: "/enterprise-cloud", icon: Cloud },
-  { title: "Autonomous · v6.0", url: "/autonomous", icon: Cpu },
-  { title: "Roadmap", url: "/roadmap", icon: Rocket },
 ];
 
 const admin = [
@@ -125,20 +105,14 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r border-white/5 bg-charcoal">
-      <SidebarHeader className="border-b border-white/5 h-14 flex-row items-center gap-2 px-3">
-        <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-gold/30 bg-obsidian shadow-[0_0_18px_-6px_rgba(212,175,55,0.6)]">
-          <img
-            src={happyAiLogoAsset.url}
-            alt="HAPPY AI"
-            className="h-full w-full object-contain p-0.5"
-            loading="eager"
-            decoding="async"
-          />
+      <SidebarHeader className="border-b border-white/5 h-14 flex-row items-center px-4">
+        <div className="h-8 w-8 rounded-md bg-gradient-to-br from-gold to-gold-deep flex items-center justify-center text-obsidian font-black text-sm shrink-0">
+          H
         </div>
         {!collapsed && (
-          <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold text-paper tracking-tight">HAPPY <span className="text-gradient-gold">AI</span></span>
-            <span className="text-[9px] uppercase tracking-[0.22em] text-gold/70">Human-Centered AI</span>
+          <div className="flex flex-col leading-tight ml-1">
+            <span className="text-sm font-semibold text-paper tracking-tight">HAPPY X</span>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-gold/70">Executive</span>
           </div>
         )}
       </SidebarHeader>
@@ -146,7 +120,6 @@ export function AppSidebar() {
       <SidebarContent className="bg-charcoal">
         {renderGroup("Workspace", primary)}
         {renderGroup("Modules", modules)}
-        {renderGroup("Roadmap · Reserved", roadmap)}
         {renderGroup("Administration", admin)}
       </SidebarContent>
 

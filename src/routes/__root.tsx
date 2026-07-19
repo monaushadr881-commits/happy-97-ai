@@ -12,8 +12,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { KernelProvider } from "../kernel";
-import { HappyDesk } from "../components/happy-desk/HappyDesk";
-import { AuthSessionBinder } from "../components/auth/AuthSessionBinder";
 
 function NotFoundComponent() {
   return (
@@ -82,19 +80,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "HAPPY X — Human-Centered AI Operating Platform" },
+      { title: "HAPPY X — The Human-Centered AI Operating Platform" },
       {
         name: "description",
         content:
-          "HAPPY X by HAPPY PERSON PRIVATE LIMITED. The Enterprise AI Partner — a Human-Centered AI Operating Platform that helps you learn, build and grow, powered by HAPPY, the single digital human.",
+          "HAPPY X by HAPPY PERSON PRIVATE LIMITED. A sovereign AI operating platform uniting a 3D digital human, education, business OS, creator studio and enterprise intelligence.",
       },
       { name: "author", content: "HAPPY PERSON PRIVATE LIMITED" },
       { name: "theme-color", content: "#0B0B0D" },
-      { property: "og:title", content: "HAPPY X — Human-Centered AI Operating Platform" },
+      { property: "og:title", content: "HAPPY X — The Human-Centered AI Operating Platform" },
       {
         property: "og:description",
         content:
-          "The Enterprise AI Partner. HAPPY helps you learn, build and grow — from HAPPY PERSON PRIVATE LIMITED.",
+          "A sovereign AI operating platform uniting a 3D digital human, education, business OS, creator studio and enterprise intelligence.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -107,31 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
       },
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/__l5e/assets-v1/f97dc3a4-df45-4ab3-9243-dee2ce4cbc3d/happy-ai-logo.png", type: "image/png" },
-      { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/happy-portrait-v2.png" },
-    ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "HAPPY PERSON PRIVATE LIMITED",
-          url: "https://happy-x-nexus.lovable.app",
-          logo: "https://happy-x-nexus.lovable.app/happy-portrait-v2.png",
-          sameAs: [],
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "HAPPY X",
-          url: "https://happy-x-nexus.lovable.app",
-        }),
-      },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -161,8 +135,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <KernelProvider>
         <Outlet />
-        <HappyDesk />
-        <AuthSessionBinder />
       </KernelProvider>
     </QueryClientProvider>
   );

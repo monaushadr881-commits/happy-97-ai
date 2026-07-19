@@ -35,47 +35,20 @@ function FounderUsers() {
       <div className="grid gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
         <Panel className="p-5">
           <div className="flex items-center gap-3">
-            {profile.avatar_url ? (
-              <img
-                src={String(profile.avatar_url)}
-                alt=""
-                className="h-11 w-11 rounded-full object-cover ring-1 ring-gold/30"
-              />
-            ) : (
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-gold/10 text-gold">
-                <UserCircle2 className="h-5 w-5" />
-              </div>
-            )}
+            <div className="grid h-11 w-11 place-items-center rounded-full bg-gold/10 text-gold">
+              <UserCircle2 className="h-5 w-5" />
+            </div>
             <div className="min-w-0">
               <div className="truncate text-paper">{String(profile.full_name ?? profile.email ?? "Founder")}</div>
               <div className="text-[11px] uppercase tracking-[0.15em] text-soft-gray">{String(profile.email ?? "")}</div>
             </div>
           </div>
           <Hairline className="my-4" />
-          <dl className="grid grid-cols-[110px_minmax(0,1fr)] gap-y-2 text-sm">
-            <dt className="text-[11px] uppercase tracking-[0.15em] text-soft-gray">Role</dt>
-            <dd className="text-paper">{founder.data ? "Founder" : "Standard"}</dd>
-            {profile.phone_primary ? (
-              <>
-                <dt className="text-[11px] uppercase tracking-[0.15em] text-soft-gray">Primary</dt>
-                <dd className="numeric text-paper">{String(profile.phone_primary)}</dd>
-              </>
-            ) : null}
-            {profile.phone_secondary ? (
-              <>
-                <dt className="text-[11px] uppercase tracking-[0.15em] text-soft-gray">Secondary</dt>
-                <dd className="numeric text-paper">{String(profile.phone_secondary)}</dd>
-              </>
-            ) : null}
-          </dl>
-          <Hairline className="my-4" />
           <div className="flex flex-wrap gap-2">
             <Chip tone={founder.data ? "gold" : "neutral"}>{founder.data ? "Founder" : "Standard"}</Chip>
             <Chip tone="info">Session active</Chip>
-            <Chip tone={founder.data ? "gold" : "neutral"}>{founder.data ? "Active" : "Pending"}</Chip>
           </div>
         </Panel>
-
 
         <Panel className="p-5">
           <div className="flex items-center gap-2">

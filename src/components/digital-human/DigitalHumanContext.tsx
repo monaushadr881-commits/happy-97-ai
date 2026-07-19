@@ -1,8 +1,8 @@
 /**
- * Digital Human context — preferences, activity, expression, posture, gaze.
+ * Digital Human context — preferences, activity, current expression.
  * Preferences are server-authoritative (dh_preferences RLS row).
  */
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dhGetPreferences, dhUpdatePreferences } from "@/lib/digital-human-v1.functions";
 import type { AvatarActivity, AvatarExpression } from "./HappyAvatar";
@@ -13,11 +13,6 @@ export type DhPreferences = {
   mute_audio: boolean; emotion_adaptation: boolean; memory_enabled: boolean;
   camera_consent: boolean; microphone_consent: boolean;
 };
-
-export type Posture = "normal" | "presentation";
-/** Gaze target in normalized page coordinates: values are pixel offsets from
- *  the avatar's own center. Set null to release. */
-export type GazeTarget = { x: number; y: number } | null;
 
 const DEFAULTS: DhPreferences = {
   voice: "alloy", language: "en", speed: 1,
@@ -33,48 +28,16 @@ type Ctx = {
   setActivity: (a: AvatarActivity) => void;
   expression: AvatarExpression;
   setExpression: (e: AvatarExpression) => void;
-  posture: Posture;
-  setPosture: (p: Posture) => void;
-  gazeTarget: GazeTarget;
-  setGazeTarget: (g: GazeTarget) => void;
-  /** Momentary look-then-return: pass a target for `holdMs`, then release. */
-  glanceAt: (g: GazeTarget, holdMs?: number) => void;
 };
 
 const DhCtx = createContext<Ctx | null>(null);
 
-/** Track the OS-level prefers-reduced-motion so the DH runtime honors accessibility even if the user hasn't set the app-level toggle. */
-function useOsReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => setReduced(mq.matches);
-    apply();
-    mq.addEventListener?.("change", apply);
-    return () => mq.removeEventListener?.("change", apply);
-  }, []);
-  return reduced;
-}
-
 export function DigitalHumanProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["dh", "prefs"], queryFn: () => dhGetPreferences() });
-  const osReducedMotion = useOsReducedMotion();
-  const raw = { ...DEFAULTS, ...(q.data ?? {}) } as DhPreferences;
-  // OS setting can force reduced motion on, but a user opt-in via prefs stays honored.
-  const prefs: DhPreferences = { ...raw, reduced_motion: raw.reduced_motion || osReducedMotion };
+  const prefs = { ...DEFAULTS, ...(q.data ?? {}) } as DhPreferences;
   const [activity, setActivity] = useState<AvatarActivity>("idle");
   const [expression, setExpression] = useState<AvatarExpression>("neutral");
-  const [posture, setPosture] = useState<Posture>("normal");
-  const [gazeTarget, setGazeTarget] = useState<GazeTarget>(null);
-  const glanceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const glanceAt = useCallback((g: GazeTarget, holdMs = 1200) => {
-    if (glanceRef.current) clearTimeout(glanceRef.current);
-    setGazeTarget(g);
-    glanceRef.current = setTimeout(() => setGazeTarget(null), holdMs);
-  }, []);
 
   const m = useMutation({
     mutationFn: (patch: Partial<DhPreferences>) => dhUpdatePreferences({ data: patch }),
@@ -85,8 +48,7 @@ export function DigitalHumanProvider({ children }: { children: ReactNode }) {
     prefs,
     updatePrefs: async (patch) => { await m.mutateAsync(patch); },
     activity, setActivity, expression, setExpression,
-    posture, setPosture, gazeTarget, setGazeTarget, glanceAt,
-  }), [prefs, activity, expression, posture, gazeTarget, glanceAt, m]);
+  }), [prefs, activity, expression, m]);
 
   return <DhCtx.Provider value={value}>{children}</DhCtx.Provider>;
 }
