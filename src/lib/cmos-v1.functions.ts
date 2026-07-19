@@ -127,6 +127,7 @@ export const communityReact = createServerFn({ method: "POST" })
     on: z.boolean().default(true),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "reaction", capability: data.on ? "add" : "remove", user_id: context.userId, company_id: ZERO_UUID, metadata: { target_type: data.target_type, kind: data.kind } });
     if (data.on) {
       await context.supabase.from("reactions").upsert(
         { user_id: context.userId, target_type: data.target_type, target_id: data.target_id, kind: data.kind },
