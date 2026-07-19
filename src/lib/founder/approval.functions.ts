@@ -18,6 +18,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "./audit";
+import { adoptToCanonicalPipeline } from "./pipeline";
 
 type ApprovalStatus = "pending" | "approved" | "rejected" | "cancelled";
 type Decision = "approved" | "rejected" | "cancelled";
@@ -100,6 +101,12 @@ export const requestFounderApproval = createServerFn({ method: "POST" })
   .inputValidator(validateRequest)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "approval", capability: "request",
+      user_id: userId, company_id: data.company_id,
+      summary: data.title,
+      metadata: { entity_type: data.entity_type, entity_id: data.entity_id },
+    });
     const { data: row, error } = await supabase
       .from("approvals")
       .insert({
@@ -147,6 +154,12 @@ export const decideFounderApproval = createServerFn({ method: "POST" })
   .inputValidator(validateDecide)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "approval", capability: "decide",
+      user_id: userId, company_id: "00000000-0000-0000-0000-000000000000",
+      summary: `${data.decision} approval ${data.approval_id}`,
+      metadata: { decision: data.decision },
+    });
 
     const { data: before, error: readErr } = await supabase
       .from("approvals")

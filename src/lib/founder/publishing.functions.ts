@@ -34,6 +34,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "./audit";
 import { withBrain } from "./with-brain";
+import { adoptToCanonicalPipeline } from "./pipeline";
 import {
   PUBLISHING_ASSET_KINDS,
   PUBLISHING_CATALOG,
@@ -144,6 +145,12 @@ export const requestPublishingPackage = createServerFn({ method: "POST" })
   .inputValidator(validateRequest)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "publishing", module: "package", capability: "request",
+      user_id: userId, company_id: data.company_id,
+      summary: `${data.app_name} · ${data.store} · v${data.version}`,
+      metadata: { store: data.store, kinds: data.kinds.length },
+    });
 
     const brain = withBrain<RequestInput, ReturnType<typeof analyseImpact>>({
       capability: CAPABILITY,
@@ -390,6 +397,11 @@ export const finalizePublishingPackage = createServerFn({ method: "POST" })
   .inputValidator(validateFinalise)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "publishing", module: "package", capability: "finalize",
+      user_id: userId, company_id: "00000000-0000-0000-0000-000000000000",
+      summary: `finalize package ${data.approval_id}`,
+    });
 
     const { data: appr, error: readErr } = await supabase
       .from("approvals")

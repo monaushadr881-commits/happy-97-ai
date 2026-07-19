@@ -35,7 +35,10 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { withBrain } from "@/lib/founder/with-brain";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import type { FounderApprovalContext } from "@/lib/founder/types";
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 
 const uuid = z.string().uuid();
 
@@ -88,6 +91,12 @@ export const ufsRegisterFile = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => RegisterInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "file", capability: "register",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `register ${data.name}`,
+      metadata: { workspace_id: data.workspace_id ?? null, bucket: data.bucket },
+    });
     const meta = {
       workspace_id: data.workspace_id ?? null,
       bucket: data.bucket,
@@ -197,6 +206,12 @@ export const aiUnderstandFile = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({ asset_id: uuid }).parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "file", capability: "understand",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `understand asset ${data.asset_id}`,
+      metadata: { asset_id: data.asset_id },
+    });
     const { data: asset, error: readErr } = await supabase
       .from("creator_assets")
       .select("id,name,mime_type,tags,metadata,kind")
@@ -296,6 +311,12 @@ export const importPlan = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => ImportInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "import", capability: "plan",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `import.${data.source_kind}.${data.sources.length}`,
+      metadata: { workspace_id: data.workspace_id ?? null, source_kind: data.source_kind },
+    });
     const plan = await persistPlan(
       supabase, userId, KIND.IMPORT,
       `import.${data.source_kind}.${data.sources.length}`,
@@ -330,6 +351,12 @@ export const exportPlan = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => ExportInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "export", capability: "plan",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `export.${data.format}.${data.asset_ids.length}`,
+      metadata: { workspace_id: data.workspace_id ?? null, format: data.format },
+    });
     const plan = await persistPlan(
       supabase, userId, KIND.EXPORT,
       `export.${data.format}.${data.asset_ids.length}`,
@@ -362,6 +389,12 @@ export const syncPlan = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => SyncInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "sync", capability: "plan",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `sync.${data.scope}`,
+      metadata: { workspace_id: data.workspace_id ?? null, scope: data.scope },
+    });
     const plan = await persistPlan(
       supabase, userId, KIND.SYNC,
       `sync.${data.scope}`,
@@ -417,6 +450,12 @@ export const founderCommandExec = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => CommandInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "command", capability: "exec",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: data.command.slice(0, 240),
+      metadata: { workspace_id: data.workspace_id ?? null },
+    });
     const brain = await analyzeCommand({
       capability: "founder.command.exec",
       input: { command: data.command },

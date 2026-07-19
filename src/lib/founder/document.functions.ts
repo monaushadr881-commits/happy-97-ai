@@ -28,6 +28,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "./audit";
 import { withBrain } from "./with-brain";
+import { adoptToCanonicalPipeline } from "./pipeline";
 import {
   DOCUMENT_FORMAT_MIME,
   DOCUMENT_FORMAT_EXTENSION,
@@ -96,6 +97,12 @@ export const requestFounderDocumentGeneration = createServerFn({
   .inputValidator(validateRequestDoc)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "document", capability: "request",
+      user_id: userId, company_id: data.company_id,
+      summary: `document ${data.title}`,
+      metadata: { format: data.format, category: data.category },
+    });
 
     // Brain step — wrapped so capability + approval shape is enforced.
     const brain = withBrain<RequestDocInput, ReturnType<typeof analyseImpact>>({
@@ -178,6 +185,11 @@ export const finalizeFounderDocument = createServerFn({ method: "POST" })
   .inputValidator(validateFinaliseDoc)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "document", capability: "finalize",
+      user_id: userId, company_id: "00000000-0000-0000-0000-000000000000",
+      summary: `finalize approval ${data.approval_id}`,
+    });
 
     const { data: appr, error: readErr } = await supabase
       .from("approvals")
