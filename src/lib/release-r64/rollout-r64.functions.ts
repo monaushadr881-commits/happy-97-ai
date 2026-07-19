@@ -114,7 +114,7 @@ export const transitionRollout = createServerFn({ method: "POST" })
         entityType: "release_rollouts",
         entityId: data.rollout_id,
         companyId: data.company_id,
-        descriptor: { kind: "deploy", action: `rollout_${data.to}`, affectsProduction: true, securityImpact: "high", isRollback: data.to === "rolled_back" },
+        descriptor: { kind: "deploy", action: `rollout_${data.to}`, affectsProduction: true, securityImpact: "high" },
         brain: {
           company_id: data.company_id,
           input: `${data.to} rollout ${data.rollout_id}${data.reason ? ": " + data.reason : ""}`,
