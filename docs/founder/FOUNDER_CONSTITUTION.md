@@ -50,3 +50,6 @@ All Founder-requested files, documents, and assets follow [`FOUNDER_DOCUMENT_GEN
 - [`FOUNDER_OPERATING_RULES.md`](./FOUNDER_OPERATING_RULES.md) — Consolidated operating rules
 - [`FOUNDER_DOCUMENT_GENERATION_POLICY.md`](./FOUNDER_DOCUMENT_GENERATION_POLICY.md) — R184 permanent workflow
 - [`../R183_MIGRATION_GUARDRAILS.md`](../R183_MIGRATION_GUARDRAILS.md) — Migration guardrails
+- [`../CANONICAL_SCAN_RULE.md`](../CANONICAL_SCAN_RULE.md) — R185 pre-change scan procedure (mandatory before any new table / runtime / folder / module)
+
+Every future implementation MUST read the relevant document(s) above **before writing code**. Hidden, persistent, or session AI memory is not authoritative and MUST NOT be relied upon. If a rule is not in `docs/`, it does not exist.
