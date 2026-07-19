@@ -416,6 +416,53 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .limit(LIMIT),
     ]);
 
+    // Batch B (R188) — Workspace + Knowledge reads.
+    const since7d = new Date(Date.now() - 7 * 86400_000).toISOString();
+    const [
+      wsTotal,
+      wsActive,
+      wsItemsRecent,
+      wsAttach7d,
+      kaTotal,
+      kaPublic,
+      kaDrafts,
+      krTotal,
+      kaPendingApproval,
+      kaRecentUpdates,
+      krRecent,
+    ] = await Promise.all([
+      sb.from("workspaces").select("id", { count: "exact", head: true }),
+      sb.from("workspaces").select("id", { count: "exact", head: true }).eq("status", "active"),
+      sb.from("creator_assets")
+        .select("id,name,kind,created_at,metadata")
+        .not("metadata->>workspace_id", "is", null)
+        .order("created_at", { ascending: false })
+        .limit(24),
+      sb.from("audit_logs")
+        .select("id", { count: "exact", head: true })
+        .eq("category", "workspace.item")
+        .gte("occurred_at", since7d),
+      sb.from("knowledge_articles").select("id", { count: "exact", head: true }).eq("status", "active"),
+      sb.from("knowledge_articles").select("id", { count: "exact", head: true }).eq("status", "active").eq("is_public", true),
+      sb.from("knowledge_articles").select("id", { count: "exact", head: true }).eq("status", "draft"),
+      sb.from("knowledge_references").select("id", { count: "exact", head: true }),
+      sb.from("approvals")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "pending")
+        .eq("entity_type", "knowledge.article"),
+      sb.from("knowledge_articles")
+        .select("id,title,is_public,version,updated_at")
+        .eq("status", "active")
+        .order("updated_at", { ascending: false })
+        .limit(LIMIT),
+      sb.from("knowledge_references")
+        .select("id,label,url,article_id,created_at")
+        .order("created_at", { ascending: false })
+        .limit(LIMIT),
+    ]);
+
+
+
 
 
     // Founder-initiated Creator Runtime (Batch I) — read approvals +
