@@ -85,3 +85,14 @@ user-scoped table (`auth_passkeys`) that follows the exact pattern of
 `auth_devices`. 737/737 tests green.
 
 Full record: `docs/founder/R157_FOUNDER_SECURITY_CENTER.md`.
+
+## FD-158 — Founder Approval Gateway (R158)
+HAPPY may never execute a significant change without a full Explain → Preview →
+Approve → Execute cycle. 17-stage pipeline, 4 tiers, 12-field explanation
+contract, 5×2 preview matrix, compile-time auto-execute lock, mandatory
+password+OTP for critical actions, rollback envelope required. Pure
+governance helper — zero new runtime. Consumed by Brain, Memory, Workspace,
+File Engine, Search, Creator, Revenue OS, Founder Dashboard, Security
+Center, Audit, RBAC. All 11 tests green.
+
+Full record: `docs/founder/R158_FOUNDER_APPROVAL_GATEWAY.md`.
