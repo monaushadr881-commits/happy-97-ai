@@ -76,7 +76,7 @@ export const apiGetCompany = createServerFn({ method: "POST" })
 export const apiCreateCompany = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => companyService.create(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "business", "company", "create", null); return guard(() => companyService.create(svc(context), data)); });
 
 // ------------------------- Brands / Workspaces ---------------
 export const apiListBrands = createServerFn({ method: "POST" })
