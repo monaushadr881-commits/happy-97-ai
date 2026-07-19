@@ -125,7 +125,7 @@ export const apiMyNotifications = createServerFn({ method: "GET" })
 export const apiMarkNotificationRead = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { id: string })
-  .handler(async ({ data, context }) => guard(() => notificationService.markRead(svc(context), data.id)));
+  .handler(async ({ data, context }) => { await adopt(context, "communication", "notification", "mark_read", null, { id: data.id }); return guard(() => notificationService.markRead(svc(context), data.id)); });
 
 // ------------------------- Audit -----------------------------
 export const apiRecentAudit = createServerFn({ method: "POST" })
