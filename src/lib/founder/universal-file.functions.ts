@@ -351,6 +351,12 @@ export const exportPlan = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => ExportInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "export", capability: "plan",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `export.${data.format}.${data.asset_ids.length}`,
+      metadata: { workspace_id: data.workspace_id ?? null, format: data.format },
+    });
     const plan = await persistPlan(
       supabase, userId, KIND.EXPORT,
       `export.${data.format}.${data.asset_ids.length}`,
