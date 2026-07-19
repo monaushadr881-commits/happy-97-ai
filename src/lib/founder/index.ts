@@ -86,3 +86,10 @@ export {
   type PublishingAssetKind,
   type PublishingAssetDefinition,
 } from "./publishing-catalog";
+
+// R183 Batch A — Canonical Audit Writer (thin re-export of auditRepo).
+export {
+  writeCanonicalAudit,
+  type CanonicalAuditEntry,
+  type CanonicalAuditSeverity,
+} from "./audit";
