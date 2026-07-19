@@ -297,6 +297,22 @@ export interface MissionControlSnapshot {
     coverage_pct: number;
     db_probe_ok: boolean;
   };
+  platform_runtime: {
+    // R189 Phase 2 — Universal File System, Import/Export/Sync, AI File
+    // Understanding, Founder Command Mode. Read-only surface over the
+    // existing canonical creator_assets rows (kind prefix "ufs.*") and
+    // job_queue. No new tables.
+    files_total: number;
+    imports_24h: number;
+    exports_24h: number;
+    syncs_24h: number;
+    commands_24h: number;
+    understandings_total: number;
+    jobs: { pending: number; running: number; failed: number };
+    coverage: Array<{ capability: string; owner: string; status: "wired" | "read_only" }>;
+    coverage_pct: number;
+    recent: Array<{ id: string; name: string; kind: string; created_at: string }>;
+  };
 }
 
 
