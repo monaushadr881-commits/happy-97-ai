@@ -16,10 +16,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import { z } from "zod";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 
 // =====================================================================
 // COMMUNITY — Posts, Comments, Reactions, Follows, Groups
