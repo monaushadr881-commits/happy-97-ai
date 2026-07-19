@@ -35,18 +35,22 @@
  */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
+
+type SB = SupabaseClient<Database>;
 
 // Founder-approval threshold (cents). Matches expense/invoice convention.
 const FOUNDER_APPROVAL_THRESHOLD_CENTS = 10_00_00_00; // ₹1,00,000
 
 type ApprovalStatus = "pending" | "approved" | "rejected" | "cancelled";
 
-interface RuntimeResult<TRow> {
+interface RuntimeResult {
   status: "created" | "pending_approval";
-  row?: TRow;
+  row?: Record<string, unknown> | null;
   approval_id?: string;
   approval_status?: ApprovalStatus;
   reason?: string;
