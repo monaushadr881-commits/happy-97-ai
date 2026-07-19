@@ -45,7 +45,7 @@ export const opsHealthAll = createServerFn({ method: "GET" })
 export const opsHealthRecord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as Parameters<typeof healthService.record>[1])
-  .handler(async ({ data, context }) => guard(() => healthService.record(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "health", "record"); return guard(() => healthService.record(svc(context), data)); });
 
 // ---- Metrics ----
 export const opsMetricsEmit = createServerFn({ method: "POST" })
