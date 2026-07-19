@@ -256,12 +256,14 @@ interface PlanRow {
   id: string;
   name: string;
   kind: string;
-  metadata: Record<string, unknown>;
   created_at: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyClient = any;
+
 async function persistPlan(
-  supabase: { from: (t: string) => { insert: (row: unknown) => { select: (c: string) => { single: () => Promise<{ data: unknown; error: { message: string } | null }> } } } },
+  supabase: AnyClient,
   userId: string,
   kind: string,
   name: string,
@@ -276,17 +278,11 @@ async function persistPlan(
       name,
       metadata: meta,
     })
-    .select("id,name,kind,metadata,created_at")
+    .select("id,name,kind,created_at")
     .single();
   if (error || !data) throw new Error(`${kind}_plan_failed: ${error?.message ?? "unknown"}`);
-  const d = data as { id: string; name: string; kind: string; metadata: unknown; created_at: string };
-  return {
-    id: d.id,
-    name: d.name,
-    kind: d.kind,
-    metadata: (d.metadata ?? {}) as Record<string, unknown>,
-    created_at: d.created_at,
-  };
+  const d = data as { id: string; name: string; kind: string; created_at: string };
+  return { id: d.id, name: d.name, kind: d.kind, created_at: d.created_at };
 }
 
 const ImportInput = z.object({
