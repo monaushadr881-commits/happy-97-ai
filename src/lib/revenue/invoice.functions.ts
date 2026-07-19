@@ -32,6 +32,7 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { withBrain } from "@/lib/founder/with-brain";
 import type { FounderApprovalContext } from "@/lib/founder/types";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 /**
  * Founder-approval threshold for invoice issuance (in cents).
@@ -106,6 +107,7 @@ export const revIssueInvoice = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => IssueInvoiceInput.parse(i))
   .handler(async ({ data, context }): Promise<IssueInvoiceResult> => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "invoice", capability: "issue", user_id: context.userId, company_id: data.company_id, summary: `issue invoice ${data.number ?? ""}`, metadata: { total_cents: data.total_cents, currency: data.currency } });
 
     const brainCtx: FounderApprovalContext = {
       isFounder: true,
@@ -194,6 +196,7 @@ export const revApplyApprovedInvoice = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => ApplyApprovedInvoiceInput.parse(i))
   .handler(async ({ data, context }): Promise<IssueInvoiceResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "revenue", module: "invoice", capability: "apply_approved", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000", summary: `apply approved invoice`, metadata: { approval_id: data.approval_id } });
 
     const { data: approval, error: readErr } = await supabase
       .from("approvals")

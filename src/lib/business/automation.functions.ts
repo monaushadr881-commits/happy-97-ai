@@ -29,6 +29,7 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { withBrain } from "@/lib/founder/with-brain";
 import type { FounderApprovalContext } from "@/lib/founder/types";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 /** Steps ≥ this or any destructive trigger requires Founder approval. */
 const STEP_APPROVAL_THRESHOLD = 10;
@@ -97,6 +98,7 @@ export const bizPublishWorkflow = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => PublishInput.parse(i))
   .handler(async ({ data, context }): Promise<PublishResult> => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "automation", module: "workflow", capability: "publish", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000", summary: `publish workflow ${data.workflow_id}` });
 
     const { data: wf, error: readErr } = await supabase
       .from("workflows")
@@ -192,6 +194,7 @@ export const bizApplyApprovedAutomationPublish = createServerFn({
   .inputValidator((i: unknown) => ApplyInput.parse(i))
   .handler(async ({ data, context }): Promise<PublishResult> => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "automation", module: "workflow", capability: "apply_approved", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000", summary: `apply approved workflow publish`, metadata: { approval_id: data.approval_id } });
 
     const { data: approval, error: readErr } = await supabase
       .from("approvals")

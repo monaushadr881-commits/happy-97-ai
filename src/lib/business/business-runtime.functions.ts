@@ -40,6 +40,7 @@ import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 type SB = SupabaseClient<Database>;
 
@@ -74,6 +75,7 @@ export const bizCreateCustomer = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => CustomerInput.parse(i))
   .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "customer", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `create customer ${data.name}` });
     const { data: row, error } = await supabase
       .from("customers")
       .insert({
@@ -118,6 +120,7 @@ export const bizCreateLead = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => LeadInput.parse(i))
   .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "lead", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `create lead ${data.name}` });
     const { data: row, error } = await supabase
       .from("leads")
       .insert({
@@ -182,6 +185,7 @@ export const bizCreateDeal = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => DealInput.parse(i))
   .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "deal", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `create deal ${data.title}`, metadata: { amount_cents: data.amount_cents, currency: data.currency } });
     if (data.amount_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS) {
       const approval = await requestFounderApproval({
         data: {
@@ -243,6 +247,7 @@ export const bizCreateSalesOrder = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => SalesOrderInput.parse(i))
   .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "sales_order", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `sales order ${data.number}`, metadata: { total_cents: data.total_cents, currency: data.currency } });
     if (data.total_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS) {
       const approval = await requestFounderApproval({
         data: {
@@ -304,6 +309,7 @@ export const bizCreatePurchaseOrder = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => PurchaseOrderInput.parse(i))
   .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "purchase_order", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `purchase order ${data.number}`, metadata: { total_cents: data.total_cents, currency: data.currency } });
     if (data.total_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS) {
       const approval = await requestFounderApproval({
         data: {
@@ -343,6 +349,7 @@ export const bizCreateSupplier = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => SupplierInput.parse(i))
   .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "supplier", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `create supplier ${data.name}` });
     const { data: row, error } = await supabase.from("suppliers").insert({
       company_id: data.company_id,
       name: data.name,
@@ -395,7 +402,8 @@ async function insertEmployee(sb: SB, p: EmployeePayload) {
 export const bizCreateEmployee = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => EmployeeInput.parse(i))
-  .handler(async ({ data }): Promise<RuntimeResult> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "business", module: "employee", capability: "hire", user_id: context.userId, company_id: data.company_id, summary: `hire employee ${data.title ?? data.employee_code ?? data.user_id}` });
     const approval = await requestFounderApproval({
       data: {
         company_id: data.company_id,
@@ -462,6 +470,7 @@ export const bizScheduleMeeting = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => MeetingInput.parse(i))
   .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "meeting", capability: "schedule", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000", summary: `meeting ${data.title}` });
     const { data: row, error } = await supabase.from("meetings").insert({
       company_id: data.company_id ?? null,
       workspace_id: data.workspace_id ?? null,
@@ -498,6 +507,7 @@ export const bizApplyApprovedBusinessAction = createServerFn({ method: "POST" })
       .from("approvals").select("*").eq("id", data.approval_id).single();
     if (readErr || !approval) throw new Error("approval_not_found");
     if (approval.status !== "approved") throw new Error(`approval_not_approved: ${approval.status}`);
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "apply_approved", capability: "execute", user_id: context.userId, company_id: (approval as { company_id?: string | null }).company_id ?? "00000000-0000-0000-0000-000000000000", summary: `apply approved ${approval.entity_type}`, metadata: { approval_id: data.approval_id } });
 
     const meta = (approval.metadata ?? {}) as {
       source?: string;

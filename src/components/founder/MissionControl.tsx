@@ -1122,7 +1122,49 @@ export function MissionControl() {
             </li>
           ))}
         </ol>
+        <Hairline className="my-4" />
+        <div className="text-xs uppercase tracking-[0.14em] text-soft-gray mb-2">
+          Execution Adoption · Domains ({d?.universal_runtime.adoption.by_domain.length ?? 0})
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
+          <StatCard label="Handlers Adopted" value={fmt(d?.universal_runtime.adoption.handlers_adopted)} />
+          <StatCard label="Adoptions · 24h"  value={fmt(d?.universal_runtime.adoption.adopted_24h)} />
+          <StatCard label="Domains"          value={fmt(d?.universal_runtime.adoption.by_domain.length)} />
+          <StatCard label="Executions · 24h" value={fmt(d?.universal_runtime.executions_24h)} />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <div className="text-[11px] uppercase tracking-wider text-soft-gray mb-2">By Domain</div>
+            <ul className="space-y-1.5">
+              {(d?.universal_runtime.adoption.by_domain ?? []).map((b) => (
+                <li key={b.domain} className="flex items-center justify-between rounded-md border border-white/5 bg-white/[0.02] px-3 py-1.5">
+                  <span className="text-xs text-paper">{b.domain}</span>
+                  <Chip tone="gold">{fmt(b.count_24h)}</Chip>
+                </li>
+              ))}
+              {!d?.universal_runtime.adoption.by_domain.length && (
+                <li className="text-xs text-soft-gray">No adopted handlers yet.</li>
+              )}
+            </ul>
+          </div>
+          <div>
+            <div className="text-[11px] uppercase tracking-wider text-soft-gray mb-2">Recent Adoptions</div>
+            <ul className="divide-y divide-white/5">
+              {(d?.universal_runtime.adoption.recent ?? []).map((r) => (
+                <li key={r.id} className="py-1.5 flex items-center justify-between">
+                  <span className="text-xs text-paper truncate">{r.capability}</span>
+                  <span className="text-[10px] text-soft-gray">{ago(r.occurred_at)}</span>
+                </li>
+              ))}
+              {!d?.universal_runtime.adoption.recent.length && (
+                <li className="py-1.5 text-xs text-soft-gray">No recent adoptions.</li>
+              )}
+            </ul>
+          </div>
+        </div>
       </Panel>
+
+
 
 
       {(["mfg", "health", "agri"] as const).map((v) => {
