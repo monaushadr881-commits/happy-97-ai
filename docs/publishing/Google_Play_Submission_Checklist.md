@@ -1,0 +1,22 @@
+# Google Play Submission Checklist
+
+- [ ] Play Console account active
+- [ ] App created with correct package `ai.happy.enterprise`
+- [ ] App access credentials provided (test account)
+- [ ] Ads declaration
+- [ ] Content rating (IARC) complete
+- [ ] Target audience set
+- [ ] Data safety form matches `Privacy_Checklist.md`
+- [ ] News / COVID / government / financial declarations
+- [ ] Store listing filled from `Store_Metadata.md`
+- [ ] Icon 512, feature graphic 1024×500, screenshots per device
+- [ ] Signed AAB uploaded to Internal Testing
+- [ ] Play App Signing enrolled
+- [ ] `assetlinks.json` published for App Links (if used)
+- [ ] Countries selected
+- [ ] Pricing set (free / paid)
+- [ ] IAP catalog created (if applicable) — see `Payments_Checklist.md`
+- [ ] Release notes ("What's new") in every supported language
+- [ ] Promoted through Internal → Closed → Open → Production
+- [ ] Rollback plan documented (`Rollback_Checklist.md`)
+- [ ] Founder R158 approval recorded
