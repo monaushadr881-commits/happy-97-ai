@@ -156,6 +156,39 @@ export interface MissionControlSnapshot {
     degraded: number;
     down: number;
   };
+  revenue_ext: {
+    wallets: { total: number; ledger_30d: number };
+    credits: { grants_30d: number; consumes_30d: number };
+    subscriptions: {
+      active: number;
+      trial: number;
+      paused: number;
+      cancelled: number;
+      recent: Array<{
+        id: string;
+        status: string;
+        plan_id: string;
+        seats: number;
+        updated_at: string;
+      }>;
+    };
+    payments: {
+      succeeded_30d: number;
+      failed_30d: number;
+      pending_founder_approval: number;
+      recent: Array<{
+        id: string;
+        amount_cents: number;
+        currency: string;
+        status: string;
+        received_at: string | null;
+      }>;
+    };
+    daily_free_credit_policy: {
+      per_day: number;
+      deduction_order: ReadonlyArray<string>;
+    };
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
