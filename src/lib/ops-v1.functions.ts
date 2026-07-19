@@ -82,12 +82,12 @@ export const opsListIncidents = createServerFn({ method: "POST" })
 export const opsOpenIncident = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => incidentService.open(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "incident", "open"); return guard(() => incidentService.open(svc(context), data)); });
 
 export const opsTransitionIncident = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => incidentService.transition(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "incident", "transition"); return guard(() => incidentService.transition(svc(context), data)); });
 
 export const opsIncidentTimeline = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
