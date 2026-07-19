@@ -115,7 +115,7 @@ export const apiMe = createServerFn({ method: "GET" })
 export const apiUpsertSetting = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => settingsService.upsert(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "founder", "setting", "upsert", null); return guard(() => settingsService.upsert(svc(context), data)); });
 
 // ------------------------- Notifications ---------------------
 export const apiMyNotifications = createServerFn({ method: "GET" })
