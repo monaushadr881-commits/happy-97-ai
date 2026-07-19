@@ -22,7 +22,7 @@ import type { FounderApprovalContext } from "@/lib/founder/types";
 const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 const APPROVAL_THRESHOLD_CENTS = 1_00_00_000; // ₹1,00,000
 
-export const PARTNER_MODULES = ["registration", "revenue"] as const;
+export const PARTNER_MODULES = ["registration", "revenue", "dealer", "distributor"] as const;
 export type PartnerModule = typeof PARTNER_MODULES[number];
 
 interface Impact {
