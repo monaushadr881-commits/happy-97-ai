@@ -15,7 +15,25 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import { z } from "zod";
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
+const adopt = (
+  context: { supabase: import("@supabase/supabase-js").SupabaseClient; userId: string },
+  module: string,
+  capability: string,
+  metadata: Record<string, unknown> = {},
+) =>
+  adoptToCanonicalPipeline(context.supabase, {
+    domain: "digital-human",
+    module,
+    capability,
+    user_id: context.userId,
+    company_id: ZERO_UUID,
+    source: "digital-human-v1",
+    metadata,
+  });
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
