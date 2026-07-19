@@ -120,6 +120,8 @@ export const Route = createFileRoute("/api/happy-chat")({
               "Content-Type": "text/event-stream",
               "Cache-Control": "no-cache, no-transform",
               "X-Accel-Buffering": "no",
+              "X-Brain-Intent": brain.intent ?? "unknown",
+              "X-Brain-Confidence": String(brain.confidence.toFixed(2)),
             },
           });
         } catch (err) {
