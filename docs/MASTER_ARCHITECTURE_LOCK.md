@@ -39,7 +39,7 @@ Consult the Founder Constitution and Technical Registry for the current mapping.
 - Document / File / Asset generation → `src/lib/founder/` + canonical Creator, Workspace, Knowledge, Publishing, Search, File Engine
 - Approvals → R158 via `src/lib/founder/enforce.ts`
 
-If the owner for a new capability is unclear, stop and consult the Constitution before creating anything.
+If the owner for a new capability is unclear, stop and consult the Constitution before creating anything. Every change MUST first perform the [Canonical Scan Rule](./CANONICAL_SCAN_RULE.md).
 
 ## 5. Consolidation registry
 
@@ -59,3 +59,4 @@ Any suspected duplicate must be consolidated into its canonical owner. A duplica
 - [`founder/FOUNDER_OPERATING_RULES.md`](./founder/FOUNDER_OPERATING_RULES.md) — Consolidated operating rules
 - [`founder/FOUNDER_DOCUMENT_GENERATION_POLICY.md`](./founder/FOUNDER_DOCUMENT_GENERATION_POLICY.md) — R184 workflow
 - [`R183_MIGRATION_GUARDRAILS.md`](./R183_MIGRATION_GUARDRAILS.md) — Migration guardrails
+- [`CANONICAL_SCAN_RULE.md`](./CANONICAL_SCAN_RULE.md) — R185 pre-change scan procedure
