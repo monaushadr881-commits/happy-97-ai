@@ -56,7 +56,7 @@ export const startVoiceSessionFn = createServerFn({ method: "POST" })
       voice_id: data.voice_id,
       timeout_ms: data.timeout_ms,
       meta: data.meta,
-    }));
+    });
   });
 const IdInput = z.object({ session_id: z.string().uuid() });
 
@@ -97,7 +97,7 @@ export const recordUserTurnFn = createServerFn({ method: "POST" })
       audio_ref: data.audio_ref,
       audio_bytes: data.audio_bytes,
       duration_ms: data.duration_ms,
-    }));
+    });
   });
 const SpeakInput = z.object({
   session_id: z.string().uuid(),

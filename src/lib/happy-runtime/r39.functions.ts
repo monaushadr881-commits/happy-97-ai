@@ -103,7 +103,7 @@ export const resolveHappyGreeting = createServerFn({ method: "POST" })
       user_name: data.user_name,
       company: data.company,
       briefing_summary: data.briefing_summary,
-    }));
+    });
   });
 const MessageInput = z.object({
   session_id: z.string().uuid(),
@@ -120,7 +120,7 @@ export const sendHappyMessage = createServerFn({ method: "POST" })
       sessionId: data.session_id,
       message: data.message,
       requestedMode: data.requested_mode,
-    }));
+    });
   });
 const ModeInput = z.object({
   session_id: z.string().uuid(),
@@ -146,7 +146,7 @@ export const setHappyPresence = createServerFn({ method: "POST" })
   .inputValidator((d: z.input<typeof PresenceInput>) => PresenceInput.parse(d))
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setHappyPresence", source: "api", module: "happy.r39.setHappyPresence" });
-    return setPresence(context.supabase, data.session_id, data.presence as never, data.note));
+    return setPresence(context.supabase, data.session_id, data.presence as never, data.note);
   });
 const HistoryInput = z.object({
   session_id: z.string().uuid(),
@@ -188,5 +188,5 @@ export const recordHappyTurn = createServerFn({ method: "POST" })
       response: data.response,
       evidence: data.evidence,
       latencyMs: data.latency_ms,
-    }));
+    });
   });
