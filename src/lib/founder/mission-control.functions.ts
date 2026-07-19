@@ -189,6 +189,22 @@ export interface MissionControlSnapshot {
       deduction_order: ReadonlyArray<string>;
     };
   };
+  automation: {
+    workflows_total: number;
+    workflows_active: number;
+    workflows_inactive: number;
+    pending_approvals: number;
+    runs_24h: number;
+    runs_failed_24h: number;
+    recent_runs: Array<{
+      id: string;
+      workflow_id: string;
+      status: string;
+      started_at: string | null;
+      completed_at: string | null;
+      error: string | null;
+    }>;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
