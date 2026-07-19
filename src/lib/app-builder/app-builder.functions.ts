@@ -181,6 +181,11 @@ export const deleteApp = createServerFn({ method: "POST" })
   .inputValidator((d: { projectId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertOwns(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `deleteApp ${data.projectId}`, source: "assistant", module: "app-builder.delete" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return deleteAppProject(supabaseAdmin, data.projectId);
   });
@@ -190,6 +195,11 @@ export const rollbackApp = createServerFn({ method: "POST" })
   .inputValidator((d: { projectId: string; version: number }) => d)
   .handler(async ({ data, context }) => {
     await assertOwns(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `rollbackApp ${data.projectId} v${data.version}`, source: "assistant", module: "app-builder.rollback" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return rollbackAppVersion(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
   });
