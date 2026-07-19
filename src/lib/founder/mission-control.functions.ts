@@ -275,6 +275,23 @@ export const founderMissionControl = createServerFn({ method: "GET" })
     const byKind: Record<string, number> = {};
     for (const c of creatorRows) byKind[c.kind] = (byKind[c.kind] ?? 0) + 1;
 
+    // Founder-initiated Creator Runtime (Batch I) — read approvals +
+    // finalized assets tagged by ASSET_SOURCE metadata.source.
+    const [fcApprovals, fcAssets] = await Promise.all([
+      sb
+        .from("approvals")
+        .select("id,title,status,created_at,metadata")
+        .eq("entity_type", "founder_creator_generation")
+        .order("created_at", { ascending: false })
+        .limit(64),
+      sb
+        .from("creator_assets")
+        .select("id,name,kind,model,created_at,metadata")
+        .contains("metadata", { source: "founder.creator.finalize" } as never)
+        .order("created_at", { ascending: false })
+        .limit(64),
+    ]);
+
     const healthRows = healthRecent.data ?? [];
     const healthCounts = { total: healthRows.length, healthy: 0, degraded: 0, down: 0 };
     for (const h of healthRows) {
