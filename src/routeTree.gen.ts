@@ -403,6 +403,7 @@ import { Route as AuthenticatedHappyBehaviourRouteImport } from './routes/_authe
 import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authenticated/founder.users'
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
+import { Route as AuthenticatedFounderPublishingRouteImport } from './routes/_authenticated/founder.publishing'
 import { Route as AuthenticatedFounderOpsRouteImport } from './routes/_authenticated/founder.ops'
 import { Route as AuthenticatedFounderIntegrationsRouteImport } from './routes/_authenticated/founder.integrations'
 import { Route as AuthenticatedFounderExecutiveRouteImport } from './routes/_authenticated/founder.executive'
@@ -2719,6 +2720,12 @@ const AuthenticatedFounderSecurityRoute =
     path: '/security',
     getParentRoute: () => AuthenticatedFounderRoute,
   } as any)
+const AuthenticatedFounderPublishingRoute =
+  AuthenticatedFounderPublishingRouteImport.update({
+    id: '/publishing',
+    path: '/publishing',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
 const AuthenticatedFounderOpsRoute = AuthenticatedFounderOpsRouteImport.update({
   id: '/ops',
   path: '/ops',
@@ -3730,6 +3737,7 @@ export interface FileRoutesByFullPath {
   '/founder/executive': typeof AuthenticatedFounderExecutiveRoute
   '/founder/integrations': typeof AuthenticatedFounderIntegrationsRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
+  '/founder/publishing': typeof AuthenticatedFounderPublishingRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
@@ -4223,6 +4231,7 @@ export interface FileRoutesByTo {
   '/founder/executive': typeof AuthenticatedFounderExecutiveRoute
   '/founder/integrations': typeof AuthenticatedFounderIntegrationsRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
+  '/founder/publishing': typeof AuthenticatedFounderPublishingRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
   '/founder/users': typeof AuthenticatedFounderUsersRoute
@@ -4736,6 +4745,7 @@ export interface FileRoutesById {
   '/_authenticated/founder/executive': typeof AuthenticatedFounderExecutiveRoute
   '/_authenticated/founder/integrations': typeof AuthenticatedFounderIntegrationsRoute
   '/_authenticated/founder/ops': typeof AuthenticatedFounderOpsRoute
+  '/_authenticated/founder/publishing': typeof AuthenticatedFounderPublishingRoute
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
   '/_authenticated/founder/users': typeof AuthenticatedFounderUsersRoute
@@ -5249,6 +5259,7 @@ export interface FileRouteTypes {
     | '/founder/executive'
     | '/founder/integrations'
     | '/founder/ops'
+    | '/founder/publishing'
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
@@ -5742,6 +5753,7 @@ export interface FileRouteTypes {
     | '/founder/executive'
     | '/founder/integrations'
     | '/founder/ops'
+    | '/founder/publishing'
     | '/founder/security'
     | '/founder/system'
     | '/founder/users'
@@ -6254,6 +6266,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/executive'
     | '/_authenticated/founder/integrations'
     | '/_authenticated/founder/ops'
+    | '/_authenticated/founder/publishing'
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
     | '/_authenticated/founder/users'
@@ -9234,6 +9247,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFounderSecurityRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
+    '/_authenticated/founder/publishing': {
+      id: '/_authenticated/founder/publishing'
+      path: '/publishing'
+      fullPath: '/founder/publishing'
+      preLoaderRoute: typeof AuthenticatedFounderPublishingRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
     '/_authenticated/founder/ops': {
       id: '/_authenticated/founder/ops'
       path: '/ops'
@@ -10580,6 +10600,7 @@ interface AuthenticatedFounderRouteChildren {
   AuthenticatedFounderExecutiveRoute: typeof AuthenticatedFounderExecutiveRoute
   AuthenticatedFounderIntegrationsRoute: typeof AuthenticatedFounderIntegrationsRoute
   AuthenticatedFounderOpsRoute: typeof AuthenticatedFounderOpsRoute
+  AuthenticatedFounderPublishingRoute: typeof AuthenticatedFounderPublishingRoute
   AuthenticatedFounderSecurityRoute: typeof AuthenticatedFounderSecurityRoute
   AuthenticatedFounderSystemRoute: typeof AuthenticatedFounderSystemRoute
   AuthenticatedFounderUsersRoute: typeof AuthenticatedFounderUsersRoute
@@ -10594,6 +10615,7 @@ const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
   AuthenticatedFounderExecutiveRoute: AuthenticatedFounderExecutiveRoute,
   AuthenticatedFounderIntegrationsRoute: AuthenticatedFounderIntegrationsRoute,
   AuthenticatedFounderOpsRoute: AuthenticatedFounderOpsRoute,
+  AuthenticatedFounderPublishingRoute: AuthenticatedFounderPublishingRoute,
   AuthenticatedFounderSecurityRoute: AuthenticatedFounderSecurityRoute,
   AuthenticatedFounderSystemRoute: AuthenticatedFounderSystemRoute,
   AuthenticatedFounderUsersRoute: AuthenticatedFounderUsersRoute,
