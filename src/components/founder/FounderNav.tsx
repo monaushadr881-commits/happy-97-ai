@@ -5,26 +5,21 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard,
-  Building2,
-  Users,
-  Sparkles,
-  Activity,
-  Shield,
-  BarChart3,
-  Settings2,
-  Newspaper,
+  LayoutDashboard, Building2, Users, Sparkles, Activity, Shield,
+  BarChart3, Settings2, Newspaper, Crown, Plug,
 } from "lucide-react";
 
 const TABS = [
   { to: "/founder", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/founder/brief", label: "Brief", icon: Newspaper, exact: false },
+  { to: "/founder/executive", label: "Executive", icon: Crown, exact: false },
   { to: "/founder/companies", label: "Companies", icon: Building2, exact: false },
   { to: "/founder/users", label: "Users", icon: Users, exact: false },
   { to: "/founder/ai", label: "AI", icon: Sparkles, exact: false },
   { to: "/founder/ops", label: "Operations", icon: Activity, exact: false },
   { to: "/founder/security", label: "Security", icon: Shield, exact: false },
   { to: "/founder/analytics", label: "Analytics", icon: BarChart3, exact: false },
+  { to: "/founder/integrations", label: "Integrations", icon: Plug, exact: false },
   { to: "/founder/system", label: "System", icon: Settings2, exact: false },
 ] as const;
 
