@@ -13,7 +13,7 @@ import {
 import { computeRiskScore, resolveSessionPolicy } from "@/lib/happy-id/risk";
 import * as happyId from "@/lib/happy-id.functions";
 import * as fortress from "@/lib/founder/identity-fortress";
-import { isFounderUnlimited } from "@/lib/founder/unlimited-policy";
+import { isFounder as isFounderUnlimited } from "@/lib/founder/unlimited-policy";
 
 const pk = (over: Partial<PasskeyRow> = {}): PasskeyRow => ({
   id: crypto.randomUUID(),
@@ -160,7 +160,7 @@ describe("R157 — Integration pipeline (Password → OTP → Risk → Trusted �
     // Verified founder gate still holds
     expect(isVerifiedFounder({ isFounder: true })).toBe(true);
     // R153 Founder Unlimited remains sole revenue policy for the Founder
-    expect(isFounderUnlimited({ isPlatformFounder: true })).toBe(true);
+    expect(isFounderUnlimited({ isFounder: true })).toBe(true);
     // Snapshot pulls in R156 pipeline used by R157 UI
     const snap = fortress.fortressSnapshot({ isFounder: true });
     expect(snap.loginPipeline.length).toBe(6);
