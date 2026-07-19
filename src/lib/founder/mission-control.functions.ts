@@ -313,7 +313,26 @@ export interface MissionControlSnapshot {
     coverage_pct: number;
     recent: Array<{ id: string; name: string; kind: string; created_at: string }>;
   };
+  verticals: {
+    // R189 Phase 3 — Manufacturing / Healthcare / Agriculture read-only
+    // surface. Read from canonical creator_assets rows (kind prefixes
+    // "mfg.*", "health.*", "agri.*") and public.approvals for pending
+    // gates. No new tables.
+    mfg: VerticalBlock;
+    health: VerticalBlock;
+    agri: VerticalBlock;
+    coverage_pct: number;
+  };
 }
+
+interface VerticalBlock {
+  vertical: "mfg" | "health" | "agri";
+  total: number;
+  last_24h: number;
+  critical_24h: number;
+  pending_approvals: number;
+  by_module: Array<{ module: string; total: number; last_24h: number; status: "wired" }>;
+  recent: Array<{ id: string; name: string; kind: string; created_at: string; severity?: string }>;
 
 
 export const founderMissionControl = createServerFn({ method: "GET" })
