@@ -206,6 +206,12 @@ export const aiUnderstandFile = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => z.object({ asset_id: uuid }).parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "file", capability: "understand",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `understand asset ${data.asset_id}`,
+      metadata: { asset_id: data.asset_id },
+    });
     const { data: asset, error: readErr } = await supabase
       .from("creator_assets")
       .select("id,name,mime_type,tags,metadata,kind")
