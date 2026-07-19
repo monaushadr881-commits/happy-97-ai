@@ -28,6 +28,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 /**
  * Founder-approval threshold for expenses (in cents).
@@ -78,6 +79,7 @@ export const bizCreateExpense = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => CreateExpenseInput.parse(i))
   .handler(async ({ data, context }): Promise<CreateExpenseResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "expense", capability: "create", user_id: context.userId, company_id: data.company_id, summary: `expense ${data.description ?? data.category ?? ""}`, metadata: { amount_cents: data.amount_cents, currency: data.currency } });
     const requiresApproval =
       data.amount_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS;
 
@@ -157,6 +159,7 @@ export const bizApplyApprovedExpense = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => ApplyApprovedExpenseInput.parse(i))
   .handler(async ({ data, context }): Promise<CreateExpenseResult> => {
     const { supabase } = context;
+    await adoptToCanonicalPipeline(supabase, { domain: "business", module: "expense", capability: "apply_approved", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000", summary: `apply approved expense`, metadata: { approval_id: data.approval_id } });
 
     const { data: approval, error: readErr } = await supabase
       .from("approvals")
