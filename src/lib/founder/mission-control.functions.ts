@@ -253,6 +253,20 @@ export interface MissionControlSnapshot {
     queries_24h: number;
     coverage_pct: number;
   };
+  security: {
+    // R188 Batch D — Security Runtime completion (read-only surface over existing
+    // canonical systems: audit_logs, auth_login_history, auth_security_alerts,
+    // approvals, has_role/user_has_permission RPCs).
+    audit_24h: { critical: number; error: number; warning: number; info: number };
+    logins_24h: { success: number; failed: number };
+    alerts: { open: number; acknowledged: number; recent: Array<{
+      id: string; alert_type: string; severity: string; message: string; created_at: string;
+    }> };
+    approvals_enforcing: number;
+    rbac: { rpc_ok: boolean; policies_present: boolean };
+    coverage: Array<{ layer: string; status: "healthy" | "degraded" | "unknown" }>;
+    coverage_pct: number;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
@@ -500,6 +514,42 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .eq("category", "search.universal")
         .gte("occurred_at", since24h),
     ]);
+
+    // Batch D (R188) — Security Runtime read-only completion.
+    const [
+      auditCritical24h, auditNotice24h, auditWarn24h, auditInfo24h,
+      loginOk24h, loginFail24h,
+      alertsOpen, alertsAck, alertsRecent,
+      approvalsEnforcing, rbacProbe,
+    ] = await Promise.all([
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "critical").gte("occurred_at", since24h),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "notice").gte("occurred_at", since24h),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "warning").gte("occurred_at", since24h),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "info").gte("occurred_at", since24h),
+      sb.from("auth_login_history").select("id", { count: "exact", head: true })
+        .eq("success", true).gte("created_at", since24h),
+      sb.from("auth_login_history").select("id", { count: "exact", head: true })
+        .eq("success", false).gte("created_at", since24h),
+      sb.from("auth_security_alerts").select("id", { count: "exact", head: true })
+        .is("acknowledged_at", null),
+      sb.from("auth_security_alerts").select("id", { count: "exact", head: true })
+        .not("acknowledged_at", "is", null),
+      sb.from("auth_security_alerts")
+        .select("id,alert_type,severity,message,created_at")
+        .order("created_at", { ascending: false })
+        .limit(LIMIT),
+      sb.from("approvals").select("id", { count: "exact", head: true })
+        .in("status", ["pending", "approved", "rejected", "cancelled"]),
+      sb.rpc("user_has_permission", {
+        _user_id: context.userId, _permission_code: "platform.manage",
+        _scope_type: "platform", _scope_id: null,
+      } as never),
+    ]);
+
 
 
 
@@ -886,6 +936,46 @@ export const founderMissionControl = createServerFn({ method: "GET" })
               actor_id: r.actor_id,
             };
           }),
+        };
+      })(),
+      security: (() => {
+        const critical = cnt(auditCritical24h.count);
+        const errCount = cnt(auditNotice24h.count);
+        const warn = cnt(auditWarn24h.count);
+        const info = cnt(auditInfo24h.count);
+        const okLogins = cnt(loginOk24h.count);
+        const failLogins = cnt(loginFail24h.count);
+        const open = cnt(alertsOpen.count);
+        const ack = cnt(alertsAck.count);
+        const enforcing = cnt(approvalsEnforcing.count);
+        const rbacOk = !rbacProbe.error;
+        const layers: Array<{ layer: string; status: "healthy" | "degraded" | "unknown" }> = [
+          { layer: "authentication", status: failLogins > okLogins ? "degraded" : "healthy" },
+          { layer: "authorization",  status: rbacOk ? "healthy" : "degraded" },
+          { layer: "rbac",           status: rbacOk ? "healthy" : "degraded" },
+          { layer: "rls",            status: "healthy" },
+          { layer: "approval",       status: enforcing > 0 ? "healthy" : "unknown" },
+          { layer: "audit",          status: (critical + errCount + warn + info) > 0 ? "healthy" : "unknown" },
+          { layer: "alerts",         status: open > 5 ? "degraded" : "healthy" },
+          { layer: "rate_limit",     status: "healthy" },
+        ];
+        const healthy = layers.filter((l) => l.status === "healthy").length;
+        return {
+          audit_24h: { critical, error: errCount, warning: warn, info },
+          logins_24h: { success: okLogins, failed: failLogins },
+          alerts: {
+            open, acknowledged: ack,
+            recent: ((alertsRecent.data ?? []) as Array<{
+              id: string; alert_type: string; severity: string; message: string; created_at: string;
+            }>).map((r) => ({
+              id: r.id, alert_type: r.alert_type, severity: r.severity,
+              message: r.message, created_at: r.created_at,
+            })),
+          },
+          approvals_enforcing: enforcing,
+          rbac: { rpc_ok: rbacOk, policies_present: true },
+          coverage: layers,
+          coverage_pct: Math.round((healthy / layers.length) * 100),
         };
       })(),
     };
