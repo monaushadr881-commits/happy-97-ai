@@ -287,6 +287,39 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .limit(64),
     ]);
 
+    // Batch J — Revenue OS extension reads. Kept as a small parallel
+    // batch outside the main Promise.all so its typings stay isolated
+    // and additions don't ripple through the primary tuple.
+    const [
+      walletsTotal,
+      walletLedger30d,
+      creditsGrant30d,
+      creditsConsume30d,
+      subsActive,
+      subsTrial,
+      subsPaused,
+      subsCancelled,
+      subsRecent,
+      paySuccess30d,
+      payFailed30d,
+      payPendingApproval,
+      payRecent,
+    ] = await Promise.all([
+      sb.from("wallets").select("id", { count: "exact", head: true }),
+      sb.from("wallet_ledger_entries").select("id", { count: "exact", head: true }).gte("created_at", since30d),
+      sb.from("credit_ledger_entries").select("id", { count: "exact", head: true }).eq("direction", "credit").gte("created_at", since30d),
+      sb.from("credit_ledger_entries").select("id", { count: "exact", head: true }).eq("direction", "debit").gte("created_at", since30d),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "paused"),
+      sb.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "cancelled"),
+      sb.from("subscriptions").select("id,status,plan_id,seats,updated_at").order("updated_at", { ascending: false }).limit(LIMIT),
+      sb.from("payments").select("id", { count: "exact", head: true }).eq("status", "succeeded").gte("received_at", since30d),
+      sb.from("payments").select("id", { count: "exact", head: true }).eq("status", "failed").gte("received_at", since30d),
+      sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "pending").eq("entity_type", "revenue.payment"),
+      sb.from("payments").select("id,amount_cents,currency,status,received_at").order("received_at", { ascending: false, nullsFirst: false }).limit(LIMIT),
+    ]);
+
     // Executive Board reviews — separate query so the Promise.all
     // above stays typed. Cheap: capped at 64 rows, RLS-scoped.
     const execRecent = await sb
