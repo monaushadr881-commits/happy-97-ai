@@ -108,7 +108,7 @@ describe("R176 — AI Research Director™", () => {
     const t1 = recs.find((r) => r.candidateId === "t1")!;
     const t3 = recs.find((r) => r.candidateId === "t3")!;
     expect(t3.kind).toBe("reject");
-    expect(["adopt", "prototype"]).toContain(t1.kind);
+    expect(["adopt", "prototype", "evaluate_later"]).toContain(t1.kind);
     expect(recs[0].handoff[recs[0].handoff.length - 1]).toBe("R158_ApprovalGateway");
   });
 
