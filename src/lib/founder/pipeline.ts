@@ -42,6 +42,9 @@ export interface AdoptOptions {
     | "manufacturing"
     | "healthcare"
     | "agriculture"
+    | "cloud"
+    | "commerce"
+    | "partner"
     | "ufs"
     | "founder";
   readonly module: string;
