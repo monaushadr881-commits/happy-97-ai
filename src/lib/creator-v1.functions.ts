@@ -68,15 +68,13 @@ const CreateProject = z.object({
 export const creatorCreateProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateProject.parse(i))
-  .handler(async ({ data, context  }) => {
+  .handler(async ({ data, context  }) => guard(async () => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "creatorCreateProject", source: "api", module: "creator.creatorCreateProject" });
-    return guard(async () => {
     const r = await context.supabase.from("creator_projects")
       .insert({ user_id: context.userId, ...data })
       .select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  });
 export const creatorArchiveProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, archived: z.boolean() }).parse(i))
@@ -88,7 +86,6 @@ export const creatorArchiveProject = createServerFn({ method: "POST" })
       .eq("id", data.id).eq("user_id", context.userId).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  });
 export const creatorDeleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
@@ -97,10 +94,8 @@ export const creatorDeleteProject = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("creator_projects")
       .delete().eq("id", data.id).eq("user_id", context.userId;
-  });
     if (r.error) throw r.error;
     return { ok: true };
-  });
 // =====================================================================
 // ASSETS
 // =====================================================================
@@ -119,13 +114,11 @@ export const creatorListAssets = createServerFn({ method: "POST" })
       .eq("user_id", context.userId)
       .order("created_at", { ascending: false })
       .limit(data.limit;
-  });
     if (data.kind) q = q.eq("kind", data.kind);
     if (data.project_id) q = q.eq("project_id", data.project_id);
     const r = await q;
     if (r.error) throw r.error;
     return r.data ?? [];
-  });
 export const creatorDeleteAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
@@ -134,10 +127,8 @@ export const creatorDeleteAsset = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("creator_assets")
       .delete().eq("id", data.id).eq("user_id", context.userId;
-  });
     if (r.error) throw r.error;
     return { ok: true };
-  });
 async function recordGeneration(
   supabase: any, userId: string,
   args: {
@@ -158,7 +149,6 @@ async function recordGeneration(
     status: args.status ?? "succeeded",
     error: args.error,
     duration_ms: args.duration_ms,
-  });
 }
 
 // =====================================================================
@@ -178,7 +168,6 @@ const ImageGen = z.object({
   project_id: uuid.nullable().optional(),
   aspect: z.enum(["square","portrait","landscape","wide"]).default("square"),
   name: z.string().max(140).optional(),
-});
 export const creatorGenerateImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ImageGen.parse(i))
@@ -224,15 +213,12 @@ export const creatorGenerateImage = createServerFn({ method: "POST" })
       studio: "image", operation: "generate", model: data.model, prompt: data.prompt,
       input: { aspect: data.aspect }, output_asset_id: asset.data.id,
       project_id: data.project_id ?? null, duration_ms: Date.now() - started,
-    });
     return asset.data;
-  });
 const ImageEdit = z.object({
   asset_id: uuid,
   prompt: z.string().min(3).max(4000),
   model: z.enum(IMAGE_MODELS).default("google/gemini-3.1-flash-image"),
   name: z.string().max(140).optional(),
-});
 export const creatorEditImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ImageEdit.parse(i))
@@ -278,9 +264,7 @@ export const creatorEditImage = createServerFn({ method: "POST" })
       studio: "image", operation: "edit", model: data.model, prompt: data.prompt,
       input: { asset_id: data.asset_id }, output_asset_id: asset.data.id,
       project_id: src.data.project_id,
-    });
     return asset.data;
-  });
 // =====================================================================
 // VOICE STUDIO (TTS via /v1/audio/speech)
 // =====================================================================
@@ -291,7 +275,6 @@ const Tts = z.object({
   format: z.enum(["mp3","wav","opus","aac","flac"]).default("mp3"),
   project_id: uuid.nullable().optional(),
   name: z.string().max(140).optional(),
-});
 export const creatorTts = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Tts.parse(i))
@@ -304,7 +287,6 @@ export const creatorTts = createServerFn({ method: "POST" })
       body: JSON.stringify({
         model: data.model, input: data.input, voice: data.voice, response_format: data.format,
       }),
-    });
     if (!res.ok) throw new Error(`AI Gateway error ${res.status}`);
     const buf = new Uint8Array(await res.arrayBuffer());
     // base64 encode without Buffer (Worker-safe)
@@ -331,9 +313,7 @@ export const creatorTts = createServerFn({ method: "POST" })
       studio: "voice", operation: "tts", model: data.model, prompt: data.input,
       input: { voice: data.voice, format: data.format }, output_asset_id: asset.data.id,
       project_id: data.project_id ?? null,
-    });
     return asset.data;
-  });
 // =====================================================================
 // COPY / MARKETING / DOCUMENT STUDIO — text generation
 // =====================================================================
@@ -345,7 +325,6 @@ const Copy = z.object({
   format: z.enum(["ad","email","social","blog","landing","script","press_release","product_description"]).default("ad"),
   brand_kit_id: uuid.nullable().optional(),
   project_id: uuid.nullable().optional(),
-});
 export const creatorGenerateCopy = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Copy.parse(i))
@@ -373,7 +352,6 @@ export const creatorGenerateCopy = createServerFn({ method: "POST" })
         { role: "system", content: sys },
         { role: "user", content: data.brief },
       ],
-    });
     const text = (json?.choices?.[0]?.message?.content ?? "").trim();
     if (!text) throw new Error("Model returned no text.");
 
@@ -394,9 +372,7 @@ export const creatorGenerateCopy = createServerFn({ method: "POST" })
       studio: data.studio, operation: "copy", model: "google/gemini-2.5-flash", prompt: data.brief,
       input: { format: data.format, tone: data.tone, audience: data.audience },
       output_asset_id: asset.data.id, project_id: data.project_id ?? null,
-    });
     return { ...asset.data, text };
-  });
 // =====================================================================
 // PRESENTATION STUDIO — generate a deck (structured JSON)
 // =====================================================================
@@ -406,7 +382,6 @@ const Slides = z.object({
   outline: z.string().min(5).max(4000),
   slide_count: z.number().int().min(3).max(30).default(10),
   project_id: uuid.nullable().optional(),
-});
 export const creatorGenerateSlides = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Slides.parse(i))
@@ -423,7 +398,6 @@ Return STRICT JSON only, no prose, no code fences:
       model: "google/gemini-2.5-flash",
       messages: [{ role: "user", content: prompt }],
     };
-  });
     const raw = (json?.choices?.[0]?.message?.content ?? "").trim();
     const match = raw.match(/```json\s*([\s\S]*?)```/i) ?? raw.match(/(\{[\s\S]*\})/);
     let slides: unknown = [];
@@ -451,9 +425,7 @@ Return STRICT JSON only, no prose, no code fences:
       studio: "presentation", operation: "slides", model: "google/gemini-2.5-flash",
       prompt: data.outline, input: { slide_count: data.slide_count, audience: data.audience },
       output_asset_id: asset.data.id, project_id: data.project_id ?? null,
-    });
     return asset.data;
-  });
 // =====================================================================
 // BRAND STUDIO
 // =====================================================================
@@ -464,7 +436,6 @@ export const creatorListBrandKits = createServerFn({ method: "GET" })
       .select("*").eq("user_id", context.userId).order("updated_at", { ascending: false });
     if (r.error) throw r.error;
     return r.data ?? [];
-  });
 const BrandUpsert = z.object({
   id: uuid.optional(),
   name: z.string().min(1).max(120),
@@ -475,7 +446,6 @@ const BrandUpsert = z.object({
   body_font: z.string().max(80).optional(),
   voice_guide: z.string().max(2000).optional(),
   is_default: z.boolean().optional(),
-});
 export const creatorSaveBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => BrandUpsert.parse(i))
@@ -489,7 +459,6 @@ export const creatorSaveBrandKit = createServerFn({ method: "POST" })
       : await context.supabase.from("creator_brand_kits").insert(payload).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  });
 export const creatorDeleteBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
@@ -498,10 +467,8 @@ export const creatorDeleteBrandKit = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("creator_brand_kits")
       .delete().eq("id", data.id).eq("user_id", context.userId;
-  });
     if (r.error) throw r.error;
     return { ok: true };
-  });
 // =====================================================================
 // DASHBOARD / STATS
 // =====================================================================
@@ -525,7 +492,6 @@ export const creatorDashboard = createServerFn({ method: "GET" })
       total_generations: gens.count ?? 0,
       recent: recent.data ?? [],
     };
-  });
 export const creatorRecentGenerations = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({
@@ -542,4 +508,3 @@ export const creatorRecentGenerations = createServerFn({ method: "POST" })
     const r = await q;
     if (r.error) throw r.error;
     return r.data ?? [];
-  });
