@@ -156,11 +156,17 @@ function Nav() {
 
 function LogoMark() {
   return (
-    <div className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-gold/30 bg-charcoal">
-      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-gold/25 via-transparent to-transparent" />
-      <span className="relative font-display text-[13px] font-bold text-gradient-gold">
-        H
-      </span>
+    <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg">
+      <img
+        src={happyAiLogo.url}
+        alt="HAPPY AI logo"
+        width={36}
+        height={36}
+        loading="eager"
+        decoding="sync"
+        className="h-full w-full object-contain"
+        style={{ imageRendering: "auto" }}
+      />
     </div>
   );
 }
