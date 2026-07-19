@@ -994,9 +994,37 @@ export function MissionControl() {
           </div>
         </div>
       </Panel>
+
+      <Panel
+        icon={Server}
+        title="Platform Core · Runtime Layers"
+        subtitle="Canonical kernel + services/core + integrations coverage"
+        tone="gold"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <StatCard label="Coverage" value={`${d?.platform_core.coverage_pct ?? 0}%`} />
+          <StatCard label="DB Probe" value={d?.platform_core.db_probe_ok ? "OK" : "DEGRADED"} />
+          <StatCard label="Layers" value={fmt(d?.platform_core.layers.length)} />
+        </div>
+        <Hairline className="my-4" />
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {(d?.platform_core.layers ?? []).map((l) => (
+            <li key={l.layer} className="flex items-center justify-between rounded-md border border-white/5 bg-white/[0.02] px-3 py-2">
+              <div className="flex flex-col">
+                <span className="text-sm text-white">{l.layer}</span>
+                <span className="text-[11px] text-soft-gray">{l.owner}</span>
+              </div>
+              <Chip tone={l.status === "present" ? "gold" : l.status === "degraded" ? "warn" : "danger"}>
+                {l.status}
+              </Chip>
+            </li>
+          ))}
+        </ul>
+      </Panel>
     </section>
   );
 }
+
 
 
 
