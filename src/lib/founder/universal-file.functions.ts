@@ -91,6 +91,12 @@ export const ufsRegisterFile = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => RegisterInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "file", capability: "register",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `register ${data.name}`,
+      metadata: { workspace_id: data.workspace_id ?? null, bucket: data.bucket },
+    });
     const meta = {
       workspace_id: data.workspace_id ?? null,
       bucket: data.bucket,
