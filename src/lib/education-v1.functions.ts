@@ -471,6 +471,7 @@ export const eduCreateUpload = createServerFn({ method: "POST" })
     lesson_id: uuid.optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "upload", capability: "create", user_id: context.userId, company_id: data.company_id ?? ZERO_UUID, metadata: { kind: data.kind } });
     const r = await context.supabase.from("content_uploads").insert({
       creator_id: context.userId,
       company_id: data.company_id ?? null,
