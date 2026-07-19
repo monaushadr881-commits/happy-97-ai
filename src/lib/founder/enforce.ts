@@ -20,7 +20,7 @@
  */
 
 import { classifyChange, requirementsFor, type ApprovalTier, type ChangeDescriptor } from "./approval-gateway";
-import { runBrain, type RunBrainInput } from "@/lib/brain/engine";
+import { runBrain, type RunBrainInput, intent } from "@/lib/brain/engine";
 
 // Executive Board — pull each canonical module's RESPONSIBILITIES constant
 // as its "opinion signal". The modules are pure governance today; this is
