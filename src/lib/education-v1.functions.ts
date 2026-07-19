@@ -296,6 +296,7 @@ export const eduSubmitQuiz = createServerFn({ method: "POST" })
     answers: z.array(z.object({ question_id: uuid, value: z.unknown() })).max(500),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "quiz", capability: "submit", user_id: context.userId, company_id: ZERO_UUID, summary: `submit ${data.quiz_id}` });
     const s = context.supabase;
     const [quiz, questions] = await Promise.all([
       s.from("quizzes").select("id, passing_score").eq("id", data.quiz_id).maybeSingle(),
