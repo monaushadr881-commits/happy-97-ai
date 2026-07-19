@@ -103,12 +103,12 @@ export const opsListDeployments = createServerFn({ method: "POST" })
 export const opsStartDeployment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => deploymentService.start(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "deployment", "start"); return guard(() => deploymentService.start(svc(context), data)); });
 
 export const opsFinishDeployment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => deploymentService.finish(svc(context), data)));
+  .handler(async ({ data, context }) => { await adopt(context, "deployment", "finish"); return guard(() => deploymentService.finish(svc(context), data)); });
 
 export const opsDeploymentAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
