@@ -115,6 +115,11 @@ export const createProjectDeployment = createServerFn({ method: "POST" })
   })
   .handler(async ({ data, context }) => {
     await assertProjectOwner(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `deploy ${data.projectId} → ${data.environment}/${data.target}`, source: "api", module: "deployment.create" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const deployment = await createDeployment(supabaseAdmin, {
       projectId: data.projectId,
@@ -126,7 +131,6 @@ export const createProjectDeployment = createServerFn({ method: "POST" })
       buildProfile: data.buildProfile,
     });
     if (data.autoRun !== false) {
-      // Run inline; server function returns after execution completes.
       const executed = await runDeployment(supabaseAdmin, deployment.id);
       return executed ?? deployment;
     }
@@ -138,6 +142,11 @@ export const retryProjectDeployment = createServerFn({ method: "POST" })
   .inputValidator((d: { deploymentId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertDeploymentAccess(context as Ctx, data.deploymentId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `deploy.retry ${data.deploymentId}`, source: "api", module: "deployment.retry" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const prev = await getDeployment(supabaseAdmin, data.deploymentId);
     if (!prev) throw new Error("deployment_not_found");
@@ -158,6 +167,11 @@ export const cancelProjectDeployment = createServerFn({ method: "POST" })
   .inputValidator((d: { deploymentId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertDeploymentAccess(context as Ctx, data.deploymentId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `deploy.cancel ${data.deploymentId}`, source: "api", module: "deployment.cancel" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return cancelDeployment(supabaseAdmin, data.deploymentId);
   });
@@ -167,6 +181,11 @@ export const rollbackProjectDeployment = createServerFn({ method: "POST" })
   .inputValidator((d: { targetDeploymentId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertDeploymentAccess(context as Ctx, data.targetDeploymentId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `deploy.rollback ${data.targetDeploymentId}`, source: "api", module: "deployment.rollback" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return rollbackDeployment(supabaseAdmin, {
       targetDeploymentId: data.targetDeploymentId,
@@ -195,6 +214,11 @@ export const addProjectDomain = createServerFn({ method: "POST" })
   })
   .handler(async ({ data, context }) => {
     await assertProjectOwner(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `domain.add ${data.hostname}`, source: "api", module: "deployment.domain.add" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return addDomain(supabaseAdmin, {
       projectId: data.projectId,
@@ -209,6 +233,11 @@ export const removeProjectDomain = createServerFn({ method: "POST" })
   .inputValidator((d: { domainId: string; projectId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertProjectOwner(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `domain.remove ${data.domainId}`, source: "api", module: "deployment.domain.remove" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return removeDomain(supabaseAdmin, data.domainId);
   });
@@ -218,6 +247,11 @@ export const verifyProjectDomain = createServerFn({ method: "POST" })
   .inputValidator((d: { domainId: string; projectId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertProjectOwner(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `domain.verify ${data.domainId}`, source: "api", module: "deployment.domain.verify" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return attemptDomainVerification(supabaseAdmin, data.domainId);
   });

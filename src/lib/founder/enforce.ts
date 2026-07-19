@@ -355,3 +355,95 @@ export async function withBrain(
   };
 }
 
+/* ============================================================================
+ * enforceMutation — Phase C centralized mutation wrapper.
+ *
+ * A one-line wrapper for any `createServerFn` handler that mutates data.
+ * Replaces the copy/paste `withBrain(...)` + optional `requireApproval(...)`
+ * boilerplate. All plumbing still flows through the same canonical owners
+ * (`runBrain`, `write_audit`, `public.approvals`). No new runtime.
+ *
+ * Usage:
+ *   .handler(enforceMutation(
+ *     { action: "delete", entityType: "creator_project", module: "app-builder.delete" },
+ *     async ({ data, context, brain }) => {
+ *       // mutation body — brain result already recorded
+ *     },
+ *   ))
+ * ========================================================================== */
+
+export type EnforceMutationOpts = {
+  /** Human/machine action name, e.g. "publish" / "deploy" / "delete". */
+  action: string;
+  /** Table or logical entity (e.g. "project_deployments", "cms_content"). */
+  entityType: string;
+  /** Optional canonical module tag for audit/brain metadata. */
+  module?: string;
+  /** Source for `runBrain` ("api" | "chat" | "voice" | ...). Defaults to "api". */
+  source?: RunBrainInput["source"];
+  /** When true, additionally require an approved `public.approvals` row. */
+  requireApprovalTier?: boolean;
+  /** For approval flows, must supply a companyId at call-time via arg. */
+};
+
+export type EnforcedHandlerArg<TCtx, TData> = {
+  data: TData;
+  context: TCtx;
+  brain: BrainGateResult;
+};
+
+/**
+ * Wrap a server-fn handler so every invocation runs `withBrain` first (and
+ * optionally `requireApproval`) before executing the underlying mutation.
+ *
+ * The wrapper is generic over the handler's `data` and `context` shape so
+ * it drops into `createServerFn().handler(...)` chains without ceremony.
+ */
+export function enforceMutation<
+  TCtx extends { userId: string; supabase?: unknown; companyId?: string | null },
+  TData,
+  TResult,
+>(
+  opts: EnforceMutationOpts,
+  fn: (arg: EnforcedHandlerArg<TCtx, TData>) => Promise<TResult>,
+): (arg: { data: TData; context: TCtx }) => Promise<TResult> {
+  return async ({ data, context }) => {
+    const companyId = (context as { companyId?: string | null }).companyId ?? null;
+
+    const brain = await withBrain(
+      {
+        supabase: context.supabase as never,
+        userId: context.userId,
+        companyId,
+      },
+      {
+        input: `${opts.action} ${opts.entityType}`,
+        source: opts.source ?? "api",
+        module: opts.module ?? `${opts.entityType}.${opts.action}`,
+      },
+    );
+
+    // Optional Phase C approval gate — only fires when company-scoped and the
+    // caller opts in. Personal/user-scoped mutations rely on RLS + brain audit.
+    if (opts.requireApprovalTier && companyId && context.supabase) {
+      await requireApproval(
+        { supabase: context.supabase as never, userId: context.userId },
+        {
+          action: opts.action,
+          entityType: opts.entityType,
+          companyId,
+          entityId: undefined,
+          descriptor: {
+            title: `${opts.action} ${opts.entityType}`,
+            kind: opts.entityType,
+            risk: "standard",
+          } as ChangeDescriptor,
+        },
+      );
+    }
+
+    return fn({ data, context, brain });
+  };
+}
+
+
