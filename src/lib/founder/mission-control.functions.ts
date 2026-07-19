@@ -515,6 +515,42 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .gte("occurred_at", since24h),
     ]);
 
+    // Batch D (R188) — Security Runtime read-only completion.
+    const [
+      auditCritical24h, auditError24h, auditWarn24h, auditInfo24h,
+      loginOk24h, loginFail24h,
+      alertsOpen, alertsAck, alertsRecent,
+      approvalsEnforcing, rbacProbe,
+    ] = await Promise.all([
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "critical").gte("occurred_at", since24h),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "error").gte("occurred_at", since24h),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "warning").gte("occurred_at", since24h),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .eq("severity", "info").gte("occurred_at", since24h),
+      sb.from("auth_login_history").select("id", { count: "exact", head: true })
+        .eq("success", true).gte("created_at", since24h),
+      sb.from("auth_login_history").select("id", { count: "exact", head: true })
+        .eq("success", false).gte("created_at", since24h),
+      sb.from("auth_security_alerts").select("id", { count: "exact", head: true })
+        .is("acknowledged_at", null),
+      sb.from("auth_security_alerts").select("id", { count: "exact", head: true })
+        .not("acknowledged_at", "is", null),
+      sb.from("auth_security_alerts")
+        .select("id,alert_type,severity,message,created_at")
+        .order("created_at", { ascending: false })
+        .limit(LIMIT),
+      sb.from("approvals").select("id", { count: "exact", head: true })
+        .in("status", ["pending", "approved", "rejected", "cancelled"]),
+      sb.rpc("user_has_permission", {
+        _user_id: context.userId, _permission_code: "platform.manage",
+        _scope_type: "platform", _scope_id: null,
+      } as never),
+    ]);
+
+
 
 
 
