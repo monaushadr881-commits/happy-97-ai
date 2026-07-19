@@ -240,6 +240,19 @@ export interface MissionControlSnapshot {
       created_at: string;
     }>;
   };
+  search: {
+    indexed_sources: Array<{ source: string; rows: number }>;
+    total_indexed: number;
+    recent_queries: Array<{
+      id: string;
+      q: string;
+      results_total: number;
+      occurred_at: string;
+      actor_id: string | null;
+    }>;
+    queries_24h: number;
+    coverage_pct: number;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
