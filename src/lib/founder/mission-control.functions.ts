@@ -267,6 +267,29 @@ export interface MissionControlSnapshot {
     coverage: Array<{ layer: string; status: "healthy" | "degraded" | "unknown" }>;
     coverage_pct: number;
   };
+  business: {
+    // R188 Batch E — Business OS Runtime Rollout. Read-only aggregation over
+    // existing canonical business tables + business.* approvals + business.*
+    // audit categories. No new tables, no new services.
+    kpis: {
+      customers: number; leads: number; deals: number;
+      sales_orders: number; purchase_orders: number; suppliers: number;
+      employees: number; support_tickets: number; meetings: number;
+      invoices: number; expenses: number;
+    };
+    pending_approvals: number;
+    recent_approvals: Array<{
+      id: string; title: string; entity_type: string; status: string;
+      amount_cents: number | null; currency: string | null; created_at: string;
+    }>;
+    audit_24h: number;
+    recent_audit: Array<{
+      id: string; category: string; action: string; entity_type: string | null;
+      severity: string | null; occurred_at: string;
+    }>;
+    coverage: Array<{ module: string; status: "wired" | "read_only" }>;
+    coverage_pct: number;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
