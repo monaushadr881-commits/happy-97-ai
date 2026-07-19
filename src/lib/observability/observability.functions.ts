@@ -156,8 +156,7 @@ export const obsUpsertComponent = createServerFn({ method: "POST" })
     const { data: row, error } = await context.supabase.from("obs_status_components")
       .upsert(data as never, { onConflict: "key" }).select("*").single();
     if (error) throw error;
-    return row;
-  });
+    return row);
   });
 
 const StatusUpdateInput = z.object({

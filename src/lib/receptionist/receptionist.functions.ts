@@ -42,8 +42,7 @@ export const startReceptionistSessionFn = createServerFn({ method: 'POST' })
       metadata: data.metadata ?? {},
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const endSchema = z.object({ sessionId: z.string().uuid(), status: z.enum(['ended','abandoned']).default('ended') });
 export const endReceptionistSessionFn = createServerFn({ method: 'POST' })
@@ -54,8 +53,7 @@ export const endReceptionistSessionFn = createServerFn({ method: 'POST' })
       .update({ status: data.status, ended_at: new Date().toISOString() })
       .eq('id', data.sessionId).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Intent routing --------------------------------------------------
 const ROUTES: { kw: RegExp; mode: Mode; domain: string; runtime: string }[] = [
@@ -217,5 +215,4 @@ export const computeReceptionistAnalyticsFn = createServerFn({ method: 'POST' })
     const { data: row, error: insErr } = await context.supabase
       .from('receptionist_analytics_snapshots').insert(snapshot).select('*').single();
     if (insErr) throw insErr;
-    return row;
-  });
+    return row);

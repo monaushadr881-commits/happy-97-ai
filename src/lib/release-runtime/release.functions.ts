@@ -58,8 +58,7 @@ export const createRelease = createServerFn({ method: "POST" })
       .select()
       .single();
     if (error) throw new Error(error.message);
-    return row;
-  });
+    return row);
 
 export const listReleases = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -100,8 +99,7 @@ export const addChangelogEntry = createServerFn({ method: "POST" })
       })
       .select().single();
     if (error) throw new Error(error.message);
-    return row;
-  });
+    return row);
 
 export const generateReleaseNotesMarkdown = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -184,8 +182,7 @@ export const listStoreSubmissions = createServerFn({ method: "GET" })
       .from("release_store_submissions").select("*")
       .eq("release_id", data.release_id).order("store");
     if (error) throw new Error(error.message);
-    return rows ?? [];
-  });
+    return rows ?? []);
 
 /* ----- Rollback ----- */
 export const initiateRollback = createServerFn({ method: "POST" })
@@ -217,8 +214,7 @@ export const initiateRollback = createServerFn({ method: "POST" })
       })
       .select().single();
     if (error) throw new Error(error.message);
-    return row;
-  });
+    return row);
 
 /* ----- Signing profile registry (metadata only, NO key material) ----- */
 export const listSigningProfiles = createServerFn({ method: "GET" })

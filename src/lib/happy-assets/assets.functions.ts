@@ -44,8 +44,7 @@ export const registerAsset = createServerFn({ method: "POST" })
       .select("id, asset_type, name, tags")
       .single();
     if (error) throw new Error(`register_asset_failed:${error.message}`);
-    return row;
-  });
+    return row);
 
 const ImportVersion = z.object({
   asset_id: z.string().uuid(),
@@ -94,8 +93,7 @@ export const createCharacterManifest = createServerFn({ method: "POST" })
       .select("id, character_key, version, status")
       .single();
     if (error) throw new Error(`manifest_create_failed:${error.message}`);
-    return row;
-  });
+    return row);
 
 const LinkAsset = z.object({
   manifest_id: z.string().uuid(),
@@ -122,8 +120,7 @@ export const linkManifestAsset = createServerFn({ method: "POST" })
       .select("id, role, slot, required")
       .single();
     if (error) throw new Error(`link_asset_failed:${error.message}`);
-    return row;
-  });
+    return row);
 
 const ManifestId = z.object({ manifest_id: z.string().uuid() });
 

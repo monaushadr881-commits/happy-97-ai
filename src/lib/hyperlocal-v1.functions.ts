@@ -110,8 +110,7 @@ export const hlSetMyLocation = createServerFn({ method: "POST" })
       updated_at: new Date().toISOString(),
     }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -150,8 +149,7 @@ export const hlCreatePlace = createServerFn({ method: "POST" })
     const r = await context.supabase.from("hl_places")
       .insert({ ...data, created_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -227,8 +225,7 @@ export const hlUpsertBusiness = createServerFn({ method: "POST" })
       : context.supabase.from("hl_businesses").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 export const hlListMyBusinesses = createServerFn({ method: "GET" })
@@ -292,8 +289,7 @@ export const hlUpsertJob = createServerFn({ method: "POST" })
       : context.supabase.from("hl_jobs").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -346,8 +342,7 @@ export const hlUpsertEvent = createServerFn({ method: "POST" })
       : context.supabase.from("hl_events").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -393,8 +388,7 @@ export const hlCreateAlert = createServerFn({ method: "POST" })
     const r = await context.supabase.from("hl_alerts")
       .insert({ ...data, posted_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -428,8 +422,7 @@ export const hlUpsertReview = createServerFn({ method: "POST" })
     const r = await context.supabase.from("hl_reviews").upsert({
       business_id: data.business_id, user_id: context.userId,
       rating: data.rating, comment: data.comment ?? null,
-    }, { onConflict: "business_id,user_id" }).select("*").single(;
-  });
+    }, { onConflict: "business_id,user_id" }).select("*").single();
     if (r.error) throw r.error;
 
     // Recompute simple rating aggregate for the business.
@@ -440,11 +433,9 @@ export const hlUpsertReview = createServerFn({ method: "POST" })
       const avg = total ? agg.data.reduce((s, x) => s + (x.rating ?? 0), 0) / total : 0;
       await context.supabase.from("hl_businesses")
         .update({ rating_avg: Number(avg.toFixed(2)), rating_count: total })
-        .eq("id", data.business_id;
-  });
+        .eq("id", data.business_id);
     }
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================

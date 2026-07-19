@@ -21,8 +21,7 @@ export const listCapabilitiesFn = createServerFn({ method: 'GET' })
     const { data, error } = await context.supabase.from('capability_registry')
       .select('*').order('release_id').order('code');
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);
 
 const upsertCapSchema = z.object({
   code: z.string().min(2),
@@ -53,8 +52,7 @@ export const upsertCapabilityFn = createServerFn({ method: 'POST' })
     const { data: row, error } = await context.supabase.from('capability_registry')
       .insert({ ...data, metadata: data.metadata ?? {} }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Health checks ---------------------------------------------------
 const healthSchema = z.object({
@@ -78,8 +76,7 @@ export const recordHealthCheckFn = createServerFn({ method: 'POST' })
       checked_by: context.userId,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Certification report -------------------------------------------
 const reportSchema = z.object({
@@ -164,8 +161,7 @@ export const generateCertificationReportFn = createServerFn({ method: 'POST' })
       recommendations,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 export const listCertificationReportsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
@@ -173,8 +169,7 @@ export const listCertificationReportsFn = createServerFn({ method: 'GET' })
     const { data, error } = await context.supabase.from('certification_reports')
       .select('*').order('created_at', { ascending: false }).limit(50);
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);
 
 // -------- Releases --------------------------------------------------------
 const releaseSchema = z.object({
@@ -199,8 +194,7 @@ export const createReleaseFn = createServerFn({ method: 'POST' })
       certification_id: data.certificationId ?? null,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const releaseStatusSchema = z.object({
   releaseId: z.string().uuid(),
@@ -216,8 +210,7 @@ export const setReleaseStatusFn = createServerFn({ method: 'POST' })
     const { data: row, error } = await context.supabase.from('release_records')
       .update(patch as any).eq('id', data.releaseId).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 export const listReleasesFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
@@ -225,5 +218,4 @@ export const listReleasesFn = createServerFn({ method: 'GET' })
     const { data, error } = await context.supabase.from('release_records')
       .select('*').order('created_at', { ascending: false }).limit(50);
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);

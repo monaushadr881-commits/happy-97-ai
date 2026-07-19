@@ -139,8 +139,7 @@ export const opsSecurityAudit = createServerFn({ method: "POST" })
       const { ip_address, ...rest } = r as typeof r & { ip_address: unknown };
       return { ...rest, ip_address: ip_address == null ? null : String(ip_address) };
     });
-    return safe as Array<Omit<(typeof rows)[number], "ip_address"> & { ip_address: string | null }>;
-  });
+    return safe as Array<Omit<(typeof rows)[number], "ip_address"> & { ip_address: string | null }>);
 
 // ---- AI Ops ----
 export const opsAiUsage = createServerFn({ method: "POST" })

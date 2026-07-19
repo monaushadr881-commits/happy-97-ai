@@ -102,8 +102,7 @@ export const dhUpdatePreferences = createServerFn({ method: "POST" })
       .upsert({ user_id: context.userId, ...data, updated_at: new Date().toISOString() })
       .select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -312,8 +311,7 @@ export const dhGeneratePresentation = createServerFn({ method: "POST" })
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhGeneratePresentation", source: "api", module: "dh.dhGeneratePresentation" });
     return guard(async () => {
     const apiKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey) throw new Error("Missing LOVABLE_API_KEY";
-  });
+    if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
     const count = data.slide_count ?? 8;
     const prompt = `${IDENTITY} You are HAPPY in Presentation mode.
 Build a ${count}-slide deck for the audience: ${data.audience ?? "general professional"}.
@@ -349,11 +347,9 @@ Return STRICT JSON in a fenced \`\`\`json block only, matching:
       audience: data.audience ?? null,
       slides: cleanSlides,
       status: "draft",
-    }).select("*").single(;
-  });
+    }).select("*").single();
     if (ins.error) throw ins.error;
-    return ins.data;
-  });
+    return ins.data);
   });
 
 export const dhListPresentations = createServerFn({ method: "GET" })

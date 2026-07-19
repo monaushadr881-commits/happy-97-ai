@@ -39,12 +39,10 @@ export const haUpsertRegion = createServerFn({ method: "POST" }).middleware([req
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haUpsertRegion", source: "api", module: "ha.haUpsertRegion" });
     return guard(async () => {
-    const sb = sbOf(context;
-  });
+    const sb = sbOf(context);
     const { data: row, error } = await sb.from("ha_regions")
       .upsert({ ...data, created_by: context.userId }, { onConflict: "code" })
-      .select("*").single(;
-  });
+      .select("*").single();
     if (error) throw error;
     const r = row as { id: string };
     await sb.from("ha_events").insert({
@@ -52,8 +50,7 @@ export const haUpsertRegion = createServerFn({ method: "POST" }).middleware([req
       ref_type: "region", ref_id: r.id, actor_id: context.userId,
       message: `Region upserted: ${data.code}`,
     });
-    return row as unknown as never;
-  });
+    return row as unknown as never);
   });
 export const haDeleteRegion = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))
@@ -123,8 +120,7 @@ export const haPublishMark = createServerFn({ method: "POST" }).middleware([requ
         message: `Replication ${data.scope} → ${res.status} (lag=${res.lag_rows})`,
       });
     }
-    return res;
-  });
+    return res);
   });
 
 // ---- Failover ----
@@ -169,12 +165,10 @@ export const haUpsertTrafficPolicy = createServerFn({ method: "POST" }).middlewa
   .handler(async ({ data, context  }) => {
     /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "haUpsertTrafficPolicy", source: "api", module: "ha.haUpsertTrafficPolicy" });
     return guard(async () => {
-    const sb = sbOf(context;
-  });
+    const sb = sbOf(context);
     const { data: row, error } = await sb.from("ha_traffic_policies")
       .upsert({ ...data, weights: data.weights ?? {}, updated_by: context.userId, updated_at: new Date().toISOString() }, { onConflict: "policy" })
-      .select("*").single(;
-  });
+      .select("*").single();
     if (error) throw error;
     const r = row as { id: string };
     await sb.from("ha_events").insert({
@@ -182,8 +176,7 @@ export const haUpsertTrafficPolicy = createServerFn({ method: "POST" }).middlewa
       ref_type: "traffic_policy", ref_id: r.id, actor_id: context.userId,
       message: `Traffic policy set to ${data.policy}`,
     });
-    return row as unknown as never;
-  });
+    return row as unknown as never);
   });
 
 // ---- Events / Alerts ----

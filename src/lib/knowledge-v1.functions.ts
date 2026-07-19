@@ -116,8 +116,7 @@ export const kbCreateArticle = createServerFn({ method: "POST" })
       created_by: context.userId, updated_by: context.userId,
     }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 export const kbUpdateArticle = createServerFn({ method: "POST" })
@@ -132,8 +131,7 @@ export const kbUpdateArticle = createServerFn({ method: "POST" })
       .update({ ...data.patch, updated_by: context.userId })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 export const kbPublish = createServerFn({ method: "POST" })
@@ -154,8 +152,7 @@ export const kbPublish = createServerFn({ method: "POST" })
         _entity_type: "knowledge_article", _entity_id: data.id,
       });
     } catch { /* best-effort */ }
-    return r.data;
-  });
+    return r.data);
   });
 
 export const kbAddReference = createServerFn({ method: "POST" })
@@ -169,8 +166,7 @@ export const kbAddReference = createServerFn({ method: "POST" })
     return guard(async () => {
     const r = await context.supabase.from("knowledge_references").insert(data).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -207,8 +203,7 @@ export const kbAddDocument = createServerFn({ method: "POST" })
       ...data, created_by: context.userId, updated_by: context.userId,
     }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================

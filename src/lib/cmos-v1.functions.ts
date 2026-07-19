@@ -81,8 +81,7 @@ export const communityCreatePost = createServerFn({ method: "POST" })
       .insert({ ...data, author_id: context.userId, created_by: context.userId })
       .select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 export const communityDeletePost = createServerFn({ method: "POST" })
@@ -128,8 +127,7 @@ export const communityAddComment = createServerFn({ method: "POST" })
         _entity_type: "post", _entity_id: data.post_id,
       });
     } catch { /* audit is best-effort */ }
-    return r.data;
-  });
+    return r.data);
   });
 
 export const communityReact = createServerFn({ method: "POST" })
@@ -236,8 +234,7 @@ export const marketCreateListing = createServerFn({ method: "POST" })
       ...data, slug, seller_id: context.userId, created_by: context.userId,
     }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 export const marketUpdateListing = createServerFn({ method: "POST" })
@@ -252,8 +249,7 @@ export const marketUpdateListing = createServerFn({ method: "POST" })
       .update({ ...data.patch, updated_by: context.userId })
       .eq("id", data.id).eq("seller_id", context.userId).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 export const marketMyListings = createServerFn({ method: "GET" })
@@ -279,8 +275,7 @@ export const marketAddReview = createServerFn({ method: "POST" })
       { onConflict: "listing_id,reviewer_id" },
     ).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================
@@ -385,8 +380,7 @@ export const msgCreateConversation = createServerFn({ method: "POST" })
     const r = await context.supabase.from("conversations")
       .insert({ user_id: context.userId, title: data.title }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  });
+    return r.data);
   });
 
 export const msgListMessages = createServerFn({ method: "GET" })
@@ -417,8 +411,7 @@ export const msgSend = createServerFn({ method: "POST" })
     await context.supabase.from("conversations")
       .update({ updated_at: new Date().toISOString() })
       .eq("id", data.conversation_id).eq("user_id", context.userId);
-    return r.data;
-  });
+    return r.data);
   });
 
 // =====================================================================

@@ -101,8 +101,7 @@ export const listConversations = createServerFn({ method: "GET" })
       .order("updated_at", { ascending: false })
       .limit(50);
     if (error) throw new Error(error.message);
-    return data ?? [];
-  });
+    return data ?? []);
 
 export const getConversationMessages = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -114,5 +113,4 @@ export const getConversationMessages = createServerFn({ method: "POST" })
       .eq("conversation_id", data.conversationId)
       .order("created_at", { ascending: true });
     if (error) throw new Error(error.message);
-    return messages ?? [];
-  });
+    return messages ?? []);

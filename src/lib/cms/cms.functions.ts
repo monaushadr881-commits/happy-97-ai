@@ -382,8 +382,7 @@ export const cmsPublicGet = createServerFn({ method: "POST" })
       .eq("type", data.type).eq("slug", data.slug).eq("locale", data.locale)
       .eq("status", "published").eq("visibility", "public").maybeSingle();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 export const cmsPublicList = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => {

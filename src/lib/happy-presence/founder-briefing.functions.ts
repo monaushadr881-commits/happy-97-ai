@@ -55,8 +55,7 @@ export const generateBrief = createServerFn({ method: "POST" })
       content,
     }).select().single();
     if (error) throw new Error(error.message);
-    return row;
-  });
+    return row);
 
 export const listBriefs = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
