@@ -19,6 +19,10 @@ Every new feature in HAPPY X must satisfy **ALL ten** of the requirements below.
 9. **Founder Dashboard visibility must be verified.** Every operational surface the Founder needs to observe must be reachable from the Founder Command Center. Verify before declaring the change complete.
 10. **Build + Typecheck must remain GREEN.** Non-negotiable. See [`R183_MIGRATION_GUARDRAILS.md`](./R183_MIGRATION_GUARDRAILS.md) — Green > coverage, first failure = full stop.
 
+## Canonical document update (required)
+
+Requirement 7 is enforced by the [Canonical Document Rule](./CANONICAL_DOCUMENT_RULE.md): every permanent feature MUST update at least one canonical document in the same change, and the change description MUST list which documents were updated and why. No permanent feature is complete until its canonical documentation is updated.
+
 ## Required PR / change statement
 
 Every change must include the following statement in its description:
