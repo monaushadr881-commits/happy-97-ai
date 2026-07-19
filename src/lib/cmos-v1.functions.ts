@@ -70,6 +70,7 @@ export const communityCreatePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreatePost.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "post", capability: "create", user_id: context.userId, company_id: ZERO_UUID });
     const r = await context.supabase.from("posts")
       .insert({ ...data, author_id: context.userId, created_by: context.userId })
       .select("*").single();
