@@ -381,6 +381,7 @@ export const msgSend = createServerFn({ method: "POST" })
     conversation_id: uuid, content: z.string().min(1).max(8000),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "communication", module: "message", capability: "send", user_id: context.userId, company_id: ZERO_UUID, metadata: { conversation_id: data.conversation_id } });
     const r = await context.supabase.from("messages").insert({
       conversation_id: data.conversation_id,
       user_id: context.userId, role: "user", content: data.content,
