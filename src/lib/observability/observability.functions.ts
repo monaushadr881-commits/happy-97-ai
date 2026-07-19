@@ -62,7 +62,8 @@ export const obsLogWrite = createServerFn({ method: "POST" })
     } as never);
     if (error) throw error;
     return { ok: true };
-  }));
+  });
+  });
 
 const LogQuery = z.object({
   service: z.string().max(80).optional(),
@@ -114,7 +115,8 @@ export const obsTraceWrite = createServerFn({ method: "POST" })
     } as never);
     if (error) throw error;
     return { ok: true };
-  }));
+  });
+  });
 
 export const obsTraceGet = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -155,7 +157,8 @@ export const obsUpsertComponent = createServerFn({ method: "POST" })
       .upsert(data as never, { onConflict: "key" }).select("*").single();
     if (error) throw error;
     return row;
-  }));
+  });
+  });
 
 const StatusUpdateInput = z.object({
   component_key: z.string().min(1).max(80),
@@ -181,7 +184,8 @@ export const obsPushStatusUpdate = createServerFn({ method: "POST" })
     if (e1) throw e1;
     if (e2) throw e2;
     return { ok: true };
-  }));
+  });
+  });
 
 export const obsStatusTimeline = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

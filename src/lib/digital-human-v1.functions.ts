@@ -103,7 +103,8 @@ export const dhUpdatePreferences = createServerFn({ method: "POST" })
       .select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // SESSIONS
@@ -140,7 +141,8 @@ export const dhDeleteSession = createServerFn({ method: "POST" })
       .delete().eq("id", data.session_id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  }));
+  });
+  });
 
 // =====================================================================
 // HAPPY SPEAK — main conversational endpoint (Lovable AI Gateway)
@@ -350,7 +352,8 @@ Return STRICT JSON in a fenced \`\`\`json block only, matching:
     }).select("*").single();
     if (ins.error) throw ins.error;
     return ins.data;
-  }));
+  });
+  });
 
 export const dhListPresentations = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -374,4 +377,5 @@ export const dhDeletePresentation = createServerFn({ method: "POST" })
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  }));
+  });
+  });

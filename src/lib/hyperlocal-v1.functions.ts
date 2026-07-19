@@ -111,7 +111,8 @@ export const hlSetMyLocation = createServerFn({ method: "POST" })
     }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // PLACES
@@ -150,7 +151,8 @@ export const hlCreatePlace = createServerFn({ method: "POST" })
       .insert({ ...data, created_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // BUSINESSES
@@ -226,7 +228,8 @@ export const hlUpsertBusiness = createServerFn({ method: "POST" })
     const r = await q;
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 export const hlListMyBusinesses = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -290,7 +293,8 @@ export const hlUpsertJob = createServerFn({ method: "POST" })
     const r = await q;
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // EVENTS
@@ -343,7 +347,8 @@ export const hlUpsertEvent = createServerFn({ method: "POST" })
     const r = await q;
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // ALERTS
@@ -389,7 +394,8 @@ export const hlCreateAlert = createServerFn({ method: "POST" })
       .insert({ ...data, posted_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // REVIEWS
@@ -437,7 +443,8 @@ export const hlUpsertReview = createServerFn({ method: "POST" })
         .eq("id", data.business_id);
     }
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // VERIFICATION (owner-driven submission; approval handled by ops in future)

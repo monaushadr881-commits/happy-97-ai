@@ -50,7 +50,8 @@ export const bkpUpsertPolicy = createServerFn({ method: "POST" }).middleware([re
       actor_id: context.userId, message: `Policy upserted: ${data.name}`,
     } as never);
     return row;
-  }));
+  });
+  });
 export const bkpDeletePolicy = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))
   .handler(async ({ data, context  }) => {
@@ -58,7 +59,8 @@ export const bkpDeletePolicy = createServerFn({ method: "POST" }).middleware([re
     return guard(async () => {
     const { error } = await context.supabase.from("bkp_policies").delete().eq("id", data.id);
     if (error) throw error; return { ok: true };
-  }));
+  });
+  });
 
 // ---- Backups ----
 const RunBackupInput = z.object({
@@ -122,7 +124,8 @@ export const bkpRestore = createServerFn({ method: "POST" }).middleware([require
     const { data: rows, error } = await context.supabase.from("bkp_restore_jobs")
       .select("*").order("started_at", { ascending: false }).limit(data.limit);
     if (error) throw error; return rows ?? [];
-  }));
+  });
+  });
 
 // ---- Retention ----
 export const bkpApplyRetention = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
@@ -159,7 +162,8 @@ export const bkpUpsertPlan = createServerFn({ method: "POST" }).middleware([requ
       .upsert({ ...data, created_by: context.userId } as never, { onConflict: "name" })
       .select("*").single();
     if (error) throw error; return row;
-  }));
+  });
+  });
 export const bkpRunDrill = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ plan_id: z.string().uuid() }).parse(i))
   .handler(async ({ data, context }) => guard(() => backupEngine.runDrill(context.supabase, context.userId, data.plan_id)));

@@ -82,7 +82,8 @@ export const communityCreatePost = createServerFn({ method: "POST" })
       .select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 export const communityDeletePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -95,7 +96,8 @@ export const communityDeletePost = createServerFn({ method: "POST" })
       .eq("id", data.id).eq("author_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  }));
+  });
+  });
 
 export const communityListComments = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -127,7 +129,8 @@ export const communityAddComment = createServerFn({ method: "POST" })
       });
     } catch { /* audit is best-effort */ }
     return r.data;
-  }));
+  });
+  });
 
 export const communityReact = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -234,7 +237,8 @@ export const marketCreateListing = createServerFn({ method: "POST" })
     }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 export const marketUpdateListing = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -249,7 +253,8 @@ export const marketUpdateListing = createServerFn({ method: "POST" })
       .eq("id", data.id).eq("seller_id", context.userId).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 export const marketMyListings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -275,7 +280,8 @@ export const marketAddReview = createServerFn({ method: "POST" })
     ).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // COMMERCE — Purchase intents & auditable transactions
@@ -380,7 +386,8 @@ export const msgCreateConversation = createServerFn({ method: "POST" })
       .insert({ user_id: context.userId, title: data.title }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 export const msgListMessages = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -411,7 +418,8 @@ export const msgSend = createServerFn({ method: "POST" })
       .update({ updated_at: new Date().toISOString() })
       .eq("id", data.conversation_id).eq("user_id", context.userId);
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // CMOS DASHBOARD KPIs

@@ -52,7 +52,8 @@ export const haUpsertRegion = createServerFn({ method: "POST" }).middleware([req
       message: `Region upserted: ${data.code}`,
     });
     return row as unknown as never;
-  }));
+  });
+  });
 export const haDeleteRegion = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))
   .handler(async ({ data, context  }) => {
@@ -60,7 +61,8 @@ export const haDeleteRegion = createServerFn({ method: "POST" }).middleware([req
     return guard(async () => {
     const { error } = await sbOf(context).from("ha_regions").delete().eq("id", data.id);
     if (error) throw error; return { ok: true };
-  }));
+  });
+  });
 
 export const haProbeRegion = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: z.string().uuid() }).parse(i))
@@ -121,7 +123,8 @@ export const haPublishMark = createServerFn({ method: "POST" }).middleware([requ
       });
     }
     return res;
-  }));
+  });
+  });
 
 // ---- Failover ----
 export const haListFailovers = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])
@@ -178,7 +181,8 @@ export const haUpsertTrafficPolicy = createServerFn({ method: "POST" }).middlewa
       message: `Traffic policy set to ${data.policy}`,
     });
     return row as unknown as never;
-  }));
+  });
+  });
 
 // ---- Events / Alerts ----
 export const haListEvents = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])

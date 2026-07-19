@@ -117,7 +117,8 @@ export const kbCreateArticle = createServerFn({ method: "POST" })
     }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 export const kbUpdateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -132,7 +133,8 @@ export const kbUpdateArticle = createServerFn({ method: "POST" })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 export const kbPublish = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -153,7 +155,8 @@ export const kbPublish = createServerFn({ method: "POST" })
       });
     } catch { /* best-effort */ }
     return r.data;
-  }));
+  });
+  });
 
 export const kbAddReference = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -167,7 +170,8 @@ export const kbAddReference = createServerFn({ method: "POST" })
     const r = await context.supabase.from("knowledge_references").insert(data).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // DOCUMENTS (RAG source library)
@@ -204,7 +208,8 @@ export const kbAddDocument = createServerFn({ method: "POST" })
     }).select("*").single();
     if (r.error) throw r.error;
     return r.data;
-  }));
+  });
+  });
 
 // =====================================================================
 // KNOWLEDGE DASHBOARD
