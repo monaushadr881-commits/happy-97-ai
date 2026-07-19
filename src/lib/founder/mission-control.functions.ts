@@ -1202,6 +1202,46 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           recent: ((recent.data ?? []) as Array<{ id: string; name: string; kind: string; created_at: string }>),
         };
       })(),
+      verticals: await (async () => {
+        const MFG = ["factory","production","machine","quality","maintenance","vendor","dealer","distributor","franchise","supply_chain"];
+        const HEALTH = ["ehr","hospital","telemedicine","reminder","health_ai","medical_kb","analytics","emergency","fitness","wellness"];
+        const AGRI = ["farming","crop_ai","weather","market","analytics","irrigation","livestock","equipment","marketplace","rural"];
+
+        async function block(vertical: "mfg" | "health" | "agri", modules: string[]): Promise<VerticalBlock> {
+          const [total, l24, crit24, pending, recent] = await Promise.all([
+            sb.from("creator_assets").select("id", { count: "exact", head: true }).like("kind", `${vertical}.%`),
+            sb.from("creator_assets").select("id", { count: "exact", head: true }).like("kind", `${vertical}.%`).gte("created_at", since24h),
+            sb.from("audit_logs").select("id", { count: "exact", head: true }).eq("category", `vertical.${vertical}`).eq("severity", "critical").gte("created_at", since24h),
+            sb.from("approvals").select("id", { count: "exact", head: true }).like("entity_type", `vertical.${vertical}.%`).eq("status", "pending"),
+            sb.from("creator_assets").select("id,name,kind,created_at,metadata").like("kind", `${vertical}.%`).order("created_at", { ascending: false }).limit(6),
+          ]);
+          const by_module = await Promise.all(modules.map(async (m) => {
+            const [t, r24] = await Promise.all([
+              sb.from("creator_assets").select("id", { count: "exact", head: true }).eq("kind", `${vertical}.${m}`),
+              sb.from("creator_assets").select("id", { count: "exact", head: true }).eq("kind", `${vertical}.${m}`).gte("created_at", since24h),
+            ]);
+            return { module: m, total: cnt(t.count), last_24h: cnt(r24.count), status: "wired" as const };
+          }));
+          return {
+            vertical,
+            total: cnt(total.count),
+            last_24h: cnt(l24.count),
+            critical_24h: cnt(crit24.count),
+            pending_approvals: cnt(pending.count),
+            by_module,
+            recent: ((recent.data ?? []) as Array<{ id: string; name: string; kind: string; created_at: string; metadata: Record<string, unknown> | null }>).map((r) => ({
+              id: r.id, name: r.name, kind: r.kind, created_at: r.created_at,
+              severity: ((r.metadata?.impact as { severity?: string } | undefined)?.severity) ?? undefined,
+            })),
+          };
+        }
+
+        const [mfg, health, agri] = await Promise.all([
+          block("mfg", MFG), block("health", HEALTH), block("agri", AGRI),
+        ]);
+        const wired = mfg.by_module.length + health.by_module.length + agri.by_module.length;
+        return { mfg, health, agri, coverage_pct: wired === 30 ? 100 : Math.round((wired / 30) * 100) };
+      })(),
     };
   });
 
