@@ -127,6 +127,29 @@ export interface MissionControlSnapshot {
     }>;
     member_tally: Record<string, { go: number; hold: number; no_go: number }>;
   };
+  founder_creator: {
+    total_requests: number;
+    pending: number;
+    approved: number;
+    rejected: number;
+    total_assets: number;
+    by_kind: Record<string, number>;
+    recent_requests: Array<{
+      id: string;
+      title: string;
+      status: string;
+      kind: string;
+      created_at: string;
+    }>;
+    recent_assets: Array<{
+      id: string;
+      name: string;
+      kind: string;
+      asset_version: number;
+      model: string | null;
+      created_at: string;
+    }>;
+  };
   health: {
     total: number;
     healthy: number;
@@ -251,6 +274,23 @@ export const founderMissionControl = createServerFn({ method: "GET" })
     const creatorRows = creatorRecent.data ?? [];
     const byKind: Record<string, number> = {};
     for (const c of creatorRows) byKind[c.kind] = (byKind[c.kind] ?? 0) + 1;
+
+    // Founder-initiated Creator Runtime (Batch I) — read approvals +
+    // finalized assets tagged by ASSET_SOURCE metadata.source.
+    const [fcApprovals, fcAssets] = await Promise.all([
+      sb
+        .from("approvals")
+        .select("id,title,status,created_at,metadata")
+        .eq("entity_type", "founder_creator_generation")
+        .order("created_at", { ascending: false })
+        .limit(64),
+      sb
+        .from("creator_assets")
+        .select("id,name,kind,model,created_at,metadata")
+        .contains("metadata", { source: "founder.creator.finalize" } as never)
+        .order("created_at", { ascending: false })
+        .limit(64),
+    ]);
 
     const healthRows = healthRecent.data ?? [];
     const healthCounts = { total: healthRows.length, healthy: 0, degraded: 0, down: 0 };
@@ -427,6 +467,63 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           top_risks,
           recent,
           member_tally: memberTally,
+        };
+      })(),
+      founder_creator: (() => {
+        const arows = (fcApprovals.data ?? []) as Array<{
+          id: string;
+          title: string;
+          status: string;
+          created_at: string;
+          metadata: Record<string, unknown> | null;
+        }>;
+        const srows = (fcAssets.data ?? []) as Array<{
+          id: string;
+          name: string;
+          kind: string;
+          model: string | null;
+          created_at: string;
+          metadata: Record<string, unknown> | null;
+        }>;
+        const tally = { pending: 0, approved: 0, rejected: 0 };
+        const byKind: Record<string, number> = {};
+        for (const r of arows) {
+          if (r.status === "pending") tally.pending++;
+          else if (r.status === "approved") tally.approved++;
+          else if (r.status === "rejected") tally.rejected++;
+          const m = (r.metadata ?? {}) as Record<string, unknown>;
+          const k = typeof m.kind === "string" ? m.kind : "unknown";
+          byKind[k] = (byKind[k] ?? 0) + 1;
+        }
+        return {
+          total_requests: arows.length,
+          pending: tally.pending,
+          approved: tally.approved,
+          rejected: tally.rejected,
+          total_assets: srows.length,
+          by_kind: byKind,
+          recent_requests: arows.slice(0, LIMIT).map((r) => {
+            const m = (r.metadata ?? {}) as Record<string, unknown>;
+            return {
+              id: r.id,
+              title: r.title,
+              status: r.status,
+              kind: typeof m.kind === "string" ? m.kind : "unknown",
+              created_at: r.created_at,
+            };
+          }),
+          recent_assets: srows.slice(0, LIMIT).map((s) => {
+            const m = (s.metadata ?? {}) as Record<string, unknown>;
+            return {
+              id: s.id,
+              name: s.name,
+              kind: typeof m.founder_kind === "string" ? m.founder_kind : s.kind,
+              asset_version:
+                typeof m.asset_version === "number" ? m.asset_version : 1,
+              model: s.model,
+              created_at: s.created_at,
+            };
+          }),
         };
       })(),
       health: healthCounts,
