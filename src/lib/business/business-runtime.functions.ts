@@ -71,7 +71,7 @@ const CustomerInput = z.object({
 export const bizCreateCustomer = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CustomerInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     const { data: row, error } = await supabase
       .from("customers")
@@ -115,7 +115,7 @@ const LeadInput = z.object({
 export const bizCreateLead = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => LeadInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     const { data: row, error } = await supabase
       .from("leads")
@@ -160,7 +160,7 @@ const DealInput = z.object({
 });
 type DealPayload = z.infer<typeof DealInput>;
 
-async function insertDeal(sb: NonNullable<Awaited<ReturnType<typeof requireSupabaseAuth>>["supabase"]>, p: DealPayload) {
+async function insertDeal(sb: SB, p: DealPayload) {
   const { data: row, error } = await sb.from("deals").insert({
     company_id: p.company_id,
     title: p.title,
@@ -179,7 +179,7 @@ async function insertDeal(sb: NonNullable<Awaited<ReturnType<typeof requireSupab
 export const bizCreateDeal = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => DealInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     if (data.amount_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS) {
       const approval = await requestFounderApproval({
@@ -220,7 +220,7 @@ const SalesOrderInput = z.object({
 });
 type SalesOrderPayload = z.infer<typeof SalesOrderInput>;
 
-async function insertSalesOrder(sb: NonNullable<Awaited<ReturnType<typeof requireSupabaseAuth>>["supabase"]>, p: SalesOrderPayload, approvalId?: string) {
+async function insertSalesOrder(sb: SB, p: SalesOrderPayload, approvalId?: string) {
   const { data: row, error } = await sb.from("sales_orders").insert({
     company_id: p.company_id,
     number: p.number,
@@ -240,7 +240,7 @@ async function insertSalesOrder(sb: NonNullable<Awaited<ReturnType<typeof requir
 export const bizCreateSalesOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SalesOrderInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     if (data.total_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS) {
       const approval = await requestFounderApproval({
@@ -281,7 +281,7 @@ const PurchaseOrderInput = z.object({
 });
 type PurchaseOrderPayload = z.infer<typeof PurchaseOrderInput>;
 
-async function insertPurchaseOrder(sb: NonNullable<Awaited<ReturnType<typeof requireSupabaseAuth>>["supabase"]>, p: PurchaseOrderPayload, approvalId?: string) {
+async function insertPurchaseOrder(sb: SB, p: PurchaseOrderPayload, approvalId?: string) {
   const { data: row, error } = await sb.from("purchase_orders").insert({
     company_id: p.company_id,
     number: p.number,
@@ -301,7 +301,7 @@ async function insertPurchaseOrder(sb: NonNullable<Awaited<ReturnType<typeof req
 export const bizCreatePurchaseOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => PurchaseOrderInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     if (data.total_cents >= FOUNDER_APPROVAL_THRESHOLD_CENTS) {
       const approval = await requestFounderApproval({
@@ -340,7 +340,7 @@ const SupplierInput = z.object({
 export const bizCreateSupplier = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SupplierInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     const { data: row, error } = await supabase.from("suppliers").insert({
       company_id: data.company_id,
@@ -375,7 +375,7 @@ const EmployeeInput = z.object({
 });
 type EmployeePayload = z.infer<typeof EmployeeInput>;
 
-async function insertEmployee(sb: NonNullable<Awaited<ReturnType<typeof requireSupabaseAuth>>["supabase"]>, p: EmployeePayload) {
+async function insertEmployee(sb: SB, p: EmployeePayload) {
   const { data: row, error } = await sb.from("employees").insert({
     company_id: p.company_id,
     user_id: p.user_id,
@@ -394,7 +394,7 @@ async function insertEmployee(sb: NonNullable<Awaited<ReturnType<typeof requireS
 export const bizCreateEmployee = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => EmployeeInput.parse(i))
-  .handler(async ({ data }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data }): Promise<RuntimeResult> => {
     const approval = await requestFounderApproval({
       data: {
         company_id: data.company_id,
@@ -421,7 +421,7 @@ const SupportTicketInput = z.object({
 export const bizCreateSupportTicket = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SupportTicketInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     const { data: row, error } = await supabase.from("creator_support_tickets").insert({
       creator_id: data.creator_id,
@@ -459,7 +459,7 @@ const MeetingInput = z.object({
 export const bizScheduleMeeting = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => MeetingInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     const { data: row, error } = await supabase.from("meetings").insert({
       company_id: data.company_id ?? null,
@@ -491,7 +491,7 @@ const ApplyInput = z.object({ approval_id: z.string().uuid() });
 export const bizApplyApprovedBusinessAction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ApplyInput.parse(i))
-  .handler(async ({ data, context }): Promise<RuntimeResult<unknown>> => {
+  .handler(async ({ data, context }): Promise<RuntimeResult> => {
     const { supabase } = context;
     const { data: approval, error: readErr } = await supabase
       .from("approvals").select("*").eq("id", data.approval_id).single();
