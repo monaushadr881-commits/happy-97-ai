@@ -1334,6 +1334,36 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           failures_24h: cnt(brainToolFail24h.count),
           queue_pending: cnt(jqPending.count),
           queue_failed: cnt(jqFailed.count),
+          adoption: await (async () => {
+            const [adopted24, adoptedAll, recent] = await Promise.all([
+              sb.from("audit_logs").select("id", { count: "exact", head: true }).eq("action", "adopt").like("category", "pipeline.%").gte("created_at", since24h),
+              sb.from("audit_logs").select("metadata").eq("action", "adopt").like("category", "pipeline.%").limit(500),
+              sb.from("audit_logs").select("id,category,action,metadata,occurred_at").eq("action", "adopt").like("category", "pipeline.%").order("occurred_at", { ascending: false }).limit(8),
+            ]);
+            const domainCounts = new Map<string, number>();
+            const capSet = new Set<string>();
+            for (const r of (adoptedAll.data ?? []) as Array<{ metadata: Record<string, unknown> | null }>) {
+              const cap = typeof r.metadata?.capability === "string" ? r.metadata.capability : "";
+              if (!cap) continue;
+              capSet.add(cap);
+              const d = cap.split(".")[0] ?? "unknown";
+              domainCounts.set(d, (domainCounts.get(d) ?? 0) + 1);
+            }
+            const by_domain = Array.from(domainCounts.entries())
+              .map(([domain, count_24h]) => ({ domain, count_24h }))
+              .sort((a, b) => b.count_24h - a.count_24h);
+            return {
+              adopted_24h: cnt(adopted24.count),
+              handlers_adopted: capSet.size,
+              by_domain,
+              recent: ((recent.data ?? []) as Array<{ id: string; category: string; metadata: Record<string, unknown> | null; occurred_at: string }>).map((r) => ({
+                id: r.id,
+                capability: typeof r.metadata?.capability === "string" ? r.metadata.capability : r.category,
+                domain: r.category.replace(/^pipeline\./, ""),
+                occurred_at: r.occurred_at,
+              })),
+            };
+          })(),
         };
       })(),
     };
