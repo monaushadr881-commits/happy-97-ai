@@ -321,6 +321,11 @@ export const publishApp = createServerFn({ method: "POST" })
   .inputValidator((d: { projectId: string; publishedUrl?: string; version?: string }) => d)
   .handler(async ({ data, context }) => {
     await assertOwns(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `publishApp ${data.projectId}`, source: "api", module: "app-builder.publish" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return publishAppProject(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
   });
@@ -330,6 +335,11 @@ export const unpublishApp = createServerFn({ method: "POST" })
   .inputValidator((d: { projectId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertOwns(context as Ctx, data.projectId);
+    const { withBrain } = await import("@/lib/founder/enforce");
+    await withBrain(
+      { supabase: (context as Ctx).supabase as never, userId: (context as Ctx).userId, companyId: null },
+      { input: `unpublishApp ${data.projectId}`, source: "api", module: "app-builder.unpublish" },
+    );
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return unpublishAppProject(supabaseAdmin, data.projectId);
   });
