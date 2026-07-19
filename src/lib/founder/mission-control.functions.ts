@@ -1141,6 +1141,46 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         const ok = layers.filter((l) => l.status === "present").length;
         return { layers, coverage_pct: Math.round((ok / layers.length) * 100), db_probe_ok };
       })(),
+      platform_runtime: await (async () => {
+        const [fTotal, imp24, exp24, syn24, cmd24, undTotal, jqPending, jqRunning, jqFailed, recent] = await Promise.all([
+          sb.from("creator_assets").select("id", { count: "exact", head: true }).eq("kind", "ufs.file"),
+          sb.from("creator_assets").select("id", { count: "exact", head: true }).eq("kind", "ufs.import").gte("created_at", since24h),
+          sb.from("creator_assets").select("id", { count: "exact", head: true }).eq("kind", "ufs.export").gte("created_at", since24h),
+          sb.from("creator_assets").select("id", { count: "exact", head: true }).eq("kind", "ufs.sync").gte("created_at", since24h),
+          sb.from("creator_assets").select("id", { count: "exact", head: true }).eq("kind", "ufs.command").gte("created_at", since24h),
+          sb.from("creator_assets").select("id", { count: "exact", head: true }).contains("metadata", { understanding_version: 1 } as never),
+          sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "queued"),
+          sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "running"),
+          sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "failed"),
+          sb.from("creator_assets").select("id,name,kind,created_at").like("kind", "ufs.%").order("created_at", { ascending: false }).limit(8),
+        ]);
+        const coverage: Array<{ capability: string; owner: string; status: "wired" | "read_only" }> = [
+          { capability: "universal.login",       owner: "requireSupabaseAuth",                 status: "wired" },
+          { capability: "ufs.register",          owner: "ufsRegisterFile",                     status: "wired" },
+          { capability: "ufs.list",              owner: "ufsListFiles",                        status: "wired" },
+          { capability: "ai.file.understand",    owner: "aiUnderstandFile",                    status: "wired" },
+          { capability: "ufs.import.plan",       owner: "importPlan",                          status: "wired" },
+          { capability: "ufs.export.plan",       owner: "exportPlan",                          status: "wired" },
+          { capability: "ufs.sync.plan",         owner: "syncPlan",                            status: "wired" },
+          { capability: "founder.command.exec",  owner: "founderCommandExec",                  status: "wired" },
+          { capability: "workspace.attach",      owner: "wsAttachToWorkspace",                 status: "wired" },
+          { capability: "universal.search",      owner: "universalSearch",                     status: "wired" },
+          { capability: "background.jobs",       owner: "public.job_queue",                    status: "read_only" },
+        ];
+        const wired = coverage.filter((c) => c.status === "wired").length;
+        return {
+          files_total: cnt(fTotal.count),
+          imports_24h: cnt(imp24.count),
+          exports_24h: cnt(exp24.count),
+          syncs_24h: cnt(syn24.count),
+          commands_24h: cnt(cmd24.count),
+          understandings_total: cnt(undTotal.count),
+          jobs: { pending: cnt(jqPending.count), running: cnt(jqRunning.count), failed: cnt(jqFailed.count) },
+          coverage,
+          coverage_pct: Math.round((wired / coverage.length) * 100),
+          recent: ((recent.data ?? []) as Array<{ id: string; name: string; kind: string; created_at: string }>),
+        };
+      })(),
     };
   });
 
