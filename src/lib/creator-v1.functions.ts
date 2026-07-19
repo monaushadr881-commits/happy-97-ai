@@ -13,6 +13,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
 import { z } from "zod";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -63,6 +64,7 @@ export const creatorCreateProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateProject.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "project", capability: "create", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("creator_projects")
       .insert({ user_id: context.userId, ...data })
       .select("*").single();
@@ -74,6 +76,7 @@ export const creatorArchiveProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, archived: z.boolean() }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "project", capability: "archive", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("creator_projects")
       .update({ archived: data.archived })
       .eq("id", data.id).eq("user_id", context.userId).select("*").single();
@@ -85,6 +88,7 @@ export const creatorDeleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "project", capability: "delete", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("creator_projects")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
@@ -118,6 +122,7 @@ export const creatorDeleteAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "asset", capability: "delete", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("creator_assets")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
@@ -169,6 +174,7 @@ export const creatorGenerateImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ImageGen.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "image", capability: "generate", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const started = Date.now();
     // Gemini image models use chat-completions image shape; OpenAI models use the OpenAI images shape.
     const isOpenAI = data.model.startsWith("openai/");
@@ -222,6 +228,7 @@ export const creatorEditImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ImageEdit.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "image", capability: "edit", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const src = await context.supabase.from("creator_assets")
       .select("*").eq("id", data.asset_id).eq("user_id", context.userId).maybeSingle();
     if (src.error) throw src.error;
@@ -282,6 +289,7 @@ export const creatorTts = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Tts.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "voice", capability: "tts", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const key = process.env.LOVABLE_API_KEY;
     if (!key) throw new Error("Missing LOVABLE_API_KEY");
     const res = await fetch(`${GATEWAY}/audio/speech`, {
@@ -337,6 +345,7 @@ export const creatorGenerateCopy = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Copy.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "copy", capability: "generate", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     let brand: any = null;
     if (data.brand_kit_id) {
       const r = await context.supabase.from("creator_brand_kits")
@@ -397,6 +406,7 @@ export const creatorGenerateSlides = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Slides.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "slides", capability: "generate", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const prompt = `Build a ${data.slide_count}-slide presentation.
 Title: ${data.title}
 Audience: ${data.audience ?? "general professional"}
@@ -465,6 +475,7 @@ export const creatorSaveBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => BrandUpsert.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "brand", capability: "save", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const payload = { ...data, user_id: context.userId, updated_at: new Date().toISOString() };
     const r = data.id
       ? await context.supabase.from("creator_brand_kits").update(payload)
@@ -478,6 +489,7 @@ export const creatorDeleteBrandKit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "creator", module: "brand", capability: "delete", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("creator_brand_kits")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;

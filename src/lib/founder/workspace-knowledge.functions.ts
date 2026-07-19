@@ -31,6 +31,7 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { withBrain } from "@/lib/founder/with-brain";
 import type { FounderApprovalContext } from "@/lib/founder/types";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 const uuid = z.string().uuid();
 
@@ -91,6 +92,7 @@ export const wsAttachToWorkspace = createServerFn({ method: "POST" })
     ]);
     if (wsRes.error || !wsRes.data) throw new Error("workspace_not_found");
     if (assetRes.error || !assetRes.data) throw new Error("asset_not_found");
+    await adoptToCanonicalPipeline(supabase, { domain: "workspace", module: "item", capability: "attach", user_id: userId, company_id: wsRes.data.company_id, metadata: { workspace_id: data.workspace_id, asset_id: data.asset_id } });
 
     const brainCtx: FounderApprovalContext = {
       isFounder: true,
@@ -279,6 +281,7 @@ export const kbPublishArticle = createServerFn({ method: "POST" })
       .eq("id", data.article_id)
       .single();
     if (readErr || !before) throw new Error("article_not_found");
+    await adoptToCanonicalPipeline(supabase, { domain: "publishing", module: "article", capability: "publish", user_id: userId, company_id: before.company_id ?? "00000000-0000-0000-0000-000000000000", metadata: { article_id: data.article_id, is_public: data.is_public } });
 
     const brainCtx: FounderApprovalContext = {
       isFounder: true,
@@ -365,6 +368,7 @@ export const kbLinkArticleReference = createServerFn({ method: "POST" })
       .eq("id", data.article_id)
       .single();
     if (readErr || !art) throw new Error("article_not_found");
+    await adoptToCanonicalPipeline(supabase, { domain: "knowledge", module: "reference", capability: "link", user_id: userId, company_id: art.company_id ?? "00000000-0000-0000-0000-000000000000", metadata: { article_id: data.article_id } });
 
     const { data: ref, error } = await supabase
       .from("knowledge_references")
