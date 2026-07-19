@@ -315,6 +315,7 @@ export const dhDeletePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "presentation", "delete", { id: data.id });
     const r = await context.supabase.from("dh_presentations")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
