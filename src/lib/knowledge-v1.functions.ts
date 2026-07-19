@@ -19,6 +19,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
 import { z } from "zod";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -94,6 +95,7 @@ export const kbCreateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateArticle.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "knowledge", module: "article", capability: "create", user_id: context.userId, company_id: data.company_id });
     const r = await context.supabase.from("knowledge_articles").insert({
       ...data, status: "draft", is_public: false,
       created_by: context.userId, updated_by: context.userId,
@@ -108,6 +110,7 @@ export const kbUpdateArticle = createServerFn({ method: "POST" })
     id: uuid, patch: CreateArticle.omit({ company_id: true }).partial(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "knowledge", module: "article", capability: "update", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("knowledge_articles")
       .update({ ...data.patch, updated_by: context.userId })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
@@ -121,6 +124,7 @@ export const kbPublish = createServerFn({ method: "POST" })
     id: uuid, is_public: z.boolean(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "knowledge", module: "article", capability: "publish", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("knowledge_articles")
       .update({ status: "active", is_public: data.is_public, updated_by: context.userId })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
@@ -141,6 +145,7 @@ export const kbAddReference = createServerFn({ method: "POST" })
     url: z.string().url().optional(), position: z.number().int().min(0).default(0),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "knowledge", module: "reference", capability: "add", user_id: context.userId, company_id: "00000000-0000-0000-0000-000000000000" });
     const r = await context.supabase.from("knowledge_references").insert(data).select("*").single();
     if (r.error) throw r.error;
     return r.data;
@@ -174,6 +179,7 @@ export const kbAddDocument = createServerFn({ method: "POST" })
     tags: z.array(z.string().max(40)).max(20).default([]),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "knowledge", module: "document", capability: "add", user_id: context.userId, company_id: data.company_id });
     const r = await context.supabase.from("ai_knowledge_documents").insert({
       ...data, created_by: context.userId, updated_by: context.userId,
     }).select("*").single();
@@ -239,6 +245,7 @@ export const kbAskHappy = createServerFn({ method: "POST" })
     top_k: z.number().int().min(1).max(8).default(5),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "knowledge", module: "assistant", capability: "ask", user_id: context.userId, company_id: data.company_id ?? "00000000-0000-0000-0000-000000000000" });
     // Retrieval: title/summary ilike + latest — replace with vector search
     // when embeddings are populated on ai_knowledge_chunks.
     let q = context.supabase.from("knowledge_articles")
