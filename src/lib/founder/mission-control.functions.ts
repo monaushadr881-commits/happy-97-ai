@@ -205,6 +205,41 @@ export interface MissionControlSnapshot {
       error: string | null;
     }>;
   };
+  workspace: {
+    total: number;
+    active: number;
+    items_total: number;
+    items_recent: Array<{
+      id: string;
+      name: string;
+      kind: string;
+      workspace_id: string;
+      workspace_link_version: number;
+      created_at: string;
+    }>;
+    attach_events_7d: number;
+  };
+  knowledge: {
+    articles_total: number;
+    articles_public: number;
+    articles_drafts: number;
+    references_total: number;
+    pending_publish_approvals: number;
+    recent_updates: Array<{
+      id: string;
+      title: string;
+      is_public: boolean;
+      version: number;
+      updated_at: string;
+    }>;
+    recent_references: Array<{
+      id: string;
+      label: string;
+      url: string | null;
+      article_id: string;
+      created_at: string;
+    }>;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
