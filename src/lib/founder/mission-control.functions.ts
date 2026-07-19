@@ -253,6 +253,20 @@ export interface MissionControlSnapshot {
     queries_24h: number;
     coverage_pct: number;
   };
+  security: {
+    // R188 Batch D — Security Runtime completion (read-only surface over existing
+    // canonical systems: audit_logs, auth_login_history, auth_security_alerts,
+    // approvals, has_role/user_has_permission RPCs).
+    audit_24h: { critical: number; error: number; warning: number; info: number };
+    logins_24h: { success: number; failed: number };
+    alerts: { open: number; acknowledged: number; recent: Array<{
+      id: string; alert_type: string; severity: string; message: string; created_at: string;
+    }> };
+    approvals_enforcing: number;
+    rbac: { rpc_ok: boolean; policies_present: boolean };
+    coverage: Array<{ layer: string; status: "healthy" | "degraded" | "unknown" }>;
+    coverage_pct: number;
+  };
 }
 
 export const founderMissionControl = createServerFn({ method: "GET" })
