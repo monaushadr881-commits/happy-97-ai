@@ -28,7 +28,10 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { withBrain } from "@/lib/founder/with-brain";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import type { FounderApprovalContext } from "@/lib/founder/types";
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 
 // Approval threshold for cost-bearing vertical operations (₹1,00,000).
 const APPROVAL_THRESHOLD_CENTS = 1_00_00_000;
