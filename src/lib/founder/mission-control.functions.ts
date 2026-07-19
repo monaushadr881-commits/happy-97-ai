@@ -573,6 +573,41 @@ export const founderMissionControl = createServerFn({ method: "GET" })
       } as never),
     ]);
 
+    // Batch E (R188) — Business OS Runtime Rollout aggregation.
+    const [
+      bCustomers, bLeads, bDeals, bSalesOrders, bPurchaseOrders,
+      bSuppliers, bEmployees, bSupport, bMeetings, bInvoicesCnt, bExpensesCnt,
+      bPendingAppr, bRecentAppr, bAudit24h, bRecentAudit,
+    ] = await Promise.all([
+      sb.from("customers").select("id", { count: "exact", head: true }),
+      sb.from("leads").select("id", { count: "exact", head: true }),
+      sb.from("deals").select("id", { count: "exact", head: true }),
+      sb.from("sales_orders").select("id", { count: "exact", head: true }),
+      sb.from("purchase_orders").select("id", { count: "exact", head: true }),
+      sb.from("suppliers").select("id", { count: "exact", head: true }),
+      sb.from("employees").select("id", { count: "exact", head: true }),
+      sb.from("creator_support_tickets").select("id", { count: "exact", head: true }),
+      sb.from("meetings").select("id", { count: "exact", head: true }),
+      sb.from("invoices").select("id", { count: "exact", head: true }),
+      sb.from("expenses").select("id", { count: "exact", head: true }),
+      sb.from("approvals").select("id", { count: "exact", head: true })
+        .eq("status", "pending").like("entity_type", "business.%"),
+      sb.from("approvals")
+        .select("id,title,entity_type,status,amount_cents,currency,created_at")
+        .like("entity_type", "business.%")
+        .order("created_at", { ascending: false })
+        .limit(LIMIT),
+      sb.from("audit_logs").select("id", { count: "exact", head: true })
+        .like("category", "business.%").gte("occurred_at", since24h),
+      sb.from("audit_logs")
+        .select("id,category,action,entity_type,severity,occurred_at")
+        .like("category", "business.%")
+        .order("occurred_at", { ascending: false })
+        .limit(LIMIT),
+    ]);
+
+
+
 
 
 
