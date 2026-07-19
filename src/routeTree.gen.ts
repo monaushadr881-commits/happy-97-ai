@@ -59,6 +59,7 @@ import { Route as AuthenticatedFounderUsersRouteImport } from './routes/_authent
 import { Route as AuthenticatedFounderSystemRouteImport } from './routes/_authenticated/founder.system'
 import { Route as AuthenticatedFounderSecurityRouteImport } from './routes/_authenticated/founder.security'
 import { Route as AuthenticatedFounderOpsRouteImport } from './routes/_authenticated/founder.ops'
+import { Route as AuthenticatedFounderDealersRouteImport } from './routes/_authenticated/founder.dealers'
 import { Route as AuthenticatedFounderCompaniesRouteImport } from './routes/_authenticated/founder.companies'
 import { Route as AuthenticatedFounderAnalyticsRouteImport } from './routes/_authenticated/founder.analytics'
 import { Route as AuthenticatedFounderAiRouteImport } from './routes/_authenticated/founder.ai'
@@ -389,6 +390,12 @@ const AuthenticatedFounderOpsRoute = AuthenticatedFounderOpsRouteImport.update({
   path: '/ops',
   getParentRoute: () => AuthenticatedFounderRoute,
 } as any)
+const AuthenticatedFounderDealersRoute =
+  AuthenticatedFounderDealersRouteImport.update({
+    id: '/dealers',
+    path: '/dealers',
+    getParentRoute: () => AuthenticatedFounderRoute,
+  } as any)
 const AuthenticatedFounderCompaniesRoute =
   AuthenticatedFounderCompaniesRouteImport.update({
     id: '/companies',
@@ -736,6 +743,7 @@ export interface FileRoutesByFullPath {
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
+  '/founder/dealers': typeof AuthenticatedFounderDealersRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
@@ -825,6 +833,7 @@ export interface FileRoutesByTo {
   '/founder/ai': typeof AuthenticatedFounderAiRoute
   '/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/founder/companies': typeof AuthenticatedFounderCompaniesRoute
+  '/founder/dealers': typeof AuthenticatedFounderDealersRoute
   '/founder/ops': typeof AuthenticatedFounderOpsRoute
   '/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/founder/system': typeof AuthenticatedFounderSystemRoute
@@ -926,6 +935,7 @@ export interface FileRoutesById {
   '/_authenticated/founder/ai': typeof AuthenticatedFounderAiRoute
   '/_authenticated/founder/analytics': typeof AuthenticatedFounderAnalyticsRoute
   '/_authenticated/founder/companies': typeof AuthenticatedFounderCompaniesRoute
+  '/_authenticated/founder/dealers': typeof AuthenticatedFounderDealersRoute
   '/_authenticated/founder/ops': typeof AuthenticatedFounderOpsRoute
   '/_authenticated/founder/security': typeof AuthenticatedFounderSecurityRoute
   '/_authenticated/founder/system': typeof AuthenticatedFounderSystemRoute
@@ -1027,6 +1037,7 @@ export interface FileRouteTypes {
     | '/founder/ai'
     | '/founder/analytics'
     | '/founder/companies'
+    | '/founder/dealers'
     | '/founder/ops'
     | '/founder/security'
     | '/founder/system'
@@ -1116,6 +1127,7 @@ export interface FileRouteTypes {
     | '/founder/ai'
     | '/founder/analytics'
     | '/founder/companies'
+    | '/founder/dealers'
     | '/founder/ops'
     | '/founder/security'
     | '/founder/system'
@@ -1216,6 +1228,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder/ai'
     | '/_authenticated/founder/analytics'
     | '/_authenticated/founder/companies'
+    | '/_authenticated/founder/dealers'
     | '/_authenticated/founder/ops'
     | '/_authenticated/founder/security'
     | '/_authenticated/founder/system'
@@ -1613,6 +1626,13 @@ declare module '@tanstack/react-router' {
       path: '/ops'
       fullPath: '/founder/ops'
       preLoaderRoute: typeof AuthenticatedFounderOpsRouteImport
+      parentRoute: typeof AuthenticatedFounderRoute
+    }
+    '/_authenticated/founder/dealers': {
+      id: '/_authenticated/founder/dealers'
+      path: '/dealers'
+      fullPath: '/founder/dealers'
+      preLoaderRoute: typeof AuthenticatedFounderDealersRouteImport
       parentRoute: typeof AuthenticatedFounderRoute
     }
     '/_authenticated/founder/companies': {
@@ -2125,6 +2145,7 @@ interface AuthenticatedFounderRouteChildren {
   AuthenticatedFounderAiRoute: typeof AuthenticatedFounderAiRoute
   AuthenticatedFounderAnalyticsRoute: typeof AuthenticatedFounderAnalyticsRoute
   AuthenticatedFounderCompaniesRoute: typeof AuthenticatedFounderCompaniesRoute
+  AuthenticatedFounderDealersRoute: typeof AuthenticatedFounderDealersRoute
   AuthenticatedFounderOpsRoute: typeof AuthenticatedFounderOpsRoute
   AuthenticatedFounderSecurityRoute: typeof AuthenticatedFounderSecurityRoute
   AuthenticatedFounderSystemRoute: typeof AuthenticatedFounderSystemRoute
@@ -2136,6 +2157,7 @@ const AuthenticatedFounderRouteChildren: AuthenticatedFounderRouteChildren = {
   AuthenticatedFounderAiRoute: AuthenticatedFounderAiRoute,
   AuthenticatedFounderAnalyticsRoute: AuthenticatedFounderAnalyticsRoute,
   AuthenticatedFounderCompaniesRoute: AuthenticatedFounderCompaniesRoute,
+  AuthenticatedFounderDealersRoute: AuthenticatedFounderDealersRoute,
   AuthenticatedFounderOpsRoute: AuthenticatedFounderOpsRoute,
   AuthenticatedFounderSecurityRoute: AuthenticatedFounderSecurityRoute,
   AuthenticatedFounderSystemRoute: AuthenticatedFounderSystemRoute,
