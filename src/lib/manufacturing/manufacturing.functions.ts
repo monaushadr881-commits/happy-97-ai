@@ -42,6 +42,11 @@ export const MANUFACTURING_MODULES = [
   // R191 Batch 4 extensions (production/quality/procurement completion)
   "bom_consumption", "raw_material_issue", "machine_assignment",
   "quality_approval", "finished_goods", "production_analytics",
+  // R191 Batch 5 extensions (H.P. SHUDDH MASALE — recipe/packaging/traceability)
+  "recipe_formula", "ingredient_formula", "blend_formula",
+  "production_batch_recipe", "recipe_qc_approval",
+  "packaging_batch", "label", "traceability", "shelf_life",
+  "recipe_version", "ai_recipe_recommendation",
 ] as const;
 export type ManufacturingModule = typeof MANUFACTURING_MODULES[number];
 
@@ -64,6 +69,7 @@ const analyze = withBrain<
       module === "maintenance_order" ||
       module === "quality_inspection" ||
       module === "quality_approval" ||
+      module === "recipe_qc_approval" ||
       module === "machine_downtime";
     if (critical || (criticalModule && highCost)) {
       return { severity: "critical", requires_approval: true, reason: "critical_operation" };
