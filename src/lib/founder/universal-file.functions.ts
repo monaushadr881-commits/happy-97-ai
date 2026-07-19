@@ -252,8 +252,21 @@ const SUPPORTED = [
   "pdf","docx","pptx","xlsx","csv","json","zip","image","video","audio",
 ] as const;
 
+type PlanClient = {
+  from: (t: "creator_assets") => {
+    insert: (row: Record<string, unknown>) => {
+      select: (cols: string) => {
+        single: () => Promise<{
+          data: { id: string; name: string; kind: string; metadata: unknown; created_at: string } | null;
+          error: { message: string } | null;
+        }>;
+      };
+    };
+  };
+};
+
 async function persistPlan(
-  supabase: Awaited<ReturnType<typeof requireSupabaseAuth>> extends never ? never : any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  supabase: PlanClient,
   userId: string,
   kind: string,
   name: string,
@@ -270,7 +283,7 @@ async function persistPlan(
     })
     .select("id,name,kind,metadata,created_at")
     .single();
-  if (error) throw new Error(`${kind}_plan_failed: ${error.message}`);
+  if (error || !data) throw new Error(`${kind}_plan_failed: ${error?.message ?? "unknown"}`);
   return data;
 }
 
