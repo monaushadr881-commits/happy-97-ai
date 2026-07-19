@@ -256,6 +256,7 @@ export const mfgSubmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => MfgInput.parse(i))
   .handler(async ({ data, context }): Promise<SubmitResult> => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "manufacturing", module: data.module, capability: "submit", user_id: context.userId, company_id: ZERO_UUID, metadata: { cost_cents: data.cost_cents ?? null, critical: data.critical } });
     const brain = await analyzeMfg({
       capability: "vertical.mfg.impact",
       input: { module: data.module, cost_cents: data.cost_cents ?? null, critical: data.critical },
