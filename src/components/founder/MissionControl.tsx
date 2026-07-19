@@ -19,6 +19,7 @@ import {
   Palette,
   BookOpen,
   Server,
+  Rocket,
 } from "lucide-react";
 import { founderMissionControl } from "@/lib/founder/mission-control.functions";
 
@@ -355,6 +356,61 @@ export function MissionControl() {
           </p>
         </Panel>
       </div>
+
+      {/* Publishing Runtime */}
+      <Panel className="p-5">
+        <div className="flex items-center gap-2">
+          <Rocket className="h-4 w-4 text-gold" />
+          <h3 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">
+            Publishing Runtime
+          </h3>
+        </div>
+        <Hairline className="my-4" />
+        <div className="mb-3 grid grid-cols-2 gap-2 md:grid-cols-4">
+          <StatCard label="Packages" value={fmt(d?.publishing.total_packages)} />
+          <StatCard label="Assets" value={fmt(d?.publishing.total_assets)} />
+          <StatCard label="Pending" value={fmt(d?.publishing.pending_approvals)} />
+          <StatCard
+            label="Stores"
+            value={fmt(
+              d?.publishing.by_store
+                ? Object.keys(d.publishing.by_store).length
+                : 0,
+            )}
+          />
+        </div>
+        <div className="mb-3 flex flex-wrap gap-2">
+          {d?.publishing.by_store &&
+            Object.entries(d.publishing.by_store).map(([s, n]) => (
+              <Chip key={s} tone="gold">
+                {s.replace("_", " ")}: {n}
+              </Chip>
+            ))}
+        </div>
+        <ul className="divide-y divide-white/5">
+          {(d?.publishing.recent ?? []).map((p) => (
+            <li
+              key={p.id}
+              className="flex items-center justify-between gap-3 py-2 text-sm"
+            >
+              <div className="min-w-0">
+                <div className="truncate text-paper">{p.name}</div>
+                <div className="text-[11px] text-soft-gray">
+                  {p.store} · {p.app_name} v{p.app_version} · pkg v
+                  {p.package_version} · {ago(p.created_at)}
+                </div>
+              </div>
+              <Chip tone="neutral">{p.asset_kind}</Chip>
+            </li>
+          ))}
+          {!d?.publishing.recent.length && (
+            <li className="py-2 text-xs text-soft-gray">
+              No publishing packages generated yet. Materials only — external
+              submission is BLOCKED.
+            </li>
+          )}
+        </ul>
+      </Panel>
     </section>
   );
 }

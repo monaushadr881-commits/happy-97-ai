@@ -93,6 +93,22 @@ export interface MissionControlSnapshot {
     title: string;
     updated_at: string;
   }>;
+  publishing: {
+    total_packages: number;
+    total_assets: number;
+    pending_approvals: number;
+    by_store: Record<string, number>;
+    recent: Array<{
+      id: string;
+      name: string;
+      store: string;
+      app_name: string;
+      app_version: string;
+      package_version: number;
+      asset_kind: string;
+      created_at: string;
+    }>;
+  };
   health: {
     total: number;
     healthy: number;
@@ -129,6 +145,8 @@ export const founderMissionControl = createServerFn({ method: "GET" })
       creatorRecent,
       knowledgeRecent,
       healthRecent,
+      publishingPending,
+      publishingRecent,
     ] = await Promise.all([
       sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "pending"),
       sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "approved"),
@@ -182,6 +200,17 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .select("status,checked_at")
         .gte("checked_at", since24h)
         .limit(500),
+      sb
+        .from("approvals")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "pending")
+        .eq("entity_type", "founder_publishing_package"),
+      sb
+        .from("creator_assets")
+        .select("id,name,created_at,metadata")
+        .eq("kind", "publishing")
+        .order("created_at", { ascending: false })
+        .limit(64),
     ]);
 
     const invRows = invRecent.data ?? [];
@@ -250,6 +279,45 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         })),
       },
       knowledge: (knowledgeRecent.data ?? []) as MissionControlSnapshot["knowledge"],
+      publishing: (() => {
+        const rows = (publishingRecent.data ?? []) as Array<{
+          id: string;
+          name: string;
+          created_at: string;
+          metadata: Record<string, unknown> | null;
+        }>;
+        const packageIds = new Set<string>();
+        const byStore: Record<string, number> = {};
+        const recent = rows.slice(0, LIMIT).map((r) => {
+          const m = (r.metadata ?? {}) as Record<string, unknown>;
+          const pid = typeof m.package_id === "string" ? m.package_id : "";
+          if (pid) packageIds.add(pid);
+          return {
+            id: r.id,
+            name: r.name,
+            store: typeof m.store === "string" ? m.store : "",
+            app_name: typeof m.app_name === "string" ? m.app_name : "",
+            app_version: typeof m.app_version === "string" ? m.app_version : "",
+            package_version:
+              typeof m.package_version === "number" ? m.package_version : 1,
+            asset_kind: typeof m.asset_kind === "string" ? m.asset_kind : "",
+            created_at: r.created_at,
+          };
+        });
+        for (const r of rows) {
+          const m = (r.metadata ?? {}) as Record<string, unknown>;
+          const s = typeof m.store === "string" ? m.store : "unknown";
+          byStore[s] = (byStore[s] ?? 0) + 1;
+          if (typeof m.package_id === "string") packageIds.add(m.package_id);
+        }
+        return {
+          total_packages: packageIds.size,
+          total_assets: rows.length,
+          pending_approvals: cnt(publishingPending.count),
+          by_store: byStore,
+          recent,
+        };
+      })(),
       health: healthCounts,
     };
   });
