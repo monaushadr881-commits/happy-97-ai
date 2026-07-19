@@ -311,6 +311,12 @@ export const importPlan = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => ImportInput.parse(i))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "ufs", module: "import", capability: "plan",
+      user_id: userId, company_id: ZERO_UUID,
+      summary: `import.${data.source_kind}.${data.sources.length}`,
+      metadata: { workspace_id: data.workspace_id ?? null, source_kind: data.source_kind },
+    });
     const plan = await persistPlan(
       supabase, userId, KIND.IMPORT,
       `import.${data.source_kind}.${data.sources.length}`,
