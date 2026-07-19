@@ -1036,6 +1036,61 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           coverage_pct: Math.round((healthy / layers.length) * 100),
         };
       })(),
+      business: (() => {
+        const kpis = {
+          customers: cnt(bCustomers.count),
+          leads: cnt(bLeads.count),
+          deals: cnt(bDeals.count),
+          sales_orders: cnt(bSalesOrders.count),
+          purchase_orders: cnt(bPurchaseOrders.count),
+          suppliers: cnt(bSuppliers.count),
+          employees: cnt(bEmployees.count),
+          support_tickets: cnt(bSupport.count),
+          meetings: cnt(bMeetings.count),
+          invoices: cnt(bInvoicesCnt.count),
+          expenses: cnt(bExpensesCnt.count),
+        };
+        // Coverage: modules with canonical runtime wired (Brain/Approval/Audit)
+        // vs. read_only (list-only in business-v1). Batch E wires 9 modules;
+        // Expense and Invoice were wired earlier (Batches D, R183-E).
+        const coverage: Array<{ module: string; status: "wired" | "read_only" }> = [
+          { module: "customers",       status: "wired" },
+          { module: "leads",           status: "wired" },
+          { module: "deals",           status: "wired" },
+          { module: "sales_orders",    status: "wired" },
+          { module: "purchase_orders", status: "wired" },
+          { module: "suppliers",       status: "wired" },
+          { module: "employees",       status: "wired" },
+          { module: "support",         status: "wired" },
+          { module: "projects",        status: "wired" },
+          { module: "expenses",        status: "wired" },
+          { module: "invoices",        status: "wired" },
+          { module: "inventory",       status: "read_only" },
+          { module: "finance",         status: "read_only" },
+        ];
+        const wired = coverage.filter((c) => c.status === "wired").length;
+        return {
+          kpis,
+          pending_approvals: cnt(bPendingAppr.count),
+          recent_approvals: ((bRecentAppr.data ?? []) as Array<{
+            id: string; title: string; entity_type: string; status: string;
+            amount_cents: number | null; currency: string | null; created_at: string;
+          }>).map((r) => ({
+            id: r.id, title: r.title, entity_type: r.entity_type, status: r.status,
+            amount_cents: r.amount_cents, currency: r.currency, created_at: r.created_at,
+          })),
+          audit_24h: cnt(bAudit24h.count),
+          recent_audit: ((bRecentAudit.data ?? []) as Array<{
+            id: string; category: string; action: string; entity_type: string | null;
+            severity: string | null; occurred_at: string;
+          }>).map((r) => ({
+            id: r.id, category: r.category, action: r.action, entity_type: r.entity_type,
+            severity: r.severity, occurred_at: r.occurred_at,
+          })),
+          coverage,
+          coverage_pct: Math.round((wired / coverage.length) * 100),
+        };
+      })(),
     };
   });
 
