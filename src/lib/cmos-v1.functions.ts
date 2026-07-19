@@ -252,6 +252,7 @@ export const marketAddReview = createServerFn({ method: "POST" })
     listing_id: uuid, rating: z.number().int().min(1).max(5), body: z.string().max(4000).optional(),
   }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "marketplace", module: "listing", capability: "review", user_id: context.userId, company_id: ZERO_UUID, metadata: { listing_id: data.listing_id, rating: data.rating } });
     const r = await context.supabase.from("listing_reviews").upsert(
       { ...data, reviewer_id: context.userId },
       { onConflict: "listing_id,reviewer_id" },
