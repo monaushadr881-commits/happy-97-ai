@@ -1,12 +1,15 @@
 /**
- * /founder/security — Security & Audit Console.
- * Consumes opsSecuritySummary + opsSecurityAudit + apiRecentAudit.
+ * /founder/security — R157 Founder Security Center.
+ * Consumes ONLY canonical Happy ID + audit fns (no new runtime).
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { PageHeader, Panel, StatCard, Chip, Hairline } from "@/design-system/primitives";
 import { opsSecuritySummary, opsSecurityAudit } from "@/lib/ops-v1.functions";
+import { FounderSecurityCenter } from "@/components/founder/FounderSecurityCenter";
+import { supabase } from "@/integrations/supabase/client";
 import { ShieldCheck, ShieldAlert, KeyRound, Webhook } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/founder/security")({
   head: () => ({ meta: [{ title: "Security — Founder" }, { name: "robots", content: "noindex" }] }),
@@ -14,14 +17,25 @@ export const Route = createFileRoute("/_authenticated/founder/security")({
 });
 
 function FounderSecurity() {
-  const summary = useQuery({ queryKey: ["sec", "summary"], queryFn: () => opsSecuritySummary(), refetchInterval: 30_000 });
-  const timeline = useQuery({ queryKey: ["sec", "audit"], queryFn: () => opsSecurityAudit({ data: { limit: 30 } }) });
+  const [isFounder, setIsFounder] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase.rpc("is_platform_founder", { _user_id: user.id });
+      if (alive) setIsFounder(Boolean(data));
+    })();
+    return () => { alive = false; };
+  }, []);
 
+  const summary = useQuery({ queryKey: ["sec","summary"], queryFn: () => opsSecuritySummary(), refetchInterval: 30_000 });
+  const timeline = useQuery({ queryKey: ["sec","audit"], queryFn: () => opsSecurityAudit({ data: { limit: 30 } }) });
   const s = (summary.data ?? {}) as Record<string, number | undefined>;
 
   return (
     <>
-      <PageHeader eyebrow="Sovereign Security" title="Security Console" description="Threats, permission changes, sessions, API keys and webhook health." />
+      <PageHeader eyebrow="Sovereign Security" title="Founder Security Center" description="Identity fortress · passkeys · sessions · devices · recovery · emergency lock. One immutable timeline." />
 
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <StatCard label="Active Sessions" value={(s.active_sessions ?? 0).toLocaleString()} icon={<ShieldCheck className="h-4 w-4" />} />
@@ -30,8 +44,10 @@ function FounderSecurity() {
         <StatCard label="Webhook Deliveries · 24h" value={(s.webhook_deliveries_24h ?? 0).toLocaleString()} icon={<Webhook className="h-4 w-4" />} />
       </section>
 
+      <FounderSecurityCenter isFounder={isFounder} />
+
       <Panel className="mt-6 p-5">
-        <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">Security Timeline</h2>
+        <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">Platform Security Timeline</h2>
         <Hairline className="my-4" />
         <ul className="divide-y divide-white/5">
           {((timeline.data ?? []) as Array<{ id: string; action?: string; entity_type?: string | null; actor_id?: string | null; created_at?: string; severity?: string | null }>).map((e) => (

@@ -75,3 +75,13 @@ Locks:
 - Every Founder action is written to `audit_logs` via `write_audit(...)`.
 
 Full record: `docs/founder/R156_FOUNDER_IDENTITY_FORTRESS.md`.
+
+## FD-157 — Founder Security Center (R157)
+Extends R156 Identity Fortress with the full Security Center UI, WebAuthn
+passkey CRUD on Happy ID, and an integration test that walks the entire
+Password → OTP → Risk → Trusted Device → Passkey → Recovery → Emergency
+pipeline. Zero new runtime. Zero duplicate auth/identity. One new
+user-scoped table (`auth_passkeys`) that follows the exact pattern of
+`auth_devices`. 737/737 tests green.
+
+Full record: `docs/founder/R157_FOUNDER_SECURITY_CENTER.md`.
