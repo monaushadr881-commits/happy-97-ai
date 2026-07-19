@@ -88,9 +88,9 @@ export const bizUpdateCustomerAddress = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, { domain: "business", module: "customer", capability: "update_address", user_id: context.userId, company_id: data.company_id, summary: `address ${data.customer_id}` });
-    const patch: Record<string, unknown> = {};
-    if (data.billing_address) patch.billing_address = data.billing_address;
-    if (data.shipping_address) patch.shipping_address = data.shipping_address;
+    const patch: Database["public"]["Tables"]["customers"]["Update"] = {};
+    if (data.billing_address) patch.billing_address = data.billing_address as never;
+    if (data.shipping_address) patch.shipping_address = data.shipping_address as never;
     const { data: row, error } = await supabase.from("customers").update(patch).eq("id", data.customer_id).eq("company_id", data.company_id).select("*").single();
     if (error) throw new Error(`customer_address_update_failed: ${error.message}`);
     await writeCanonicalAudit(supabase, { category: "business.customer", action: "update_address", entity_type: "customer", entity_id: data.customer_id, company_id: data.company_id, after: row, severity: "info", metadata: { module: "crm" } });
