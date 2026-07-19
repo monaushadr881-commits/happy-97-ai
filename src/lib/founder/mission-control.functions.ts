@@ -673,5 +673,25 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           deduction_order: ["daily_free", "subscription", "purchased"] as const,
         },
       },
+      automation: {
+        workflows_total: cnt(wfTotal.count),
+        workflows_active: cnt(wfActive.count),
+        workflows_inactive: cnt(wfInactive.count),
+        pending_approvals: cnt(autoPending.count),
+        runs_24h: cnt(runs24h.count),
+        runs_failed_24h: cnt(runsFailed24h.count),
+        recent_runs: ((runsRecent.data ?? []) as Array<{
+          id: string; workflow_id: string; status: string;
+          started_at: string | null; completed_at: string | null; error: string | null;
+        }>).map((r) => ({
+          id: r.id,
+          workflow_id: r.workflow_id,
+          status: r.status,
+          started_at: r.started_at,
+          completed_at: r.completed_at,
+          error: r.error,
+        })),
+      },
     };
   });
+
