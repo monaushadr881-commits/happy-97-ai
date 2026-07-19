@@ -70,10 +70,16 @@ This document records the permanent operating rules that govern every HAPPY X ch
 - No new approval tables, no new approval subsystem.
 - The Phase A primitives in `src/lib/founder/` (`enforceFounderApproval`, `withBrain`, `ApprovalRequiredError`) are the only sanctioned enforcement surface.
 
-## 10. Cross references
+## 10. Project Evolution Rule
+
+- Every new feature must satisfy all ten requirements in [`../PROJECT_EVOLUTION_RULE.md`](../PROJECT_EVOLUTION_RULE.md).
+- Silent omission of any requirement is a violation.
+
+## 11. Cross references
 
 - [`MASTER_CORE_VISION_LOCK.md`](../MASTER_CORE_VISION_LOCK.md)
 - [`MASTER_ARCHITECTURE_LOCK.md`](../MASTER_ARCHITECTURE_LOCK.md)
 - [`FOUNDER_CONSTITUTION.md`](./FOUNDER_CONSTITUTION.md)
 - [`FOUNDER_DOCUMENT_GENERATION_POLICY.md`](./FOUNDER_DOCUMENT_GENERATION_POLICY.md)
 - [`../R183_MIGRATION_GUARDRAILS.md`](../R183_MIGRATION_GUARDRAILS.md)
+- [`../PROJECT_EVOLUTION_RULE.md`](../PROJECT_EVOLUTION_RULE.md)
