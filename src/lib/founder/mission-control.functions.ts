@@ -344,6 +344,15 @@ export interface MissionControlSnapshot {
     failures_24h: number;
     queue_pending: number;
     queue_failed: number;
+    // R189 Batch 3 — Universal Execution Adoption. Counts distinct handlers
+    // that have opted onto the canonical pipeline via
+    // `adoptToCanonicalPipeline` (audit_logs category `pipeline.<domain>`).
+    adoption: {
+      adopted_24h: number;
+      handlers_adopted: number;
+      by_domain: Array<{ domain: string; count_24h: number }>;
+      recent: Array<{ id: string; capability: string; domain: string; occurred_at: string }>;
+    };
   };
 }
 
