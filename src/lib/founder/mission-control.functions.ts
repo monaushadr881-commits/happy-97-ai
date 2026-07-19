@@ -219,7 +219,7 @@ export interface MissionControlSnapshot {
     }>;
     attach_events_7d: number;
   };
-  knowledge: {
+  knowledge_ext: {
     articles_total: number;
     articles_public: number;
     articles_drafts: number;
