@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Building2,
   Users,
+  Handshake,
   Sparkles,
   Activity,
   Shield,
@@ -18,6 +19,7 @@ import {
 const TABS = [
   { to: "/founder", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/founder/companies", label: "Companies", icon: Building2, exact: false },
+  { to: "/founder/dealers", label: "Dealers", icon: Handshake, exact: false },
   { to: "/founder/users", label: "Users", icon: Users, exact: false },
   { to: "/founder/ai", label: "AI", icon: Sparkles, exact: false },
   { to: "/founder/ops", label: "Operations", icon: Activity, exact: false },
