@@ -25,12 +25,13 @@ import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 const FOUNDER_APPROVAL_THRESHOLD_CENTS = 10_00_00_00; // ₹1,00,000
 
+type JsonValue = string | number | boolean | null | JsonValue[] | { [k: string]: JsonValue };
 type Result = {
   status: "created" | "updated" | "pending_approval" | "ok";
   entity_id?: string;
   approval_id?: string;
   reason?: string;
-  data?: unknown;
+  data?: JsonValue;
 };
 
 // =================================================================
