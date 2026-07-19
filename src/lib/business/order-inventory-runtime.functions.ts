@@ -52,7 +52,7 @@ export const bizUpdateCustomerProfile = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, { domain: "business", module: "customer", capability: "update_profile", user_id: context.userId, company_id: data.company_id, summary: `update customer ${data.customer_id}` });
-    const patch: Record<string, unknown> = {};
+    const patch: Database["public"]["Tables"]["customers"]["Update"] = {};
     if (data.name !== undefined) patch.name = data.name;
     if (data.email !== undefined) patch.email = data.email;
     if (data.phone !== undefined) patch.phone = data.phone;
