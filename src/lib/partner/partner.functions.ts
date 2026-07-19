@@ -64,6 +64,7 @@ interface SubmitCommon {
   currency: string;
   tags: string[];
   payload: Record<string, unknown>;
+  force_approval?: boolean;
 }
 
 interface SubmitResult {
