@@ -22,11 +22,12 @@ the agent MUST first perform a **Repository Canonical Scan**.
    - `src/routes/**` (page + api routes)
    - `src/components/**` (UI owners, especially `happy-desk`, `digital-human`)
    - `supabase/migrations/**` (existing tables/policies)
-2. Consult the canonical registries:
+2. Consult the canonical registries in the repository (the ONLY source of truth):
    - `docs/MASTER_ARCHITECTURE_LOCK.md` §4 — canonical owners per capability
    - `docs/founder/FOUNDER_CONSTITUTION.md` — 502 founder modules
    - `docs/MASTER_CORE_VISION_LOCK.md` — locked foundation modules (R1–R91)
-3. Consult the memory index (`mem://index.md`) Core rules.
+   - `docs/PROJECT_EVOLUTION_RULE.md` — ten evolution requirements
+3. Do NOT rely on any hidden, persistent, or session AI memory. The repository is the sole source of truth; any rule not written in `docs/` does not exist.
 
 ## 2. Decision matrix
 
