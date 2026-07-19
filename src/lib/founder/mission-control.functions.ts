@@ -593,5 +593,43 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         };
       })(),
       health: healthCounts,
+      revenue_ext: {
+        wallets: { total: cnt(walletsTotal.count), ledger_30d: cnt(walletLedger30d.count) },
+        credits: {
+          grants_30d: cnt(creditsGrant30d.count),
+          consumes_30d: cnt(creditsConsume30d.count),
+        },
+        subscriptions: {
+          active: cnt(subsActive.count),
+          trial: cnt(subsTrial.count),
+          paused: cnt(subsPaused.count),
+          cancelled: cnt(subsCancelled.count),
+          recent: ((subsRecent.data ?? []) as Array<{
+            id: string; status: string; plan_id: string; seats: number; updated_at: string;
+          }>).map((r) => ({
+            id: r.id, status: r.status, plan_id: r.plan_id,
+            seats: r.seats, updated_at: r.updated_at,
+          })),
+        },
+        payments: {
+          succeeded_30d: cnt(paySuccess30d.count),
+          failed_30d: cnt(payFailed30d.count),
+          pending_founder_approval: cnt(payPendingApproval.count),
+          recent: ((payRecent.data ?? []) as Array<{
+            id: string; amount_cents: number | null; currency: string;
+            status: string; received_at: string | null;
+          }>).map((r) => ({
+            id: r.id,
+            amount_cents: r.amount_cents ?? 0,
+            currency: r.currency,
+            status: r.status,
+            received_at: r.received_at,
+          })),
+        },
+        daily_free_credit_policy: {
+          per_day: 5,
+          deduction_order: ["daily_free", "subscription", "purchased"] as const,
+        },
+      },
     };
   });
