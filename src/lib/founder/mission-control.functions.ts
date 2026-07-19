@@ -145,6 +145,8 @@ export const founderMissionControl = createServerFn({ method: "GET" })
       creatorRecent,
       knowledgeRecent,
       healthRecent,
+      publishingPending,
+      publishingRecent,
     ] = await Promise.all([
       sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "pending"),
       sb.from("approvals").select("id", { count: "exact", head: true }).eq("status", "approved"),
@@ -198,6 +200,17 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .select("status,checked_at")
         .gte("checked_at", since24h)
         .limit(500),
+      sb
+        .from("approvals")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "pending")
+        .eq("entity_type", "founder_publishing_package"),
+      sb
+        .from("creator_assets")
+        .select("id,name,created_at,metadata")
+        .eq("kind", "publishing")
+        .order("created_at", { ascending: false })
+        .limit(64),
     ]);
 
     const invRows = invRecent.data ?? [];
