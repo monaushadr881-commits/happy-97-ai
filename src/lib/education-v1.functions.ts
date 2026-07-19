@@ -165,6 +165,7 @@ export const eduDeleteNote = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "note", capability: "delete", user_id: context.userId, company_id: ZERO_UUID, summary: `delete ${data.id}` });
     const r = await context.supabase.from("study_notes").delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
