@@ -89,6 +89,7 @@ export const createWebsiteProject = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createWebsiteProject", source: "api", module: "website.createWebsiteProject" });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return createProject(supabaseAdmin, {
       userId: (context as Ctx).userId,
@@ -108,6 +109,7 @@ export const saveWebsiteProject = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "saveWebsiteProject", source: "api", module: "website.saveWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return updateProjectTree(supabaseAdmin, {
@@ -120,6 +122,7 @@ export const renameWebsiteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { projectId: string; name: string; description?: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "renameWebsiteProject", source: "api", module: "website.renameWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return renameProject(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
@@ -129,6 +132,7 @@ export const duplicateWebsiteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { projectId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "duplicateWebsiteProject", source: "api", module: "website.duplicateWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return duplicateProject(supabaseAdmin, { projectId: data.projectId, actorId: (context as Ctx).userId });
@@ -138,6 +142,7 @@ export const archiveWebsiteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { projectId: string; archived: boolean }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "archiveWebsiteProject", source: "api", module: "website.archiveWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return archiveProject(supabaseAdmin, data.projectId, data.archived);
@@ -147,6 +152,7 @@ export const deleteWebsiteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { projectId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "deleteWebsiteProject", source: "api", module: "website.deleteWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return deleteProject(supabaseAdmin, data.projectId);
@@ -169,6 +175,7 @@ export const rollbackWebsiteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { projectId: string; version: number }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "rollbackWebsiteProject", source: "api", module: "website.rollbackWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return rollbackToVersion(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
@@ -194,6 +201,7 @@ export const generateWebsiteWithAI = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateWebsiteWithAI", source: "api", module: "website.generateWebsiteWithAI" });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     if (data.projectId) await assertOwns(context as Ctx, data.projectId);
 
@@ -262,6 +270,7 @@ export const publishWebsiteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { projectId: string; publishedUrl?: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "publishWebsiteProject", source: "api", module: "website.publishWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return publishProject(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
@@ -271,6 +280,7 @@ export const unpublishWebsiteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { projectId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "unpublishWebsiteProject", source: "api", module: "website.unpublishWebsiteProject" });
     await assertOwns(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return unpublishProject(supabaseAdmin, data.projectId, (context as Ctx).userId);

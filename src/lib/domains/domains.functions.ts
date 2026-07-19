@@ -58,6 +58,7 @@ export const addProjectDomain = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "addProjectDomain", source: "api", module: "domains.addProjectDomain" });
     await assertProjectOwner(context as Ctx, data.projectId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return addDomain(supabaseAdmin, {
@@ -90,6 +91,7 @@ export const removeProjectDomain = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { domainId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "removeProjectDomain", source: "api", module: "domains.removeProjectDomain" });
     await assertDomainAccess(context as Ctx, data.domainId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return removeDomain(supabaseAdmin, data.domainId, (context as Ctx).userId);
@@ -99,6 +101,7 @@ export const setProjectDomainPrimary = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { domainId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setProjectDomainPrimary", source: "api", module: "domains.setProjectDomainPrimary" });
     await assertDomainAccess(context as Ctx, data.domainId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return setPrimaryDomain(supabaseAdmin, data.domainId, (context as Ctx).userId);
@@ -111,6 +114,7 @@ export const setProjectDomainRedirects = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setProjectDomainRedirects", source: "api", module: "domains.setProjectDomainRedirects" });
     await assertDomainAccess(context as Ctx, data.domainId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return updateRedirectRules(supabaseAdmin, data.domainId, data.rules);
@@ -123,6 +127,7 @@ export const suspendProjectDomain = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "suspendProjectDomain", source: "api", module: "domains.suspendProjectDomain" });
     await assertOpsAdmin(context as Ctx); // suspension is a founder action
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return suspendDomain(supabaseAdmin, data.domainId, data.reason, (context as Ctx).userId);
@@ -134,6 +139,7 @@ export const verifyProjectDomain = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { domainId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "verifyProjectDomain", source: "api", module: "domains.verifyProjectDomain" });
     await assertDomainAccess(context as Ctx, data.domainId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return verifyDomain(supabaseAdmin, data.domainId, (context as Ctx).userId);
@@ -143,6 +149,7 @@ export const checkProjectDomainDns = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { domainId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "checkProjectDomainDns", source: "api", module: "domains.checkProjectDomainDns" });
     await assertDomainAccess(context as Ctx, data.domainId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return checkDns(supabaseAdmin, data.domainId);
@@ -154,6 +161,7 @@ export const requestProjectDomainSsl = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { domainId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "requestProjectDomainSsl", source: "api", module: "domains.requestProjectDomainSsl" });
     await assertDomainAccess(context as Ctx, data.domainId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return requestSsl(supabaseAdmin, data.domainId, (context as Ctx).userId);
@@ -163,6 +171,7 @@ export const renewProjectDomainSsl = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { domainId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "renewProjectDomainSsl", source: "api", module: "domains.renewProjectDomainSsl" });
     await assertDomainAccess(context as Ctx, data.domainId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return renewSsl(supabaseAdmin, data.domainId, (context as Ctx).userId);

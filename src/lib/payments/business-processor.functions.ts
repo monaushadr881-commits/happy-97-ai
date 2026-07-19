@@ -52,6 +52,7 @@ export const reprocessWebhookEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { eventId: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "reprocessWebhookEvent", source: "api", module: "payments.reprocessWebhookEvent" });
     // Ops-admin gate
     const { data: isOps } = await context.supabase.rpc("is_ops_admin", { _user_id: context.userId });
     if (!isOps) throw new Error("Forbidden: ops admin only");

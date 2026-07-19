@@ -87,6 +87,7 @@ export const grantCredits = createServerFn({ method: "POST" })
     metadata?: Record<string, unknown>;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "grantCredits", source: "api", module: "credits.grantCredits" });
     if (data.entryType === "admin_grant" || data.entryType === "bonus" || data.entryType === "referral") {
       await assertOpsAdmin(context as Ctx);
     } else {
@@ -109,6 +110,7 @@ export const consumeCredits = createServerFn({ method: "POST" })
     metadata?: Record<string, unknown>;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "consumeCredits", source: "api", module: "credits.consumeCredits" });
     await assertOwnership(context as Ctx, data.ownerType, data.ownerId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return consume(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
@@ -125,6 +127,7 @@ export const refundCredits = createServerFn({ method: "POST" })
     description?: string;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "refundCredits", source: "api", module: "credits.refundCredits" });
     await assertOpsAdmin(context as Ctx);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return refund(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
@@ -144,6 +147,7 @@ export const transferCredits = createServerFn({ method: "POST" })
     metadata?: Record<string, unknown>;
   }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "transferCredits", source: "api", module: "credits.transferCredits" });
     await assertOwnership(context as Ctx, data.fromOwnerType, data.fromOwnerId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return transfer(supabaseAdmin, { ...data, actorId: (context as Ctx).userId });
@@ -222,6 +226,7 @@ export const getCreditsOverview = createServerFn({ method: "GET" })
 export const sweepExpiredCredits = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "sweepExpiredCredits", source: "api", module: "credits.sweepExpiredCredits" });
     await assertOpsAdmin(context as Ctx);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     return expireDueGrants(supabaseAdmin);
