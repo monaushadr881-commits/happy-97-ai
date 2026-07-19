@@ -525,7 +525,7 @@ export const founderMissionControl = createServerFn({ method: "GET" })
       sb.from("audit_logs").select("id", { count: "exact", head: true })
         .eq("severity", "critical").gte("occurred_at", since24h),
       sb.from("audit_logs").select("id", { count: "exact", head: true })
-        .eq("severity", "error").gte("occurred_at", since24h),
+        .eq("severity", "notice").gte("occurred_at", since24h),
       sb.from("audit_logs").select("id", { count: "exact", head: true })
         .eq("severity", "warning").gte("occurred_at", since24h),
       sb.from("audit_logs").select("id", { count: "exact", head: true })
