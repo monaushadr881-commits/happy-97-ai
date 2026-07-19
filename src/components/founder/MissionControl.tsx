@@ -1054,7 +1054,7 @@ export function MissionControl() {
                     <span className="text-sm text-paper">{c.capability}</span>
                     <span className="text-[11px] text-soft-gray">{c.owner}</span>
                   </div>
-                  <Chip tone={c.status === "wired" ? "gold" : "muted"}>{c.status}</Chip>
+                  <Chip tone={c.status === "wired" ? "gold" : "neutral"}>{c.status}</Chip>
                 </li>
               ))}
             </ul>
