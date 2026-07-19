@@ -31,7 +31,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { withBrain } from "@/lib/founder/with-brain";
-import type { BrainContext } from "@/lib/founder/types";
+import type { FounderApprovalContext } from "@/lib/founder/types";
 
 /**
  * Founder-approval threshold for invoice issuance (in cents).
