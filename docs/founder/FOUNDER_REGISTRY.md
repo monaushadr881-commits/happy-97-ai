@@ -581,3 +581,4 @@ Extends R151. Non-duplicating. Reuse canonical owners. Runtime guards enforce "e
 | FM521 | Unified Asset Registry | Future Platform / Assets | P1 | ✅ ARCHITECTURE READY | `src/lib/happy-r152/asset-registry.ts` |
 | FM522 | Founder Unlimited Policy (Credits · Subscription · Wallet · Quotas · AI · Builder · Storage · API · Brain · Memory · Search · DH) | Governance / Revenue | P0 | ✅ SHIPPED | `src/lib/founder/unlimited-policy.ts` |
 | FM523 | Founder Identity Fortress (Login pipeline · MFA · Recovery · Trusted Devices · Risk→Action · Security Score · Immutable audit · Role lock) | Governance / Security | P0 | ✅ SHIPPED | `src/lib/founder/identity-fortress.ts` |
+| FM524 | Founder Security Center (Sessions · Devices · Timeline · Alerts · Recovery Codes · Passkeys · OTP · Risk · Emergency Lock · Identity) | Governance / Security | P0 | ✅ SHIPPED | `src/components/founder/FounderSecurityCenter.tsx` · `src/lib/happy-id/passkeys.ts` · `public.auth_passkeys` |
