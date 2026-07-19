@@ -106,7 +106,7 @@ export const transitionRollout = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     if (!canRolloutTransition(cur.state, data.to)) throw new Error(`invalid rollout transition ${cur.state} → ${data.to}`);
     // R183 — destructive transitions (rollback / cancel) require Founder approval.
-    let approvalMeta: Record<string, unknown> | undefined;
+    let approvalMeta: { approval_id: string; tier: string } | null = null;
     if (R183_DESTRUCTIVE.has(data.to)) {
       if (!data.company_id) throw new Error("company_id is required for destructive rollout transitions (R183)");
       const enforcement = await requireApproval(context as any, {
