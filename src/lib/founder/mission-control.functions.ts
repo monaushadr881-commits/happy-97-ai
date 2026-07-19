@@ -45,7 +45,7 @@ export interface MissionControlSnapshot {
     action: string;
     entity_type: string | null;
     severity: string | null;
-    created_at: string;
+    occurred_at: string;
   }>;
   brain: {
     active: number;
@@ -141,8 +141,8 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .limit(LIMIT),
       sb
         .from("audit_logs")
-        .select("id,category,action,entity_type,severity,created_at")
-        .order("created_at", { ascending: false })
+        .select("id,category,action,entity_type,severity,occurred_at")
+        .order("occurred_at", { ascending: false })
         .limit(12),
       sb.from("brain_sessions").select("id", { count: "exact", head: true }).eq("status", "active"),
       sb
@@ -155,10 +155,10 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .select("id,tool,status,runtime,created_at,duration_ms")
         .order("created_at", { ascending: false })
         .limit(LIMIT),
-      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "pending"),
+      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "queued"),
       sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "running"),
       sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "failed"),
-      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "done"),
+      sb.from("job_queue").select("id", { count: "exact", head: true }).eq("status", "succeeded"),
       sb.from("invoices").select("id", { count: "exact", head: true }).gte("created_at", since30d),
       sb
         .from("invoices")
