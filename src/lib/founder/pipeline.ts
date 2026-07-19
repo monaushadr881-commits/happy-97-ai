@@ -47,6 +47,7 @@ export interface AdoptOptions {
     | "partner"
     | "ai"
     | "ufs"
+    | "infinity"
     | "founder";
   readonly module: string;
   readonly capability: string;
