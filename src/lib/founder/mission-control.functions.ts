@@ -517,7 +517,7 @@ export const founderMissionControl = createServerFn({ method: "GET" })
 
     // Batch D (R188) — Security Runtime read-only completion.
     const [
-      auditCritical24h, auditError24h, auditWarn24h, auditInfo24h,
+      auditCritical24h, auditNotice24h, auditWarn24h, auditInfo24h,
       loginOk24h, loginFail24h,
       alertsOpen, alertsAck, alertsRecent,
       approvalsEnforcing, rbacProbe,
