@@ -41,7 +41,9 @@ export interface AdoptOptions {
     | "marketplace"
     | "manufacturing"
     | "healthcare"
-    | "agriculture";
+    | "agriculture"
+    | "ufs"
+    | "founder";
   readonly module: string;
   readonly capability: string;
   readonly user_id: string | null;
