@@ -426,7 +426,7 @@ export function enforceMutation<
     // Optional Phase C approval gate — only fires when company-scoped and the
     // caller opts in. Personal/user-scoped mutations rely on RLS + brain audit.
     if (opts.requireApprovalTier && companyId && context.supabase) {
-      await enforce(
+      await requireApproval(
         { supabase: context.supabase as never, userId: context.userId },
         {
           action: opts.action,
