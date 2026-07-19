@@ -99,11 +99,17 @@ Producers must populate `knowledgeTags` and register the `workspaceLocation` so 
 
 Publishing materials for Google Play and Apple App Store are declared in `src/lib/founder/publishing-catalog.ts`. This catalog defines materials only — never credentials, never live submission. Every publishing asset requires Founder approval.
 
-## 8. Cross references
+## 8. Evolution & lifecycle
+
+Document lifecycle (versioning, preservation of links, logical vs physical deletion) is governed by [`../DOCUMENT_EVOLUTION_RULE.md`](../DOCUMENT_EVOLUTION_RULE.md). Every producer MUST comply with that rule in addition to this policy.
+
+## 9. Cross references
 
 - [`FOUNDER_OPERATING_RULES.md`](./FOUNDER_OPERATING_RULES.md)
 - [`FOUNDER_CONSTITUTION.md`](./FOUNDER_CONSTITUTION.md)
 - [`../MASTER_CORE_VISION_LOCK.md`](../MASTER_CORE_VISION_LOCK.md)
 - [`../MASTER_ARCHITECTURE_LOCK.md`](../MASTER_ARCHITECTURE_LOCK.md)
 - [`../R183_MIGRATION_GUARDRAILS.md`](../R183_MIGRATION_GUARDRAILS.md)
+- [`../DOCUMENT_EVOLUTION_RULE.md`](../DOCUMENT_EVOLUTION_RULE.md)
+- [`../PROJECT_EVOLUTION_RULE.md`](../PROJECT_EVOLUTION_RULE.md)
 - Code surface: `src/lib/founder/index.ts` (only sanctioned import path)
