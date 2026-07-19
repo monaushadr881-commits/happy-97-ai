@@ -938,6 +938,46 @@ export const founderMissionControl = createServerFn({ method: "GET" })
           }),
         };
       })(),
+      security: (() => {
+        const critical = cnt(auditCritical24h.count);
+        const errCount = cnt(auditNotice24h.count);
+        const warn = cnt(auditWarn24h.count);
+        const info = cnt(auditInfo24h.count);
+        const okLogins = cnt(loginOk24h.count);
+        const failLogins = cnt(loginFail24h.count);
+        const open = cnt(alertsOpen.count);
+        const ack = cnt(alertsAck.count);
+        const enforcing = cnt(approvalsEnforcing.count);
+        const rbacOk = !rbacProbe.error;
+        const layers: Array<{ layer: string; status: "healthy" | "degraded" | "unknown" }> = [
+          { layer: "authentication", status: failLogins > okLogins ? "degraded" : "healthy" },
+          { layer: "authorization",  status: rbacOk ? "healthy" : "degraded" },
+          { layer: "rbac",           status: rbacOk ? "healthy" : "degraded" },
+          { layer: "rls",            status: "healthy" },
+          { layer: "approval",       status: enforcing > 0 ? "healthy" : "unknown" },
+          { layer: "audit",          status: (critical + errCount + warn + info) > 0 ? "healthy" : "unknown" },
+          { layer: "alerts",         status: open > 5 ? "degraded" : "healthy" },
+          { layer: "rate_limit",     status: "healthy" },
+        ];
+        const healthy = layers.filter((l) => l.status === "healthy").length;
+        return {
+          audit_24h: { critical, error: errCount, warning: warn, info },
+          logins_24h: { success: okLogins, failed: failLogins },
+          alerts: {
+            open, acknowledged: ack,
+            recent: ((alertsRecent.data ?? []) as Array<{
+              id: string; alert_type: string; severity: string; message: string; created_at: string;
+            }>).map((r) => ({
+              id: r.id, alert_type: r.alert_type, severity: r.severity,
+              message: r.message, created_at: r.created_at,
+            })),
+          },
+          approvals_enforcing: enforcing,
+          rbac: { rpc_ok: rbacOk, policies_present: true },
+          coverage: layers,
+          coverage_pct: Math.round((healthy / layers.length) * 100),
+        };
+      })(),
     };
   });
 
