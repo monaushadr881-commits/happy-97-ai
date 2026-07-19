@@ -144,6 +144,7 @@ export const dhDeleteSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ session_id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "session", "delete", { session_id: data.session_id });
     const r = await context.supabase.from("dh_sessions")
       .delete().eq("id", data.session_id).eq("user_id", context.userId);
     if (r.error) throw r.error;
