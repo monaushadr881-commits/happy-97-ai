@@ -256,6 +256,7 @@ export const dhGeneratePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => GenSlidesInput.parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adopt(context, "presentation", "generate", { title: data.title, slide_count: data.slide_count ?? 8 });
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
     const count = data.slide_count ?? 8;
