@@ -59,8 +59,10 @@ export const apiRunAgent = createServerFn({ method: "POST" })
 export const apiCreateWorkflow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => agentOsService.createWorkflow(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiCreateWorkflow", source: "api", module: "api.v2.apiCreateWorkflow" });
+    return guard(() => agentOsService.createWorkflow(svc(context), data));
+  });
 export const apiListPlugins = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => guard(() => agentOsService.listPlugins(svc(context))));
@@ -68,17 +70,21 @@ export const apiListPlugins = createServerFn({ method: "GET" })
 export const apiPublishSkill = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => agentOsService.publishSkill(svc(context), data)));
-
-export const apiPublishPrompt = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiPublishSkill", source: "api", module: "api.v2.apiPublishSkill" });
+    return guard(() => agentOsService.publishSkill(svc(context), data));
+  });export const apiPublishPrompt = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => agentOsService.publishPrompt(svc(context), data)));
-
-export const apiIssueDeveloperKey = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiPublishPrompt", source: "api", module: "api.v2.apiPublishPrompt" });
+    return guard(() => agentOsService.publishPrompt(svc(context), data));
+  });export const apiIssueDeveloperKey = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => agentOsService.issueDeveloperKey(svc(context))));
-
+  .handler(async ({ context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiIssueDeveloperKey", source: "api", module: "api.v2.apiIssueDeveloperKey" });
+    return guard(() => agentOsService.issueDeveloperKey(svc(context)));
+  });
 // ------------------------- v3.0 Intelligence -------------------------
 export const apiIntelligencePredict = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -196,4 +202,7 @@ export const apiAutonomousAiOps = createServerFn({ method: "GET" })
 export const apiAutonomousProcessManager = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => autonomousService.processManager(svc(context), data)));
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiAutonomousProcessManager", source: "api", module: "api.v2.apiAutonomousProcessManager" });
+    return guard(() => autonomousService.processManager(svc(context), data));
+  });

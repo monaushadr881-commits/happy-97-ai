@@ -19,26 +19,27 @@ export const createLearningPathFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => createPathSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createLearningPathFn", source: "api", module: "learning.createLearningPathFn" });
     const { data: row, error } = await context.supabase.from('learning_paths').insert({
       ...data, created_by: context.userId,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const publishSchema = z.object({
   pathId: z.string().uuid(),
   status: z.enum(['draft','published','archived']),
-});
+};
+  });
 export const setLearningPathStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => publishSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setLearningPathStatusFn", source: "api", module: "learning.setLearningPathStatusFn" });
     const { data: row, error } = await context.supabase.from('learning_paths')
       .update({ status: data.status }).eq('id', data.pathId).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const addItemSchema = z.object({
   pathId: z.string().uuid(),
@@ -47,11 +48,13 @@ const addItemSchema = z.object({
   itemRef: z.string().uuid(),
   title: z.string().min(1),
   required: z.boolean().default(true),
-});
+};
+  });
 export const addLearningPathItemFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => addItemSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "addLearningPathItemFn", source: "api", module: "learning.addLearningPathItemFn" });
     // Validate the referenced entity exists in its owning runtime.
     const tableMap: Record<string, string> = {
       course: 'courses', lesson: 'lessons', assignment: 'assignments', quiz: 'quizzes',
@@ -65,15 +68,15 @@ export const addLearningPathItemFn = createServerFn({ method: 'POST' })
       item_ref: data.itemRef, title: data.title, required: data.required,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const listPathsSchema = z.object({
   audience: z.string().optional(),
   category: z.string().optional(),
   status: z.enum(['draft','published','archived']).optional(),
   limit: z.number().int().min(1).max(200).default(50),
-});
+};
+  });
 export const listLearningPathsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listPathsSchema.parse(d ?? {}))
@@ -84,10 +87,10 @@ export const listLearningPathsFn = createServerFn({ method: 'GET' })
     if (data.status) q = q.eq('status', data.status);
     const { data: rows, error } = await q;
     if (error) throw error;
-    return rows ?? [];
-  });
+    return rows ?? []);
 
-const getPathSchema = z.object({ pathId: z.string().uuid() });
+const getPathSchema = z.object({ pathId: z.string().uuid() };
+  });
 export const getLearningPathFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => getPathSchema.parse(d))

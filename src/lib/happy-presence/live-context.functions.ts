@@ -7,6 +7,7 @@ export const recordContext = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { context: Record<string, unknown>; source?: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordContext", source: "api", module: "presence.context.recordContext" });
     await requireHpeUser(context);
     const sb: any = context.supabase;
     const { error } = await sb.from("happy_live_events").insert({

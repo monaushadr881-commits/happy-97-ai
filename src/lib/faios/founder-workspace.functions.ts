@@ -26,6 +26,7 @@ export const createWorkspaceItem = createServerFn({ method: "POST" })
     pinned: z.boolean().optional(),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createWorkspaceItem", source: "api", module: "faios.workspace.createWorkspaceItem" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const { data: row, error } = await sb.from("faios_workspace_items").insert({
@@ -47,6 +48,7 @@ export const updateWorkspaceItem = createServerFn({ method: "POST" })
     pinned: z.boolean().optional(),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "updateWorkspaceItem", source: "api", module: "faios.workspace.updateWorkspaceItem" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const patch: any = { updated_at: new Date().toISOString() };
@@ -64,6 +66,7 @@ export const deleteWorkspaceItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ id: z.string().uuid() }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "deleteWorkspaceItem", source: "api", module: "faios.workspace.deleteWorkspaceItem" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const { error } = await sb.from("faios_workspace_items").delete().eq("id", data.id).eq("founder_id", context.userId);

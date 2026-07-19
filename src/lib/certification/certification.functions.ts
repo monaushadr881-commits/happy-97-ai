@@ -21,8 +21,7 @@ export const listCapabilitiesFn = createServerFn({ method: 'GET' })
     const { data, error } = await context.supabase.from('capability_registry')
       .select('*').order('release_id').order('code');
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);
 
 const upsertCapSchema = z.object({
   code: z.string().min(2),
@@ -35,11 +34,13 @@ const upsertCapSchema = z.object({
   owner: z.string().optional(),
   description: z.string().optional(),
   metadata: z.record(z.string(), jsonValue).optional(),
-});
+};
+  });
 export const upsertCapabilityFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => upsertCapSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertCapabilityFn", source: "api", module: "certification.upsertCapabilityFn" });
     const { data: existing } = await context.supabase.from('capability_registry')
       .select('id').eq('code', data.code).maybeSingle();
     if (existing) {
@@ -52,8 +53,7 @@ export const upsertCapabilityFn = createServerFn({ method: 'POST' })
     const { data: row, error } = await context.supabase.from('capability_registry')
       .insert({ ...data, metadata: data.metadata ?? {} }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Health checks ---------------------------------------------------
 const healthSchema = z.object({
@@ -62,11 +62,13 @@ const healthSchema = z.object({
   verificationMethod: z.enum(['typecheck','rls','policy','invoke','manual','automated']),
   evidence: jsonValue.default({}),
   latencyMs: z.number().int().min(0).optional(),
-});
+};
+  });
 export const recordHealthCheckFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => healthSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordHealthCheckFn", source: "api", module: "certification.recordHealthCheckFn" });
     const { data: row, error } = await context.supabase.from('capability_health_checks').insert({
       capability_code: data.capabilityCode,
       status: data.status,
@@ -76,18 +78,19 @@ export const recordHealthCheckFn = createServerFn({ method: 'POST' })
       checked_by: context.userId,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Certification report -------------------------------------------
 const reportSchema = z.object({
   releaseId: z.string().min(2),
   version: z.string().min(1),
-});
+};
+  });
 export const generateCertificationReportFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => reportSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateCertificationReportFn", source: "api", module: "certification.generateCertificationReportFn" });
     const { data: caps, error: capsErr } = await context.supabase.from('capability_registry')
       .select('*').order('code');
     if (capsErr) throw capsErr;
@@ -170,8 +173,7 @@ export const listCertificationReportsFn = createServerFn({ method: 'GET' })
     const { data, error } = await context.supabase.from('certification_reports')
       .select('*').order('created_at', { ascending: false }).limit(50);
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);
 
 // -------- Releases --------------------------------------------------------
 const releaseSchema = z.object({
@@ -180,11 +182,13 @@ const releaseSchema = z.object({
   releaseNotes: z.string().optional(),
   compatibility: z.record(z.string(), jsonValue).optional(),
   certificationId: z.string().uuid().nullish(),
-});
+};
+  });
 export const createReleaseFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => releaseSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createReleaseFn", source: "api", module: "certification.createReleaseFn" });
     const { data: row, error } = await context.supabase.from('release_records').insert({
       version: data.version,
       channel: data.channel,
@@ -195,17 +199,18 @@ export const createReleaseFn = createServerFn({ method: 'POST' })
       certification_id: data.certificationId ?? null,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const releaseStatusSchema = z.object({
   releaseId: z.string().uuid(),
   status: z.enum(['pending','released','rolled_back','superseded']),
-});
+};
+  });
 export const setReleaseStatusFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => releaseStatusSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setReleaseStatusFn", source: "api", module: "certification.setReleaseStatusFn" });
     const patch: Record<string, unknown> = { status: data.status };
     if (data.status === 'released') patch.released_at = new Date().toISOString();
     const { data: row, error } = await context.supabase.from('release_records')

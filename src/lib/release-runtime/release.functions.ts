@@ -42,6 +42,7 @@ export const createRelease = createServerFn({ method: "POST" })
       compatibility: z.record(z.string(), z.any()).optional(),
     }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createRelease", source: "api", module: "release.runtime.createRelease" });
     await assertOpsAdmin(context);
     parseSemver(data.version); // validate
     const { data: row, error } = await (context.supabase as any)
@@ -85,6 +86,7 @@ export const addChangelogEntry = createServerFn({ method: "POST" })
       reference_url: z.string().url().max(2000).optional(),
     }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "addChangelogEntry", source: "api", module: "release.runtime.addChangelogEntry" });
     await assertOpsAdmin(context);
     const { data: row, error } = await (context.supabase as any)
       .from("release_changelog_entries")
@@ -146,6 +148,7 @@ export const validateReleaseForStores = createServerFn({ method: "POST" })
       stores: z.array(z.string()).optional(),
     }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "validateReleaseForStores", source: "api", module: "release.runtime.validateReleaseForStores" });
     await assertOpsAdmin(context);
     const { data: rel, error } = await (context.supabase as any)
       .from("release_records").select("*").eq("id", data.release_id).single();
@@ -181,8 +184,7 @@ export const listStoreSubmissions = createServerFn({ method: "GET" })
       .from("release_store_submissions").select("*")
       .eq("release_id", data.release_id).order("store");
     if (error) throw new Error(error.message);
-    return rows ?? [];
-  });
+    return rows ?? []);
 
 /* ----- Rollback ----- */
 export const initiateRollback = createServerFn({ method: "POST" })
@@ -196,6 +198,7 @@ export const initiateRollback = createServerFn({ method: "POST" })
       stores_affected: z.array(z.string()).default([]),
     }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "initiateRollback", source: "api", module: "release.runtime.initiateRollback" });
     await assertOpsAdmin(context);
     if (data.from_release_id === data.to_release_id) {
       throw new Error("from_release_id and to_release_id must differ");
@@ -213,8 +216,7 @@ export const initiateRollback = createServerFn({ method: "POST" })
       })
       .select().single();
     if (error) throw new Error(error.message);
-    return row;
-  });
+    return row);
 
 /* ----- Signing profile registry (metadata only, NO key material) ----- */
 export const listSigningProfiles = createServerFn({ method: "GET" })

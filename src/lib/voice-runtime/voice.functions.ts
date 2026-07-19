@@ -43,8 +43,9 @@ const StartInput = z.object({
 export const startVoiceSessionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof StartInput>) => StartInput.parse(d))
-  .handler(async ({ data, context }) =>
-    startVoiceSession(context.supabase, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "startVoiceSessionFn", source: "api", module: "voice.startVoiceSessionFn" });
+    return startVoiceSession(context.supabase, {
       userId: context.userId,
       companyId: data.company_id ?? null,
       happySessionId: data.happy_session_id ?? null,
@@ -55,22 +56,23 @@ export const startVoiceSessionFn = createServerFn({ method: "POST" })
       voice_id: data.voice_id,
       timeout_ms: data.timeout_ms,
       meta: data.meta,
-    }),
-  );
-
+    });
+  });
 const IdInput = z.object({ session_id: z.string().uuid() });
 
 export const pauseVoiceSessionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof IdInput>) => IdInput.parse(d))
-  .handler(async ({ data, context }) => transitionSessionStatus(context.supabase, data.session_id, "paused"));
-
-export const resumeVoiceSessionFn = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "pauseVoiceSessionFn", source: "api", module: "voice.pauseVoiceSessionFn" });
+    return transitionSessionStatus(context.supabase, data.session_id, "paused");
+  });export const resumeVoiceSessionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof IdInput>) => IdInput.parse(d))
-  .handler(async ({ data, context }) => reconnectSession(context.supabase, data.session_id));
-
-export const endVoiceSessionFn = createServerFn({ method: "POST" })
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "resumeVoiceSessionFn", source: "api", module: "voice.resumeVoiceSessionFn" });
+    return reconnectSession(context.supabase, data.session_id);
+  });export const endVoiceSessionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof IdInput>) => IdInput.parse(d))
   .handler(async ({ data, context }) => transitionSessionStatus(context.supabase, data.session_id, "ended"));
@@ -86,17 +88,17 @@ const UserTurnInput = z.object({
 export const recordUserTurnFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof UserTurnInput>) => UserTurnInput.parse(d))
-  .handler(async ({ data, context }) =>
-    recordUserTurn(context.supabase, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordUserTurnFn", source: "api", module: "voice.recordUserTurnFn" });
+    return recordUserTurn(context.supabase, {
       sessionId: data.session_id,
       text: data.text,
       language: data.language,
       audio_ref: data.audio_ref,
       audio_bytes: data.audio_bytes,
       duration_ms: data.duration_ms,
-    }),
-  );
-
+    });
+  });
 const SpeakInput = z.object({
   session_id: z.string().uuid(),
   text: z.string().min(1).max(8000),

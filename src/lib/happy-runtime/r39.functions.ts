@@ -56,6 +56,7 @@ export const startHappySession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof StartInput>) => StartInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "startHappySession", source: "api", module: "happy.r39.startHappySession" });
     return startSession(context.supabase, {
       userId: context.userId,
       companyId: data.company_id,
@@ -93,17 +94,17 @@ const GreetInput = z.object({
 export const resolveHappyGreeting = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof GreetInput>) => GreetInput.parse(d))
-  .handler(async ({ data, context }) =>
-    resolveGreeting(context.supabase, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "resolveHappyGreeting", source: "api", module: "happy.r39.resolveHappyGreeting" });
+    return resolveGreeting(context.supabase, {
       locale: data.locale,
       audience: data.audience,
       channel: data.channel,
       user_name: data.user_name,
       company: data.company,
       briefing_summary: data.briefing_summary,
-    }),
-  );
-
+    });
+  });
 const MessageInput = z.object({
   session_id: z.string().uuid(),
   message: z.string().min(1).max(4000),
@@ -113,14 +114,14 @@ const MessageInput = z.object({
 export const sendHappyMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof MessageInput>) => MessageInput.parse(d))
-  .handler(async ({ data, context }) =>
-    handleMessage(context.supabase, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "sendHappyMessage", source: "api", module: "happy.r39.sendHappyMessage" });
+    return handleMessage(context.supabase, {
       sessionId: data.session_id,
       message: data.message,
       requestedMode: data.requested_mode,
-    }),
-  );
-
+    });
+  });
 const ModeInput = z.object({
   session_id: z.string().uuid(),
   to_mode: z.enum(HAPPY_MODES),
@@ -143,10 +144,10 @@ const PresenceInput = z.object({
 export const setHappyPresence = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof PresenceInput>) => PresenceInput.parse(d))
-  .handler(async ({ data, context }) =>
-    setPresence(context.supabase, data.session_id, data.presence as never, data.note),
-  );
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setHappyPresence", source: "api", module: "happy.r39.setHappyPresence" });
+    return setPresence(context.supabase, data.session_id, data.presence as never, data.note);
+  });
 const HistoryInput = z.object({
   session_id: z.string().uuid(),
   limit: z.number().int().min(1).max(500).default(50),
@@ -176,8 +177,9 @@ const RecordInput = z.object({
 export const recordHappyTurn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof RecordInput>) => RecordInput.parse(d))
-  .handler(async ({ data, context }) =>
-    recordTurn(context.supabase, {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordHappyTurn", source: "api", module: "happy.r39.recordHappyTurn" });
+    return recordTurn(context.supabase, {
       sessionId: data.session_id,
       role: data.role,
       intent: data.intent,
@@ -186,5 +188,5 @@ export const recordHappyTurn = createServerFn({ method: "POST" })
       response: data.response,
       evidence: data.evidence,
       latencyMs: data.latency_ms,
-    }),
-  );
+    });
+  });

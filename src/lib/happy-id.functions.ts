@@ -36,6 +36,7 @@ export const registerDevice = createServerFn({ method: "POST" })
     }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "registerDevice", source: "api", module: "happy.id.registerDevice" });
     const { data: row, error } = await context.supabase
       .from("auth_devices")
       .upsert({
@@ -78,6 +79,7 @@ export const revokeDevice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ device_id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "revokeDevice", source: "api", module: "happy.id.revokeDevice" });
     const now = new Date().toISOString();
     const { error } = await context.supabase
       .from("auth_devices")
@@ -120,6 +122,7 @@ export const registerSession = createServerFn({ method: "POST" })
     }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "registerSession", source: "api", module: "happy.id.registerSession" });
     const { data: row, error } = await context.supabase
       .from("auth_sessions_meta")
       .upsert({
@@ -203,6 +206,7 @@ export const recordLoginEvent = createServerFn({ method: "POST" })
     }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordLoginEvent", source: "api", module: "happy.id.recordLoginEvent" });
     const { error } = await context.supabase.from("auth_login_history").insert({
       user_id: context.userId,
       event_type: data.event_type,
@@ -234,6 +238,7 @@ export const acknowledgeSecurityAlert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ alert_id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "acknowledgeSecurityAlert", source: "api", module: "happy.id.acknowledgeSecurityAlert" });
     const { error } = await context.supabase
       .from("auth_security_alerts")
       .update({ acknowledged_at: new Date().toISOString() })
@@ -277,6 +282,7 @@ export const setUserSessionPolicy = createServerFn({ method: "POST" })
     require_mfa: z.boolean().optional(),
   }).parse(input))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "setUserSessionPolicy", source: "api", module: "happy.id.setUserSessionPolicy" });
     const patch = { ...data, scope_type: "user" as const, scope_id: context.userId };
     const { error } = await context.supabase
       .from("auth_session_policies")
@@ -301,6 +307,7 @@ export const renameDevice = createServerFn({ method: "POST" })
 export const emergencyLock = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "emergencyLock", source: "api", module: "happy.id.emergencyLock" });
     const now = new Date().toISOString();
     const { error: e1 } = await context.supabase
       .from("auth_devices")
@@ -324,6 +331,7 @@ export const emergencyLock = createServerFn({ method: "POST" })
 export const emergencyUnlock = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "emergencyUnlock", source: "api", module: "happy.id.emergencyUnlock" });
     const { error } = await context.supabase
       .from("auth_devices").update({ emergency_locked: false }).eq("user_id", context.userId);
     if (error) throw error;
@@ -352,8 +360,7 @@ export const listAvailableProviders = createServerFn({ method: "GET" })
       .select("provider, enabled, architecture_ready, configured, display_name, category")
       .order("provider");
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);
 
 // ---------- Recovery codes ----------
 async function sha256Hex(input: string): Promise<string> {
@@ -364,6 +371,7 @@ async function sha256Hex(input: string): Promise<string> {
 export const generateRecoveryCodes = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateRecoveryCodes", source: "api", module: "happy.id.generateRecoveryCodes" });
     await context.supabase.from("auth_recovery_codes")
       .update({ used_at: new Date().toISOString() })
       .eq("user_id", context.userId).is("used_at", null);
@@ -388,6 +396,7 @@ export const consumeRecoveryCode = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ code: z.string().min(6).max(64) }).parse(input))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "consumeRecoveryCode", source: "api", module: "happy.id.consumeRecoveryCode" });
     const hash = await sha256Hex(data.code.trim().toUpperCase());
     const { data: row, error } = await context.supabase.from("auth_recovery_codes")
       .select("id").eq("user_id", context.userId).eq("code_hash", hash).is("used_at", null).maybeSingle();
@@ -430,6 +439,7 @@ export const registerPasskey = createServerFn({ method: "POST" })
     device_id: z.string().uuid().optional(),
   }).parse(input))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "registerPasskey", source: "api", module: "happy.id.registerPasskey" });
     const { data: row, error } = await context.supabase
       .from("auth_passkeys")
       .insert({
@@ -474,6 +484,7 @@ export const revokePasskey = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "revokePasskey", source: "api", module: "happy.id.revokePasskey" });
     const { error } = await context.supabase
       .from("auth_passkeys").update({ revoked_at: new Date().toISOString() })
       .eq("id", data.id).eq("user_id", context.userId);

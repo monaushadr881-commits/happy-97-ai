@@ -15,6 +15,7 @@ export const submitBuilderRequest = createServerFn({ method: "POST" })
     modes: z.array(ModeEnum).max(6).optional(),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "submitBuilderRequest", source: "api", module: "uabr.runtime.submitBuilderRequest" });
     await assertUabrAccess(context);
     const plan = planFromPrompt(data.prompt, { projectName: data.project_name, modes: data.modes });
     return { plan };

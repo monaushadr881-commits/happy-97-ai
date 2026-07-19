@@ -51,6 +51,7 @@ export const updateIdentity = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof UpdateIdentityInput>) => UpdateIdentityInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "updateIdentity", source: "api", module: "happy.studio.updateIdentity" });
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_identity")
@@ -66,6 +67,7 @@ export const updateAppearance = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: Record<string, unknown>) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "updateAppearance", source: "api", module: "happy.studio.updateAppearance" });
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_appearance")
@@ -97,6 +99,7 @@ export const upsertVoice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof VoiceInput>) => VoiceInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertVoice", source: "api", module: "happy.studio.upsertVoice" });
     const id = await getIdentityId(context.supabase);
     const payload = { ...data, identity_id: id };
     const { data: row, error } = data.id
@@ -118,6 +121,7 @@ export const upsertBehavior = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof BehaviorInput>) => BehaviorInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertBehavior", source: "api", module: "happy.studio.upsertBehavior" });
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_behavior")
@@ -142,6 +146,7 @@ export const upsertSkill = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof SkillInput>) => SkillInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertSkill", source: "api", module: "happy.studio.upsertSkill" });
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_skills")
@@ -164,6 +169,7 @@ export const addKnowledgeRef = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof KnowledgeInput>) => KnowledgeInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "addKnowledgeRef", source: "api", module: "happy.studio.addKnowledgeRef" });
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_knowledge_refs")
@@ -188,6 +194,7 @@ export const upsertAnimation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof AnimationInput>) => AnimationInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertAnimation", source: "api", module: "happy.studio.upsertAnimation" });
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_animations")
@@ -209,6 +216,7 @@ export const createVersion = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof CreateVersionInput>) => CreateVersionInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createVersion", source: "api", module: "happy.studio.createVersion" });
     const id = await getIdentityId(context.supabase);
     const snapshot = await buildSnapshot(context.supabase, id);
     const checksum = await computeSnapshotChecksum(snapshot);
@@ -289,6 +297,7 @@ export const deployToChannel = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof DeployInput>) => DeployInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "deployToChannel", source: "api", module: "happy.studio.deployToChannel" });
     const id = await getIdentityId(context.supabase);
 
     const { data: version, error: verr } = await context.supabase
@@ -336,6 +345,7 @@ export const rollbackDeployment = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof RollbackDeploymentInput>) => RollbackDeploymentInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "rollbackDeployment", source: "api", module: "happy.studio.rollbackDeployment" });
     const id = await getIdentityId(context.supabase);
     const { data: current, error: cerr } = await context.supabase
       .from("happy_deployments")
@@ -367,6 +377,7 @@ export const proposeChange = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof ChangeRequestInput>) => ChangeRequestInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "proposeChange", source: "api", module: "happy.studio.proposeChange" });
     const id = await getIdentityId(context.supabase);
     const { data: row, error } = await context.supabase
       .from("happy_change_requests")
@@ -393,6 +404,7 @@ export const reviewChange = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof ReviewInput>) => ReviewInput.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "reviewChange", source: "api", module: "happy.studio.reviewChange" });
     const { data: row, error } = await context.supabase
       .from("happy_change_requests")
       .update({

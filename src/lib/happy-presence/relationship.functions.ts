@@ -22,6 +22,7 @@ export const updateRelationship = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { prefs?: Record<string, unknown>; personalization_enabled?: boolean }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "updateRelationship", source: "api", module: "presence.rel.updateRelationship" });
     await requireHpeUser(context);
     const sb: any = context.supabase;
     const { data: existing } = await sb.from("happy_relationship_prefs")
@@ -39,6 +40,7 @@ export const updateRelationship = createServerFn({ method: "POST" })
 export const resetRelationship = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "resetRelationship", source: "api", module: "presence.rel.resetRelationship" });
     await requireHpeUser(context);
     const sb: any = context.supabase;
     await sb.from("happy_relationship_prefs").delete().eq("user_id", context.userId);

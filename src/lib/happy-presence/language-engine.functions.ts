@@ -8,6 +8,7 @@ export const detectAndRecordLanguage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { text: string }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "detectAndRecordLanguage", source: "api", module: "presence.lang.detectAndRecordLanguage" });
     await requireHpeUser(context);
     const sb: any = context.supabase;
     const { lang, confidence } = detectLanguage(data.text);

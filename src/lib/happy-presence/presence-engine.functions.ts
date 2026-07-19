@@ -8,6 +8,7 @@ export const upsertPresence = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { session_key: string; state?: PresenceState; device?: any; network?: any; workspace_id?: string | null; context?: any }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "upsertPresence", source: "api", module: "presence.engine.upsertPresence" });
     await requireHpeUser(context);
     const sb: any = context.supabase;
     const state = data.state && PRESENCE_STATES.includes(data.state) ? data.state : "online";

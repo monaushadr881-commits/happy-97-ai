@@ -8,6 +8,7 @@ export const generateBrief = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { brief_type: BriefType }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateBrief", source: "api", module: "presence.briefing.generateBrief" });
     await requireHpeUser(context);
     if (!BRIEF_TYPES.includes(data.brief_type)) throw new Error("invalid brief_type");
     const sb: any = context.supabase;

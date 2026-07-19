@@ -93,7 +93,9 @@ const SetLocationInput = z.object({
 export const hlSetMyLocation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SetLocationInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlSetMyLocation", source: "api", module: "hyperlocal.hlSetMyLocation" });
+    return guard(async () => {
     // Enforce opt-in: never store precise coords unless allow_precise is true.
     const lat = data.allow_precise ? data.latitude ?? null : null;
     const lng = data.allow_precise ? data.longitude ?? null : null;
@@ -108,8 +110,8 @@ export const hlSetMyLocation = createServerFn({ method: "POST" })
       updated_at: new Date().toISOString(),
     }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // PLACES
@@ -141,12 +143,14 @@ const CreatePlaceInput = z.object({
 export const hlCreatePlace = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreatePlaceInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlCreatePlace", source: "api", module: "hyperlocal.hlCreatePlace" });
+    return guard(async () => {
     const r = await context.supabase.from("hl_places")
       .insert({ ...data, created_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // BUSINESSES
@@ -206,7 +210,9 @@ const UpsertBusinessInput = z.object({
 export const hlUpsertBusiness = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => UpsertBusinessInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlUpsertBusiness", source: "api", module: "hyperlocal.hlUpsertBusiness" });
+    return guard(async () => {
     const payload = {
       ...data,
       owner_id: context.userId,
@@ -219,8 +225,9 @@ export const hlUpsertBusiness = createServerFn({ method: "POST" })
       : context.supabase.from("hl_businesses").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const hlListMyBusinesses = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -274,15 +281,17 @@ const UpsertJobInput = z.object({
 export const hlUpsertJob = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => UpsertJobInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlUpsertJob", source: "api", module: "hyperlocal.hlUpsertJob" });
+    return guard(async () => {
     const payload = { ...data, posted_by: context.userId };
     const q = data.id
       ? context.supabase.from("hl_jobs").update(payload).eq("id", data.id).eq("posted_by", context.userId).select("*").single()
       : context.supabase.from("hl_jobs").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // EVENTS
@@ -325,15 +334,17 @@ const UpsertEventInput = z.object({
 export const hlUpsertEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => UpsertEventInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlUpsertEvent", source: "api", module: "hyperlocal.hlUpsertEvent" });
+    return guard(async () => {
     const payload = { ...data, organizer_id: context.userId };
     const q = data.id
       ? context.supabase.from("hl_events").update(payload).eq("id", data.id).eq("organizer_id", context.userId).select("*").single()
       : context.supabase.from("hl_events").insert(payload).select("*").single();
     const r = await q;
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // ALERTS
@@ -372,12 +383,14 @@ const CreateAlertInput = z.object({
 export const hlCreateAlert = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateAlertInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlCreateAlert", source: "api", module: "hyperlocal.hlCreateAlert" });
+    return guard(async () => {
     const r = await context.supabase.from("hl_alerts")
       .insert({ ...data, posted_by: context.userId }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // REVIEWS
@@ -404,7 +417,9 @@ const UpsertReviewInput = z.object({
 export const hlUpsertReview = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => UpsertReviewInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "hlUpsertReview", source: "api", module: "hyperlocal.hlUpsertReview" });
+    return guard(async () => {
     const r = await context.supabase.from("hl_reviews").upsert({
       business_id: data.business_id, user_id: context.userId,
       rating: data.rating, comment: data.comment ?? null,
@@ -421,8 +436,8 @@ export const hlUpsertReview = createServerFn({ method: "POST" })
         .update({ rating_avg: Number(avg.toFixed(2)), rating_count: total })
         .eq("id", data.business_id);
     }
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // VERIFICATION (owner-driven submission; approval handled by ops in future)

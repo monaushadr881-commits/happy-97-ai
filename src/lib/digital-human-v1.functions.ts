@@ -95,13 +95,15 @@ const PrefsUpdate = z.object({
 export const dhUpdatePreferences = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => PrefsUpdate.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhUpdatePreferences", source: "api", module: "dh.dhUpdatePreferences" });
+    return guard(async () => {
     const r = await context.supabase.from("dh_preferences")
       .upsert({ user_id: context.userId, ...data, updated_at: new Date().toISOString() })
       .select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // SESSIONS
@@ -131,12 +133,15 @@ export const dhGetSession = createServerFn({ method: "POST" })
 export const dhDeleteSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ session_id: uuid }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhDeleteSession", source: "api", module: "dh.dhDeleteSession" });
+    return guard(async () => {
     const r = await context.supabase.from("dh_sessions")
       .delete().eq("id", data.session_id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  }));
+  });
+  });
 
 // =====================================================================
 // HAPPY SPEAK — main conversational endpoint (Lovable AI Gateway)
@@ -302,7 +307,9 @@ const GenSlidesInput = z.object({
 export const dhGeneratePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => GenSlidesInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhGeneratePresentation", source: "api", module: "dh.dhGeneratePresentation" });
+    return guard(async () => {
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
     const count = data.slide_count ?? 8;
@@ -342,8 +349,9 @@ Return STRICT JSON in a fenced \`\`\`json block only, matching:
       status: "draft",
     }).select("*").single();
     if (ins.error) throw ins.error;
-    return ins.data;
-  }));
+    return ins.data);
+  };
+  });
 
 export const dhListPresentations = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -360,9 +368,12 @@ export const dhListPresentations = createServerFn({ method: "GET" })
 export const dhDeletePresentation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "dhDeletePresentation", source: "api", module: "dh.dhDeletePresentation" });
+    return guard(async () => {
     const r = await context.supabase.from("dh_presentations")
       .delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  }));
+  });
+  });

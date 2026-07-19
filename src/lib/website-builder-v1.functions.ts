@@ -21,4 +21,7 @@ export const WebsiteBuilderV1List = createServerFn({ method: "GET" }).middleware
 export const WebsiteBuilderV1Analytics = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => guard(() => svcRef.analytics(svc(context))));
 export const WebsiteBuilderV1Health = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => guard(() => svcRef.health(svc(context))));
 export const WebsiteBuilderV1Live = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => guard(() => svcRef.live(svc(context))));
-export const WebsiteBuilderV1Execute = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((i: unknown) => i).handler(async ({ data, context }) => guard(() => svcRef.execute(svc(context), data)));
+export const WebsiteBuilderV1Execute = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((i: unknown) => i).handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "WebsiteBuilderV1Execute", source: "api", module: "website.v1.WebsiteBuilderV1Execute" });
+    return guard(() => svcRef.execute(svc(context), data));
+  });

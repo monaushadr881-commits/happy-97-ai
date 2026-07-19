@@ -152,6 +152,7 @@ export const computeBusinessHealthFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => healthSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "computeBusinessHealthFn", source: "api", module: "founder.exec.computeBusinessHealthFn" });
     const dims = (data.dimensions ?? DIMENSIONS) as Dimension[];
     const results: any[] = [];
     for (const dim of dims) {
@@ -175,14 +176,14 @@ export const computeBusinessHealthFn = createServerFn({ method: 'POST' })
       if (error) throw error;
       results.push(inserted);
     }
-    return results;
-  });
+    return results);
 
 const listHealthSchema = z.object({
   companyId: z.string().uuid().nullish(),
   dimension: z.enum(DIMENSIONS).nullish(),
   limit: z.number().int().min(1).max(200).default(50),
-});
+};
+  });
 export const listBusinessHealthFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listHealthSchema.parse(d ?? {}))
@@ -193,8 +194,7 @@ export const listBusinessHealthFn = createServerFn({ method: 'GET' })
     if (data.dimension) q = q.eq('dimension', data.dimension);
     const { data: rows, error } = await q;
     if (error) throw error;
-    return rows ?? [];
-  });
+    return rows ?? []);
 
 // -------- Executive Decisions --------------------------------------------
 const decisionSchema = z.object({
@@ -207,34 +207,36 @@ const decisionSchema = z.object({
   recommendations_considered: z.array(recSchema).default([]),
   alternatives: z.array(jsonValue).default([]),
   confidence: z.number().min(0).max(1).default(0.5),
-});
+};
+  });
 export const recordFounderDecisionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decisionSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordFounderDecisionFn", source: "api", module: "founder.exec.recordFounderDecisionFn" });
     const { data: row, error } = await context.supabase
       .from('founder_decision_records')
       .insert({ title: data.title, category: data.category, decision: data.decision, rationale: data.rationale ?? null, facts: data.facts as any, recommendations_considered: data.recommendations_considered as any, alternatives: data.alternatives as any, confidence: data.confidence, company_id: data.companyId ?? null, decided_by: context.userId } as any)
       .select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const decisionOutcomeSchema = z.object({
   decisionId: z.string().uuid(),
   outcome: z.string().min(1),
-});
+};
+  });
 export const recordDecisionOutcomeFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => decisionOutcomeSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "recordDecisionOutcomeFn", source: "api", module: "founder.exec.recordDecisionOutcomeFn" });
     const { data: row, error } = await context.supabase
       .from('founder_decision_records')
       .update({ outcome: data.outcome, outcome_recorded_at: new Date().toISOString() })
       .eq('id', data.decisionId).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Executive Reports & Briefings ----------------------------------
 const reportSchema = z.object({
@@ -244,11 +246,13 @@ const reportSchema = z.object({
   to: z.string().min(1),
   title: z.string().min(1),
   briefingType: z.enum(['morning','evening','daily','weekly','monthly','quarterly','annual']).optional(),
-});
+};
+  });
 export const generateExecutiveReportFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => reportSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "generateExecutiveReportFn", source: "api", module: "founder.exec.generateExecutiveReportFn" });
     const dims: Dimension[] = ['revenue','sales','customer','inventory','manufacturing','deployment','security','platform','growth'];
     const sections: any[] = [];
     const allFacts: Fact[] = [];
@@ -295,14 +299,14 @@ export const generateExecutiveReportFn = createServerFn({ method: 'POST' })
       status: 'draft',
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const listReportsSchema = z.object({
   companyId: z.string().uuid().nullish(),
   reportType: z.string().optional(),
   limit: z.number().int().min(1).max(100).default(25),
-});
+};
+  });
 export const listExecutiveReportsFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => listReportsSchema.parse(d ?? {}))

@@ -51,7 +51,9 @@ const LogInput = z.object({
 export const obsLogWrite = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => LogInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "obsLogWrite", source: "api", module: "observability.obsLogWrite" });
+    return guard(async () => {
     const { error } = await context.supabase.from("obs_log_entries").insert({
       service: data.service, level: data.level, message: data.message,
       correlation_id: data.correlation_id ?? null, trace_id: data.trace_id ?? null,
@@ -60,7 +62,8 @@ export const obsLogWrite = createServerFn({ method: "POST" })
     } as never);
     if (error) throw error;
     return { ok: true };
-  }));
+  });
+  });
 
 const LogQuery = z.object({
   service: z.string().max(80).optional(),
@@ -100,7 +103,9 @@ const SpanInput = z.object({
 export const obsTraceWrite = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => SpanInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "obsTraceWrite", source: "api", module: "observability.obsTraceWrite" });
+    return guard(async () => {
     const { error } = await context.supabase.from("obs_trace_spans").insert({
       trace_id: data.trace_id, span_id: data.span_id, parent_span_id: data.parent_span_id ?? null,
       service: data.service, operation: data.operation, status: data.status,
@@ -110,7 +115,8 @@ export const obsTraceWrite = createServerFn({ method: "POST" })
     } as never);
     if (error) throw error;
     return { ok: true };
-  }));
+  });
+  });
 
 export const obsTraceGet = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -144,23 +150,28 @@ export const obsListComponents = createServerFn({ method: "GET" })
 export const obsUpsertComponent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => ComponentInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "obsUpsertComponent", source: "api", module: "observability.obsUpsertComponent" });
+    return guard(async () => {
     const { data: row, error } = await context.supabase.from("obs_status_components")
       .upsert(data as never, { onConflict: "key" }).select("*").single();
     if (error) throw error;
-    return row;
-  }));
+    return row);
+  });
 
 const StatusUpdateInput = z.object({
   component_key: z.string().min(1).max(80),
   status: z.enum(["operational", "degraded", "partial_outage", "major_outage", "maintenance", "unknown"]),
   message: z.string().min(1).max(2000),
   incident_id: z.string().uuid().optional(),
-});
+};
+  });
 export const obsPushStatusUpdate = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => StatusUpdateInput.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "obsPushStatusUpdate", source: "api", module: "observability.obsPushStatusUpdate" });
+    return guard(async () => {
     const [{ error: e1 }, { error: e2 }] = await Promise.all([
       context.supabase.from("obs_status_updates").insert({
         component_key: data.component_key, status: data.status, message: data.message,
@@ -173,7 +184,8 @@ export const obsPushStatusUpdate = createServerFn({ method: "POST" })
     if (e1) throw e1;
     if (e2) throw e2;
     return { ok: true };
-  }));
+  });
+  });
 
 export const obsStatusTimeline = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -262,8 +274,10 @@ export const obsIncidentList = createServerFn({ method: "POST" }).middleware([re
 
 export const obsAlertUpsert = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => alertingService.upsertRule(svc(context), data)));
-export const obsAlertTrip = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "obsAlertUpsert", source: "api", module: "observability.obsAlertUpsert" });
+    return guard(() => alertingService.upsertRule(svc(context), data));
+  });export const obsAlertTrip = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
   .handler(async ({ data, context }) => guard(() => alertingService.trip(svc(context), data)));
 export const obsAlertList = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])

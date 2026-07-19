@@ -45,8 +45,7 @@ export const getProcessorStats = createServerFn({ method: "GET" })
         stats.last_error_at = r.received_at;
       }
     }
-    return stats;
-  });
+    return stats);
 
 export const reprocessWebhookEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

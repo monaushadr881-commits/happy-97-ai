@@ -16,8 +16,7 @@ export const listRendererAdaptersFn = createServerFn({ method: 'GET' })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase.from('dh_renderer_adapters').select('*').order('kind');
     if (error) throw error;
-    return data ?? [];
-  });
+    return data ?? []);
 
 const upsertAdapterSchema = z.object({
   code: z.string().min(2),
@@ -26,11 +25,13 @@ const upsertAdapterSchema = z.object({
   capabilities: z.record(z.string(), jsonValue).default({}),
   requiredAssets: z.array(z.string()).default([]),
   enabled: z.boolean().default(true),
-});
+};
+  });
 export const registerRendererAdapterFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => upsertAdapterSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "registerRendererAdapterFn", source: "api", module: "dh.integration.registerRendererAdapterFn" });
     const row = {
       code: data.code, label: data.label, kind: data.kind,
       capabilities: data.capabilities, required_assets: data.requiredAssets,
@@ -47,8 +48,7 @@ export const registerRendererAdapterFn = createServerFn({ method: 'POST' })
     const { data: inserted, error } = await context.supabase.from('dh_renderer_adapters')
       .insert(row).select('*').single();
     if (error) throw error;
-    return inserted;
-  });
+    return inserted);
 
 // -------- Integration sessions -------------------------------------------
 const startSchema = z.object({
@@ -57,11 +57,13 @@ const startSchema = z.object({
   identityId: z.string().uuid().nullish(),
   happySessionId: z.string().uuid().nullish(),
   voiceSessionId: z.string().uuid().nullish(),
-});
+};
+  });
 export const startDhIntegrationSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => startSchema.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "startDhIntegrationSessionFn", source: "api", module: "dh.integration.startDhIntegrationSessionFn" });
     const { data: adapter } = await context.supabase.from('dh_renderer_adapters')
       .select('*').eq('code', data.rendererCode).maybeSingle();
     if (!adapter) throw new Error(`Unknown renderer: ${data.rendererCode}`);
@@ -76,15 +78,15 @@ export const startDhIntegrationSessionFn = createServerFn({ method: 'POST' })
       status: 'connecting',
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 const heartbeatSchema = z.object({
   sessionId: z.string().uuid(),
   status: z.enum(['connecting','connected','degraded','disconnected','ended']).optional(),
   latencyMs: z.number().int().min(0).optional(),
   syncState: z.record(z.string(), jsonValue).optional(),
-});
+};
+  });
 export const heartbeatDhSessionFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => heartbeatSchema.parse(d))
@@ -97,8 +99,7 @@ export const heartbeatDhSessionFn = createServerFn({ method: 'POST' })
     const { data: row, error } = await context.supabase.from('dh_integration_sessions')
       .update(patch as any).eq('id', data.sessionId).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Integration events (animation/lipsync/gesture/lookat/env/health)
 const eventSchema = z.object({
@@ -106,7 +107,8 @@ const eventSchema = z.object({
   channel: z.enum(['animation','lipsync','gesture','lookat','environment','health','stream']),
   eventType: z.string().min(1),
   payload: jsonValue.default({}),
-});
+};
+  });
 export const emitDhIntegrationEventFn = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => eventSchema.parse(d))
@@ -120,11 +122,11 @@ export const emitDhIntegrationEventFn = createServerFn({ method: 'POST' })
       channel: data.channel, event_type: data.eventType, payload: data.payload,
     }).select('*').single();
     if (error) throw error;
-    return row;
-  });
+    return row);
 
 // -------- Health rollup ---------------------------------------------------
-const healthSchema = z.object({ sessionId: z.string().uuid() });
+const healthSchema = z.object({ sessionId: z.string().uuid() };
+  });
 export const dhSessionHealthFn = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => healthSchema.parse(d))

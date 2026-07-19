@@ -11,6 +11,7 @@ export const validateRelease = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ release_id: z.string().uuid() }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "validateRelease", source: "api", module: "release.validation.validateRelease" });
     await assertOpsAdminR64(context);
     const sb: any = context.supabase;
     const [rel, arts, signing, submissions, priorList] = await Promise.all([
@@ -63,6 +64,7 @@ export const buildReleaseNotes = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ version: z.string(), changes: z.array(z.string()).min(1), channel: z.string().optional() }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "buildReleaseNotes", source: "api", module: "release.validation.buildReleaseNotes" });
     await assertOpsAdminR64(context);
     return { notes: generateReleaseNotes(data) };
   });
@@ -71,6 +73,7 @@ export const buildChangelog = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ entries: z.array(z.object({ version: z.string(), date: z.string(), changes: z.array(z.string()) })) }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "buildChangelog", source: "api", module: "release.validation.buildChangelog" });
     await assertOpsAdminR64(context);
     return { changelog: generateChangelog(data.entries) };
   });
@@ -79,6 +82,7 @@ export const rollbackAdvice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ release_id: z.string().uuid() }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "rollbackAdvice", source: "api", module: "release.validation.rollbackAdvice" });
     await assertOpsAdminR64(context);
     const sb: any = context.supabase;
     const { data: rows } = await sb.from("release_store_metrics").select("crash_free_rate,anr_rate,rating_avg").eq("release_id", data.release_id).order("snapshot_at", { ascending: false }).limit(1);

@@ -15,6 +15,7 @@ export const submitFounderCommand = createServerFn({ method: "POST" })
     mode: ModeSchema.default("approval"),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "submitFounderCommand", source: "api", module: "faios.command.submitFounderCommand" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const detection = detectIntent(data.raw_text);
@@ -64,6 +65,7 @@ export const approveFounderCommand = createServerFn({ method: "POST" })
     note: z.string().max(1000).optional(),
   }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "approveFounderCommand", source: "api", module: "faios.command.approveFounderCommand" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const { data: cmd, error: e0 } = await sb.from("faios_commands").select("*").eq("id", data.command_id).maybeSingle();
@@ -96,6 +98,7 @@ export const executeFounderCommand = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw) => z.object({ command_id: z.string().uuid() }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "executeFounderCommand", source: "api", module: "faios.command.executeFounderCommand" });
     await assertFaiosAccess(context);
     const sb: any = context.supabase;
     const { data: cmd, error: e0 } = await sb.from("faios_commands").select("*").eq("id", data.command_id).maybeSingle();

@@ -63,8 +63,10 @@ export const apiGetCompany = createServerFn({ method: "POST" })
 export const apiCreateCompany = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => companyService.create(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiCreateCompany", source: "api", module: "api.v1.apiCreateCompany" });
+    return guard(() => companyService.create(svc(context), data));
+  });
 // ------------------------- Brands / Workspaces ---------------
 export const apiListBrands = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -74,8 +76,10 @@ export const apiListBrands = createServerFn({ method: "POST" })
 export const apiCreateBrand = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => brandService.create(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiCreateBrand", source: "api", module: "api.v1.apiCreateBrand" });
+    return guard(() => brandService.create(svc(context), data));
+  });
 export const apiListMyWorkspaces = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => guard(() => workspaceService.listMine(svc(context))));
@@ -83,8 +87,10 @@ export const apiListMyWorkspaces = createServerFn({ method: "GET" })
 export const apiCreateWorkspace = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => workspaceService.create(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiCreateWorkspace", source: "api", module: "api.v1.apiCreateWorkspace" });
+    return guard(() => workspaceService.create(svc(context), data));
+  });
 // ------------------------- User ------------------------------
 export const apiMe = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -94,8 +100,10 @@ export const apiMe = createServerFn({ method: "GET" })
 export const apiUpsertSetting = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => settingsService.upsert(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiUpsertSetting", source: "api", module: "api.v1.apiUpsertSetting" });
+    return guard(() => settingsService.upsert(svc(context), data));
+  });
 // ------------------------- Notifications ---------------------
 export const apiMyNotifications = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -125,8 +133,10 @@ export const apiConversationMessages = createServerFn({ method: "POST" })
 export const apiSendMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i)
-  .handler(async ({ data, context }) => guard(() => conversationService.send(svc(context), data)));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "apiSendMessage", source: "api", module: "api.v1.apiSendMessage" });
+    return guard(() => conversationService.send(svc(context), data));
+  });
 // ------------------------- Search ----------------------------
 export const apiSearchKnowledge = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

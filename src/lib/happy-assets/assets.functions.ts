@@ -31,6 +31,7 @@ export const registerAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof RegisterAsset>) => RegisterAsset.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "registerAsset", source: "api", module: "assets.registerAsset" });
     const { data: row, error } = await context.supabase
       .from("happy_assets")
       .insert({
@@ -43,8 +44,7 @@ export const registerAsset = createServerFn({ method: "POST" })
       .select("id, asset_type, name, tags")
       .single();
     if (error) throw new Error(`register_asset_failed:${error.message}`);
-    return row;
-  });
+    return row);
 
 const ImportVersion = z.object({
   asset_id: z.string().uuid(),
@@ -55,13 +55,16 @@ const ImportVersion = z.object({
   mime_type: z.string().max(120).optional(),
   meta: z.record(z.string(), z.any()).optional(),
   depends_on: z.array(z.string().uuid()).optional(),
-});
+};
+  });
 
 export const importAssetVersionFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof ImportVersion>) => ImportVersion.parse(d))
-  .handler(async ({ data, context }) => importAssetVersion(context.supabase, data));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "importAssetVersionFn", source: "api", module: "assets.importAssetVersionFn" });
+    return importAssetVersion(context.supabase, data);
+  });
 const CreateManifest = z.object({
   version: z.string().min(1).max(50),
   rig_meta: z.record(z.string(), z.any()).optional(),
@@ -75,6 +78,7 @@ export const createCharacterManifest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof CreateManifest>) => CreateManifest.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "createCharacterManifest", source: "api", module: "assets.createCharacterManifest" });
     const { data: row, error } = await context.supabase
       .from("happy_character_manifests")
       .insert({
@@ -90,8 +94,7 @@ export const createCharacterManifest = createServerFn({ method: "POST" })
       .select("id, character_key, version, status")
       .single();
     if (error) throw new Error(`manifest_create_failed:${error.message}`);
-    return row;
-  });
+    return row);
 
 const LinkAsset = z.object({
   manifest_id: z.string().uuid(),
@@ -99,12 +102,14 @@ const LinkAsset = z.object({
   slot: z.string().max(80).optional(),
   asset_version_id: z.string().uuid(),
   required: z.boolean().default(true),
-});
+};
+  });
 
 export const linkManifestAsset = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof LinkAsset>) => LinkAsset.parse(d))
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "linkManifestAsset", source: "api", module: "assets.linkManifestAsset" });
     const { data: row, error } = await context.supabase
       .from("happy_manifest_assets")
       .insert({
@@ -117,10 +122,10 @@ export const linkManifestAsset = createServerFn({ method: "POST" })
       .select("id, role, slot, required")
       .single();
     if (error) throw new Error(`link_asset_failed:${error.message}`);
-    return row;
-  });
+    return row);
 
-const ManifestId = z.object({ manifest_id: z.string().uuid() });
+const ManifestId = z.object({ manifest_id: z.string().uuid() };
+  });
 
 export const validateManifestFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -130,8 +135,10 @@ export const validateManifestFn = createServerFn({ method: "POST" })
 export const founderAssetPanel = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: z.input<typeof ManifestId>) => ManifestId.parse(d))
-  .handler(async ({ data, context }) => founderPanel(context.supabase, data.manifest_id));
-
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "founderAssetPanel", source: "api", module: "assets.founderAssetPanel" });
+    return founderPanel(context.supabase, data.manifest_id);
+  });
 /**
  * Public read: expose the pipeline's contract constants so any UI or
  * external tool knows exactly what a real HAPPY character must supply.

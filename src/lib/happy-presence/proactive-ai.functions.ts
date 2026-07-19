@@ -9,6 +9,7 @@ export const scheduleProactive = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { kind: string; message: string; language?: string; tone?: string; scheduled_for?: string; metadata?: any }) => d)
   .handler(async ({ data, context }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "scheduleProactive", source: "api", module: "presence.proactive.scheduleProactive" });
     await requireHpeUser(context);
     const sb: any = context.supabase;
     // Rate limit: check last proactive of same kind

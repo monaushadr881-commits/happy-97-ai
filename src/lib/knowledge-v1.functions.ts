@@ -108,34 +108,42 @@ const CreateArticle = z.object({
 export const kbCreateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => CreateArticle.parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbCreateArticle", source: "api", module: "knowledge.kbCreateArticle" });
+    return guard(async () => {
     const r = await context.supabase.from("knowledge_articles").insert({
       ...data, status: "draft", is_public: false,
       created_by: context.userId, updated_by: context.userId,
     }).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const kbUpdateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({
     id: uuid, patch: CreateArticle.omit({ company_id: true }).partial(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbUpdateArticle", source: "api", module: "knowledge.kbUpdateArticle" });
+    return guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ ...data.patch, updated_by: context.userId })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const kbPublish = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({
     id: uuid, is_public: z.boolean(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbPublish", source: "api", module: "knowledge.kbPublish" });
+    return guard(async () => {
     const r = await context.supabase.from("knowledge_articles")
       .update({ status: "active", is_public: data.is_public, updated_by: context.userId })
       .eq("id", data.id).select("id, category_id, company_id, slug, title, summary, body, cover_url, language, is_public, status, version, created_at, updated_at, created_by, updated_by").single();
@@ -146,8 +154,9 @@ export const kbPublish = createServerFn({ method: "POST" })
         _entity_type: "knowledge_article", _entity_id: data.id,
       });
     } catch { /* best-effort */ }
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const kbAddReference = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -155,11 +164,13 @@ export const kbAddReference = createServerFn({ method: "POST" })
     article_id: uuid, label: z.string().min(1).max(240),
     url: z.string().url().optional(), position: z.number().int().min(0).default(0),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbAddReference", source: "api", module: "knowledge.kbAddReference" });
+    return guard(async () => {
     const r = await context.supabase.from("knowledge_references").insert(data).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // DOCUMENTS (RAG source library)
@@ -188,13 +199,15 @@ export const kbAddDocument = createServerFn({ method: "POST" })
     language: z.string().max(8).default("en"),
     tags: z.array(z.string().max(40)).max(20).default([]),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "kbAddDocument", source: "api", module: "knowledge.kbAddDocument" });
+    return guard(async () => {
     const r = await context.supabase.from("ai_knowledge_documents").insert({
       ...data, created_by: context.userId, updated_by: context.userId,
     }).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // KNOWLEDGE DASHBOARD

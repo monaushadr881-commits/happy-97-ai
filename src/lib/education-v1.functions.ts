@@ -147,7 +147,9 @@ export const eduSaveNote = createServerFn({ method: "POST" })
     course_id: uuid.optional(),
     lesson_id: uuid.optional(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduSaveNote", source: "api", module: "education.eduSaveNote" });
+    return guard(async () => {
     const row = {
       user_id: context.userId,
       title: data.title ?? null,
@@ -161,17 +163,21 @@ export const eduSaveNote = createServerFn({ method: "POST" })
       ? await s.from("study_notes").update(row).eq("id", data.id).eq("user_id", context.userId).select("id, title, body, tags, updated_at").single()
       : await s.from("study_notes").insert(row).select("id, title, body, tags, updated_at").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const eduDeleteNote = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduDeleteNote", source: "api", module: "education.eduDeleteNote" });
+    return guard(async () => {
     const r = await context.supabase.from("study_notes").delete().eq("id", data.id).eq("user_id", context.userId);
     if (r.error) throw r.error;
     return { ok: true };
-  }));
+  });
+  });
 
 export const eduBookmark = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -181,7 +187,9 @@ export const eduBookmark = createServerFn({ method: "POST" })
     label: z.string().max(200).optional(),
     timestamp_seconds: z.number().int().min(0).optional(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduBookmark", source: "api", module: "education.eduBookmark" });
+    return guard(async () => {
     const r = await context.supabase.from("study_bookmarks").insert({
       user_id: context.userId,
       resource_type: data.resource_type,
@@ -190,8 +198,8 @@ export const eduBookmark = createServerFn({ method: "POST" })
       timestamp_seconds: data.timestamp_seconds ?? null,
     }).select("id").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // FLASHCARDS + SM-2 REVIEW
@@ -222,7 +230,9 @@ export const eduSaveFlashcard = createServerFn({ method: "POST" })
     course_id: uuid.optional(),
     lesson_id: uuid.optional(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduSaveFlashcard", source: "api", module: "education.eduSaveFlashcard" });
+    return guard(async () => {
     const row = {
       user_id: context.userId,
       front: data.front,
@@ -236,8 +246,8 @@ export const eduSaveFlashcard = createServerFn({ method: "POST" })
       ? await s.from("study_flashcards").update(row).eq("id", data.id).eq("user_id", context.userId).select("*").single()
       : await s.from("study_flashcards").insert(row).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // SM-2: quality 0..5. 0-2 reset; 3+ progress interval; ease clamped.
 export const eduReviewFlashcard = createServerFn({ method: "POST" })
@@ -294,7 +304,9 @@ export const eduSubmitQuiz = createServerFn({ method: "POST" })
     quiz_id: uuid,
     answers: z.array(z.object({ question_id: uuid, value: z.unknown() })).max(500),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduSubmitQuiz", source: "api", module: "education.eduSubmitQuiz" });
+    return guard(async () => {
     const s = context.supabase;
     const [quiz, questions] = await Promise.all([
       s.from("quizzes").select("id, passing_score").eq("id", data.quiz_id).maybeSingle(),
@@ -321,8 +333,9 @@ export const eduSubmitQuiz = createServerFn({ method: "POST" })
       score, passed, answers: data.answers as unknown as never, submitted_at: new Date().toISOString(),
     }).select("id, score, passed").single();
     if (ins.error) throw ins.error;
-    return ins.data;
-  }));
+    return ins.data);
+  };
+  });
 
 export const eduMyAttempts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -358,7 +371,9 @@ export const eduSavePlan = createServerFn({ method: "POST" })
     plan: z.record(z.unknown()).optional(),
     status: z.enum(["active", "paused", "completed", "archived"]).optional(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduSavePlan", source: "api", module: "education.eduSavePlan" });
+    return guard(async () => {
     const row = {
       user_id: context.userId,
       title: data.title,
@@ -372,8 +387,9 @@ export const eduSavePlan = createServerFn({ method: "POST" })
       ? await s.from("study_plans").update(row).eq("id", data.id).eq("user_id", context.userId).select("*").single()
       : await s.from("study_plans").insert(row).select("*").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const eduLogSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -466,7 +482,9 @@ export const eduCreateUpload = createServerFn({ method: "POST" })
     course_id: uuid.optional(),
     lesson_id: uuid.optional(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduCreateUpload", source: "api", module: "education.eduCreateUpload" });
+    return guard(async () => {
     const r = await context.supabase.from("content_uploads").insert({
       creator_id: context.userId,
       company_id: data.company_id ?? null,
@@ -479,17 +497,21 @@ export const eduCreateUpload = createServerFn({ method: "POST" })
       lesson_id: data.lesson_id ?? null,
     }).select("id, status").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const eduUpdateUploadStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ id: uuid, status: z.enum(["pending", "approved", "published", "rejected", "archived"]) }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduUpdateUploadStatus", source: "api", module: "education.eduUpdateUploadStatus" });
+    return guard(async () => {
     const r = await context.supabase.from("content_uploads").update({ status: data.status }).eq("id", data.id).select("id, status").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  };
+  });
 
 export const eduCreateCourse = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -503,7 +525,9 @@ export const eduCreateCourse = createServerFn({ method: "POST" })
     tags: z.array(z.string().max(40)).max(20).optional(),
     is_public: z.boolean().optional(),
   }).parse(i))
-  .handler(async ({ data, context }) => guard(async () => {
+  .handler(async ({ data, context  }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "eduCreateCourse", source: "api", module: "education.eduCreateCourse" });
+    return guard(async () => {
     const r = await context.supabase.from("courses").insert({
       company_id: data.company_id,
       title: data.title, slug: data.slug,
@@ -516,8 +540,8 @@ export const eduCreateCourse = createServerFn({ method: "POST" })
       created_by: context.userId, updated_by: context.userId,
     }).select("id, slug, title, status").single();
     if (r.error) throw r.error;
-    return r.data;
-  }));
+    return r.data);
+  });
 
 // =====================================================================
 // UNIVERSAL EDUCATION SEARCH

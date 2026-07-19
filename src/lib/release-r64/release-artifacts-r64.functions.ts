@@ -32,6 +32,7 @@ export const registerArtifact = createServerFn({ method: "POST" })
       metadata: z.record(z.string(), z.any()).optional(),
     }).parse(raw))
   .handler(async ({ context, data }) => {
+    /* r183-gate */ await (await import("@/lib/founder/enforce")).withBrain({ supabase: (context as any).supabase, userId: (context as any).userId, companyId: (context as any).companyId ?? null }, { input: "registerArtifact", source: "api", module: "release.artifacts.registerArtifact" });
     await assertOpsAdminR64(context);
     const v = validateArtifactMetadata({
       kind: data.kind as any,
