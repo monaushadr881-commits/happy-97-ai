@@ -84,6 +84,7 @@ export const eduEnroll = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => z.object({ course_id: uuid }).parse(i))
   .handler(async ({ data, context }) => guard(async () => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "education", module: "enrollment", capability: "enroll", user_id: context.userId, company_id: ZERO_UUID, summary: `enroll ${data.course_id}` });
     const r = await context.supabase.from("course_enrollments")
       .upsert({ course_id: data.course_id, user_id: context.userId, status: "enrolled" }, { onConflict: "course_id,user_id" })
       .select("id, course_id, status, progress_pct").single();
