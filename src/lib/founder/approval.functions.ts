@@ -154,6 +154,12 @@ export const decideFounderApproval = createServerFn({ method: "POST" })
   .inputValidator(validateDecide)
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    await adoptToCanonicalPipeline(supabase, {
+      domain: "founder", module: "approval", capability: "decide",
+      user_id: userId, company_id: "00000000-0000-0000-0000-000000000000",
+      summary: `${data.decision} approval ${data.approval_id}`,
+      metadata: { decision: data.decision },
+    });
 
     const { data: before, error: readErr } = await supabase
       .from("approvals")
