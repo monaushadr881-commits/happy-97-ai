@@ -228,13 +228,6 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .select("id,name,created_at,metadata")
         .eq("kind", "publishing")
         .order("created_at", { ascending: false })
-        .limit(64),
-      sb
-        .from("approvals")
-        .select("id,title,status,entity_id,created_at,metadata")
-        .eq("entity_type", "founder_executive_review")
-        .order("created_at", { ascending: false })
-        .limit(64),
     ]);
 
     // 21st Promise.all slot — executive board reviews. We re-fetch just
