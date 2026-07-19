@@ -474,6 +474,34 @@ export const founderMissionControl = createServerFn({ method: "GET" })
         .limit(LIMIT),
     ]);
 
+    // Batch C (R188) — Universal Search coverage.
+    const since24h = new Date(Date.now() - 86400_000).toISOString();
+    const [
+      idxWorkspaces, idxAssets, idxArticles, idxReferences,
+      idxWorkflows, idxInvoices, idxWallets, idxApprovals, idxAudit,
+      searchRecent, searchCount24h,
+    ] = await Promise.all([
+      sb.from("workspaces").select("id", { count: "exact", head: true }),
+      sb.from("creator_assets").select("id", { count: "exact", head: true }),
+      sb.from("knowledge_articles").select("id", { count: "exact", head: true }),
+      sb.from("knowledge_references").select("id", { count: "exact", head: true }),
+      sb.from("workflows").select("id", { count: "exact", head: true }),
+      sb.from("invoices").select("id", { count: "exact", head: true }),
+      sb.from("wallets").select("id", { count: "exact", head: true }),
+      sb.from("approvals").select("id", { count: "exact", head: true }),
+      sb.from("audit_logs").select("id", { count: "exact", head: true }),
+      sb.from("audit_logs")
+        .select("id,actor_id,occurred_at,metadata")
+        .eq("category", "search.universal")
+        .order("occurred_at", { ascending: false })
+        .limit(LIMIT),
+      sb.from("audit_logs")
+        .select("id", { count: "exact", head: true })
+        .eq("category", "search.universal")
+        .gte("occurred_at", since24h),
+    ]);
+
+
 
 
 
