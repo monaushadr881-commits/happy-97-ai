@@ -213,3 +213,145 @@ export async function requireApproval(
   });
   return { tier, approvalId: "dry-run", boardSnapshot, brainRan, auditWritten };
 }
+
+/* ============================================================================
+ * withBrain — Phase B Universal HAPPY Brain™ gate.
+ *
+ * Runs the canonical R115.b `runBrain()` BEFORE every AI entry point (chat,
+ * voice, TTS, STT, digital human, automation, assistant, palette, publish
+ * proposal, etc.). NOT a new Brain. NOT Brain v2. Thin wrapper around the
+ * one canonical `runBrain` in `src/lib/brain/engine.ts`.
+ *
+ * When Brain has no supabase client or company_id (e.g. a public chat
+ * transport route), falls back to the pure `intent.classify` module so the
+ * "Understand" stage still runs. Then it records one canonical audit line
+ * tagged `category='r183_brain_gate'` so every AI entry is traceable.
+ *
+ * On mirror clarification, callers SHOULD short-circuit and surface the
+ * clarification to the user rather than proceeding with the AI call. The
+ * result exposes `{ clarify, clarification }` for that path.
+ * ========================================================================== */
+
+export type BrainGateContext = {
+  supabase?: EnforceContext["supabase"];
+  userId: string | null;
+  companyId?: string | null;
+};
+
+export type BrainGateInput = {
+  input: string;
+  source: RunBrainInput["source"];
+  module?: string;
+  channel?: string;
+  persona?: RunBrainInput["persona"];
+  founder_mode?: boolean;
+  // Optional workspace_id, forwarded to runBrain when present.
+  workspaceId?: string;
+};
+
+export type BrainGateResult = {
+  brainRan: boolean;           // full runBrain() executed vs. lite fallback
+  intent: string | null;
+  confidence: number;
+  reasoningMode: string | null;
+  clarify: boolean;
+  clarification: string | null;
+  auditWritten: boolean;
+  boardSnapshot: typeof EXECUTIVE_BOARD;
+};
+
+/**
+ * Universal Brain gate — call at the top of every AI entry point.
+ * Never throws for AI-entry flows; the caller decides how to handle
+ * `result.clarify === true` (typically: return the clarification string).
+ */
+export async function withBrain(
+  ctx: BrainGateContext,
+  input: BrainGateInput,
+): Promise<BrainGateResult> {
+  let brainRan = false;
+  let intentName: string | null = null;
+  let confidence = 0;
+  let reasoningMode: string | null = null;
+  let clarify = false;
+  let clarification: string | null = null;
+
+  // Full canonical Brain path — requires a supabase client + company scope.
+  if (ctx.supabase && ctx.companyId && ctx.userId) {
+    try {
+      const res: any = await runBrain(ctx.supabase as any, ctx.userId, {
+        company_id: ctx.companyId,
+        input: input.input,
+        source: input.source,
+        module: input.module,
+        channel: input.channel,
+        persona: input.persona,
+        founder_mode: input.founder_mode,
+        workspace_id: input.workspaceId,
+      });
+      brainRan = true;
+      intentName = res?.understand?.intent ?? null;
+      confidence = Number(res?.understand?.confidence ?? 0);
+      reasoningMode = res?.reasoningMode ?? null;
+      clarify = Boolean(res?.mirror?.needsClarification ?? res?.analytics?.clarification_requested ?? false);
+      clarification = res?.mirror?.clarification ?? null;
+    } catch (e: any) {
+      // Fall through to lite classification below rather than crashing the AI entry.
+      intentName = "brain_error";
+      clarification = String(e?.message ?? e);
+    }
+  }
+
+  // Lite fallback — pure classifier only. Runs when no company context OR when
+  // full Brain threw. Keeps "Understand" stage universal across all entries.
+  if (!brainRan) {
+    try {
+      const guess = intent.classify(input.input, { module: input.module, founder_mode: input.founder_mode });
+      intentName = intentName ?? guess.intent;
+      confidence = guess.confidence;
+    } catch {
+      /* pure-fn shouldn't throw; ignore */
+    }
+  }
+
+  // One canonical audit line for the AI entry itself (best-effort).
+  let auditWritten = false;
+  if (ctx.supabase) {
+    try {
+      await ctx.supabase.rpc("write_audit", {
+        _category: "r183_brain_gate",
+        _action: `ai_entry.${input.source}`,
+        _entity_type: input.module ?? input.source,
+        _entity_id: null,
+        _company_id: ctx.companyId ?? null,
+        _before: null,
+        _after: null,
+        _severity: "info",
+        _metadata: {
+          intent: intentName,
+          confidence,
+          reasoning_mode: reasoningMode,
+          brain_ran: brainRan,
+          clarify,
+          persona: input.persona ?? null,
+          module: input.module ?? null,
+          channel: input.channel ?? null,
+          actor_id: ctx.userId,
+        },
+      });
+      auditWritten = true;
+    } catch { /* audit is best-effort */ }
+  }
+
+  return {
+    brainRan,
+    intent: intentName,
+    confidence,
+    reasoningMode,
+    clarify,
+    clarification,
+    auditWritten,
+    boardSnapshot: EXECUTIVE_BOARD,
+  };
+}
+
