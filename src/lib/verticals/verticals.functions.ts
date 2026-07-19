@@ -28,7 +28,10 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { withBrain } from "@/lib/founder/with-brain";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
+import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 import type { FounderApprovalContext } from "@/lib/founder/types";
+
+const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
 
 // Approval threshold for cost-bearing vertical operations (₹1,00,000).
 const APPROVAL_THRESHOLD_CENTS = 1_00_00_000;
@@ -253,6 +256,7 @@ export const mfgSubmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => MfgInput.parse(i))
   .handler(async ({ data, context }): Promise<SubmitResult> => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "manufacturing", module: data.module, capability: "submit", user_id: context.userId, company_id: ZERO_UUID, metadata: { cost_cents: data.cost_cents ?? null, critical: data.critical } });
     const brain = await analyzeMfg({
       capability: "vertical.mfg.impact",
       input: { module: data.module, cost_cents: data.cost_cents ?? null, critical: data.critical },
@@ -295,6 +299,7 @@ export const healthSubmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => HealthInput.parse(i))
   .handler(async ({ data, context }): Promise<SubmitResult> => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "healthcare", module: data.module, capability: "submit", user_id: context.userId, company_id: ZERO_UUID, metadata: { cost_cents: data.cost_cents ?? null, critical: data.critical } });
     const brain = await analyzeHealth({
       capability: "vertical.health.impact",
       input: { module: data.module, cost_cents: data.cost_cents ?? null, critical: data.critical },
@@ -337,6 +342,7 @@ export const agriSubmit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => AgriInput.parse(i))
   .handler(async ({ data, context }): Promise<SubmitResult> => {
+    await adoptToCanonicalPipeline(context.supabase, { domain: "agriculture", module: data.module, capability: "submit", user_id: context.userId, company_id: ZERO_UUID, metadata: { cost_cents: data.cost_cents ?? null, critical: data.critical } });
     const brain = await analyzeAgri({
       capability: "vertical.agri.impact",
       input: { module: data.module, cost_cents: data.cost_cents ?? null, critical: data.critical },
