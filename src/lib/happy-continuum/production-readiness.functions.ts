@@ -44,7 +44,7 @@ async function adopt(
   metadata: Record<string, unknown> = {},
 ) {
   await adoptToCanonicalPipeline(supabase, {
-    domain: "deployment", module, capability,
+    domain: "cloud", module, capability,
     user_id: userId, company_id: ZERO_UUID, metadata,
   });
 }
