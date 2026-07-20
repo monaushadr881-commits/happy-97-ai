@@ -244,7 +244,7 @@ function FullStackBuilderRoute() {
         {/* Center: composer + preview */}
         <main className="space-y-4 min-w-0">
           <HappyUniversalPromptBar
-            defaultSurface="fullstack"
+            defaultSurface="fullstack-app"
             placeholder={GENERATOR_INTRO[mode]}
             onSend={onSend}
             onAction={onAction}
