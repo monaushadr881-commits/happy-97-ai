@@ -21,12 +21,15 @@ import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
 
 const SESSION_BULK_REVOKE_APPROVAL_THRESHOLD = 50;
 
+type JsonValue =
+  | string | number | boolean | null
+  | JsonValue[] | { [k: string]: JsonValue };
 type Result = {
   status: "created" | "updated" | "revoked" | "granted" | "acknowledged"
         | "ok" | "pending_approval" | "recorded";
   entity_id?: string;
   approval_id?: string;
-  data?: unknown;
+  data?: JsonValue;
 };
 
 const uuid = z.string().uuid();
