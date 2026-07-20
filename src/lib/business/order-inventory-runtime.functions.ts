@@ -273,13 +273,14 @@ export const bizWarehouseTransferShip = createServerFn({ method: "POST" })
     const { data: items } = await supabase.from("stock_transfer_items").select("*").eq("transfer_id", data.transfer_id);
     const { error: upErr } = await supabase.from("stock_transfers").update({ status: "in_transit", shipped_at: new Date().toISOString(), shipped_by: context.userId }).eq("id", data.transfer_id);
     if (upErr) throw new Error(`transfer_ship_failed: ${upErr.message}`);
-    for (const it of items ?? []) {
-      await supabase.from("inventory_transactions").insert({
-        company_id: data.company_id, txn_type: "transfer_out", product_id: it.product_id,
-        warehouse_id: transfer.from_warehouse_id, qty_delta: -Math.abs(Number(it.quantity)), balance_after: 0,
-        lot_id: it.lot_id ?? null, ref_type: "stock_transfer", ref_id: data.transfer_id, ref_number: transfer.number, actor_id: context.userId,
-      });
-    }
+    // R195 Batch 9 — batch insert (was N+1 loop)
+    const shipTxns = (items ?? []).map((it) => ({
+      company_id: data.company_id, txn_type: "transfer_out" as const, product_id: it.product_id,
+      warehouse_id: transfer.from_warehouse_id, qty_delta: -Math.abs(Number(it.quantity)), balance_after: 0,
+      lot_id: it.lot_id ?? null, ref_type: "stock_transfer", ref_id: data.transfer_id, ref_number: transfer.number, actor_id: context.userId,
+    }));
+    if (shipTxns.length) await supabase.from("inventory_transactions").insert(shipTxns);
+
     await writeCanonicalAudit(supabase, { category: "business.warehouse", action: "transfer_ship", entity_type: "stock_transfer", entity_id: data.transfer_id, company_id: data.company_id, severity: "notice", metadata: { module: "warehouse" } });
     return { status: "updated", entity_id: data.transfer_id };
   });
@@ -298,13 +299,14 @@ export const bizWarehouseTransferReceive = createServerFn({ method: "POST" })
     const { data: items } = await supabase.from("stock_transfer_items").select("*").eq("transfer_id", data.transfer_id);
     const { error: upErr } = await supabase.from("stock_transfers").update({ status: "received", received_at: new Date().toISOString(), received_by: context.userId }).eq("id", data.transfer_id);
     if (upErr) throw new Error(`transfer_receive_failed: ${upErr.message}`);
-    for (const it of items ?? []) {
-      await supabase.from("inventory_transactions").insert({
-        company_id: data.company_id, txn_type: "transfer_in", product_id: it.product_id,
-        warehouse_id: transfer.to_warehouse_id, qty_delta: Math.abs(Number(it.quantity_received ?? it.quantity)), balance_after: 0,
-        lot_id: it.lot_id ?? null, ref_type: "stock_transfer", ref_id: data.transfer_id, ref_number: transfer.number, actor_id: context.userId,
-      });
-    }
+    // R195 Batch 9 — batch insert (was N+1 loop)
+    const recvTxns = (items ?? []).map((it) => ({
+      company_id: data.company_id, txn_type: "transfer_in" as const, product_id: it.product_id,
+      warehouse_id: transfer.to_warehouse_id, qty_delta: Math.abs(Number(it.quantity_received ?? it.quantity)), balance_after: 0,
+      lot_id: it.lot_id ?? null, ref_type: "stock_transfer", ref_id: data.transfer_id, ref_number: transfer.number, actor_id: context.userId,
+    }));
+    if (recvTxns.length) await supabase.from("inventory_transactions").insert(recvTxns);
+
     await writeCanonicalAudit(supabase, { category: "business.warehouse", action: "transfer_receive", entity_type: "stock_transfer", entity_id: data.transfer_id, company_id: data.company_id, severity: "notice", metadata: { module: "warehouse" } });
     return { status: "updated", entity_id: data.transfer_id };
   });
@@ -336,15 +338,16 @@ export const bizPurchaseReceive = createServerFn({ method: "POST" })
       quantity_received: it.quantity_received, quantity_rejected: it.quantity_rejected,
     }));
     await supabase.from("goods_receipt_items").insert(itemRows);
-    for (const it of data.items) {
-      if (it.quantity_received > 0) {
-        await supabase.from("inventory_transactions").insert({
-          company_id: data.company_id, txn_type: "receive", product_id: it.product_id, warehouse_id: data.warehouse_id,
-          qty_delta: it.quantity_received, balance_after: 0, unit_cost: it.unit_cost ?? null,
-          ref_type: "goods_receipt", ref_id: receipt.id, ref_number: receipt.number, actor_id: context.userId,
-        });
-      }
-    }
+    // R195 Batch 9 — batch insert (was N+1 loop)
+    const poTxns = data.items
+      .filter((it) => it.quantity_received > 0)
+      .map((it) => ({
+        company_id: data.company_id, txn_type: "receive" as const, product_id: it.product_id, warehouse_id: data.warehouse_id,
+        qty_delta: it.quantity_received, balance_after: 0, unit_cost: it.unit_cost ?? null,
+        ref_type: "goods_receipt", ref_id: receipt.id, ref_number: receipt.number, actor_id: context.userId,
+      }));
+    if (poTxns.length) await supabase.from("inventory_transactions").insert(poTxns);
+
     await supabase.from("purchase_orders").update({ received_at: new Date().toISOString() }).eq("id", data.purchase_order_id).eq("company_id", data.company_id);
     await writeCanonicalAudit(supabase, { category: "business.purchase", action: "receive", entity_type: "goods_receipt", entity_id: receipt.id, company_id: data.company_id, after: receipt, severity: "notice", metadata: { module: "purchase", po_id: data.purchase_order_id } });
     return { status: "created", entity_id: receipt.id };
@@ -366,13 +369,14 @@ export const bizSalesDispatch = createServerFn({ method: "POST" })
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, { domain: "business", module: "sales", capability: "dispatch", user_id: context.userId, company_id: data.company_id, summary: `dispatch ${data.sales_order_id}` });
     const { data: order } = await supabase.from("sales_orders").select("number").eq("id", data.sales_order_id).eq("company_id", data.company_id).single();
-    for (const it of data.items) {
-      await supabase.from("inventory_transactions").insert({
-        company_id: data.company_id, txn_type: "issue", product_id: it.product_id, warehouse_id: data.warehouse_id,
-        qty_delta: -Math.abs(it.quantity), balance_after: 0, unit_cost: it.unit_cost ?? null,
-        ref_type: "sales_order", ref_id: data.sales_order_id, ref_number: order?.number ?? null, actor_id: context.userId,
-      });
-    }
+    // R195 Batch 9 — batch insert (was N+1 loop)
+    const dispatchTxns = data.items.map((it) => ({
+      company_id: data.company_id, txn_type: "issue" as const, product_id: it.product_id, warehouse_id: data.warehouse_id,
+      qty_delta: -Math.abs(it.quantity), balance_after: 0, unit_cost: it.unit_cost ?? null,
+      ref_type: "sales_order", ref_id: data.sales_order_id, ref_number: order?.number ?? null, actor_id: context.userId,
+    }));
+    if (dispatchTxns.length) await supabase.from("inventory_transactions").insert(dispatchTxns);
+
     await supabase.from("sales_orders").update({ fulfilled_at: new Date().toISOString() }).eq("id", data.sales_order_id).eq("company_id", data.company_id);
     await writeCanonicalAudit(supabase, { category: "business.sales_order", action: "dispatch", entity_type: "sales_order", entity_id: data.sales_order_id, company_id: data.company_id, severity: "notice", metadata: { module: "sales", item_count: data.items.length } });
     return { status: "updated", entity_id: data.sales_order_id };
