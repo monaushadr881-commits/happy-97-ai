@@ -24,6 +24,7 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { withBrain } from "@/lib/founder/with-brain";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
+import { memoryCache } from "@/lib/founder/read-cache";
 import type { FounderApprovalContext } from "@/lib/founder/types";
 
 const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
