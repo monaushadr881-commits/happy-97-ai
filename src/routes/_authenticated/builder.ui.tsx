@@ -146,7 +146,7 @@ function UiBuilderRoute() {
         {/* Center: composer + preview */}
         <main className="space-y-4 min-w-0">
           <HappyUniversalPromptBar
-            defaultSurface="ui-component"
+            defaultSurface="uiux"
             placeholder={PRESET_INTRO[preset]}
             onSend={onSend}
             onAction={onAction}
