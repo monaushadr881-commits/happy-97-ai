@@ -32,13 +32,24 @@ export const Route = createFileRoute("/_authenticated/platform")({
 });
 
 const BUILDERS: { to: string; label: string; icon: React.ReactNode; hint: string }[] = [
-  { to: "/builder/website",   label: "Website Builder",   icon: <Globe className="h-4 w-4" />,        hint: "AI, Landing, Business, Ecommerce, CMS, SEO." },
-  { to: "/builder/mobile",    label: "Mobile Builder",    icon: <Smartphone className="h-4 w-4" />,   hint: "React Native, Expo, Android, iOS, Push, Offline." },
-  { to: "/builder/fullstack", label: "Full Stack Builder",icon: <Server className="h-4 w-4" />,       hint: "Frontend, Backend, DB, API, Auth, RBAC, Deploy." },
-  { to: "/builder/agents",    label: "AI Agent Builder",  icon: <Bot className="h-4 w-4" />,          hint: "Sales, Support, HR, WhatsApp, Voice, Automation." },
-  { to: "/builder/code",      label: "Code Workspace",    icon: <Code2 className="h-4 w-4" />,        hint: "Editor, Diff, Terminal, Errors, Git, Deploy." },
-  { to: "/studio",            label: "Media Studio",      icon: <Clapperboard className="h-4 w-4" />, hint: "Assets, Image, Voice, Brand, Marketing, Exports." },
-  { to: "/builder/deploy",    label: "Deployment Center", icon: <Rocket className="h-4 w-4" />,       hint: "GitHub, Vercel, Netlify, Cloudflare, Docker, ZIP." },
+  { to: "/builder/website",       label: "Website Builder",       icon: <Globe className="h-4 w-4" />,        hint: "AI, Landing, Business, Ecommerce, CMS, SEO." },
+  { to: "/builder/mobile",        label: "Mobile Builder",        icon: <Smartphone className="h-4 w-4" />,   hint: "React Native, Expo, Android, iOS, Push, Offline." },
+  { to: "/builder/fullstack",     label: "Full Stack Builder",    icon: <Server className="h-4 w-4" />,       hint: "Frontend, Backend, DB, API, Auth, RBAC, Deploy." },
+  { to: "/builder/database",      label: "Database Builder",      icon: <Database className="h-4 w-4" />,     hint: "Supabase, Postgres, Mongo, RLS, Migrations, ER." },
+  { to: "/builder/api",           label: "API Builder",           icon: <Plug className="h-4 w-4" />,         hint: "REST, GraphQL, OpenAPI, Webhook, Realtime." },
+  { to: "/builder/ui",            label: "UI Builder",            icon: <Palette className="h-4 w-4" />,      hint: "Landing, Dashboards, Themes, Tokens, Responsive." },
+  { to: "/builder/documents",     label: "Document Builder",      icon: <FileText className="h-4 w-4" />,     hint: "PDF, DOCX, Proposal, Invoice, SOP, Report." },
+  { to: "/builder/presentation",  label: "Presentation Builder",  icon: <Presentation className="h-4 w-4" />, hint: "Pitch, Sales, Marketing, Investor, Education." },
+  { to: "/builder/image",         label: "Image Builder",         icon: <ImageIcon className="h-4 w-4" />,    hint: "Logo, Banner, Poster, Social, Packaging, Kit." },
+  { to: "/builder/video",         label: "Video Builder",         icon: <Video className="h-4 w-4" />,        hint: "Promo, Reel, Shorts, Demo, Talking Avatar." },
+  { to: "/builder/voice",         label: "Voice Builder",         icon: <Mic className="h-4 w-4" />,          hint: "Clone, Narration, Podcast, Dubbing, Lip Sync." },
+  { to: "/builder/digital-human", label: "Digital Human Studio",  icon: <Bot className="h-4 w-4" />,          hint: "Avatar, Emotion, Gesture, Founder & Sales modes." },
+  { to: "/builder/business",      label: "Business Generator",    icon: <Building2 className="h-4 w-4" />,    hint: "CRM, ERP, HRMS, POS, Hospital, Hotel, Salon." },
+  { to: "/builder/agents",        label: "AI Agent Builder",      icon: <Bot className="h-4 w-4" />,          hint: "Sales, Support, HR, WhatsApp, Voice, Automation." },
+  { to: "/builder/code",          label: "Code Workspace",        icon: <Code2 className="h-4 w-4" />,        hint: "Editor, Diff, Terminal, Errors, Git, Deploy." },
+  { to: "/studio",                label: "Media Studio",          icon: <Clapperboard className="h-4 w-4" />, hint: "Assets, Image, Voice, Brand, Marketing, Exports." },
+  { to: "/builder/deploy",        label: "Deployment Center",     icon: <Rocket className="h-4 w-4" />,       hint: "GitHub, Vercel, Netlify, Cloudflare, Docker, ZIP." },
+  { to: "/assistant",             label: "Assistant",             icon: <MessageSquare className="h-4 w-4" />,hint: "HAPPY conversational assistant surface." },
 ];
 
 const RUNTIMES: { label: string; icon: React.ReactNode; note: string }[] = [
