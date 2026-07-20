@@ -28,6 +28,7 @@ import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authentic
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCrmRouteImport } from './routes/_authenticated/crm'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedCmsRouteImport } from './routes/_authenticated/cms'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
@@ -238,6 +239,11 @@ const AuthenticatedDigitalHumanRoute =
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCrmRoute = AuthenticatedCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
@@ -920,6 +926,7 @@ export interface FileRoutesByFullPath {
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/cms': typeof AuthenticatedCmsRoute
   '/community': typeof AuthenticatedCommunityRouteWithChildren
+  '/crm': typeof AuthenticatedCrmRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/education': typeof AuthenticatedEducationRouteWithChildren
@@ -1052,6 +1059,7 @@ export interface FileRoutesByTo {
   '/assistant': typeof AuthenticatedAssistantRoute
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/cms': typeof AuthenticatedCmsRoute
+  '/crm': typeof AuthenticatedCrmRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/finance': typeof AuthenticatedFinanceRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
@@ -1180,6 +1188,7 @@ export interface FileRoutesById {
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/cms': typeof AuthenticatedCmsRoute
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
+  '/_authenticated/crm': typeof AuthenticatedCrmRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
@@ -1316,6 +1325,7 @@ export interface FileRouteTypes {
     | '/business'
     | '/cms'
     | '/community'
+    | '/crm'
     | '/dashboard'
     | '/digital-human'
     | '/education'
@@ -1448,6 +1458,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/builder'
     | '/cms'
+    | '/crm'
     | '/dashboard'
     | '/finance'
     | '/healthcare'
@@ -1575,6 +1586,7 @@ export interface FileRouteTypes {
     | '/_authenticated/business'
     | '/_authenticated/cms'
     | '/_authenticated/community'
+    | '/_authenticated/crm'
     | '/_authenticated/dashboard'
     | '/_authenticated/digital-human'
     | '/_authenticated/education'
@@ -1843,6 +1855,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/crm': {
+      id: '/_authenticated/crm'
+      path: '/crm'
+      fullPath: '/crm'
+      preLoaderRoute: typeof AuthenticatedCrmRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/community': {
@@ -2994,6 +3013,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCmsRoute: typeof AuthenticatedCmsRoute
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
+  AuthenticatedCrmRoute: typeof AuthenticatedCrmRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
@@ -3020,6 +3040,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCmsRoute: AuthenticatedCmsRoute,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
+  AuthenticatedCrmRoute: AuthenticatedCrmRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
