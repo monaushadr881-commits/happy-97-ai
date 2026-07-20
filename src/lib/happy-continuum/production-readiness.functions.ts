@@ -60,7 +60,7 @@ async function readAssets(
     .select("id,name,kind,tags,metadata,created_at")
     .eq("user_id", userId)
     .like("kind", kindLike)
-    .order("occurred_at", { ascending: false })
+    .order("created_at", { ascending: false })
     .limit(limit);
   if (error) throw new Error(`readiness_read_failed: ${error.message}`);
   return (data ?? []) as AssetRow[];
