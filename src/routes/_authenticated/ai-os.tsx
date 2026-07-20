@@ -109,10 +109,10 @@ function AiOsPage() {
   const [activeGroup, setActiveGroup] = React.useState<string>("workspace");
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
-    toast.success("Dispatched to HAPPY", { description: p.text.slice(0, 120) });
+    toast.success("Dispatched to HAPPY", { description: p.prompt.slice(0, 120) });
   }, []);
-  const onAction = React.useCallback((i: HuppActionIntent) => {
-    toast.message(`Action: ${i.actionId}`);
+  const onAction = React.useCallback((intent: HuppActionIntent) => {
+    toast.message(`Action: ${intent}`);
   }, []);
 
   const group = GROUPS.find((g) => g.id === activeGroup) ?? GROUPS[0];
