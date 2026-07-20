@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { sendChatMessage } from "@/lib/happyx-chat.functions";
 import { Send, Sparkles, User } from "lucide-react";
 import { toast } from "sonner";
+import { HappyUniversalActionBar } from "@/components/happy/HappyUniversalActionBar";
 
 export const Route = createFileRoute("/_authenticated/assistant")({
   head: () => ({
@@ -118,12 +119,17 @@ function MessageBubble({
       >
         {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />}
       </div>
-      <div
-        className={`max-w-[80%] rounded-2xl px-5 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
-          isUser ? "bg-gold text-obsidian" : "bg-charcoal border border-white/5 text-paper"
-        } ${pending ? "animate-pulse" : ""}`}
-      >
-        {content}
+      <div className="flex flex-col gap-2 max-w-[80%]">
+        <div
+          className={`rounded-2xl px-5 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+            isUser ? "bg-gold text-obsidian" : "bg-charcoal border border-white/5 text-paper"
+          } ${pending ? "animate-pulse" : ""}`}
+        >
+          {content}
+        </div>
+        {!isUser && !pending && (
+          <HappyUniversalActionBar mode="chat" payload={content} compact />
+        )}
       </div>
     </div>
   );
