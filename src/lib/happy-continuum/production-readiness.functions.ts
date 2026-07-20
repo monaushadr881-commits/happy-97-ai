@@ -140,15 +140,16 @@ export const dependencyVerify = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "dependencies", "verify");
+    const [ca, al, st] = await Promise.all([
+      context.supabase.from("creator_assets").select("id").limit(1),
+      context.supabase.from("audit_logs").select("id").limit(1),
+      context.supabase.from("settings").select("key").limit(1),
+    ]);
     const probes = [
-      { name: "creator_assets", ok: false as boolean },
-      { name: "audit_logs", ok: false as boolean },
-      { name: "settings", ok: false as boolean },
+      { name: "creator_assets", ok: !ca.error },
+      { name: "audit_logs", ok: !al.error },
+      { name: "settings", ok: !st.error },
     ];
-    for (const p of probes) {
-      const { error } = await context.supabase.from(p.name).select("id").limit(1);
-      p.ok = !error;
-    }
     return { dependencies: probes, healthy: probes.every((p) => p.ok) };
   });
 
