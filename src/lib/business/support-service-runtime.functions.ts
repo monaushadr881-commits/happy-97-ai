@@ -65,7 +65,7 @@ export const supportTicketCreate = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "ticket", capability: "create",
+      domain: "business", module: "ticket", capability: "create",
       user_id: context.userId, company_id: data.company_id,
       summary: `ticket ${data.subject}`,
       metadata: { priority: data.priority },
@@ -101,7 +101,7 @@ export const supportComplaintRegister = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "complaint", capability: "register",
+      domain: "business", module: "complaint", capability: "register",
       user_id: context.userId, company_id: data.company_id,
       summary: `complaint ${data.subject}`,
     });
@@ -133,7 +133,7 @@ export const supportTicketAssign = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "ticket", capability: "assign",
+      domain: "business", module: "ticket", capability: "assign",
       user_id: context.userId, company_id: data.company_id,
       summary: `assign ${data.ticket_id} → ${data.assignee_id}`,
     });
@@ -167,7 +167,7 @@ export const supportPriorityChange = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "ticket", capability: "priority_change",
+      domain: "business", module: "ticket", capability: "priority_change",
       user_id: context.userId, company_id: data.company_id,
       summary: `priority ${data.ticket_id} → ${data.priority}`,
     });
@@ -216,7 +216,7 @@ export const supportInternalNote = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "ticket", capability: "internal_note",
+      domain: "business", module: "ticket", capability: "internal_note",
       user_id: userId, company_id: data.company_id,
       summary: `note ${data.ticket_id}`,
     });
@@ -243,7 +243,7 @@ export const supportCustomerReply = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "ticket", capability: "customer_reply",
+      domain: "business", module: "ticket", capability: "customer_reply",
       user_id: userId, company_id: data.company_id,
       summary: `reply ${data.ticket_id}`,
     });
@@ -274,7 +274,7 @@ export const supportReturnRequest = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "return", capability: "request",
+      domain: "business", module: "return", capability: "request",
       user_id: userId, company_id: data.company_id,
       summary: `return request ${data.order_id}`,
     });
@@ -303,7 +303,7 @@ export const supportReturnApprove = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "return", capability: "approve",
+      domain: "business", module: "return", capability: "approve",
       user_id: userId, company_id: data.company_id,
       summary: `return ${data.decision} ${data.return_id}`,
     });
@@ -335,7 +335,7 @@ export const supportReplacementOrder = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "replacement", capability: "create",
+      domain: "business", module: "replacement", capability: "create",
       user_id: userId, company_id: data.company_id,
       summary: `replacement ${data.original_order_id}`,
     });
@@ -365,7 +365,7 @@ export const supportRefundRequest = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "refund", capability: "request",
+      domain: "business", module: "refund", capability: "request",
       user_id: userId, company_id: data.company_id,
       summary: `refund request ${data.amount_cents} ${data.currency}`,
       metadata: { amount_cents: data.amount_cents },
@@ -397,7 +397,7 @@ export const supportRefundApprove = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "refund", capability: "approve",
+      domain: "business", module: "refund", capability: "approve",
       user_id: userId, company_id: data.company_id,
       summary: `refund ${data.decision} ${data.amount_cents} ${data.currency}`,
     });
@@ -435,7 +435,7 @@ export const supportRefundComplete = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "refund", capability: "complete",
+      domain: "business", module: "refund", capability: "complete",
       user_id: userId, company_id: data.company_id,
       summary: `refund complete ${data.amount_cents} ${data.currency}`,
     });
@@ -467,7 +467,7 @@ export const supportCustomerFeedback = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "feedback", capability: "submit",
+      domain: "business", module: "feedback", capability: "submit",
       user_id: userId, company_id: data.company_id,
       summary: `feedback ${data.customer_id}`,
     });
@@ -497,7 +497,7 @@ export const supportCustomerRating = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "rating", capability: "submit",
+      domain: "business", module: "rating", capability: "submit",
       user_id: userId, company_id: data.company_id,
       summary: `rating ${data.rating}★`,
     });
@@ -525,7 +525,7 @@ export const supportAnalytics = createServerFn({ method: "POST" })
   .handler(async ({ data, context }): Promise<Result> => {
     const { supabase, userId } = context;
     await adoptToCanonicalPipeline(supabase, {
-      domain: "support", module: "analytics", capability: "snapshot",
+      domain: "business", module: "analytics", capability: "snapshot",
       user_id: userId, company_id: data.company_id,
       summary: `support analytics ${data.window_days}d`,
     });
