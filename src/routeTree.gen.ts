@@ -144,6 +144,7 @@ import { Route as AuthenticatedBuilderDocumentsRouteImport } from './routes/_aut
 import { Route as AuthenticatedBuilderDigitalHumanRouteImport } from './routes/_authenticated/builder.digital-human'
 import { Route as AuthenticatedBuilderDeployRouteImport } from './routes/_authenticated/builder.deploy'
 import { Route as AuthenticatedBuilderDatabaseRouteImport } from './routes/_authenticated/builder.database'
+import { Route as AuthenticatedBuilderCollegeRouteImport } from './routes/_authenticated/builder.college'
 import { Route as AuthenticatedBuilderCodeRouteImport } from './routes/_authenticated/builder.code'
 import { Route as AuthenticatedBuilderBusinessRouteImport } from './routes/_authenticated/builder.business'
 import { Route as AuthenticatedBuilderAutomationRouteImport } from './routes/_authenticated/builder.automation'
@@ -929,6 +930,12 @@ const AuthenticatedBuilderDatabaseRoute =
     path: '/database',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderCollegeRoute =
+  AuthenticatedBuilderCollegeRouteImport.update({
+    id: '/college',
+    path: '/college',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderCodeRoute =
   AuthenticatedBuilderCodeRouteImport.update({
     id: '/code',
@@ -1012,6 +1019,7 @@ export interface FileRoutesByFullPath {
   '/builder/automation': typeof AuthenticatedBuilderAutomationRoute
   '/builder/business': typeof AuthenticatedBuilderBusinessRoute
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
+  '/builder/college': typeof AuthenticatedBuilderCollegeRoute
   '/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
@@ -1146,6 +1154,7 @@ export interface FileRoutesByTo {
   '/builder/automation': typeof AuthenticatedBuilderAutomationRoute
   '/builder/business': typeof AuthenticatedBuilderBusinessRoute
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
+  '/builder/college': typeof AuthenticatedBuilderCollegeRoute
   '/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
@@ -1292,6 +1301,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/automation': typeof AuthenticatedBuilderAutomationRoute
   '/_authenticated/builder/business': typeof AuthenticatedBuilderBusinessRoute
   '/_authenticated/builder/code': typeof AuthenticatedBuilderCodeRoute
+  '/_authenticated/builder/college': typeof AuthenticatedBuilderCollegeRoute
   '/_authenticated/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/_authenticated/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/_authenticated/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
@@ -1438,6 +1448,7 @@ export interface FileRouteTypes {
     | '/builder/automation'
     | '/builder/business'
     | '/builder/code'
+    | '/builder/college'
     | '/builder/database'
     | '/builder/deploy'
     | '/builder/digital-human'
@@ -1572,6 +1583,7 @@ export interface FileRouteTypes {
     | '/builder/automation'
     | '/builder/business'
     | '/builder/code'
+    | '/builder/college'
     | '/builder/database'
     | '/builder/deploy'
     | '/builder/digital-human'
@@ -1717,6 +1729,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/automation'
     | '/_authenticated/builder/business'
     | '/_authenticated/builder/code'
+    | '/_authenticated/builder/college'
     | '/_authenticated/builder/database'
     | '/_authenticated/builder/deploy'
     | '/_authenticated/builder/digital-human'
@@ -2782,6 +2795,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderDatabaseRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/college': {
+      id: '/_authenticated/builder/college'
+      path: '/college'
+      fullPath: '/builder/college'
+      preLoaderRoute: typeof AuthenticatedBuilderCollegeRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/code': {
       id: '/_authenticated/builder/code'
       path: '/code'
@@ -2848,6 +2868,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderAutomationRoute: typeof AuthenticatedBuilderAutomationRoute
   AuthenticatedBuilderBusinessRoute: typeof AuthenticatedBuilderBusinessRoute
   AuthenticatedBuilderCodeRoute: typeof AuthenticatedBuilderCodeRoute
+  AuthenticatedBuilderCollegeRoute: typeof AuthenticatedBuilderCollegeRoute
   AuthenticatedBuilderDatabaseRoute: typeof AuthenticatedBuilderDatabaseRoute
   AuthenticatedBuilderDeployRoute: typeof AuthenticatedBuilderDeployRoute
   AuthenticatedBuilderDigitalHumanRoute: typeof AuthenticatedBuilderDigitalHumanRoute
@@ -2878,6 +2899,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderAutomationRoute: AuthenticatedBuilderAutomationRoute,
   AuthenticatedBuilderBusinessRoute: AuthenticatedBuilderBusinessRoute,
   AuthenticatedBuilderCodeRoute: AuthenticatedBuilderCodeRoute,
+  AuthenticatedBuilderCollegeRoute: AuthenticatedBuilderCollegeRoute,
   AuthenticatedBuilderDatabaseRoute: AuthenticatedBuilderDatabaseRoute,
   AuthenticatedBuilderDeployRoute: AuthenticatedBuilderDeployRoute,
   AuthenticatedBuilderDigitalHumanRoute: AuthenticatedBuilderDigitalHumanRoute,
