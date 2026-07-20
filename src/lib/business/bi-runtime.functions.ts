@@ -68,7 +68,7 @@ export const biFounderKpis = createServerFn({ method: "POST" })
         .eq("company_id", data.company_id).eq("status", "pending"),
     ]);
     const orderRevenue = (orders.data ?? []).reduce((s, r) => s + (r.total_cents ?? 0), 0);
-    const captured = (pays.data ?? []).filter(p => p.status === "captured")
+    const captured = (pays.data ?? []).filter(p => p.status === "succeeded")
       .reduce((s, r) => s + (r.amount_cents ?? 0), 0);
     const outstanding = (inv.data ?? []).reduce(
       (s, r) => s + Math.max(0, (r.total_cents ?? 0) - (r.amount_paid_cents ?? 0)), 0);
@@ -105,7 +105,7 @@ export const biRevenueDashboard = createServerFn({ method: "POST" })
       collected_cents: rows.reduce((s, r) => s + (r.amount_paid_cents ?? 0), 0),
       overdue: rows.filter(r => r.status === "overdue").length,
       payments: (pays.data ?? []).length,
-      captured_cents: (pays.data ?? []).filter(p => p.status === "captured")
+      captured_cents: (pays.data ?? []).filter(p => p.status === "succeeded")
         .reduce((s, r) => s + (r.amount_cents ?? 0), 0),
     } };
   });
@@ -377,7 +377,7 @@ export const biAiExecutiveSummary = createServerFn({ method: "POST" })
     const kpis = {
       orders: (orders.data ?? []).length,
       order_revenue_cents: (orders.data ?? []).reduce((s, r) => s + (r.total_cents ?? 0), 0),
-      captured_cents: (pays.data ?? []).filter(p => p.status === "captured")
+      captured_cents: (pays.data ?? []).filter(p => p.status === "succeeded")
         .reduce((s, r) => s + (r.amount_cents ?? 0), 0),
       outstanding_cents: (inv.data ?? []).reduce(
         (s, r) => s + Math.max(0, (r.total_cents ?? 0) - (r.amount_paid_cents ?? 0)), 0),
