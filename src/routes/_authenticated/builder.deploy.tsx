@@ -43,7 +43,8 @@ export const Route = createFileRoute("/_authenticated/builder/deploy")({
 
 type TargetId =
   | "github" | "vercel" | "netlify" | "cloudflare"
-  | "docker" | "static" | "zip";
+  | "docker" | "railway" | "render" | "supabase"
+  | "static" | "zip";
 
 const TARGETS: { id: TargetId; label: string; icon: React.ReactNode; hint: string }[] = [
   { id: "github",     label: "GitHub",       icon: <Github className="h-4 w-4" />,        hint: "Push production build to a GitHub repo and open a PR." },
@@ -51,6 +52,9 @@ const TARGETS: { id: TargetId; label: string; icon: React.ReactNode; hint: strin
   { id: "netlify",    label: "Netlify",      icon: <Cloud className="h-4 w-4" />,         hint: "Deploy to Netlify via the Publishing Runtime." },
   { id: "cloudflare", label: "Cloudflare",   icon: <Zap className="h-4 w-4" />,           hint: "Deploy to Cloudflare Workers / Pages." },
   { id: "docker",     label: "Docker",       icon: <ContainerIcon className="h-4 w-4" />, hint: "Emit a Docker image for self-hosted deploy." },
+  { id: "railway",    label: "Railway",      icon: <Train className="h-4 w-4" />,         hint: "Deploy service to Railway via the Publishing Runtime." },
+  { id: "render",     label: "Render",       icon: <Server className="h-4 w-4" />,        hint: "Deploy web service / static site to Render." },
+  { id: "supabase",   label: "Supabase",     icon: <Database className="h-4 w-4" />,      hint: "Deploy schema + edge functions to Supabase project." },
   { id: "static",     label: "Static Export",icon: <FileArchive className="h-4 w-4" />,   hint: "Emit a static export bundle for CDN hosting." },
   { id: "zip",        label: "ZIP",          icon: <Package className="h-4 w-4" />,       hint: "Download the production build as a ZIP archive." },
 ];
@@ -61,6 +65,9 @@ const TARGET_INTRO: Record<TargetId, string> = {
   netlify:    "Describe the Netlify site, env vars, and domain.",
   cloudflare: "Describe the Cloudflare project, envs, and route.",
   docker:     "Describe the container: base image, port, and envs.",
+  railway:    "Describe the Railway project, service, and envs.",
+  render:     "Describe the Render service type, region, and envs.",
+  supabase:   "Describe the Supabase project ref, schema and functions to deploy.",
   static:     "Describe the static export: base path and env config.",
   zip:        "Describe the ZIP: included paths and version tag.",
 };
