@@ -107,6 +107,7 @@ function AuthPage() {
           </h2>
 
           <button
+            type="button"
             onClick={handleGoogle}
             className="w-full flex items-center justify-center gap-3 h-11 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] transition-colors text-sm font-medium"
           >
