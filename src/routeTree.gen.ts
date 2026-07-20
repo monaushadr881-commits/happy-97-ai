@@ -32,6 +32,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCrmRouteImport } from './routes/_authenticated/crm'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedCmsRouteImport } from './routes/_authenticated/cms'
+import { Route as AuthenticatedCloudRouteImport } from './routes/_authenticated/cloud'
 import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/chat'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedBuilderRouteImport } from './routes/_authenticated/builder'
@@ -261,6 +262,11 @@ const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
 const AuthenticatedCmsRoute = AuthenticatedCmsRouteImport.update({
   id: '/cms',
   path: '/cms',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCloudRoute = AuthenticatedCloudRouteImport.update({
+  id: '/cloud',
+  path: '/cloud',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedChatRoute = AuthenticatedChatRouteImport.update({
@@ -937,6 +943,7 @@ export interface FileRoutesByFullPath {
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/chat': typeof AuthenticatedChatRoute
+  '/cloud': typeof AuthenticatedCloudRoute
   '/cms': typeof AuthenticatedCmsRoute
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/crm': typeof AuthenticatedCrmRoute
@@ -1073,6 +1080,7 @@ export interface FileRoutesByTo {
   '/assistant': typeof AuthenticatedAssistantRoute
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/chat': typeof AuthenticatedChatRoute
+  '/cloud': typeof AuthenticatedCloudRoute
   '/cms': typeof AuthenticatedCmsRoute
   '/crm': typeof AuthenticatedCrmRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -1203,6 +1211,7 @@ export interface FileRoutesById {
   '/_authenticated/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/chat': typeof AuthenticatedChatRoute
+  '/_authenticated/cloud': typeof AuthenticatedCloudRoute
   '/_authenticated/cms': typeof AuthenticatedCmsRoute
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/crm': typeof AuthenticatedCrmRoute
@@ -1342,6 +1351,7 @@ export interface FileRouteTypes {
     | '/builder'
     | '/business'
     | '/chat'
+    | '/cloud'
     | '/cms'
     | '/community'
     | '/crm'
@@ -1478,6 +1488,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/builder'
     | '/chat'
+    | '/cloud'
     | '/cms'
     | '/crm'
     | '/dashboard'
@@ -1607,6 +1618,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder'
     | '/_authenticated/business'
     | '/_authenticated/chat'
+    | '/_authenticated/cloud'
     | '/_authenticated/cms'
     | '/_authenticated/community'
     | '/_authenticated/crm'
@@ -1907,6 +1919,13 @@ declare module '@tanstack/react-router' {
       path: '/cms'
       fullPath: '/cms'
       preLoaderRoute: typeof AuthenticatedCmsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cloud': {
+      id: '/_authenticated/cloud'
+      path: '/cloud'
+      fullPath: '/cloud'
+      preLoaderRoute: typeof AuthenticatedCloudRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/chat': {
@@ -3050,6 +3069,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedChatRoute: typeof AuthenticatedChatRoute
+  AuthenticatedCloudRoute: typeof AuthenticatedCloudRoute
   AuthenticatedCmsRoute: typeof AuthenticatedCmsRoute
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedCrmRoute: typeof AuthenticatedCrmRoute
@@ -3079,6 +3099,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBuilderRoute: AuthenticatedBuilderRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedChatRoute: AuthenticatedChatRoute,
+  AuthenticatedCloudRoute: AuthenticatedCloudRoute,
   AuthenticatedCmsRoute: AuthenticatedCmsRoute,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedCrmRoute: AuthenticatedCrmRoute,
