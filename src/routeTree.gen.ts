@@ -27,6 +27,7 @@ import { Route as AuthenticatedFinanceRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedErpRouteImport } from './routes/_authenticated/erp'
 import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authenticated/enterprise'
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
+import { Route as AuthenticatedEcosystemRouteImport } from './routes/_authenticated/ecosystem'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCrmRouteImport } from './routes/_authenticated/crm'
@@ -236,6 +237,11 @@ const AuthenticatedEnterpriseRoute = AuthenticatedEnterpriseRouteImport.update({
 const AuthenticatedEducationRoute = AuthenticatedEducationRouteImport.update({
   id: '/education',
   path: '/education',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEcosystemRoute = AuthenticatedEcosystemRouteImport.update({
+  id: '/ecosystem',
+  path: '/ecosystem',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDigitalHumanRoute =
@@ -949,6 +955,7 @@ export interface FileRoutesByFullPath {
   '/crm': typeof AuthenticatedCrmRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
+  '/ecosystem': typeof AuthenticatedEcosystemRoute
   '/education': typeof AuthenticatedEducationRouteWithChildren
   '/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/erp': typeof AuthenticatedErpRoute
@@ -1084,6 +1091,7 @@ export interface FileRoutesByTo {
   '/cms': typeof AuthenticatedCmsRoute
   '/crm': typeof AuthenticatedCrmRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/ecosystem': typeof AuthenticatedEcosystemRoute
   '/erp': typeof AuthenticatedErpRoute
   '/finance': typeof AuthenticatedFinanceRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
@@ -1217,6 +1225,7 @@ export interface FileRoutesById {
   '/_authenticated/crm': typeof AuthenticatedCrmRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
+  '/_authenticated/ecosystem': typeof AuthenticatedEcosystemRoute
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
   '/_authenticated/enterprise': typeof AuthenticatedEnterpriseRouteWithChildren
   '/_authenticated/erp': typeof AuthenticatedErpRoute
@@ -1357,6 +1366,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/dashboard'
     | '/digital-human'
+    | '/ecosystem'
     | '/education'
     | '/enterprise'
     | '/erp'
@@ -1492,6 +1502,7 @@ export interface FileRouteTypes {
     | '/cms'
     | '/crm'
     | '/dashboard'
+    | '/ecosystem'
     | '/erp'
     | '/finance'
     | '/healthcare'
@@ -1624,6 +1635,7 @@ export interface FileRouteTypes {
     | '/_authenticated/crm'
     | '/_authenticated/dashboard'
     | '/_authenticated/digital-human'
+    | '/_authenticated/ecosystem'
     | '/_authenticated/education'
     | '/_authenticated/enterprise'
     | '/_authenticated/erp'
@@ -1884,6 +1896,13 @@ declare module '@tanstack/react-router' {
       path: '/education'
       fullPath: '/education'
       preLoaderRoute: typeof AuthenticatedEducationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ecosystem': {
+      id: '/_authenticated/ecosystem'
+      path: '/ecosystem'
+      fullPath: '/ecosystem'
+      preLoaderRoute: typeof AuthenticatedEcosystemRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/digital-human': {
@@ -3075,6 +3094,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCrmRoute: typeof AuthenticatedCrmRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
+  AuthenticatedEcosystemRoute: typeof AuthenticatedEcosystemRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
   AuthenticatedEnterpriseRoute: typeof AuthenticatedEnterpriseRouteWithChildren
   AuthenticatedErpRoute: typeof AuthenticatedErpRoute
@@ -3105,6 +3125,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCrmRoute: AuthenticatedCrmRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
+  AuthenticatedEcosystemRoute: AuthenticatedEcosystemRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
   AuthenticatedEnterpriseRoute: AuthenticatedEnterpriseRouteWithChildren,
   AuthenticatedErpRoute: AuthenticatedErpRoute,
