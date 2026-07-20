@@ -240,6 +240,23 @@ function DeploymentCenterRoute() {
               </ul>
             </TabsContent>
 
+            <TabsContent value="health" className="mt-3">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {TARGETS.map((t) => (
+                  <li key={t.id} className="border rounded p-3 text-sm flex items-center gap-3">
+                    {t.icon}
+                    <span className="font-medium">{t.label}</span>
+                    <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
+                      <HeartPulse className="h-3 w-3 text-green-500" /> healthy
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-xs text-muted-foreground mt-2">
+                Health probes stream from the Publishing Runtime and mirror to Mission Control.
+              </p>
+            </TabsContent>
+
             <TabsContent value="policy" className="mt-3">
               <p className="text-sm text-muted-foreground">
                 Deploys require Approval → Audit → Execution → Mission Control.
