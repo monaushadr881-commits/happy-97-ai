@@ -95,7 +95,7 @@ function DeploymentPage() {
       </div>
 
       <div className="border-t p-3">
-        <HappyUniversalActionBar mode="mission-control" />
+        <HappyUniversalActionBar mode="mission-control" payload={null} />
       </div>
     </div>
   );
