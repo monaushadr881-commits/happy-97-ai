@@ -152,6 +152,7 @@ import { Route as AuthenticatedBuilderFullstackRouteImport } from './routes/_aut
 import { Route as AuthenticatedBuilderEventsRouteImport } from './routes/_authenticated/builder.events'
 import { Route as AuthenticatedBuilderEcommerceRouteImport } from './routes/_authenticated/builder.ecommerce'
 import { Route as AuthenticatedBuilderDocumentsRouteImport } from './routes/_authenticated/builder.documents'
+import { Route as AuthenticatedBuilderDigitalHumanExpandRouteImport } from './routes/_authenticated/builder.digital-human-expand'
 import { Route as AuthenticatedBuilderDigitalHumanRouteImport } from './routes/_authenticated/builder.digital-human'
 import { Route as AuthenticatedBuilderDeployRouteImport } from './routes/_authenticated/builder.deploy'
 import { Route as AuthenticatedBuilderDatabaseRouteImport } from './routes/_authenticated/builder.database'
@@ -989,6 +990,12 @@ const AuthenticatedBuilderDocumentsRoute =
     path: '/documents',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderDigitalHumanExpandRoute =
+  AuthenticatedBuilderDigitalHumanExpandRouteImport.update({
+    id: '/digital-human-expand',
+    path: '/digital-human-expand',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderDigitalHumanRoute =
   AuthenticatedBuilderDigitalHumanRouteImport.update({
     id: '/digital-human',
@@ -1114,6 +1121,7 @@ export interface FileRoutesByFullPath {
   '/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
+  '/builder/digital-human-expand': typeof AuthenticatedBuilderDigitalHumanExpandRoute
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/builder/events': typeof AuthenticatedBuilderEventsRoute
@@ -1262,6 +1270,7 @@ export interface FileRoutesByTo {
   '/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
+  '/builder/digital-human-expand': typeof AuthenticatedBuilderDigitalHumanExpandRoute
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/builder/events': typeof AuthenticatedBuilderEventsRoute
@@ -1422,6 +1431,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/_authenticated/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/_authenticated/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
+  '/_authenticated/builder/digital-human-expand': typeof AuthenticatedBuilderDigitalHumanExpandRoute
   '/_authenticated/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/_authenticated/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/_authenticated/builder/events': typeof AuthenticatedBuilderEventsRoute
@@ -1582,6 +1592,7 @@ export interface FileRouteTypes {
     | '/builder/database'
     | '/builder/deploy'
     | '/builder/digital-human'
+    | '/builder/digital-human-expand'
     | '/builder/documents'
     | '/builder/ecommerce'
     | '/builder/events'
@@ -1730,6 +1741,7 @@ export interface FileRouteTypes {
     | '/builder/database'
     | '/builder/deploy'
     | '/builder/digital-human'
+    | '/builder/digital-human-expand'
     | '/builder/documents'
     | '/builder/ecommerce'
     | '/builder/events'
@@ -1889,6 +1901,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/database'
     | '/_authenticated/builder/deploy'
     | '/_authenticated/builder/digital-human'
+    | '/_authenticated/builder/digital-human-expand'
     | '/_authenticated/builder/documents'
     | '/_authenticated/builder/ecommerce'
     | '/_authenticated/builder/events'
@@ -3018,6 +3031,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderDocumentsRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/digital-human-expand': {
+      id: '/_authenticated/builder/digital-human-expand'
+      path: '/digital-human-expand'
+      fullPath: '/builder/digital-human-expand'
+      preLoaderRoute: typeof AuthenticatedBuilderDigitalHumanExpandRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/digital-human': {
       id: '/_authenticated/builder/digital-human'
       path: '/digital-human'
@@ -3132,6 +3152,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderDatabaseRoute: typeof AuthenticatedBuilderDatabaseRoute
   AuthenticatedBuilderDeployRoute: typeof AuthenticatedBuilderDeployRoute
   AuthenticatedBuilderDigitalHumanRoute: typeof AuthenticatedBuilderDigitalHumanRoute
+  AuthenticatedBuilderDigitalHumanExpandRoute: typeof AuthenticatedBuilderDigitalHumanExpandRoute
   AuthenticatedBuilderDocumentsRoute: typeof AuthenticatedBuilderDocumentsRoute
   AuthenticatedBuilderEcommerceRoute: typeof AuthenticatedBuilderEcommerceRoute
   AuthenticatedBuilderEventsRoute: typeof AuthenticatedBuilderEventsRoute
@@ -3176,6 +3197,8 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderDatabaseRoute: AuthenticatedBuilderDatabaseRoute,
   AuthenticatedBuilderDeployRoute: AuthenticatedBuilderDeployRoute,
   AuthenticatedBuilderDigitalHumanRoute: AuthenticatedBuilderDigitalHumanRoute,
+  AuthenticatedBuilderDigitalHumanExpandRoute:
+    AuthenticatedBuilderDigitalHumanExpandRoute,
   AuthenticatedBuilderDocumentsRoute: AuthenticatedBuilderDocumentsRoute,
   AuthenticatedBuilderEcommerceRoute: AuthenticatedBuilderEcommerceRoute,
   AuthenticatedBuilderEventsRoute: AuthenticatedBuilderEventsRoute,
