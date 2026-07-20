@@ -129,22 +129,19 @@ function WebsiteBuilderRoute() {
   }, []);
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
-    pushEvent(`Generate · ${mode}`, p.text.slice(0, 160));
+    pushEvent(`Generate · ${mode}`, p.prompt.slice(0, 160));
     toast.success(`HAPPY drafting ${mode}…`);
   }, [mode, pushEvent]);
 
   const onAction = React.useCallback((intent: HuppActionIntent) => {
-    pushEvent(`Prompt action · ${intent.id}`, intent.label);
+    pushEvent(`Prompt action · ${intent}`);
   }, [pushEvent]);
 
-  const onBarAction = React.useCallback((e: HuabActionEvent) => {
-    pushEvent(`Bar action · ${e.id}`, e.payload ? JSON.stringify(e.payload).slice(0, 160) : undefined);
-    if (e.id === "export.zip")      toast.info("Preparing ZIP export via Publishing Runtime…");
-    if (e.id === "export.github")   toast.info("Publishing to GitHub via Publishing Runtime…");
-    if (e.id === "export.oneclick") toast.info("One-click publish via Publishing Runtime…");
-    if (e.id === "ai.edit")         toast.info("AI Edit forwarded to Creator Runtime.");
-    if (e.id === "ai.continue")     toast.info("AI Continue forwarded to Creator Runtime.");
-    if (e.id === "ai.regenerate")   toast.info("AI Regenerate forwarded to Creator Runtime.");
+  const onBarAction = React.useCallback((e: UabActionEvent) => {
+    pushEvent(`Bar action · ${e.id}`);
+    if (e.id.startsWith("export.")) toast.info("Export forwarded to Publishing Runtime…");
+    if (e.id.startsWith("edit."))   toast.info("AI edit forwarded to Creator Runtime.");
+    if (e.id.startsWith("build.") || e.id.startsWith("publish.")) toast.info("Forwarded to canonical runtime.");
   }, [pushEvent]);
 
   const insertPreset = (label: string) => {
