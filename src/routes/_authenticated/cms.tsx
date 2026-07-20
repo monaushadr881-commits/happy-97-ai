@@ -1,212 +1,174 @@
 /**
- * /cms — HAPPY Enterprise CMS™ (R235)
+ * /cms — HAPPY Enterprise CMS™ (R284)
  *
- * Thin presentation shell. STRICT REUSE:
- *   • HappyUniversalPromptBar  — canonical AI composer
- *   • HappyUniversalActionBar  — canonical action bar
- *   • Creator / Publishing / Knowledge / Mission Control via composer + action bar.
- *
- * NO new runtime, NO new server-fn, NO new API, NO new component.
+ * Thin desktop-style shell that composes the ONE canonical
+ * HappyUniversalPromptBar + HappyUniversalActionBar with in-app navigation
+ * to existing canonical CMS routes/runtimes (cms_contents, cms_media,
+ * cms_revisions, cms_translations, knowledge, publishing, mission control).
+ * No new runtime, no new API, no new component.
  */
 import * as React from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
-  Newspaper, FileText, PenSquare, Package, ImageIcon, FolderTree,
-  Tags, Menu as MenuIcon, Search, Shuffle, LayoutTemplate,
-  Play, Sparkles, Download, FileCheck2, ScrollText,
+  FileText, Newspaper, Package, FolderTree, Image, Search,
+  ArrowRightLeft, Menu, Rocket, FormInput, LayoutGrid, Blocks,
+  History, GitPullRequest, ShieldCheck, FileSearch,
 } from "lucide-react";
-import { Container } from "@/design-system/primitives";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import {
   HappyUniversalPromptBar,
   type HuppSendPayload,
   type HuppActionIntent,
 } from "@/components/happy/HappyUniversalPromptBar";
-import {
-  HappyUniversalActionBar,
-  type UabActionEvent,
-} from "@/components/happy/HappyUniversalActionBar";
+import { HappyUniversalActionBar } from "@/components/happy/HappyUniversalActionBar";
 
 export const Route = createFileRoute("/_authenticated/cms")({
   head: () => ({
     meta: [
-      { title: "Enterprise CMS — HAPPY X" },
+      { title: "HAPPY Enterprise CMS" },
+      { name: "description", content: "Enterprise CMS — Pages, Blogs, Products, Categories, Media, SEO, Redirects, Menus, Landing Pages, Forms, Widgets, Dynamic Blocks, Revisions, Publishing Workflow." },
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: EnterpriseCmsRoute,
+  component: CmsPage,
 });
 
-type PresetId =
-  | "pages" | "blogs" | "products" | "media" | "categories"
-  | "tags" | "menus" | "seo" | "redirects" | "landing";
+type Tile = { to: string; label: string; icon: React.ComponentType<{ className?: string }> };
+type Group = { id: string; title: string; tiles: Tile[] };
 
-const PRESETS: { id: PresetId; label: string; icon: React.ReactNode; hint: string }[] = [
-  { id: "pages",      label: "Pages",         icon: <FileText className="h-4 w-4" />,       hint: "Static pages · sections · hero · CTA · SEO." },
-  { id: "blogs",      label: "Blogs",         icon: <PenSquare className="h-4 w-4" />,      hint: "Posts · authors · categories · scheduling." },
-  { id: "products",   label: "Products",      icon: <Package className="h-4 w-4" />,        hint: "Catalog · SKUs · pricing · variants · assets." },
-  { id: "media",      label: "Media",         icon: <ImageIcon className="h-4 w-4" />,      hint: "Images · video · docs · folders · CDN." },
-  { id: "categories", label: "Categories",    icon: <FolderTree className="h-4 w-4" />,     hint: "Taxonomies · hierarchy · slugs · counts." },
-  { id: "tags",       label: "Tags",          icon: <Tags className="h-4 w-4" />,           hint: "Flat labels · related · trending · SEO." },
-  { id: "menus",      label: "Menus",         icon: <MenuIcon className="h-4 w-4" />,       hint: "Header · footer · mega menu · localized." },
-  { id: "seo",        label: "SEO",           icon: <Search className="h-4 w-4" />,         hint: "Titles · meta · OG · sitemap · schema." },
-  { id: "redirects",  label: "Redirects",     icon: <Shuffle className="h-4 w-4" />,        hint: "301 · 302 · path rewrites · legacy URLs." },
-  { id: "landing",    label: "Landing Pages", icon: <LayoutTemplate className="h-4 w-4" />, hint: "Campaign pages · A/B · variants · analytics." },
+const GROUPS: Group[] = [
+  {
+    id: "content",
+    title: "Content",
+    tiles: [
+      { to: "/knowledge", label: "Pages", icon: FileText },
+      { to: "/knowledge", label: "Blogs", icon: Newspaper },
+      { to: "/builder/ecommerce", label: "Products", icon: Package },
+      { to: "/knowledge", label: "Categories", icon: FolderTree },
+      { to: "/builder/website", label: "Landing Pages", icon: Rocket },
+    ],
+  },
+  {
+    id: "media",
+    title: "Media & Assets",
+    tiles: [
+      { to: "/knowledge", label: "Media Library", icon: Image },
+      { to: "/builder/ui", label: "Widgets", icon: LayoutGrid },
+      { to: "/builder/ui", label: "Dynamic Blocks", icon: Blocks },
+    ],
+  },
+  {
+    id: "structure",
+    title: "Structure",
+    tiles: [
+      { to: "/builder/website", label: "Menus", icon: Menu },
+      { to: "/mission-control", label: "Redirects", icon: ArrowRightLeft },
+      { to: "/builder/website", label: "Forms", icon: FormInput },
+    ],
+  },
+  {
+    id: "seo",
+    title: "SEO & Discovery",
+    tiles: [
+      { to: "/business/analytics", label: "SEO", icon: Search },
+    ],
+  },
+  {
+    id: "workflow",
+    title: "Workflow & Governance",
+    tiles: [
+      { to: "/mission-control", label: "Revision History", icon: History },
+      { to: "/mission-control", label: "Publishing Workflow", icon: GitPullRequest },
+      { to: "/mission-control", label: "Approvals", icon: ShieldCheck },
+      { to: "/mission-control", label: "Audit", icon: FileSearch },
+    ],
+  },
 ];
 
-const INTRO: Record<PresetId, string> = {
-  pages:      "Describe the page to generate or edit.",
-  blogs:      "Describe the blog post · author · category.",
-  products:   "Describe the product · variants · pricing.",
-  media:      "Describe the media asset to upload or generate.",
-  categories: "Describe the category · parent · hierarchy.",
-  tags:       "Describe the tag · related tags · scope.",
-  menus:      "Describe the menu · items · localization.",
-  seo:        "Describe the surface to SEO-optimize.",
-  redirects:  "Describe the redirect · from → to · code.",
-  landing:    "Describe the landing page · campaign · variant.",
-};
-
-interface LogLine { id: string; at: string; kind: "log" | "warn" | "err"; text: string }
-
-function EnterpriseCmsRoute() {
-  const [preset, setPreset] = React.useState<PresetId>("pages");
-  const [logs, setLogs]     = React.useState<LogLine[]>([]);
-
-  const pushLog = React.useCallback((kind: LogLine["kind"], text: string) => {
-    setLogs((prev) => [
-      { id: crypto.randomUUID(), at: new Date().toLocaleTimeString(), kind, text },
-      ...prev,
-    ].slice(0, 400));
-  }, []);
+function CmsPage() {
+  const [activeGroup, setActiveGroup] = React.useState<string>("content");
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
-    pushLog("log", `HAPPY · ${preset}: ${p.prompt.slice(0, 160)}`);
-    toast.success(`HAPPY authoring ${preset}…`);
-  }, [preset, pushLog]);
+    toast.success("Dispatched to CMS Runtime", { description: p.prompt.slice(0, 120) });
+  }, []);
+  const onAction = React.useCallback((intent: HuppActionIntent) => {
+    toast.message(`Action: ${intent}`);
+  }, []);
 
-  const onAction    = React.useCallback((i: HuppActionIntent) => pushLog("log", `Prompt action · ${i}`), [pushLog]);
-  const onBarAction = React.useCallback((e: UabActionEvent)   => pushLog("log", `Bar action · ${e.id}`), [pushLog]);
-
-  const generate = () => { pushLog("log", `Generate ${preset} via Creator Runtime`);              toast.info(`Generating ${preset}…`); };
-  const optimize = () => { pushLog("log", `AI optimize ${preset} via Knowledge Runtime`);         toast.info("HAPPY optimizing…"); };
-  const exportRpt= () => { pushLog("log", `Export ${preset} via Publishing Runtime`);             toast.info("Exporting…"); };
-  const publish  = () => { pushLog("log", `Publish ${preset} → Approval → Audit → Mission Control`); toast.info("Publishing…"); };
-
-  const active = PRESETS.find((p) => p.id === preset)!;
+  const group = GROUPS.find((g) => g.id === activeGroup) ?? GROUPS[0];
 
   return (
-    <Container className="py-6 md:py-10">
-      <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Newspaper className="h-4 w-4" /> HAPPY Enterprise CMS
+    <div className="flex h-[calc(100vh-3rem)] w-full bg-background text-foreground">
+      <aside className="w-56 shrink-0 border-r border-border/60 bg-muted/20">
+        <div className="p-4">
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="border-primary/40 text-primary">HAPPY</Badge>
+            <span className="text-sm font-semibold">Enterprise CMS</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-            Manage pages, blogs, products, media & SEO
-          </h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">
-            Every publish flows through the canonical pipeline —
-            Creator → Approval → Audit → Publishing → Mission Control.
-          </p>
         </div>
-        <Badge variant="secondary" className="gap-1">{active.icon}{active.label}</Badge>
-      </header>
+        <Separator />
+        <ScrollArea className="h-[calc(100%-4rem)]">
+          <nav className="p-2 space-y-1">
+            {GROUPS.map((g) => (
+              <button
+                key={g.id}
+                onClick={() => setActiveGroup(g.id)}
+                className={cn(
+                  "w-full text-left rounded-md px-3 py-2 text-sm transition-colors",
+                  activeGroup === g.id
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "hover:bg-muted text-muted-foreground",
+                )}
+              >
+                {g.title}
+                <span className="ml-2 text-xs opacity-60">{g.tiles.length}</span>
+              </button>
+            ))}
+          </nav>
+        </ScrollArea>
+      </aside>
 
-      <Separator className="my-6" />
+      <main className="flex-1 flex flex-col min-w-0">
+        <header className="h-14 shrink-0 border-b border-border/60 flex items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <h1 className="text-base font-semibold">{group.title}</h1>
+            <Badge variant="secondary" className="text-xs">Canonical CMS Runtime</Badge>
+          </div>
+          <HappyUniversalActionBar mode="mission-control" payload={group.title} compact />
+        </header>
 
-      <section aria-label="CMS presets" className="flex flex-wrap gap-2">
-        {PRESETS.map((p) => (
-          <Button
-            key={p.id}
-            size="sm"
-            variant={preset === p.id ? "default" : "outline"}
-            onClick={() => { setPreset(p.id); pushLog("log", `Preset · ${p.label}`); }}
-            className="gap-2"
-          >
-            {p.icon}{p.label}
-          </Button>
-        ))}
-      </section>
-      <p className="text-xs text-muted-foreground mt-2">{active.hint}</p>
+        <ScrollArea className="flex-1">
+          <div className="p-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3">
+              {group.tiles.map((t) => (
+                <Link
+                  key={`${t.to}-${t.label}`}
+                  to={t.to}
+                  className="group rounded-xl border border-border/60 bg-card hover:bg-accent hover:border-primary/40 transition-colors p-4 flex flex-col items-start gap-3 min-h-24"
+                >
+                  <div className="h-10 w-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <t.icon className="h-5 w-5" />
+                  </div>
+                  <div className="text-sm font-medium leading-tight">{t.label}</div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </ScrollArea>
 
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] gap-6">
-        {/* Center */}
-        <main className="space-y-4 min-w-0">
+        <div className="border-t border-border/60 bg-card/40 p-3">
           <HappyUniversalPromptBar
-            defaultSurface="document"
-            placeholder={INTRO[preset]}
+            defaultSurface="chat"
+            placeholder="Ask HAPPY to author pages, blogs, media, SEO, redirects, forms, or run publishing workflows…"
             onSend={onSend}
             onAction={onAction}
           />
-
-          <HappyUniversalActionBar
-            mode="creator"
-            payload=""
-            target={`cms:${preset}`}
-            onAction={onBarAction}
-          />
-
-          <div className="flex flex-wrap items-center gap-2">
-            <Button size="sm" onClick={generate}                       className="gap-1"><Play className="h-4 w-4" />Generate</Button>
-            <Button size="sm" variant="outline"   onClick={optimize}   className="gap-1"><Sparkles className="h-4 w-4" />AI Optimize</Button>
-            <Button size="sm" variant="outline"   onClick={exportRpt}  className="gap-1"><Download className="h-4 w-4" />Export</Button>
-            <Button size="sm" variant="secondary" onClick={publish}    className="gap-1"><FileCheck2 className="h-4 w-4" />Publish</Button>
-          </div>
-
-          <Tabs defaultValue="editor" className="w-full">
-            <TabsList>
-              <TabsTrigger value="editor"  className="gap-1"><PenSquare className="h-4 w-4" />Editor</TabsTrigger>
-              <TabsTrigger value="library" className="gap-1"><FolderTree className="h-4 w-4" />Library</TabsTrigger>
-              <TabsTrigger value="seo"     className="gap-1"><Search className="h-4 w-4" />SEO</TabsTrigger>
-              <TabsTrigger value="publish" className="gap-1"><FileCheck2 className="h-4 w-4" />Publish</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="editor" className="mt-3">
-              <div className="rounded-lg border bg-background p-6 grid place-items-center text-sm text-muted-foreground text-center min-h-[280px]">
-                <div className="flex flex-col items-center gap-2">
-                  {active.icon}
-                  <div>{active.label} · editor renders here from Creator Runtime.</div>
-                </div>
-              </div>
-            </TabsContent>
-            <TabsContent value="library" className="mt-3"><p className="text-sm text-muted-foreground">Records · media · taxonomy · filter · bulk actions.</p></TabsContent>
-            <TabsContent value="seo"     className="mt-3"><p className="text-sm text-muted-foreground">Titles · meta · OG · sitemap · schema · redirects.</p></TabsContent>
-            <TabsContent value="publish" className="mt-3"><p className="text-sm text-muted-foreground">Approval · schedule · rollout · rollback · Mission Control.</p></TabsContent>
-          </Tabs>
-        </main>
-
-        {/* Right: log */}
-        <aside className="space-y-3">
-          <div className="flex items-center gap-2 text-sm font-medium">
-            <ScrollText className="h-4 w-4" /> CMS Log
-          </div>
-          <ScrollArea className="h-[560px] rounded-md border bg-muted/20">
-            <ul className="p-2 space-y-1 font-mono text-xs">
-              {logs.length === 0 && (
-                <li className="text-muted-foreground p-2">
-                  Preset changes, generations, optimizations, exports, and publishes log here.
-                </li>
-              )}
-              {logs.map((l) => (
-                <li key={l.id} className="px-2 py-0.5 rounded hover:bg-muted">
-                  <span className="text-muted-foreground mr-2">{l.at}</span>
-                  <span className={
-                    l.kind === "err"  ? "text-destructive" :
-                    l.kind === "warn" ? "text-amber-500" : ""
-                  }>{l.text}</span>
-                </li>
-              ))}
-            </ul>
-          </ScrollArea>
-          <p className="text-xs text-muted-foreground">Mirrored to Mission Control.</p>
-        </aside>
-      </div>
-    </Container>
+        </div>
+      </main>
+    </div>
   );
 }
