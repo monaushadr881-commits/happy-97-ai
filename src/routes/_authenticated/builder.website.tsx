@@ -237,24 +237,19 @@ function WebsiteBuilderRoute() {
         {/* Center: composer + preview */}
         <main className="space-y-4 min-w-0">
           <HappyUniversalPromptBar
-            surface="creator"
+            defaultSurface="creator"
             placeholder={GENERATOR_INTRO[mode]}
             onSend={onSend}
             onAction={onAction}
           />
 
           <HappyUniversalActionBar
-            context="creator"
+            mode="creator"
+            payload=""
+            target={`website:${mode}`}
             onAction={onBarAction}
-            extraActions={[
-              { id: "ai.edit",         label: "AI Edit",       icon: <Wand2 className="h-4 w-4" /> },
-              { id: "ai.continue",     label: "AI Continue",   icon: <PlayCircle className="h-4 w-4" /> },
-              { id: "ai.regenerate",   label: "AI Regenerate", icon: <RefreshCw className="h-4 w-4" /> },
-              { id: "export.oneclick", label: "One-Click",     icon: <Rocket className="h-4 w-4" /> },
-              { id: "export.github",   label: "GitHub",        icon: <Github className="h-4 w-4" /> },
-              { id: "export.zip",      label: "ZIP",           icon: <Download className="h-4 w-4" /> },
-            ]}
           />
+
 
           <Tabs defaultValue="preview" className="w-full">
             <TabsList>
