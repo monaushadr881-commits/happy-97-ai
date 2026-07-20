@@ -119,6 +119,7 @@ import { Route as AuthenticatedBuilderMobileRouteImport } from './routes/_authen
 import { Route as AuthenticatedBuilderImageRouteImport } from './routes/_authenticated/builder.image'
 import { Route as AuthenticatedBuilderFullstackRouteImport } from './routes/_authenticated/builder.fullstack'
 import { Route as AuthenticatedBuilderDocumentsRouteImport } from './routes/_authenticated/builder.documents'
+import { Route as AuthenticatedBuilderDigitalHumanRouteImport } from './routes/_authenticated/builder.digital-human'
 import { Route as AuthenticatedBuilderDeployRouteImport } from './routes/_authenticated/builder.deploy'
 import { Route as AuthenticatedBuilderDatabaseRouteImport } from './routes/_authenticated/builder.database'
 import { Route as AuthenticatedBuilderCodeRouteImport } from './routes/_authenticated/builder.code'
@@ -762,6 +763,12 @@ const AuthenticatedBuilderDocumentsRoute =
     path: '/documents',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderDigitalHumanRoute =
+  AuthenticatedBuilderDigitalHumanRouteImport.update({
+    id: '/digital-human',
+    path: '/digital-human',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderDeployRoute =
   AuthenticatedBuilderDeployRouteImport.update({
     id: '/deploy',
@@ -826,6 +833,7 @@ export interface FileRoutesByFullPath {
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
   '/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
+  '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
@@ -934,6 +942,7 @@ export interface FileRoutesByTo {
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
   '/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
+  '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
@@ -1054,6 +1063,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/code': typeof AuthenticatedBuilderCodeRoute
   '/_authenticated/builder/database': typeof AuthenticatedBuilderDatabaseRoute
   '/_authenticated/builder/deploy': typeof AuthenticatedBuilderDeployRoute
+  '/_authenticated/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
   '/_authenticated/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/_authenticated/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/_authenticated/builder/image': typeof AuthenticatedBuilderImageRoute
@@ -1174,6 +1184,7 @@ export interface FileRouteTypes {
     | '/builder/code'
     | '/builder/database'
     | '/builder/deploy'
+    | '/builder/digital-human'
     | '/builder/documents'
     | '/builder/fullstack'
     | '/builder/image'
@@ -1282,6 +1293,7 @@ export interface FileRouteTypes {
     | '/builder/code'
     | '/builder/database'
     | '/builder/deploy'
+    | '/builder/digital-human'
     | '/builder/documents'
     | '/builder/fullstack'
     | '/builder/image'
@@ -1401,6 +1413,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/code'
     | '/_authenticated/builder/database'
     | '/_authenticated/builder/deploy'
+    | '/_authenticated/builder/digital-human'
     | '/_authenticated/builder/documents'
     | '/_authenticated/builder/fullstack'
     | '/_authenticated/builder/image'
@@ -2278,6 +2291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderDocumentsRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/digital-human': {
+      id: '/_authenticated/builder/digital-human'
+      path: '/digital-human'
+      fullPath: '/builder/digital-human'
+      preLoaderRoute: typeof AuthenticatedBuilderDigitalHumanRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/deploy': {
       id: '/_authenticated/builder/deploy'
       path: '/deploy'
@@ -2336,6 +2356,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderCodeRoute: typeof AuthenticatedBuilderCodeRoute
   AuthenticatedBuilderDatabaseRoute: typeof AuthenticatedBuilderDatabaseRoute
   AuthenticatedBuilderDeployRoute: typeof AuthenticatedBuilderDeployRoute
+  AuthenticatedBuilderDigitalHumanRoute: typeof AuthenticatedBuilderDigitalHumanRoute
   AuthenticatedBuilderDocumentsRoute: typeof AuthenticatedBuilderDocumentsRoute
   AuthenticatedBuilderFullstackRoute: typeof AuthenticatedBuilderFullstackRoute
   AuthenticatedBuilderImageRoute: typeof AuthenticatedBuilderImageRoute
@@ -2353,6 +2374,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderCodeRoute: AuthenticatedBuilderCodeRoute,
   AuthenticatedBuilderDatabaseRoute: AuthenticatedBuilderDatabaseRoute,
   AuthenticatedBuilderDeployRoute: AuthenticatedBuilderDeployRoute,
+  AuthenticatedBuilderDigitalHumanRoute: AuthenticatedBuilderDigitalHumanRoute,
   AuthenticatedBuilderDocumentsRoute: AuthenticatedBuilderDocumentsRoute,
   AuthenticatedBuilderFullstackRoute: AuthenticatedBuilderFullstackRoute,
   AuthenticatedBuilderImageRoute: AuthenticatedBuilderImageRoute,
