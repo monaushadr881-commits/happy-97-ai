@@ -25,6 +25,7 @@ import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authent
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
+import { Route as AuthenticatedBuilderRouteImport } from './routes/_authenticated/builder'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
@@ -190,6 +191,11 @@ const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
 const AuthenticatedBusinessRoute = AuthenticatedBusinessRouteImport.update({
   id: '/business',
   path: '/business',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBuilderRoute = AuthenticatedBuilderRouteImport.update({
+  id: '/builder',
+  path: '/builder',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
@@ -699,6 +705,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
+  '/builder': typeof AuthenticatedBuilderRoute
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -801,6 +808,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
+  '/builder': typeof AuthenticatedBuilderRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -895,6 +903,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
+  '/_authenticated/builder': typeof AuthenticatedBuilderRoute
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -999,6 +1008,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/assistant'
+    | '/builder'
     | '/business'
     | '/community'
     | '/dashboard'
@@ -1101,6 +1111,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/assistant'
+    | '/builder'
     | '/dashboard'
     | '/settings'
     | '/business/ai'
@@ -1194,6 +1205,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/_authenticated/assistant'
+    | '/_authenticated/builder'
     | '/_authenticated/business'
     | '/_authenticated/community'
     | '/_authenticated/dashboard'
@@ -1414,6 +1426,13 @@ declare module '@tanstack/react-router' {
       path: '/business'
       fullPath: '/business'
       preLoaderRoute: typeof AuthenticatedBusinessRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/builder': {
+      id: '/_authenticated/builder'
+      path: '/builder'
+      fullPath: '/builder'
+      preLoaderRoute: typeof AuthenticatedBuilderRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/assistant': {
@@ -2300,6 +2319,7 @@ const AuthenticatedStudioRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
+  AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRoute
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -2318,6 +2338,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
+  AuthenticatedBuilderRoute: AuthenticatedBuilderRoute,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
