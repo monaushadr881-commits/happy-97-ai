@@ -60,7 +60,7 @@ async function readAssets(
     .select("id,name,kind,tags,metadata,created_at")
     .eq("user_id", userId)
     .like("kind", kindLike)
-    .order("created_at", { ascending: false })
+    .order("occurred_at", { ascending: false })
     .limit(limit);
   if (error) throw new Error(`readiness_read_failed: ${error.message}`);
   return (data ?? []) as AssetRow[];
@@ -263,9 +263,9 @@ export const deploymentAnalytics = createServerFn({ method: "GET" })
     await adopt(context.supabase, context.userId, "analytics", "deployment");
     const { data: logs } = await context.supabase
       .from("audit_logs")
-      .select("action,severity,created_at")
+      .select("action,severity,occurred_at")
       .eq("category", "deployment")
-      .order("created_at", { ascending: false })
+      .order("occurred_at", { ascending: false })
       .limit(200);
     const by_action: Record<string, number> = {};
     const by_severity: Record<string, number> = {};
@@ -283,9 +283,9 @@ export const healthAnalytics = createServerFn({ method: "GET" })
     await adopt(context.supabase, context.userId, "analytics", "health");
     const { data: logs } = await context.supabase
       .from("audit_logs")
-      .select("action,severity,created_at")
+      .select("action,severity,occurred_at")
       .eq("category", "mission_control")
-      .order("created_at", { ascending: false })
+      .order("occurred_at", { ascending: false })
       .limit(200);
     const by_severity: Record<string, number> = {};
     for (const r of (logs ?? []) as { severity: string }[]) {
