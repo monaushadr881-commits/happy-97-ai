@@ -410,7 +410,7 @@ export const biAiExecutiveSummary = createServerFn({ method: "POST" })
     }
     await writeCanonicalAudit(supabase, {
       category: "bi.summary", action: data.focus,
-      entity_type: "bi_summary", entity_id: null, company_id: data.company_id,
+      entity_type: "bi_summary", company_id: data.company_id,
       after: { kpis } as never, severity: "notice",
     });
     return { status: "ok", data: { focus: data.focus, kpis, narrative } };
