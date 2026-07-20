@@ -78,10 +78,11 @@ function CodeWorkspaceRoute() {
     ].slice(0, 400));
   }, []);
 
+  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "code", onLog: pushLog });
   const onSend = React.useCallback((p: HuppSendPayload) => {
     pushLog("log", `HAPPY: ${p.prompt.slice(0, 160)}`);
-    toast.success("HAPPY drafting change…");
-  }, [pushLog]);
+    void __submitPrompt("code", p.prompt, p.attachments?.length ?? 0);
+  }, [pushLog, __submitPrompt]);
 
   const onAction = React.useCallback((intent: HuppActionIntent) => {
     pushLog("log", `Prompt action · ${intent}`);
