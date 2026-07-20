@@ -158,7 +158,7 @@ export const apiSearchKnowledge = createServerFn({ method: "POST" })
 // ------------------------- Analytics -------------------------
 export const apiPlatformOverview = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => analyticsService.platformOverview(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`api:platform:overview:${context.userId}`, 60_000, () => guard(() => analyticsService.platformOverview(svc(context)))));
 
 // ------------------------- Feature Flags / L10N --------------
 export const apiFeatureFlags = createServerFn({ method: "GET" })
