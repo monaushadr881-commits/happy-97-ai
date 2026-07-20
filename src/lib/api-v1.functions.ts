@@ -14,6 +14,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
 import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
+import { memoryCache } from "@/lib/founder/read-cache";
 import {
   platformService, authzService, companyService, brandService,
   workspaceService, userService, settingsService, notificationService,
