@@ -113,7 +113,7 @@ export const opsFinishDeployment = createServerFn({ method: "POST" })
 
 export const opsDeploymentAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => deploymentService.analytics(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`ops:deploy:analytics:${context.userId}`, 60_000, () => guard(() => deploymentService.analytics(svc(context)))));
 
 // ---- Queue ----
 export const opsQueueStats = createServerFn({ method: "GET" })
