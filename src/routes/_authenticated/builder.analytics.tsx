@@ -146,7 +146,7 @@ function AnalyticsCenterRoute() {
         {/* Center */}
         <main className="space-y-4 min-w-0">
           <HappyUniversalPromptBar
-            defaultSurface="analytics"
+            defaultSurface="research"
             placeholder={PRESET_INTRO[preset]}
             onSend={onSend}
             onAction={onAction}
