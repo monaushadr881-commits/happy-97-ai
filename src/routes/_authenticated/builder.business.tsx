@@ -13,8 +13,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
   Briefcase, Users, Building2, UserCog, ShoppingCart, Boxes,
-  Warehouse, Factory, Hospital, GraduationCap, BedDouble, UtensilsCrossed,
-  Scissors, Dumbbell, Store, Sparkles, Rocket, FileCheck2, Download,
+  Warehouse, Factory, BookOpen, Wallet, Banknote, Megaphone,
+  Headphones, FolderKanban, HardHat, Scale, ShieldCheck as ComplianceIcon,
+  FileSearch, BarChart3, Brain, Sparkles, Rocket, Download,
   LayoutDashboard, Database, ShieldCheck,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
