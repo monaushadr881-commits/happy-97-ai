@@ -131,6 +131,7 @@ import { Route as AuthenticatedBuilderUiRouteImport } from './routes/_authentica
 import { Route as AuthenticatedBuilderTestingRouteImport } from './routes/_authenticated/builder.testing'
 import { Route as AuthenticatedBuilderSecurityRouteImport } from './routes/_authenticated/builder.security'
 import { Route as AuthenticatedBuilderSchoolRouteImport } from './routes/_authenticated/builder.school'
+import { Route as AuthenticatedBuilderSalonRouteImport } from './routes/_authenticated/builder.salon'
 import { Route as AuthenticatedBuilderRestaurantRouteImport } from './routes/_authenticated/builder.restaurant'
 import { Route as AuthenticatedBuilderResearchRouteImport } from './routes/_authenticated/builder.research'
 import { Route as AuthenticatedBuilderPresentationRouteImport } from './routes/_authenticated/builder.presentation'
@@ -855,6 +856,12 @@ const AuthenticatedBuilderSchoolRoute =
     path: '/school',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderSalonRoute =
+  AuthenticatedBuilderSalonRouteImport.update({
+    id: '/salon',
+    path: '/salon',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderRestaurantRoute =
   AuthenticatedBuilderRestaurantRouteImport.update({
     id: '/restaurant',
@@ -1056,6 +1063,7 @@ export interface FileRoutesByFullPath {
   '/builder/presentation': typeof AuthenticatedBuilderPresentationRoute
   '/builder/research': typeof AuthenticatedBuilderResearchRoute
   '/builder/restaurant': typeof AuthenticatedBuilderRestaurantRoute
+  '/builder/salon': typeof AuthenticatedBuilderSalonRoute
   '/builder/school': typeof AuthenticatedBuilderSchoolRoute
   '/builder/security': typeof AuthenticatedBuilderSecurityRoute
   '/builder/testing': typeof AuthenticatedBuilderTestingRoute
@@ -1194,6 +1202,7 @@ export interface FileRoutesByTo {
   '/builder/presentation': typeof AuthenticatedBuilderPresentationRoute
   '/builder/research': typeof AuthenticatedBuilderResearchRoute
   '/builder/restaurant': typeof AuthenticatedBuilderRestaurantRoute
+  '/builder/salon': typeof AuthenticatedBuilderSalonRoute
   '/builder/school': typeof AuthenticatedBuilderSchoolRoute
   '/builder/security': typeof AuthenticatedBuilderSecurityRoute
   '/builder/testing': typeof AuthenticatedBuilderTestingRoute
@@ -1344,6 +1353,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/presentation': typeof AuthenticatedBuilderPresentationRoute
   '/_authenticated/builder/research': typeof AuthenticatedBuilderResearchRoute
   '/_authenticated/builder/restaurant': typeof AuthenticatedBuilderRestaurantRoute
+  '/_authenticated/builder/salon': typeof AuthenticatedBuilderSalonRoute
   '/_authenticated/builder/school': typeof AuthenticatedBuilderSchoolRoute
   '/_authenticated/builder/security': typeof AuthenticatedBuilderSecurityRoute
   '/_authenticated/builder/testing': typeof AuthenticatedBuilderTestingRoute
@@ -1494,6 +1504,7 @@ export interface FileRouteTypes {
     | '/builder/presentation'
     | '/builder/research'
     | '/builder/restaurant'
+    | '/builder/salon'
     | '/builder/school'
     | '/builder/security'
     | '/builder/testing'
@@ -1632,6 +1643,7 @@ export interface FileRouteTypes {
     | '/builder/presentation'
     | '/builder/research'
     | '/builder/restaurant'
+    | '/builder/salon'
     | '/builder/school'
     | '/builder/security'
     | '/builder/testing'
@@ -1781,6 +1793,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/presentation'
     | '/_authenticated/builder/research'
     | '/_authenticated/builder/restaurant'
+    | '/_authenticated/builder/salon'
     | '/_authenticated/builder/school'
     | '/_authenticated/builder/security'
     | '/_authenticated/builder/testing'
@@ -2742,6 +2755,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderSchoolRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/salon': {
+      id: '/_authenticated/builder/salon'
+      path: '/salon'
+      fullPath: '/builder/salon'
+      preLoaderRoute: typeof AuthenticatedBuilderSalonRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/restaurant': {
       id: '/_authenticated/builder/restaurant'
       path: '/restaurant'
@@ -2944,6 +2964,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderPresentationRoute: typeof AuthenticatedBuilderPresentationRoute
   AuthenticatedBuilderResearchRoute: typeof AuthenticatedBuilderResearchRoute
   AuthenticatedBuilderRestaurantRoute: typeof AuthenticatedBuilderRestaurantRoute
+  AuthenticatedBuilderSalonRoute: typeof AuthenticatedBuilderSalonRoute
   AuthenticatedBuilderSchoolRoute: typeof AuthenticatedBuilderSchoolRoute
   AuthenticatedBuilderSecurityRoute: typeof AuthenticatedBuilderSecurityRoute
   AuthenticatedBuilderTestingRoute: typeof AuthenticatedBuilderTestingRoute
@@ -2978,6 +2999,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderPresentationRoute: AuthenticatedBuilderPresentationRoute,
   AuthenticatedBuilderResearchRoute: AuthenticatedBuilderResearchRoute,
   AuthenticatedBuilderRestaurantRoute: AuthenticatedBuilderRestaurantRoute,
+  AuthenticatedBuilderSalonRoute: AuthenticatedBuilderSalonRoute,
   AuthenticatedBuilderSchoolRoute: AuthenticatedBuilderSchoolRoute,
   AuthenticatedBuilderSecurityRoute: AuthenticatedBuilderSecurityRoute,
   AuthenticatedBuilderTestingRoute: AuthenticatedBuilderTestingRoute,
