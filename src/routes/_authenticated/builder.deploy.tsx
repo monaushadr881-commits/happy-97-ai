@@ -1,5 +1,5 @@
 /**
- * /builder/deploy — HAPPY Deployment Center™ (R212)
+ * /builder/deploy — HAPPY Deployment Pipeline™ (R212 → R229)
  *
  * Thin presentation shell. STRICT REUSE:
  *   • HappyUniversalPromptBar  — canonical AI composer
@@ -12,8 +12,8 @@ import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
-  Github, Cloud, Zap, Container as ContainerIcon, FileArchive,
-  Package, Rocket, Undo2, ScrollText, Sparkles, CheckCircle2, XCircle,
+  Github, Cloud, Zap, Container as ContainerIcon, FileArchive, Train, Server, Database,
+  Package, Rocket, Undo2, ScrollText, Sparkles, CheckCircle2, XCircle, HeartPulse,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
