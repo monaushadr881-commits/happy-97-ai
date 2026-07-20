@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useBuilderPrompt } from "@/hooks/use-builder-prompt";
 import {
   HappyUniversalPromptBar,
   type HuppSendPayload,
@@ -94,12 +95,13 @@ function ApiBuilderRoute() {
     });
     pushLog("log", `Feature · ${id}`);
   };
+  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "api", onLog: pushLog });
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
     const feats = Array.from(features).join(",") || "—";
     pushLog("log", `HAPPY · ${style} [${feats}]: ${p.prompt.slice(0, 160)}`);
-    toast.success(`HAPPY drafting ${style.toUpperCase()} API…`);
-  }, [style, features, pushLog]);
+    void __submitPrompt(String(style), p.prompt, p.attachments?.length ?? 0);
+  }, [style, features, pushLog, __submitPrompt]);
 
   const onAction = React.useCallback((intent: HuppActionIntent) => {
     pushLog("log", `Prompt action · ${intent}`);

@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useBuilderPrompt } from "@/hooks/use-builder-prompt";
 import {
   HappyUniversalPromptBar,
   type HuppSendPayload,
@@ -99,11 +100,12 @@ function AgentBuilderRoute() {
       ...prev,
     ].slice(0, 200));
   }, []);
+  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "agents", onLog: pushLog });
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
     pushEvent(`Design · ${agent}`, p.prompt.slice(0, 160));
-    toast.success(`HAPPY drafting ${agent} agent…`);
-  }, [agent, pushEvent]);
+    void __submitPrompt(String(agent), p.prompt, p.attachments?.length ?? 0);
+  }, [agent, pushEvent, __submitPrompt]);
 
   const onAction = React.useCallback((intent: HuppActionIntent) => {
     pushEvent(`Prompt action · ${intent}`);
