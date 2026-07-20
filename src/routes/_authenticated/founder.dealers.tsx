@@ -142,8 +142,8 @@ function FounderDealers() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const rows = ((list.data ?? []) as unknown as Row[]);
-  const h = health.data as
+  const rows = ((list ?? []) as unknown as Row[]);
+  const h = health as
     | { latest_activity_at: string | null; dealers: { total: number; orders: number; order_value_cents: number; pending_approval: number }; distributors: { total: number; orders: number; order_value_cents: number; pending_approval: number } }
     | undefined;
   const cur = tab === "dealer" ? h?.dealers : h?.distributors;
@@ -162,7 +162,7 @@ function FounderDealers() {
               className="rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs uppercase tracking-[0.15em] text-paper"
             >
               <option value="">Select company…</option>
-              {((companies.data ?? []) as unknown as Company[]).map((c) => (
+              {((companies ?? []) as unknown as Company[]).map((c) => (
                 <option key={c.id} value={c.id}>{c.display_name ?? c.legal_name ?? c.slug ?? c.id.slice(0, 8)}</option>
               ))}
             </select>
