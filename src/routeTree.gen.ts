@@ -112,6 +112,7 @@ import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authentic
 import { Route as AuthenticatedBuilderWebsiteRouteImport } from './routes/_authenticated/builder.website'
 import { Route as AuthenticatedBuilderMobileRouteImport } from './routes/_authenticated/builder.mobile'
 import { Route as AuthenticatedBuilderFullstackRouteImport } from './routes/_authenticated/builder.fullstack'
+import { Route as AuthenticatedBuilderDeployRouteImport } from './routes/_authenticated/builder.deploy'
 import { Route as AuthenticatedBuilderCodeRouteImport } from './routes/_authenticated/builder.code'
 import { Route as AuthenticatedBuilderAgentsRouteImport } from './routes/_authenticated/builder.agents'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
@@ -712,6 +713,12 @@ const AuthenticatedBuilderFullstackRoute =
     path: '/fullstack',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderDeployRoute =
+  AuthenticatedBuilderDeployRouteImport.update({
+    id: '/deploy',
+    path: '/deploy',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderCodeRoute =
   AuthenticatedBuilderCodeRouteImport.update({
     id: '/code',
@@ -755,6 +762,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof AuthenticatedStudioRouteWithChildren
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
+  '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
@@ -853,6 +861,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
+  '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
@@ -963,6 +972,7 @@ export interface FileRoutesById {
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
   '/_authenticated/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/_authenticated/builder/code': typeof AuthenticatedBuilderCodeRoute
+  '/_authenticated/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/_authenticated/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/_authenticated/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/_authenticated/builder/website': typeof AuthenticatedBuilderWebsiteRoute
@@ -1073,6 +1083,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/builder/agents'
     | '/builder/code'
+    | '/builder/deploy'
     | '/builder/fullstack'
     | '/builder/mobile'
     | '/builder/website'
@@ -1171,6 +1182,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/builder/agents'
     | '/builder/code'
+    | '/builder/deploy'
     | '/builder/fullstack'
     | '/builder/mobile'
     | '/builder/website'
@@ -1280,6 +1292,7 @@ export interface FileRouteTypes {
     | '/_authenticated/studio'
     | '/_authenticated/builder/agents'
     | '/_authenticated/builder/code'
+    | '/_authenticated/builder/deploy'
     | '/_authenticated/builder/fullstack'
     | '/_authenticated/builder/mobile'
     | '/_authenticated/builder/website'
@@ -2102,6 +2115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderFullstackRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/deploy': {
+      id: '/_authenticated/builder/deploy'
+      path: '/deploy'
+      fullPath: '/builder/deploy'
+      preLoaderRoute: typeof AuthenticatedBuilderDeployRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/code': {
       id: '/_authenticated/builder/code'
       path: '/code'
@@ -2136,6 +2156,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderAgentsRoute: typeof AuthenticatedBuilderAgentsRoute
   AuthenticatedBuilderCodeRoute: typeof AuthenticatedBuilderCodeRoute
+  AuthenticatedBuilderDeployRoute: typeof AuthenticatedBuilderDeployRoute
   AuthenticatedBuilderFullstackRoute: typeof AuthenticatedBuilderFullstackRoute
   AuthenticatedBuilderMobileRoute: typeof AuthenticatedBuilderMobileRoute
   AuthenticatedBuilderWebsiteRoute: typeof AuthenticatedBuilderWebsiteRoute
@@ -2144,6 +2165,7 @@ interface AuthenticatedBuilderRouteChildren {
 const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderAgentsRoute: AuthenticatedBuilderAgentsRoute,
   AuthenticatedBuilderCodeRoute: AuthenticatedBuilderCodeRoute,
+  AuthenticatedBuilderDeployRoute: AuthenticatedBuilderDeployRoute,
   AuthenticatedBuilderFullstackRoute: AuthenticatedBuilderFullstackRoute,
   AuthenticatedBuilderMobileRoute: AuthenticatedBuilderMobileRoute,
   AuthenticatedBuilderWebsiteRoute: AuthenticatedBuilderWebsiteRoute,
