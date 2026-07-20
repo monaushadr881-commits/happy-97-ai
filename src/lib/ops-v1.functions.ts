@@ -41,7 +41,7 @@ const adopt = (
 // ---- Health ----
 export const opsHealthAll = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => healthService.all(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`ops:health:all:${context.userId}`, 15_000, () => guard(() => healthService.all(svc(context)))));
 
 export const opsHealthRecord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
