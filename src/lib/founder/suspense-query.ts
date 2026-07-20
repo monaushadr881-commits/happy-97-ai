@@ -43,8 +43,6 @@ export function definedQuery<TData>(
 
 /**
  * Canonical loader helper. Use inside a route's `loader`.
- *
- *   loader: ({ context }) => ensureCanonical(context.queryClient, opts),
  */
 export function ensureCanonical<TData>(
   queryClient: QueryClient,
@@ -53,17 +51,25 @@ export function ensureCanonical<TData>(
   return queryClient.ensureQueryData(opts);
 }
 
+// Heterogeneous typed queries have invariant `TData`; accept as opaque here
+// and cast internally — call sites keep their strong types via `useSuspenseQuery`.
+type OpaqueQueryOptions = { queryKey: QueryKey };
+
 /**
  * Prime multiple queries in parallel from a loader without blocking on non-critical reads.
  * Awaits `critical`; fires `deferred` without awaiting.
  */
-export async function ensureCanonicalMany<T>(
+export async function ensureCanonicalMany(
   queryClient: QueryClient,
-  critical: ReadonlyArray<ReturnType<typeof definedQuery<unknown>>>,
-  deferred: ReadonlyArray<ReturnType<typeof definedQuery<unknown>>> = [],
-): Promise<T | void> {
-  for (const q of deferred) void queryClient.prefetchQuery(q);
-  await Promise.all(critical.map((q) => queryClient.ensureQueryData(q)));
+  critical: readonly OpaqueQueryOptions[],
+  deferred: readonly OpaqueQueryOptions[] = [],
+): Promise<void> {
+  for (const q of deferred) void queryClient.prefetchQuery(q as Parameters<QueryClient["prefetchQuery"]>[0]);
+  await Promise.all(
+    critical.map((q) =>
+      queryClient.ensureQueryData(q as Parameters<QueryClient["ensureQueryData"]>[0]),
+    ),
+  );
 }
 
 export { queryOptions };

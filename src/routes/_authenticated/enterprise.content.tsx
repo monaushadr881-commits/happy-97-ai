@@ -1,6 +1,6 @@
-/** /enterprise/content — Knowledge · Courses · Media · Announcements. */
+/** /enterprise/content — Knowledge · Courses · Media · Announcements. Suspense-adopted inner. */
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { PageHeader, Panel, Chip, Hairline } from "@/design-system/primitives";
 import { useEnterprise } from "@/components/enterprise/EnterpriseContext";
 import { NoCompanySelected } from "@/components/enterprise/NoCompanySelected";
@@ -8,6 +8,7 @@ import {
   entListKnowledge, entListCourses, entListMedia, entListAnnouncements,
 } from "@/lib/enterprise-v1.functions";
 import { BookOpen, GraduationCap, ImageIcon, Megaphone } from "lucide-react";
+import { definedQuery } from "@/lib/founder/suspense-query";
 
 export const Route = createFileRoute("/_authenticated/enterprise/content")({
   head: () => ({ meta: [{ title: "Content — Enterprise" }, { name: "robots", content: "noindex" }] }),
@@ -16,12 +17,20 @@ export const Route = createFileRoute("/_authenticated/enterprise/content")({
 
 function Content() {
   const { companyId, companies } = useEnterprise();
-  const knowledge = useQuery({ queryKey: ["ent", "kb", companyId], enabled: !!companyId, queryFn: () => entListKnowledge({ data: { company_id: companyId! } }) });
-  const courses = useQuery({ queryKey: ["ent", "courses", companyId], enabled: !!companyId, queryFn: () => entListCourses({ data: { company_id: companyId! } }) });
-  const media = useQuery({ queryKey: ["ent", "media", companyId], enabled: !!companyId, queryFn: () => entListMedia({ data: { company_id: companyId! } }) });
-  const ann = useQuery({ queryKey: ["ent", "ann", companyId], enabled: !!companyId, queryFn: () => entListAnnouncements({ data: { company_id: companyId! } }) });
-
   if (!companyId) return (<><PageHeader eyebrow="Content" title="Content" /><NoCompanySelected hasAny={companies.length > 0} /></>);
+  return <ContentInner companyId={companyId} />;
+}
+
+function ContentInner({ companyId }: { companyId: string }) {
+  const kbQ = definedQuery(["ent", "kb", companyId], () => entListKnowledge({ data: { company_id: companyId } }));
+  const courseQ = definedQuery(["ent", "courses", companyId], () => entListCourses({ data: { company_id: companyId } }));
+  const mediaQ = definedQuery(["ent", "media", companyId], () => entListMedia({ data: { company_id: companyId } }));
+  const annQ = definedQuery(["ent", "ann", companyId], () => entListAnnouncements({ data: { company_id: companyId } }));
+
+  const { data: knowledge } = useSuspenseQuery(kbQ);
+  const { data: courses } = useSuspenseQuery(courseQ);
+  const { data: media } = useSuspenseQuery(mediaQ);
+  const { data: ann } = useSuspenseQuery(annQ);
 
   return (
     <>
@@ -29,22 +38,22 @@ function Content() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Section icon={<BookOpen className="h-4 w-4 text-gold" />} title="Knowledge">
-          {(knowledge.data as Array<{ id: string; title: string; status?: string; updated_at?: string }>)?.map((k) => (
+          {(knowledge as Array<{ id: string; title: string; status?: string; updated_at?: string }>)?.map((k) => (
             <Row key={k.id} title={k.title} status={k.status} date={k.updated_at} />
           )) ?? null}
         </Section>
         <Section icon={<GraduationCap className="h-4 w-4 text-gold" />} title="Courses">
-          {(courses.data as Array<{ id: string; title: string; status?: string; level?: string; updated_at?: string }>)?.map((c) => (
+          {(courses as Array<{ id: string; title: string; status?: string; level?: string; updated_at?: string }>)?.map((c) => (
             <Row key={c.id} title={c.title} status={c.status} subtitle={c.level} date={c.updated_at} />
           )) ?? null}
         </Section>
         <Section icon={<ImageIcon className="h-4 w-4 text-gold" />} title="Media">
-          {(media.data as Array<{ id: string; file_name: string; mime_type?: string; size_bytes?: number; created_at?: string }>)?.map((m) => (
+          {(media as Array<{ id: string; file_name: string; mime_type?: string; size_bytes?: number; created_at?: string }>)?.map((m) => (
             <Row key={m.id} title={m.file_name} subtitle={`${m.mime_type ?? ""} · ${((m.size_bytes ?? 0) / 1024).toFixed(1)} KB`} date={m.created_at} />
           )) ?? null}
         </Section>
         <Section icon={<Megaphone className="h-4 w-4 text-gold" />} title="Announcements">
-          {(ann.data as Array<{ id: string; title: string; status?: string; published_at?: string }>)?.map((a) => (
+          {(ann as Array<{ id: string; title: string; status?: string; published_at?: string }>)?.map((a) => (
             <Row key={a.id} title={a.title} status={a.status} date={a.published_at} />
           )) ?? null}
         </Section>

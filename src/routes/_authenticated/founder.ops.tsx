@@ -1,9 +1,9 @@
 /**
  * /founder/ops — Operations Command Center.
- * Health · Incidents · Deployments · Queue. Everything consumed via ops-v1.
+ * Suspense/loader adopted via canonical `definedQuery` + `ensureCanonicalMany`.
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSuspenseQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { PageHeader, Panel, StatCard, Chip, Hairline } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,20 +11,34 @@ import {
 } from "@/lib/ops-v1.functions";
 import { Activity, Rocket, ListChecks, AlertOctagon, RefreshCcw } from "lucide-react";
 import { toast } from "sonner";
+import { definedQuery, ensureCanonicalMany } from "@/lib/founder/suspense-query";
+
+const healthQ = definedQuery(["ops", "health"], () => opsHealthAll(), { staleTime: 20_000 });
+const incidentsQ = definedQuery(["ops", "incidents"], () => opsListIncidents({ data: {} }));
+const deploysQ = definedQuery(["ops", "deploys"], () => opsListDeployments({ data: {} }));
+const dstatsQ = definedQuery(["ops", "deploy-analytics"], () => opsDeploymentAnalytics());
+const queueQ = definedQuery(["ops", "queue-stats"], () => opsQueueStats(), { staleTime: 15_000 });
+const failedQ = definedQuery(["ops", "queue-failed"], () => opsQueueFailed());
 
 export const Route = createFileRoute("/_authenticated/founder/ops")({
   head: () => ({ meta: [{ title: "Operations — Founder" }, { name: "robots", content: "noindex" }] }),
+  loader: ({ context }) =>
+    ensureCanonicalMany(
+      context.queryClient,
+      [healthQ, queueQ],
+      [incidentsQ, deploysQ, dstatsQ, failedQ],
+    ),
   component: FounderOps,
 });
 
 function FounderOps() {
   const qc = useQueryClient();
-  const health = useQuery({ queryKey: ["ops", "health"], queryFn: () => opsHealthAll(), refetchInterval: 20_000 });
-  const incidents = useQuery({ queryKey: ["ops", "incidents"], queryFn: () => opsListIncidents({ data: {} }) });
-  const deploys = useQuery({ queryKey: ["ops", "deploys"], queryFn: () => opsListDeployments({ data: {} }) });
-  const dstats = useQuery({ queryKey: ["ops", "deploy-analytics"], queryFn: () => opsDeploymentAnalytics() });
-  const queue = useQuery({ queryKey: ["ops", "queue-stats"], queryFn: () => opsQueueStats(), refetchInterval: 15_000 });
-  const failed = useQuery({ queryKey: ["ops", "queue-failed"], queryFn: () => opsQueueFailed() });
+  const { data: health } = useSuspenseQuery(healthQ);
+  const { data: incidents } = useSuspenseQuery(incidentsQ);
+  const { data: deploys } = useSuspenseQuery(deploysQ);
+  const { data: dstats } = useSuspenseQuery(dstatsQ);
+  const { data: queue } = useSuspenseQuery(queueQ);
+  const { data: failed } = useSuspenseQuery(failedQ);
 
   const retry = useMutation({
     mutationFn: (id: string) => opsQueueRetry({ data: { id } }),
@@ -32,9 +46,9 @@ function FounderOps() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const q = (queue.data ?? {}) as { pending?: number; running?: number; failed?: number; done?: number };
-  const d = (dstats.data ?? {}) as { total?: number; success_rate?: number };
-  const healthList = Array.isArray(health.data) ? health.data : [];
+  const q = (queue ?? {}) as { pending?: number; running?: number; failed?: number; done?: number };
+  const d = (dstats ?? {}) as { total?: number; success_rate?: number };
+  const healthList = Array.isArray(health) ? health : [];
 
   return (
     <>
@@ -52,7 +66,7 @@ function FounderOps() {
           <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">Open Incidents</h2>
           <Hairline className="my-4" />
           <ul className="divide-y divide-white/5">
-            {((incidents.data ?? []) as Array<{ id: string; title: string; severity?: string; status?: string; created_at?: string }>).map((i) => (
+            {((incidents ?? []) as Array<{ id: string; title: string; severity?: string; status?: string; created_at?: string }>).map((i) => (
               <li key={i.id} className="flex items-center justify-between py-2 text-sm">
                 <div className="min-w-0">
                   <div className="truncate text-paper">{i.title}</div>
@@ -64,7 +78,7 @@ function FounderOps() {
                 </div>
               </li>
             ))}
-            {!(incidents.data as unknown[] | undefined)?.length && <li className="py-3 text-xs text-soft-gray">All clear.</li>}
+            {!(incidents as unknown[] | undefined)?.length && <li className="py-3 text-xs text-soft-gray">All clear.</li>}
           </ul>
         </Panel>
 
@@ -72,7 +86,7 @@ function FounderOps() {
           <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">Recent Deployments</h2>
           <Hairline className="my-4" />
           <ul className="divide-y divide-white/5">
-            {((deploys.data ?? []) as Array<{ id: string; version?: string; environment?: string; status?: string; strategy?: string; created_at?: string }>).slice(0, 8).map((d) => (
+            {((deploys ?? []) as Array<{ id: string; version?: string; environment?: string; status?: string; strategy?: string; created_at?: string }>).slice(0, 8).map((d) => (
               <li key={d.id} className="flex items-center justify-between py-2 text-sm">
                 <div className="min-w-0">
                   <div className="truncate text-paper">{d.version ?? d.id.slice(0, 8)}</div>
@@ -81,7 +95,7 @@ function FounderOps() {
                 <Chip tone={d.status === "succeeded" ? "success" : d.status === "failed" ? "danger" : "info"}>{d.status ?? "—"}</Chip>
               </li>
             ))}
-            {!(deploys.data as unknown[] | undefined)?.length && <li className="py-3 text-xs text-soft-gray">No deployments recorded.</li>}
+            {!(deploys as unknown[] | undefined)?.length && <li className="py-3 text-xs text-soft-gray">No deployments recorded.</li>}
           </ul>
         </Panel>
       </div>
@@ -89,11 +103,11 @@ function FounderOps() {
       <Panel className="mt-4 p-5">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-paper">Failed Jobs</h2>
-          <Chip tone="warning">{(failed.data as unknown[] | undefined)?.length ?? 0}</Chip>
+          <Chip tone="warning">{(failed as unknown[] | undefined)?.length ?? 0}</Chip>
         </div>
         <Hairline className="my-4" />
         <ul className="divide-y divide-white/5">
-          {((failed.data ?? []) as Array<{ id: string; type?: string; last_error?: string | null; attempts?: number }>).slice(0, 12).map((j) => (
+          {((failed ?? []) as Array<{ id: string; type?: string; last_error?: string | null; attempts?: number }>).slice(0, 12).map((j) => (
             <li key={j.id} className="flex items-center justify-between gap-4 py-2 text-sm">
               <div className="min-w-0">
                 <div className="truncate text-paper">{j.type ?? "job"}</div>
@@ -104,7 +118,7 @@ function FounderOps() {
               </Button>
             </li>
           ))}
-          {!(failed.data as unknown[] | undefined)?.length && <li className="py-3 text-xs text-soft-gray">No failed jobs.</li>}
+          {!(failed as unknown[] | undefined)?.length && <li className="py-3 text-xs text-soft-gray">No failed jobs.</li>}
         </ul>
       </Panel>
     </>

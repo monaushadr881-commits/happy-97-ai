@@ -8,7 +8,7 @@
  * and shadcn UI like the other founder pages.
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { PageHeader, Panel, Chip, Hairline, EmptyState } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
@@ -27,12 +27,24 @@ import {
 import { apiListCompanies } from "@/lib/api-v1.functions";
 import { Handshake, Truck, Plus, Activity } from "lucide-react";
 import { toast } from "sonner";
+import { definedQuery, ensureCanonicalMany } from "@/lib/founder/suspense-query";
+
+const companiesQ = definedQuery(["founder", "companies"], () => apiListCompanies());
+const healthQ = definedQuery(["founder", "dealer-network", "health"], () => dealerNetworkHealth());
+const listQ = (kind: "dealer" | "distributor") =>
+  definedQuery(["founder", "dealer-network", kind], () => dealerNetworkList({ data: { kind, limit: 100 } }));
 
 export const Route = createFileRoute("/_authenticated/founder/dealers")({
   head: () => ({ meta: [
     { title: "Dealers & Distributors — Founder" },
     { name: "robots", content: "noindex" },
   ]}),
+  loader: ({ context }) =>
+    ensureCanonicalMany(
+      context.queryClient,
+      [companiesQ],
+      [healthQ, listQ("dealer")],
+    ),
   component: FounderDealers,
 });
 
@@ -44,16 +56,14 @@ function FounderDealers() {
   const [tab, setTab] = useState<"dealer" | "distributor">("dealer");
   const [companyId, setCompanyId] = useState<string>("");
 
-  const companies = useQuery({ queryKey: ["founder", "companies"], queryFn: () => apiListCompanies() });
-  const health    = useQuery({ queryKey: ["founder", "dealer-network", "health"], queryFn: () => dealerNetworkHealth() });
-  const list      = useQuery({
-    queryKey: ["founder", "dealer-network", tab],
-    queryFn: () => dealerNetworkList({ data: { kind: tab, limit: 100 } }),
-  });
+  const { data: companies } = useSuspenseQuery(companiesQ);
+  const { data: health } = useSuspenseQuery(healthQ);
+  const { data: list } = useSuspenseQuery(listQ(tab));
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["founder", "dealer-network"] });
   };
+
 
   const registerDealer = useMutation({
     mutationFn: (v: { dealer_ref: string; name: string; territory?: string }) =>
@@ -132,8 +142,8 @@ function FounderDealers() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const rows = ((list.data ?? []) as unknown as Row[]);
-  const h = health.data as
+  const rows = ((list ?? []) as unknown as Row[]);
+  const h = health as
     | { latest_activity_at: string | null; dealers: { total: number; orders: number; order_value_cents: number; pending_approval: number }; distributors: { total: number; orders: number; order_value_cents: number; pending_approval: number } }
     | undefined;
   const cur = tab === "dealer" ? h?.dealers : h?.distributors;
@@ -152,7 +162,7 @@ function FounderDealers() {
               className="rounded-md border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs uppercase tracking-[0.15em] text-paper"
             >
               <option value="">Select company…</option>
-              {((companies.data ?? []) as unknown as Company[]).map((c) => (
+              {((companies ?? []) as unknown as Company[]).map((c) => (
                 <option key={c.id} value={c.id}>{c.display_name ?? c.legal_name ?? c.slug ?? c.id.slice(0, 8)}</option>
               ))}
             </select>

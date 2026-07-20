@@ -1,28 +1,34 @@
 /**
  * /founder/users — Access & Identity.
- * Founder identity, permissions, sessions view, and recent access audit.
- * Consumes: apiMe, apiRecentAudit, apiIsFounder.
+ * Suspense/loader adopted via canonical `definedQuery` + `ensureCanonicalMany`.
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { PageHeader, Panel, Chip, Hairline, EmptyState } from "@/design-system/primitives";
 import { apiMe, apiRecentAudit, apiIsFounder } from "@/lib/api-v1.functions";
 import { UserCircle2, ShieldAlert } from "lucide-react";
+import { definedQuery, ensureCanonicalMany } from "@/lib/founder/suspense-query";
+
+const meQ = definedQuery(["founder", "me"], () => apiMe());
+const isFounderQ = definedQuery(["founder", "is-founder"], () => apiIsFounder());
+const auditQ = definedQuery(
+  ["founder", "users-audit"],
+  () => apiRecentAudit({ data: { limit: 25, action: "auth" } }),
+);
 
 export const Route = createFileRoute("/_authenticated/founder/users")({
   head: () => ({ meta: [{ title: "Users — Founder" }, { name: "robots", content: "noindex" }] }),
+  loader: ({ context }) =>
+    ensureCanonicalMany(context.queryClient, [meQ, isFounderQ], [auditQ]),
   component: FounderUsers,
 });
 
 function FounderUsers() {
-  const me = useQuery({ queryKey: ["founder", "me"], queryFn: () => apiMe() });
-  const founder = useQuery({ queryKey: ["founder", "is-founder"], queryFn: () => apiIsFounder() });
-  const audit = useQuery({
-    queryKey: ["founder", "users-audit"],
-    queryFn: () => apiRecentAudit({ data: { limit: 25, action: "auth" } }),
-  });
+  const { data: me } = useSuspenseQuery(meQ);
+  const { data: founder } = useSuspenseQuery(isFounderQ);
+  const { data: audit } = useSuspenseQuery(auditQ);
 
-  const profile = (me.data ?? {}) as Record<string, unknown>;
+  const profile = (me ?? {}) as Record<string, unknown>;
 
   return (
     <>
@@ -45,7 +51,7 @@ function FounderUsers() {
           </div>
           <Hairline className="my-4" />
           <div className="flex flex-wrap gap-2">
-            <Chip tone={founder.data ? "gold" : "neutral"}>{founder.data ? "Founder" : "Standard"}</Chip>
+            <Chip tone={founder ? "gold" : "neutral"}>{founder ? "Founder" : "Standard"}</Chip>
             <Chip tone="info">Session active</Chip>
           </div>
         </Panel>
@@ -57,7 +63,7 @@ function FounderUsers() {
           </div>
           <Hairline className="my-4" />
           <ul className="divide-y divide-white/5">
-            {(Array.isArray(audit.data) ? audit.data : []).map((a: { id: string; action?: string; actor_id?: string | null; created_at?: string; entity_type?: string | null }) => (
+            {(Array.isArray(audit) ? audit : []).map((a: { id: string; action?: string; actor_id?: string | null; created_at?: string; entity_type?: string | null }) => (
               <li key={a.id} className="flex items-center justify-between py-2 text-sm">
                 <div className="min-w-0">
                   <div className="truncate text-paper">
@@ -71,7 +77,7 @@ function FounderUsers() {
                 </time>
               </li>
             ))}
-            {!Array.isArray(audit.data) || !audit.data.length ? (
+            {!Array.isArray(audit) || !audit.length ? (
               <li className="py-6">
                 <EmptyState title="No access events yet" description="Sign-ins, MFA changes and impersonations will appear here." />
               </li>
