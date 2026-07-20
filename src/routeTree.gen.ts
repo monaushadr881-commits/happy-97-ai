@@ -111,6 +111,7 @@ import { Route as AuthenticatedBusinessAnalyticsRouteImport } from './routes/_au
 import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authenticated/business.ai'
 import { Route as AuthenticatedBuilderWebsiteRouteImport } from './routes/_authenticated/builder.website'
 import { Route as AuthenticatedBuilderMobileRouteImport } from './routes/_authenticated/builder.mobile'
+import { Route as AuthenticatedBuilderFullstackRouteImport } from './routes/_authenticated/builder.fullstack'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 
@@ -703,6 +704,12 @@ const AuthenticatedBuilderMobileRoute =
     path: '/mobile',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderFullstackRoute =
+  AuthenticatedBuilderFullstackRouteImport.update({
+    id: '/fullstack',
+    path: '/fullstack',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
   path: '/api/public/v1/status',
@@ -732,6 +739,7 @@ export interface FileRoutesByFullPath {
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -827,6 +835,7 @@ export interface FileRoutesByTo {
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -934,6 +943,7 @@ export interface FileRoutesById {
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/_authenticated/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/_authenticated/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/_authenticated/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
@@ -1041,6 +1051,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/settings'
     | '/studio'
+    | '/builder/fullstack'
     | '/builder/mobile'
     | '/builder/website'
     | '/business/ai'
@@ -1136,6 +1147,7 @@ export interface FileRouteTypes {
     | '/builder'
     | '/dashboard'
     | '/settings'
+    | '/builder/fullstack'
     | '/builder/mobile'
     | '/builder/website'
     | '/business/ai'
@@ -1242,6 +1254,7 @@ export interface FileRouteTypes {
     | '/_authenticated/messages'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
+    | '/_authenticated/builder/fullstack'
     | '/_authenticated/builder/mobile'
     | '/_authenticated/builder/website'
     | '/_authenticated/business/ai'
@@ -2056,6 +2069,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderMobileRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/fullstack': {
+      id: '/_authenticated/builder/fullstack'
+      path: '/fullstack'
+      fullPath: '/builder/fullstack'
+      preLoaderRoute: typeof AuthenticatedBuilderFullstackRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
       path: '/api/public/v1/status'
@@ -2074,11 +2094,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedBuilderRouteChildren {
+  AuthenticatedBuilderFullstackRoute: typeof AuthenticatedBuilderFullstackRoute
   AuthenticatedBuilderMobileRoute: typeof AuthenticatedBuilderMobileRoute
   AuthenticatedBuilderWebsiteRoute: typeof AuthenticatedBuilderWebsiteRoute
 }
 
 const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
+  AuthenticatedBuilderFullstackRoute: AuthenticatedBuilderFullstackRoute,
   AuthenticatedBuilderMobileRoute: AuthenticatedBuilderMobileRoute,
   AuthenticatedBuilderWebsiteRoute: AuthenticatedBuilderWebsiteRoute,
 }
