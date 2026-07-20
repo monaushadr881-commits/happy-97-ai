@@ -193,6 +193,7 @@ function DeploymentCenterRoute() {
           <div className="flex flex-wrap items-center gap-2">
             <Button size="sm" variant="outline" onClick={runBuild}    className="gap-1"><Package className="h-4 w-4" />Production Build</Button>
             <Button size="sm" onClick={runDeploy}                     className="gap-1"><Rocket className="h-4 w-4" />Deploy · {activeTarget.label}</Button>
+            <Button size="sm" variant="outline" onClick={runHealth}   className="gap-1"><HeartPulse className="h-4 w-4" />Health Check</Button>
             <Button size="sm" variant="outline" onClick={runRollback} className="gap-1"><Undo2 className="h-4 w-4" />Rollback</Button>
           </div>
 
