@@ -46,39 +46,56 @@ export const Route = createFileRoute("/_authenticated/builder/fullstack")({
 });
 
 type GeneratorId =
-  | "frontend" | "backend" | "database" | "api" | "auth"
-  | "admin" | "dashboard" | "crud" | "validation" | "rbac"
-  | "storage" | "deploy";
+  | "frontend" | "backend" | "database" | "storage" | "auth"
+  | "rbac" | "rls" | "api" | "server-fn" | "realtime"
+  | "cron" | "queue" | "caching" | "admin" | "analytics"
+  | "monitoring" | "deploy";
 
 const GENERATORS: { id: GeneratorId; label: string; icon: React.ReactNode; hint: string }[] = [
-  { id: "frontend",   label: "Frontend",     icon: <Layers className="h-4 w-4" />,         hint: "Generate a typed React frontend wired to HAPPY server functions." },
-  { id: "backend",    label: "Backend",      icon: <Server className="h-4 w-4" />,         hint: "Generate server functions on the canonical pipeline." },
-  { id: "database",   label: "Database",     icon: <Database className="h-4 w-4" />,       hint: "Design tables, RLS, indexes, triggers via migrations." },
-  { id: "api",        label: "API",          icon: <Cable className="h-4 w-4" />,          hint: "Typed API contracts + client for HAPPY server functions." },
-  { id: "auth",       label: "Authentication",icon: <ShieldCheck className="h-4 w-4" />,   hint: "Email + Google sign-in with session and route gating." },
-  { id: "admin",      label: "Admin Panel",  icon: <LayoutDashboard className="h-4 w-4" />,hint: "Admin surface reusing canonical tables and forms." },
-  { id: "dashboard",  label: "Dashboard",    icon: <Gauge className="h-4 w-4" />,          hint: "KPI dashboard reusing Mission Control widgets." },
-  { id: "crud",       label: "CRUD",         icon: <ListChecks className="h-4 w-4" />,     hint: "List / detail / create / edit / delete for an entity." },
-  { id: "validation", label: "Validation",   icon: <ShieldCheck className="h-4 w-4" />,    hint: "Zod schemas shared by form, server-fn, and database." },
-  { id: "rbac",       label: "RBAC",         icon: <KeyRound className="h-4 w-4" />,       hint: "Role table + has_role() + policies + route gates." },
-  { id: "storage",    label: "Storage",      icon: <HardDrive className="h-4 w-4" />,      hint: "Buckets + upload + signed URLs + RLS on objects." },
-  { id: "deploy",     label: "Deployment",   icon: <Rocket className="h-4 w-4" />,         hint: "Deployment config, envs, health checks, and rollbacks." },
+  { id: "frontend",   label: "Frontend",       icon: <Layers className="h-4 w-4" />,          hint: "Typed React frontend wired to HAPPY server functions." },
+  { id: "backend",    label: "Backend",        icon: <Server className="h-4 w-4" />,          hint: "Server functions on the canonical pipeline." },
+  { id: "database",   label: "Database",       icon: <Database className="h-4 w-4" />,        hint: "Tables, indexes, triggers via migrations." },
+  { id: "storage",    label: "Storage",        icon: <HardDrive className="h-4 w-4" />,       hint: "Buckets + upload + signed URLs + object RLS." },
+  { id: "auth",       label: "Authentication", icon: <ShieldCheck className="h-4 w-4" />,     hint: "Email + Google sign-in with session + route gating." },
+  { id: "rbac",       label: "RBAC",           icon: <KeyRound className="h-4 w-4" />,        hint: "Role table + has_role() + route gates." },
+  { id: "rls",        label: "RLS",            icon: <ShieldCheck className="h-4 w-4" />,     hint: "Row-level security policies scoped to auth.uid()." },
+  { id: "api",        label: "API",            icon: <Cable className="h-4 w-4" />,           hint: "Typed API contracts + client + error mapping." },
+  { id: "server-fn",  label: "Server Fns",     icon: <Server className="h-4 w-4" />,          hint: "createServerFn handlers on the 13-stage pipeline." },
+  { id: "realtime",   label: "Realtime",       icon: <Cable className="h-4 w-4" />,           hint: "Postgres changes + presence + broadcast channels." },
+  { id: "cron",       label: "Cron",           icon: <Gauge className="h-4 w-4" />,           hint: "pg_cron schedules calling public API routes." },
+  { id: "queue",      label: "Queue",          icon: <ListChecks className="h-4 w-4" />,      hint: "Durable job queue with retries and DLQ." },
+  { id: "caching",    label: "Caching",        icon: <HardDrive className="h-4 w-4" />,       hint: "Query cache, SWR, and edge cache headers." },
+  { id: "admin",      label: "Admin",          icon: <LayoutDashboard className="h-4 w-4" />, hint: "Admin surface reusing canonical tables + forms." },
+  { id: "analytics",  label: "Analytics",      icon: <Gauge className="h-4 w-4" />,           hint: "KPI events, dashboards, and drill-downs." },
+  { id: "monitoring", label: "Monitoring",     icon: <Gauge className="h-4 w-4" />,           hint: "Health checks, error tracking, and alerts." },
+  { id: "deploy",     label: "Deployment",     icon: <Rocket className="h-4 w-4" />,          hint: "Envs, health checks, rollouts, and rollbacks." },
 ];
 
 const GENERATOR_INTRO: Record<GeneratorId, string> = {
   frontend:   "Generate frontend. Include: routes, layout, and data hooks.",
   backend:    "Generate backend. Include: server functions, middleware, and pipeline.",
-  database:   "Design database. Include: tables, columns, RLS, and indexes.",
-  api:        "Generate API. Include: contracts, client, and error mapping.",
+  database:   "Design database. Include: tables, columns, indexes, and triggers.",
+  storage:    "Configure storage. Include: bucket, upload, signed URLs, and RLS.",
   auth:       "Generate authentication. Include: email + Google + protected routes.",
-  admin:      "Generate admin panel. Include: entities, filters, and bulk actions.",
-  dashboard:  "Generate dashboard. Include: KPIs, charts, and drill-downs.",
-  crud:       "Generate CRUD for an entity. Include: schema, forms, and list.",
-  validation: "Generate validation. Include: Zod schemas + form and server hooks.",
   rbac:       "Generate RBAC. Include: roles, has_role, and policy scaffolding.",
-  storage:    "Configure storage. Include: bucket, upload, and RLS on objects.",
+  rls:        "Generate RLS policies. Include: owner + admin + read/write scopes.",
+  api:        "Generate API. Include: contracts, client, and error mapping.",
+  "server-fn":"Generate server functions. Include: validator, middleware, and handler.",
+  realtime:   "Enable realtime. Include: channels, presence, and postgres changes.",
+  cron:       "Schedule cron. Include: pg_cron job calling a public API route.",
+  queue:      "Design job queue. Include: enqueue, worker, retries, and DLQ.",
+  caching:    "Add caching. Include: query cache, SWR, and edge cache headers.",
+  admin:      "Generate admin panel. Include: entities, filters, and bulk actions.",
+  analytics:  "Generate analytics. Include: KPIs, events, charts, and drill-downs.",
+  monitoring: "Configure monitoring. Include: health, error tracking, and alerts.",
   deploy:     "Configure deployment. Include: envs, health checks, and rollout.",
 };
+
+const CAPABILITY_BADGES = [
+  "Frontend", "Backend", "Database", "Storage", "Auth", "RBAC", "RLS",
+  "API", "Server Fns", "Realtime", "Cron", "Queue", "Caching",
+  "Admin", "Analytics", "Monitoring", "Deployment",
+];
 
 const ENTITY_LIBRARY = [
   "User", "Profile", "Role", "Team", "Organization", "Customer",
@@ -87,8 +104,9 @@ const ENTITY_LIBRARY = [
 ];
 
 const MODULE_LIBRARY = [
-  "Auth", "RBAC", "Billing", "Notifications", "Storage", "Search",
-  "Analytics", "Audit", "Webhooks", "Feature Flags", "Rate Limit", "Health",
+  "Auth", "RBAC", "RLS", "Billing", "Notifications", "Storage", "Search",
+  "Realtime", "Cron", "Queue", "Caching", "Analytics", "Audit",
+  "Webhooks", "Feature Flags", "Rate Limit", "Health", "Monitoring",
 ];
 
 const PROJECT_TREE = [
@@ -191,6 +209,12 @@ function FullStackBuilderRoute() {
         ))}
       </section>
       <p className="text-xs text-muted-foreground mt-2">{GENERATORS.find((g) => g.id === mode)?.hint}</p>
+
+      <section aria-label="Capabilities" className="mt-3 flex flex-wrap gap-1.5">
+        {CAPABILITY_BADGES.map((c) => (
+          <Badge key={c} variant="secondary" className="text-[10px]">{c}</Badge>
+        ))}
+      </section>
 
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_320px] gap-6">
         {/* Left: entities + modules + project explorer */}
