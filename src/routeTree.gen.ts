@@ -46,6 +46,8 @@ import { Route as AuthenticatedStudioExportsRouteImport } from './routes/_authen
 import { Route as AuthenticatedStudioCopyRouteImport } from './routes/_authenticated/studio.copy'
 import { Route as AuthenticatedStudioBrandRouteImport } from './routes/_authenticated/studio.brand'
 import { Route as AuthenticatedStudioAssetsRouteImport } from './routes/_authenticated/studio.assets'
+import { Route as AuthenticatedPortalDealerRouteImport } from './routes/_authenticated/portal.dealer'
+import { Route as AuthenticatedPortalCustomerRouteImport } from './routes/_authenticated/portal.customer'
 import { Route as AuthenticatedMarketplaceSellerRouteImport } from './routes/_authenticated/marketplace.seller'
 import { Route as AuthenticatedMarketplaceSalesRouteImport } from './routes/_authenticated/marketplace.sales'
 import { Route as AuthenticatedMarketplaceOrdersRouteImport } from './routes/_authenticated/marketplace.orders'
@@ -312,6 +314,18 @@ const AuthenticatedStudioAssetsRoute =
     id: '/assets',
     path: '/assets',
     getParentRoute: () => AuthenticatedStudioRoute,
+  } as any)
+const AuthenticatedPortalDealerRoute =
+  AuthenticatedPortalDealerRouteImport.update({
+    id: '/portal/dealer',
+    path: '/portal/dealer',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPortalCustomerRoute =
+  AuthenticatedPortalCustomerRouteImport.update({
+    id: '/portal/customer',
+    path: '/portal/customer',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMarketplaceSellerRoute =
   AuthenticatedMarketplaceSellerRouteImport.update({
@@ -757,6 +771,8 @@ export interface FileRoutesByFullPath {
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/portal/customer': typeof AuthenticatedPortalCustomerRoute
+  '/portal/dealer': typeof AuthenticatedPortalDealerRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -847,6 +863,8 @@ export interface FileRoutesByTo {
   '/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/portal/customer': typeof AuthenticatedPortalCustomerRoute
+  '/portal/dealer': typeof AuthenticatedPortalDealerRoute
   '/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -949,6 +967,8 @@ export interface FileRoutesById {
   '/_authenticated/marketplace/orders': typeof AuthenticatedMarketplaceOrdersRoute
   '/_authenticated/marketplace/sales': typeof AuthenticatedMarketplaceSalesRoute
   '/_authenticated/marketplace/seller': typeof AuthenticatedMarketplaceSellerRoute
+  '/_authenticated/portal/customer': typeof AuthenticatedPortalCustomerRoute
+  '/_authenticated/portal/dealer': typeof AuthenticatedPortalDealerRoute
   '/_authenticated/studio/assets': typeof AuthenticatedStudioAssetsRoute
   '/_authenticated/studio/brand': typeof AuthenticatedStudioBrandRoute
   '/_authenticated/studio/copy': typeof AuthenticatedStudioCopyRoute
@@ -1051,6 +1071,8 @@ export interface FileRouteTypes {
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
+    | '/portal/customer'
+    | '/portal/dealer'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
@@ -1141,6 +1163,8 @@ export interface FileRouteTypes {
     | '/marketplace/orders'
     | '/marketplace/sales'
     | '/marketplace/seller'
+    | '/portal/customer'
+    | '/portal/dealer'
     | '/studio/assets'
     | '/studio/brand'
     | '/studio/copy'
@@ -1242,6 +1266,8 @@ export interface FileRouteTypes {
     | '/_authenticated/marketplace/orders'
     | '/_authenticated/marketplace/sales'
     | '/_authenticated/marketplace/seller'
+    | '/_authenticated/portal/customer'
+    | '/_authenticated/portal/dealer'
     | '/_authenticated/studio/assets'
     | '/_authenticated/studio/brand'
     | '/_authenticated/studio/copy'
@@ -1536,6 +1562,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/studio/assets'
       preLoaderRoute: typeof AuthenticatedStudioAssetsRouteImport
       parentRoute: typeof AuthenticatedStudioRoute
+    }
+    '/_authenticated/portal/dealer': {
+      id: '/_authenticated/portal/dealer'
+      path: '/portal/dealer'
+      fullPath: '/portal/dealer'
+      preLoaderRoute: typeof AuthenticatedPortalDealerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/portal/customer': {
+      id: '/_authenticated/portal/customer'
+      path: '/portal/customer'
+      fullPath: '/portal/customer'
+      preLoaderRoute: typeof AuthenticatedPortalCustomerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/marketplace/seller': {
       id: '/_authenticated/marketplace/seller'
@@ -2272,6 +2312,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
+  AuthenticatedPortalCustomerRoute: typeof AuthenticatedPortalCustomerRoute
+  AuthenticatedPortalDealerRoute: typeof AuthenticatedPortalDealerRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -2288,6 +2330,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
+  AuthenticatedPortalCustomerRoute: AuthenticatedPortalCustomerRoute,
+  AuthenticatedPortalDealerRoute: AuthenticatedPortalDealerRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
