@@ -237,7 +237,7 @@ function WebsiteBuilderRoute() {
         {/* Center: composer + preview */}
         <main className="space-y-4 min-w-0">
           <HappyUniversalPromptBar
-            defaultSurface="creator"
+            defaultSurface="website"
             placeholder={GENERATOR_INTRO[mode]}
             onSend={onSend}
             onAction={onAction}
