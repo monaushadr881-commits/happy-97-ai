@@ -136,6 +136,7 @@ import { Route as AuthenticatedBuilderPresentationRouteImport } from './routes/_
 import { Route as AuthenticatedBuilderMobileRouteImport } from './routes/_authenticated/builder.mobile'
 import { Route as AuthenticatedBuilderImageRouteImport } from './routes/_authenticated/builder.image'
 import { Route as AuthenticatedBuilderI18nRouteImport } from './routes/_authenticated/builder.i18n'
+import { Route as AuthenticatedBuilderHotelRouteImport } from './routes/_authenticated/builder.hotel'
 import { Route as AuthenticatedBuilderFullstackRouteImport } from './routes/_authenticated/builder.fullstack'
 import { Route as AuthenticatedBuilderEcommerceRouteImport } from './routes/_authenticated/builder.ecommerce'
 import { Route as AuthenticatedBuilderDocumentsRouteImport } from './routes/_authenticated/builder.documents'
@@ -879,6 +880,12 @@ const AuthenticatedBuilderI18nRoute =
     path: '/i18n',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderHotelRoute =
+  AuthenticatedBuilderHotelRouteImport.update({
+    id: '/hotel',
+    path: '/hotel',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderFullstackRoute =
   AuthenticatedBuilderFullstackRouteImport.update({
     id: '/fullstack',
@@ -1004,6 +1011,7 @@ export interface FileRoutesByFullPath {
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
+  '/builder/hotel': typeof AuthenticatedBuilderHotelRoute
   '/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
@@ -1136,6 +1144,7 @@ export interface FileRoutesByTo {
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
+  '/builder/hotel': typeof AuthenticatedBuilderHotelRoute
   '/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
@@ -1280,6 +1289,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
   '/_authenticated/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/_authenticated/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
+  '/_authenticated/builder/hotel': typeof AuthenticatedBuilderHotelRoute
   '/_authenticated/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/_authenticated/builder/image': typeof AuthenticatedBuilderImageRoute
   '/_authenticated/builder/mobile': typeof AuthenticatedBuilderMobileRoute
@@ -1424,6 +1434,7 @@ export interface FileRouteTypes {
     | '/builder/documents'
     | '/builder/ecommerce'
     | '/builder/fullstack'
+    | '/builder/hotel'
     | '/builder/i18n'
     | '/builder/image'
     | '/builder/mobile'
@@ -1556,6 +1567,7 @@ export interface FileRouteTypes {
     | '/builder/documents'
     | '/builder/ecommerce'
     | '/builder/fullstack'
+    | '/builder/hotel'
     | '/builder/i18n'
     | '/builder/image'
     | '/builder/mobile'
@@ -1699,6 +1711,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/documents'
     | '/_authenticated/builder/ecommerce'
     | '/_authenticated/builder/fullstack'
+    | '/_authenticated/builder/hotel'
     | '/_authenticated/builder/i18n'
     | '/_authenticated/builder/image'
     | '/_authenticated/builder/mobile'
@@ -2700,6 +2713,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderI18nRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/hotel': {
+      id: '/_authenticated/builder/hotel'
+      path: '/hotel'
+      fullPath: '/builder/hotel'
+      preLoaderRoute: typeof AuthenticatedBuilderHotelRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/fullstack': {
       id: '/_authenticated/builder/fullstack'
       path: '/fullstack'
@@ -2814,6 +2834,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderDocumentsRoute: typeof AuthenticatedBuilderDocumentsRoute
   AuthenticatedBuilderEcommerceRoute: typeof AuthenticatedBuilderEcommerceRoute
   AuthenticatedBuilderFullstackRoute: typeof AuthenticatedBuilderFullstackRoute
+  AuthenticatedBuilderHotelRoute: typeof AuthenticatedBuilderHotelRoute
   AuthenticatedBuilderI18nRoute: typeof AuthenticatedBuilderI18nRoute
   AuthenticatedBuilderImageRoute: typeof AuthenticatedBuilderImageRoute
   AuthenticatedBuilderMobileRoute: typeof AuthenticatedBuilderMobileRoute
@@ -2842,6 +2863,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderDocumentsRoute: AuthenticatedBuilderDocumentsRoute,
   AuthenticatedBuilderEcommerceRoute: AuthenticatedBuilderEcommerceRoute,
   AuthenticatedBuilderFullstackRoute: AuthenticatedBuilderFullstackRoute,
+  AuthenticatedBuilderHotelRoute: AuthenticatedBuilderHotelRoute,
   AuthenticatedBuilderI18nRoute: AuthenticatedBuilderI18nRoute,
   AuthenticatedBuilderImageRoute: AuthenticatedBuilderImageRoute,
   AuthenticatedBuilderMobileRoute: AuthenticatedBuilderMobileRoute,
