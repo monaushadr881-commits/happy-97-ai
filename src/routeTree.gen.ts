@@ -15,6 +15,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedSecurityCenterRouteImport } from './routes/_authenticated/security-center'
 import { Route as AuthenticatedSaasRouteImport } from './routes/_authenticated/saas'
 import { Route as AuthenticatedPlatformRouteImport } from './routes/_authenticated/platform'
 import { Route as AuthenticatedOptimizationRouteImport } from './routes/_authenticated/optimization'
@@ -203,6 +204,12 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSecurityCenterRoute =
+  AuthenticatedSecurityCenterRouteImport.update({
+    id: '/security-center',
+    path: '/security-center',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSaasRoute = AuthenticatedSaasRouteImport.update({
   id: '/saas',
   path: '/saas',
@@ -1152,6 +1159,7 @@ export interface FileRoutesByFullPath {
   '/optimization': typeof AuthenticatedOptimizationRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/saas': typeof AuthenticatedSaasRoute
+  '/security-center': typeof AuthenticatedSecurityCenterRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
   '/builder/accounting': typeof AuthenticatedBuilderAccountingRoute
@@ -1308,6 +1316,7 @@ export interface FileRoutesByTo {
   '/optimization': typeof AuthenticatedOptimizationRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/saas': typeof AuthenticatedSaasRoute
+  '/security-center': typeof AuthenticatedSecurityCenterRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/builder/accounting': typeof AuthenticatedBuilderAccountingRoute
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
@@ -1474,6 +1483,7 @@ export interface FileRoutesById {
   '/_authenticated/optimization': typeof AuthenticatedOptimizationRoute
   '/_authenticated/platform': typeof AuthenticatedPlatformRoute
   '/_authenticated/saas': typeof AuthenticatedSaasRoute
+  '/_authenticated/security-center': typeof AuthenticatedSecurityCenterRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
   '/_authenticated/builder/accounting': typeof AuthenticatedBuilderAccountingRoute
@@ -1641,6 +1651,7 @@ export interface FileRouteTypes {
     | '/optimization'
     | '/platform'
     | '/saas'
+    | '/security-center'
     | '/settings'
     | '/studio'
     | '/builder/accounting'
@@ -1797,6 +1808,7 @@ export interface FileRouteTypes {
     | '/optimization'
     | '/platform'
     | '/saas'
+    | '/security-center'
     | '/settings'
     | '/builder/accounting'
     | '/builder/agents'
@@ -1962,6 +1974,7 @@ export interface FileRouteTypes {
     | '/_authenticated/optimization'
     | '/_authenticated/platform'
     | '/_authenticated/saas'
+    | '/_authenticated/security-center'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
     | '/_authenticated/builder/accounting'
@@ -2145,6 +2158,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/security-center': {
+      id: '/_authenticated/security-center'
+      path: '/security-center'
+      fullPath: '/security-center'
+      preLoaderRoute: typeof AuthenticatedSecurityCenterRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/saas': {
@@ -3668,6 +3688,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedOptimizationRoute: typeof AuthenticatedOptimizationRoute
   AuthenticatedPlatformRoute: typeof AuthenticatedPlatformRoute
   AuthenticatedSaasRoute: typeof AuthenticatedSaasRoute
+  AuthenticatedSecurityCenterRoute: typeof AuthenticatedSecurityCenterRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
   AuthenticatedPortalCustomerRoute: typeof AuthenticatedPortalCustomerRoute
@@ -3706,6 +3727,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOptimizationRoute: AuthenticatedOptimizationRoute,
   AuthenticatedPlatformRoute: AuthenticatedPlatformRoute,
   AuthenticatedSaasRoute: AuthenticatedSaasRoute,
+  AuthenticatedSecurityCenterRoute: AuthenticatedSecurityCenterRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
   AuthenticatedPortalCustomerRoute: AuthenticatedPortalCustomerRoute,
