@@ -156,9 +156,8 @@ function AiOsPage() {
             <h1 className="text-base font-semibold">{group.title}</h1>
             <Badge variant="secondary" className="text-xs">Canonical HAPPY Runtimes</Badge>
           </div>
-          <HappyUniversalActionBar
-            context={{ scope: "ai-os", surface: group.id }}
-          />
+          <HappyUniversalActionBar mode="message" payload={group.title} compact />
+
         </header>
 
         <ScrollArea className="flex-1">
