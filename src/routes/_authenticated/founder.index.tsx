@@ -64,7 +64,7 @@ function FounderOverview() {
   const { data: security } = useSuspenseQuery(securityQ);
   const { data: audit } = useSuspenseQuery(auditQ);
 
-  const ov = (overview ?? {}) as Record<string, number | undefined>;
+  const ov = (overview ?? {}) as unknown as Record<string, number | undefined>;
   const num = (v: unknown) => (typeof v === "number" ? v.toLocaleString() : "—");
 
   const healthList = Array.isArray(health) ? health : [];

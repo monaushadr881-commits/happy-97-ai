@@ -89,7 +89,7 @@ function FounderSystem() {
           </div>
           <Hairline className="my-4" />
           <dl className="grid grid-cols-2 gap-2 text-sm">
-            {Object.entries((dbCounts ?? {}) as Record<string, unknown>).slice(0, 10).map(([k, v]) => (
+            {Object.entries((dbCounts ?? {}) as unknown as Record<string, unknown>).slice(0, 10).map(([k, v]) => (
               <div key={k} className="flex items-center justify-between rounded border border-white/5 bg-white/[0.02] px-3 py-2">
                 <dt className="text-[11px] uppercase tracking-[0.15em] text-soft-gray">{k}</dt>
                 <dd className="numeric text-paper">{typeof v === "number" ? v.toLocaleString() : String(v ?? "—")}</dd>
