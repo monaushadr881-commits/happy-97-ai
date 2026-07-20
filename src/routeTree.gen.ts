@@ -140,6 +140,7 @@ import { Route as AuthenticatedBuilderPresentationRouteImport } from './routes/_
 import { Route as AuthenticatedBuilderPharmacyRouteImport } from './routes/_authenticated/builder.pharmacy'
 import { Route as AuthenticatedBuilderNgoRouteImport } from './routes/_authenticated/builder.ngo'
 import { Route as AuthenticatedBuilderMobileRouteImport } from './routes/_authenticated/builder.mobile'
+import { Route as AuthenticatedBuilderLogisticsRouteImport } from './routes/_authenticated/builder.logistics'
 import { Route as AuthenticatedBuilderImageRouteImport } from './routes/_authenticated/builder.image'
 import { Route as AuthenticatedBuilderI18nRouteImport } from './routes/_authenticated/builder.i18n'
 import { Route as AuthenticatedBuilderHotelRouteImport } from './routes/_authenticated/builder.hotel'
@@ -913,6 +914,12 @@ const AuthenticatedBuilderMobileRoute =
     path: '/mobile',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderLogisticsRoute =
+  AuthenticatedBuilderLogisticsRouteImport.update({
+    id: '/logistics',
+    path: '/logistics',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderImageRoute =
   AuthenticatedBuilderImageRouteImport.update({
     id: '/image',
@@ -1086,6 +1093,7 @@ export interface FileRoutesByFullPath {
   '/builder/hotel': typeof AuthenticatedBuilderHotelRoute
   '/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
+  '/builder/logistics': typeof AuthenticatedBuilderLogisticsRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/builder/ngo': typeof AuthenticatedBuilderNgoRoute
   '/builder/pharmacy': typeof AuthenticatedBuilderPharmacyRoute
@@ -1229,6 +1237,7 @@ export interface FileRoutesByTo {
   '/builder/hotel': typeof AuthenticatedBuilderHotelRoute
   '/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
+  '/builder/logistics': typeof AuthenticatedBuilderLogisticsRoute
   '/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/builder/ngo': typeof AuthenticatedBuilderNgoRoute
   '/builder/pharmacy': typeof AuthenticatedBuilderPharmacyRoute
@@ -1384,6 +1393,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/hotel': typeof AuthenticatedBuilderHotelRoute
   '/_authenticated/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/_authenticated/builder/image': typeof AuthenticatedBuilderImageRoute
+  '/_authenticated/builder/logistics': typeof AuthenticatedBuilderLogisticsRoute
   '/_authenticated/builder/mobile': typeof AuthenticatedBuilderMobileRoute
   '/_authenticated/builder/ngo': typeof AuthenticatedBuilderNgoRoute
   '/_authenticated/builder/pharmacy': typeof AuthenticatedBuilderPharmacyRoute
@@ -1539,6 +1549,7 @@ export interface FileRouteTypes {
     | '/builder/hotel'
     | '/builder/i18n'
     | '/builder/image'
+    | '/builder/logistics'
     | '/builder/mobile'
     | '/builder/ngo'
     | '/builder/pharmacy'
@@ -1682,6 +1693,7 @@ export interface FileRouteTypes {
     | '/builder/hotel'
     | '/builder/i18n'
     | '/builder/image'
+    | '/builder/logistics'
     | '/builder/mobile'
     | '/builder/ngo'
     | '/builder/pharmacy'
@@ -1836,6 +1848,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/hotel'
     | '/_authenticated/builder/i18n'
     | '/_authenticated/builder/image'
+    | '/_authenticated/builder/logistics'
     | '/_authenticated/builder/mobile'
     | '/_authenticated/builder/ngo'
     | '/_authenticated/builder/pharmacy'
@@ -2869,6 +2882,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderMobileRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/logistics': {
+      id: '/_authenticated/builder/logistics'
+      path: '/logistics'
+      fullPath: '/builder/logistics'
+      preLoaderRoute: typeof AuthenticatedBuilderLogisticsRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/image': {
       id: '/_authenticated/builder/image'
       path: '/image'
@@ -3039,6 +3059,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderHotelRoute: typeof AuthenticatedBuilderHotelRoute
   AuthenticatedBuilderI18nRoute: typeof AuthenticatedBuilderI18nRoute
   AuthenticatedBuilderImageRoute: typeof AuthenticatedBuilderImageRoute
+  AuthenticatedBuilderLogisticsRoute: typeof AuthenticatedBuilderLogisticsRoute
   AuthenticatedBuilderMobileRoute: typeof AuthenticatedBuilderMobileRoute
   AuthenticatedBuilderNgoRoute: typeof AuthenticatedBuilderNgoRoute
   AuthenticatedBuilderPharmacyRoute: typeof AuthenticatedBuilderPharmacyRoute
@@ -3078,6 +3099,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderHotelRoute: AuthenticatedBuilderHotelRoute,
   AuthenticatedBuilderI18nRoute: AuthenticatedBuilderI18nRoute,
   AuthenticatedBuilderImageRoute: AuthenticatedBuilderImageRoute,
+  AuthenticatedBuilderLogisticsRoute: AuthenticatedBuilderLogisticsRoute,
   AuthenticatedBuilderMobileRoute: AuthenticatedBuilderMobileRoute,
   AuthenticatedBuilderNgoRoute: AuthenticatedBuilderNgoRoute,
   AuthenticatedBuilderPharmacyRoute: AuthenticatedBuilderPharmacyRoute,
