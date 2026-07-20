@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedStudioRouteImport } from './routes/_authenticated/studio'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedPlatformRouteImport } from './routes/_authenticated/platform'
+import { Route as AuthenticatedOptimizationRouteImport } from './routes/_authenticated/optimization'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedManufacturingRouteImport } from './routes/_authenticated/manufacturing'
@@ -182,6 +183,12 @@ const AuthenticatedPlatformRoute = AuthenticatedPlatformRouteImport.update({
   path: '/platform',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedOptimizationRoute =
+  AuthenticatedOptimizationRouteImport.update({
+    id: '/optimization',
+    path: '/optimization',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
@@ -967,6 +974,7 @@ export interface FileRoutesByFullPath {
   '/manufacturing': typeof AuthenticatedManufacturingRoute
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/optimization': typeof AuthenticatedOptimizationRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
@@ -1097,6 +1105,7 @@ export interface FileRoutesByTo {
   '/healthcare': typeof AuthenticatedHealthcareRoute
   '/hr': typeof AuthenticatedHrRoute
   '/manufacturing': typeof AuthenticatedManufacturingRoute
+  '/optimization': typeof AuthenticatedOptimizationRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
@@ -1237,6 +1246,7 @@ export interface FileRoutesById {
   '/_authenticated/manufacturing': typeof AuthenticatedManufacturingRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/_authenticated/optimization': typeof AuthenticatedOptimizationRoute
   '/_authenticated/platform': typeof AuthenticatedPlatformRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
@@ -1378,6 +1388,7 @@ export interface FileRouteTypes {
     | '/manufacturing'
     | '/marketplace'
     | '/messages'
+    | '/optimization'
     | '/platform'
     | '/settings'
     | '/studio'
@@ -1508,6 +1519,7 @@ export interface FileRouteTypes {
     | '/healthcare'
     | '/hr'
     | '/manufacturing'
+    | '/optimization'
     | '/platform'
     | '/settings'
     | '/builder/agents'
@@ -1647,6 +1659,7 @@ export interface FileRouteTypes {
     | '/_authenticated/manufacturing'
     | '/_authenticated/marketplace'
     | '/_authenticated/messages'
+    | '/_authenticated/optimization'
     | '/_authenticated/platform'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
@@ -1819,6 +1832,13 @@ declare module '@tanstack/react-router' {
       path: '/platform'
       fullPath: '/platform'
       preLoaderRoute: typeof AuthenticatedPlatformRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/optimization': {
+      id: '/_authenticated/optimization'
+      path: '/optimization'
+      fullPath: '/optimization'
+      preLoaderRoute: typeof AuthenticatedOptimizationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/messages': {
@@ -3106,6 +3126,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedManufacturingRoute: typeof AuthenticatedManufacturingRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
+  AuthenticatedOptimizationRoute: typeof AuthenticatedOptimizationRoute
   AuthenticatedPlatformRoute: typeof AuthenticatedPlatformRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedStudioRoute: typeof AuthenticatedStudioRouteWithChildren
@@ -3137,6 +3158,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedManufacturingRoute: AuthenticatedManufacturingRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
+  AuthenticatedOptimizationRoute: AuthenticatedOptimizationRoute,
   AuthenticatedPlatformRoute: AuthenticatedPlatformRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedStudioRoute: AuthenticatedStudioRouteWithChildren,
