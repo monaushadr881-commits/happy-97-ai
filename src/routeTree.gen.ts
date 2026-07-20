@@ -136,6 +136,7 @@ import { Route as AuthenticatedBuilderMobileRouteImport } from './routes/_authen
 import { Route as AuthenticatedBuilderImageRouteImport } from './routes/_authenticated/builder.image'
 import { Route as AuthenticatedBuilderI18nRouteImport } from './routes/_authenticated/builder.i18n'
 import { Route as AuthenticatedBuilderFullstackRouteImport } from './routes/_authenticated/builder.fullstack'
+import { Route as AuthenticatedBuilderEcommerceRouteImport } from './routes/_authenticated/builder.ecommerce'
 import { Route as AuthenticatedBuilderDocumentsRouteImport } from './routes/_authenticated/builder.documents'
 import { Route as AuthenticatedBuilderDigitalHumanRouteImport } from './routes/_authenticated/builder.digital-human'
 import { Route as AuthenticatedBuilderDeployRouteImport } from './routes/_authenticated/builder.deploy'
@@ -877,6 +878,12 @@ const AuthenticatedBuilderFullstackRoute =
     path: '/fullstack',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderEcommerceRoute =
+  AuthenticatedBuilderEcommerceRouteImport.update({
+    id: '/ecommerce',
+    path: '/ecommerce',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderDocumentsRoute =
   AuthenticatedBuilderDocumentsRouteImport.update({
     id: '/documents',
@@ -988,6 +995,7 @@ export interface FileRoutesByFullPath {
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
+  '/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
@@ -1118,6 +1126,7 @@ export interface FileRoutesByTo {
   '/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
   '/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
+  '/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/builder/image': typeof AuthenticatedBuilderImageRoute
@@ -1260,6 +1269,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/deploy': typeof AuthenticatedBuilderDeployRoute
   '/_authenticated/builder/digital-human': typeof AuthenticatedBuilderDigitalHumanRoute
   '/_authenticated/builder/documents': typeof AuthenticatedBuilderDocumentsRoute
+  '/_authenticated/builder/ecommerce': typeof AuthenticatedBuilderEcommerceRoute
   '/_authenticated/builder/fullstack': typeof AuthenticatedBuilderFullstackRoute
   '/_authenticated/builder/i18n': typeof AuthenticatedBuilderI18nRoute
   '/_authenticated/builder/image': typeof AuthenticatedBuilderImageRoute
@@ -1402,6 +1412,7 @@ export interface FileRouteTypes {
     | '/builder/deploy'
     | '/builder/digital-human'
     | '/builder/documents'
+    | '/builder/ecommerce'
     | '/builder/fullstack'
     | '/builder/i18n'
     | '/builder/image'
@@ -1532,6 +1543,7 @@ export interface FileRouteTypes {
     | '/builder/deploy'
     | '/builder/digital-human'
     | '/builder/documents'
+    | '/builder/ecommerce'
     | '/builder/fullstack'
     | '/builder/i18n'
     | '/builder/image'
@@ -1673,6 +1685,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/deploy'
     | '/_authenticated/builder/digital-human'
     | '/_authenticated/builder/documents'
+    | '/_authenticated/builder/ecommerce'
     | '/_authenticated/builder/fullstack'
     | '/_authenticated/builder/i18n'
     | '/_authenticated/builder/image'
@@ -2674,6 +2687,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderFullstackRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/ecommerce': {
+      id: '/_authenticated/builder/ecommerce'
+      path: '/ecommerce'
+      fullPath: '/builder/ecommerce'
+      preLoaderRoute: typeof AuthenticatedBuilderEcommerceRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/documents': {
       id: '/_authenticated/builder/documents'
       path: '/documents'
@@ -2772,6 +2792,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderDeployRoute: typeof AuthenticatedBuilderDeployRoute
   AuthenticatedBuilderDigitalHumanRoute: typeof AuthenticatedBuilderDigitalHumanRoute
   AuthenticatedBuilderDocumentsRoute: typeof AuthenticatedBuilderDocumentsRoute
+  AuthenticatedBuilderEcommerceRoute: typeof AuthenticatedBuilderEcommerceRoute
   AuthenticatedBuilderFullstackRoute: typeof AuthenticatedBuilderFullstackRoute
   AuthenticatedBuilderI18nRoute: typeof AuthenticatedBuilderI18nRoute
   AuthenticatedBuilderImageRoute: typeof AuthenticatedBuilderImageRoute
@@ -2798,6 +2819,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderDeployRoute: AuthenticatedBuilderDeployRoute,
   AuthenticatedBuilderDigitalHumanRoute: AuthenticatedBuilderDigitalHumanRoute,
   AuthenticatedBuilderDocumentsRoute: AuthenticatedBuilderDocumentsRoute,
+  AuthenticatedBuilderEcommerceRoute: AuthenticatedBuilderEcommerceRoute,
   AuthenticatedBuilderFullstackRoute: AuthenticatedBuilderFullstackRoute,
   AuthenticatedBuilderI18nRoute: AuthenticatedBuilderI18nRoute,
   AuthenticatedBuilderImageRoute: AuthenticatedBuilderImageRoute,
