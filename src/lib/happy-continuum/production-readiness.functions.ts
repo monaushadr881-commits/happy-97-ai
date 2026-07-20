@@ -24,6 +24,7 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { withBrain } from "@/lib/founder/with-brain";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
+import { memoryCache } from "@/lib/founder/read-cache";
 import type { FounderApprovalContext } from "@/lib/founder/types";
 
 const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
@@ -87,17 +88,19 @@ export const deploymentChecklist = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "checklist", "compute");
-    const [backups, recoveries, infra] = await Promise.all([
-      readAssets(context.supabase, context.userId, "cloud.backup", 5),
-      readAssets(context.supabase, context.userId, "cloud.recovery", 5),
-      readAssets(context.supabase, context.userId, "infinity.%", 25),
-    ]);
-    const checks = [
-      { key: "backup_recent", passed: !!backups[0], detail: backups[0]?.created_at ?? null },
-      { key: "recovery_drill", passed: !!recoveries[0], detail: recoveries[0]?.created_at ?? null },
-      { key: "runtime_domains_registered", passed: infra.length > 0, detail: infra.length },
-    ];
-    return { checks, passed: checks.every((c) => c.passed) };
+    return memoryCache.wrap(`readiness:checklist:${context.userId}`, 30_000, async () => {
+      const [backups, recoveries, infra] = await Promise.all([
+        readAssets(context.supabase, context.userId, "cloud.backup", 5),
+        readAssets(context.supabase, context.userId, "cloud.recovery", 5),
+        readAssets(context.supabase, context.userId, "infinity.%", 25),
+      ]);
+      const checks = [
+        { key: "backup_recent", passed: !!backups[0], detail: backups[0]?.created_at ?? null },
+        { key: "recovery_drill", passed: !!recoveries[0], detail: recoveries[0]?.created_at ?? null },
+        { key: "runtime_domains_registered", passed: infra.length > 0, detail: infra.length },
+      ];
+      return { checks, passed: checks.every((c) => c.passed) };
+    });
   });
 
 /** Environment Validation — verifies required env-var surface exists. */
@@ -105,9 +108,11 @@ export const environmentValidate = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "environment", "validate");
-    const keys = ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY", "SUPABASE_SERVICE_ROLE_KEY", "LOVABLE_API_KEY"];
-    const results = keys.map((k) => ({ key: k, present: !!process.env[k] }));
-    return { results, healthy: results.every((r) => r.present) };
+    return memoryCache.wrap(`readiness:env:${context.userId}`, 60_000, async () => {
+      const keys = ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY", "SUPABASE_SERVICE_ROLE_KEY", "LOVABLE_API_KEY"];
+      const results = keys.map((k) => ({ key: k, present: !!process.env[k] }));
+      return { results, healthy: results.every((r) => r.present) };
+    });
   });
 
 /** Configuration Validation — validates canonical config surface. */
@@ -115,11 +120,13 @@ export const configurationValidate = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "configuration", "validate");
-    const { data: settings } = await context.supabase
-      .from("settings")
-      .select("key,scope_type")
-      .limit(200);
-    return { total: settings?.length ?? 0, scopes: [...new Set((settings ?? []).map((s) => s.scope_type))] };
+    return memoryCache.wrap(`readiness:config:${context.userId}`, 60_000, async () => {
+      const { data: settings } = await context.supabase
+        .from("settings")
+        .select("key,scope_type")
+        .limit(200);
+      return { total: settings?.length ?? 0, scopes: [...new Set((settings ?? []).map((s) => s.scope_type))] };
+    });
   });
 
 /** Runtime Health Check — aggregates infinity + ops probes. */
@@ -127,12 +134,14 @@ export const runtimeHealthCheck = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "runtime", "health");
-    const [probes] = await Promise.all([
-      readAssets(context.supabase, context.userId, "infinity.%", 50),
-    ]);
-    const by_kind: Record<string, number> = {};
-    for (const r of probes) by_kind[r.kind] = (by_kind[r.kind] ?? 0) + 1;
-    return { probes: probes.length, by_kind, latest: probes[0]?.created_at ?? null };
+    return memoryCache.wrap(`readiness:runtime-health:${context.userId}`, 15_000, async () => {
+      const [probes] = await Promise.all([
+        readAssets(context.supabase, context.userId, "infinity.%", 50),
+      ]);
+      const by_kind: Record<string, number> = {};
+      for (const r of probes) by_kind[r.kind] = (by_kind[r.kind] ?? 0) + 1;
+      return { probes: probes.length, by_kind, latest: probes[0]?.created_at ?? null };
+    });
   });
 
 /** Dependency Verification — verifies backend connectivity + tables. */
@@ -140,17 +149,19 @@ export const dependencyVerify = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "dependencies", "verify");
-    const [ca, al, st] = await Promise.all([
-      context.supabase.from("creator_assets").select("id").limit(1),
-      context.supabase.from("audit_logs").select("id").limit(1),
-      context.supabase.from("settings").select("key").limit(1),
-    ]);
-    const probes = [
-      { name: "creator_assets", ok: !ca.error },
-      { name: "audit_logs", ok: !al.error },
-      { name: "settings", ok: !st.error },
-    ];
-    return { dependencies: probes, healthy: probes.every((p) => p.ok) };
+    return memoryCache.wrap(`readiness:deps:${context.userId}`, 30_000, async () => {
+      const [ca, al, st] = await Promise.all([
+        context.supabase.from("creator_assets").select("id").limit(1),
+        context.supabase.from("audit_logs").select("id").limit(1),
+        context.supabase.from("settings").select("key").limit(1),
+      ]);
+      const probes = [
+        { name: "creator_assets", ok: !ca.error },
+        { name: "audit_logs", ok: !al.error },
+        { name: "settings", ok: !st.error },
+      ];
+      return { dependencies: probes, healthy: probes.every((p) => p.ok) };
+    });
   });
 
 /** Release Readiness — R158-gated release cutover request. */
@@ -240,20 +251,22 @@ export const productionReadinessScore = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "production", "score");
-    const [backups, recoveries, infra] = await Promise.all([
-      readAssets(context.supabase, context.userId, "cloud.backup", 1),
-      readAssets(context.supabase, context.userId, "cloud.recovery", 1),
-      readAssets(context.supabase, context.userId, "infinity.%", 1),
-    ]);
-    const envOk = ["SUPABASE_URL", "LOVABLE_API_KEY"].every((k) => !!process.env[k]);
-    const signals = [
-      { key: "environment", weight: 20, passed: envOk },
-      { key: "runtime", weight: 30, passed: infra.length > 0 },
-      { key: "backup", weight: 30, passed: backups.length > 0 },
-      { key: "recovery", weight: 20, passed: recoveries.length > 0 },
-    ];
-    const score = signals.reduce((acc, s) => acc + (s.passed ? s.weight : 0), 0);
-    return { score, signals, verdict: score >= 80 ? "ready" : score >= 50 ? "partial" : "not_ready" };
+    return memoryCache.wrap(`readiness:score:${context.userId}`, 30_000, async () => {
+      const [backups, recoveries, infra] = await Promise.all([
+        readAssets(context.supabase, context.userId, "cloud.backup", 1),
+        readAssets(context.supabase, context.userId, "cloud.recovery", 1),
+        readAssets(context.supabase, context.userId, "infinity.%", 1),
+      ]);
+      const envOk = ["SUPABASE_URL", "LOVABLE_API_KEY"].every((k) => !!process.env[k]);
+      const signals = [
+        { key: "environment", weight: 20, passed: envOk },
+        { key: "runtime", weight: 30, passed: infra.length > 0 },
+        { key: "backup", weight: 30, passed: backups.length > 0 },
+        { key: "recovery", weight: 20, passed: recoveries.length > 0 },
+      ];
+      const score = signals.reduce((acc, s) => acc + (s.passed ? s.weight : 0), 0);
+      return { score, signals, verdict: score >= 80 ? "ready" : score >= 50 ? "partial" : "not_ready" };
+    });
   });
 
 /** Deployment Analytics — canonical rollups over release events. */
@@ -261,19 +274,21 @@ export const deploymentAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "analytics", "deployment");
-    const { data: logs } = await context.supabase
-      .from("audit_logs")
-      .select("action,severity,occurred_at")
-      .eq("category", "deployment")
-      .order("occurred_at", { ascending: false })
-      .limit(200);
-    const by_action: Record<string, number> = {};
-    const by_severity: Record<string, number> = {};
-    for (const r of (logs ?? []) as { action: string; severity: string }[]) {
-      by_action[r.action] = (by_action[r.action] ?? 0) + 1;
-      by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
-    }
-    return { total: logs?.length ?? 0, by_action, by_severity };
+    return memoryCache.wrap(`readiness:deploy:analytics:${context.userId}`, 60_000, async () => {
+      const { data: logs } = await context.supabase
+        .from("audit_logs")
+        .select("action,severity,occurred_at")
+        .eq("category", "deployment")
+        .order("occurred_at", { ascending: false })
+        .limit(200);
+      const by_action: Record<string, number> = {};
+      const by_severity: Record<string, number> = {};
+      for (const r of (logs ?? []) as { action: string; severity: string }[]) {
+        by_action[r.action] = (by_action[r.action] ?? 0) + 1;
+        by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
+      }
+      return { total: logs?.length ?? 0, by_action, by_severity };
+    });
   });
 
 /** Health Analytics — mission-control health rollups. */
@@ -281,17 +296,19 @@ export const healthAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "analytics", "health");
-    const { data: logs } = await context.supabase
-      .from("audit_logs")
-      .select("action,severity,occurred_at")
-      .eq("category", "mission_control")
-      .order("occurred_at", { ascending: false })
-      .limit(200);
-    const by_severity: Record<string, number> = {};
-    for (const r of (logs ?? []) as { severity: string }[]) {
-      by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
-    }
-    return { total: logs?.length ?? 0, by_severity };
+    return memoryCache.wrap(`readiness:health:analytics:${context.userId}`, 60_000, async () => {
+      const { data: logs } = await context.supabase
+        .from("audit_logs")
+        .select("action,severity,occurred_at")
+        .eq("category", "mission_control")
+        .order("occurred_at", { ascending: false })
+        .limit(200);
+      const by_severity: Record<string, number> = {};
+      for (const r of (logs ?? []) as { severity: string }[]) {
+        by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
+      }
+      return { total: logs?.length ?? 0, by_severity };
+    });
   });
 
 /** Production Readiness Health — Mission Control feed. */

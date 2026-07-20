@@ -24,6 +24,7 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { withBrain } from "@/lib/founder/with-brain";
 import { requestFounderApproval } from "@/lib/founder/approval.functions";
 import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
+import { memoryCache } from "@/lib/founder/read-cache";
 import type { FounderApprovalContext } from "@/lib/founder/types";
 
 const ZERO_UUID = "00000000-0000-0000-0000-000000000000";
@@ -272,16 +273,22 @@ export const cloudList = createServerFn({ method: "GET" })
       limit: z.number().int().min(1).max(200).default(50),
     }).parse(i),
   )
-  .handler(async ({ data, context }) => {
-    const like = data.module ? `cloud.${data.module}` : "cloud.%";
-    let q = context.supabase
-      .from("creator_assets")
-      .select("id,name,kind,tags,metadata,created_at")
-      .like("kind", like)
-      .order("created_at", { ascending: false })
-      .limit(data.limit);
-    if (data.workspace_id) q = q.contains("metadata", { workspace_id: data.workspace_id } as never);
-    const r = await q;
-    if (r.error) throw new Error(`cloud_list_failed: ${r.error.message}`);
-    return r.data ?? [];
-  });
+  .handler(async ({ data, context }) =>
+    memoryCache.wrap(
+      `cloud:list:${context.userId}:${data.module ?? "all"}:${data.workspace_id ?? "*"}:${data.limit}`,
+      60_000,
+      async () => {
+        const like = data.module ? `cloud.${data.module}` : "cloud.%";
+        let q = context.supabase
+          .from("creator_assets")
+          .select("id,name,kind,tags,metadata,created_at")
+          .like("kind", like)
+          .order("created_at", { ascending: false })
+          .limit(data.limit);
+        if (data.workspace_id) q = q.contains("metadata", { workspace_id: data.workspace_id } as never);
+        const r = await q;
+        if (r.error) throw new Error(`cloud_list_failed: ${r.error.message}`);
+        return r.data ?? [];
+      },
+    ),
+  );

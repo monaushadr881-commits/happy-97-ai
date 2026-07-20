@@ -20,6 +20,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { toAppError } from "@/services/core/errors";
 import { z } from "zod";
 import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
+import { memoryCache } from "@/lib/founder/read-cache";
 
 const uuid = z.string().uuid();
 const guard = <T>(fn: () => Promise<T>) => fn().catch((e) => { throw toAppError(e); });
@@ -53,19 +54,22 @@ export const kbSearchArticles = createServerFn({ method: "GET" })
     limit: z.number().int().min(1).max(50).default(24),
   }).parse(i ?? {}))
   .handler(async ({ data, context }) => guard(async () => {
-    let q = context.supabase.from("knowledge_articles")
-      .select("id, slug, title, summary, cover_url, language, is_public, company_id, category_id, status, updated_at")
-      .eq("status", "active")
-      .order("updated_at", { ascending: false })
-      .limit(data.limit);
-    if (data.scope === "public") q = q.eq("is_public", true);
-    else if (data.scope === "company" && data.company_id) q = q.eq("company_id", data.company_id);
-    if (data.category_id) q = q.eq("category_id", data.category_id);
-    if (data.language) q = q.eq("language", data.language);
-    if (data.q) q = q.or(`title.ilike.%${data.q}%,summary.ilike.%${data.q}%`);
-    const r = await q;
-    if (r.error) throw r.error;
-    return r.data ?? [];
+    const key = `kb:search:${context.userId}:${data.scope}:${data.company_id ?? "-"}:${data.category_id ?? "-"}:${data.language ?? "-"}:${data.limit}:${data.q ?? ""}`;
+    return memoryCache.wrap(key, 45_000, async () => {
+      let q = context.supabase.from("knowledge_articles")
+        .select("id, slug, title, summary, cover_url, language, is_public, company_id, category_id, status, updated_at")
+        .eq("status", "active")
+        .order("updated_at", { ascending: false })
+        .limit(data.limit);
+      if (data.scope === "public") q = q.eq("is_public", true);
+      else if (data.scope === "company" && data.company_id) q = q.eq("company_id", data.company_id);
+      if (data.category_id) q = q.eq("category_id", data.category_id);
+      if (data.language) q = q.eq("language", data.language);
+      if (data.q) q = q.or(`title.ilike.%${data.q}%,summary.ilike.%${data.q}%`);
+      const r = await q;
+      if (r.error) throw r.error;
+      return r.data ?? [];
+    });
   }));
 
 export const kbGetArticle = createServerFn({ method: "GET" })
@@ -193,21 +197,23 @@ export const kbAddDocument = createServerFn({ method: "POST" })
 
 export const kbDashboard = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(async () => {
-    const [pub, cats, docs, drafts] = await Promise.all([
-      context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true })
-        .eq("is_public", true).eq("status", "active"),
-      context.supabase.from("knowledge_categories").select("id", { count: "exact", head: true }).eq("status", "active"),
-      context.supabase.from("ai_knowledge_documents").select("id", { count: "exact", head: true }).eq("status", "active"),
-      context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true }).eq("status", "draft"),
-    ]);
-    return {
-      public_articles: pub.count ?? 0,
-      categories: cats.count ?? 0,
-      documents: docs.count ?? 0,
-      drafts: drafts.count ?? 0,
-    };
-  }));
+  .handler(async ({ context }) => guard(() =>
+    memoryCache.wrap(`kb:dashboard:${context.userId}`, 60_000, async () => {
+      const [pub, cats, docs, drafts] = await Promise.all([
+        context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true })
+          .eq("is_public", true).eq("status", "active"),
+        context.supabase.from("knowledge_categories").select("id", { count: "exact", head: true }).eq("status", "active"),
+        context.supabase.from("ai_knowledge_documents").select("id", { count: "exact", head: true }).eq("status", "active"),
+        context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true }).eq("status", "draft"),
+      ]);
+      return {
+        public_articles: pub.count ?? 0,
+        categories: cats.count ?? 0,
+        documents: docs.count ?? 0,
+        drafts: drafts.count ?? 0,
+      };
+    })
+  ));
 
 // =====================================================================
 // HAPPY KNOWLEDGE ASSISTANT (RAG-lite via Gateway)

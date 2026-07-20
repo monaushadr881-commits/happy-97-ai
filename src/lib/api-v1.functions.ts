@@ -14,6 +14,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
 import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
+import { memoryCache } from "@/lib/founder/read-cache";
 import {
   platformService, authzService, companyService, brandService,
   workspaceService, userService, settingsService, notificationService,
@@ -157,7 +158,7 @@ export const apiSearchKnowledge = createServerFn({ method: "POST" })
 // ------------------------- Analytics -------------------------
 export const apiPlatformOverview = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => analyticsService.platformOverview(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`api:platform:overview:${context.userId}`, 60_000, () => guard(() => analyticsService.platformOverview(svc(context)))));
 
 // ------------------------- Feature Flags / L10N --------------
 export const apiFeatureFlags = createServerFn({ method: "GET" })

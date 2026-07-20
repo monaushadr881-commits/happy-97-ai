@@ -10,6 +10,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { makeServiceContext } from "@/services/core/context";
 import { toAppError } from "@/services/core/errors";
 import { adoptToCanonicalPipeline } from "@/lib/founder/pipeline";
+import { memoryCache } from "@/lib/founder/read-cache";
 import {
   healthService, metricsService, alertingService, incidentService,
   deploymentService, queueOpsService, securityOpsService, aiOpsService, dbOpsService,
@@ -40,7 +41,7 @@ const adopt = (
 // ---- Health ----
 export const opsHealthAll = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => healthService.all(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`ops:health:all:${context.userId}`, 15_000, () => guard(() => healthService.all(svc(context)))));
 
 export const opsHealthRecord = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -112,12 +113,12 @@ export const opsFinishDeployment = createServerFn({ method: "POST" })
 
 export const opsDeploymentAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => deploymentService.analytics(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`ops:deploy:analytics:${context.userId}`, 60_000, () => guard(() => deploymentService.analytics(svc(context)))));
 
 // ---- Queue ----
 export const opsQueueStats = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => queueOpsService.stats(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`ops:queue:stats:${context.userId}`, 15_000, () => guard(() => queueOpsService.stats(svc(context)))));
 
 export const opsQueueFailed = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -131,7 +132,7 @@ export const opsQueueRetry = createServerFn({ method: "POST" })
 // ---- Security ----
 export const opsSecuritySummary = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => securityOpsService.summary(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`ops:sec:summary:${context.userId}`, 15_000, () => guard(() => securityOpsService.summary(svc(context)))));
 
 export const opsSecurityAudit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
