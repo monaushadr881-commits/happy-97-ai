@@ -13,7 +13,6 @@
  * (adoptToCanonicalPipeline → withBrain → approval → audit → Mission Control).
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useState as _use } from "react";
 import { useMutation as useMut, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { PageHeader, Panel, Chip, Hairline, EmptyState } from "@/design-system/primitives";
@@ -30,8 +29,8 @@ import {
 } from "@/lib/business/support-service-runtime.functions";
 import { apiListCompanies } from "@/lib/api-v1.functions";
 
-// keep imports used
-void useMutation; void _use;
+
+
 
 export const Route = createFileRoute("/_authenticated/portal/customer")({
   head: () => ({ meta: [
