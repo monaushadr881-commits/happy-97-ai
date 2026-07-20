@@ -199,6 +199,7 @@ function DeploymentCenterRoute() {
             <TabsList>
               <TabsTrigger value="runs"    className="gap-1"><Rocket className="h-4 w-4" />Runs</TabsTrigger>
               <TabsTrigger value="targets" className="gap-1"><Cloud className="h-4 w-4" />Targets</TabsTrigger>
+              <TabsTrigger value="health"  className="gap-1"><HeartPulse className="h-4 w-4" />Health</TabsTrigger>
               <TabsTrigger value="policy"  className="gap-1"><Sparkles className="h-4 w-4" />Policy</TabsTrigger>
             </TabsList>
 
