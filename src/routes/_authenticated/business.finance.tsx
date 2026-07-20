@@ -1,11 +1,12 @@
-/** /business/finance — CoA, Ledger, Expenses, Tax. */
+/** /business/finance — CoA, Ledger, Expenses, Tax. Suspense-adopted inner. */
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { PageHeader, Panel, Chip, Hairline, StatCard } from "@/design-system/primitives";
 import { useBusiness } from "@/components/business/BusinessContext";
 import { NoCompany } from "@/components/business/NoCompany";
 import { bizListAccounts, bizListLedger, bizListExpenses, bizListTaxRates } from "@/lib/business-v1.functions";
 import { Wallet, BookOpen, Landmark } from "lucide-react";
+import { definedQuery } from "@/lib/founder/suspense-query";
 
 export const Route = createFileRoute("/_authenticated/business/finance")({
   head: () => ({ meta: [{ title: "Finance — Business OS" }, { name: "robots", content: "noindex" }] }),
@@ -21,16 +22,25 @@ function money(cents: number) { return `$${(cents / 100).toLocaleString(undefine
 
 function Finance() {
   const { companyId, companies } = useBusiness();
-  const accts = useQuery({ queryKey: ["biz", "coa", companyId], enabled: !!companyId, queryFn: () => bizListAccounts({ data: { company_id: companyId!, limit: 200 } }) });
-  const ledg = useQuery({ queryKey: ["biz", "ledger", companyId], enabled: !!companyId, queryFn: () => bizListLedger({ data: { company_id: companyId!, limit: 200 } }) });
-  const exps = useQuery({ queryKey: ["biz", "expenses", companyId], enabled: !!companyId, queryFn: () => bizListExpenses({ data: { company_id: companyId!, limit: 100 } }) });
-  const taxes = useQuery({ queryKey: ["biz", "tax", companyId], enabled: !!companyId, queryFn: () => bizListTaxRates({ data: { company_id: companyId!, limit: 50 } }) });
-
   if (!companyId) return (<><PageHeader eyebrow="Business OS" title="Finance" /><NoCompany hasAny={companies.length > 0} /></>);
-  const a = (accts.data ?? []) as unknown as Account[];
-  const l = (ledg.data ?? []) as unknown as Entry[];
-  const e = (exps.data ?? []) as unknown as Expense[];
-  const t = (taxes.data ?? []) as unknown as Tax[];
+  return <FinanceInner companyId={companyId} />;
+}
+
+function FinanceInner({ companyId }: { companyId: string }) {
+  const acctsQ = definedQuery(["biz", "coa", companyId], () => bizListAccounts({ data: { company_id: companyId, limit: 200 } }));
+  const ledgQ  = definedQuery(["biz", "ledger", companyId], () => bizListLedger({ data: { company_id: companyId, limit: 200 } }));
+  const expsQ  = definedQuery(["biz", "expenses", companyId], () => bizListExpenses({ data: { company_id: companyId, limit: 100 } }));
+  const taxQ   = definedQuery(["biz", "tax", companyId], () => bizListTaxRates({ data: { company_id: companyId, limit: 50 } }));
+
+  const { data: accts } = useSuspenseQuery(acctsQ);
+  const { data: ledg }  = useSuspenseQuery(ledgQ);
+  const { data: exps }  = useSuspenseQuery(expsQ);
+  const { data: taxes } = useSuspenseQuery(taxQ);
+
+  const a = (accts ?? []) as unknown as Account[];
+  const l = (ledg ?? []) as unknown as Entry[];
+  const e = (exps ?? []) as unknown as Expense[];
+  const t = (taxes ?? []) as unknown as Tax[];
   const debit = l.reduce((s, r) => s + (r.debit_cents ?? 0), 0);
   const credit = l.reduce((s, r) => s + (r.credit_cents ?? 0), 0);
   const expenseTotal = e.reduce((s, r) => s + (r.amount_cents ?? 0), 0);
