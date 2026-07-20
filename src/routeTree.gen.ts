@@ -32,6 +32,7 @@ import { Route as AuthenticatedEnterpriseRouteImport } from './routes/_authentic
 import { Route as AuthenticatedEducationRouteImport } from './routes/_authenticated/education'
 import { Route as AuthenticatedEcosystemRouteImport } from './routes/_authenticated/ecosystem'
 import { Route as AuthenticatedDigitalHumanRouteImport } from './routes/_authenticated/digital-human'
+import { Route as AuthenticatedDeploymentRouteImport } from './routes/_authenticated/deployment'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCrmRouteImport } from './routes/_authenticated/crm'
 import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
@@ -294,6 +295,11 @@ const AuthenticatedDigitalHumanRoute =
     path: '/digital-human',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDeploymentRoute = AuthenticatedDeploymentRouteImport.update({
+  id: '/deployment',
+  path: '/deployment',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -1143,6 +1149,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/crm': typeof AuthenticatedCrmRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deployment': typeof AuthenticatedDeploymentRoute
   '/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/ecosystem': typeof AuthenticatedEcosystemRoute
   '/education': typeof AuthenticatedEducationRouteWithChildren
@@ -1307,6 +1314,7 @@ export interface FileRoutesByTo {
   '/communication': typeof AuthenticatedCommunicationRoute
   '/crm': typeof AuthenticatedCrmRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deployment': typeof AuthenticatedDeploymentRoute
   '/ecosystem': typeof AuthenticatedEcosystemRoute
   '/erp': typeof AuthenticatedErpRoute
   '/finance': typeof AuthenticatedFinanceRoute
@@ -1467,6 +1475,7 @@ export interface FileRoutesById {
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/crm': typeof AuthenticatedCrmRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/deployment': typeof AuthenticatedDeploymentRoute
   '/_authenticated/digital-human': typeof AuthenticatedDigitalHumanRouteWithChildren
   '/_authenticated/ecosystem': typeof AuthenticatedEcosystemRoute
   '/_authenticated/education': typeof AuthenticatedEducationRouteWithChildren
@@ -1635,6 +1644,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/crm'
     | '/dashboard'
+    | '/deployment'
     | '/digital-human'
     | '/ecosystem'
     | '/education'
@@ -1799,6 +1809,7 @@ export interface FileRouteTypes {
     | '/communication'
     | '/crm'
     | '/dashboard'
+    | '/deployment'
     | '/ecosystem'
     | '/erp'
     | '/finance'
@@ -1958,6 +1969,7 @@ export interface FileRouteTypes {
     | '/_authenticated/community'
     | '/_authenticated/crm'
     | '/_authenticated/dashboard'
+    | '/_authenticated/deployment'
     | '/_authenticated/digital-human'
     | '/_authenticated/ecosystem'
     | '/_authenticated/education'
@@ -2277,6 +2289,13 @@ declare module '@tanstack/react-router' {
       path: '/digital-human'
       fullPath: '/digital-human'
       preLoaderRoute: typeof AuthenticatedDigitalHumanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/deployment': {
+      id: '/_authenticated/deployment'
+      path: '/deployment'
+      fullPath: '/deployment'
+      preLoaderRoute: typeof AuthenticatedDeploymentRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -3672,6 +3691,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedCrmRoute: typeof AuthenticatedCrmRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDeploymentRoute: typeof AuthenticatedDeploymentRoute
   AuthenticatedDigitalHumanRoute: typeof AuthenticatedDigitalHumanRouteWithChildren
   AuthenticatedEcosystemRoute: typeof AuthenticatedEcosystemRoute
   AuthenticatedEducationRoute: typeof AuthenticatedEducationRouteWithChildren
@@ -3711,6 +3731,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedCrmRoute: AuthenticatedCrmRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDeploymentRoute: AuthenticatedDeploymentRoute,
   AuthenticatedDigitalHumanRoute: AuthenticatedDigitalHumanRouteWithChildren,
   AuthenticatedEcosystemRoute: AuthenticatedEcosystemRoute,
   AuthenticatedEducationRoute: AuthenticatedEducationRouteWithChildren,
