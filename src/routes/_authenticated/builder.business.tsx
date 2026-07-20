@@ -46,42 +46,55 @@ export const Route = createFileRoute("/_authenticated/builder/business")({
 });
 
 type PresetId =
-  | "crm" | "erp" | "hrms" | "pos" | "inventory" | "warehouse"
-  | "manufacturing" | "hospital" | "school" | "hotel"
-  | "restaurant" | "salon" | "gym" | "marketplace";
+  | "crm" | "erp" | "hrms" | "accounting" | "finance" | "payroll"
+  | "manufacturing" | "inventory" | "warehouse" | "procurement"
+  | "sales" | "marketing" | "support" | "projects" | "assets"
+  | "legal" | "compliance" | "audit" | "analytics" | "ai";
 
 const PRESETS: { id: PresetId; label: string; icon: React.ReactNode; hint: string }[] = [
-  { id: "crm",           label: "CRM",           icon: <Users className="h-4 w-4" />,            hint: "Leads · Deals · Contacts · Pipelines · Activities." },
-  { id: "erp",           label: "ERP",           icon: <Building2 className="h-4 w-4" />,        hint: "Finance · Procurement · Inventory · Sales · Reporting." },
-  { id: "hrms",          label: "HRMS",          icon: <UserCog className="h-4 w-4" />,          hint: "Employees · Attendance · Payroll · Leave · Performance." },
-  { id: "pos",           label: "POS",           icon: <ShoppingCart className="h-4 w-4" />,     hint: "Cart · Payment · Receipts · Shifts · Refunds." },
-  { id: "inventory",     label: "Inventory",     icon: <Boxes className="h-4 w-4" />,            hint: "Items · Stock · Reservations · Cycle counts · Alerts." },
-  { id: "warehouse",     label: "Warehouse",     icon: <Warehouse className="h-4 w-4" />,        hint: "Zones · Bins · Receiving · Picking · Transfers." },
-  { id: "manufacturing", label: "Manufacturing", icon: <Factory className="h-4 w-4" />,          hint: "BOM · Work orders · Machines · Quality · Downtime." },
-  { id: "hospital",      label: "Hospital",      icon: <Hospital className="h-4 w-4" />,         hint: "Patients · Appointments · Wards · Pharmacy · Billing." },
-  { id: "school",        label: "School",        icon: <GraduationCap className="h-4 w-4" />,    hint: "Students · Courses · Attendance · Exams · Fees." },
-  { id: "hotel",         label: "Hotel",         icon: <BedDouble className="h-4 w-4" />,        hint: "Rooms · Reservations · Housekeeping · Folio · Rates." },
-  { id: "restaurant",    label: "Restaurant",    icon: <UtensilsCrossed className="h-4 w-4" />,  hint: "Menu · Orders · KDS · Tables · Delivery." },
-  { id: "salon",         label: "Salon",         icon: <Scissors className="h-4 w-4" />,         hint: "Services · Stylists · Bookings · Packages · Loyalty." },
-  { id: "gym",           label: "Gym",           icon: <Dumbbell className="h-4 w-4" />,         hint: "Members · Plans · Classes · Trainers · Check-in." },
-  { id: "marketplace",   label: "Marketplace",   icon: <Store className="h-4 w-4" />,            hint: "Vendors · Listings · Orders · Payouts · Reviews." },
+  { id: "crm",           label: "CRM",           icon: <Users className="h-4 w-4" />,           hint: "Leads · Deals · Contacts · Pipelines · Activities." },
+  { id: "erp",           label: "ERP",           icon: <Building2 className="h-4 w-4" />,       hint: "Finance · Procurement · Inventory · Sales · Reporting." },
+  { id: "hrms",          label: "HRMS",          icon: <UserCog className="h-4 w-4" />,         hint: "Employees · Attendance · Leave · Performance · Docs." },
+  { id: "accounting",    label: "Accounting",    icon: <BookOpen className="h-4 w-4" />,        hint: "Chart of accounts · Journals · Ledgers · Reports." },
+  { id: "finance",       label: "Finance",       icon: <Wallet className="h-4 w-4" />,          hint: "Budgets · Forecasts · Cash flow · Treasury." },
+  { id: "payroll",       label: "Payroll",       icon: <Banknote className="h-4 w-4" />,        hint: "Salaries · Taxes · Payslips · Statutory filings." },
+  { id: "manufacturing", label: "Manufacturing", icon: <Factory className="h-4 w-4" />,         hint: "BOM · Work orders · Machines · Quality · Downtime." },
+  { id: "inventory",     label: "Inventory",     icon: <Boxes className="h-4 w-4" />,           hint: "Items · Stock · Reservations · Cycle counts · Alerts." },
+  { id: "warehouse",     label: "Warehouse",     icon: <Warehouse className="h-4 w-4" />,       hint: "Zones · Bins · Receiving · Picking · Transfers." },
+  { id: "procurement",   label: "Procurement",   icon: <ShoppingCart className="h-4 w-4" />,    hint: "Requisitions · POs · Vendors · Contracts · GRN." },
+  { id: "sales",         label: "Sales",         icon: <BarChart3 className="h-4 w-4" />,       hint: "Quotes · Orders · Invoices · Commissions · Targets." },
+  { id: "marketing",     label: "Marketing",     icon: <Megaphone className="h-4 w-4" />,       hint: "Campaigns · Segments · Content · Analytics · ROI." },
+  { id: "support",       label: "Support",       icon: <Headphones className="h-4 w-4" />,      hint: "Tickets · SLAs · Knowledge base · CSAT · Escalations." },
+  { id: "projects",      label: "Projects",      icon: <FolderKanban className="h-4 w-4" />,    hint: "Tasks · Milestones · Timesheets · Resources · Gantt." },
+  { id: "assets",        label: "Assets",        icon: <HardHat className="h-4 w-4" />,         hint: "Asset register · Depreciation · Maintenance · Audits." },
+  { id: "legal",         label: "Legal",         icon: <Scale className="h-4 w-4" />,           hint: "Contracts · Matters · Signatures · Renewals · Vault." },
+  { id: "compliance",    label: "Compliance",    icon: <ComplianceIcon className="h-4 w-4" />,  hint: "Policies · Controls · Evidence · Regulatory filings." },
+  { id: "audit",         label: "Audit",         icon: <FileSearch className="h-4 w-4" />,      hint: "Plans · Findings · Remediation · Immutable audit logs." },
+  { id: "analytics",     label: "Analytics",     icon: <BarChart3 className="h-4 w-4" />,       hint: "KPIs · Dashboards · Forecasts · Insights · Alerts." },
+  { id: "ai",            label: "AI Integration",icon: <Brain className="h-4 w-4" />,           hint: "Copilots · Agents · Automations · Memory · Knowledge." },
 ];
 
 const PRESET_INTRO: Record<PresetId, string> = {
   crm:           "Describe the pipeline, teams, and lead sources.",
   erp:           "Describe modules, currencies, and org units.",
-  hrms:          "Describe headcount, policies, and payroll rules.",
-  pos:           "Describe outlets, taxes, and payment methods.",
+  hrms:          "Describe headcount, policies, and org structure.",
+  accounting:    "Describe chart of accounts, tax rules, and fiscal calendar.",
+  finance:       "Describe budgets, forecast horizons, and cash flow rules.",
+  payroll:       "Describe pay cycles, statutory deductions, and payslips.",
+  manufacturing: "Describe products, BOM, and workstations.",
   inventory:     "Describe items, warehouses, and reorder rules.",
   warehouse:     "Describe zones, bins, and picking strategy.",
-  manufacturing: "Describe products, BOM, and workstations.",
-  hospital:      "Describe departments, wards, and staff.",
-  school:        "Describe grades, subjects, and terms.",
-  hotel:         "Describe room types, rate plans, and services.",
-  restaurant:    "Describe menu, outlets, and delivery channels.",
-  salon:         "Describe services, stylists, and packages.",
-  gym:           "Describe plans, classes, and access rules.",
-  marketplace:   "Describe vendor onboarding, commission, and payouts.",
+  procurement:   "Describe vendors, approval matrix, and PO workflow.",
+  sales:         "Describe pipelines, price lists, and commission plans.",
+  marketing:     "Describe channels, segments, and campaign KPIs.",
+  support:       "Describe queues, SLAs, and escalation rules.",
+  projects:      "Describe project types, tasks, and billing model.",
+  assets:        "Describe asset classes, depreciation, and maintenance.",
+  legal:         "Describe contract types, approval matrix, and vault.",
+  compliance:    "Describe frameworks, controls, and evidence sources.",
+  audit:         "Describe audit universe, plan, and finding workflow.",
+  analytics:     "Describe KPIs, dashboards, and forecast horizons.",
+  ai:            "Describe copilots, agents, memory, and automations.",
 };
 
 interface LogLine { id: string; at: string; kind: "log" | "warn" | "err"; text: string }
