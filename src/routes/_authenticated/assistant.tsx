@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { sendChatMessage } from "@/lib/happyx-chat.functions";
 import { Send, Sparkles, User } from "lucide-react";
 import { toast } from "sonner";
+import { HappyUniversalActionBar } from "@/components/happy/HappyUniversalActionBar";
 
 export const Route = createFileRoute("/_authenticated/assistant")({
   head: () => ({
