@@ -128,7 +128,7 @@ function WebsiteBuilderRoute() {
       ...prev,
     ].slice(0, 200));
   }, []);
-  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "website", onLog: pushLog });
+  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "website" });
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
     pushEvent(`Generate · ${mode}`, p.prompt.slice(0, 160));

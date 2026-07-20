@@ -13,7 +13,7 @@ import {
 
 export interface UseBuilderPromptOptions {
   surface: string;
-  onLog?: (kind: string, text: string) => void;
+  onLog?: (kind: "log", text: string) => void;
 }
 
 export function useBuilderPrompt(opts: UseBuilderPromptOptions) {
@@ -41,7 +41,7 @@ export function useBuilderPrompt(opts: UseBuilderPromptOptions) {
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
         toast.error(`HAPPY failed · ${msg}`);
-        opts.onLog?.("error", `Pipeline failed · ${msg}`);
+        opts.onLog?.("log", `Pipeline failed · ${msg}`);
         return null;
       } finally {
         setPending(false);
