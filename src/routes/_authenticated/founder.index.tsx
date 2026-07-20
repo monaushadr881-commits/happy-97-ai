@@ -1,10 +1,9 @@
 /**
  * /founder — Executive Overview.
- * Live KPI grid + platform health + recent activity feed.
- * Consumes: apiPlatformOverview, apiRecentAudit, opsHealthAll, opsDeploymentAnalytics, opsQueueStats.
+ * Suspense/loader adopted via canonical `definedQuery` + `ensureCanonicalMany`.
  */
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   PageHeader,
   Panel,
@@ -35,25 +34,40 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { MissionControl } from "@/components/founder/MissionControl";
+import { definedQuery, ensureCanonicalMany } from "@/lib/founder/suspense-query";
+
+const overviewQ = definedQuery(["founder", "overview"], () => apiPlatformOverview(), { staleTime: 30_000 });
+const companiesQ = definedQuery(["founder", "companies-count"], () => apiListCompanies());
+const healthQ = definedQuery(["founder", "health"], () => opsHealthAll(), { staleTime: 20_000 });
+const deploysQ = definedQuery(["founder", "deploys"], () => opsDeploymentAnalytics());
+const queueQ = definedQuery(["founder", "queue"], () => opsQueueStats(), { staleTime: 15_000 });
+const securityQ = definedQuery(["founder", "security"], () => opsSecuritySummary());
+const auditQ = definedQuery(["founder", "audit"], () => apiRecentAudit({ data: { limit: 12 } }));
 
 export const Route = createFileRoute("/_authenticated/founder/")({
   head: () => ({ meta: [{ title: "Overview — Founder" }, { name: "robots", content: "noindex" }] }),
+  loader: ({ context }) =>
+    ensureCanonicalMany(
+      context.queryClient,
+      [overviewQ, companiesQ, healthQ],
+      [deploysQ, queueQ, securityQ, auditQ],
+    ),
   component: FounderOverview,
 });
 
 function FounderOverview() {
-  const overview = useQuery({ queryKey: ["founder", "overview"], queryFn: () => apiPlatformOverview(), refetchInterval: 30_000 });
-  const companies = useQuery({ queryKey: ["founder", "companies-count"], queryFn: () => apiListCompanies() });
-  const health = useQuery({ queryKey: ["founder", "health"], queryFn: () => opsHealthAll(), refetchInterval: 20_000 });
-  const deploys = useQuery({ queryKey: ["founder", "deploys"], queryFn: () => opsDeploymentAnalytics() });
-  const queue = useQuery({ queryKey: ["founder", "queue"], queryFn: () => opsQueueStats(), refetchInterval: 15_000 });
-  const security = useQuery({ queryKey: ["founder", "security"], queryFn: () => opsSecuritySummary() });
-  const audit = useQuery({ queryKey: ["founder", "audit"], queryFn: () => apiRecentAudit({ data: { limit: 12 } }) });
+  const { data: overview } = useSuspenseQuery(overviewQ);
+  const { data: companies } = useSuspenseQuery(companiesQ);
+  const { data: health } = useSuspenseQuery(healthQ);
+  const { data: deploys } = useSuspenseQuery(deploysQ);
+  const { data: queue } = useSuspenseQuery(queueQ);
+  const { data: security } = useSuspenseQuery(securityQ);
+  const { data: audit } = useSuspenseQuery(auditQ);
 
-  const ov = (overview.data ?? {}) as Record<string, number | undefined>;
+  const ov = (overview ?? {}) as Record<string, number | undefined>;
   const num = (v: unknown) => (typeof v === "number" ? v.toLocaleString() : "—");
 
-  const healthList = Array.isArray(health.data) ? health.data : [];
+  const healthList = Array.isArray(health) ? health : [];
   const healthy = healthList.filter((h: { status?: string }) => h.status === "healthy").length;
   const totalProbes = healthList.length;
 
@@ -71,18 +85,17 @@ function FounderOverview() {
       />
 
       <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        <StatCard label="Companies" value={num(companies.data?.length)} icon={<Building2 className="h-4 w-4" />} />
+        <StatCard label="Companies" value={num(companies?.length)} icon={<Building2 className="h-4 w-4" />} />
         <StatCard label="Users" value={num(ov.users)} icon={<Users className="h-4 w-4" />} />
         <StatCard label="Workspaces" value={num(ov.workspaces)} icon={<Building2 className="h-4 w-4" />} />
         <StatCard label="Brands" value={num(ov.brands)} icon={<Building2 className="h-4 w-4" />} />
         <StatCard label="AI Sessions" value={num(ov.ai_sessions)} icon={<Sparkles className="h-4 w-4" />} />
         <StatCard label="Conversations" value={num(ov.conversations)} icon={<Sparkles className="h-4 w-4" />} />
-        <StatCard label="Deployments" value={num((deploys.data as { total?: number } | undefined)?.total)} icon={<Rocket className="h-4 w-4" />} />
-        <StatCard label="Queue Backlog" value={num((queue.data as { pending?: number } | undefined)?.pending)} icon={<ListChecks className="h-4 w-4" />} />
+        <StatCard label="Deployments" value={num((deploys as { total?: number } | undefined)?.total)} icon={<Rocket className="h-4 w-4" />} />
+        <StatCard label="Queue Backlog" value={num((queue as { pending?: number } | undefined)?.pending)} icon={<ListChecks className="h-4 w-4" />} />
       </section>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-3">
-        {/* Health */}
         <Panel className="p-5 lg:col-span-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -120,7 +133,6 @@ function FounderOverview() {
           </ul>
         </Panel>
 
-        {/* Security snapshot */}
         <Panel className="p-5">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-gold" />
@@ -128,13 +140,13 @@ function FounderOverview() {
           </div>
           <Hairline className="my-4" />
           <dl className="space-y-3 text-sm">
-            {Object.entries((security.data ?? {}) as Record<string, unknown>).slice(0, 6).map(([k, v]) => (
+            {Object.entries((security ?? {}) as Record<string, unknown>).slice(0, 6).map(([k, v]) => (
               <div key={k} className="flex items-center justify-between">
                 <dt className="text-xs uppercase tracking-[0.15em] text-soft-gray">{k.replaceAll("_", " ")}</dt>
                 <dd className="numeric text-paper">{typeof v === "number" ? v.toLocaleString() : String(v ?? "—")}</dd>
               </div>
             ))}
-            {!security.data && <p className="text-xs text-soft-gray">No signals.</p>}
+            {!security && <p className="text-xs text-soft-gray">No signals.</p>}
           </dl>
           <Link
             to="/founder/security"
@@ -145,7 +157,6 @@ function FounderOverview() {
         </Panel>
       </div>
 
-      {/* Activity */}
       <Panel className="mt-4 p-5">
         <div className="flex items-center gap-2">
           <AlertTriangle className="h-4 w-4 text-gold" />
@@ -153,7 +164,7 @@ function FounderOverview() {
         </div>
         <Hairline className="my-4" />
         <ul className="divide-y divide-white/5">
-          {(Array.isArray(audit.data) ? audit.data : []).map((a: { id: string; action?: string; entity_type?: string | null; created_at?: string; actor_id?: string | null }) => (
+          {(Array.isArray(audit) ? audit : []).map((a: { id: string; action?: string; entity_type?: string | null; created_at?: string; actor_id?: string | null }) => (
             <li key={a.id} className="flex items-center justify-between gap-4 py-2 text-sm">
               <div className="min-w-0">
                 <div className="truncate text-paper">
@@ -167,7 +178,7 @@ function FounderOverview() {
               </time>
             </li>
           ))}
-          {!audit.data && <li className="py-2 text-xs text-soft-gray">No recent activity.</li>}
+          {!audit && <li className="py-2 text-xs text-soft-gray">No recent activity.</li>}
         </ul>
       </Panel>
 
