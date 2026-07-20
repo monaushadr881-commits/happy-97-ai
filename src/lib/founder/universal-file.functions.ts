@@ -488,3 +488,52 @@ export const founderCommandExec = createServerFn({ method: "POST" })
       delegate: "src/lib/founder/search.functions.ts#universalSearch",
     };
   });
+
+/**
+ * R195 P0 — Canonical Signed URL Helper
+ *
+ * Single canonical surface for issuing short-lived signed URLs against the
+ * four existing private buckets. Extends this (canonical file/storage) owner —
+ * NO new module, NO new bucket. Enforces the same user-folder scoping the
+ * storage.objects RLS policies already enforce, and writes a canonical audit
+ * entry for every issued URL.
+ */
+export const ufsCreateSignedUrl = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) =>
+    z
+      .object({
+        bucket: z.enum([
+          "happy-assets",
+          "creator-assets",
+          "cms-media",
+          "vrm-assets",
+        ]),
+        path: z.string().min(1).max(1024),
+        expiresIn: z.number().int().min(30).max(3600).default(300),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    const firstSegment = data.path.split("/")[0];
+    if (firstSegment !== userId) {
+      throw new Error(
+        "forbidden: signed URL path must live under the caller's user folder",
+      );
+    }
+    const { data: signed, error } = await supabase.storage
+      .from(data.bucket)
+      .createSignedUrl(data.path, data.expiresIn);
+    if (error || !signed) {
+      throw new Error(`signed_url_failed: ${error?.message ?? "unknown"}`);
+    }
+    await writeCanonicalAudit(supabase, {
+      category: "storage.signed_url",
+      action: "issue",
+      entity_type: data.bucket,
+      severity: "info",
+      metadata: { path: data.path, expires_in: data.expiresIn },
+    });
+    return { url: signed.signedUrl, expiresIn: data.expiresIn };
+  });
