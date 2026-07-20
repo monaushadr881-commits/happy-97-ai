@@ -126,6 +126,7 @@ function DeploymentCenterRoute() {
 
   const runBuild    = () => { pushLog("log", "Production build queued via Publishing Runtime");        toast.info("Production build queued."); };
   const runDeploy   = () => queueRun(target);
+  const runHealth   = () => { pushLog("log", `Health check · ${target} via Publishing Runtime`);       toast.info(`Health checking ${target}…`); };
   const runRollback = () => {
     const last = runs.find((r) => r.status !== "failed");
     if (!last) { toast.warning("No previous deploy to roll back to."); return; }
