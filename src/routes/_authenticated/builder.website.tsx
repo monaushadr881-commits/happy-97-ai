@@ -56,8 +56,12 @@ export const Route = createFileRoute("/_authenticated/builder/website")({
 // ────────────────────────────────────────────────────────────────
 
 type GeneratorId =
-  | "ai" | "landing" | "business" | "portfolio" | "ecommerce"
-  | "blog" | "cms" | "multipage" | "theme" | "seo" | "responsive";
+  | "ai" | "landing" | "funnel" | "business" | "startup" | "corporate"
+  | "portfolio" | "agency" | "ecommerce" | "restaurant" | "hospital"
+  | "pharmacy" | "school" | "college" | "hotel" | "realestate"
+  | "ngo" | "manufacturing" | "blog" | "docs" | "knowledge"
+  | "customer-portal" | "dealer-portal" | "distributor-portal"
+  | "admin-dashboard" | "cms" | "multipage" | "theme" | "seo" | "responsive";
 
 const GENERATORS: {
   id: GeneratorId;
@@ -65,31 +69,69 @@ const GENERATORS: {
   icon: React.ReactNode;
   hint: string;
 }[] = [
-  { id: "ai",         label: "AI Website",     icon: <Sparkles className="h-4 w-4" />,       hint: "Describe the site — HAPPY drafts structure, copy, and theme." },
-  { id: "landing",    label: "Landing Page",   icon: <LayoutTemplate className="h-4 w-4" />, hint: "One high-converting page: hero, features, proof, CTA." },
-  { id: "business",   label: "Business Site",  icon: <Store className="h-4 w-4" />,          hint: "Home / About / Services / Contact with SEO basics." },
-  { id: "portfolio",  label: "Portfolio",      icon: <Briefcase className="h-4 w-4" />,      hint: "Case studies, gallery, about, contact." },
-  { id: "ecommerce",  label: "Ecommerce",      icon: <ShoppingCart className="h-4 w-4" />,   hint: "Catalog, PDP, cart, checkout wired to Business Runtime." },
-  { id: "blog",       label: "Blog",           icon: <BookOpen className="h-4 w-4" />,       hint: "Index, post, tag, and author pages with RSS-ready SEO." },
-  { id: "cms",        label: "CMS Website",    icon: <FileText className="h-4 w-4" />,       hint: "Editable pages backed by Knowledge + Workspace." },
-  { id: "multipage",  label: "Multi-page",     icon: <Files className="h-4 w-4" />,          hint: "Sitemap-first: choose 5–30 pages, HAPPY generates each." },
-  { id: "theme",      label: "Theme",          icon: <Palette className="h-4 w-4" />,        hint: "Tokens, typography, and component skins." },
-  { id: "seo",        label: "SEO",            icon: <Search className="h-4 w-4" />,         hint: "Meta, OG, JSON-LD, sitemap.xml, robots." },
-  { id: "responsive", label: "Responsive",     icon: <Smartphone className="h-4 w-4" />,     hint: "Tune breakpoints and mobile-first layouts." },
+  { id: "ai",                  label: "AI Website",           icon: <Sparkles className="h-4 w-4" />,       hint: "Describe the site — HAPPY drafts structure, copy, and theme." },
+  { id: "landing",             label: "Landing Page",         icon: <LayoutTemplate className="h-4 w-4" />, hint: "One high-converting page: hero, features, proof, CTA." },
+  { id: "funnel",              label: "Funnel",               icon: <Filter className="h-4 w-4" />,         hint: "Multi-step conversion funnel: opt-in → offer → checkout → upsell." },
+  { id: "corporate",           label: "Corporate",            icon: <Building2 className="h-4 w-4" />,      hint: "Enterprise site: investors, leadership, press, careers." },
+  { id: "startup",             label: "Startup",              icon: <Rocket className="h-4 w-4" />,         hint: "Product story, waitlist, pricing, roadmap." },
+  { id: "business",            label: "Business",             icon: <Store className="h-4 w-4" />,          hint: "Home / About / Services / Contact with SEO basics." },
+  { id: "portfolio",           label: "Portfolio",            icon: <Briefcase className="h-4 w-4" />,      hint: "Case studies, gallery, about, contact." },
+  { id: "agency",              label: "Agency",               icon: <Users className="h-4 w-4" />,          hint: "Services, work, team, testimonials, inquiry form." },
+  { id: "ecommerce",           label: "Ecommerce",            icon: <ShoppingCart className="h-4 w-4" />,   hint: "Catalog, PDP, cart, checkout wired to Business Runtime." },
+  { id: "restaurant",          label: "Restaurant",           icon: <Utensils className="h-4 w-4" />,       hint: "Menu, reservations, gallery, locations, orders." },
+  { id: "hospital",            label: "Hospital",             icon: <Hospital className="h-4 w-4" />,       hint: "Departments, doctors, appointments, patient portal." },
+  { id: "pharmacy",            label: "Pharmacy",             icon: <LifeBuoy className="h-4 w-4" />,       hint: "Catalog, prescription upload, delivery, wellness content." },
+  { id: "school",              label: "School",               icon: <School className="h-4 w-4" />,         hint: "Academics, admissions, faculty, calendar, parent portal." },
+  { id: "college",             label: "College",              icon: <GraduationCap className="h-4 w-4" />,  hint: "Programs, faculty, research, admissions, student life." },
+  { id: "hotel",               label: "Hotel",                icon: <Hotel className="h-4 w-4" />,          hint: "Rooms, amenities, booking, reviews, gallery." },
+  { id: "realestate",          label: "Real Estate",          icon: <HomeIcon className="h-4 w-4" />,       hint: "Listings, map search, agents, mortgage, inquiries." },
+  { id: "ngo",                 label: "NGO",                  icon: <HeartHandshake className="h-4 w-4" />, hint: "Mission, programs, impact, donate, volunteer." },
+  { id: "manufacturing",       label: "Manufacturing",        icon: <Factory className="h-4 w-4" />,        hint: "Products, capabilities, quality, distributors, RFQ." },
+  { id: "blog",                label: "Blog",                 icon: <BookOpen className="h-4 w-4" />,       hint: "Index, post, tag, and author pages with RSS-ready SEO." },
+  { id: "docs",                label: "Documentation",        icon: <BookMarked className="h-4 w-4" />,     hint: "Docs site: guides, API reference, search, versions." },
+  { id: "knowledge",           label: "Knowledge Base",       icon: <FileText className="h-4 w-4" />,       hint: "Help center: categories, articles, search, feedback." },
+  { id: "customer-portal",     label: "Customer Portal",      icon: <Users className="h-4 w-4" />,          hint: "Account, orders, invoices, support tickets." },
+  { id: "dealer-portal",       label: "Dealer Portal",        icon: <Truck className="h-4 w-4" />,          hint: "Dealer login, pricing, orders, claims, training." },
+  { id: "distributor-portal",  label: "Distributor Portal",   icon: <Truck className="h-4 w-4" />,          hint: "Inventory, allocations, reports, POS integrations." },
+  { id: "admin-dashboard",     label: "Admin Dashboard",      icon: <ShieldCheck className="h-4 w-4" />,    hint: "Ops console: KPIs, tables, forms, roles, audit." },
+  { id: "cms",                 label: "CMS Website",          icon: <FileText className="h-4 w-4" />,       hint: "Editable pages backed by Knowledge + Workspace." },
+  { id: "multipage",           label: "Multi-page",           icon: <Files className="h-4 w-4" />,          hint: "Sitemap-first: choose 5–30 pages, HAPPY generates each." },
+  { id: "theme",               label: "Theme",                icon: <Palette className="h-4 w-4" />,        hint: "Tokens, typography, and component skins." },
+  { id: "seo",                 label: "SEO",                  icon: <Search className="h-4 w-4" />,         hint: "Meta, OG, JSON-LD, sitemap.xml, robots." },
+  { id: "responsive",          label: "Responsive",           icon: <Smartphone className="h-4 w-4" />,     hint: "Tune breakpoints and mobile-first layouts." },
 ];
 
 const GENERATOR_INTRO: Record<GeneratorId, string> = {
-  ai:         "Generate a complete AI-designed website. Include: goal, audience, tone.",
-  landing:    "Generate a landing page. Include: product name, headline promise, primary CTA.",
-  business:   "Generate a business website. Include: company name, offerings, and location.",
-  portfolio:  "Generate a portfolio site. Include: profession, 3–6 case studies, and contact.",
-  ecommerce:  "Generate an ecommerce site. Include: catalog scope, currency, and payment plan.",
-  blog:       "Generate a blog. Include: niche, tone, and first 3 post ideas.",
-  cms:        "Generate a CMS-driven site. Include: page types and who edits.",
-  multipage:  "Generate a multi-page site. Include: sitemap outline.",
-  theme:      "Generate a theme. Include: brand mood, colors, and typography direction.",
-  seo:        "Generate SEO metadata for the current site (titles, descriptions, OG, JSON-LD).",
-  responsive: "Optimize the current site for mobile, tablet, and desktop breakpoints.",
+  ai:                   "Generate a complete AI-designed website. Include: goal, audience, tone.",
+  landing:              "Generate a landing page. Include: product name, headline promise, primary CTA.",
+  funnel:               "Generate a conversion funnel. Include: offer, steps, upsell, and success page.",
+  corporate:            "Generate a corporate website. Include: company, investors, leadership, careers.",
+  startup:              "Generate a startup site. Include: product, waitlist, pricing, roadmap.",
+  business:             "Generate a business website. Include: company name, offerings, and location.",
+  portfolio:            "Generate a portfolio site. Include: profession, 3–6 case studies, and contact.",
+  agency:               "Generate an agency site. Include: services, case studies, team, contact.",
+  ecommerce:            "Generate an ecommerce site. Include: catalog scope, currency, and payment plan.",
+  restaurant:           "Generate a restaurant site. Include: cuisine, menu highlights, reservations, hours.",
+  hospital:             "Generate a hospital site. Include: departments, specialties, doctors, appointments.",
+  pharmacy:             "Generate a pharmacy site. Include: catalog, prescription flow, delivery zones.",
+  school:               "Generate a school site. Include: academics, admissions, faculty, calendar.",
+  college:              "Generate a college site. Include: programs, faculty, research, student life.",
+  hotel:                "Generate a hotel site. Include: rooms, amenities, booking, gallery.",
+  realestate:           "Generate a real-estate site. Include: listings, filters, agents, inquiries.",
+  ngo:                  "Generate an NGO site. Include: mission, programs, impact, donate CTA.",
+  manufacturing:        "Generate a manufacturing site. Include: products, capabilities, distributors, RFQ.",
+  blog:                 "Generate a blog. Include: niche, tone, and first 3 post ideas.",
+  docs:                 "Generate a documentation site. Include: product, sections, versioning.",
+  knowledge:            "Generate a knowledge base. Include: categories and top 10 articles.",
+  "customer-portal":    "Generate a customer portal. Include: account, orders, invoices, support.",
+  "dealer-portal":      "Generate a dealer portal. Include: pricing, orders, claims, training.",
+  "distributor-portal": "Generate a distributor portal. Include: inventory, allocations, reports.",
+  "admin-dashboard":    "Generate an admin dashboard. Include: KPIs, tables, forms, roles, audit.",
+  cms:                  "Generate a CMS-driven site. Include: page types and who edits.",
+  multipage:            "Generate a multi-page site. Include: sitemap outline.",
+  theme:                "Generate a theme. Include: brand mood, colors, and typography direction.",
+  seo:                  "Generate SEO metadata for the current site (titles, descriptions, OG, JSON-LD).",
+  responsive:           "Optimize the current site for mobile, tablet, and desktop breakpoints.",
 };
 
 // ────────────────────────────────────────────────────────────────
