@@ -57,15 +57,24 @@ function AuthPage() {
   };
 
   const handleGoogle = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      toast.error(result.error.message ?? "Google sign-in failed");
-      return;
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) {
+        toast.error(result.error.message ?? "Google sign-in failed");
+        return;
+      }
+      if (result.redirected) return;
+      navigate({ to: "/dashboard", replace: true });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      toast.error(
+        /popup/i.test(msg)
+          ? "Popup was blocked by your browser. Please allow popups for this site and try again."
+          : msg || "Google sign-in failed",
+      );
     }
-    if (result.redirected) return;
-    navigate({ to: "/dashboard", replace: true });
   };
 
   return (
@@ -107,6 +116,7 @@ function AuthPage() {
           </h2>
 
           <button
+            type="button"
             onClick={handleGoogle}
             className="w-full flex items-center justify-center gap-3 h-11 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] transition-colors text-sm font-medium"
           >
@@ -160,6 +170,7 @@ function AuthPage() {
           <p className="mt-6 text-sm text-soft-gray text-center">
             {mode === "signin" ? "New to HAPPY X?" : "Already have an account?"}{" "}
             <button
+              type="button"
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
               className="text-gold hover:text-gold-bright font-medium"
             >
