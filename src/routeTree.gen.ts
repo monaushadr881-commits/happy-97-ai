@@ -18,6 +18,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedPlatformRouteImport } from './routes/_authenticated/platform'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
+import { Route as AuthenticatedManufacturingRouteImport } from './routes/_authenticated/manufacturing'
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
 import { Route as AuthenticatedHealthcareRouteImport } from './routes/_authenticated/healthcare'
 import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
@@ -182,6 +183,12 @@ const AuthenticatedMarketplaceRoute =
   AuthenticatedMarketplaceRouteImport.update({
     id: '/marketplace',
     path: '/marketplace',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedManufacturingRoute =
+  AuthenticatedManufacturingRouteImport.update({
+    id: '/manufacturing',
+    path: '/manufacturing',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
@@ -900,6 +907,7 @@ export interface FileRoutesByFullPath {
   '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/healthcare': typeof AuthenticatedHealthcareRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
+  '/manufacturing': typeof AuthenticatedManufacturingRoute
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/platform': typeof AuthenticatedPlatformRoute
@@ -1023,6 +1031,7 @@ export interface FileRoutesByTo {
   '/cms': typeof AuthenticatedCmsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
+  '/manufacturing': typeof AuthenticatedManufacturingRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
@@ -1152,6 +1161,7 @@ export interface FileRoutesById {
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/healthcare': typeof AuthenticatedHealthcareRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
+  '/_authenticated/manufacturing': typeof AuthenticatedManufacturingRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/platform': typeof AuthenticatedPlatformRoute
@@ -1284,6 +1294,7 @@ export interface FileRouteTypes {
     | '/founder'
     | '/healthcare'
     | '/knowledge'
+    | '/manufacturing'
     | '/marketplace'
     | '/messages'
     | '/platform'
@@ -1407,6 +1418,7 @@ export interface FileRouteTypes {
     | '/cms'
     | '/dashboard'
     | '/healthcare'
+    | '/manufacturing'
     | '/platform'
     | '/settings'
     | '/builder/agents'
@@ -1535,6 +1547,7 @@ export interface FileRouteTypes {
     | '/_authenticated/founder'
     | '/_authenticated/healthcare'
     | '/_authenticated/knowledge'
+    | '/_authenticated/manufacturing'
     | '/_authenticated/marketplace'
     | '/_authenticated/messages'
     | '/_authenticated/platform'
@@ -1723,6 +1736,13 @@ declare module '@tanstack/react-router' {
       path: '/marketplace'
       fullPath: '/marketplace'
       preLoaderRoute: typeof AuthenticatedMarketplaceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/manufacturing': {
+      id: '/_authenticated/manufacturing'
+      path: '/manufacturing'
+      fullPath: '/manufacturing'
+      preLoaderRoute: typeof AuthenticatedManufacturingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/knowledge': {
@@ -2922,6 +2942,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedHealthcareRoute: typeof AuthenticatedHealthcareRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
+  AuthenticatedManufacturingRoute: typeof AuthenticatedManufacturingRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
   AuthenticatedPlatformRoute: typeof AuthenticatedPlatformRoute
@@ -2944,6 +2965,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedHealthcareRoute: AuthenticatedHealthcareRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
+  AuthenticatedManufacturingRoute: AuthenticatedManufacturingRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
   AuthenticatedPlatformRoute: AuthenticatedPlatformRoute,
