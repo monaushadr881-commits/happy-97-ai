@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useBuilderPrompt } from "@/hooks/use-builder-prompt";
 import {
   HappyUniversalPromptBar,
   type HuppSendPayload,
@@ -109,11 +110,12 @@ function DeploymentCenterRoute() {
     pushLog("log", `${t} · ${version} queued via Publishing Runtime`);
     toast.info(`Deploy queued to ${t}.`);
   }, [pushLog]);
+  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "deploy", onLog: pushLog });
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
     pushLog("log", `HAPPY · ${target}: ${p.prompt.slice(0, 160)}`);
-    toast.success(`HAPPY preparing ${target} deploy…`);
-  }, [target, pushLog]);
+    void __submitPrompt(String(target), p.prompt, p.attachments?.length ?? 0);
+  }, [target, pushLog, __submitPrompt]);
 
   const onAction = React.useCallback((intent: HuppActionIntent) => {
     pushLog("log", `Prompt action · ${intent}`);

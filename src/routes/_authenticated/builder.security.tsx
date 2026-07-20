@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useBuilderPrompt } from "@/hooks/use-builder-prompt";
 import {
   HappyUniversalPromptBar,
   type HuppSendPayload,
@@ -84,11 +85,12 @@ function SecurityCenterRoute() {
       ...prev,
     ].slice(0, 400));
   }, []);
+  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "security", onLog: pushLog });
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
     pushLog("log", `HAPPY · ${preset}: ${p.prompt.slice(0, 160)}`);
-    toast.success(`HAPPY auditing ${preset}…`);
-  }, [preset, pushLog]);
+    void __submitPrompt(String(preset), p.prompt, p.attachments?.length ?? 0);
+  }, [preset, pushLog, __submitPrompt]);
 
   const onAction    = React.useCallback((i: HuppActionIntent) => pushLog("log", `Prompt action · ${i}`), [pushLog]);
   const onBarAction = React.useCallback((e: UabActionEvent)   => pushLog("log", `Bar action · ${e.id}`), [pushLog]);
