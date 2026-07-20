@@ -18,6 +18,9 @@ import {
   Sparkles, LayoutTemplate, Store, Briefcase, ShoppingCart, BookOpen,
   FileText, Files, Palette, Search, Smartphone, Tablet, Monitor,
   Sun, Moon, Eye, Boxes, LayoutGrid, Layers, Globe,
+  Building2, Rocket, Utensils, Hospital, School, GraduationCap,
+  Hotel, Home as HomeIcon, HeartHandshake, Factory, Filter,
+  BookMarked, LifeBuoy, Users, Truck, ShieldCheck,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
