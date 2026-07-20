@@ -52,6 +52,7 @@ export interface AdoptOptions {
     | "memory"
     | "experience"
     | "universe"
+    | "identity"
     | "founder";
   readonly module: string;
   readonly capability: string;
