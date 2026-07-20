@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useEnterprise } from "@/components/enterprise/EnterpriseContext";
 import { NoCompanySelected } from "@/components/enterprise/NoCompanySelected";
 import { entListCustomers } from "@/lib/enterprise-v1.functions";
+import { VirtualTable, type VirtualTableColumn } from "@/components/ui/virtual-table";
 
 export const Route = createFileRoute("/_authenticated/enterprise/customers")({
   head: () => ({ meta: [{ title: "Customers — Enterprise" }, { name: "robots", content: "noindex" }] }),
@@ -30,6 +31,14 @@ function Customers() {
   );
   const totalLtv = rows.reduce((a, c) => a + (c.lifetime_value_cents ?? 0), 0);
 
+  const columns: VirtualTableColumn<Customer>[] = [
+    { key: "name", header: "Name", width: "minmax(0,1.5fr)", cell: (c) => <span className="truncate text-paper">{c.display_name ?? c.id.slice(0, 8)}</span> },
+    { key: "email", header: "Email", width: "minmax(0,1.5fr)", cell: (c) => <span className="truncate text-soft-gray text-xs">{c.email ?? "—"}</span> },
+    { key: "status", header: "Status", width: 140, cell: (c) => <Chip tone={c.status === "active" ? "success" : "neutral"}>{c.status ?? "—"}</Chip> },
+    { key: "ltv", header: "LTV", width: 140, cell: (c) => <span className="numeric text-paper">${((c.lifetime_value_cents ?? 0) / 100).toLocaleString()}</span> },
+    { key: "since", header: "Since", width: 140, cell: (c) => <span className="numeric text-[11px] text-soft-gray">{c.created_at ? new Date(c.created_at).toLocaleDateString() : "—"}</span> },
+  ];
+
   return (
     <>
       <PageHeader
@@ -45,21 +54,16 @@ function Customers() {
       </div>
 
       <Panel className="p-0 overflow-hidden">
-        <div className="grid grid-cols-[minmax(0,1.5fr)_minmax(0,1.5fr)_140px_140px_140px] gap-3 px-4 py-2 text-[10px] uppercase tracking-[0.18em] text-soft-gray border-b border-white/5">
-          <div>Name</div><div>Email</div><div>Status</div><div>LTV</div><div>Since</div>
-        </div>
-        <ul className="divide-y divide-white/5">
-          {rows.map((c) => (
-            <li key={c.id} className="grid grid-cols-[minmax(0,1.5fr)_minmax(0,1.5fr)_140px_140px_140px] items-center gap-3 px-4 py-2 text-sm">
-              <div className="truncate text-paper">{c.display_name ?? c.id.slice(0, 8)}</div>
-              <div className="truncate text-soft-gray text-xs">{c.email ?? "—"}</div>
-              <div><Chip tone={c.status === "active" ? "success" : "neutral"}>{c.status ?? "—"}</Chip></div>
-              <div className="numeric text-paper">${((c.lifetime_value_cents ?? 0) / 100).toLocaleString()}</div>
-              <div className="numeric text-[11px] text-soft-gray">{c.created_at ? new Date(c.created_at).toLocaleDateString() : "—"}</div>
-            </li>
-          ))}
-          {!rows.length && <li className="py-6 text-center text-xs text-soft-gray">No customers.</li>}
-        </ul>
+        <VirtualTable
+          rows={rows}
+          columns={columns}
+          getRowKey={(c) => c.id}
+          rowHeight={40}
+          height={560}
+          ariaLabel="Customers"
+          empty="No customers."
+          className="border-0 bg-transparent"
+        />
       </Panel>
     </>
   );
