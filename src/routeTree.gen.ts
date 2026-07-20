@@ -159,6 +159,7 @@ import { Route as AuthenticatedBuilderCollegeRouteImport } from './routes/_authe
 import { Route as AuthenticatedBuilderCodeRouteImport } from './routes/_authenticated/builder.code'
 import { Route as AuthenticatedBuilderBusinessRouteImport } from './routes/_authenticated/builder.business'
 import { Route as AuthenticatedBuilderAutomationRouteImport } from './routes/_authenticated/builder.automation'
+import { Route as AuthenticatedBuilderAssistantRouteImport } from './routes/_authenticated/builder.assistant'
 import { Route as AuthenticatedBuilderApiRouteImport } from './routes/_authenticated/builder.api'
 import { Route as AuthenticatedBuilderAnalyticsRouteImport } from './routes/_authenticated/builder.analytics'
 import { Route as AuthenticatedBuilderAgentsRouteImport } from './routes/_authenticated/builder.agents'
@@ -1030,6 +1031,12 @@ const AuthenticatedBuilderAutomationRoute =
     path: '/automation',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderAssistantRoute =
+  AuthenticatedBuilderAssistantRouteImport.update({
+    id: '/assistant',
+    path: '/assistant',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderApiRoute = AuthenticatedBuilderApiRouteImport.update({
   id: '/api',
   path: '/api',
@@ -1099,6 +1106,7 @@ export interface FileRoutesByFullPath {
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/builder/analytics': typeof AuthenticatedBuilderAnalyticsRoute
   '/builder/api': typeof AuthenticatedBuilderApiRoute
+  '/builder/assistant': typeof AuthenticatedBuilderAssistantRoute
   '/builder/automation': typeof AuthenticatedBuilderAutomationRoute
   '/builder/business': typeof AuthenticatedBuilderBusinessRoute
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
@@ -1246,6 +1254,7 @@ export interface FileRoutesByTo {
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/builder/analytics': typeof AuthenticatedBuilderAnalyticsRoute
   '/builder/api': typeof AuthenticatedBuilderApiRoute
+  '/builder/assistant': typeof AuthenticatedBuilderAssistantRoute
   '/builder/automation': typeof AuthenticatedBuilderAutomationRoute
   '/builder/business': typeof AuthenticatedBuilderBusinessRoute
   '/builder/code': typeof AuthenticatedBuilderCodeRoute
@@ -1405,6 +1414,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/_authenticated/builder/analytics': typeof AuthenticatedBuilderAnalyticsRoute
   '/_authenticated/builder/api': typeof AuthenticatedBuilderApiRoute
+  '/_authenticated/builder/assistant': typeof AuthenticatedBuilderAssistantRoute
   '/_authenticated/builder/automation': typeof AuthenticatedBuilderAutomationRoute
   '/_authenticated/builder/business': typeof AuthenticatedBuilderBusinessRoute
   '/_authenticated/builder/code': typeof AuthenticatedBuilderCodeRoute
@@ -1564,6 +1574,7 @@ export interface FileRouteTypes {
     | '/builder/agents'
     | '/builder/analytics'
     | '/builder/api'
+    | '/builder/assistant'
     | '/builder/automation'
     | '/builder/business'
     | '/builder/code'
@@ -1711,6 +1722,7 @@ export interface FileRouteTypes {
     | '/builder/agents'
     | '/builder/analytics'
     | '/builder/api'
+    | '/builder/assistant'
     | '/builder/automation'
     | '/builder/business'
     | '/builder/code'
@@ -1869,6 +1881,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/agents'
     | '/_authenticated/builder/analytics'
     | '/_authenticated/builder/api'
+    | '/_authenticated/builder/assistant'
     | '/_authenticated/builder/automation'
     | '/_authenticated/builder/business'
     | '/_authenticated/builder/code'
@@ -3054,6 +3067,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderAutomationRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/assistant': {
+      id: '/_authenticated/builder/assistant'
+      path: '/assistant'
+      fullPath: '/builder/assistant'
+      preLoaderRoute: typeof AuthenticatedBuilderAssistantRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/api': {
       id: '/_authenticated/builder/api'
       path: '/api'
@@ -3104,6 +3124,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderAgentsRoute: typeof AuthenticatedBuilderAgentsRoute
   AuthenticatedBuilderAnalyticsRoute: typeof AuthenticatedBuilderAnalyticsRoute
   AuthenticatedBuilderApiRoute: typeof AuthenticatedBuilderApiRoute
+  AuthenticatedBuilderAssistantRoute: typeof AuthenticatedBuilderAssistantRoute
   AuthenticatedBuilderAutomationRoute: typeof AuthenticatedBuilderAutomationRoute
   AuthenticatedBuilderBusinessRoute: typeof AuthenticatedBuilderBusinessRoute
   AuthenticatedBuilderCodeRoute: typeof AuthenticatedBuilderCodeRoute
@@ -3147,6 +3168,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderAgentsRoute: AuthenticatedBuilderAgentsRoute,
   AuthenticatedBuilderAnalyticsRoute: AuthenticatedBuilderAnalyticsRoute,
   AuthenticatedBuilderApiRoute: AuthenticatedBuilderApiRoute,
+  AuthenticatedBuilderAssistantRoute: AuthenticatedBuilderAssistantRoute,
   AuthenticatedBuilderAutomationRoute: AuthenticatedBuilderAutomationRoute,
   AuthenticatedBuilderBusinessRoute: AuthenticatedBuilderBusinessRoute,
   AuthenticatedBuilderCodeRoute: AuthenticatedBuilderCodeRoute,
