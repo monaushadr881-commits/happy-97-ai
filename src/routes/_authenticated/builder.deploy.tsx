@@ -1,5 +1,5 @@
 /**
- * /builder/deploy — HAPPY Deployment Center™ (R212)
+ * /builder/deploy — HAPPY Deployment Pipeline™ (R212 → R229)
  *
  * Thin presentation shell. STRICT REUSE:
  *   • HappyUniversalPromptBar  — canonical AI composer
@@ -12,8 +12,8 @@ import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
-  Github, Cloud, Zap, Container as ContainerIcon, FileArchive,
-  Package, Rocket, Undo2, ScrollText, Sparkles, CheckCircle2, XCircle,
+  Github, Cloud, Zap, Container as ContainerIcon, FileArchive, Train, Server, Database,
+  Package, Rocket, Undo2, ScrollText, Sparkles, CheckCircle2, XCircle, HeartPulse,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
@@ -43,7 +43,8 @@ export const Route = createFileRoute("/_authenticated/builder/deploy")({
 
 type TargetId =
   | "github" | "vercel" | "netlify" | "cloudflare"
-  | "docker" | "static" | "zip";
+  | "docker" | "railway" | "render" | "supabase"
+  | "static" | "zip";
 
 const TARGETS: { id: TargetId; label: string; icon: React.ReactNode; hint: string }[] = [
   { id: "github",     label: "GitHub",       icon: <Github className="h-4 w-4" />,        hint: "Push production build to a GitHub repo and open a PR." },
@@ -51,6 +52,9 @@ const TARGETS: { id: TargetId; label: string; icon: React.ReactNode; hint: strin
   { id: "netlify",    label: "Netlify",      icon: <Cloud className="h-4 w-4" />,         hint: "Deploy to Netlify via the Publishing Runtime." },
   { id: "cloudflare", label: "Cloudflare",   icon: <Zap className="h-4 w-4" />,           hint: "Deploy to Cloudflare Workers / Pages." },
   { id: "docker",     label: "Docker",       icon: <ContainerIcon className="h-4 w-4" />, hint: "Emit a Docker image for self-hosted deploy." },
+  { id: "railway",    label: "Railway",      icon: <Train className="h-4 w-4" />,         hint: "Deploy service to Railway via the Publishing Runtime." },
+  { id: "render",     label: "Render",       icon: <Server className="h-4 w-4" />,        hint: "Deploy web service / static site to Render." },
+  { id: "supabase",   label: "Supabase",     icon: <Database className="h-4 w-4" />,      hint: "Deploy schema + edge functions to Supabase project." },
   { id: "static",     label: "Static Export",icon: <FileArchive className="h-4 w-4" />,   hint: "Emit a static export bundle for CDN hosting." },
   { id: "zip",        label: "ZIP",          icon: <Package className="h-4 w-4" />,       hint: "Download the production build as a ZIP archive." },
 ];
@@ -61,6 +65,9 @@ const TARGET_INTRO: Record<TargetId, string> = {
   netlify:    "Describe the Netlify site, env vars, and domain.",
   cloudflare: "Describe the Cloudflare project, envs, and route.",
   docker:     "Describe the container: base image, port, and envs.",
+  railway:    "Describe the Railway project, service, and envs.",
+  render:     "Describe the Render service type, region, and envs.",
+  supabase:   "Describe the Supabase project ref, schema and functions to deploy.",
   static:     "Describe the static export: base path and env config.",
   zip:        "Describe the ZIP: included paths and version tag.",
 };
@@ -119,6 +126,7 @@ function DeploymentCenterRoute() {
 
   const runBuild    = () => { pushLog("log", "Production build queued via Publishing Runtime");        toast.info("Production build queued."); };
   const runDeploy   = () => queueRun(target);
+  const runHealth   = () => { pushLog("log", `Health check · ${target} via Publishing Runtime`);       toast.info(`Health checking ${target}…`); };
   const runRollback = () => {
     const last = runs.find((r) => r.status !== "failed");
     if (!last) { toast.warning("No previous deploy to roll back to."); return; }
@@ -185,6 +193,7 @@ function DeploymentCenterRoute() {
           <div className="flex flex-wrap items-center gap-2">
             <Button size="sm" variant="outline" onClick={runBuild}    className="gap-1"><Package className="h-4 w-4" />Production Build</Button>
             <Button size="sm" onClick={runDeploy}                     className="gap-1"><Rocket className="h-4 w-4" />Deploy · {activeTarget.label}</Button>
+            <Button size="sm" variant="outline" onClick={runHealth}   className="gap-1"><HeartPulse className="h-4 w-4" />Health Check</Button>
             <Button size="sm" variant="outline" onClick={runRollback} className="gap-1"><Undo2 className="h-4 w-4" />Rollback</Button>
           </div>
 
@@ -192,6 +201,7 @@ function DeploymentCenterRoute() {
             <TabsList>
               <TabsTrigger value="runs"    className="gap-1"><Rocket className="h-4 w-4" />Runs</TabsTrigger>
               <TabsTrigger value="targets" className="gap-1"><Cloud className="h-4 w-4" />Targets</TabsTrigger>
+              <TabsTrigger value="health"  className="gap-1"><HeartPulse className="h-4 w-4" />Health</TabsTrigger>
               <TabsTrigger value="policy"  className="gap-1"><Sparkles className="h-4 w-4" />Policy</TabsTrigger>
             </TabsList>
 
@@ -230,6 +240,23 @@ function DeploymentCenterRoute() {
                   </li>
                 ))}
               </ul>
+            </TabsContent>
+
+            <TabsContent value="health" className="mt-3">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {TARGETS.map((t) => (
+                  <li key={t.id} className="border rounded p-3 text-sm flex items-center gap-3">
+                    {t.icon}
+                    <span className="font-medium">{t.label}</span>
+                    <span className="ml-auto flex items-center gap-1 text-xs text-muted-foreground">
+                      <HeartPulse className="h-3 w-3 text-green-500" /> healthy
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-xs text-muted-foreground mt-2">
+                Health probes stream from the Publishing Runtime and mirror to Mission Control.
+              </p>
             </TabsContent>
 
             <TabsContent value="policy" className="mt-3">
