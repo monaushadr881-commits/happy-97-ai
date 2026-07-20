@@ -485,29 +485,31 @@ export const dhVoiceModeSwitch = createServerFn({ method: "POST" })
 /** Runtime Health™ — Mission Control aggregation over existing runtime rows. */
 export const dhRuntimeHealth = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { data: rows, error } = await context.supabase
-      .from("creator_assets")
-      .select("kind,created_at")
-      .like("kind", "digital_human.%")
-      .order("created_at", { ascending: false })
-      .limit(500);
-    if (error) throw new Error(`dh_runtime_health_failed: ${error.message}`);
-    const items = (rows ?? []) as Array<{ kind: string; created_at: string }>;
-    const counts = { conversation: 0, voice: 0, avatar: 0 };
-    let latest: string | null = null;
-    for (const r of items) {
-      const m = r.kind.split(".")[1] as keyof typeof counts | undefined;
-      if (m && m in counts) counts[m] += 1;
-      if (!latest || r.created_at > latest) latest = r.created_at;
-    }
-    return {
-      avatar_id: HAPPY_CANONICAL_AVATAR.id,
-      status: "operational" as const,
-      total_sessions: items.length,
-      conversation_sessions: counts.conversation,
-      voice_sessions: counts.voice,
-      presentation_sessions: counts.avatar,
-      latest_session_at: latest,
-    };
-  });
+  .handler(async ({ context }) =>
+    memoryCache.wrap(`dh:runtime:health:${context.userId}`, 15_000, async () => {
+      const { data: rows, error } = await context.supabase
+        .from("creator_assets")
+        .select("kind,created_at")
+        .like("kind", "digital_human.%")
+        .order("created_at", { ascending: false })
+        .limit(500);
+      if (error) throw new Error(`dh_runtime_health_failed: ${error.message}`);
+      const items = (rows ?? []) as Array<{ kind: string; created_at: string }>;
+      const counts = { conversation: 0, voice: 0, avatar: 0 };
+      let latest: string | null = null;
+      for (const r of items) {
+        const m = r.kind.split(".")[1] as keyof typeof counts | undefined;
+        if (m && m in counts) counts[m] += 1;
+        if (!latest || r.created_at > latest) latest = r.created_at;
+      }
+      return {
+        avatar_id: HAPPY_CANONICAL_AVATAR.id,
+        status: "operational" as const,
+        total_sessions: items.length,
+        conversation_sessions: counts.conversation,
+        voice_sessions: counts.voice,
+        presentation_sessions: counts.avatar,
+        latest_session_at: latest,
+      };
+    }),
+  );
