@@ -251,20 +251,22 @@ export const productionReadinessScore = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "production", "score");
-    const [backups, recoveries, infra] = await Promise.all([
-      readAssets(context.supabase, context.userId, "cloud.backup", 1),
-      readAssets(context.supabase, context.userId, "cloud.recovery", 1),
-      readAssets(context.supabase, context.userId, "infinity.%", 1),
-    ]);
-    const envOk = ["SUPABASE_URL", "LOVABLE_API_KEY"].every((k) => !!process.env[k]);
-    const signals = [
-      { key: "environment", weight: 20, passed: envOk },
-      { key: "runtime", weight: 30, passed: infra.length > 0 },
-      { key: "backup", weight: 30, passed: backups.length > 0 },
-      { key: "recovery", weight: 20, passed: recoveries.length > 0 },
-    ];
-    const score = signals.reduce((acc, s) => acc + (s.passed ? s.weight : 0), 0);
-    return { score, signals, verdict: score >= 80 ? "ready" : score >= 50 ? "partial" : "not_ready" };
+    return memoryCache.wrap(`readiness:score:${context.userId}`, 30_000, async () => {
+      const [backups, recoveries, infra] = await Promise.all([
+        readAssets(context.supabase, context.userId, "cloud.backup", 1),
+        readAssets(context.supabase, context.userId, "cloud.recovery", 1),
+        readAssets(context.supabase, context.userId, "infinity.%", 1),
+      ]);
+      const envOk = ["SUPABASE_URL", "LOVABLE_API_KEY"].every((k) => !!process.env[k]);
+      const signals = [
+        { key: "environment", weight: 20, passed: envOk },
+        { key: "runtime", weight: 30, passed: infra.length > 0 },
+        { key: "backup", weight: 30, passed: backups.length > 0 },
+        { key: "recovery", weight: 20, passed: recoveries.length > 0 },
+      ];
+      const score = signals.reduce((acc, s) => acc + (s.passed ? s.weight : 0), 0);
+      return { score, signals, verdict: score >= 80 ? "ready" : score >= 50 ? "partial" : "not_ready" };
+    });
   });
 
 /** Deployment Analytics — canonical rollups over release events. */
@@ -272,19 +274,21 @@ export const deploymentAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "analytics", "deployment");
-    const { data: logs } = await context.supabase
-      .from("audit_logs")
-      .select("action,severity,occurred_at")
-      .eq("category", "deployment")
-      .order("occurred_at", { ascending: false })
-      .limit(200);
-    const by_action: Record<string, number> = {};
-    const by_severity: Record<string, number> = {};
-    for (const r of (logs ?? []) as { action: string; severity: string }[]) {
-      by_action[r.action] = (by_action[r.action] ?? 0) + 1;
-      by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
-    }
-    return { total: logs?.length ?? 0, by_action, by_severity };
+    return memoryCache.wrap(`readiness:deploy:analytics:${context.userId}`, 60_000, async () => {
+      const { data: logs } = await context.supabase
+        .from("audit_logs")
+        .select("action,severity,occurred_at")
+        .eq("category", "deployment")
+        .order("occurred_at", { ascending: false })
+        .limit(200);
+      const by_action: Record<string, number> = {};
+      const by_severity: Record<string, number> = {};
+      for (const r of (logs ?? []) as { action: string; severity: string }[]) {
+        by_action[r.action] = (by_action[r.action] ?? 0) + 1;
+        by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
+      }
+      return { total: logs?.length ?? 0, by_action, by_severity };
+    });
   });
 
 /** Health Analytics — mission-control health rollups. */
@@ -292,17 +296,19 @@ export const healthAnalytics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await adopt(context.supabase, context.userId, "analytics", "health");
-    const { data: logs } = await context.supabase
-      .from("audit_logs")
-      .select("action,severity,occurred_at")
-      .eq("category", "mission_control")
-      .order("occurred_at", { ascending: false })
-      .limit(200);
-    const by_severity: Record<string, number> = {};
-    for (const r of (logs ?? []) as { severity: string }[]) {
-      by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
-    }
-    return { total: logs?.length ?? 0, by_severity };
+    return memoryCache.wrap(`readiness:health:analytics:${context.userId}`, 60_000, async () => {
+      const { data: logs } = await context.supabase
+        .from("audit_logs")
+        .select("action,severity,occurred_at")
+        .eq("category", "mission_control")
+        .order("occurred_at", { ascending: false })
+        .limit(200);
+      const by_severity: Record<string, number> = {};
+      for (const r of (logs ?? []) as { severity: string }[]) {
+        by_severity[r.severity] = (by_severity[r.severity] ?? 0) + 1;
+      }
+      return { total: logs?.length ?? 0, by_severity };
+    });
   });
 
 /** Production Readiness Health — Mission Control feed. */
