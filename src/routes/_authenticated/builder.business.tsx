@@ -154,14 +154,14 @@ function BusinessAppBuilderRoute() {
         {/* Center */}
         <main className="space-y-4 min-w-0">
           <HappyUniversalPromptBar
-            defaultSurface="business-app"
+            defaultSurface="fullstack-app"
             placeholder={PRESET_INTRO[preset]}
             onSend={onSend}
             onAction={onAction}
           />
 
           <HappyUniversalActionBar
-            mode="builder"
+            mode="creator"
             payload=""
             target={`business:${preset}`}
             onAction={onBarAction}
