@@ -109,6 +109,7 @@ import { Route as AuthenticatedBusinessCrmRouteImport } from './routes/_authenti
 import { Route as AuthenticatedBusinessAutomationRouteImport } from './routes/_authenticated/business.automation'
 import { Route as AuthenticatedBusinessAnalyticsRouteImport } from './routes/_authenticated/business.analytics'
 import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authenticated/business.ai'
+import { Route as AuthenticatedBuilderWebsiteRouteImport } from './routes/_authenticated/builder.website'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 
@@ -689,6 +690,12 @@ const AuthenticatedBusinessAiRoute = AuthenticatedBusinessAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AuthenticatedBusinessRoute,
 } as any)
+const AuthenticatedBuilderWebsiteRoute =
+  AuthenticatedBuilderWebsiteRouteImport.update({
+    id: '/website',
+    path: '/website',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
   path: '/api/public/v1/status',
@@ -705,7 +712,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
-  '/builder': typeof AuthenticatedBuilderRoute
+  '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
   '/community': typeof AuthenticatedCommunityRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -718,6 +725,7 @@ export interface FileRoutesByFullPath {
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -808,9 +816,10 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/assistant': typeof AuthenticatedAssistantRoute
-  '/builder': typeof AuthenticatedBuilderRoute
+  '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -903,7 +912,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
-  '/_authenticated/builder': typeof AuthenticatedBuilderRoute
+  '/_authenticated/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
   '/_authenticated/community': typeof AuthenticatedCommunityRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -916,6 +925,7 @@ export interface FileRoutesById {
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/_authenticated/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
   '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/_authenticated/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1021,6 +1031,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/settings'
     | '/studio'
+    | '/builder/website'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -1114,6 +1125,7 @@ export interface FileRouteTypes {
     | '/builder'
     | '/dashboard'
     | '/settings'
+    | '/builder/website'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -1218,6 +1230,7 @@ export interface FileRouteTypes {
     | '/_authenticated/messages'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
+    | '/_authenticated/builder/website'
     | '/_authenticated/business/ai'
     | '/_authenticated/business/analytics'
     | '/_authenticated/business/automation'
@@ -2016,6 +2029,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessAiRouteImport
       parentRoute: typeof AuthenticatedBusinessRoute
     }
+    '/_authenticated/builder/website': {
+      id: '/_authenticated/builder/website'
+      path: '/website'
+      fullPath: '/builder/website'
+      preLoaderRoute: typeof AuthenticatedBuilderWebsiteRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
       path: '/api/public/v1/status'
@@ -2032,6 +2052,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedBuilderRouteChildren {
+  AuthenticatedBuilderWebsiteRoute: typeof AuthenticatedBuilderWebsiteRoute
+}
+
+const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
+  AuthenticatedBuilderWebsiteRoute: AuthenticatedBuilderWebsiteRoute,
+}
+
+const AuthenticatedBuilderRouteWithChildren =
+  AuthenticatedBuilderRoute._addFileChildren(AuthenticatedBuilderRouteChildren)
 
 interface AuthenticatedBusinessRouteChildren {
   AuthenticatedBusinessAiRoute: typeof AuthenticatedBusinessAiRoute
@@ -2319,7 +2350,7 @@ const AuthenticatedStudioRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
-  AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRoute
+  AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
   AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -2338,7 +2369,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
-  AuthenticatedBuilderRoute: AuthenticatedBuilderRoute,
+  AuthenticatedBuilderRoute: AuthenticatedBuilderRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
   AuthenticatedCommunityRoute: AuthenticatedCommunityRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
