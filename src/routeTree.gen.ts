@@ -162,6 +162,7 @@ import { Route as AuthenticatedBuilderAutomationRouteImport } from './routes/_au
 import { Route as AuthenticatedBuilderApiRouteImport } from './routes/_authenticated/builder.api'
 import { Route as AuthenticatedBuilderAnalyticsRouteImport } from './routes/_authenticated/builder.analytics'
 import { Route as AuthenticatedBuilderAgentsRouteImport } from './routes/_authenticated/builder.agents'
+import { Route as AuthenticatedBuilderAccountingRouteImport } from './routes/_authenticated/builder.accounting'
 import { Route as ApiPublicV1StatusRouteImport } from './routes/api/public/v1/status'
 import { Route as ApiPublicV1HealthRouteImport } from './routes/api/public/v1/health'
 
@@ -1046,6 +1047,12 @@ const AuthenticatedBuilderAgentsRoute =
     path: '/agents',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderAccountingRoute =
+  AuthenticatedBuilderAccountingRouteImport.update({
+    id: '/accounting',
+    path: '/accounting',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const ApiPublicV1StatusRoute = ApiPublicV1StatusRouteImport.update({
   id: '/api/public/v1/status',
   path: '/api/public/v1/status',
@@ -1088,6 +1095,7 @@ export interface FileRoutesByFullPath {
   '/platform': typeof AuthenticatedPlatformRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/builder/accounting': typeof AuthenticatedBuilderAccountingRoute
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/builder/analytics': typeof AuthenticatedBuilderAnalyticsRoute
   '/builder/api': typeof AuthenticatedBuilderApiRoute
@@ -1234,6 +1242,7 @@ export interface FileRoutesByTo {
   '/optimization': typeof AuthenticatedOptimizationRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/builder/accounting': typeof AuthenticatedBuilderAccountingRoute
   '/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/builder/analytics': typeof AuthenticatedBuilderAnalyticsRoute
   '/builder/api': typeof AuthenticatedBuilderApiRoute
@@ -1392,6 +1401,7 @@ export interface FileRoutesById {
   '/_authenticated/platform': typeof AuthenticatedPlatformRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/studio': typeof AuthenticatedStudioRouteWithChildren
+  '/_authenticated/builder/accounting': typeof AuthenticatedBuilderAccountingRoute
   '/_authenticated/builder/agents': typeof AuthenticatedBuilderAgentsRoute
   '/_authenticated/builder/analytics': typeof AuthenticatedBuilderAnalyticsRoute
   '/_authenticated/builder/api': typeof AuthenticatedBuilderApiRoute
@@ -1550,6 +1560,7 @@ export interface FileRouteTypes {
     | '/platform'
     | '/settings'
     | '/studio'
+    | '/builder/accounting'
     | '/builder/agents'
     | '/builder/analytics'
     | '/builder/api'
@@ -1696,6 +1707,7 @@ export interface FileRouteTypes {
     | '/optimization'
     | '/platform'
     | '/settings'
+    | '/builder/accounting'
     | '/builder/agents'
     | '/builder/analytics'
     | '/builder/api'
@@ -1853,6 +1865,7 @@ export interface FileRouteTypes {
     | '/_authenticated/platform'
     | '/_authenticated/settings'
     | '/_authenticated/studio'
+    | '/_authenticated/builder/accounting'
     | '/_authenticated/builder/agents'
     | '/_authenticated/builder/analytics'
     | '/_authenticated/builder/api'
@@ -3062,6 +3075,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderAgentsRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/accounting': {
+      id: '/_authenticated/builder/accounting'
+      path: '/accounting'
+      fullPath: '/builder/accounting'
+      preLoaderRoute: typeof AuthenticatedBuilderAccountingRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/api/public/v1/status': {
       id: '/api/public/v1/status'
       path: '/api/public/v1/status'
@@ -3080,6 +3100,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedBuilderRouteChildren {
+  AuthenticatedBuilderAccountingRoute: typeof AuthenticatedBuilderAccountingRoute
   AuthenticatedBuilderAgentsRoute: typeof AuthenticatedBuilderAgentsRoute
   AuthenticatedBuilderAnalyticsRoute: typeof AuthenticatedBuilderAnalyticsRoute
   AuthenticatedBuilderApiRoute: typeof AuthenticatedBuilderApiRoute
@@ -3122,6 +3143,7 @@ interface AuthenticatedBuilderRouteChildren {
 }
 
 const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
+  AuthenticatedBuilderAccountingRoute: AuthenticatedBuilderAccountingRoute,
   AuthenticatedBuilderAgentsRoute: AuthenticatedBuilderAgentsRoute,
   AuthenticatedBuilderAnalyticsRoute: AuthenticatedBuilderAnalyticsRoute,
   AuthenticatedBuilderApiRoute: AuthenticatedBuilderApiRoute,
