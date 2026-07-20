@@ -12,7 +12,7 @@ import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
-  Mic, UserVoice, BookOpen, Radio, Bot, Languages, Captions,
+  Mic, BookOpen, Radio, Bot, Languages, Captions,
   Waves, Volume2, Sparkles, Download, FileCheck2, AudioLines, Music,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";

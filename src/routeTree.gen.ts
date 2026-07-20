@@ -111,6 +111,7 @@ import { Route as AuthenticatedBusinessAutomationRouteImport } from './routes/_a
 import { Route as AuthenticatedBusinessAnalyticsRouteImport } from './routes/_authenticated/business.analytics'
 import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authenticated/business.ai'
 import { Route as AuthenticatedBuilderWebsiteRouteImport } from './routes/_authenticated/builder.website'
+import { Route as AuthenticatedBuilderVoiceRouteImport } from './routes/_authenticated/builder.voice'
 import { Route as AuthenticatedBuilderVideoRouteImport } from './routes/_authenticated/builder.video'
 import { Route as AuthenticatedBuilderUiRouteImport } from './routes/_authenticated/builder.ui'
 import { Route as AuthenticatedBuilderPresentationRouteImport } from './routes/_authenticated/builder.presentation'
@@ -714,6 +715,12 @@ const AuthenticatedBuilderWebsiteRoute =
     path: '/website',
     getParentRoute: () => AuthenticatedBuilderRoute,
   } as any)
+const AuthenticatedBuilderVoiceRoute =
+  AuthenticatedBuilderVoiceRouteImport.update({
+    id: '/voice',
+    path: '/voice',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderVideoRoute =
   AuthenticatedBuilderVideoRouteImport.update({
     id: '/video',
@@ -826,6 +833,7 @@ export interface FileRoutesByFullPath {
   '/builder/presentation': typeof AuthenticatedBuilderPresentationRoute
   '/builder/ui': typeof AuthenticatedBuilderUiRoute
   '/builder/video': typeof AuthenticatedBuilderVideoRoute
+  '/builder/voice': typeof AuthenticatedBuilderVoiceRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -933,6 +941,7 @@ export interface FileRoutesByTo {
   '/builder/presentation': typeof AuthenticatedBuilderPresentationRoute
   '/builder/ui': typeof AuthenticatedBuilderUiRoute
   '/builder/video': typeof AuthenticatedBuilderVideoRoute
+  '/builder/voice': typeof AuthenticatedBuilderVoiceRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -1052,6 +1061,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/presentation': typeof AuthenticatedBuilderPresentationRoute
   '/_authenticated/builder/ui': typeof AuthenticatedBuilderUiRoute
   '/_authenticated/builder/video': typeof AuthenticatedBuilderVideoRoute
+  '/_authenticated/builder/voice': typeof AuthenticatedBuilderVoiceRoute
   '/_authenticated/builder/website': typeof AuthenticatedBuilderWebsiteRoute
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
   '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
@@ -1171,6 +1181,7 @@ export interface FileRouteTypes {
     | '/builder/presentation'
     | '/builder/ui'
     | '/builder/video'
+    | '/builder/voice'
     | '/builder/website'
     | '/business/ai'
     | '/business/analytics'
@@ -1278,6 +1289,7 @@ export interface FileRouteTypes {
     | '/builder/presentation'
     | '/builder/ui'
     | '/builder/video'
+    | '/builder/voice'
     | '/builder/website'
     | '/business/ai'
     | '/business/analytics'
@@ -1396,6 +1408,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/presentation'
     | '/_authenticated/builder/ui'
     | '/_authenticated/builder/video'
+    | '/_authenticated/builder/voice'
     | '/_authenticated/builder/website'
     | '/_authenticated/business/ai'
     | '/_authenticated/business/analytics'
@@ -2209,6 +2222,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBuilderWebsiteRouteImport
       parentRoute: typeof AuthenticatedBuilderRoute
     }
+    '/_authenticated/builder/voice': {
+      id: '/_authenticated/builder/voice'
+      path: '/voice'
+      fullPath: '/builder/voice'
+      preLoaderRoute: typeof AuthenticatedBuilderVoiceRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/video': {
       id: '/_authenticated/builder/video'
       path: '/video'
@@ -2323,6 +2343,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderPresentationRoute: typeof AuthenticatedBuilderPresentationRoute
   AuthenticatedBuilderUiRoute: typeof AuthenticatedBuilderUiRoute
   AuthenticatedBuilderVideoRoute: typeof AuthenticatedBuilderVideoRoute
+  AuthenticatedBuilderVoiceRoute: typeof AuthenticatedBuilderVoiceRoute
   AuthenticatedBuilderWebsiteRoute: typeof AuthenticatedBuilderWebsiteRoute
 }
 
@@ -2339,6 +2360,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderPresentationRoute: AuthenticatedBuilderPresentationRoute,
   AuthenticatedBuilderUiRoute: AuthenticatedBuilderUiRoute,
   AuthenticatedBuilderVideoRoute: AuthenticatedBuilderVideoRoute,
+  AuthenticatedBuilderVoiceRoute: AuthenticatedBuilderVoiceRoute,
   AuthenticatedBuilderWebsiteRoute: AuthenticatedBuilderWebsiteRoute,
 }
 
