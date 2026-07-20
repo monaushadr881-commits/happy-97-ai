@@ -37,9 +37,11 @@ const KIND_PREFIX: Record<Domain, string> = {
   "digital-human": "digital_human.",
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type JsonMeta = any;
 interface AssetRow {
   id: string; name: string; kind: string; tags: string[] | null;
-  metadata: Record<string, unknown> | null; created_at: string;
+  metadata: JsonMeta; created_at: string;
 }
 
 async function readAssets(
