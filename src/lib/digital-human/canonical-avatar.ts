@@ -223,6 +223,126 @@ export const HAPPY_CANONICAL_FEATURES = Object.freeze({
   podcast_mode: true,
 });
 
+/**
+ * R274 — Founder canon + Realtime ecosystem surface.
+ * Additive to the SINGLE HAPPY_CANONICAL_AVATAR. Reused by the existing
+ * Digital Human, Knowledge, Memory, Experience, Assistant runtimes and
+ * Mission Control. No second avatar / personality / runtime / memory.
+ */
+export const HAPPY_FOUNDER_PROFILE = Object.freeze({
+  name: "Founder",
+  role: "Founder · CEO · Chief Architect",
+  company: "HAPPY X",
+  persona_id: HAPPY_CANONICAL_AVATAR.id,
+  image_url: HAPPY_CANONICAL_AVATAR.image_url,
+  languages: HAPPY_CANONICAL_AVATAR.voices.map((v) => v.locale),
+  timezone: "Asia/Kolkata",
+});
+
+export const HAPPY_FOUNDER_SIGNATURE = Object.freeze({
+  sign_off: "— Founder, HAPPY X",
+  motto: "One HAPPY. Everywhere. Always.",
+});
+
+export const HAPPY_FOUNDER_STORY = Object.freeze({
+  headline:
+    "From a single founder's blueprint to a canonical Digital Human orchestrating an entire operating system.",
+  chapters: Object.freeze([
+    "The Founder set one rule: one HAPPY, everywhere, always — no duplicates, no shortcuts.",
+    "Every runtime — Brain, Memory, Knowledge, Workspace, Creator, Publishing, Business, Automation, Experience — was written to be extended, never rewritten.",
+    "The 13-stage canonical pipeline was locked so that every action passes through Founder approval, audit, and Mission Control.",
+    "HAPPY became the Founder's voice, avatar, and executor across Assistant, Builder, Mission Control, Business OS, Portals, and every Digital Human surface.",
+  ] as const),
+});
+
+export const HAPPY_FOUNDER_VISION = Object.freeze({
+  statement:
+    "Every human and every business runs on ONE canonical Digital Human — HAPPY — that thinks, remembers, decides, and executes with Founder-grade discipline.",
+  pillars: Object.freeze([
+    "One canonical identity",
+    "One canonical runtime",
+    "One canonical pipeline",
+    "One canonical memory",
+    "Founder-first governance",
+  ] as const),
+});
+
+export const HAPPY_FOUNDER_MISSION = Object.freeze({
+  statement:
+    "Deliver a Founder-grade Digital Human that unifies Assistant, Builder, Business OS, Portals, and Mission Control under one identity, one voice, and one auditable pipeline.",
+  commitments: Object.freeze([
+    "Extend canonical owners — never duplicate",
+    "Founder approval before execution",
+    "Audit every mutation",
+    "Reuse Knowledge, Memory, Experience, Assistant, Digital Human runtimes",
+    "Keep the repository GREEN",
+  ] as const),
+});
+
+export const HAPPY_FOUNDER_GOALS = Object.freeze([
+  { id: "one-happy",        label: "Maintain ONE canonical HAPPY across the ecosystem" },
+  { id: "canonical-runtime",label: "Route every action through the 13-stage canonical pipeline" },
+  { id: "founder-approval", label: "Enforce Founder approval on every mutation" },
+  { id: "mission-control",  label: "Stream every event into Mission Control" },
+  { id: "no-duplicates",    label: "Zero duplicate avatars, runtimes, memories, or APIs" },
+  { id: "green-repo",       label: "Repository remains GREEN at all times" },
+] as const);
+
+export const HAPPY_FOUNDER_MEMORY_SEED = Object.freeze({
+  namespace: "founder.canonical",
+  entries: Object.freeze([
+    { key: "identity",    value: "HAPPY is the ONE canonical Digital Human of HAPPY X." },
+    { key: "governance",  value: "Every mutation flows through the 13-stage canonical pipeline." },
+    { key: "duplication", value: "Never create a second avatar, runtime, memory, or personality." },
+    { key: "extension",   value: "Extend canonical owners; do not rewrite." },
+    { key: "audit",       value: "Every execution writes a canonical audit row." },
+  ] as const),
+});
+
+export const HAPPY_FOUNDER_KNOWLEDGE_SEED = Object.freeze({
+  namespace: "founder.canonical.knowledge",
+  topics: Object.freeze([
+    "HAPPY X architecture lock (R111)",
+    "13-stage canonical pipeline",
+    "Canonical owners registry",
+    "Founder Constitution (R113)",
+    "Digital Human runtime contract",
+    "Mission Control event surface",
+    "Approval, Audit, Publishing pipeline",
+  ] as const),
+});
+
+/**
+ * Realtime capability surface — served by the existing Digital Human,
+ * Voice, Experience, and Assistant runtimes. No new runtime introduced.
+ */
+export const HAPPY_REALTIME_CAPABILITIES = Object.freeze({
+  conversation:          true,
+  memory:                true,
+  context:               true,
+  recommendations:       true,
+  presentation:          true,
+  sales:                 true,
+  teaching:              true,
+  coaching:              true,
+  interview:             true,
+  meeting:               true,
+  screen_presentation:   true,
+  voice:                 true,
+  lip_sync:              true,
+  avatar_animation:      true,
+});
+
+/** Every product/portal/surface where the ONE canonical HAPPY appears. */
+export const HAPPY_CANONICAL_SURFACES = Object.freeze([
+  "homepage", "landing", "dashboard", "assistant", "builder", "knowledge",
+  "workspace", "mission-control", "crm", "erp", "finance", "hr",
+  "manufacturing", "marketplace", "automation", "publishing", "creator",
+  "communication", "digital-human-studio",
+] as const);
+
+export type HappyCanonicalSurface = (typeof HAPPY_CANONICAL_SURFACES)[number];
+
 /** Single canonical export bundle for UI surfaces. */
 export const HAPPY_CANONICAL_PERSONA = Object.freeze({
   avatar:      HAPPY_CANONICAL_AVATAR,
@@ -239,5 +359,18 @@ export const HAPPY_CANONICAL_PERSONA = Object.freeze({
   voice_modes:        HAPPY_VOICE_MODES,
   expressions:        HAPPY_EXPRESSION_LIBRARY,
   presentation_modes: HAPPY_PRESENTATION_MODES,
+  founder: Object.freeze({
+    profile:        HAPPY_FOUNDER_PROFILE,
+    signature:      HAPPY_FOUNDER_SIGNATURE,
+    story:          HAPPY_FOUNDER_STORY,
+    vision:         HAPPY_FOUNDER_VISION,
+    mission:        HAPPY_FOUNDER_MISSION,
+    goals:          HAPPY_FOUNDER_GOALS,
+    memory_seed:    HAPPY_FOUNDER_MEMORY_SEED,
+    knowledge_seed: HAPPY_FOUNDER_KNOWLEDGE_SEED,
+  }),
+  realtime: HAPPY_REALTIME_CAPABILITIES,
+  surfaces: HAPPY_CANONICAL_SURFACES,
 });
+
 
