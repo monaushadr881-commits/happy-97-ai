@@ -25,7 +25,8 @@ const uuid = z.string().uuid();
 const CompanyInput = z.object({ company_id: uuid, days: z.number().int().min(1).max(365).default(30) });
 
 type Kpi = { label: string; value: number; unit?: string };
-type Result<T = unknown> = { status: "ok"; data: T };
+type Json = string | number | boolean | null | Json[] | { [k: string]: Json };
+type Result<T extends Json = Json> = { status: "ok"; data: T };
 
 async function openSession(
   supabase: Parameters<typeof adoptToCanonicalPipeline>[0],
