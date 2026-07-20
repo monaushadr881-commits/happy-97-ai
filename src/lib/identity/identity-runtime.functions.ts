@@ -56,7 +56,7 @@ export const idSessionsList = createServerFn({ method: "POST" })
     const { data: rows, error } = data.user_id
       ? await q.eq("user_id", data.user_id) : await q;
     if (error) throw new Error(`sessions_list_failed: ${error.message}`);
-    return { status: "ok", data: rows };
+    return { status: "ok", data: rows as unknown as JsonValue };
   });
 
 // ---------------------------------------------------------------------------
@@ -150,7 +150,7 @@ export const idDevicesList = createServerFn({ method: "POST" })
     const { data: rows, error } = data.user_id
       ? await q.eq("user_id", data.user_id) : await q;
     if (error) throw new Error(`devices_list_failed: ${error.message}`);
-    return { status: "ok", data: rows };
+    return { status: "ok", data: rows as unknown as JsonValue };
   });
 
 // ---------------------------------------------------------------------------
@@ -351,7 +351,7 @@ export const idAccessReview = createServerFn({ method: "POST" })
     ]);
     if (ur.error) throw new Error(ur.error.message);
     if (ra.error) throw new Error(ra.error.message);
-    return { status: "ok", data: { user_roles: ur.data, role_assignments: ra.data } };
+    return { status: "ok", data: { user_roles: ur.data, role_assignments: ra.data } as unknown as JsonValue };
   });
 
 // ---------------------------------------------------------------------------
@@ -476,7 +476,7 @@ export const idLoginHistory = createServerFn({ method: "POST" })
     const { data: rows, error } = data.user_id
       ? await q.eq("user_id", data.user_id) : await q;
     if (error) throw new Error(`login_history_failed: ${error.message}`);
-    return { status: "ok", data: rows };
+    return { status: "ok", data: rows as unknown as JsonValue };
   });
 
 // ---------------------------------------------------------------------------
