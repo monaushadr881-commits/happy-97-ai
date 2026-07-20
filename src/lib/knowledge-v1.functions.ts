@@ -197,21 +197,23 @@ export const kbAddDocument = createServerFn({ method: "POST" })
 
 export const kbDashboard = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(async () => {
-    const [pub, cats, docs, drafts] = await Promise.all([
-      context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true })
-        .eq("is_public", true).eq("status", "active"),
-      context.supabase.from("knowledge_categories").select("id", { count: "exact", head: true }).eq("status", "active"),
-      context.supabase.from("ai_knowledge_documents").select("id", { count: "exact", head: true }).eq("status", "active"),
-      context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true }).eq("status", "draft"),
-    ]);
-    return {
-      public_articles: pub.count ?? 0,
-      categories: cats.count ?? 0,
-      documents: docs.count ?? 0,
-      drafts: drafts.count ?? 0,
-    };
-  }));
+  .handler(async ({ context }) => guard(() =>
+    memoryCache.wrap(`kb:dashboard:${context.userId}`, 60_000, async () => {
+      const [pub, cats, docs, drafts] = await Promise.all([
+        context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true })
+          .eq("is_public", true).eq("status", "active"),
+        context.supabase.from("knowledge_categories").select("id", { count: "exact", head: true }).eq("status", "active"),
+        context.supabase.from("ai_knowledge_documents").select("id", { count: "exact", head: true }).eq("status", "active"),
+        context.supabase.from("knowledge_articles").select("id", { count: "exact", head: true }).eq("status", "draft"),
+      ]);
+      return {
+        public_articles: pub.count ?? 0,
+        categories: cats.count ?? 0,
+        documents: docs.count ?? 0,
+        drafts: drafts.count ?? 0,
+      };
+    })
+  ));
 
 // =====================================================================
 // HAPPY KNOWLEDGE ASSISTANT (RAG-lite via Gateway)
