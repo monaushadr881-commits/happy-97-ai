@@ -57,15 +57,24 @@ function AuthPage() {
   };
 
   const handleGoogle = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      toast.error(result.error.message ?? "Google sign-in failed");
-      return;
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) {
+        toast.error(result.error.message ?? "Google sign-in failed");
+        return;
+      }
+      if (result.redirected) return;
+      navigate({ to: "/dashboard", replace: true });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      toast.error(
+        /popup/i.test(msg)
+          ? "Popup was blocked by your browser. Please allow popups for this site and try again."
+          : msg || "Google sign-in failed",
+      );
     }
-    if (result.redirected) return;
-    navigate({ to: "/dashboard", replace: true });
   };
 
   return (
