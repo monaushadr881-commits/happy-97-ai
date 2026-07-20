@@ -275,7 +275,7 @@ export const bizWarehouseTransferShip = createServerFn({ method: "POST" })
     if (upErr) throw new Error(`transfer_ship_failed: ${upErr.message}`);
     // R195 Batch 9 — batch insert (was N+1 loop)
     const shipTxns = (items ?? []).map((it) => ({
-      company_id: data.company_id, txn_type: "transfer_out", product_id: it.product_id,
+      company_id: data.company_id, txn_type: "transfer_out" as const, product_id: it.product_id,
       warehouse_id: transfer.from_warehouse_id, qty_delta: -Math.abs(Number(it.quantity)), balance_after: 0,
       lot_id: it.lot_id ?? null, ref_type: "stock_transfer", ref_id: data.transfer_id, ref_number: transfer.number, actor_id: context.userId,
     }));
@@ -301,7 +301,7 @@ export const bizWarehouseTransferReceive = createServerFn({ method: "POST" })
     if (upErr) throw new Error(`transfer_receive_failed: ${upErr.message}`);
     // R195 Batch 9 — batch insert (was N+1 loop)
     const recvTxns = (items ?? []).map((it) => ({
-      company_id: data.company_id, txn_type: "transfer_in", product_id: it.product_id,
+      company_id: data.company_id, txn_type: "transfer_in" as const, product_id: it.product_id,
       warehouse_id: transfer.to_warehouse_id, qty_delta: Math.abs(Number(it.quantity_received ?? it.quantity)), balance_after: 0,
       lot_id: it.lot_id ?? null, ref_type: "stock_transfer", ref_id: data.transfer_id, ref_number: transfer.number, actor_id: context.userId,
     }));
@@ -342,7 +342,7 @@ export const bizPurchaseReceive = createServerFn({ method: "POST" })
     const poTxns = data.items
       .filter((it) => it.quantity_received > 0)
       .map((it) => ({
-        company_id: data.company_id, txn_type: "receive", product_id: it.product_id, warehouse_id: data.warehouse_id,
+        company_id: data.company_id, txn_type: "receive" as const, product_id: it.product_id, warehouse_id: data.warehouse_id,
         qty_delta: it.quantity_received, balance_after: 0, unit_cost: it.unit_cost ?? null,
         ref_type: "goods_receipt", ref_id: receipt.id, ref_number: receipt.number, actor_id: context.userId,
       }));
@@ -371,7 +371,7 @@ export const bizSalesDispatch = createServerFn({ method: "POST" })
     const { data: order } = await supabase.from("sales_orders").select("number").eq("id", data.sales_order_id).eq("company_id", data.company_id).single();
     // R195 Batch 9 — batch insert (was N+1 loop)
     const dispatchTxns = data.items.map((it) => ({
-      company_id: data.company_id, txn_type: "issue", product_id: it.product_id, warehouse_id: data.warehouse_id,
+      company_id: data.company_id, txn_type: "issue" as const, product_id: it.product_id, warehouse_id: data.warehouse_id,
       qty_delta: -Math.abs(it.quantity), balance_after: 0, unit_cost: it.unit_cost ?? null,
       ref_type: "sales_order", ref_id: data.sales_order_id, ref_number: order?.number ?? null, actor_id: context.userId,
     }));
