@@ -8,7 +8,7 @@
  * and shadcn UI like the other founder pages.
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { PageHeader, Panel, Chip, Hairline, EmptyState } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
@@ -27,12 +27,24 @@ import {
 import { apiListCompanies } from "@/lib/api-v1.functions";
 import { Handshake, Truck, Plus, Activity } from "lucide-react";
 import { toast } from "sonner";
+import { definedQuery, ensureCanonicalMany } from "@/lib/founder/suspense-query";
+
+const companiesQ = definedQuery(["founder", "companies"], () => apiListCompanies());
+const healthQ = definedQuery(["founder", "dealer-network", "health"], () => dealerNetworkHealth());
+const listQ = (kind: "dealer" | "distributor") =>
+  definedQuery(["founder", "dealer-network", kind], () => dealerNetworkList({ data: { kind, limit: 100 } }));
 
 export const Route = createFileRoute("/_authenticated/founder/dealers")({
   head: () => ({ meta: [
     { title: "Dealers & Distributors — Founder" },
     { name: "robots", content: "noindex" },
   ]}),
+  loader: ({ context }) =>
+    ensureCanonicalMany(
+      context.queryClient,
+      [companiesQ],
+      [healthQ, listQ("dealer")],
+    ),
   component: FounderDealers,
 });
 
@@ -44,16 +56,14 @@ function FounderDealers() {
   const [tab, setTab] = useState<"dealer" | "distributor">("dealer");
   const [companyId, setCompanyId] = useState<string>("");
 
-  const companies = useQuery({ queryKey: ["founder", "companies"], queryFn: () => apiListCompanies() });
-  const health    = useQuery({ queryKey: ["founder", "dealer-network", "health"], queryFn: () => dealerNetworkHealth() });
-  const list      = useQuery({
-    queryKey: ["founder", "dealer-network", tab],
-    queryFn: () => dealerNetworkList({ data: { kind: tab, limit: 100 } }),
-  });
+  const { data: companies } = useSuspenseQuery(companiesQ);
+  const { data: health } = useSuspenseQuery(healthQ);
+  const { data: list } = useSuspenseQuery(listQ(tab));
 
   const invalidate = () => {
     qc.invalidateQueries({ queryKey: ["founder", "dealer-network"] });
   };
+
 
   const registerDealer = useMutation({
     mutationFn: (v: { dealer_ref: string; name: string; territory?: string }) =>
