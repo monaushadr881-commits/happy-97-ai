@@ -13,7 +13,7 @@ import {
 
 export interface UseBuilderPromptOptions {
   surface: string;
-  onLog?: (kind: "log" | "error", text: string) => void;
+  onLog?: (kind: string, text: string) => void;
 }
 
 export function useBuilderPrompt(opts: UseBuilderPromptOptions) {

@@ -100,7 +100,7 @@ function AgentBuilderRoute() {
       ...prev,
     ].slice(0, 200));
   }, []);
-  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "agents", onLog: pushLog });
+  const { submit: __submitPrompt } = useBuilderPrompt({ surface: "agents" });
 
   const onSend = React.useCallback((p: HuppSendPayload) => {
     pushEvent(`Design · ${agent}`, p.prompt.slice(0, 160));

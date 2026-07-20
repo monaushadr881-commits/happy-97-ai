@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useBuilderPrompt } from "@/hooks/use-builder-prompt";
 import {
   HappyUniversalPromptBar,
   type HuppSendPayload,
