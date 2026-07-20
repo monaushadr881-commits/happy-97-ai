@@ -110,6 +110,7 @@ import { Route as AuthenticatedBusinessCrmRouteImport } from './routes/_authenti
 import { Route as AuthenticatedBusinessAutomationRouteImport } from './routes/_authenticated/business.automation'
 import { Route as AuthenticatedBusinessAnalyticsRouteImport } from './routes/_authenticated/business.analytics'
 import { Route as AuthenticatedBusinessAiRouteImport } from './routes/_authenticated/business.ai'
+import { Route as AuthenticatedBuilderWorkflowRouteImport } from './routes/_authenticated/builder.workflow'
 import { Route as AuthenticatedBuilderWebsiteRouteImport } from './routes/_authenticated/builder.website'
 import { Route as AuthenticatedBuilderVoiceRouteImport } from './routes/_authenticated/builder.voice'
 import { Route as AuthenticatedBuilderVideoRouteImport } from './routes/_authenticated/builder.video'
@@ -713,6 +714,12 @@ const AuthenticatedBusinessAiRoute = AuthenticatedBusinessAiRouteImport.update({
   path: '/ai',
   getParentRoute: () => AuthenticatedBusinessRoute,
 } as any)
+const AuthenticatedBuilderWorkflowRoute =
+  AuthenticatedBuilderWorkflowRouteImport.update({
+    id: '/workflow',
+    path: '/workflow',
+    getParentRoute: () => AuthenticatedBuilderRoute,
+  } as any)
 const AuthenticatedBuilderWebsiteRoute =
   AuthenticatedBuilderWebsiteRouteImport.update({
     id: '/website',
@@ -867,6 +874,7 @@ export interface FileRoutesByFullPath {
   '/builder/video': typeof AuthenticatedBuilderVideoRoute
   '/builder/voice': typeof AuthenticatedBuilderVoiceRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
+  '/builder/workflow': typeof AuthenticatedBuilderWorkflowRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -979,6 +987,7 @@ export interface FileRoutesByTo {
   '/builder/video': typeof AuthenticatedBuilderVideoRoute
   '/builder/voice': typeof AuthenticatedBuilderVoiceRoute
   '/builder/website': typeof AuthenticatedBuilderWebsiteRoute
+  '/builder/workflow': typeof AuthenticatedBuilderWorkflowRoute
   '/business/ai': typeof AuthenticatedBusinessAiRoute
   '/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1103,6 +1112,7 @@ export interface FileRoutesById {
   '/_authenticated/builder/video': typeof AuthenticatedBuilderVideoRoute
   '/_authenticated/builder/voice': typeof AuthenticatedBuilderVoiceRoute
   '/_authenticated/builder/website': typeof AuthenticatedBuilderWebsiteRoute
+  '/_authenticated/builder/workflow': typeof AuthenticatedBuilderWorkflowRoute
   '/_authenticated/business/ai': typeof AuthenticatedBusinessAiRoute
   '/_authenticated/business/analytics': typeof AuthenticatedBusinessAnalyticsRoute
   '/_authenticated/business/automation': typeof AuthenticatedBusinessAutomationRoute
@@ -1227,6 +1237,7 @@ export interface FileRouteTypes {
     | '/builder/video'
     | '/builder/voice'
     | '/builder/website'
+    | '/builder/workflow'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -1339,6 +1350,7 @@ export interface FileRouteTypes {
     | '/builder/video'
     | '/builder/voice'
     | '/builder/website'
+    | '/builder/workflow'
     | '/business/ai'
     | '/business/analytics'
     | '/business/automation'
@@ -1462,6 +1474,7 @@ export interface FileRouteTypes {
     | '/_authenticated/builder/video'
     | '/_authenticated/builder/voice'
     | '/_authenticated/builder/website'
+    | '/_authenticated/builder/workflow'
     | '/_authenticated/business/ai'
     | '/_authenticated/business/analytics'
     | '/_authenticated/business/automation'
@@ -2267,6 +2280,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBusinessAiRouteImport
       parentRoute: typeof AuthenticatedBusinessRoute
     }
+    '/_authenticated/builder/workflow': {
+      id: '/_authenticated/builder/workflow'
+      path: '/workflow'
+      fullPath: '/builder/workflow'
+      preLoaderRoute: typeof AuthenticatedBuilderWorkflowRouteImport
+      parentRoute: typeof AuthenticatedBuilderRoute
+    }
     '/_authenticated/builder/website': {
       id: '/_authenticated/builder/website'
       path: '/website'
@@ -2429,6 +2449,7 @@ interface AuthenticatedBuilderRouteChildren {
   AuthenticatedBuilderVideoRoute: typeof AuthenticatedBuilderVideoRoute
   AuthenticatedBuilderVoiceRoute: typeof AuthenticatedBuilderVoiceRoute
   AuthenticatedBuilderWebsiteRoute: typeof AuthenticatedBuilderWebsiteRoute
+  AuthenticatedBuilderWorkflowRoute: typeof AuthenticatedBuilderWorkflowRoute
 }
 
 const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
@@ -2450,6 +2471,7 @@ const AuthenticatedBuilderRouteChildren: AuthenticatedBuilderRouteChildren = {
   AuthenticatedBuilderVideoRoute: AuthenticatedBuilderVideoRoute,
   AuthenticatedBuilderVoiceRoute: AuthenticatedBuilderVoiceRoute,
   AuthenticatedBuilderWebsiteRoute: AuthenticatedBuilderWebsiteRoute,
+  AuthenticatedBuilderWorkflowRoute: AuthenticatedBuilderWorkflowRoute,
 }
 
 const AuthenticatedBuilderRouteWithChildren =
