@@ -161,6 +161,7 @@ function AuthPage() {
           <p className="mt-6 text-sm text-soft-gray text-center">
             {mode === "signin" ? "New to HAPPY X?" : "Already have an account?"}{" "}
             <button
+              type="button"
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
               className="text-gold hover:text-gold-bright font-medium"
             >
