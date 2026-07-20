@@ -43,6 +43,7 @@ import { Route as AuthenticatedBusinessOsRouteImport } from './routes/_authentic
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedBuilderRouteImport } from './routes/_authenticated/builder'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedAnalyticsPlatformRouteImport } from './routes/_authenticated/analytics-platform'
 import { Route as AuthenticatedAiOsRouteImport } from './routes/_authenticated/ai-os'
 import { Route as AuthenticatedAgricultureRouteImport } from './routes/_authenticated/agriculture'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
@@ -348,6 +349,12 @@ const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAnalyticsPlatformRoute =
+  AuthenticatedAnalyticsPlatformRouteImport.update({
+    id: '/analytics-platform',
+    path: '/analytics-platform',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAiOsRoute = AuthenticatedAiOsRouteImport.update({
   id: '/ai-os',
   path: '/ai-os',
@@ -1116,6 +1123,7 @@ export interface FileRoutesByFullPath {
   '/design': typeof DesignRoute
   '/agriculture': typeof AuthenticatedAgricultureRoute
   '/ai-os': typeof AuthenticatedAiOsRoute
+  '/analytics-platform': typeof AuthenticatedAnalyticsPlatformRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
@@ -1280,6 +1288,7 @@ export interface FileRoutesByTo {
   '/design': typeof DesignRoute
   '/agriculture': typeof AuthenticatedAgricultureRoute
   '/ai-os': typeof AuthenticatedAiOsRoute
+  '/analytics-platform': typeof AuthenticatedAnalyticsPlatformRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/business-os': typeof AuthenticatedBusinessOsRoute
@@ -1436,6 +1445,7 @@ export interface FileRoutesById {
   '/design': typeof DesignRoute
   '/_authenticated/agriculture': typeof AuthenticatedAgricultureRoute
   '/_authenticated/ai-os': typeof AuthenticatedAiOsRoute
+  '/_authenticated/analytics-platform': typeof AuthenticatedAnalyticsPlatformRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
@@ -1602,6 +1612,7 @@ export interface FileRouteTypes {
     | '/design'
     | '/agriculture'
     | '/ai-os'
+    | '/analytics-platform'
     | '/assistant'
     | '/builder'
     | '/business'
@@ -1766,6 +1777,7 @@ export interface FileRouteTypes {
     | '/design'
     | '/agriculture'
     | '/ai-os'
+    | '/analytics-platform'
     | '/assistant'
     | '/builder'
     | '/business-os'
@@ -1921,6 +1933,7 @@ export interface FileRouteTypes {
     | '/design'
     | '/_authenticated/agriculture'
     | '/_authenticated/ai-os'
+    | '/_authenticated/analytics-platform'
     | '/_authenticated/assistant'
     | '/_authenticated/builder'
     | '/_authenticated/business'
@@ -2328,6 +2341,13 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics-platform': {
+      id: '/_authenticated/analytics-platform'
+      path: '/analytics-platform'
+      fullPath: '/analytics-platform'
+      preLoaderRoute: typeof AuthenticatedAnalyticsPlatformRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/ai-os': {
@@ -3619,6 +3639,7 @@ const AuthenticatedStudioRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgricultureRoute: typeof AuthenticatedAgricultureRoute
   AuthenticatedAiOsRoute: typeof AuthenticatedAiOsRoute
+  AuthenticatedAnalyticsPlatformRoute: typeof AuthenticatedAnalyticsPlatformRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
@@ -3656,6 +3677,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAgricultureRoute: AuthenticatedAgricultureRoute,
   AuthenticatedAiOsRoute: AuthenticatedAiOsRoute,
+  AuthenticatedAnalyticsPlatformRoute: AuthenticatedAnalyticsPlatformRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedBuilderRoute: AuthenticatedBuilderRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
