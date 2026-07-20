@@ -241,9 +241,9 @@ export const dhPersonalization = createServerFn({ method: "GET" })
     }
     const dominant = Object.entries(tally).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "neutral";
     return {
-      avatar_id: HAPPY_CANONICAL_AVATAR.identity.id,
-      preferred_voice: HAPPY_CANONICAL_AVATAR.identity.voice_default,
-      preferred_mode: HAPPY_CANONICAL_AVATAR.identity.mode_default,
+      avatar_id: HAPPY_CANONICAL_AVATAR.id,
+      preferred_voice: HAPPY_CANONICAL_AVATAR.voices[0]?.locale ?? "en-IN",
+      preferred_mode: HAPPY_CANONICAL_AVATAR.capabilities[0] ?? "conversation",
       dominant_emotion: dominant,
       emotion_tally: tally,
     };
