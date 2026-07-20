@@ -456,14 +456,13 @@ export const biScheduleReport = createServerFn({ method: "POST" })
     const { supabase } = context;
     await openSession(supabase, { userId: context.userId, company_id: data.company_id }, "report", "schedule");
     const { data: row, error } = await supabase.from("creator_assets").insert({
-      creator_id: context.userId!,
+      user_id: context.userId!,
       kind: "bi.report_schedule",
-      title: data.name,
-      body: `Scheduled ${data.cadence} ${data.focus} report`,
-      status: "active",
+      name: data.name,
+      mime_type: "application/json",
       metadata: {
         company_id: data.company_id, focus: data.focus, cadence: data.cadence,
-        recipients: data.recipients,
+        recipients: data.recipients, description: `Scheduled ${data.cadence} ${data.focus} report`,
       } as never,
     }).select("id").single();
     if (error) throw new Error(`bi_schedule_failed: ${error.message}`);
