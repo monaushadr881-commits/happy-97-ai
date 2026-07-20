@@ -12,7 +12,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Globe, Smartphone, Server, Bot, Code2, Clapperboard, Rocket,
   Sparkles, BookOpen, Users, Activity, Wand2, Send, Zap,
-  Building2, Search,
+  Building2, Search, Database, Plug, Palette, FileText,
+  Presentation, Image as ImageIcon, Video, Mic, MessageSquare,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
 import { Badge } from "@/components/ui/badge";
