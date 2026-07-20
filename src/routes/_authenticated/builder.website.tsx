@@ -17,8 +17,7 @@ import { toast } from "sonner";
 import {
   Sparkles, LayoutTemplate, Store, Briefcase, ShoppingCart, BookOpen,
   FileText, Files, Palette, Search, Smartphone, Tablet, Monitor,
-  Sun, Moon, Eye, Wand2, RefreshCw, PlayCircle, Rocket, Github,
-  Download, Boxes, LayoutGrid, Layers, Globe,
+  Sun, Moon, Eye, Boxes, LayoutGrid, Layers, Globe,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
@@ -34,7 +33,7 @@ import {
 } from "@/components/happy/HappyUniversalPromptBar";
 import {
   HappyUniversalActionBar,
-  type HuabActionEvent,
+  type UabActionEvent,
 } from "@/components/happy/HappyUniversalActionBar";
 
 export const Route = createFileRoute("/_authenticated/builder/website")({
