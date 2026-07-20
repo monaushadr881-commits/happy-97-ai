@@ -13,6 +13,8 @@ import {
   Settings,
   LogOut,
   Bot,
+  Handshake,
+  UserCircle,
 } from "lucide-react";
 import {
   Sidebar,
@@ -45,6 +47,11 @@ const modules = [
   { title: "Knowledge", url: "/knowledge", icon: BookOpen },
   { title: "Community", url: "/community", icon: Users },
   { title: "Marketplace", url: "/marketplace", icon: Store },
+];
+
+const portals = [
+  { title: "Dealer Portal", url: "/portal/dealer", icon: Handshake },
+  { title: "Customer Portal", url: "/portal/customer", icon: UserCircle },
 ];
 
 const admin = [
@@ -120,6 +127,7 @@ export function AppSidebar() {
       <SidebarContent className="bg-charcoal">
         {renderGroup("Workspace", primary)}
         {renderGroup("Modules", modules)}
+        {renderGroup("Portals", portals)}
         {renderGroup("Administration", admin)}
       </SidebarContent>
 
