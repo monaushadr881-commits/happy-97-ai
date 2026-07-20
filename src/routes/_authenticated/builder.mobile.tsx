@@ -16,7 +16,7 @@ import {
   Smartphone, Tablet, Monitor, Sun, Moon, QrCode, Package, Apple,
   Sparkles, Navigation, ShieldCheck, Database, Cable, BellRing,
   WifiOff, Settings as SettingsIcon, Boxes, LayoutGrid, Layers,
-  Eye, Play,
+  Eye, Play, Globe, Flame, Palette, Languages, BarChart3, Rocket,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
@@ -52,9 +52,10 @@ export const Route = createFileRoute("/_authenticated/builder/mobile")({
 // ────────────────────────────────────────────────────────────────
 
 type GeneratorId =
-  | "rn" | "expo" | "android" | "ios"
-  | "nav" | "auth" | "db" | "api"
-  | "push" | "offline" | "settings";
+  | "rn" | "expo" | "android" | "ios" | "pwa"
+  | "nav" | "auth" | "supabase" | "firebase" | "api"
+  | "push" | "offline" | "settings" | "themes" | "i18n"
+  | "analytics" | "deploy";
 
 const GENERATORS: {
   id: GeneratorId;
@@ -62,31 +63,43 @@ const GENERATORS: {
   icon: React.ReactNode;
   hint: string;
 }[] = [
-  { id: "rn",       label: "React Native", icon: <Sparkles className="h-4 w-4" />,     hint: "Bare React Native project with TypeScript." },
-  { id: "expo",     label: "Expo",         icon: <Package className="h-4 w-4" />,      hint: "Expo managed workflow with EAS build." },
-  { id: "android",  label: "Android",      icon: <Smartphone className="h-4 w-4" />,   hint: "Android target — Gradle + Play channel ready." },
-  { id: "ios",      label: "iOS",          icon: <Apple className="h-4 w-4" />,        hint: "iOS target — App Store archive ready." },
-  { id: "nav",      label: "Navigation",   icon: <Navigation className="h-4 w-4" />,   hint: "React Navigation with tab + stack + drawer." },
-  { id: "auth",     label: "Authentication",icon: <ShieldCheck className="h-4 w-4" />, hint: "Email + Google sign-in wired to Lovable Cloud." },
-  { id: "db",       label: "Database",     icon: <Database className="h-4 w-4" />,     hint: "Supabase client with RLS-aware queries." },
-  { id: "api",      label: "API",          icon: <Cable className="h-4 w-4" />,        hint: "Typed API client for HAPPY server functions." },
-  { id: "push",     label: "Push",         icon: <BellRing className="h-4 w-4" />,     hint: "Expo Notifications + APNs/FCM tokens." },
-  { id: "offline",  label: "Offline",      icon: <WifiOff className="h-4 w-4" />,      hint: "Cache queries + optimistic writes + retry queue." },
-  { id: "settings", label: "Settings",     icon: <SettingsIcon className="h-4 w-4" />, hint: "Profile, theme, notifications, storage." },
+  { id: "rn",        label: "React Native",  icon: <Sparkles className="h-4 w-4" />,     hint: "Bare React Native project with TypeScript." },
+  { id: "expo",      label: "Expo",          icon: <Package className="h-4 w-4" />,      hint: "Expo managed workflow with EAS build." },
+  { id: "android",   label: "Android",       icon: <Smartphone className="h-4 w-4" />,   hint: "Android target — Gradle + Play channel ready." },
+  { id: "ios",       label: "iOS",           icon: <Apple className="h-4 w-4" />,        hint: "iOS target — App Store archive ready." },
+  { id: "pwa",       label: "PWA",           icon: <Globe className="h-4 w-4" />,        hint: "Installable Progressive Web App with manifest + icons." },
+  { id: "nav",       label: "Navigation",    icon: <Navigation className="h-4 w-4" />,   hint: "React Navigation with tab + stack + drawer." },
+  { id: "auth",      label: "Authentication",icon: <ShieldCheck className="h-4 w-4" />,  hint: "Email + Google sign-in wired to Lovable Cloud." },
+  { id: "supabase",  label: "Supabase",      icon: <Database className="h-4 w-4" />,     hint: "Supabase client with RLS-aware queries and realtime." },
+  { id: "firebase",  label: "Firebase",      icon: <Flame className="h-4 w-4" />,        hint: "Firebase for Auth, Firestore, FCM push, and Analytics." },
+  { id: "api",       label: "API",           icon: <Cable className="h-4 w-4" />,        hint: "Typed API client for HAPPY server functions." },
+  { id: "push",      label: "Notifications", icon: <BellRing className="h-4 w-4" />,     hint: "Expo Notifications / FCM / APNs with deep links." },
+  { id: "offline",   label: "Offline",       icon: <WifiOff className="h-4 w-4" />,      hint: "Cache queries + optimistic writes + retry queue." },
+  { id: "settings",  label: "Settings",      icon: <SettingsIcon className="h-4 w-4" />, hint: "Profile, theme, notifications, storage." },
+  { id: "themes",    label: "Themes",        icon: <Palette className="h-4 w-4" />,      hint: "Light/dark tokens, typography, and native theming." },
+  { id: "i18n",      label: "Localization",  icon: <Languages className="h-4 w-4" />,    hint: "i18n scaffolding, RTL, locale switching, translations." },
+  { id: "analytics", label: "Analytics",     icon: <BarChart3 className="h-4 w-4" />,    hint: "Screen views, events, funnels via Analytics runtime." },
+  { id: "deploy",    label: "Deployment",    icon: <Rocket className="h-4 w-4" />,       hint: "Store-ready: Play/App Store metadata, EAS submit, PWA host." },
 ];
 
 const GENERATOR_INTRO: Record<GeneratorId, string> = {
-  rn:       "Generate a React Native app. Include: app name, screens, and platforms.",
-  expo:     "Generate an Expo app. Include: app name, screens, and native modules.",
-  android:  "Configure Android target. Include: package id, permissions, and channels.",
-  ios:      "Configure iOS target. Include: bundle id, capabilities, and distribution.",
-  nav:      "Generate navigation. Include: tab, stack, and drawer routes.",
-  auth:     "Generate authentication. Include: email + Google + session persistence.",
-  db:       "Generate database access. Include: tables, RLS, and mobile-safe queries.",
-  api:      "Generate API client. Include: endpoints, retries, and offline behavior.",
-  push:     "Configure push notifications. Include: categories and deep links.",
-  offline:  "Configure offline. Include: caches, mutation queue, and conflict rules.",
-  settings: "Generate settings. Include: profile, theme, notifications, storage.",
+  rn:        "Generate a React Native app. Include: app name, screens, and platforms.",
+  expo:      "Generate an Expo app. Include: app name, screens, and native modules.",
+  android:   "Configure Android target. Include: package id, permissions, and channels.",
+  ios:       "Configure iOS target. Include: bundle id, capabilities, and distribution.",
+  pwa:       "Generate a PWA. Include: name, icons, theme color, offline scope.",
+  nav:       "Generate navigation. Include: tab, stack, and drawer routes.",
+  auth:      "Generate authentication. Include: email + Google + session persistence.",
+  supabase:  "Wire Supabase. Include: tables, RLS, realtime, and mobile-safe queries.",
+  firebase:  "Wire Firebase. Include: Auth, Firestore, Storage, FCM, Analytics.",
+  api:       "Generate API client. Include: endpoints, retries, and offline behavior.",
+  push:      "Configure push notifications. Include: categories, topics, deep links.",
+  offline:   "Configure offline. Include: caches, mutation queue, and conflict rules.",
+  settings:  "Generate settings. Include: profile, theme, notifications, storage.",
+  themes:    "Generate a theme system. Include: light/dark tokens, typography, motion.",
+  i18n:      "Generate localization. Include: locales, RTL, fallback, translation keys.",
+  analytics: "Wire analytics. Include: screen views, events, funnels, consent.",
+  deploy:    "Prepare deployment. Include: store metadata, screenshots, EAS submit, PWA host.",
 };
 
 // ────────────────────────────────────────────────────────────────
@@ -199,6 +212,17 @@ function MobileBuilderRoute() {
         ))}
       </section>
       <p className="text-xs text-muted-foreground mt-2">{GENERATORS.find((g) => g.id === mode)?.hint}</p>
+
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {[
+          "Android", "iOS", "PWA", "React Native", "Expo",
+          "Navigation", "Auth", "Supabase", "Firebase",
+          "Notifications", "Offline", "Settings", "Themes",
+          "Localization", "Analytics", "Deployment Ready",
+        ].map((c) => (
+          <Badge key={c} variant="outline" className="text-[10px] font-normal">{c}</Badge>
+        ))}
+      </div>
 
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_320px] gap-6">
         {/* Left: libraries */}
