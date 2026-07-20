@@ -41,10 +41,12 @@ export function definedQuery<TData>(
   });
 }
 
+// Loose shape for helpers that accept any `definedQuery` result without
+// collapsing its generic parameter to `unknown` at the call site.
+type AnyQueryOptions = Parameters<QueryClient["ensureQueryData"]>[0];
+
 /**
  * Canonical loader helper. Use inside a route's `loader`.
- *
- *   loader: ({ context }) => ensureCanonical(context.queryClient, opts),
  */
 export function ensureCanonical<TData>(
   queryClient: QueryClient,
@@ -57,11 +59,11 @@ export function ensureCanonical<TData>(
  * Prime multiple queries in parallel from a loader without blocking on non-critical reads.
  * Awaits `critical`; fires `deferred` without awaiting.
  */
-export async function ensureCanonicalMany<T>(
+export async function ensureCanonicalMany(
   queryClient: QueryClient,
-  critical: ReadonlyArray<ReturnType<typeof definedQuery<unknown>>>,
-  deferred: ReadonlyArray<ReturnType<typeof definedQuery<unknown>>> = [],
-): Promise<T | void> {
+  critical: readonly AnyQueryOptions[],
+  deferred: readonly AnyQueryOptions[] = [],
+): Promise<void> {
   for (const q of deferred) void queryClient.prefetchQuery(q);
   await Promise.all(critical.map((q) => queryClient.ensureQueryData(q)));
 }
