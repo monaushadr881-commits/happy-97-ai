@@ -39,6 +39,7 @@ import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/c
 import { Route as AuthenticatedBusinessRouteImport } from './routes/_authenticated/business'
 import { Route as AuthenticatedBuilderRouteImport } from './routes/_authenticated/builder'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedAiOsRouteImport } from './routes/_authenticated/ai-os'
 import { Route as AuthenticatedAgricultureRouteImport } from './routes/_authenticated/agriculture'
 import { Route as AuthenticatedStudioIndexRouteImport } from './routes/_authenticated/studio.index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
@@ -319,6 +320,11 @@ const AuthenticatedBuilderRoute = AuthenticatedBuilderRouteImport.update({
 const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAiOsRoute = AuthenticatedAiOsRouteImport.update({
+  id: '/ai-os',
+  path: '/ai-os',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAgricultureRoute =
@@ -1083,6 +1089,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/agriculture': typeof AuthenticatedAgricultureRoute
+  '/ai-os': typeof AuthenticatedAiOsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/business': typeof AuthenticatedBusinessRouteWithChildren
@@ -1242,6 +1249,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/agriculture': typeof AuthenticatedAgricultureRoute
+  '/ai-os': typeof AuthenticatedAiOsRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/chat': typeof AuthenticatedChatRoute
@@ -1393,6 +1401,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/design': typeof DesignRoute
   '/_authenticated/agriculture': typeof AuthenticatedAgricultureRoute
+  '/_authenticated/ai-os': typeof AuthenticatedAiOsRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/builder': typeof AuthenticatedBuilderRouteWithChildren
   '/_authenticated/business': typeof AuthenticatedBusinessRouteWithChildren
@@ -1554,6 +1563,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/agriculture'
+    | '/ai-os'
     | '/assistant'
     | '/builder'
     | '/business'
@@ -1713,6 +1723,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/agriculture'
+    | '/ai-os'
     | '/assistant'
     | '/builder'
     | '/chat'
@@ -1863,6 +1874,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/design'
     | '/_authenticated/agriculture'
+    | '/_authenticated/ai-os'
     | '/_authenticated/assistant'
     | '/_authenticated/builder'
     | '/_authenticated/business'
@@ -2238,6 +2250,13 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AuthenticatedAssistantRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ai-os': {
+      id: '/_authenticated/ai-os'
+      path: '/ai-os'
+      fullPath: '/ai-os'
+      preLoaderRoute: typeof AuthenticatedAiOsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/agriculture': {
@@ -3521,6 +3540,7 @@ const AuthenticatedStudioRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAgricultureRoute: typeof AuthenticatedAgricultureRoute
+  AuthenticatedAiOsRoute: typeof AuthenticatedAiOsRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedBuilderRoute: typeof AuthenticatedBuilderRouteWithChildren
   AuthenticatedBusinessRoute: typeof AuthenticatedBusinessRouteWithChildren
@@ -3553,6 +3573,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAgricultureRoute: AuthenticatedAgricultureRoute,
+  AuthenticatedAiOsRoute: AuthenticatedAiOsRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedBuilderRoute: AuthenticatedBuilderRouteWithChildren,
   AuthenticatedBusinessRoute: AuthenticatedBusinessRouteWithChildren,
