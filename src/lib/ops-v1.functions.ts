@@ -132,7 +132,7 @@ export const opsQueueRetry = createServerFn({ method: "POST" })
 // ---- Security ----
 export const opsSecuritySummary = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => guard(() => securityOpsService.summary(svc(context))));
+  .handler(async ({ context }) => memoryCache.wrap(`ops:sec:summary:${context.userId}`, 15_000, () => guard(() => securityOpsService.summary(svc(context)))));
 
 export const opsSecurityAudit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
