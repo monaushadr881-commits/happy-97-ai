@@ -242,6 +242,15 @@ function WebsiteBuilderRoute() {
 
       <p className="text-xs text-muted-foreground mt-2">{GENERATORS.find((g) => g.id === mode)?.hint}</p>
 
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {[
+          "Pages", "Sections", "Components", "Images", "Icons", "Animations",
+          "SEO", "Schema", "Content", "Responsive", "Accessibility", "Performance",
+        ].map((c) => (
+          <Badge key={c} variant="outline" className="text-[10px] font-normal">{c}</Badge>
+        ))}
+      </div>
+
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_320px] gap-6">
         {/* Left: libraries */}
         <aside className="space-y-6">
