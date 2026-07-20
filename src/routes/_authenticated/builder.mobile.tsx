@@ -16,7 +16,7 @@ import {
   Smartphone, Tablet, Monitor, Sun, Moon, QrCode, Package, Apple,
   Sparkles, Navigation, ShieldCheck, Database, Cable, BellRing,
   WifiOff, Settings as SettingsIcon, Boxes, LayoutGrid, Layers,
-  Eye, Play,
+  Eye, Play, Globe, Flame, Palette, Languages, BarChart3, Rocket,
 } from "lucide-react";
 import { Container } from "@/design-system/primitives";
 import { Button } from "@/components/ui/button";
