@@ -182,11 +182,12 @@ function AiOsPage() {
         {/* Bottom — universal prompt bar (single canonical composer) */}
         <div className="border-t border-border/60 bg-card/40 p-3">
           <HappyUniversalPromptBar
-            surface="assistant"
+            defaultSurface="chat"
             placeholder="Ask HAPPY anything — build, automate, generate, analyze…"
             onSend={onSend}
             onAction={onAction}
           />
+
         </div>
       </main>
     </div>
