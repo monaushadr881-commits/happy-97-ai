@@ -310,7 +310,7 @@ function CommandCenterPage() {
             </div>
           ) : null}
 
-          <HappyUniversalActionBar />
+          <HappyUniversalActionBar mode="mission-control" payload={current} compact />
         </section>
       ) : null}
 
