@@ -107,6 +107,7 @@ export const submitCommand = createServerFn({ method: "POST" })
             .insert({
               company_id: companyId,
               entity_type: "happy.command",
+              entity_id: crypto.randomUUID(),
               title: `${p.intentLabel}: ${p.command.slice(0, 120)}`,
               reason: p.reason,
               metadata: {
