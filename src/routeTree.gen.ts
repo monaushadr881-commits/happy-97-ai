@@ -19,6 +19,7 @@ import { Route as AuthenticatedSecurityCenterRouteImport } from './routes/_authe
 import { Route as AuthenticatedSaasRouteImport } from './routes/_authenticated/saas'
 import { Route as AuthenticatedPlatformRouteImport } from './routes/_authenticated/platform'
 import { Route as AuthenticatedOptimizationRouteImport } from './routes/_authenticated/optimization'
+import { Route as AuthenticatedMissionsRouteImport } from './routes/_authenticated/missions'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
 import { Route as AuthenticatedManufacturingRouteImport } from './routes/_authenticated/manufacturing'
@@ -229,6 +230,11 @@ const AuthenticatedOptimizationRoute =
     path: '/optimization',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMissionsRoute = AuthenticatedMissionsRouteImport.update({
+  id: '/missions',
+  path: '/missions',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
@@ -1179,6 +1185,7 @@ export interface FileRoutesByFullPath {
   '/manufacturing': typeof AuthenticatedManufacturingRoute
   '/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/missions': typeof AuthenticatedMissionsRoute
   '/optimization': typeof AuthenticatedOptimizationRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/saas': typeof AuthenticatedSaasRoute
@@ -1339,6 +1346,7 @@ export interface FileRoutesByTo {
   '/healthcare': typeof AuthenticatedHealthcareRoute
   '/hr': typeof AuthenticatedHrRoute
   '/manufacturing': typeof AuthenticatedManufacturingRoute
+  '/missions': typeof AuthenticatedMissionsRoute
   '/optimization': typeof AuthenticatedOptimizationRoute
   '/platform': typeof AuthenticatedPlatformRoute
   '/saas': typeof AuthenticatedSaasRoute
@@ -1509,6 +1517,7 @@ export interface FileRoutesById {
   '/_authenticated/manufacturing': typeof AuthenticatedManufacturingRoute
   '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRouteWithChildren
   '/_authenticated/messages': typeof AuthenticatedMessagesRouteWithChildren
+  '/_authenticated/missions': typeof AuthenticatedMissionsRoute
   '/_authenticated/optimization': typeof AuthenticatedOptimizationRoute
   '/_authenticated/platform': typeof AuthenticatedPlatformRoute
   '/_authenticated/saas': typeof AuthenticatedSaasRoute
@@ -1680,6 +1689,7 @@ export interface FileRouteTypes {
     | '/manufacturing'
     | '/marketplace'
     | '/messages'
+    | '/missions'
     | '/optimization'
     | '/platform'
     | '/saas'
@@ -1840,6 +1850,7 @@ export interface FileRouteTypes {
     | '/healthcare'
     | '/hr'
     | '/manufacturing'
+    | '/missions'
     | '/optimization'
     | '/platform'
     | '/saas'
@@ -2009,6 +2020,7 @@ export interface FileRouteTypes {
     | '/_authenticated/manufacturing'
     | '/_authenticated/marketplace'
     | '/_authenticated/messages'
+    | '/_authenticated/missions'
     | '/_authenticated/optimization'
     | '/_authenticated/platform'
     | '/_authenticated/saas'
@@ -2224,6 +2236,13 @@ declare module '@tanstack/react-router' {
       path: '/optimization'
       fullPath: '/optimization'
       preLoaderRoute: typeof AuthenticatedOptimizationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/missions': {
+      id: '/_authenticated/missions'
+      path: '/missions'
+      fullPath: '/missions'
+      preLoaderRoute: typeof AuthenticatedMissionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/messages': {
@@ -3747,6 +3766,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedManufacturingRoute: typeof AuthenticatedManufacturingRoute
   AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRouteWithChildren
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRouteWithChildren
+  AuthenticatedMissionsRoute: typeof AuthenticatedMissionsRoute
   AuthenticatedOptimizationRoute: typeof AuthenticatedOptimizationRoute
   AuthenticatedPlatformRoute: typeof AuthenticatedPlatformRoute
   AuthenticatedSaasRoute: typeof AuthenticatedSaasRoute
@@ -3789,6 +3809,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedManufacturingRoute: AuthenticatedManufacturingRoute,
   AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRouteWithChildren,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRouteWithChildren,
+  AuthenticatedMissionsRoute: AuthenticatedMissionsRoute,
   AuthenticatedOptimizationRoute: AuthenticatedOptimizationRoute,
   AuthenticatedPlatformRoute: AuthenticatedPlatformRoute,
   AuthenticatedSaasRoute: AuthenticatedSaasRoute,
