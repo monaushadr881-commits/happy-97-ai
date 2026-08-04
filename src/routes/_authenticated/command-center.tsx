@@ -51,6 +51,7 @@ import {
 } from "@/lib/happy-command/command.functions";
 import type { CommandPlan, CommandRecord } from "@/lib/happy-command/command-core";
 import type { CommandCenterOverview } from "@/lib/happy-command/command-resolve";
+import { resolveTask } from "@/lib/happy-command/workforce-core";
 
 export const Route = createFileRoute("/_authenticated/command-center")({
   head: () => ({
@@ -277,7 +278,7 @@ function CommandCenterPage() {
 
           <div>
             <h2 className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-              Plan · {current.tasks.length} tasks · agent assignments
+              Plan · {current.tasks.length} tasks · agent → skill → tool
             </h2>
             <ol className="space-y-2">
               {current.tasks.map((t) => (
@@ -285,9 +286,21 @@ function CommandCenterPage() {
                   <span className="text-xs text-muted-foreground w-6">{t.order}</span>
                   <span className="font-medium">{t.stage}</span>
                   <Badge variant="secondary">{t.agentTitle}</Badge>
-                  <Badge variant={t.autonomous ? "outline" : "destructive"}>
-                    {t.autonomous ? "autonomous" : "approval-gated"}
-                  </Badge>
+                  {(() => {
+                    const r = resolveTask(t.stage, { agent: t.agent, intent: current.intent, order: t.order });
+                    return (
+                      <>
+                        <Badge variant="outline">{r.skillName}</Badge>
+                        <Badge variant={r.toolAvailability === "available" ? "outline" : "destructive"}>
+                          {r.toolAvailability === "available" ? r.toolName : "CAPABILITY_UNAVAILABLE"}
+                        </Badge>
+                        <Badge variant={riskTone(r.risk)}>{r.risk}</Badge>
+                        <Badge variant={r.requiresApproval ? "destructive" : "outline"}>
+                          {r.requiresApproval ? "approval-gated" : "autonomous"}
+                        </Badge>
+                      </>
+                    );
+                  })()}
                   <code className="text-[11px] text-muted-foreground ml-auto">{t.owner}</code>
                 </li>
               ))}
