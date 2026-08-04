@@ -31,7 +31,34 @@ export type HappyAgentId =
   | "hr-assistant"
   | "finance-assistant"
   | "operations"
-  | "project-manager";
+  | "project-manager"
+  | "orchestrator"
+  | "ai-manager"
+  | "ai-planner"
+  | "business-analyst"
+  | "graphic-designer"
+  | "brand-designer"
+  | "content-designer"
+  | "fullstack"
+  | "mobile"
+  | "game-developer"
+  | "testing"
+  | "debugging"
+  | "code-review"
+  | "deployment"
+  | "cloud"
+  | "monitoring"
+  | "crm"
+  | "inventory"
+  | "manufacturing"
+  | "logistics"
+  | "social-media"
+  | "video"
+  | "image"
+  | "audio"
+  | "presentation"
+  | "knowledge"
+  | "education";
 
 export interface HappyAgent {
   readonly id: HappyAgentId;
@@ -284,6 +311,277 @@ export const HAPPY_AGENTS: readonly HappyAgent[] = [
       "automate_task",
     ],
     permissions: ["read:project", "write:task"],
+    autonomous: true,
+  },
+  // ---- Batch 3 · HAPPY Agent Workforce extension (data only, no new runtime)
+  {
+    id: "orchestrator",
+    title: "HAPPY Orchestrator",
+    mission: "Own the mission lifecycle and delegate every phase to the right agent.",
+    owner: "src/lib/happy-command/mission.functions.ts",
+    capabilities: ["mission orchestration", "delegation", "supervision"],
+    intents: ["build_app", "build_website", "build_mobile", "build_game", "deploy", "automate_task"],
+    permissions: ["read:project", "write:task"],
+    autonomous: true,
+  },
+  {
+    id: "ai-manager",
+    title: "AI Manager",
+    mission: "Supervise agent output quality and escalate blockers to the Founder.",
+    owner: "src/lib/founder/mission-control.functions.ts",
+    capabilities: ["supervision", "escalation", "quality gate"],
+    intents: ["build_app", "automate_task", "analyze_business"],
+    permissions: ["read:project", "write:task"],
+    autonomous: true,
+  },
+  {
+    id: "ai-planner",
+    title: "AI Planner",
+    mission: "Decompose goals into ordered, verifiable tasks.",
+    owner: "src/lib/happy-command/command-core.ts",
+    capabilities: ["task decomposition", "sequencing", "estimation"],
+    intents: ["build_app", "build_website", "build_game", "automate_task"],
+    permissions: ["read:project", "write:plan"],
+    autonomous: true,
+  },
+  {
+    id: "business-analyst",
+    title: "AI Business Analyst",
+    mission: "Translate business needs into measurable requirements.",
+    owner: "src/lib/business/bi-runtime.functions.ts",
+    capabilities: ["requirement analysis", "process mapping", "reporting"],
+    intents: ["analyze_business", "build_app"],
+    permissions: ["read:analytics", "write:plan"],
+    autonomous: true,
+  },
+  {
+    id: "graphic-designer",
+    title: "AI Graphic Designer",
+    mission: "Produce posters, thumbnails and marketing graphics.",
+    owner: "src/lib/creator-v1.functions.ts",
+    capabilities: ["poster", "thumbnail", "graphic design"],
+    intents: ["create_content", "create_campaign"],
+    permissions: ["write:content"],
+    autonomous: true,
+  },
+  {
+    id: "brand-designer",
+    title: "AI Brand Designer",
+    mission: "Own brand identity, logo systems and visual consistency.",
+    owner: "src/lib/digital-human/brand-kit.ts",
+    capabilities: ["logo", "brand system", "guidelines"],
+    intents: ["create_content", "build_website"],
+    permissions: ["write:content"],
+    autonomous: true,
+  },
+  {
+    id: "content-designer",
+    title: "AI Content Designer",
+    mission: "Shape content structure, tone and microcopy.",
+    owner: "src/lib/creator-v1.functions.ts",
+    capabilities: ["content structure", "microcopy", "tone"],
+    intents: ["create_content", "build_website", "manage_knowledge"],
+    permissions: ["write:content"],
+    autonomous: true,
+  },
+  {
+    id: "fullstack",
+    title: "AI Full-Stack Developer",
+    mission: "Deliver end-to-end features across client and server.",
+    owner: "src/lib/builder/builder-submit.functions.ts",
+    capabilities: ["fullstack delivery", "integration", "refactor"],
+    intents: ["build_app", "build_api", "fix_bug"],
+    permissions: ["read:repo", "write:code"],
+    autonomous: false,
+  },
+  {
+    id: "mobile",
+    title: "AI Mobile Developer",
+    mission: "Build Android, iOS, PWA and Expo applications.",
+    owner: "src/lib/builder/builder-submit.functions.ts",
+    capabilities: ["mobile navigation", "push", "store packaging"],
+    intents: ["build_mobile", "build_app"],
+    permissions: ["read:repo", "write:code"],
+    autonomous: false,
+  },
+  {
+    id: "game-developer",
+    title: "AI Game Developer",
+    mission: "Build game loops, scenes, physics and scoring.",
+    owner: "src/lib/builder/builder-submit.functions.ts",
+    capabilities: ["game loop", "scenes", "physics", "scoring"],
+    intents: ["build_game"],
+    permissions: ["read:repo", "write:code"],
+    autonomous: false,
+  },
+  {
+    id: "testing",
+    title: "AI Testing Agent",
+    mission: "Author and execute unit, integration and E2E suites.",
+    owner: "docs/R183_MIGRATION_GUARDRAILS.md",
+    capabilities: ["unit tests", "integration tests", "E2E"],
+    intents: ["build_app", "fix_bug", "deploy"],
+    permissions: ["read:repo", "write:tests"],
+    autonomous: true,
+  },
+  {
+    id: "debugging",
+    title: "AI Debugging Agent",
+    mission: "Reproduce, isolate and explain defects before any fix.",
+    owner: "src/lib/error-capture.ts",
+    capabilities: ["reproduction", "root cause", "log analysis"],
+    intents: ["fix_bug", "inspect_production"],
+    permissions: ["read:repo", "read:ops"],
+    autonomous: true,
+  },
+  {
+    id: "code-review",
+    title: "AI Code Review Agent",
+    mission: "Review diffs for duplication, safety and canonical ownership.",
+    owner: "docs/MASTER_ARCHITECTURE_LOCK.md",
+    capabilities: ["diff review", "duplication check", "standards"],
+    intents: ["build_app", "fix_bug", "build_api"],
+    permissions: ["read:repo"],
+    autonomous: true,
+  },
+  {
+    id: "deployment",
+    title: "AI Deployment Agent",
+    mission: "Ship builds to preview and production with rollback ready.",
+    owner: "src/ops/deployment.service.ts",
+    capabilities: ["release", "rollback", "redeploy"],
+    intents: ["deploy", "connect_domain"],
+    permissions: ["write:deployment"],
+    autonomous: false,
+  },
+  {
+    id: "cloud",
+    title: "AI Cloud Agent",
+    mission: "Manage storage, buckets, domains and certificates.",
+    owner: "src/lib/cloud/cloud.functions.ts",
+    capabilities: ["storage", "domains", "SSL"],
+    intents: ["connect_domain", "deploy"],
+    permissions: ["write:deployment"],
+    autonomous: false,
+  },
+  {
+    id: "monitoring",
+    title: "AI Monitoring Agent",
+    mission: "Watch health, errors and performance after release.",
+    owner: "src/ops/health.service.ts",
+    capabilities: ["health checks", "alerting", "performance"],
+    intents: ["inspect_production", "deploy"],
+    permissions: ["read:ops"],
+    autonomous: true,
+  },
+  {
+    id: "crm",
+    title: "AI CRM Agent",
+    mission: "Maintain contacts, deals and follow-up hygiene.",
+    owner: "src/lib/business/crm-finance-hr-runtime.functions.ts",
+    capabilities: ["contacts", "deals", "activities"],
+    intents: ["analyze_business", "automate_task"],
+    permissions: ["read:crm", "write:crm"],
+    autonomous: false,
+  },
+  {
+    id: "inventory",
+    title: "AI Inventory Agent",
+    mission: "Track stock, reorder points and movements.",
+    owner: "src/lib/business/order-inventory-runtime.functions.ts",
+    capabilities: ["stock", "reorder", "movements"],
+    intents: ["analyze_business", "automate_task"],
+    permissions: ["read:inventory", "write:inventory"],
+    autonomous: false,
+  },
+  {
+    id: "manufacturing",
+    title: "AI Manufacturing Agent",
+    mission: "Plan production orders, BOM and batches.",
+    owner: "src/lib/manufacturing/manufacturing.functions.ts",
+    capabilities: ["BOM", "production orders", "batches"],
+    intents: ["analyze_business", "automate_task"],
+    permissions: ["read:manufacturing", "write:manufacturing"],
+    autonomous: false,
+  },
+  {
+    id: "logistics",
+    title: "AI Logistics Agent",
+    mission: "Coordinate dispatch, routes and delivery status.",
+    owner: "src/lib/business/ordering-delivery-payment.functions.ts",
+    capabilities: ["dispatch", "routing", "tracking"],
+    intents: ["analyze_business", "automate_task"],
+    permissions: ["read:logistics", "write:logistics"],
+    autonomous: false,
+  },
+  {
+    id: "social-media",
+    title: "AI Social Media Agent",
+    mission: "Plan and schedule social content across channels.",
+    owner: "src/lib/founder/publishing.functions.ts",
+    capabilities: ["calendar", "captions", "scheduling"],
+    intents: ["create_campaign", "create_content"],
+    permissions: ["write:content"],
+    autonomous: false,
+  },
+  {
+    id: "video",
+    title: "AI Video Agent",
+    mission: "Create and edit video assets from briefs.",
+    owner: "src/lib/creator-v1.functions.ts",
+    capabilities: ["video creation", "editing", "captions"],
+    intents: ["create_content", "create_campaign"],
+    permissions: ["write:content"],
+    autonomous: true,
+  },
+  {
+    id: "image",
+    title: "AI Image Agent",
+    mission: "Generate and edit images for products and campaigns.",
+    owner: "src/lib/creator-v1.functions.ts",
+    capabilities: ["image generation", "image editing", "variants"],
+    intents: ["create_content", "create_campaign", "build_website"],
+    permissions: ["write:content"],
+    autonomous: true,
+  },
+  {
+    id: "audio",
+    title: "AI Audio Agent",
+    mission: "Produce voiceovers and audio beds.",
+    owner: "src/routes/api/dh.tts.ts",
+    capabilities: ["voiceover", "audio generation", "music assistance"],
+    intents: ["create_content"],
+    permissions: ["write:content"],
+    autonomous: true,
+  },
+  {
+    id: "presentation",
+    title: "AI Presentation Agent",
+    mission: "Build decks with narrative, layout and speaker notes.",
+    owner: "src/lib/founder/document.functions.ts",
+    capabilities: ["deck outline", "slides", "speaker notes"],
+    intents: ["create_content", "analyze_business"],
+    permissions: ["write:docs"],
+    autonomous: true,
+  },
+  {
+    id: "knowledge",
+    title: "AI Knowledge Agent",
+    mission: "Curate, index and retrieve authorized knowledge.",
+    owner: "src/lib/knowledge/knowledge-runtime.functions.ts",
+    capabilities: ["ingest", "index", "retrieval"],
+    intents: ["manage_knowledge", "build_agent"],
+    permissions: ["read:knowledge", "write:knowledge"],
+    autonomous: true,
+  },
+  {
+    id: "education",
+    title: "AI Education Agent",
+    mission: "Turn knowledge into courses, lessons and assessments.",
+    owner: "src/lib/education-v1.functions.ts",
+    capabilities: ["curriculum", "lessons", "assessment"],
+    intents: ["manage_knowledge", "create_content"],
+    permissions: ["read:knowledge", "write:content"],
     autonomous: true,
   },
 ];
