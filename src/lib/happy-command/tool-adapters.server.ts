@@ -32,13 +32,13 @@ export interface ToolAdapter {
   execute(sb: SB, input: Record<string, unknown>, ctx: ExecutionContext): Promise<ToolOutcome>;
 }
 
-async function withTimeout<T>(p: Promise<T>): Promise<T | "TIMEOUT"> {
+async function withTimeout<T>(p: PromiseLike<T>): Promise<T | "TIMEOUT"> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   const timeout = new Promise<"TIMEOUT">((resolve) => {
     timer = setTimeout(() => resolve("TIMEOUT"), EXECUTION_TIMEOUT_MS);
   });
   try {
-    return await Promise.race([p, timeout]);
+    return await Promise.race([Promise.resolve<T>(p), timeout]);
   } finally {
     if (timer) clearTimeout(timer);
   }
