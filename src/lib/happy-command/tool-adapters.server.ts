@@ -15,6 +15,7 @@ import {
   EXECUTION_TIMEOUT_MS,
   outcome,
   type ExecutionContext,
+  type Json,
   type ToolOutcome,
 } from "./execution-core";
 import { getTool, type WorkforceRisk } from "./tool-registry";
@@ -107,7 +108,7 @@ const universalSearch: ToolAdapter = {
     const hits = res.data ?? [];
     return outcome({
       status: "SUCCESS",
-      output: { query, hits: hits.length, sample: hits.slice(0, 5) },
+      output: { query, hits: hits.length, sample: hits.slice(0, 5) as unknown as Json },
       verification: hits.length > 0 ? "VERIFIED" : "VERIFICATION_FAILED",
       verification_note:
         hits.length > 0

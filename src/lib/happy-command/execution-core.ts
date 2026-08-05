@@ -15,6 +15,9 @@
 import type { WorkforceRisk } from "./tool-registry";
 import type { WorkforceResolution } from "./workforce-core";
 
+/** JSON-serializable payload shape crossing the server-function boundary. */
+export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
+
 export type ExecutionStatus =
   | "SUCCESS"
   | "FAILED"
@@ -63,7 +66,7 @@ export interface ExecutionResult {
   readonly startedAt: string;
   readonly completedAt: string;
   readonly duration_ms: number;
-  readonly output: unknown;
+  readonly output: Json;
   readonly error: string | null;
   readonly verification: VerificationStatus;
   readonly verification_note: string;
@@ -76,7 +79,7 @@ export interface ExecutionResult {
 /** Raw adapter outcome — no audit, no approval, no persistence. */
 export interface ToolOutcome {
   readonly status: ExecutionStatus;
-  readonly output: unknown;
+  readonly output: Json;
   readonly error: string | null;
   readonly verification: VerificationStatus;
   readonly verification_note: string;
