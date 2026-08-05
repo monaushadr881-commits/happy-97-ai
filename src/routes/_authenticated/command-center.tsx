@@ -52,6 +52,14 @@ import {
 import type { CommandPlan, CommandRecord } from "@/lib/happy-command/command-core";
 import type { CommandCenterOverview } from "@/lib/happy-command/command-resolve";
 import { resolveTask } from "@/lib/happy-command/workforce-core";
+import {
+  executeSkillTask,
+  retrySkillTask,
+  cancelSkillExecution,
+  listSkillExecutions,
+} from "@/lib/happy-command/execution.functions";
+import type { ExecutionResult } from "@/lib/happy-command/execution-core";
+import type { WorkforceExecution } from "@/lib/happy-command/workforce-resolve";
 
 export const Route = createFileRoute("/_authenticated/command-center")({
   head: () => ({
@@ -102,6 +110,12 @@ const SURFACES: Tile[] = [
   { label: "Settings", to: "/settings", icon: Settings },
 ];
 
+function statusTone(status: string) {
+  if (status === "SUCCESS") return "secondary" as const;
+  if (status === "REQUIRES_APPROVAL" || status === "CAPABILITY_UNAVAILABLE") return "outline" as const;
+  return "destructive" as const;
+}
+
 function riskTone(risk: string) {
   if (risk === "high") return "destructive" as const;
   if (risk === "medium") return "secondary" as const;
@@ -120,16 +134,28 @@ function CommandCenterPage() {
   const [pendingApproval, setPendingApproval] = React.useState<string | null>(null);
   const [history, setHistory] = React.useState<CommandRecord[]>([]);
   const [overview, setOverview] = React.useState<CommandCenterOverview | null>(null);
+  const runExecute = useServerFn(executeSkillTask);
+  const runRetry = useServerFn(retrySkillTask);
+  const runCancelExec = useServerFn(cancelSkillExecution);
+  const runExecutions = useServerFn(listSkillExecutions);
+  const [executions, setExecutions] = React.useState<Record<string, ExecutionResult>>({});
+  const [running, setRunning] = React.useState<string | null>(null);
+  const [recent, setRecent] = React.useState<WorkforceExecution[]>([]);
 
   const refresh = React.useCallback(async () => {
     try {
-      const [h, o] = await Promise.all([runList({ data: { limit: 20 } }), runOverview({})]);
+      const [h, o, x] = await Promise.all([
+        runList({ data: { limit: 20 } }),
+        runOverview({}),
+        runExecutions({ data: { limit: 15 } }),
+      ]);
       setHistory(h.commands);
       setOverview(o);
+      setRecent(x.executions);
     } catch {
       /* overview is best-effort */
     }
-  }, [runList, runOverview]);
+  }, [runList, runOverview, runExecutions]);
 
   React.useEffect(() => {
     void refresh();
@@ -163,6 +189,56 @@ function CommandCenterPage() {
       }
     },
     [runPlan, runSubmit, refresh],
+  );
+
+  const execute = React.useCallback(
+    async (task: string, agent: string) => {
+      setRunning(task);
+      try {
+        const res = await runExecute({
+          data: { task, agent, goal: current?.command ?? null, input: {} },
+        });
+        setExecutions((prev) => ({ ...prev, [task]: res }));
+        if (res.status === "SUCCESS") toast.success(res.message);
+        else if (res.status === "REQUIRES_APPROVAL") toast.warning(res.message);
+        else toast.error(`${res.status} · ${res.message}`);
+        await refresh();
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : String(e));
+      } finally {
+        setRunning(null);
+      }
+    },
+    [runExecute, current, refresh],
+  );
+
+  const retry = React.useCallback(
+    async (task: string, agent: string) => {
+      setRunning(task);
+      try {
+        const res = await runRetry({ data: { task, agent, attempt: 0, input: {} } });
+        if (res.result) setExecutions((prev) => ({ ...prev, [task]: res.result! }));
+        toast[res.retried ? "success" : "warning"](res.reason);
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : String(e));
+      } finally {
+        setRunning(null);
+      }
+    },
+    [runRetry],
+  );
+
+  const cancelExec = React.useCallback(
+    async (correlationId: string) => {
+      try {
+        const res = await runCancelExec({ data: { correlation_id: correlationId } });
+        toast[res.cancelled ? "success" : "warning"](res.reason);
+        await refresh();
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : String(e));
+      }
+    },
+    [runCancelExec, refresh],
   );
 
   const approve = React.useCallback(async () => {
@@ -326,6 +402,101 @@ function CommandCenterPage() {
           <HappyUniversalActionBar mode="mission-control" payload={current} compact />
         </section>
       ) : null}
+
+      {current ? (
+        <section className="space-y-3">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            Skill &amp; tool execution
+          </h2>
+          <ul className="divide-y rounded-xl border bg-card">
+            {current.tasks.map((t) => {
+              const r = resolveTask(t.stage, { agent: t.agent, intent: current.intent, order: t.order });
+              const x = executions[r.task];
+              return (
+                <li key={`${t.order}-${t.stage}`} className="flex flex-wrap items-center gap-2 p-3 text-sm">
+                  <Badge variant="outline">{r.agentTitle}</Badge>
+                  <Badge variant="outline">{r.skillName}</Badge>
+                  <Badge variant={r.toolAvailability === "available" ? "outline" : "destructive"}>
+                    {r.toolName}
+                  </Badge>
+                  <Badge variant={riskTone(r.risk)}>{r.risk}</Badge>
+                  <Badge variant={r.requiresApproval ? "destructive" : "outline"}>
+                    {r.requiresApproval ? "approval-gated" : "autonomous"}
+                  </Badge>
+                  {x ? (
+                    <>
+                      <Badge variant={statusTone(x.status)}>{x.status}</Badge>
+                      <Badge variant={x.verification === "VERIFIED" ? "secondary" : "outline"}>
+                        {x.verification}
+                      </Badge>
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(x.startedAt).toLocaleTimeString()} · {x.duration_ms}ms
+                      </span>
+                      {x.error ? (
+                        <span className="text-xs text-destructive max-w-[40ch] truncate">{x.error}</span>
+                      ) : null}
+                    </>
+                  ) : null}
+                  <div className="ml-auto flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={running === r.task}
+                      onClick={() => void execute(r.task, String(t.agent))}
+                    >
+                      {running === r.task ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        "Execute"
+                      )}
+                    </Button>
+                    {x?.retryable ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={running === r.task}
+                        onClick={() => void retry(r.task, String(t.agent))}
+                      >
+                        Retry
+                      </Button>
+                    ) : null}
+                    {x?.correlation_id && x.status !== "SUCCESS" ? (
+                      <Button size="sm" variant="ghost" onClick={() => void cancelExec(x.correlation_id)}>
+                        Cancel
+                      </Button>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
+
+      <section className="space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Recent executions
+        </h2>
+        {recent.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No executions recorded yet.</p>
+        ) : (
+          <ul className="divide-y rounded-xl border bg-card">
+            {recent.map((x) => (
+              <li key={x.id} className="flex flex-wrap items-center gap-2 p-3 text-sm">
+                <Badge variant="outline">{x.action}</Badge>
+                <span className="truncate max-w-[34ch]">{x.task || "—"}</span>
+                <Badge variant="outline">{x.tool ?? "—"}</Badge>
+                <Badge variant={riskTone(x.risk)} className="ml-auto">
+                  {x.risk}
+                </Badge>
+                <span className="text-xs text-muted-foreground">
+                  {new Date(x.occurredAt).toLocaleString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Command history</h2>
