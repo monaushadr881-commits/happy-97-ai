@@ -14,6 +14,7 @@ import { HappyUniversalPromptBar } from "@/components/happy/HappyUniversalPrompt
 import { HappyUniversalActionBar } from "@/components/happy/HappyUniversalActionBar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { evaluatePhaseAdvance } from "@/lib/happy-command/execution.functions";
 import {
   abortMission,
   advanceMission,
@@ -73,6 +74,8 @@ function MissionsPage() {
   const [missions, setMissions] = React.useState<MissionRecord[]>([]);
   const [pendingApproval, setPendingApproval] = React.useState<string | null>(null);
   const [report, setReport] = React.useState<string | null>(null);
+  const runPhase = useServerFn(evaluatePhaseAdvance);
+  const [phaseGate, setPhaseGate] = React.useState<Record<string, string>>({});
 
   const refresh = React.useCallback(async () => {
     try {
@@ -115,6 +118,32 @@ function MissionsPage() {
       }
     },
     [runPlan, runStart, refresh],
+  );
+
+  /**
+   * Phase → Task → Agent → Skill → Tool → Execute → Verify → Advance.
+   * The phase advances ONLY when execution succeeded AND verification passed.
+   */
+  const executePhase = React.useCallback(
+    async (missionId: string, goal: string, phase: string) => {
+      setBusy(true);
+      try {
+        const gate = await runPhase({ data: { mission_id: missionId, tasks: [phase, goal] } });
+        setPhaseGate((prev) => ({ ...prev, [missionId]: gate.reason }));
+        if (gate.advance) {
+          await runAdvance({ data: { id: missionId } });
+          toast.success(`Phase verified and advanced · ${gate.reason}`);
+        } else {
+          toast.warning(`Phase held · ${gate.reason}`);
+        }
+        await refresh();
+      } catch (e) {
+        toast.error(`Phase execution failed · ${e instanceof Error ? e.message : String(e)}`);
+      } finally {
+        setBusy(false);
+      }
+    },
+    [runPhase, runAdvance, refresh],
   );
 
   const act = React.useCallback(
@@ -304,6 +333,19 @@ function MissionsPage() {
                       Advance phase
                     </Button>
                   )}
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={busy || m.status === "aborted" || m.status === "awaiting_approval"}
+                    onClick={() => void executePhase(m.id, m.goal, m.phase)}
+                  >
+                    Execute &amp; verify phase
+                  </Button>
+                  {phaseGate[m.id] ? (
+                    <span className="text-xs text-muted-foreground self-center max-w-[46ch] truncate">
+                      {phaseGate[m.id]}
+                    </span>
+                  ) : null}
                   <Button
                     size="sm"
                     variant="outline"
