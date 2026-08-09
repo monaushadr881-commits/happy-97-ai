@@ -287,3 +287,20 @@ export async function autoShutdownAgent(
     return null;
   }
 }
+
+/**
+ * Founder / platform-owner check. Uses the existing SECURITY DEFINER role
+ * function through the CALLER's client — never a client-supplied flag and
+ * never service-role privileges. Unreadable ⇒ false (fail closed).
+ */
+export async function isPlatformFounder(sb: SB, userId: string): Promise<boolean> {
+  for (const fn of ["is_platform_founder", "is_ops_admin"] as const) {
+    try {
+      const { data, error } = await sb.rpc(fn, { _user_id: userId } as never);
+      if (!error && Boolean(data)) return true;
+    } catch {
+      /* fall through — fail closed */
+    }
+  }
+  return false;
+}
