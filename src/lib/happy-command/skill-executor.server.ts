@@ -16,7 +16,17 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { getAgent } from "./agent-roster";
 import { getSkill } from "./skill-registry";
 import { getTool } from "./tool-registry";
-import { WORKFORCE_AUDIT_CATEGORY, isWriteScope, resolveTask } from "./workforce-core";
+import { WORKFORCE_AUDIT_CATEGORY, resolveTask } from "./workforce-core";
+import { canExecute, type GateInput } from "@/lib/happy-governance/autonomy-gate";
+import {
+  auditGateDecision,
+  autoShutdownAgent,
+  isPlatformFounder,
+  readBudgetUsage,
+  readKillSwitchState,
+  readRunawayCounters,
+} from "@/lib/happy-governance/governance.server";
+
 import { requireCompanyAdmin, requireCompanyMember } from "./workforce-resolve";
 import { resolveCompanyId } from "./command-resolve";
 import { executeTool, getAdapter } from "./tool-adapters.server";
