@@ -16,7 +16,17 @@ import { writeCanonicalAudit } from "@/lib/founder/audit";
 import { getAgent } from "./agent-roster";
 import { getSkill } from "./skill-registry";
 import { getTool } from "./tool-registry";
-import { WORKFORCE_AUDIT_CATEGORY, isWriteScope, resolveTask } from "./workforce-core";
+import { WORKFORCE_AUDIT_CATEGORY, resolveTask } from "./workforce-core";
+import { canExecute, type GateInput } from "@/lib/happy-governance/autonomy-gate";
+import {
+  auditGateDecision,
+  autoShutdownAgent,
+  isPlatformFounder,
+  readBudgetUsage,
+  readKillSwitchState,
+  readRunawayCounters,
+} from "@/lib/happy-governance/governance.server";
+
 import { requireCompanyAdmin, requireCompanyMember } from "./workforce-resolve";
 import { resolveCompanyId } from "./command-resolve";
 import { executeTool, getAdapter } from "./tool-adapters.server";
@@ -203,17 +213,81 @@ export async function executeSkill(
     });
   }
 
-  // 7 AUTHORIZATION — derived server-side only.
+  // 7 AUTHORIZATION + R301 AUTONOMY GATE — every signal derived server-side.
   await audit(sb, ctx, "authorization_checked", "info", { member, admin });
-  if (isWriteScope(r.permissions) && !member) {
-    const o = outcome({
-      status: "UNAUTHORIZED",
-      error: "Caller is not a member of an authorized workspace for write scopes.",
-      verification: "NOT_APPLICABLE",
-      verification_note: "Nothing executed.",
-    });
-    return finalize(ctx, o, { auditId: await audit(sb, ctx, "execution_blocked", "warning", { reason: "unauthorized" }) });
+  const founder = await isPlatformFounder(sb, userId);
+  const dataScope = companyId ? "company" : "own_user";
+  const [killSwitch, usage, counters] = await Promise.all([
+    readKillSwitchState(sb, companyId),
+    readBudgetUsage(sb, { companyId, agentId: r.agentId, missionId: input.missionId ?? null }),
+    readRunawayCounters(sb, {
+      companyId,
+      agentId: r.agentId,
+      missionId: input.missionId ?? null,
+      correlationId: key,
+      startedAtMs: Date.parse(startedAt),
+    }),
+  ]);
+
+  const gateInput = {
+    action: {
+      task: r.task,
+      skillId: r.skillId,
+      toolId: r.toolId,
+      permissions: r.permissions,
+      risk: r.risk,
+      toolAvailable: tool.availability === "available",
+      externalIntegration: null,
+    },
+    agentId: r.agentId,
+    actor: { userId, isCompanyMember: member, isCompanyAdmin: admin, isFounder: founder },
+    resource: {
+      companyId,
+      dataScope,
+      missionId: input.missionId ?? null,
+      correlationId: key,
+    },
+    killSwitch,
+    usage,
+    counters,
+    approved: false,
+  } satisfies GateInput;
+
+  let gate = canExecute(gateInput);
+  // Approval is the ONLY gate denial that may be satisfied by an existing
+  // Founder-approved record; everything else is a hard policy stop.
+  if (!gate.allowed && (gate.code === "DENY_APPROVAL_REQUIRED" || gate.code === "DENY_BUDGET")) {
+    const pre = await findApproval(sb, companyId, key);
+    if (pre.approved) {
+      ctx = { ...ctx, approvalId: pre.id, approved: true };
+      gate = canExecute({ ...gateInput, approved: true, approvalId: pre.id });
+    }
   }
+  await auditGateDecision(sb, userId, gate, { correlation_id: key, idempotency_key: key });
+
+  if (!gate.allowed && gate.code !== "DENY_APPROVAL_REQUIRED") {
+    if (gate.hardStop && gate.code === "DENY_RUNAWAY") {
+      await autoShutdownAgent(sb, { userId, companyId, agentId: r.agentId, reason: gate.reason });
+    }
+    const o = outcome({
+      status:
+        gate.code === "DENY_UNAUTHENTICATED" || gate.code === "DENY_NOT_AUTHORIZED" || gate.code === "DENY_SCOPE"
+          ? "UNAUTHORIZED"
+          : "BLOCKED",
+      error: gate.explanation,
+      output: { governance: gate.audit, action_class: gate.actionClass, estimated_cost: gate.estimatedCost },
+      verification: "NOT_APPLICABLE",
+      verification_note: "Nothing executed — blocked by the autonomy gate.",
+    });
+    return finalize(ctx, o, {
+      auditId: await audit(sb, ctx, "execution_blocked", gate.hardStop ? "critical" : "warning", {
+        reason: gate.reason,
+        gate_stage: gate.stage,
+        gate_code: gate.code,
+      }),
+    });
+  }
+
 
   // 8–9 RISK + APPROVAL (re-checked server-side, immediately before execution).
   if (r.requiresApproval) {

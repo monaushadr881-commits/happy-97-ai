@@ -26,6 +26,7 @@ import { Route as AuthenticatedManufacturingRouteImport } from './routes/_authen
 import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated/knowledge'
 import { Route as AuthenticatedHrRouteImport } from './routes/_authenticated/hr'
 import { Route as AuthenticatedHealthcareRouteImport } from './routes/_authenticated/healthcare'
+import { Route as AuthenticatedGovernanceRouteImport } from './routes/_authenticated/governance'
 import { Route as AuthenticatedFounderEnterpriseRouteImport } from './routes/_authenticated/founder-enterprise'
 import { Route as AuthenticatedFounderRouteImport } from './routes/_authenticated/founder'
 import { Route as AuthenticatedFinanceRouteImport } from './routes/_authenticated/finance'
@@ -266,6 +267,11 @@ const AuthenticatedHrRoute = AuthenticatedHrRouteImport.update({
 const AuthenticatedHealthcareRoute = AuthenticatedHealthcareRouteImport.update({
   id: '/healthcare',
   path: '/healthcare',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGovernanceRoute = AuthenticatedGovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFounderEnterpriseRoute =
@@ -1186,6 +1192,7 @@ export interface FileRoutesByFullPath {
   '/finance': typeof AuthenticatedFinanceRoute
   '/founder': typeof AuthenticatedFounderRouteWithChildren
   '/founder-enterprise': typeof AuthenticatedFounderEnterpriseRoute
+  '/governance': typeof AuthenticatedGovernanceRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
   '/hr': typeof AuthenticatedHrRoute
   '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
@@ -1351,6 +1358,7 @@ export interface FileRoutesByTo {
   '/erp': typeof AuthenticatedErpRoute
   '/finance': typeof AuthenticatedFinanceRoute
   '/founder-enterprise': typeof AuthenticatedFounderEnterpriseRoute
+  '/governance': typeof AuthenticatedGovernanceRoute
   '/healthcare': typeof AuthenticatedHealthcareRoute
   '/hr': typeof AuthenticatedHrRoute
   '/manufacturing': typeof AuthenticatedManufacturingRoute
@@ -1520,6 +1528,7 @@ export interface FileRoutesById {
   '/_authenticated/finance': typeof AuthenticatedFinanceRoute
   '/_authenticated/founder': typeof AuthenticatedFounderRouteWithChildren
   '/_authenticated/founder-enterprise': typeof AuthenticatedFounderEnterpriseRoute
+  '/_authenticated/governance': typeof AuthenticatedGovernanceRoute
   '/_authenticated/healthcare': typeof AuthenticatedHealthcareRoute
   '/_authenticated/hr': typeof AuthenticatedHrRoute
   '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
@@ -1693,6 +1702,7 @@ export interface FileRouteTypes {
     | '/finance'
     | '/founder'
     | '/founder-enterprise'
+    | '/governance'
     | '/healthcare'
     | '/hr'
     | '/knowledge'
@@ -1858,6 +1868,7 @@ export interface FileRouteTypes {
     | '/erp'
     | '/finance'
     | '/founder-enterprise'
+    | '/governance'
     | '/healthcare'
     | '/hr'
     | '/manufacturing'
@@ -2026,6 +2037,7 @@ export interface FileRouteTypes {
     | '/_authenticated/finance'
     | '/_authenticated/founder'
     | '/_authenticated/founder-enterprise'
+    | '/_authenticated/governance'
     | '/_authenticated/healthcare'
     | '/_authenticated/hr'
     | '/_authenticated/knowledge'
@@ -2297,6 +2309,13 @@ declare module '@tanstack/react-router' {
       path: '/healthcare'
       fullPath: '/healthcare'
       preLoaderRoute: typeof AuthenticatedHealthcareRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/governance': {
+      id: '/_authenticated/governance'
+      path: '/governance'
+      fullPath: '/governance'
+      preLoaderRoute: typeof AuthenticatedGovernanceRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/founder-enterprise': {
@@ -3780,6 +3799,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFinanceRoute: typeof AuthenticatedFinanceRoute
   AuthenticatedFounderRoute: typeof AuthenticatedFounderRouteWithChildren
   AuthenticatedFounderEnterpriseRoute: typeof AuthenticatedFounderEnterpriseRoute
+  AuthenticatedGovernanceRoute: typeof AuthenticatedGovernanceRoute
   AuthenticatedHealthcareRoute: typeof AuthenticatedHealthcareRoute
   AuthenticatedHrRoute: typeof AuthenticatedHrRoute
   AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
@@ -3824,6 +3844,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFinanceRoute: AuthenticatedFinanceRoute,
   AuthenticatedFounderRoute: AuthenticatedFounderRouteWithChildren,
   AuthenticatedFounderEnterpriseRoute: AuthenticatedFounderEnterpriseRoute,
+  AuthenticatedGovernanceRoute: AuthenticatedGovernanceRoute,
   AuthenticatedHealthcareRoute: AuthenticatedHealthcareRoute,
   AuthenticatedHrRoute: AuthenticatedHrRoute,
   AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
@@ -3856,13 +3877,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
