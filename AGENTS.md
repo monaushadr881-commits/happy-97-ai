@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep Bun regression tests in `tests/`, outside the application's TypeScript include; this avoids adding Bun-only types to the browser/server application.
+- Financial ledger and marketplace entitlement writes are fail-closed to client roles until canonical governed server writers are reviewed; never restore direct user INSERT grants to make workflows pass.

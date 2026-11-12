@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794461851693,
+      "tag": "0000_financial_write_lockdown_and_job_isolation",
+      "breakpoints": true
+    }
+  ]
+}
