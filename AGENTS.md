@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep Bun regression tests in `tests/`, outside the application's TypeScript include; this avoids adding Bun-only types to the browser/server application.

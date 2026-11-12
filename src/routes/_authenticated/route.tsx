@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
   errorComponent: ({ error }) => (
     <div className="flex min-h-screen items-center justify-center bg-obsidian text-paper">
-      <p className="text-sm text-soft-gray">{error.message}</p>
+      <p className="text-sm text-soft-gray">{error instanceof Error ? error.message : String(error)}</p>
     </div>
   ),
 });

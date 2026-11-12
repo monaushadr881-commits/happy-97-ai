@@ -21,6 +21,16 @@ import avatarImg from "@/assets/happyx-avatar.jpg";
 import happyAiLogo from "@/assets/happy-ai-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "HAPPY X — AI Enterprise Operating System" },
+      { name: "description", content: "Explore HAPPY X: unified AI intelligence, education, business operations, and creator tools." },
+      { property: "og:title", content: "HAPPY X — AI Enterprise Operating System" },
+      { property: "og:description", content: "Explore HAPPY X: unified AI intelligence, education, business operations, and creator tools." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: HappyXLanding,
 });
 
